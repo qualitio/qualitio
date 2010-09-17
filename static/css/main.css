@@ -1,0 +1,87 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+    border:0 none;
+    font-family:inherit;
+    font-size:100%;
+    font-style:inherit;
+    font-weight:inherit;
+    margin:0;
+    padding:0;
+    vertical-align:baseline;
+}
+
+body {
+    font-size:62.5%;
+    margin: 5px;
+    font-family:Verdana,Arial,sans-serif;
+}
+
+.column {
+    float:left;
+}
+
+#requirement-details #tabs{
+    min-width: 900px;
+    min-height: 300px;
+    min-height: 600px;
+}
+
+#requirement-details {
+    margin-left: 5px;
+}
+
+#requirement-tree.tree {
+    min-width: 300px;
+    min-height: 600px;
+    border: 1px solid #aaa;
+    padding: 2px;
+}
+
+.last {
+    margin-right:0;
+}
+
+.last {
+    margin-right:0;
+    padding-right:0;
+}
+
+hr {
+    border:medium none;
+    clear:both;
+    color:#DDDDDD;
+    float:none;
+    height:1px;
+    margin:0 0 1.45em;
+    width:100%;
+}
+
+table.pretty {
+    width: 100%;
+}
+table.pretty th, table.pretty td {
+    padding: 0.2em;
+    border-bottom: 1px solid #aaa;
+}
+table.pretty th {
+    text-align: left;
+}
+
+.tab-top {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: 150px;
+    max-height: 300px;
+    border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;
+    overflow-y:auto;
+}
+
+
+/* jQuery-ui themes paths  */
+.ui-tabs .ui-tabs-nav li a {
+    min-width:70px;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    text-align: center;
+}
