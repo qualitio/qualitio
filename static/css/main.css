@@ -10,115 +10,41 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 }
 
 body {
-    font-size:62.5%;
-    margin: 5px;
+    font-size:65.5%;
     font-family:Verdana,Arial,sans-serif;
 }
 
-/* #messages { */
-/*     position:absolute; */
-/*     border: 1px solid #aaa; */
-/*     width: 1193px; */
-/*     height: 50px; */
-/*     z-index: 10000; */
-/*     cursor: pointer; */
-/*     display: none; */
-/* } */
 
-/* .column { */
-/*     float:left; */
-/* } */
-
-#requirement-details #tabs{
-    height: 596px;
+#header {
+    margin-bottom:5px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    
 }
 
-#requirement-details {
-    background-color: yellow; 
-    /* margin-left: 310px; */
-    min-width: 300px;
+#project-menu {
+    margin-bottom:5px;
+    text-align: right;
+    border-left: 0px;
+    border-right: 0px;
 }
 
-#requirement-tree.tree {
-    /* min-width: 300px; */
-    /* min-height: 600px; */
-    border: 1px solid #aaa;
-    /* padding: 2px; */
-
-    /* float: left;  */
-    /* background-color: rgb(255, 192, 203); */
+#application-menu {
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    padding: 5px 10px;
 }
 
-.last {
-    margin-right:0;
+#application-view {
+    min-height: 800px;
+    border-left: 1px solid #ccc;
+    padding:10px;
 }
 
-.last {
-    margin-right:0;
-    padding-right:0;
+#application-tree {
+    padding: 10px;
 }
 
-hr {
-    border:medium none;
-    clear:both;
-    color:#DDDDDD;
-    float:none;
-    height:1px;
-    margin:0 0 1.45em;
-    width:100%;
+#footer{
+    border-top: 1px solid #ccc;
 }
-
-table.pretty {
-    width: 100%;
-}
-table.pretty th, table.pretty td {
-    padding: 0.2em;
-    border-bottom: 1px solid #aaa;
-}
-table.pretty th {
-    text-align: left;
-}
-
-/* .tab-top { */
-/*     margin-top: 20px; */
-/*     margin-bottom: 20px; */
-/*     min-height: 150px; */
-/*     max-height: 300px; */
-/*     border-bottom: 1px solid #aaa; */
-/*     border-top: 1px solid #aaa; */
-/*     overflow-y:auto; */
-/* } */
-
-form input, form select{
-    display: block;
-}
-
-#accordion {
-    border: 0px;
-}
-
-#accordion h3{
-    border: 0px;
-}
-
-#accordion .ui-accordion-content {
-    border: 0px;
-}
-
-/* jQuery-ui themes patchs  */
-.ui-tabs .ui-tabs-nav li a {
-    min-width:70px;
-}
-
-.ui-tabs .ui-tabs-nav li {
-    text-align: center;
-}
-
-.ui-button {
-    min-width: 80px;
-}
-
-.ui-tabs-nav {
-    height:28px;
-}
-
