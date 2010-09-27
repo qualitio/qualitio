@@ -1,43 +1,104 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en-us" />
-
+    
     
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jstree.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
 
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/main.css" type="text/css" media="screen, projection" /> 
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection"/ > 
+    <link rel="stylesheet" type="text/css" href="http://960ls.atomidata.com/static/cssserve/8/1/4/6/5/81465.css" />
+
+    <!-- <link rel="stylesheet" href="{{ MEDIA_URL }}css/main.css" type="text/css" media="screen, projection" /> -->
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/main_.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
     
-    <title>Django | {% block title %}The Web framework for perfectionists with deadlines{% endblock %}</title>
+    
+    <title>TcStorm requirments</title>
     
   </head>
   
   <body>
-        
-    <div id="requirement-tree" class="column tree ui-corner-all"></div>
     
-    <div id="requirement-details" class="column">
-      <div id="tabs">
-	<ul>
-	  <li id="preview-tab"><a name="preview" href="/requirements/ajax/requirement/1/">Preview</a></li>
-	  <li id="edit-tab"><a name="edit" href="/requirements/ajax/requirement/1/edit">Edit</a></li>
-	  <li id="test-cases-tab"><a name="test-cases" href="/requirements/ajax/requirement/1/e">Test Cases</a></li>
-	</ul>
-	<div id="preview"></div>
-	<div id="edit"></div>
-	<div id="test-cases"></div>
+    <div class="container_16" >
+      <div id="header" class="grid_3 suffix_13 alpha">
+	Logo
+      </div>
+
+    </div>
+
+
+    <div class="container_16" >
+      <div id="project-menu" class="grid_5 prefix_11 alpha omega ui-state-default">
+	<a class="ui-button
+		  ui-widget 
+		  ui-corner-left 
+		  ui-button-text-only">
+	  <span class="ui-button-text">requirments</span></a>
+	<a class="ui-button 
+		  ui-widget 
+		  ui-button-text-only">
+	  <span class="ui-button-text">store</span></a>
+	
+	<a class="ui-button 
+		  ui-widget 
+		  ui-button-text-only">
+	  <span class="ui-button-text">execute</span></a>
+
+	<a class="ui-button 
+		  ui-widget 
+		  ui-corner-right
+		  ui-button-text-only">
+	  <span class="ui-button-text">reports</span></a>
+
+	
       </div>
     </div>
     
-    <hr>
+    <div class="container_16">
+      
+      <div class="grid_4 alpha"> 
+	<div id="application-tree"></div>
+      </div>
+      	
+      <div class="grid_12 omega">
+	<div id="application-menu">
+	  <a href="#">details</a> | 
+	  <a href="#">edit</a> |
+	  <a href="#">test cases</a>
+	</div>
+      </div>
+      
+      <div class="grid_12 omega">
+	<div id="application-view">
+	</div>
+      </div>
+      
+    </div>
 
+    
+    <div class="container_16">
+      <div id="footer" class="grid_16 alpha omega">
+      </div>
+    </div>
+
+    
+    
+    <!--   <div id="requirement-tree" class="tree ui-corner-all" style="float:left; width: 300px; height:600px">   -->
+    <!--   </div> -->
+    <!--   <div id="requirement-details" style="margin-left: 305px; -->
+						<!-- 					 height:600px;"></div> -->
+												       
+												       
+												       <!--   <hr/> -->
+												       
+												       
   </body>
 </html>
+  

@@ -6,8 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-                       (r'^', include('tcstorm_requirements.requirements.urls')),
-
+                       (r'', include('tcstorm_requirements.requirements.urls')),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
                        )

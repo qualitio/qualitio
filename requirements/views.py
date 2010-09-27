@@ -8,7 +8,6 @@ from tcstorm_requirements.requirements.models import Requirement
 from tcstorm_requirements.requirements.forms import RequirementForm
 
 
-
 def index(request):
     return render_to_response('requirements/base.html', 
                               context_instance=RequestContext(request))
@@ -29,23 +28,37 @@ def get_children(request):
     requirements_totreeel = map(lambda x: to_tree_element(x), qs)
     return HttpResponse(json.dumps(requirements_totreeel), mimetype="application/json")
             
-def requirement(request, requirement_id):
+# def requirement(request, requirement_id):
+#     requirement = Requirement.objects.get(pk=requirement_id)
+#     requirement_form = RequirementForm(instance=requirement)
+#     return render_to_response('requirements/_requirement_preview.html', 
+#                               {'requirement' : requirement,
+#                                'requirement_form' : requirement_form },
+#                               context_instance=RequestContext(request))
+    
+
+
+
+def valid_requirement_form(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
-    requirement_form = RequirementForm(instance=requirement)
-    return render_to_response('requirements/_requirement_preview.html', 
-                              {'requirement' : requirement,
-                               'requirement_form' : requirement_form },
+    requirement_form = RequirementForm(request.POST, instance=requirement)
+    
+    if requirement_form.is_valid():
+        requirement_form.save()
+        return HttpResponse('OK')
+    
+    return HttpResponse(requirement_form.errors.as_ul())
+
+
+def requirement_testcases(request, requirement_id):
+    return render_to_response('requirements/_requirement_testcases.html',
+                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
                               context_instance=RequestContext(request))
-    
+                              
 
-
+def details(request, requirement_id):
+    return render_to_response('requirements/details.html',
+                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+                              context_instance=RequestContext(request))
+                              
     
-    
-
-def requirement_children_table(request, requirement_id):
-    # if not node_id:
-    #     qs = Requirement.get_root_nodes()
-    # else:
-    #     qs = Requirement.objects.get(pk=requirement_id).get_children()
-        
-    return HttpResponse(json.dumps(requirements_totreeel), mimetype="application/json")

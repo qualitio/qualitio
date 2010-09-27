@@ -1,14 +1,15 @@
 <div id="tabs">
   <ul>
-    <li><a href="#tabs-1">Preview</a></li>
-
-    <li><a href="#tabs-2">Edit</a></li>
+    <li><a href="#preview">Preview</a></li>
     
-    <li><a href="#tabs-3">Test Cases</a></li>
+    <li><a href="#edit">Edit</a></li>
+    
+    <li><a href="#testcases">Test Cases</a></li>
     
   </ul>
-  <div id="tabs-1">
-
+  
+  <div id="preview">
+     
     <div class="tab-top">
       <h1>Name: {{ requirement.name }}</h1>
       <h1>Path: {{ requirement.get_path }}</h1>
@@ -16,113 +17,39 @@
     
     <div class="tab-bottom">
       <table class="pretty ui-corner-all">
-	{% if requirement.get_children  %}
-	<tr>
-	  <th>Path</th>
-	  <th>Name</th>
-	</tr>
-	{% for child in requirement.get_children %}
-	<tr>
-	  <td><a href="#requirement/{{ child.get_parent.pk }}">{{ child.get_path }}</a></td>
-	  <td><a href="#requirement/{{ child.pk }}">{{child.name}}</a></td>
-	</tr>
-	{% endfor %}
-	{% else %}
-	<tr>
-	  <th style="text-align:center">No children requirements</th>
-	</tr>
-	{% endif %}
-      </table>
-    </div>
-      
-  </div>
-  <div id="tabs-2">
-    <form>
-      {{ requirement_form.as_table }}
-      <input type="submit" value="save" class="ui-button ui-widget
-					       ui-state-default
-					       ui-corner-all ui-button-text-only"/>
-    </form>
-  </div>
-  
-  <div id="tabs-3">
-
-    <h1><b>Connected</b></h1>
-    <div class="tab-top">
-      <table class="pretty ui-corner-all">
-	<tr>
-	  <th>Directory</th>
-	  <th>Name</th>
-	  <th></th>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 1</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 2</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 3</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 4</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 5</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 6</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 7</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 8</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 9</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 10</td><td><input type="checkbox" /></td>
-	</tr>
-		<tr>
-	  <td>/Project/Messaging/</td><td>test case 6</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 7</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 8</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 9</td><td><input type="checkbox" /></td>
-	</tr>
-	<tr>
-	  <td>/Project/Messaging/</td><td>test case 10</td><td><input type="checkbox" /></td>
-	</tr>
-
+    	{% if requirement.get_children  %}
+    	<tr>
+    	  <th>Path</th>
+    	  <th>Name</th>
+    	</tr>
+    	{% for child in requirement.get_children %}
+    	<tr>
+    	  <td><a href="#requirement/{{ child.get_parent.pk }}/preview/">{{ child.get_path }}</a></td>
+    	  <td><a href="#requirement/{{ child.pk }}/preview/">{{child.name}}</a></td>
+    	</tr>
+    	{% endfor %}
+    	{% else %}
+    	<tr>
+    	  <th style="text-align:center">No children requirements</th>
+    	</tr>
+    	{% endif %}
       </table>
     </div>
     
-    <h1><b>Search</b></h1>
-    <table class="pretty ">
-      <tr>
-	<th>Directory<input></th>
-	<th>Name<input></th>
-	<th><input type="submit" value="search"></th>
-      </tr>
-    </table>
-
-	
+  </div>
+  <div id="edit">
+    <form name="requirement" action="/ajax/valid_requirement_form/{{ requirement.id }}/" method="post">
+      {% csrf_token %}
+      {{ requirement_form.as_table }}
+      <input type="submit" value="save" class="ui-button ui-widget
+    					       ui-state-default
+    					       ui-corner-all ui-button-text-only"/>
+    </form>
+  </div>
+  
+  <div id="testcases" style="padding:0px">
+    {% include "requirements/_requirement_testcases.html" %}
   </div>
   
 </div>
-
-
-
-
-
-
-
-
 

@@ -15,25 +15,38 @@ body {
     font-family:Verdana,Arial,sans-serif;
 }
 
-.column {
-    float:left;
-}
+/* #messages { */
+/*     position:absolute; */
+/*     border: 1px solid #aaa; */
+/*     width: 1193px; */
+/*     height: 50px; */
+/*     z-index: 10000; */
+/*     cursor: pointer; */
+/*     display: none; */
+/* } */
+
+/* .column { */
+/*     float:left; */
+/* } */
 
 #requirement-details #tabs{
-    min-width: 900px;
-    min-height: 300px;
-    min-height: 600px;
+    height: 596px;
 }
 
 #requirement-details {
-    margin-left: 5px;
+    background-color: yellow; 
+    /* margin-left: 310px; */
+    min-width: 300px;
 }
 
 #requirement-tree.tree {
-    min-width: 300px;
-    min-height: 600px;
+    /* min-width: 300px; */
+    /* min-height: 600px; */
     border: 1px solid #aaa;
-    padding: 2px;
+    /* padding: 2px; */
+
+    /* float: left;  */
+    /* background-color: rgb(255, 192, 203); */
 }
 
 .last {
@@ -66,18 +79,33 @@ table.pretty th {
     text-align: left;
 }
 
-.tab-top {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    min-height: 150px;
-    max-height: 300px;
-    border-bottom: 1px solid #aaa;
-    border-top: 1px solid #aaa;
-    overflow-y:auto;
+/* .tab-top { */
+/*     margin-top: 20px; */
+/*     margin-bottom: 20px; */
+/*     min-height: 150px; */
+/*     max-height: 300px; */
+/*     border-bottom: 1px solid #aaa; */
+/*     border-top: 1px solid #aaa; */
+/*     overflow-y:auto; */
+/* } */
+
+form input, form select{
+    display: block;
 }
 
+#accordion {
+    border: 0px;
+}
 
-/* jQuery-ui themes paths  */
+#accordion h3{
+    border: 0px;
+}
+
+#accordion .ui-accordion-content {
+    border: 0px;
+}
+
+/* jQuery-ui themes patchs  */
 .ui-tabs .ui-tabs-nav li a {
     min-width:70px;
 }
@@ -85,3 +113,12 @@ table.pretty th {
 .ui-tabs .ui-tabs-nav li {
     text-align: center;
 }
+
+.ui-button {
+    min-width: 80px;
+}
+
+.ui-tabs-nav {
+    height:28px;
+}
+
