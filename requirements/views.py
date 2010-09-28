@@ -50,15 +50,45 @@ def valid_requirement_form(request, requirement_id):
     return HttpResponse(requirement_form.errors.as_ul())
 
 
-def requirement_testcases(request, requirement_id):
-    return render_to_response('requirements/_requirement_testcases.html',
-                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
-                              context_instance=RequestContext(request))
-                              
-
 def details(request, requirement_id):
     return render_to_response('requirements/details.html',
                               { 'requirement' : Requirement.objects.get(pk=requirement_id) },
                               context_instance=RequestContext(request))
-                              
+
+def edit(request, requirement_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    RequirementForm(instance=requirement)
+    return render_to_response('requirements/edit.html',
+                              { 'requirement_form' : RequirementForm(instance=requirement) },
+                              context_instance=RequestContext(request))
+
+
+def menu(request, requirement_id):
+    return render_to_response('requirements/menu.html',
+                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+                              context_instance=RequestContext(request))
+
+
+def test_cases(request, requirement_id):
+    return render_to_response('requirements/test_cases.html',
+                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+                              context_instance=RequestContext(request))
+
+    
+
+# def edit_validate(request, requirement_id):
+#     return render_to_response('requirements/edit.html',
+#                               { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+#                               context_instance=RequestContext(request))
+
+# def test_cases(request, requirement_id):
+#     return render_to_response('requirements/test_cases.html',
+#                               { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+#                               context_instance=RequestContext(request))
+
+# def test_cases_validate(request, requirement_id):
+#     return render_to_response('requirements/test_cases.html',
+#                               { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+#                               context_instance=RequestContext(request))
+
     

@@ -1,0 +1,13 @@
+<div class="grid_12">
+  <div class="content">
+    
+    <form name="requirement" action="/ajax/valid_requirement_form/{{ requirement.id }}/" method="post">
+      {% csrf_token %}
+      {{ requirement_form.as_p }}
+      <input type="submit" value="save" class="ui-button ui-widget
+    					       ui-state-default
+    					       ui-corner-all ui-button-text-only"/>
+    </form>
+
+  </div>
+</div>

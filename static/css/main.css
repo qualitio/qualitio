@@ -15,30 +15,28 @@ body {
 }
 
 
-#header {
-    margin-bottom:5px;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+#project-menu, #logo {
+    margin: 10px 0px 10px 0px;
     
 }
 
-#project-menu {
+#application-menu {
     margin-bottom:5px;
-    text-align: right;
+    text-align: left;
     border-left: 0px;
     border-right: 0px;
 }
 
-#application-menu {
+#application-view-menu {
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
     padding: 5px 10px;
 }
 
-#application-view {
-    min-height: 800px;
+#application-view .content {
+    min-height: 700px;
     border-left: 1px solid #ccc;
-    padding:10px;
+    padding:10px 0px 0px 10px;
 }
 
 #application-tree {
@@ -48,3 +46,31 @@ body {
 #footer{
     border-top: 1px solid #ccc;
 }
+
+table.pretty {
+    width:100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    
+}
+
+table.pretty td {
+    border: 2px white solid;
+    padding: 0.2em;
+    background: whitesmoke;
+}
+
+table.pretty th {
+    text-align: left;
+    border: 2px white solid;
+    padding: 0.2em;
+}
+
+table.pretty caption {
+    margin-left: inherit;
+    margin-right: inherit;
+}
+
+
+
+

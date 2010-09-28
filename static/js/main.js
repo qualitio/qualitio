@@ -65,8 +65,10 @@ var hash = {
     
     // Controller view. Will react on every anchor change. Implement your logic here
     main: function() {
-	update_tree(hash.node);
+	render_application_tree(hash.node);
+	render_application_menu(hash.node, hash.view);
 	render_application_view(hash.node, hash.view);
+	
     }
 };
 
@@ -74,8 +76,12 @@ function render_application_view(node_id, view) {
     $('#application-view').load("/ajax/requirement/"+node_id+"/"+view+"/");
 }
 
-function update_tree(node_id) {
+function render_application_tree(node_id) {
     // jQuery.jstree._reference("#requirement-tree").select_node( 'li#'+node_id, true);
+}
+
+function render_application_menu(node_id) {
+    $('#application-view-menu').load("/ajax/requirement/"+node_id+"/menu/");
 }
 
 $(function() {
@@ -97,6 +103,10 @@ $(function() {
 	hash.object = 'requirement';
 	hash.node = data.rslt.obj.attr('id');
 	hash.update();
+    });
+
+    $('.switch-testcase-add-view').live('click', function() {
+	$('.testcase-add-view').toggle();
     });
 
     hash.object = "requirement";

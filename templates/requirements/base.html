@@ -15,8 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="http://960ls.atomidata.com/static/cssserve/8/1/4/6/5/81465.css" />
 
-    <!-- <link rel="stylesheet" href="{{ MEDIA_URL }}css/main.css" type="text/css" media="screen, projection" /> -->
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/main_.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/main.css" type="text/css" media="screen, projection" />
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
     
     
@@ -27,36 +26,32 @@
   <body>
     
     <div class="container_16" >
-      <div id="header" class="grid_3 suffix_13 alpha">
-	Logo
+      <div class="grid_3 suffix_9 alpha">
+	<div id="logo">
+	  Logo
+	</div>
+      </div>
+
+      <div class="grid_4 omega" style="text-align:right">
+	<div id="project-menu">
+	  requirment | store | execute | report
+	</div>
       </div>
 
     </div>
 
 
     <div class="container_16" >
-      <div id="project-menu" class="grid_5 prefix_11 alpha omega ui-state-default">
+      <div id="application-menu" class="grid_5 suffix_11 alpha omega ui-state-default">
 	<a class="ui-button
 		  ui-widget 
 		  ui-corner-left 
 		  ui-button-text-only">
-	  <span class="ui-button-text">requirments</span></a>
+	  <span class="ui-button-text">browse</span></a>
 	<a class="ui-button 
 		  ui-widget 
 		  ui-button-text-only">
-	  <span class="ui-button-text">store</span></a>
-	
-	<a class="ui-button 
-		  ui-widget 
-		  ui-button-text-only">
-	  <span class="ui-button-text">execute</span></a>
-
-	<a class="ui-button 
-		  ui-widget 
-		  ui-corner-right
-		  ui-button-text-only">
-	  <span class="ui-button-text">reports</span></a>
-
+	  <span class="ui-button-text">filter</span></a>
 	
       </div>
     </div>
@@ -68,37 +63,21 @@
       </div>
       	
       <div class="grid_12 omega">
-	<div id="application-menu">
-	  <a href="#">details</a> | 
-	  <a href="#">edit</a> |
-	  <a href="#">test cases</a>
+	<div id="application-view-menu">
 	</div>
       </div>
-      
-      <div class="grid_12 omega">
-	<div id="application-view">
-	</div>
-      </div>
-      
-    </div>
 
+      <!-- Just a place holder for dynamic input -->
+      <div id="application-view">
+      </div>
+            
+    </div>
     
     <div class="container_16">
       <div id="footer" class="grid_16 alpha omega">
       </div>
     </div>
 
-    
-    
-    <!--   <div id="requirement-tree" class="tree ui-corner-all" style="float:left; width: 300px; height:600px">   -->
-    <!--   </div> -->
-    <!--   <div id="requirement-details" style="margin-left: 305px; -->
-						<!-- 					 height:600px;"></div> -->
-												       
-												       
-												       <!--   <hr/> -->
-												       
-												       
   </body>
 </html>
   
