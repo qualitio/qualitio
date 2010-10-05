@@ -17,3 +17,6 @@ class Requirement(MP_Node):
     def __unicode__(self):
         return 'Requirement: %s' % self.name
 
+    
+    def get_absolute_url(self):
+        return "/require/" % self.id
