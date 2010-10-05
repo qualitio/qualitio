@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jstree.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
+    {% block js-include %}{% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="http://960ls.atomidata.com/static/cssserve/8/1/4/6/5/81465.css" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
+    {% block css-include %}{% endblock %}
+
+    <title>TcStorm requirments</title>
+
+  </head>
+
+  <body>
+
+    <div class="container_16" >
+      <div class="grid_3 suffix_9">
+	<div id="logo">
+	  eQual<span style="font-size:12px">requirements</span>
+	</div>
+      </div>
+
+      <div class="grid_4" style="text-align:right">
+	<div id="project-menu">
+	  <a href="/require/">requirments</a> |
+	  <a href="#">store</a> |
+	  <a href="#">execute</a> |
+	  <a href="/report/">report</a> |
+	  <a href="/admin/">admin</a>
+	</div>
+      </div>
+    </div>
+
+    {% block application %}{% endblock %}
+
+    <div class="container_16">
+      <div class="grid_16">
+	<div id="footer">  </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>
+

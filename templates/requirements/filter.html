@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block js-include %}
+<!-- <script type="text/javascript" src="{{ MEDIA_URL }}js/require.js"></script> -->
+{% endblock %}
+
+{% block application %}
+<div class="container_16" >
+  <div class="grid_16" style="margin-bottom: 37px;">
+
+    <div id="application-menu" >
+	 <a href="/require/">browse</a>
+	 <a href="/require/filter">filter</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="container_16">
+  <div class="grid_14 prefix_1 suffix_1 alpha omega">
+    <div style="border: 1px solid #ccc; margin-bottom: 10px">
+      <div><input name="name" id="status_new"> name</div>
+      <div><input name="name" id="status_new"> or</div>
+      <div>
+	<select>
+	  <option>---</option>
+	  <option>new</option>
+	  <option>passed</option>
+	</select> status
+      </div>
+      <div><input name="name" id="status_new"> path</div>
+      <div><input name="name" id="status_new"> or</div>
+    </div>
+  </div>
+
+  <div class="grid_7 prefix_1 alpha">
+
+    <input type="submit" value="add filter" class="ui-button ui-widget
+    					    ui-state-default
+    					    ui-corner-all
+    					    ui-button-text-only"/>
+    <select>
+      <option>name</option>
+      <option>status</option>
+      <option>path</option>
+    </select>
+
+  </div>
+
+  <div class="grid_7 suffix_1 omega" style="text-align:right">
+    <input type="submit" value="update" class="ui-button ui-widget
+    					       ui-state-default
+    					       ui-corner-all
+    					       ui-button-text-only"/>
+  </div>
+</div>
+
+<div class="container_16" >
+  <div class="grid_16" style="margin-top: 30px">
+    <table class="pretty">
+      <tr>
+	{% for column in requirements_table.columns %}
+	<th class="{{ column.name }}"><a href="?sort={{ column.name_toggled }}">{{ column }}</a></th>
+	{% endfor %}
+      </tr>
+      {% for row in requirements_table.rows %}
+      <tr>
+	{% for value in row %}
+	<td>{{ value }}</td>
+	{% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="container_16" >
+  <div class="grid_16 button-bar">
+    <div style="text-align:right; padding:5px; color:#555" >
+      Actions on selected:
+      <select style="font-size: 1.2em; width:300px;">
+	<option>----</option>
+	<option>Clone (input:where, input:count, checkbox:go_to_last)</option>
+	<option>Remove</option>
+	<option>Change Status (select:status_list)</option>
+	<option>Export (select:export_format)</option>
+      </select>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

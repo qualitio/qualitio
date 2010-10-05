@@ -1,27 +1,38 @@
-<div class="grid_12">
-  <div class="content">
-    
-    <div>Name: {{ requirement.name }}</div>
-    <div>Path: {{ requirement.get_path }}</div>
+<div class="grid_12 alpha">
+  <div class="grid_12 alpha">
+    <div class="content">
 
-    <table class="pretty ui-corner-all" style="margin-top: 40px">
-      {% if requirement.get_children  %}
-      <tr>
-	<th>Path</th>
-	<th>Name</th>
-      </tr>
-      {% for child in requirement.get_children %}
-      <tr>
-	<td><a href="#requirement/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
-	<td><a href="#requirement/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-      {% else %}
-      <tr>
-	<th style="text-align:center">No children requirements</th>
-      </tr>
-      {% endif %}
-    </table>
-    
+      <div>Name: {{ requirement.name }}</div>
+      <div>Path: {{ requirement.get_path }}</div>
+
+      <table class="pretty ui-corner-all" style="margin-top: 40px">
+	{% if requirement.get_children  %}
+	<tr>
+	  <th>Path</th>
+	  <th>Name</th>
+	</tr>
+	{% for child in requirement.get_children %}
+	<tr>
+	  <td><a href="#requirement/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
+	  <td><a href="#requirement/{{ child.pk }}/details/">{{child.name}}</a></td>
+	</tr>
+	{% endfor %}
+	{% else %}
+	<tr>
+	  <th style="text-align:center">No children requirements</th>
+	</tr>
+	{% endif %}
+      </table>
+
+    </div>
   </div>
 </div>
+
+<div class="grid_12 alpha button-bar ui-corner-all">
+  <div class="content" style="text-align:right">
+    <input class="ui-button ui-widget ui-state-default
+      		  ui-corner-all ui-button-text-only"
+      	   type="submit" value="New Requirement" />
+  </div>
+</div>
+

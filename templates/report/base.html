@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block js-include %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/require.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report.js"></script>
 {% endblock %}
 
 {% block application %}
-<div class="container_16" >
+<div class="container_16">
   <div class="grid_16">
 
     <div id="application-menu" >
-	 <a href="/require/">browse</a>
-	 <a href="/require/filter">filter</a>
+	 <a href="/report/">browse</a>
+	 <a href="/report/filter">filter</a>
     </div>
 
   </div>
@@ -38,4 +38,5 @@
   </div>
 
 </div>
+
 {% endblock %}

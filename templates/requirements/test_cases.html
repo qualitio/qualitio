@@ -1,7 +1,7 @@
 <script>
 
     $(function () {
-	$("#testcase-add-view-tree").jstree({ 
+	$("#testcase-add-view-tree").jstree({
 		"core" : { "initially_open" : [ "root" ] },
 		"html_data" : {
 		    "data" : "<li id='root'><a href='#'>Root node</a><ul><li><a href='#'>Child node</a></li></ul></li>"
@@ -15,7 +15,7 @@
 
 <div class="grid_6">
   <div class="content">
-    
+
     <div style="height:665px">
       <table class="pretty ui-corner-all">
 	<tr>
@@ -30,20 +30,20 @@
 	</tr>
       </table>
     </div>
-    
+
     <div style="text-align:right">
       <button class="ui-button ui-widget ui-state-default
     		     ui-corner-all ui-button-text-only">
     	<span class="ui-button-text">remove</span>
       </button>
     </div>
-    
+
   </div>
 </div>
 
 <div class="grid_6">
   <div class="content testcase-add-view">
-    
+
     <div style="height:665px; text-align:center">
 
       <table class="pretty ui-corner-all">
@@ -60,12 +60,12 @@
       </table>
 
     </div>
-    
-    <div style="text-align:right">
-      
 
-      
-      <input type="textarea" value="test case" /> 
+    <div style="text-align:right">
+
+
+
+      <input type="textarea" value="test case" />
       <button class="ui-button ui-widget ui-state-default
 		     ui-corner-all ui-button-text-only">
 	<span class="ui-button-text">Search</span>
@@ -80,21 +80,21 @@
 		     ui-corner-all
 		     ui-button-icon-only
 		     switch-testcase-add-view">
-	<span class="ui-button-icon-primary ui-icon
-		     ui-icon-refresh"></span>
-	<span class="ui-button-text">stop</span>
-      </button>
+	      <span class="ui-button-icon-primary ui-icon
+			   ui-icon-refresh"></span>
+	      <span class="ui-button-text">stop</span>
+	    </button>
     </div>
   </div>
 
   <div class="content testcase-add-view" style="display:none">
-    
+
     <div id="testcase-add-view-tree" style="height:665px;">
-      
+
     </div>
-    
+
     <div style="text-align:right">
-      
+
 
 
       <button class="ui-button ui-widget ui-state-default

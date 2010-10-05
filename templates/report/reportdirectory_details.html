@@ -1,0 +1,54 @@
+<div class="grid_12 alpha">
+  <div class="content">
+    <div>Name: {{ reportdirectory.name }}</div>
+    <div>Path: {{ reportdirectory.get_path }}</div>
+
+    <table class="pretty ui-corner-all" style="margin-top: 20px">
+      <tr>
+	<th></th>
+	<th>Path</th>
+	<th>Name</th>
+      </tr>
+      {% for child in reportdirectory.get_children %}
+      <tr class="directory">
+	<td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
+	<td><a href="#reportdirectory/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
+	<td><a href="#reportdirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
+      </tr>
+      {% endfor %}
+      {% for child in reportdirectory.report_set.all %}
+      <tr>
+	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
+	<td class="path"><a href="#reportdirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
+	<td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div>
+</div>
+
+<div class="grid_12 alpha button-bar ui-corner-all">
+  <div class="grid_6 alpha">
+
+    <div class="content">
+      <input class="ui-button ui-widget ui-state-default
+      		    ui-corner-all ui-button-text-only"
+      	     type="submit" value="Delete" />
+    </div>
+  </div>
+
+  <div class="grid_6 omega">
+    <div class="content" style="text-align:right;">
+      <input class="ui-button ui-widget ui-state-default
+      		    ui-corner-all ui-button-text-only"
+
+      	     type="submit" value="Create Report" />
+      <input class="ui-button ui-widget ui-state-default
+      		    ui-corner-all ui-button-text-only"
+
+      	     type="submit" value="Create Directory" />
+    </div>
+  </div>
+</div>
+
