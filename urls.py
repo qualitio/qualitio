@@ -5,8 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-
-                       (r'', include('tcstorm_requirements.requirements.urls')),
+                       (r'^require/', include('tcstorm_requirements.requirements.urls')),
+                       (r'^report/', include('tcstorm_requirements.report.urls')),
+                       
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
                        )

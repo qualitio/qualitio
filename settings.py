@@ -97,8 +97,10 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     
     'tcstorm_requirements.requirements',
+    'tcstorm_requirements.report',
     
-    'treebeard'
+    'treebeard',
+    'mptt',
     
 )
 
