@@ -65,6 +65,8 @@ var hash = {
     
     // Controller view. Will react on every anchor change. Implement your logic here
     main: function() {
-	return alert("One function to rule them all, not implemented")
+	render_application_tree(hash.node);
+	render_application_menu(hash.node, hash.view);
+	render_application_view(hash.node, hash.view);
     }
 };
