@@ -1,3 +1,4 @@
+/* Reset css */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
     border:0 none;
     font-family:inherit;
@@ -9,6 +10,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     vertical-align:baseline;
 }
 
+/* Global css */
 body {
     font-size:10px;
     font-family:Verdana,Arial,sans-serif;
@@ -35,7 +37,6 @@ body {
     padding:2px;
 }
 
-
 #application-menu {
     padding:0.6em 1.1em;
     line-height:1.4;
@@ -44,7 +45,7 @@ body {
     border-top:1px solid #ccc;
     /* for webkit browsers */
     background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
-     /* for firefox 3.6+ */
+    /* for firefox 3.6+ */
     background: -moz-linear-gradient(top,  #eee,  #fff);
 }
 
@@ -61,9 +62,15 @@ body {
     font-weight: bold;
 }
 
-
 #application-view-menu {
     padding: 5px 10px;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #ccc;
+}
+
+#application-view-menu a{
+    text-decoration: none;
+    color: #555
 }
 
 #application-view-menu .active{
@@ -71,8 +78,9 @@ body {
     font-weight: bold;
 }
 
+
 #application-view .alpha{
-    /* border: 1px solid; */
+/* border: 1px solid; */
 }
 
 #application-view .content {
@@ -90,9 +98,9 @@ body {
 .button-bar {
     /* padding: 10px 27px; */
     /* border-left:1px solid; */
-    border-bottom:1px solid #ccc;
+    border-bottom:1px solid #aaa;
     /* border-top: 1px solid #ccc; */
-        /* border-bottom: 1px solid #ccc; */
+    /* border-bottom: 1px solid #ccc; */
 
     /* for non-css3 browsers */
     background: #999;
@@ -100,7 +108,7 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff');
     /* for webkit browsers */
     background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
-     /* for firefox 3.6+ */
+    /* for firefox 3.6+ */
     background: -moz-linear-gradient(top,  #fff,  #eee);
 }
 
@@ -114,17 +122,17 @@ body {
     /* background: #eee; */
     margin-top: 5px;
     padding: 7px 7px 40px;
-    /* border-top: 1px solid #ccc; */
-    /* border-bottom: 1px solid #ccc; */
+/* border-top: 1px solid #ccc; */
+/* border-bottom: 1px solid #ccc; */
 
-    /* /\* for non-css3 browsers *\/ */
-    /* background: #999; */
-    /* /\* for IE *\/ */
-    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff'); */
-    /* /\* for webkit browsers *\/ */
-    /* background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff)); */
-    /*  /\* for firefox 3.6+ *\/ */
-    /* background: -moz-linear-gradient(top,  #eee,  #fff); */
+/* /\* for non-css3 browsers *\/ */
+/* background: #999; */
+/* /\* for IE *\/ */
+/* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff'); */
+/* /\* for webkit browsers *\/ */
+/* background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff)); */
+/*  /\* for firefox 3.6+ *\/ */
+/* background: -moz-linear-gradient(top,  #eee,  #fff); */
 
 }
 
