@@ -191,3 +191,46 @@ label {
     font-size:1.1em;
     margin-top: 5px;
 }
+
+table.filter {
+    width:100%;
+    border-spacing: 0px;
+    margin-bottom: 5px;
+}
+
+table.filter td {
+    /* border: 0px; */
+    /* border: 1px solid black; */
+    border-bottom: 1px solid #F0F0F0;
+    /* border-bottom: 1px solid #ccc; */
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+table.filter td.name {
+    /* width: 300px; */
+    padding-right:5px;
+    text-align:right;
+    width: 40px;
+}
+table.filter td.definition {
+/* background: red; */
+    width: 150px;
+}
+table.filter td.remove,
+table.filter td.add {
+    width:400px;
+    text-align:right;
+}
+
+.action-parameters {
+    display: none;
+}
+
+/* jQuery-ui fixes */
+.ui-button-text-only {
+    min-width: 100px;
+}
+
+select {
+    min-width: 140px
+}

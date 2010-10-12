@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block application %}
+<div class="container_16" >
+  <div class="grid_16">
+    <div id="application-menu" >
+	 <a href="/settings">settings</a>
+	 <a href="/settings/teams">teams</a>
+    </div>
+  </div>
+</div>
+
+<div class="container_16">
+
+  <div class="grid_12 push_4">
+    <div class="grid_12 alpha">
+      <div id="application-view-menu">
+	<a class="details" href="#requirement/{{ requirement.pk }}/details/">details</a> |
+	<a class="edit" href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
+      </div>
+    </div>
+
+    <!-- Just a place holder for dynamic input -->
+    <div id="application-view">
+    </div>
+
+  </div>
+
+  <div class="grid_4 pull_12">
+    <div id="application-tree" class="ui-corner-all
+				      ui-widget-content">
+      <div>
+	team 1
+      </div>
+      <div>
+	team 2
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}
