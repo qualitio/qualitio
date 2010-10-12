@@ -95,13 +95,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    
+
     'tcstorm_requirements.requirements',
     'tcstorm_requirements.report',
-    
+    'tcstorm_requirements.projects',
+
     'treebeard',
     'mptt',
-    
+
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -110,3 +111,5 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.media",
                                "django.core.context_processors.request",
                                "django.contrib.messages.context_processors.messages")
+
+AUTH_PROFILE_MODULE = 'projects.UserProfile'

@@ -4,5 +4,5 @@ from tcstorm_requirements.projects.views import *
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       # url(r'teams/?$', filter)
+                       url(r'teams/?$', teams)
                        )

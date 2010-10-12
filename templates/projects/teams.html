@@ -12,8 +12,8 @@
 
 <div class="container_16">
 
-  <div class="grid_12">
-    <div class="grid_16 alpha">
+  <div class="grid_12 push_4">
+    <div class="grid_12 alpha">
       <div id="application-view-menu">
 	<a class="details" href="#requirement/{{ requirement.pk }}/details/">details</a> |
 	<a class="edit" href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
@@ -22,7 +22,7 @@
 
     <!-- Just a place holder for dynamic input -->
     <div id="application-view">
-      <div class="grid_16 ui-corner-all">
+      <div class="grid_12 alpha ui-corner-all">
 	<div class="content" style="text-align:left">
 	  <h1>Personal settings</h1>
 	  <div>login: {{ user.username }}</div>
@@ -37,25 +37,25 @@
 	</div>
       </div>
 
-      <div class="grid_16 button-bar ui-corner-all">
+      <div class="grid_12 alpha button-bar ui-corner-all">
 	<div class="content" style="text-align:left">
 	  asd
 	</div>
       </div>
 
     </div>
+
   </div>
 
-  <!-- <div class="grid_4 pull_12"> -->
-  <!--   <div id="application-list" class="ui-widget-content"> -->
-  <!--     <a class="element" href="/settings/personal_settings">Personal Settings</a> -->
-  <!--     <a class="element" href="/settings/personal_settings">User Teams</a> -->
-  <!--   </div> -->
-  <!-- </div> -->
+  <div class="grid_4 pull_12">
+    <div id="application-list" class="ui-widget-content">
+
+      {% for team in teams %}
+      <a class="element" href="/settings/team/flower">{{ team.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
 
 </div>
-
-
-
 
 {% endblock %}
