@@ -14,10 +14,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tcstorm_requirements',                     
-        'USER': 'tcstorm',                     
-        'PASSWORD': 'gulasz',                 
-        'HOST': '',                     
+        'NAME': 'tcstorm_requirements',
+        'USER': 'tcstorm',
+        'PASSWORD': 'gulasz',
+        'HOST': '',
         'PORT': '',
     }
 }
