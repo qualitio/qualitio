@@ -75,6 +75,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 )
 
 ROOT_URLCONF = 'tcstorm_requirements.urls'
@@ -102,7 +103,7 @@ INSTALLED_APPS = (
 
     'treebeard',
     'mptt',
-
+    'debug_toolbar'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -113,3 +114,5 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.contrib.messages.context_processors.messages")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
+
+INTERNAL_IPS = ('127.0.0.1',)

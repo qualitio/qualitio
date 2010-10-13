@@ -11,7 +11,6 @@ class ReportDirectory(MPTTModel):
             return "/%s/" % "/".join(map(lambda x: x.name, self.get_ancestors()))
         return "/"
 
-
     def __unicode__(self):
         return self.name
 

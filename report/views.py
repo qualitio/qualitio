@@ -59,11 +59,11 @@ def to_tree_element(object, type):
              'state' : 'closed',
              'children' : []}
 
+
 def get_children(request):
     data = []
 
     node_id = int(request.GET['id'])
-    print request.GET['id']
     node_type = request.GET.get("type") or "reportdirectory"
 
     if node_type == "reportdirectory":
