@@ -23,18 +23,35 @@
     <!-- Just a place holder for dynamic input -->
     <div id="application-view">
       <div class="grid_12 alpha ui-corner-all">
-	<div class="content" style="min-height: 357px;">
+	<div class="content" style="text-align:left; min-height: 357px;">
+	  <h1>Team informations</h1>
+	  <div class="text-bullet">name: {{ team.name }}</div>
+	  <div class="text-bullet">leader: {{ team.leader.username }}</div>
+	  <div class="text-bullet">created at: 10:02:01 thu 11, 2010</div>
 
-	  <div style="color:#C0C0C0;
-		      font-size:2em;
-		      margin:148px 0 0 403px;">Select Team
-	  </div>
+	  <h1>Team Users</h1>
+	  <table class="pretty" style="margin-bottom:20px">
+	    <tr>
+	      <th style="width: 30%">login</th>
+	      <th>first name</th>
+	      <th>last name</th>
+	      <th>email</th>
+	    </tr>
+	    <tr>
+	      {% for user in team.users.all %}
+	      <td>{{ user.username }}</td>
+	      <td>{{ user.firstname }}</td>
+	      <td>{{ user.lastname }}</td>
+	      <td>{{ user.email }}</td>
+	      {% endfor %}
+	    </tr>
+	  </table>
 	</div>
       </div>
 
       <div class="grid_12 alpha button-bar ui-corner-all">
 	<div class="content" style="text-align:left">
-	  &nbsp;
+	  asd
 	</div>
       </div>
 

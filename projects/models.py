@@ -29,11 +29,11 @@ from django.contrib.auth.models import User
 
 class Team(models.Model):
     name = models.CharField(max_length=250)
-    users = models.ManyToManyField(User, related_name="users")
+    users = models.ManyToManyField(User, symmetrical=True)
     leader = models.ForeignKey(User, related_name="leader")
-                               # limit=limit_choices_to = {'pub_date__lte': datetime.now})
+
+    # przez jakas tablice, join date
+    # moze role jeszcze
 
 class UserProfile(models.Model):
-    pass
-
-
+    alias = models.CharField(max_length=250)
