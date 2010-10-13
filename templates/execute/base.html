@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block js-include %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute.js"></script>
+{% endblock %}
+
+{% block application %}
+<div class="container_16" >
+  <div class="grid_16">
+
+    <div id="application-menu" >
+	 <a href="/execute/">browse</a>
+	 <a href="/execute/filter">filter</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="container_16">
+
+  <div class="grid_12 push_4">
+    <div class="grid_12 alpha">
+      <div id="application-view-menu">
+      </div>
+    </div>
+
+    <!-- Just a place holder for dynamic input -->
+    <div id="application-view">
+    </div>
+
+  </div>
+
+  <div class="grid_4 pull_12">
+    <div id="application-tree" class="ui-corner-all
+				      ui-widget-content">
+    </div>
+  </div>
+
+</div>
+{% endblock %}
