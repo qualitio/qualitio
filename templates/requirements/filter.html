@@ -153,20 +153,68 @@
 	where: <select><option>/</option></select>
 	amount: <input></input>
 	open last: <input type="checkbox"></input>
+	<input type="submit" value="submit" class="ui-button
+						   ui-widget
+						   ui-state-default
+						   ui-corner-all
+						   ui-button-text-only"/>
+
       </span>
 
       <span id="action-change_status" class="action-parameters">
 	change status: <select><option>---</option></select>
+	<input type="submit" value="submit" class="ui-button
+						   ui-widget
+						   ui-state-default
+						   ui-corner-all
+						   ui-button-text-only"/>
+
       </span>
 
       <span id="action-export" class="action-parameters">
 	export: <select><option>csv</option><option>xml</option></select>
+	<input type="submit" value="submit" class="ui-button
+						   ui-widget
+						   ui-state-default
+						   ui-corner-all
+						   ui-button-text-only"/>
+
       </span>
 
       <span id="action-replace" class="action-parameters">
 	field: <select><option>name</option><option>description</option></select>
 	target: <input></input>
 	to: <input></input>
+	<input type="submit" value="submit" class="ui-button
+						   ui-widget
+						   ui-state-default
+						   ui-corner-all
+						   ui-button-text-only"/>
+	<div id="dialog-confirm" title="Replace elements?">
+	  <p><span class="ui-icon ui-icon-alert" style="float:left;
+	  margin:0 7px 20px 0;">
+	    </span>Strings in those elements will be permanently
+	    replaced and cannot be recovered. Are you sure?</p>
+	  <table class="pretty">
+	    <tbody>
+	      <tr>
+		<th class="id">Id</th>
+		<th class="path">Path</th>
+		<th class="depth">Depth</th>
+		<th class="numchild">Numchild</th>
+		<th class="name">Name</th>
+	      </tr>
+	      <tr>
+		<td>6</td>
+		<td>00030004</td>
+		<td>2</td>
+		<td>0</td>
+		<td>test 6</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</div>
+
       </span>
 
     </div>

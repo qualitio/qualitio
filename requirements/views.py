@@ -66,7 +66,7 @@ from django.views.generic.simple import direct_to_template
 from tcstorm_requirements.requirements.tables import RequirementsFilterTable
 
 def filter(request):
-    requirements_table = RequirementsFilterTable(Requirement.objects.all(),
+    requirements_table = RequirementsFilterTable(Requirement.objects.select_related(depth=1).all(),
                                                  order_by=request.GET.get('sort'))
     return direct_to_template(request, 'requirements/filter.html',
                               {'requirements_table' : requirements_table})
