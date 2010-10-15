@@ -13,12 +13,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tcstorm_requirements',
-        'USER': 'tcstorm',
-        'PASSWORD': 'gulasz',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(PROJECT_PATH, 'data/data.sqlite'),
     }
 }
 
