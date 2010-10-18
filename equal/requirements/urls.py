@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from tcstorm_requirements.requirements.views import *
+from equal.requirements.views import *
 
 urlpatterns = patterns('',
                        url(r'^$', index),

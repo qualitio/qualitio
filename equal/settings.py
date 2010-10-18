@@ -62,7 +62,6 @@ SECRET_KEY = '+xo!&_63g8h5(q0k$@+^lm@#a%l#3@1x(dw$c#e8p9jfx^*z*i'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,14 +73,11 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware'
 )
 
-ROOT_URLCONF = 'tcstorm_requirements.urls'
+ROOT_URLCONF = 'equal.urls'
 
 TEMPLATE_DIRS = (
     '/home/seba/.virtualenvs/tcstorm-requirements/lib/python2.6/site-packages/treebeard/templates/',
     os.path.join(PROJECT_PATH, 'templates'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 )
 
 INSTALLED_APPS = (
@@ -93,9 +89,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'tcstorm_requirements.requirements',
-    'tcstorm_requirements.report',
-    'tcstorm_requirements.projects',
+    'equal.requirements',
+    'equal.report',
+    'equal.projects',
 
     'treebeard',
     'mptt',
@@ -110,5 +106,4 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.contrib.messages.context_processors.messages")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
-
 INTERNAL_IPS = ('127.0.0.1',)

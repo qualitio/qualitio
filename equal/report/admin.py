@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
-from tcstorm_requirements.report.models import *
+from equal.report.models import *
 
 class QueryInline(admin.TabularInline):
     model = Query
@@ -11,5 +11,4 @@ class ReportAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
 
 admin.site.register(Report, ReportAdmin)
-
 admin.site.register(ReportDirectory, MPTTModelAdmin)

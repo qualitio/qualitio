@@ -4,8 +4,8 @@ from django.utils import simplejson as json
 from django.shortcuts import render_to_response
 from django.conf import settings
 
-from tcstorm_requirements.requirements.models import Requirement
-from tcstorm_requirements.requirements.forms import RequirementForm
+from equal.requirements.models import Requirement
+from equal.requirements.forms import RequirementForm
 
 
 def index(request):
@@ -63,7 +63,7 @@ def test_cases(request, requirement_id):
 
 
 from django.views.generic.simple import direct_to_template
-from tcstorm_requirements.requirements.tables import RequirementsFilterTable
+from equal.requirements.tables import RequirementsFilterTable
 
 def filter(request):
     requirements_table = RequirementsFilterTable(Requirement.objects.select_related(depth=1).all(),

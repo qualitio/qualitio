@@ -4,8 +4,8 @@ from django.utils import simplejson as json
 from django.shortcuts import render_to_response
 from django.contrib.contenttypes.models import ContentType
 
-from tcstorm_requirements.report.models import ReportDirectory, Report
-from tcstorm_requirements.report.forms import ReportForm, QueryFormSet, ReportDirectoryForm
+from equal.report.models import ReportDirectory, Report
+from equal.report.forms import ReportForm, QueryFormSet, ReportDirectoryForm
 
 def index(request):
     return render_to_response('report/base.html',

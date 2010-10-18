@@ -1,6 +1,6 @@
 import django_tables as tables
 from django.utils.safestring import mark_safe
-from tcstorm_requirements.requirements.models import Requirement
+from equal.requirements.models import Requirement
 
 # test = lambda x,y: 4
 

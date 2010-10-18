@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 
-from tcstorm_requirements.report.models import Report, Query, ReportDirectory
+from equal.report.models import Report, Query, ReportDirectory
 
 class ReportForm(ModelForm):
     class Meta:
