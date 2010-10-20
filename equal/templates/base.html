@@ -4,6 +4,12 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en-us" />
 
+
+    <link rel="stylesheet" type="text/css" href="http://960ls.atomidata.com/static/cssserve/8/1/4/6/5/81465.css" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
+    {% block css-include %}{% endblock %}
+
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.custom.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jstree.js"></script>
@@ -13,18 +19,13 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
     {% block js-include %}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="http://960ls.atomidata.com/static/cssserve/8/1/4/6/5/81465.css" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css" media="screen, projection" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
-    {% block css-include %}{% endblock %}
-
     <title>TcStorm requirments</title>
 
   </head>
 
   <body>
 
-    <div class="container_16" >
+    <div class="container_16 clearfix" >
       <div class="grid_3 suffix_8">
 	<div id="logo">
 	  eQual<span style="font-size:12px">requirements</span>
@@ -35,7 +36,7 @@
 	<div id="project-menu">
 	  <a href="/require/">requirments</a> |
 	  <a href="#">store</a> |
-	  <a href="/exeute/">execute</a> |
+	  <a href="/execute/">execute</a> |
 	  <a href="/report/">report</a> |
 	  <a href="/settings/">settings</a> |
 	  <a href="/admin/">admin</a>
@@ -43,9 +44,11 @@
       </div>
     </div>
 
-    {% block application %}{% endblock %}
+    <div class="container_16 clearfix">
+      {% block application %}{% endblock %}
+    </div>
 
-    <div class="container_16">
+    <div class="container_16 clearfix">
       <div class="grid_16">
 	<div id="footer">  </div>
 

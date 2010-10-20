@@ -1,0 +1,35 @@
+<div class="grid_12 alpha">
+
+  <div id="application-view-menu">
+    <a class="active" href="#testrun/{{ testrun.pk }}/details">details</a> |
+    <a href="/execute/testrun/{{ testrun.pk }}/execute">execute</a> |
+    <a href="#testrun/{{ testrun.pk }}/notes">notes</a> |
+    <a href="#testrun/{{ testrun.pk }}/edit">edit</a> |
+  </div>
+
+  <div id="application-view-content">
+
+    <h1>test run: {{ testrun.name }}</h1>
+    <div class="text-bullet">directory: {{ testrun.get_path }}</div>
+    <div class="text-bullet">pass rate: <i>not set</i></div>
+    <div class="text-bullet">status: <i>not set</i></div>
+
+
+    <table class="pretty ui-corner-all" style="margin-top: 20px">
+      <tr>
+	<th></th>
+	<th>Path</th>
+	<th>Status</th>
+      </tr>
+      {% for child in testrun.testcaserun_set.all %}
+      <tr>
+	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
+	<td class="path"><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
+	<td class="path"><a href="#testrun/{{ child.directory.pk }}/details/"></a></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div>
+
+</div>

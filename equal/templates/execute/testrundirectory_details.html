@@ -1,0 +1,44 @@
+<div class="grid_12 alpha">
+  <div id="application-view-menu">
+    <a class="active" href="#report/{{ object.pk }}/details/">details</a> |
+    <a href="#report/{{ object.pk }}/edit/">edit</a> |
+  </div>
+
+  <div id="application-view-content">
+    <h1>test run directory: {{ directory.name }}</h1>
+    <div class="text-bullet">directory: {{ directory.get_path }}</div>
+
+    <table class="pretty ui-corner-all" style="margin-top: 20px">
+      <tr>
+	<th></th>
+	<th>Path</th>
+	<th>Name</th>
+      </tr>
+      {% for child in directory.get_children %}
+      <tr class="directory">
+	<td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
+	<td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.get_path }}</a></td>
+	<td><a href="#testrundirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
+      </tr>
+      {% endfor %}
+      {% for child in directory.testrun_set.all %}
+      <tr>
+	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
+	<td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
+      <td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div>
+
+  <div id="application-view-footer">
+    <div class="grid_6 alpha">
+      <div class="left"></div>
+    </div>
+    <div class="grid_6 omega">
+      <div class="right"><input type="submit" name="Execute"
+      value="New testrun" /></div>
+  </div>
+
+</div>

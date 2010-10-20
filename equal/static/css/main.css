@@ -2,7 +2,7 @@
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
     border:0 none;
     font-family:inherit;
-    font-size: 9px;
+    font-size: 11px;
     font-style:inherit;
     font-weight:inherit;
     margin:0;
@@ -12,7 +12,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 
 /* Global css */
 body {
-    font-size:10px;
+    font-size:12px;
     font-family:Verdana,Arial,sans-serif;
 }
 
@@ -40,17 +40,27 @@ body {
 #application-menu {
     padding:0.6em 1.1em;
     line-height:1.4;
-    margin-bottom:10px;
     text-align: left;
-    border-top:1px solid #ccc;
-    /* for webkit browsers */
-    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
-    /* for firefox 3.6+ */
-    background: -moz-linear-gradient(top,  #eee,  #fff);
+    border-bottom:2px solid #aaa;
+
+    background: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.14, rgb(238,238,238)),
+	color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+	center bottom,
+	rgb(238,238,238) 14%,
+	rgb(255,255,255) 100%
+    );
 }
 
 #application-menu a,
 #application-menu a:link {
+    font-family: helvetica, arial;
+    font-size: 1.1em;
     font-weight: bold;
     color: #555;
     text-decoration: none;
@@ -60,12 +70,15 @@ body {
 #application-menu a:hover {
     text-decoration: underline;
     font-weight: bold;
+    color: #777;
 }
 
 #application-view-menu {
+    font-family:helvetica,arial;
     padding: 5px 10px;
-    border-top: 1px solid #aaa;
-    border-bottom: 1px solid #ccc;
+    /* border-top: 1px solid #bbb; */
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid #aaa;
 }
 
 #application-view-menu a{
@@ -73,78 +86,92 @@ body {
     color: #555
 }
 
+#application-view-menu a:hover{
+    text-decoration: underline;
+    font-weight: bold;
+    color: #777;
+}
+
+
 #application-view-menu .active{
     color: #666666;
     font-weight: bold;
 }
 
-
-#application-view .alpha{
-/* border: 1px solid; */
+#application-view-content {
+    min-height:500px;
 }
 
-#application-view .content {
-    /* min-height: 700px; */
-    /* border-left: 1px solid #ccc; */
-    padding: 1px 10px;
-}
-
-#application-view h1 {
-    font-size: 1.2em;
-    /* margin-left: 15px; */
-    margin-top: 15px;
-    margin-bottom: 5px;
+h1 {
+    font-size: 1.5em;
+    margin: 10px 0px;
     color: #555;
     font-weight: bold;
     border-bottom: 1px solid #F0F0F0;
 }
 
-.button-bar {
-    /* padding: 10px 27px; */
-    /* border-left:1px solid; */
-    border-bottom:1px solid #aaa;
-    /* border-top: 1px solid #ccc; */
-    /* border-bottom: 1px solid #ccc; */
+h2 {
+    font-size: 1.4em;
+    margin: 14px 0px 2px;
+    color: #555;
+    font-weight: bold;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+#application-view-header {
+    border-bottom:2px solid #aaa;
+    padding: 0px 0px 10px 0px;
+}
+
+#application-view-footer {
+    min-height:30px;
+    background: white;
+}
+#application-view-footer .left {
+    border-left: 1px solid #aaa;
+    padding: 5px 5px;
+}
+#application-view-footer .right {
+    text-align:right;
+    padding: 5px 0px;
+}
+
+#application-nav.list {
+
+}
+
+#application-nav.list a {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 3px;
+    display: block;
+    text-decoration: none;
+    color: #555;
+}
+#application-nav.list a:hover {
+    background: #fafafa;
+}
+
+
+#footer {
+    padding: 7px 7px 40px;
+    border-top:2px solid #aaa;
+    min-height: 50px;
 
     /* for non-css3 browsers */
-    background: #999;
+    /* background: #f0f0f0; */
     /* for IE */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff');
     /* for webkit browsers */
-    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
     /* for firefox 3.6+ */
-    background: -moz-linear-gradient(top,  #fff,  #eee);
-}
-
-
-#application-tree {
-    padding: 10px;
-    min-height: 400px;
-}
-
-#footer {
-    /* background: #eee; */
-    margin-top: 5px;
-    padding: 7px 7px 40px;
-/* border-top: 1px solid #ccc; */
-/* border-bottom: 1px solid #ccc; */
-
-/* /\* for non-css3 browsers *\/ */
-/* background: #999; */
-/* /\* for IE *\/ */
-/* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff'); */
-/* /\* for webkit browsers *\/ */
-/* background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff)); */
-/*  /\* for firefox 3.6+ *\/ */
-/* background: -moz-linear-gradient(top,  #eee,  #fff); */
+    background: -moz-linear-gradient(top,  #eee,  #fff);
 
 }
 
 table.pretty {
     width:100%;
     border-collapse: collapse;
-    margin-bottom: 10px;
-
+    /* margin-bottom: 10px; */
 }
 
 table.pretty .icon {
@@ -264,15 +291,20 @@ table.filter td.add {
 
 .text-bullet {
     margin: 3px 0px;
+    font-size: 1.2em;
+}
+
+.step p {
+    text-align:justify;
 }
 
 /* jQuery-ui fixes */
 /* .ui-button { */
 /*     padding:0.2em 1em; */
 /* } */
-.ui-button-text-only {
-     min-width: 100px;
-}
+/* .ui-button-text-only { */
+/*      min-width: 100px; */
+/* } */
 
 /* select { */
 /*     min-width: 140px */

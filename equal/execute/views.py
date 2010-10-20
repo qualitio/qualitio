@@ -1,33 +1,57 @@
+from mptt.models import MPTTModel
+
 from django.views.generic.simple import direct_to_template
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import simplejson as json
+from django.http import HttpResponse
+
+from equal.execute.models import TestRunDirectory, TestRun
 
 def index(request):
     return direct_to_template(request,'execute/base.html',{})
 
+def directory_details(request, directory_id):
+    return direct_to_template(request, 'execute/testrundirectory_details.html',
+                              {'directory' : TestRunDirectory.objects.get(pk=directory_id)})
+
+def testrun_details(request, testrun_id):
+    return direct_to_template(request, 'execute/testrun_details.html',
+                              {'testrun' : TestRun.objects.get(pk=testrun_id)})
+
+def testrun_edit(request, testrun_id):
+    return direct_to_template(request, 'execute/testrun_edit.html',
+                              {'testrun' : TestRun.objects.get(pk=testrun_id)})
+
+def testrun_execute(request, testrun_id):
+    return direct_to_template(request, 'execute/testrun_execute.html',
+                              {'testrun' : TestRun.objects.get(pk=testrun_id)})
+
+def testrun_notes(request, testrun_id):
+    return direct_to_template(request, 'execute/testrun_notes.html',
+                              {'testrun' : TestRun.objects.get(pk=testrun_id)})
+
 
 def to_tree_element(object, type):
-    return { 'data' : object.name,
-             'attr' : {'id' : "%s_%s" % (object.pk, type),
+    state = "closed" if isinstance(object, MPTTModel) else ""
+    return { 'attr' : {'id' : "%s_%s" % (object.pk, type),
                        'rel' : type},
-             'state' : 'closed',
-             'children' : []}
-
+             'data' : object.name,
+             'state' : state }
 
 def get_children(request):
     data = []
 
-    node_id = int(request.GET['id'])
-    node_type = request.GET.get("type") or "reportdirectory"
+    try:
+        node_id = int(request.GET.get('id', 0))
+        node = TestRunDirectory.objects.get(pk=node_id)
+        directories = node.get_children()
+        files = node.testrun_set.all()
+        data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)+\
+               map(lambda x: to_tree_element(x,x._meta.module_name), files)
 
-    if node_type == "reportdirectory":
-        node_id = int(request.GET['id'])
-        if not node_id:
-            directories = ReportDirectory.tree.root_nodes()
-            data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
-        else:
-            node = ReportDirectory.objects.get(pk=node_id)
-            directories = node.get_children()
-            reports = node.report_set.all()
+    except (ObjectDoesNotExist, ValueError):
+        directories = TestRunDirectory.tree.root_nodes()
+        data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
 
-            data = map(lambda x: to_tree_element(x, x._meta.module_name), directories) + map(lambda x: to_tree_element(x,x._meta.module_name), reports)
-
+        print data
     return HttpResponse(json.dumps(data), mimetype="application/json")

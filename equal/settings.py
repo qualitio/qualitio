@@ -88,10 +88,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.webdesign',
 
     'equal.requirements',
     'equal.report',
     'equal.projects',
+    'equal.execute',
 
     'treebeard',
     'mptt',

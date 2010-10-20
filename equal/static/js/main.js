@@ -6,7 +6,7 @@ var hash = {
     interval: null,
     cache: '',
 
-    object : null, 
+    object : null,
     node : null,
     view : null,
 
@@ -15,7 +15,7 @@ var hash = {
 	    hash.listen = true;
 	}, 600);
     },
-    
+
     _stop_listening: function() {
 	hash.listen = false;
     },
@@ -39,7 +39,7 @@ var hash = {
 	hash.node = segments[1];
 	hash.view = segments[2];
     },
-    
+
     _clean: function(locStr){
 	return locStr.replace(/%23/g, "").replace(/[\?#]+/g, "");
     },
@@ -49,20 +49,20 @@ var hash = {
 	hash.update();
 	hash._has_changed();
     },
-    
+
     update: function() {
 	hash.storedHash = hash.to_string();
 	window.location.hash = hash.to_string();
     },
-    
+
     current_hash: function() {
 	return hash._clean(window.location.hash);
     },
-    
+
     to_string: function() {
 	return "#"+[hash.object, hash.node, hash.view].join("/");
     },
-    
+
     // Controller view. Will react on every anchor change. Implement your logic here
     main: function() {
 	return alert("One function to rule them all, not implemented")

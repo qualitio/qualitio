@@ -1,0 +1,21 @@
+{% load webdesign %}
+<div class="grid_12 alpha">
+
+  <div id="application-view-menu">
+    <a href="#testrun/{{ testrun.pk }}/details">details</a> |
+    <a href="/execute/testrun/{{ testrun.pk }}/execute">execute</a> |
+    <a class="active" href="#testrun/{{ testrun.pk }}/notes">notes</a> |
+    <a href="#testrun/{{ testrun.pk }}/edit">edit</a> |
+  </div>
+
+  <div id="application-view-content">
+
+    <h1>test run: {{ testrun.name }}</h1>
+
+    <h2>notes</h2>
+    <textarea style="width:99%; height:420px;">
+      {% lorem 100 w random %}
+    </textarea>
+
+  </div>
+</div>
