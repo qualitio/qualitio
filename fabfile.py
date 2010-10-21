@@ -7,6 +7,7 @@ from fabric.contrib.project import rsync_project
 
 def push():
     "Get new development code to device"
+
     rsync_project(remote_dir="/home/services/www/",
                   local_dir="equal",
                   delete=True,
@@ -19,6 +20,7 @@ def push():
 
 def requirements():
     "Install required packages for application"
+
     virtualenv = "source /home/services/python-virtualenvs/equal/bin/activate && "
     with cd('/home/services/www/equal/'):
         put("requirements.txt",
@@ -29,6 +31,7 @@ def requirements():
 
 def restart():
     "Restart apache"
+
     sudo("/etc/init.d/apache2 restart")
 
 def deploy():
