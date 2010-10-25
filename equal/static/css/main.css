@@ -130,6 +130,7 @@ h2 {
 #application-view-footer .left {
     border-left: 1px solid #aaa;
     padding: 5px 5px;
+    text-align:left;
 }
 #application-view-footer .right {
     text-align:right;
@@ -221,8 +222,15 @@ table a:visited {
 .content select,
 .content input:not(.ui-button):not([type=checkbox]),
 .content textarea {
-    width: 99%;
-    font-size: 11px;
+    padding:3px 1px;
+    width: 400px;
+    font-size: 1.2em;
+    margin: 0px;
+    border: 1px solid #aaa;
+    height:24px;
+}
+
+input, select {
 }
 
 label {

@@ -1,0 +1,99 @@
+<div class="grid_12 alpha">
+
+  <div id="application-view-menu">
+    <a href="#testrun/{{ testrun.pk }}/details">details</a> |
+    <a href="/execute/testrun/{{ testrun.pk }}/execute">execute</a> |
+    <a href="#testrun/{{ testrun.pk }}/notes">notes</a> |
+    <a class="active" href="#testrun/{{ testrun.pk }}/edit">edit</a> |
+  </div>
+
+  <div id="application-view-content">
+
+    <h1>test run: {{ testrun.name }}</h1>
+    <div class="content">
+      {{ testrun_form }}
+    </div>
+
+    <div class="grid_6 alpha">
+      <h2>connected testcase</h2>
+      <div style="text-align:right">
+	<a href="#">all</a> | <a href="#">invert</a> | <a href="#">clear</a>
+      </div>
+      <table class="pretty ui-corner-all">
+	<tr>
+	  <th>Path</th>
+	  <th>Status</th>
+	  <th style="width:43px">remove</th>
+	</tr>
+	{% for child in testrun.testcaserun_set.all %}
+	<tr>
+	  <td class="path"><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
+	  <td>IDLE</td>
+	  <td style="text-align:center"><input type="checkbox"></td>
+	</tr>
+	{% endfor %}
+      </table>
+    </div>
+
+    <div class="grid_6 omega">
+      <h2>available testcase</h2>
+      <div class="grid_3 alpha"><a href="#">shitch to tree</a></div>
+      <div class="grid_3 omega">
+	<div style="text-align:right">
+	  <a href="#">all</a> | <a href="#">invert</a> | <a href="#">clear</a>
+	</div>
+      </div>
+
+      <div class="grid_6 alpha">
+	<div id="testcase-add-view-tree" style="margin:17px 0 0 10px; display:none">
+	</div>
+
+	<table id="testcase-add-view-table" class="pretty ui-corner-all">
+	  <tr>
+	    <th>Path</th>
+	    <th style="width:25px">add</th>
+	  </tr>
+	  {% for child in testrun.testcaserun_set.all %}
+	  <tr>
+	    <td><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
+	    <td style="text-align:center"><input type="checkbox"></td>
+	  </tr>
+	  {% endfor %}
+	</table>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="application-view-footer">
+    <div class="grid_6 alpha">
+      <div class="left">
+	<input type="submit" name="Executed" value="Delete" />
+      </div>
+    </div>
+    <div class="grid_6 omega">
+      <div class="right">
+	<input type="submit" name="Execute" value="Save" />
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+
+    $(function () {
+    $("#testcase-add-view-tree").jstree({
+    "core" : { "initially_open" : [ "root" ] },
+    "html_data" : {
+    "data" : "<li id='root'><a href='#'>Root node</a><ul><li><a href='#'>Child node</a></li></ul></li>"
+    },
+    "plugins" : [ "themes", "html_data","checkbox" ]
+    });
+
+    $("#testcase-add-view-tree, #testcase-add-view-table").toggle();
+
+    <!-- $('select').selectmenu({style:'dropdown', width:400}); -->
+    $('input, select').addClass('ui-widget ui-corner-all')
+    });
+
+</script>

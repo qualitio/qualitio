@@ -16,7 +16,7 @@ class TestRunDirectory(MPTTModel):
         return "/"
 
     def __unicode__(self):
-        return 'TestRunDirectory: %s' % self.name
+        return '%s%s' % (self.get_path(),self.name)
 
 
 class TestRun(models.Model):

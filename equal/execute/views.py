@@ -6,6 +6,7 @@ from django.utils import simplejson as json
 from django.http import HttpResponse
 
 from equal.execute.models import TestRunDirectory, TestRun
+from equal.execute.forms import TestRunDirectoryForm, TestRunForm
 
 def index(request):
     return direct_to_template(request,'execute/base.html',{})
@@ -14,13 +15,26 @@ def directory_details(request, directory_id):
     return direct_to_template(request, 'execute/testrundirectory_details.html',
                               {'directory' : TestRunDirectory.objects.get(pk=directory_id)})
 
+def directory_new(request, directory_id):
+    return direct_to_template(request, 'execute/testrundirectory_new.html',
+                              {'directory' : TestRunDirectory.objects.get(pk=directory_id)})
+
+def directory_edit(request, directory_id):
+    directory = TestRunDirectory.objects.get(pk=directory_id)
+    return direct_to_template(request, 'execute/testrundirectory_edit.html',
+                              {'directory' : directory,
+                               'directory_form' : TestRunDirectoryForm(instance=directory)})
+
 def testrun_details(request, testrun_id):
     return direct_to_template(request, 'execute/testrun_details.html',
                               {'testrun' : TestRun.objects.get(pk=testrun_id)})
 
 def testrun_edit(request, testrun_id):
+    testrun = TestRun.objects.get(pk=testrun_id)
+    testrun_form = TestRunForm(instance=testrun)
     return direct_to_template(request, 'execute/testrun_edit.html',
-                              {'testrun' : TestRun.objects.get(pk=testrun_id)})
+                              {'testrun' : testrun,
+                               'testrun_form' : testrun_form})
 
 def testrun_execute(request, testrun_id):
     return direct_to_template(request, 'execute/testrun_execute.html',
@@ -29,6 +43,7 @@ def testrun_execute(request, testrun_id):
 def testrun_notes(request, testrun_id):
     return direct_to_template(request, 'execute/testrun_notes.html',
                               {'testrun' : TestRun.objects.get(pk=testrun_id)})
+
 
 
 def to_tree_element(object, type):
