@@ -76,9 +76,7 @@ body {
 #application-view-menu {
     font-family:helvetica,arial;
     padding: 5px 10px;
-    /* border-top: 1px solid #bbb; */
     border-bottom: 1px solid #aaa;
-    border-left: 1px solid #aaa;
 }
 
 #application-view-menu a{
@@ -92,28 +90,37 @@ body {
     color: #777;
 }
 
-
 #application-view-menu .active{
     color: #666666;
     font-weight: bold;
 }
 
-#application-view-content {
-    min-height:500px;
+.application-view-content {
+    padding: 10px 10px 0;
+}
+
+.application-view-content select,
+.application-view-content input:not(.ui-button):not([type=checkbox]),
+.application-view-content textarea {
+    padding:3px 1px;
+    width: 400px;
+    font-size: 1.2em;
+    margin: 0px;
+    border: 1px solid #aaa;
 }
 
 h1 {
-    font-size: 1.5em;
+    font-size: 1.4em;
     margin: 10px 0px;
-    color: #555;
+    color: #775555;
     font-weight: bold;
     border-bottom: 1px solid #F0F0F0;
 }
 
 h2 {
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin: 14px 0px 2px;
-    color: #555;
+    color: #775555;
     font-weight: bold;
     border-bottom: 1px solid #F0F0F0;
 }
@@ -124,17 +131,20 @@ h2 {
 }
 
 #application-view-footer {
-    min-height:30px;
     background: white;
+    padding: 3px 0;
+    border-top: 1px solid #aaa;
+    margin-top: 20px;
 }
-#application-view-footer .left {
-    border-left: 1px solid #aaa;
-    padding: 5px 5px;
+#application-view-footer .left input {
+    margin-left:10px;
     text-align:left;
 }
 #application-view-footer .right {
     text-align:right;
-    padding: 5px 0px;
+}
+#application-view-footer .right input{
+    margin-right:10px;
 }
 
 #application-nav.list {
@@ -219,20 +229,6 @@ table a:visited {
     font-size: 1.0em;
 }
 
-.content select,
-.content input:not(.ui-button):not([type=checkbox]),
-.content textarea {
-    padding:3px 1px;
-    width: 400px;
-    font-size: 1.2em;
-    margin: 0px;
-    border: 1px solid #aaa;
-    height:24px;
-}
-
-input, select {
-}
-
 label {
     display:block;
     font-size:1.1em;
@@ -273,6 +269,16 @@ table.filter td.add {
     display: none;
 }
 
+#application-tree {
+    border-right: 3px solid #aaa;
+    /* border-bottom: 2px solid black; */
+    /* border:1px solid gray; */
+    /* float:left; */
+    /* margin:0; */
+    padding: 5px;
+    overflow:auto;
+/* width:235px; */
+}
 
 /* Settings */
 /* same styles as application-tree  */
@@ -302,19 +308,13 @@ table.filter td.add {
     font-size: 1.2em;
 }
 
+.step .description p {
+    margin-right: 15px;
+}
+
 .step p {
     text-align:justify;
 }
 
 /* jQuery-ui fixes */
-/* .ui-button { */
-/*     padding:0.2em 1em; */
-/* } */
-/* .ui-button-text-only { */
-/*      min-width: 100px; */
-/* } */
-
-/* select { */
-/*     min-width: 140px */
-/* } */
 

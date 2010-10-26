@@ -1,6 +1,10 @@
 function render_application_view(type, node, view) {
     $('#application-view').load("/execute/ajax/"+type+"/"+node+"/"+view+"/", function() {
 	$("input[type=submit], .button").button();
+	// console.log($("#application-view").parent().height());
+	$("#application-tree").height($("#application-view").parent().height()-10);
+	$("#application-tree").parent().height($("#application-view").parent().height());
+	$("#application-tree").parent().resizable( "option", "minHeight", $("#application-view").parent().height());
     });
 }
 
@@ -44,9 +48,9 @@ $(function() {
     }).bind("select_node.jstree", function (node, data) {
     	hash.object = data.rslt.obj.attr('rel');
     	hash.node = data.rslt.obj.attr("id").split("_")[0];
+	hash.views = "details";
     	hash.update();
     });
-
 
     hash._parse();
     if(!hash.object) {
@@ -59,4 +63,14 @@ $(function() {
 	}
     }
     hash.init();
+
+    $("#application-tree").parent().resizable({
+    	alsoResize: '#application-tree',
+    	resize: function(event, ui) {
+    	    percent = $(this).width()/$(this).offsetParent().width()*100;
+    	    neighbor = $('#application-view').parent();
+    	    neighbor.css("width", 100-percent+"%");
+    	},
+	maxWidth: document.width/2
+    });
 });

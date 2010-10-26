@@ -3,25 +3,24 @@
     <a href="#testrundirectory/{{ directory.pk }}/details/">details</a> |
     <a class="active" href="#testrundirectory/{{ directory.pk }}/edit/">edit</a> |
   </div>
+</div>
 
-  <div id="application-view-content">
+<div class="grid_16">
+  <div class="application-view-content">
     <h1>test run directory: {{ directory.name }}</h1>
     <div class="content">
       {{ directory_form }}
     </div>
   </div>
 
-  <div id="application-view-footer">
-    <div class="grid_6 alpha">
-      <div class="left">
-	<input type="submit" name="Executed" value="Delete" />
-      </div>
-    </div>
-    <div class="grid_6 omega">
-      <div class="right">
-	<input type="submit" name="Execute" value="Save" />
-      </div>
-    </div>
-  </div>
+</div>
 
+
+<div id="application-view-footer" class="grid_16 clearfix">
+  <div class="grid_8 left">
+    <input type="submit" name="Executed" value="Delete" />
+  </div>
+  <div class="grid_8 right">
+    <input type="submit" name="Executed" value="Save" />
+  </div>
 </div>

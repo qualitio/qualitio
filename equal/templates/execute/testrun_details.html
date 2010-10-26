@@ -1,14 +1,15 @@
-<div class="grid_12 alpha">
-
+{% load webdesign %}
+<div class="grid_16">
   <div id="application-view-menu">
-    <a class="active" href="#testrun/{{ testrun.pk }}/details">details</a> |
-    <a href="/execute/testrun/{{ testrun.pk }}/execute">execute</a> |
-    <a href="#testrun/{{ testrun.pk }}/notes">notes</a> |
-    <a href="#testrun/{{ testrun.pk }}/edit">edit</a> |
+    <a class="active" href="/execute#testrun/{{ testrun.pk }}/details">details</a> |
+    <a href="/execute#testrun/{{ testrun.pk }}/notes">notes</a> |
+    <a href="/execute#testrun/{{ testrun.pk }}/edit">edit</a> |
+    <a href="/execute#testrun/{{ testrun.pk }}/execute">execute</a> |
   </div>
+</div>
 
-  <div id="application-view-content">
-
+<div class="grid_16">
+  <div class="application-view-content">
     <h1>test run: {{ testrun.name }}</h1>
     <div class="text-bullet">directory: {{ testrun.get_path }}</div>
     <div class="text-bullet">pass rate: <i>not set</i></div>
@@ -28,7 +29,5 @@
       </tr>
       {% endfor %}
     </table>
-
   </div>
-
 </div>

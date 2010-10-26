@@ -1,10 +1,10 @@
-<div class="grid_12 alpha">
+<div class="grid_16">
   <div id="application-view-menu">
     <a class="active" href="#testrundirectory/{{ directory.pk }}/details/">details</a> |
     <a href="#testrundirectory/{{ directory.pk }}/edit/">edit</a> |
   </div>
 
-  <div id="application-view-content">
+  <div class="application-view-content">
     <h1>test run directory: {{ directory.name }}</h1>
     <div class="text-bullet">directory: {{ directory.get_path }}</div>
 
@@ -29,16 +29,5 @@
       </tr>
       {% endfor %}
     </table>
-
   </div>
-
-  <div id="application-view-footer">
-    <div class="grid_6 alpha">
-      <div class="left"></div>
-    </div>
-    <div class="grid_6 omega">
-      <div class="right"><input type="submit" name="Execute"
-      value="New testrun" /></div>
-  </div>
-
 </div>
