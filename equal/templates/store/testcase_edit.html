@@ -9,7 +9,7 @@
 </div>
 
 <div class="grid_16">
-  <div class="application-view-content">
+  <div class="application-view-content" style="min-height:450px">
     <h1>test case: {{ testcase.name }}</h1>
     <div class="grid_16 alpha omega">
       <div class="grid_8 suffix_8">
@@ -24,7 +24,7 @@
         <div>{{ testcase_form.precondition }}</div>
         <span style="color: inherit; font-size: 9px">
           <a href="#">(preview)</a>
-          <a href="#">(add new)</a>
+          <a href="#">(add step)</a>
         </span>
       </div>
       
@@ -36,51 +36,23 @@
         <h2>Step {{ forloop.counter }}</h2>
         <div class="grid_8 alpha description" style="">
           <div style="padding: 0 15px 0 0">{{ form.description }}</div>
+          <span style="color: inherit; font-size: 9px">
+            <a href="#">(preview)</a>
+            <a href="#">(add step)</a>
+            <a class="add-translation" href="#">(add translation)</a>
+            <a class="add-attachment" href="#">(add attachment)</a>
+          </span>
         </div>
         <div class="grid_8 omega excpected">
           <div style="padding: 0 0 0 5px">{{ form.expected }}</div>
+          <span style="color: inherit; font-size: 9px">
+            <a href="#">(remove)</a>
+          </span>
         </div>
       </div>
-      <span style="color: inherit; font-size: 9px">
-        <a href="#">(preview)</a>
-        <a href="#">(remove)</a>
-        <a href="#">(add new)</a>
-      </span>
       {% endfor %}
     </div>
     
-    <h2>Attachments</h2>
-    {{ attachments_form.management_form }}
-    {% for form in attachments_form.forms %}
-    {{ form.id }}
-    <div class="grid_4 alpha">
-      <div style="padding: 0 10px 0 0;">{{ form.name }}</div>
-    </div>
-    <div class="grid_4 omega suffix_8">
-      <div style="padding: 0 0 0 0px;">{{ form.attachment }}</div>
-    </div>
-    {% endfor %}
-    
-    <h2>Translations</h2>
-    <div class="grid_8 omega suffix_8">
-      {{ glossary_word_search_form }}
-    </div>
-    <div class="grid_8 omega suffix_8">
-      <table class="pretty">
-        <tr>
-          <th>name</th><th>lng</th><th>translation</th>
-        </tr>
-        <tr>
-          <td rowspan="4" style="vertical-align:top"><a class="add-translation">_open_mesagging_box_</a></td>
-          <td>en</td>
-          <td>Open Messaging Box</td>
-        </tr>
-        <tr>
-          <td>pl</td>
-          <td>Otwórz Wiadomości Przychodzące</td>
-        </tr>
-      </table>
-    </div>
   </div>
 </div>
 
@@ -93,19 +65,110 @@
   </div>
 </div>
 
+
+<div id="dialog-attachmets" title="Use attachment?">
+  <p><span class="ui-icon ui-icon-alert" style="float:left;
+	                                        margin:0 7px 20px 0;"></span>
+    List of availiable attachments for current TestCase
+  </p>
+  <table class="pretty">
+    <tr>
+      <th>name</th><th>file</th><th>created time</th>
+    </tr>
+    <tr>
+      <td><a class="add-this-attachment" href="#">xml_dump</a></td>
+      <td>xml_file.xml</td>
+      <td>{% now "jS F Y H:i" %}</td>
+    </tr>
+    <tr>
+      <td><a class="add-this-attachment" href="#">message_dump</a></td>
+      <td>messages.db</td>
+      <td>{% now "jS F Y H:i" %}</td>
+    </tr>
+  </table>
+</div>
+
+<div id="dialog-translations" title="Add translation?">
+  <p><span class="ui-icon ui-icon-alert" style="float:left;
+	                                        margin:0 7px 20px 0;">
+    </span>Search for logical strings/translations availiable attachments for project
+  </p>
+  <!-- <form action="#"> -->
+    {{ glossary_word_search_form }}
+    <input type="submit" value="Search"/>
+  <!-- </form> -->
+  <table class="pretty">
+    <tr>
+      <th>name</th><th>lng</th><th>translation</th>
+    </tr>
+    <tr>
+      <td rowspan="4" style="vertical-align:top"><a class="add-translation">_open_mesagging_box_</a></td>
+      <td>en</td>
+      <td>Open Messaging Box</td>
+    </tr>
+    <tr>
+      <td>pl</td>
+      <td>Otwórz Wiadomości Przychodzące</td>
+    </tr>
+  </table>
+</div>
+
+
 <script>
 $(function() {
 
-last_textarea = null;
-last_textarea_pointer = null;
+  last_textarea = null;
+  last_textarea_pointer = null;
 
-$('textarea').focusout( function() {
-last_textarea = this;
-});
+  $('textarea').focusout( function() {
+    last_textarea = this;
+  });
 
-$('.add-translation').click( function() {
-$(last_textarea).text($(this).text());
+  $('.add-translation').click( function() {
+    $(last_textarea).text($(this).text());
+  });
+
+  $('.add-this-attachment').click( function() {
+    $(last_textarea).text("#"+$(this).text());
+  });
+
+  $( "#dialog" ).dialog( "destroy" );
+
+  $( "#dialog-attachmets" ).dialog({
+    resizable: false,
+    autoOpen: false,
+    minHeight: 240,
+    minWidth: 800,
+    modal: true,
+    position: ['center',100],
+    buttons: { 
+      Cancel: function() {
+        $( this ).dialog( "close" )
+      }
+    }
+  });
+
+  $( "#dialog-translations" ).dialog({
+    resizable: false,
+    autoOpen: false,
+    minHeight: 240,
+    minWidth: 800,
+    modal: true,
+    position: ['center',100],
+    buttons: { 
+      Cancel: function() {
+        $( this ).dialog( "close" )
+      }
+    }
+  });
+
+  $('.add-attachment').click( function() {
+    $( "#dialog-attachmets" ).dialog('open');
+  });
+
+  $('.add-translation').click( function() {
+    $( "#dialog-translations" ).dialog('open');
+  });
+
 });
-}
-);
 </script>

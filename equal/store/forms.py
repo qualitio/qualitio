@@ -16,7 +16,7 @@ class TestCaseForm(forms.ModelForm):
         model = TestCase
 
 
-TestCaseStepFormSet = inlineformset_factory(TestCase, TestCaseStep, extra=1)
+TestCaseStepFormSet = inlineformset_factory(TestCase, TestCaseStep, extra=2)
 AttachmentFormSet = inlineformset_factory(TestCase, Attachment, extra=1)
 
 class GlossaryWord(forms.Form):

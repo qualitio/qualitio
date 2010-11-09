@@ -22,8 +22,15 @@
       
       <div class="step clearfix">
       	<h2>Step 1</h2>
-      	<div class="grid_8 alpha description">{% lorem 1 p random %}--------</div>
-	<div class="grid_8 omega excpected">{% lorem 1 p random %}</div>
+      	<div class="grid_8 alpha description">
+          {% lorem 5 w random %} <a href="{{ MEDIA_URL }}storage/xml_dump">attachment:xml_dump</a> {% lorem 3 w random %} <br/>
+          --------
+        </div>
+	<div class="grid_8 omega excpected">
+          {% lorem 10 w random %}
+          <a class="translation" href="#">__logical_string__</a>
+          {% lorem 15 w random %}
+        </div>
       </div>
       
       <div class="step clearfix">
@@ -35,3 +42,30 @@
 
   </div>
 </div>
+
+<div class="tooltip-content">
+  <table class="pretty ui-corner-all" style="margin-top: 20px">
+    <tr>
+      <th>lng</th>
+      <th>text</th>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>Open Messaging InBox</td>
+    </tr>
+    <tr>
+      <td>pl</td>
+      <td>Otwórz Wiadomości Przychodzące</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+$(function() {
+$('.translation').qtip(
+{
+content: $('.tooltip-content').html()
+});
+
+});
+</script>

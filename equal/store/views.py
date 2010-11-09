@@ -11,10 +11,16 @@ from equal.store import forms
 def index(request):
     return direct_to_template(request, 'store/base.html', {})
 
-
-def directory_details(request, directory_id):
+def directory_details(request, directory_id): 
     return direct_to_template(request, 'store/testcasedirectory_details.html',
                               {'directory' : TestCaseDirectory.objects.get(pk=directory_id)})
+
+def directory_edit(request, directory_id):
+    directory = TestCaseDirectory.objects.get(pk=directory_id)
+    testcasedirectory_form = forms.TestCaseDirectoryForm(instance=directory)
+    return direct_to_template(request, 'store/testcasedirectory_edit.html',
+                              {'directory' : directory, 
+                               'testcasedirectory_form' : testcasedirectory_form })
 
 def testcase_details(request, testcase_id):
     return direct_to_template(request, 'store/testcase_details.html',
@@ -24,16 +30,21 @@ def testcase_edit(request, testcase_id):
     testcase = TestCase.objects.get(pk=testcase_id)
     testcase_form = forms.TestCaseForm(instance=testcase)
     testcasesteps_form = forms.TestCaseStepFormSet(instance=testcase)
-    attachments_form = forms.AttachmentFormSet(instance=testcase)
     glossary_word_search_form = forms.GlossaryWord()
     return direct_to_template(
         request, 'store/testcase_edit.html',
         {'testcase' : testcase,
          'testcase_form' : testcase_form,
          'testcasesteps_form' : testcasesteps_form,
-         'attachments_form' : attachments_form,
          'glossary_word_search_form' : glossary_word_search_form, 
          })
+
+def testcase_attachments(request, testcase_id):
+    testcase = TestCase.objects.get(pk=testcase_id)
+    attachments_form = forms.AttachmentFormSet(instance=testcase)
+    return direct_to_template(request, 'store/testcase_attachments.html',
+                              {'testcase' : testcase,
+                               'attachments_form' : attachments_form})
 
 def to_tree_element(object, type):
     state = "closed" if isinstance(object, MPTTModel) else ""
