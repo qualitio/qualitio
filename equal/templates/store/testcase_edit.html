@@ -1,0 +1,111 @@
+{% load webdesign %}
+<div class="grid_16">
+  <div id="application-view-menu">
+    <a href="#testcase/{{ testcase.pk }}/details">details</a> |
+    <a class="active" href="#testcase/{{ testcase.pk }}/edit">edit</a>
+    |
+    <a href="#testcase/{{ testcase.pk }}/attachments">attachments</a> |
+  </div>
+</div>
+
+<div class="grid_16">
+  <div class="application-view-content">
+    <h1>test case: {{ testcase.name }}</h1>
+    <div class="grid_16 alpha omega">
+      <div class="grid_8 suffix_8">
+        {{ testcase_form.directory.label }}
+        <div class="text-bullet">{{ testcase_form.directory }}</div>
+        {{ testcase_form.name.label }}
+        <div class="text-bullet">{{ testcase_form.name }}</div>
+      </div>
+
+      <div class="step precondition clearfix">
+        <h2>{{ testcase_form.precondition.label }}</h2>
+        <div>{{ testcase_form.precondition }}</div>
+        <span style="color: inherit; font-size: 9px">
+          <a href="#">(preview)</a>
+          <a href="#">(add new)</a>
+        </span>
+      </div>
+      
+      {{ testcasesteps_form.management_form }}
+      
+      {% for form in testcasesteps_form.forms %}
+      {{ form.id }}
+      <div class="step clearfix">
+        <h2>Step {{ forloop.counter }}</h2>
+        <div class="grid_8 alpha description" style="">
+          <div style="padding: 0 15px 0 0">{{ form.description }}</div>
+        </div>
+        <div class="grid_8 omega excpected">
+          <div style="padding: 0 0 0 5px">{{ form.expected }}</div>
+        </div>
+      </div>
+      <span style="color: inherit; font-size: 9px">
+        <a href="#">(preview)</a>
+        <a href="#">(remove)</a>
+        <a href="#">(add new)</a>
+      </span>
+      {% endfor %}
+    </div>
+    
+    <h2>Attachments</h2>
+    {{ attachments_form.management_form }}
+    {% for form in attachments_form.forms %}
+    {{ form.id }}
+    <div class="grid_4 alpha">
+      <div style="padding: 0 10px 0 0;">{{ form.name }}</div>
+    </div>
+    <div class="grid_4 omega suffix_8">
+      <div style="padding: 0 0 0 0px;">{{ form.attachment }}</div>
+    </div>
+    {% endfor %}
+    
+    <h2>Translations</h2>
+    <div class="grid_8 omega suffix_8">
+      {{ glossary_word_search_form }}
+    </div>
+    <div class="grid_8 omega suffix_8">
+      <table class="pretty">
+        <tr>
+          <th>name</th><th>lng</th><th>translation</th>
+        </tr>
+        <tr>
+          <td rowspan="4" style="vertical-align:top"><a class="add-translation">_open_mesagging_box_</a></td>
+          <td>en</td>
+          <td>Open Messaging Box</td>
+        </tr>
+        <tr>
+          <td>pl</td>
+          <td>Otwórz Wiadomości Przychodzące</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="application-view-footer" class="grid_16 clearfix">
+  <div class="grid_8 left">
+    <input type="submit" name="Executed" value="Delete" />
+  </div>
+  <div class="grid_8 right">
+    <input type="submit" name="Executed" value="Save" />
+  </div>
+</div>
+
+<script>
+$(function() {
+
+last_textarea = null;
+last_textarea_pointer = null;
+
+$('textarea').focusout( function() {
+last_textarea = this;
+});
+
+$('.add-translation').click( function() {
+$(last_textarea).text($(this).text());
+});
+}
+);
+</script>

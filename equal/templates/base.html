@@ -1,11 +1,15 @@
+ff
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en-us" />
 
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
+
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css" media="screen, projection" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms.css" media="screen, projection" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
     {% block css-include %}{% endblock %}
 
@@ -14,32 +18,32 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jstree.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-fieldselection.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
     {% block js-include %}{% endblock %}
 
-    <title>TcStorm requirments</title>
+    <title>eQual: {% block module-title %}{% endblock %}</title>
 
   </head>
 
   <body>
-
     <div class="container_16 clearfix" >
       <div class="grid_3 suffix_8">
-	<div id="logo">
-	  eQual<span style="font-size:12px">requirements</span>
-	</div>
+        <div id="logo">
+          eQual<span style="font-size:12px; font-weight: bold">{% block module-name %}{% endblock %}</span>
+        </div>
       </div>
 
       <div class="grid_5" style="text-align:right">
-	<div id="project-menu">
-	  <a href="/require/">requirments</a> |
-	  <a href="#">store</a> |
-	  <a href="/execute/">execute</a> |
-	  <a href="/report/">report</a> |
-	  <a href="/settings/">settings</a> |
-	  <a href="/admin/">admin</a>
-	</div>
+        <div id="project-menu">
+          <a href="/require/">requirments</a> |
+          <a href="/store/">store</a> |
+          <a href="/execute/">execute</a> |
+          <a href="/report/">report</a> |
+          <a href="/settings/">settings</a> |
+          <a href="/admin/">admin</a>
+        </div>
       </div>
     </div>
 
@@ -49,7 +53,7 @@
 
     <div class="container_16 clearfix">
       <div class="grid_16">
-	<div id="footer">  </div>
+        <div id="footer">  </div>
 
       </div>
     </div>

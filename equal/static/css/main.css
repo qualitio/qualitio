@@ -1,15 +1,3 @@
-/* Reset css */
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
-    border:0 none;
-    font-family:inherit;
-    font-size: 11px;
-    font-style:inherit;
-    font-weight:inherit;
-    margin:0;
-    padding:0;
-    vertical-align:baseline;
-}
-
 /* Global css */
 body {
     font-size:12px;
@@ -99,14 +87,16 @@ body {
     padding: 10px 10px 0;
 }
 
+.application-view-content{
+    margin-bottom:50px;
+}
+
+
 .application-view-content select,
-.application-view-content input:not(.ui-button):not([type=checkbox]),
-.application-view-content textarea {
-    padding:3px 1px;
-    width: 400px;
-    font-size: 1.2em;
-    margin: 0px;
-    border: 1px solid #aaa;
+.application-view-content input:not(.ui-button):not([type=checkbox]) {
+    /* border:1px solid #CCCCCC; */
+    width: 100%;
+    font-size: 0.9em;
 }
 
 h1 {
@@ -277,6 +267,7 @@ table.filter td.add {
     /* margin:0; */
     padding: 5px;
     overflow:auto;
+    display:block;
 /* width:235px; */
 }
 
@@ -306,6 +297,26 @@ table.filter td.add {
 .text-bullet {
     margin: 3px 0px;
     font-size: 1.2em;
+}
+
+.step {
+    display:inline-block;
+    width: 99%
+}
+
+.step .excpected {
+    text-align: right;
+}
+
+.step textarea {
+    height: 70px;
+    width: 100%;
+    /* width: available; */
+    /* width: -moz-available; */
+}
+
+.precondition textarea {
+    
 }
 
 .step .description p {

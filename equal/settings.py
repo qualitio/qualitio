@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'equal.report',
     'equal.projects',
     'equal.execute',
+    'equal.store',
 
     'treebeard',
     'mptt',
