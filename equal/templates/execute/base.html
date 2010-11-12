@@ -1,28 +1,25 @@
 {% extends 'base.html' %}
 
+{% block module-name %}{% block module-title%}execute{% endblock %}{% endblock %}
+
 {% block js-include %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute.js"></script>
 {% endblock %}
 
 {% block application %}
 <div class="grid_16">
-
   <div id="application-menu" >
     <a href="/execute/">browse</a>
     <a href="/execute/filter">filter</a>
   </div>
-
 </div>
 
 <div class="container_16">
-
   <div class="grid_4">
     <div id="application-tree"></div>
   </div>
-
   <div class="grid_12">
-    <div id="application-view" class="container_16"></div>
+    <div id="application-view" class="container_16 clearfix" style="min-height: 500px"></div>
   </div>
-
 </div>
 {% endblock %}
