@@ -1,18 +1,13 @@
 function render_application_view(type, node, view) {
-    $('#application-view').load("/execute/ajax/"+type+"/"+node+"/"+view+"/", function() {
-	$("input[type=submit], .button").button();
-	// console.log($("#application-view").parent().height());
-	$("#application-tree").height($("#application-view").parent().height()-10);
-	$("#application-tree").parent().height($("#application-view").parent().height());
-	$("#application-tree").parent().resizable( "option", "minHeight", $("#application-view").parent().height());
-    });
+  $('#application-view').load("/execute/ajax/"+type+"/"+node+"/"+view+"/", post_update() );
 }
 
 hash.main = function() {
-    object_plain_id = hash.node.split("_")[0]
-    // render_application_menu(hash.object, object_plain_id, hash.view);
-    render_application_view(hash.object, object_plain_id, hash.view);
-    // render_application_tree(hash.node);
+  object_plain_id = hash.node.split("_")[0]
+  // render_application_menu(hash.object, object_plain_id, hash.view);
+  render_application_view(hash.object, object_plain_id, hash.view);
+
+  // render_application_tree(hash.node);
 
     // $('#application-view').load("/report/ajax/"+type+"/"+node+"/"+view+"/");
 }

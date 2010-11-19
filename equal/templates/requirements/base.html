@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_tree.html' %}
 
 {% block module-name %}{% block module-title%}requirements{% endblock %}{% endblock %}
 
@@ -6,20 +6,7 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}js/require.js"></script>
 {% endblock %}
 
-{% block application %}
-<div class="grid_16">
-  <div id="application-menu" >
-    <a href="/require/">browse</a>
-    <a href="/require/filter">filter</a>
-  </div>
-</div>
-
-<div class="container_16">
-  <div class="grid_4">
-    <div id="application-tree"></div>
-  </div>
-  <div class="grid_12">
-    <div id="application-view" class="container_16 clearfix" style="min-height: 500px"></div>
-  </div>
-</div>
+{% block application-menu %}
+<a href="/require/">browse</a>
+<a href="/require/filter">filter</a>
 {% endblock %}

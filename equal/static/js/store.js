@@ -1,10 +1,5 @@
 function render_application_view(type, node, view) {
-  $('#application-view').load("/store/ajax/"+type+"/"+node+"/"+view+"/", function() {
-    $("input[type=submit], .button").button();
-    $("#application-tree").height($("#application-view").parent().height()-10);
-    $("#application-tree").parent().height($("#application-view").parent().height());
-    $("#application-tree").parent().resizable( "option", "minHeight", $("#application-view").parent().height());
-  });
+  $('#application-view').load("/store/ajax/"+type+"/"+node+"/"+view+"/", post_update());
 }
 
 hash.main = function() {
