@@ -1,38 +1,40 @@
 {% load webdesign %}
 <div class="grid_16">
   <div id="application-view-menu">
-    <a class="active" href="#requirement/{{ requirement.pk }}/details">details</a> |
+    <span class="active">details</span> |
     <a href="#requirement/{{ requirement.pk }}/edit">edit</a> |
+    <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
   </div>
+</div>
 
+<div class="grid_16">
   <div class="application-view-content">
-    <h1>requirement name: {{ requirement.name }}</h1>
+    <h1>requirement: {{ requirement.name }}</h1>
     <div class="text-bullet">path: {{ requirement.get_path }}</div>
 
     <table class="pretty ui-corner-all" style="margin-top: 40px">
       {% if requirement.get_children  %}
       <tr>
-	<th>Path</th>
-	<th>Name</th>
+        <th>Path</th>
+        <th>Name</th>
       </tr>
       {% for child in requirement.get_children %}
       <tr>
-	<td><a href="#requirement/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
-	<td><a href="#requirement/{{ child.pk }}/details/">{{child.name}}</a></td>
+        <td><a href="#requirement/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
+        <td><a href="#requirement/{{ child.pk }}/details/">{{child.name}}</a></td>
       </tr>
       {% endfor %}
       {% else %}
       <tr>
-	<th style="text-align:center">No children requirements</th>
+        <th style="text-align:center">No children requirements</th>
       </tr>
       {% endif %}
     </table>
-    
   </div>
 </div>
 
 <div id="application-view-footer" class="grid_16 clearfix">
   <div class="prefix_8 grid_8 right">
-    <input type="submit" name="Executed" value="Create subrequirement" />
+    <input type="submit" name="Executed" value="Create Requirement" />
   </div>
 </div>

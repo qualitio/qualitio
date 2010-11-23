@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block js-include %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js"></script>
+{% endblock %}
+
+{% block application %}
+<div class="grid_16">
+  <div id="application-menu" >
+    {% block application-menu %}{% endblock %}
+  </div>
+</div>
+
+<div class="grid_16">
+  <div id="application-view" class="clearfix" style="padding:10px; min-height: 500px">
+    {% block application-view %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

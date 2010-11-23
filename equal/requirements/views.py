@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.utils import simplejson as json
 from django.shortcuts import render_to_response
-from django.conf import settings
 
 from equal.requirements.models import Requirement
 from equal.requirements.forms import RequirementForm
@@ -51,8 +50,10 @@ def details(request, requirement_id):
 
 def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
+    requirement_form = RequirementForm(instance=requirement)
     return render_to_response('requirements/edit.html',
-                              { 'requirement_form' : RequirementForm(instance=requirement) },
+                              { 'requirement' : requirement,
+                                'requirement_form' : requirement_form },
                               context_instance=RequestContext(request))
 
 

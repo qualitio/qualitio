@@ -1,17 +1,25 @@
-<form name="requirement" action="/ajax/valid_requirement_form/{{ requirement.id }}/" method="post">
-  <div class="grid_12 alpha">
-    <div class="content">
+<div class="grid_16">
+  <div id="application-view-menu">
+    <a href="#requirement/{{ requirement.pk }}/details/">details</a> |
+    <span class="active">edit</span> |
+    <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
+  </div>
+</div>
+
+<form action="/ajax/valid_requirement_form/{{ requirement.id }}/" method="post">
+  <div class="grid_16">
+    <div class="application-view-content">
       {% csrf_token %}
       {{ requirement_form.as_p }}
     </div>
   </div>
-
-  <div class="grid_12 alpha button-bar ui-corner-all">
-    <div class="content" style="text-align:right">
-      <input type="submit" value="save" class="ui-button ui-widget
-    					       ui-state-default
-    					       ui-corner-all ui-button-text-only"/>
-
+  
+  <div id="application-view-footer" class="grid_16 clearfix">
+    <div class="grid_8 left">
+      <input type="submit" name="Executed" value="Delete" />
+    </div>
+    <div class="grid_8 right">
+      <input type="submit" name="Executed" value="Save" />
     </div>
   </div>
 </form>

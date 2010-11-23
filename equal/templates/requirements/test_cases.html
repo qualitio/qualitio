@@ -1,36 +1,43 @@
 <script>
-
-    $(function () {
-	$("#testcase-add-view-tree").jstree({
-		"core" : { "initially_open" : [ "root" ] },
-		"html_data" : {
-		    "data" : "<li id='root'><a href='#'>Root node</a><ul><li><a href='#'>Child node</a></li></ul></li>"
-		},
-	    "plugins" : [ "themes", "html_data","checkbox" ]
-	});
-    });
-
-
+$(function () {
+  $("#testcase-add-view-tree").jstree({
+    "core" : { "initially_open" : [ "root" ] },
+    "html_data" : {
+      "data" : "<li id='root'><a href='#'>Root node</a><ul><li><a href='#'>Child node</a></li></ul></li>"
+    },
+    "plugins" : [ "themes", "html_data","checkbox" ]
+  });
+});
 </script>
 
-<div class="grid_6">
-  <div class="content">
+<div class="grid_16">
+  <div id="application-view-menu">
+    <a href="#requirement/{{ requirement.pk }}/details">details</a> |
+    <a href="#requirement/{{ requirement.pk }}/edit">edit</a> |
+    <span class="active">test cases</span> |
+  </div>
+</div>
 
-    <div style="height:665px">
-      <table class="pretty ui-corner-all">
-	<tr>
-	  <th>path</th>
-	  <th>name</th>
-	  <th>&nbsp</th>
-	</tr>
-	<tr>
-	  <td>/</td>
-	  <td>Basic Test case</td>
-	  <td style="width:0px"><input type="checkbox" /></td>
-	</tr>
-      </table>
-    </div>
+<div class="grid_16">
+  <div class="application-view-content">
+    <h1>requirement: {{ requirement.name }}</h1>
+  </div>
+</div>
 
+<div class="grid_8">
+  <div class="application-view-content">
+    <table class="pretty ui-corner-all">
+      <tr>
+	<th>path</th>
+	<th>name</th>
+	<th>remove</th>
+      </tr>
+      <tr>
+	<td>/</td>
+	<td>Basic Test case</td>
+	<td style="width:0px"><input type="checkbox" /></td>
+      </tr>
+    </table>
     <div style="text-align:right">
       <button class="ui-button ui-widget ui-state-default
     		     ui-corner-all ui-button-text-only">
@@ -41,74 +48,62 @@
   </div>
 </div>
 
-<div class="grid_6">
-  <div class="content testcase-add-view">
-
-    <div style="height:665px; text-align:center">
-
-      <table class="pretty ui-corner-all">
-	<tr>
-	  <th>path</th>
-	  <th>name</th>
-	  <th>&nbsp</th>
-	</tr>
-	<tr>
-	  <td>/</td>
-	  <td>Basic Test case</td>
-	  <td style="width:0px"><input type="checkbox" /></td>
-	</tr>
-      </table>
-
-    </div>
-
-    <div style="text-align:right">
-
-      <input type="textarea" value="test case" />
-      <button class="ui-button ui-widget ui-state-default
-		     ui-corner-all ui-button-text-only">
-	<span class="ui-button-text">Search</span>
-      </button>
-
-
-      <button class="ui-button ui-widget ui-state-default
-		     ui-corner-all ui-button-text-only">
-	<span class="ui-button-text">add</span>
-      </button>
-            <button class="ui-button ui-widget ui-state-default
-		     ui-corner-all
-		     ui-button-icon-only
-		     switch-testcase-add-view">
+<div class="grid_8">
+  <div class="application-view-content">
+    <table class="pretty ui-corner-all">
+      <tr>
+	<th>path</th>
+	<th>name</th>
+	<th>&nbsp</th>
+      </tr>
+      <tr>
+	<td>/</td>
+	<td>Basic Test case</td>
+	<td style="width:0px"><input type="checkbox" /></td>
+      </tr>
+    </table>
+  </div>
+  
+  <div style="text-align:right">
+    <input type="textarea" value="test case" />
+    <button class="ui-button ui-widget ui-state-default
+		   ui-corner-all ui-button-text-only">
+      <span class="ui-button-text">Search</span>
+    </button>
+    
+    <button class="ui-button ui-widget ui-state-default
+		   ui-corner-all ui-button-text-only">
+      <span class="ui-button-text">add</span>
+    </button>
+    <button class="ui-button ui-widget ui-state-default
+		   ui-corner-all
+		   ui-button-icon-only
+		   switch-testcase-add-view">
 	      <span class="ui-button-icon-primary ui-icon
 			   ui-icon-refresh"></span>
 	      <span class="ui-button-text">stop</span>
-	    </button>
-    </div>
+    </button>
+
+</div>
+  
+<div class="content testcase-add-view" style="display:none">
+  <div id="testcase-add-view-tree" style="height:665px;">
   </div>
 
-  <div class="content testcase-add-view" style="display:none">
+  <div style="text-align:right">
 
-    <div id="testcase-add-view-tree" style="height:665px;">
-
-    </div>
-
-    <div style="text-align:right">
-
-
-
-      <button class="ui-button ui-widget ui-state-default
-		     ui-corner-all ui-button-text-only">
-	<span class="ui-button-text">add</span>
-      </button>
-      <button class="ui-button ui-widget ui-state-default
-		     ui-corner-all
-		     ui-button-icon-only
-		     switch-testcase-add-view" >
-	<span class="ui-button-icon-primary ui-icon
-		     ui-icon-refresh"></span>
-	<span class="ui-button-text">stop</span>
-      </button>
-
-    </div>
+    <button class="ui-button ui-widget ui-state-default
+		   ui-corner-all ui-button-text-only">
+      <span class="ui-button-text">add</span>
+    </button>
+    <button class="ui-button ui-widget ui-state-default
+		   ui-corner-all
+		   ui-button-icon-only
+		   switch-testcase-add-view" >
+      <span class="ui-button-icon-primary ui-icon
+		   ui-icon-refresh"></span>
+      <span class="ui-button-text">stop</span>
+    </button>
+    
   </div>
-
 </div>

@@ -26,7 +26,7 @@ var hash = {
       hash._parse();
 
       if(hash.listen == true) {
-	hash.main();
+        hash.main();
         hash.post_main();
       }
       hash.storedHash = locStr;
@@ -63,13 +63,13 @@ var hash = {
   to_string: function() {
     return "#"+[hash.object, hash.node, hash.view].join("/");
   },
-  
+
   // Controller view. Will react on every anchor change. Implement your logic here
   main: function() {
     return alert("One function to rule them all, not implemented")
   },
-  
+
   post_main: function() {
-    return 0; 
+    return 0;
   }
 };
