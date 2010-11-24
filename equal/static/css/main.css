@@ -25,11 +25,9 @@ body {
 }
 
 #application-menu {
-    padding:0.6em 1.1em;
     line-height:1.4;
     text-align: left;
     border-bottom:2px solid #aaa;
-
     background: -webkit-gradient(
         linear,
         left bottom,
@@ -44,13 +42,45 @@ body {
     );
 }
 
-#application-menu a,
-#application-menu a:link {
-    font-size: 1.1em;
+#application-menu ul,
+#application-menu li {
+    display: inline;
+    /* margin: 5px 0; */
+}
+#application-menu li {
+    padding: 5px 0;
+    display: inline-block;
+    /* margin: 0 5px; */
+    min-width: 70px;
+    text-align: center;
+    /* border-right: 1px solid #aaa; */
+    /* border-left: 1px solid #aaa; */
+}
+#application-menu li.active {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.14, rgb(222,222,222)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(222,222,222) 14%,
+        rgb(255,255,255) 100%
+    );
+    font-size: 1.2em;
     font-weight: bold;
     color: #555;
     text-decoration: none;
-    margin: 0px 7px 0px 3px;
+}
+
+#application-menu a,
+#application-menu a:link {
+    font-size: 1.1em;
+    color: #555;
+    text-decoration: none;
+    /* margin: 0px 7px 0px 3px; */
 }
 
 #application-menu a:hover {
@@ -58,7 +88,7 @@ body {
     font-weight: bold;
     color: #777;
 }
-
+ 
 #application-view-menu {
     padding: 5px 10px;
     border-bottom: 1px solid #aaa;

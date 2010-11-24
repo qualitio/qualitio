@@ -96,9 +96,10 @@ INSTALLED_APPS = (
     'equal.execute',
     'equal.store',
 
-    'treebeard',
+    # 'treebeard', # mptt will be weapon of choice
     'mptt',
-    'debug_toolbar'
+    'debug_toolbar',
+    'ajax_validation'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -115,3 +116,5 @@ INTERNAL_IPS = ('127.0.0.1',)
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+
+MPTT_ADMIN_LEVEL_INDENT = 30

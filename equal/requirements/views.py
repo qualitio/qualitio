@@ -25,7 +25,7 @@ def to_tree_element(object):
 def get_children(request):
     node_id = int(request.GET['id'])
     if not node_id:
-        qs = Requirement.get_root_nodes()
+        qs = Requirement.tree.root_nodes()
     else:
         qs = Requirement.objects.get(pk=node_id).get_children()
 
@@ -67,7 +67,7 @@ from django.views.generic.simple import direct_to_template
 from equal.requirements.tables import RequirementsFilterTable
 
 def filter(request):
-    requirements_table = RequirementsFilterTable(Requirement.objects.select_related(depth=1).all(),
+    requirements_table = RequirementsFilterTable(Requirement.objects.select_related(),
                                                  order_by=request.GET.get('sort'))
     return direct_to_template(request, 'requirements/filter.html',
                               {'requirements_table' : requirements_table})

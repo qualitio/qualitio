@@ -3,17 +3,15 @@
 {% block module-name %}{% block module-title%}requirements{% endblock %}{% endblock %}
 
 {% block application-menu %}
-<a href="/require/">browse</a>
-<a href="/require/filter/">filter</a>
+<li><a href="/require/">browse</a></li>
+<li class="active">filter</li>
 {% endblock %}
 
 {% block application-view %}
 <table class="filter">
   <tr>
     <td class="name">name</td>
-    <td class="definition">
-      <input style="width: 100%; width: -moz-available" name="name" id="status_new"></td>
-
+    <td class="definition"><input style="width: 100%; width: -moz-available" name="name" id="status_new"></td>
     <td class="remove">
       <button class="ui-button ui-widget ui-state-default
                      ui-corner-all ui-button-icon-only" role="button"

@@ -6,11 +6,11 @@
   </div>
 </div>
 
-<form action="/ajax/valid_requirement_form/{{ requirement.id }}/" method="post">
+<form id="requirement_form" action="/require/ajax/valid_requirement_form/" method="post"> 
   <div class="grid_16">
     <div class="application-view-content">
       {% csrf_token %}
-      {{ requirement_form.as_p }}
+      {{ requirement_form }}
     </div>
   </div>
   
