@@ -6,11 +6,35 @@
   </div>
 </div>
 
-<form id="requirement_form" action="/require/ajax/valid_requirement_form/" method="post"> 
+<script type="text/javascript"> 
+  function showResponse(response, statusText, xhr, $form)  { 
+    if(!response.success) {
+      $(response.message).each(function(i, element) {
+        $("#"+element[0]+"_wrapper").addClass("ui-state-error");
+        $("#"+element[0]+"_wrapper .error").append(element[1]);
+      });
+    } else {
+      $('#application-tree').jstree('refresh',-1);
+    }
+  }
+
+$(document).ready(function() { 
+  $('#requirement_form').ajaxForm({ 
+    success: showResponse 
+  });
+}); 
+</script> 
+
+<form id="requirement_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
   <div class="grid_16">
     <div class="application-view-content">
       {% csrf_token %}
-      {{ requirement_form }}
+      {% for field in requirement_form %}
+      <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
+        {{ field.label_tag }}: <span class="error"></span>
+        {{ field }}
+      </div>
+      {% endfor %}
     </div>
   </div>
   

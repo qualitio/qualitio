@@ -2,20 +2,58 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.utils import simplejson as json
 from django.shortcuts import render_to_response
+from django.views.generic.simple import direct_to_template
 
 from equal.requirements.models import Requirement
 from equal.requirements.forms import RequirementForm
-
+from equal.requirements.tables import RequirementsFilterTable
 
 def index(request):
-    return render_to_response('requirements/base.html',
-                              context_instance=RequestContext(request))
+    return direct_to_template(request, 'requirements/base.html')
 
-def menu(request, requirement_id):
-    return render_to_response('requirements/menu.html',
+def details(request, requirement_id):
+    return direct_to_template(request, 'requirements/details.html',
+                              {'requirement' : Requirement.objects.get(pk=requirement_id)})
+
+def edit(request, requirement_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    requirement_form = RequirementForm(instance=requirement)
+    return direct_to_template(request, 'requirements/edit.html',
+                              {'requirement' : requirement,
+                               'requirement_form' : requirement_form})
+
+def json_response(x):
+    return HttpResponse(json.dumps(x, sort_keys=True, indent=2),
+                        content_type='application/json; charset=UTF-8')
+
+
+def edit_valid(request, requirement_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    requirement_form = RequirementForm(request.POST, instance=requirement)
+
+    if requirement_form.is_valid():
+        requirement_form.save()
+        return json_response({ 'success' : True,
+                               'meesage' : ['Requirment saved'] })
+    
+    return json_response({ 'success' : False,
+                           'message' : [(k, v[0]) for k, v in requirement_form.errors.items()] })
+
+def test_cases(request, requirement_id):
+    return render_to_response('requirements/test_cases.html',
                               { 'requirement' : Requirement.objects.get(pk=requirement_id) },
                               context_instance=RequestContext(request))
 
+
+def filter(request):
+    requirements_table = RequirementsFilterTable(Requirement.objects.select_related(),
+                                                 order_by=request.GET.get('sort'))
+    return direct_to_template(request, 'requirements/filter.html',
+                              {'requirements_table' : requirements_table})
+
+
+
+## move to core app, as soon as possible
 def to_tree_element(object):
     return { 'data' : object.name,
              'attr' : {'id' : object.pk},
@@ -31,43 +69,3 @@ def get_children(request):
 
     requirements_totreeel = map(lambda x: to_tree_element(x), qs)
     return HttpResponse(json.dumps(requirements_totreeel), mimetype="application/json")
-
-def valid_requirement_form(request, requirement_id):
-    requirement = Requirement.objects.get(pk=requirement_id)
-    requirement_form = RequirementForm(request.POST, instance=requirement)
-
-    if requirement_form.is_valid():
-        requirement_form.save()
-        return HttpResponse('OK')
-
-    return HttpResponse(requirement_form.errors.as_ul())
-
-
-def details(request, requirement_id):
-    return render_to_response('requirements/details.html',
-                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
-                              context_instance=RequestContext(request))
-
-def edit(request, requirement_id):
-    requirement = Requirement.objects.get(pk=requirement_id)
-    requirement_form = RequirementForm(instance=requirement)
-    return render_to_response('requirements/edit.html',
-                              { 'requirement' : requirement,
-                                'requirement_form' : requirement_form },
-                              context_instance=RequestContext(request))
-
-
-def test_cases(request, requirement_id):
-    return render_to_response('requirements/test_cases.html',
-                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
-                              context_instance=RequestContext(request))
-
-
-from django.views.generic.simple import direct_to_template
-from equal.requirements.tables import RequirementsFilterTable
-
-def filter(request):
-    requirements_table = RequirementsFilterTable(Requirement.objects.select_related(),
-                                                 order_by=request.GET.get('sort'))
-    return direct_to_template(request, 'requirements/filter.html',
-                              {'requirements_table' : requirements_table})

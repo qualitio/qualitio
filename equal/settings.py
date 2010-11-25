@@ -99,7 +99,8 @@ INSTALLED_APPS = (
     # 'treebeard', # mptt will be weapon of choice
     'mptt',
     'debug_toolbar',
-    'ajax_validation'
+    'ajax_validation',
+    'django_nose'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -118,3 +119,4 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 MPTT_ADMIN_LEVEL_INDENT = 30
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

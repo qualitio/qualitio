@@ -10,7 +10,8 @@
 <div class="grid_16">
   <div class="application-view-content">
     <h1>requirement: {{ requirement.name }}</h1>
-    <div class="text-bullet">path: {{ requirement.get_path }}</div>
+    <div class="text-bullet"><b>path:</b> {{ requirement.get_path }}</div>
+    <div class="text-bullet" style="text-align:justify"><b>description:</b><br/> {{ requirement.description|linebreaksbr  }}</div>
 
     <table class="pretty ui-corner-all" style="margin-top: 40px">
       {% if requirement.get_children  %}

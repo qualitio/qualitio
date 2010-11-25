@@ -1,14 +1,12 @@
-from django.conf.urls.defaults import *
-
-from equal.requirements.views import *
-
-urlpatterns = patterns('',
-                       url(r'^$', index),
-
-                       url(r'^ajax/get_children/$', get_children),
-                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/details/$', details),
-                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/edit/$', edit),
-                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/menu/$', menu),
-                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/testcases/$', test_cases),
-                       url(r'filter/?$', filter)
+from django.conf.urls.defaults import patterns, url
+urlpatterns = patterns('equal.requirements.views',
+                       url(r'^$', 'index'),
+                       url(r'filter/?$', filter),
+                       
+                       url(r'^ajax/get_children/$', 'get_children'),
+                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/details/$', 'details'),
+                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/edit/$', 'edit'),
+                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/edit/valid/$', 'edit_valid'),
+                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/testcases/$', 'test_cases'),
                        )
+
