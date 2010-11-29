@@ -118,12 +118,15 @@ body {
     margin-bottom:50px;
 }
 
+.application-view-content input:not(.ui-button):not([type=checkbox]),
+.application-view-content textarea {
+    width: 99%;
+    font-size: 1em;
+}
 
-.application-view-content select,
-.application-view-content input:not(.ui-button):not([type=checkbox]) {
-    /* border:1px solid #CCCCCC; */
+.application-view-content select  {
     width: 100%;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 h1 {
@@ -241,7 +244,6 @@ table a:visited {
 }
 
 label {
-    display:block;
     font-size:1.1em;
     margin-top: 5px;
 }
@@ -326,6 +328,18 @@ table.filter td.add {
 
 .step p {
     text-align:justify;
+}
+
+form .field-wrapper {
+    padding: 5px;
+    margin: 2px 0;
+}
+
+form .ui-state-error label {
+    font-weight: bold;
+}
+form .ui-state-error .error {
+    font-style: italic;
 }
 
 /* jQuery-ui fixes */
