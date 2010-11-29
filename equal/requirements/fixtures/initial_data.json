@@ -1,0 +1,16 @@
+[
+ {"pk": 1, 
+  "model": "requirements.requirement", 
+  "fields": {"rght": 4, 
+             "name": "MeeGo Netbook", 
+             "parent": null, 
+             "level": 0, 
+             "modified_time": "2010-11-25 07:24:29", 
+             "release_target": "2010-12-01", 
+             "lft": 1, 
+             "tree_id": 1, 
+             "created_time": "2010-11-24 07:00:45", 
+             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin scelerisque adipiscing neque, vitae luctus purus posuere vel. In non sapien non nisi tincidunt faucibus sit amet vitae lacus. \n\nSuspendisse ultricies tempus vestibulum. Quisque eget purus at leo posuere tincidunt. Pellentesque id nisl et massa ultricies mollis sit amet eget odio. Maecenas mattis mauris est, eu cursus libero. Nunc vel nisi ac erat auctor pulvinar non at velit. Nunc accumsan felis sed elit convallis porttitor. Vivamus nisl nibh, molestie quis dignissim a, dapibus quis eros. Sed quis dolor eu eros vulputate tincidunt nec a diam. Sed ut velit mi, et euismod sapien. "
+            }
+ }
+]
