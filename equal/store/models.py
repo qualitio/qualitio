@@ -1,5 +1,5 @@
 from django.db import models
-from equal.requirements import models as core
+from equal.core import models as core
 
 class TestCaseDirectory(core.DirectoryBaseModel):
     pass
