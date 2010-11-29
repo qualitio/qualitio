@@ -19,6 +19,9 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-fieldselection.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.qtip-1.0.min.js"></script>
+    <script>
+      DATE_FORMAT = {{ DATE_FORMAT }};
+    </script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
     {% block js-base-include %}{% endblock %}
     {% block js-include %}{% endblock %}

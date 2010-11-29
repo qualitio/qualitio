@@ -15,4 +15,8 @@ $(document).ajaxComplete(function() {
   $("#application-tree").height($("#application-view").parent().height()-10);
   $("#application-tree").parent().height($("#application-view").parent().height());
   $("#application-tree").parent().resizable( "option", "minHeight", $("#application-view").parent().height());
+  $(".date-field").datepicker({
+    showWeek: true ,
+    dateFormat: DATE_FORMAT
+  });
 });
