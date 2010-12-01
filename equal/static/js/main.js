@@ -73,3 +73,14 @@ var hash = {
     return 0;
   }
 };
+
+// Ajax global settings
+var showLoader;
+$(document).ajaxStart(function() { 
+  showLoader = setTimeout("$('#loading').show()", 100);
+});
+
+$(document).ajaxComplete(function() {
+  clearTimeout(showLoader);
+  $("#loading").hide();
+});
