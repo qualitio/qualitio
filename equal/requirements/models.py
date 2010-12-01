@@ -2,20 +2,23 @@ from django.db import models
 from equal.core import models as core
 
 
-class Requirement(core.DirectoryBaseModel):
+class Requirement(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
     release_target = models.DateField()
     
-    def __unicode__(self):
-        return 'Requirement: %s' % self.name
-
+    def add_dependency(self, requirement):
+        pass
+    
     def get_absolute_url(self):
         return "/require/" % self.id
     
     def save(self, *args, **kwargs):
         super(Requirement, self).save(*args, **kwargs)
         RequirementDependency.objects.get_or_create(root=self)
+    
+    def __unicode__(self):
+        return self.name
 
 
-class RequirementDependency(core.DirectoryBaseModel):
-    root = models.OneToOneField('Requirement')
+class RequirementDependency(core.BaseDirectoryModel):
+    dependencyroot = models.OneToOneField('Requirement', related_name="dependencyroot")
