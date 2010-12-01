@@ -1,15 +1,3 @@
-<script>
-$(function () {
-  $("#testcase-add-view-tree").jstree({
-    "core" : { "initially_open" : [ "root" ] },
-    "html_data" : {
-      "data" : "<li id='root'><a href='#'>Root node</a><ul><li><a href='#'>Child node</a></li></ul></li>"
-    },
-    "plugins" : [ "themes", "html_data","checkbox" ]
-  });
-});
-</script>
-
 <div class="grid_16">
   <div id="application-view-menu">
     <a href="#requirement/{{ requirement.pk }}/details">details</a> |
@@ -20,90 +8,84 @@ $(function () {
 
 <div class="grid_16">
   <div class="application-view-content">
-    <h1>requirement: {{ requirement.name }}</h1>
-  </div>
-</div>
-
-<div class="grid_8">
-  <div class="application-view-content">
-    <table class="pretty ui-corner-all">
-      <tr>
-	<th>path</th>
-	<th>name</th>
-	<th>remove</th>
-      </tr>
-      <tr>
-	<td>/</td>
-	<td>Basic Test case</td>
-	<td style="width:0px"><input type="checkbox" /></td>
-      </tr>
-    </table>
-    <div style="text-align:right">
-      <button class="ui-button ui-widget ui-state-default
-    		     ui-corner-all ui-button-text-only">
-    	<span class="ui-button-text">remove</span>
-      </button>
+    <h1>test cases: {{ requirement.name }}</h1>
+    <div class="prefix_8 grid_8">
+      <div class="grid_4">
+        <a href="#">Tree</a> | Search
+      </div>
+      <div class="grid_12" style="text-align:right">
+        <form class="testcase-search"  method="post" 
+              action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
+          <input style="width:33%" type="text" name="testcase" style="display:inline"/>
+          <input style="width:33%" type="text" name="testcasedirectory" style="display:inline"/>
+          <input type="submit" value="Search" />
+        </form>
+      </div>
     </div>
-
   </div>
-</div>
-
-<div class="grid_8">
-  <div class="application-view-content">
-    <table class="pretty ui-corner-all">
-      <tr>
-	<th>path</th>
-	<th>name</th>
-	<th>&nbsp</th>
-      </tr>
-      <tr>
-	<td>/</td>
-	<td>Basic Test case</td>
-	<td style="width:0px"><input type="checkbox" /></td>
-      </tr>
-    </table>
+</div> 
+ 
+<form class="testcase-connect" method="post"
+      action="/require/ajax/requirement/{{ requirement.id }}/testcases/connect/">
+  <div class="grid_16">
+    <div class="application-view-content">
+      <div class="grid_8">
+        <table class="pretty ui-corner-all">
+          <tr>
+	    <th>path</th>
+	    <th>name</th>
+	    <th>remove</th>
+          </tr>
+          {% for testcase in connected_testcases %}
+          <tr>
+	    <td>{{ testcase.path }}</td>
+	    <td>{{ testcase.name }}</td>
+            <td style="width:0px">
+              <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      
+      <div class="grid_8">
+        <table class="available-testcases pretty ui-corner-all">
+          <tr>
+	    <th>path</th>
+	    <th>name</th>
+	    <th>add</th>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
-  
-  <div style="text-align:right">
-    <input type="textarea" value="test case" />
-    <button class="ui-button ui-widget ui-state-default
-		   ui-corner-all ui-button-text-only">
-      <span class="ui-button-text">Search</span>
-    </button>
-    
-    <button class="ui-button ui-widget ui-state-default
-		   ui-corner-all ui-button-text-only">
-      <span class="ui-button-text">add</span>
-    </button>
-    <button class="ui-button ui-widget ui-state-default
-		   ui-corner-all
-		   ui-button-icon-only
-		   switch-testcase-add-view">
-	      <span class="ui-button-icon-primary ui-icon
-			   ui-icon-refresh"></span>
-	      <span class="ui-button-text">stop</span>
-    </button>
-
-</div>
-  
-<div class="content testcase-add-view" style="display:none">
-  <div id="testcase-add-view-tree" style="height:665px;">
+  <div id="application-view-footer" class="grid_16 clearfix">
+    <div class="prefix_8 grid_8 right">
+      <input type="submit" name="save" value="Save" />
+    </div>
   </div>
+</form>
 
-  <div style="text-align:right">
+<script>
+  function testcase_search_success(response, statusText, xhr, $form) {
+    $(".available-testcases tr:not(:first-child)").detach();
+    $(".available-testcases tr").after(response.message);
+  }
 
-    <button class="ui-button ui-widget ui-state-default
-		   ui-corner-all ui-button-text-only">
-      <span class="ui-button-text">add</span>
-    </button>
-    <button class="ui-button ui-widget ui-state-default
-		   ui-corner-all
-		   ui-button-icon-only
-		   switch-testcase-add-view" >
-      <span class="ui-button-icon-primary ui-icon
-		   ui-icon-refresh"></span>
-      <span class="ui-button-text">stop</span>
-    </button>
-    
-  </div>
-</div>
+  function testcase_connect_success(response, statusText, xhr, $form) {
+
+  }
+
+  $(function () {
+    $("form.testcase-search").ajaxForm({ 
+      success: testcase_search_success
+    });
+    $("form.testcase-connect").ajaxForm({ 
+      success: testcase_connect_success
+    });
+  });
+</script>
+
+<style type="text/css">
+  input:focus, input.focused { border-color: #000; color: #333; }
+</style>

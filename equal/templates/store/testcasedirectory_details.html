@@ -7,7 +7,7 @@
 
   <div class="application-view-content">
     <h1>test case directory: {{ directory.name }}</h1>
-    <div class="text-bullet">directory: {{ directory.get_path }}</div>
+    <div class="text-bullet">directory: {{ directory.path }}</div>
 
     <table class="pretty ui-corner-all" style="margin-top: 20px">
       <tr>
@@ -18,14 +18,14 @@
       {% for child in directory.get_children %}
       <tr class="directory">
 	<td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
-	<td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.get_path }}</a></td>
+	<td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
 	<td><a href="#testcasedirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
       </tr>
       {% endfor %}
       {% for child in directory.testcase_set.all %}
       <tr>
 	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-	<td class="path"><a href="#testcasedirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
+	<td class="path"><a href="#testcasedirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
       </tr>
       {% endfor %}

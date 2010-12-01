@@ -1,8 +1,12 @@
 from django.http import HttpResponse
-from django.template import RequestContext
+from django.template import RequestContext, loader
 from django.utils import simplejson as json
 from django.shortcuts import render_to_response
 from django.views.generic.simple import direct_to_template
+
+from equal.core.utils import json_response, success, failed
+
+from equal.store.models import TestCase
 
 from equal.requirements.models import Requirement
 from equal.requirements.forms import RequirementForm
@@ -11,9 +15,11 @@ from equal.requirements.tables import RequirementsFilterTable
 def index(request):
     return direct_to_template(request, 'requirements/base.html')
 
+
 def details(request, requirement_id):
     return direct_to_template(request, 'requirements/details.html',
                               {'requirement' : Requirement.objects.get(pk=requirement_id)})
+
 
 def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
@@ -22,27 +28,42 @@ def edit(request, requirement_id):
                               {'requirement' : requirement,
                                'requirement_form' : requirement_form})
 
-def json_response(x):
-    return HttpResponse(json.dumps(x, sort_keys=True, indent=2),
-                        content_type='application/json; charset=UTF-8')
-
-
+@json_response
 def edit_valid(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(request.POST, instance=requirement)
 
     if requirement_form.is_valid():
         requirement_form.save()
-        return json_response({ 'success' : True,
-                               'meesage' : ['Requirment saved'] })
+        return success(['Requirment saved'])
     
-    return json_response({ 'success' : False,
-                           'message' : [(k, v[0]) for k, v in requirement_form.errors.items()] })
+    return failed([(k, v[0]) for k, v in requirement_form.errors.items()])
 
 def test_cases(request, requirement_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    connected_testcases = requirement.testcase_set.all()
+    available_testcases = TestCase.objects.all()
     return render_to_response('requirements/test_cases.html',
-                              { 'requirement' : Requirement.objects.get(pk=requirement_id) },
+                              {'requirement' : Requirement.objects.get(pk=requirement_id),
+                               'connected_testcases' : connected_testcases,
+                               'available_testcases' : available_testcases},
                               context_instance=RequestContext(request))
+
+@json_response
+def available_testcases(request, requirement_id):
+    testcase = request.POST.get("testcase", "")
+    testcasedirectory = request.POST.get("testcasedirectory", "")
+    testcases =  TestCase.objects.filter(name__contains=testcase, path__contains=testcasedirectory)
+    if testcases:
+        return success(loader.render_to_string("requirements/__testcases_search.html", 
+                                               { "testcases" : testcases }))
+    return failed("Empty")
+
+@json_response
+def connect_testcases(request, requirement_id):
+    print request.POST.getlist("connect")
+    print request.POST.getlist("disconnect")
+    return success();
 
 
 def filter(request):
@@ -50,7 +71,6 @@ def filter(request):
                                                  order_by=request.GET.get('sort'))
     return direct_to_template(request, 'requirements/filter.html',
                               {'requirements_table' : requirements_table})
-
 
 
 ## move to core app, as soon as possible

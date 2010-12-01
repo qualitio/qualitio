@@ -28,6 +28,7 @@ $(document).ready(function() {
 <form id="requirement_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
   <div class="grid_16">
     <div class="application-view-content">
+      <h1>edit: {{ requirement.name }}</h1>
       {% csrf_token %}
       {% for field in requirement_form %}
       <div id="{{ field.html_name }}_wrapper" class="field-wrapper">

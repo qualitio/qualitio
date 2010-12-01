@@ -65,7 +65,7 @@ def get_children(request):
 
     except (ObjectDoesNotExist, ValueError):
         directories = TestCaseDirectory.tree.root_nodes()
-        files = TestCase.objects.filter(directory=None)
+        files = TestCase.objects.filter(parent=None)
     
     data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)+\
         map(lambda x: to_tree_element(x,x._meta.module_name), files)

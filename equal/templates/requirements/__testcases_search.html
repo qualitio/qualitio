@@ -1,0 +1,9 @@
+{% for testcase in testcases %}
+<tr>
+  <td>{{ testcase.path }}</td>
+  <td>{{ testcase.name }}</td>
+  <td style="width:0px">
+    <input type="checkbox" name="connect" value="{{ testcase.id }}"/>
+  </td>
+</tr>
+{% endfor %}
