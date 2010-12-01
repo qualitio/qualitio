@@ -1,22 +1,22 @@
 from django.db import models
 from equal.core import models as core
 
-class TestCaseDirectory(core.DirectoryBaseModel):
+class TestCaseDirectory(core.BaseDirectoryModel):
     pass
 
-class TestCase(core.BaseModel):
+
+class TestCase(core.BasePathModel):
     parent = models.ForeignKey('TestCaseDirectory', null=True, blank=True)
     requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
-
+    
     name = models.CharField(max_length=512)
     precondition = models.TextField(blank=True)
+    
+    def __unicode__(self):
+        return self.name
 
-    def get_path(self):
-        return "%s%s/" % (self.parent.get_path(),
-                         self.parent.name)
 
-
-class TestCaseStep(models.Model):
+class TestCaseStep(core.BaseModel):
     testcase = models.ForeignKey('TestCase')
     description = models.TextField()
     expected = models.TextField()
