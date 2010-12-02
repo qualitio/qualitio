@@ -46,8 +46,12 @@ var hash = {
   },
 
   init: function(){
-    hash.storedHash = '';
-    hash.update();
+    if (window.location.hash) {
+      hash._parse()
+      hash.update();
+    } else {
+      hash.storedHash = '';
+    }
     hash._has_changed();
   },
 
@@ -61,7 +65,7 @@ var hash = {
   },
 
   to_string: function() {
-    return "#"+[hash.object, hash.node, hash.view].join("/");
+    return "#"+[hash.object, hash.node, hash.view].join("/")+"/";
   },
 
   // Controller view. Will react on every anchor change. Implement your logic here
