@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" 
+          media="screen, projection" />
     {% block css-include %}{% endblock %}
 
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
@@ -24,7 +25,7 @@
     <script>
       DATE_FORMAT = {{ DATE_FORMAT }};
     </script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js{{ STATIC_HASH }}"></script>
     {% block js-base-include %}{% endblock %}
     {% block js-include %}{% endblock %}
     <title>eQual: {% block module-title %}{% endblock %}</title>
