@@ -29,7 +29,9 @@ $(function() {
     if (!hash.view)
       hash.view = 'details';
     hash.update();
+  }).bind("loaded.jstree", function (event, data) {
+    $("#application-tree").jstree("select_node",".jstree-last");
   });
-  
+
   hash.init();
 });
