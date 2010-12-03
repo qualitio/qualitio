@@ -68,7 +68,14 @@
 <script>
   function testcase_search_success(response, statusText, xhr, $form) {
     $(".available-testcases tr:not(:first-child)").detach();
-    $(".available-testcases tr").after(response.message);
+    $(".available-testcases tr").after(response.data);
+    if (!response.data) {
+      $('#notification').jnotifyAddMessage({
+        text: response.message,
+        permanent: false,
+        disappearTime: 2000
+      });
+    }
   }
 
   $(function () {

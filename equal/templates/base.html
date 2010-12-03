@@ -7,8 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection" />
     <!-- <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms.css" media="screen, projection" /> -->
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" 
           media="screen, projection" />
     {% block css-include %}{% endblock %}
@@ -22,6 +23,7 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.qtip-1.0.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
     <script>
       DATE_FORMAT = {{ DATE_FORMAT }};
     </script>
@@ -32,7 +34,9 @@
   </head>
   
   <body>
-    <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif">
+    <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif" />
+    <div id="notification"></div>
+      
     <div class="container_16 clearfix" >
       <div class="grid_3 suffix_8">
         <div id="logo">

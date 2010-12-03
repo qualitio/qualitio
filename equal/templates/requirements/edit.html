@@ -9,11 +9,21 @@
 <script type="text/javascript"> 
   function showResponse(response, statusText, xhr, $form)  { 
     if(!response.success) {
-      $(response.message).each(function(i, element) {
+      $(response.data).each(function(i, element) {
         $("#"+element[0]+"_wrapper").addClass("ui-state-error");
         $("#"+element[0]+"_wrapper .error").append(element[1]);
+        $('#notification').jnotifyAddMessage({
+          text: response.message,
+          permanent: false,
+          type: "error"
+        });
       });
     } else {
+      $('#notification').jnotifyAddMessage({
+        text: response.message,
+        permanent: false,
+        disappearTime: 2000
+      });
       $('#application-tree').jstree('refresh',-1);
     }
   }

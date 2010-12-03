@@ -88,3 +88,9 @@ $(document).ajaxComplete(function() {
   clearTimeout(showLoader);
   $("#loading").hide();
 });
+
+$(document).ready(function() {
+  $('#notification').jnotifyInizialize({
+    oneAtTime: true
+  });
+});

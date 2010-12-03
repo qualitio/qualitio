@@ -35,9 +35,10 @@ def edit_valid(request, requirement_id):
 
     if requirement_form.is_valid():
         requirement_form.save()
-        return success(['Requirment saved'])
+        return success(message='Requirment saved')
     
-    return failed([(k, v[0]) for k, v in requirement_form.errors.items()])
+    return failed(message="Validation errors", 
+                  data=[(k, v[0]) for k, v in requirement_form.errors.items()])
 
 def test_cases(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
@@ -55,9 +56,9 @@ def available_testcases(request, requirement_id):
     testcasedirectory = request.POST.get("testcasedirectory", "")
     testcases =  TestCase.objects.filter(name__contains=testcase, path__contains=testcasedirectory)
     if testcases:
-        return success(loader.render_to_string("requirements/__testcases_search.html", 
-                                               { "testcases" : testcases }))
-    return failed("Empty")
+        return success(data=loader.render_to_string("requirements/__testcases_search.html", 
+                                                    { "testcases" : testcases }))
+    return failed(message="No testcases found")
 
 @json_response
 def connect_testcases(request, requirement_id):
