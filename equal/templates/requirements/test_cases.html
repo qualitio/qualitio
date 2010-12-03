@@ -72,16 +72,12 @@
     $(".available-testcases tr").after(response.message);
   }
 
-  function testcase_connect_success(response, statusText, xhr, $form) {
-
-  }
-
   $(function () {
     $("form.testcase-search").ajaxForm({ 
       success: testcase_search_success
     });
     $("form.testcase-connect").ajaxForm({ 
-      success: testcase_connect_success
+      success: hash.main
     });
   });
 </script>
