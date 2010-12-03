@@ -61,8 +61,13 @@ def available_testcases(request, requirement_id):
 
 @json_response
 def connect_testcases(request, requirement_id):
-    print request.POST.getlist("connect")
-    print request.POST.getlist("disconnect")
+    requirement = Requirement.objects.get(id=requirement_id)
+    for testcase in TestCase.objects.filter(id__in=request.POST.getlist("connect")):
+        testcase.requirement = requirement
+        testcase.save()
+    for testcase in TestCase.objects.filter(id__in=request.POST.getlist("disconnect")):
+        testcase.requirement = None
+        testcase.save()
     return success();
 
 
