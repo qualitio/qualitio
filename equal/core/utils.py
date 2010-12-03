@@ -7,7 +7,6 @@ def json_response(func):
                         content_type='application/json; charset=UTF-8')
     return _jsonize
 
-
 def success(message=""): 
     return { "success" : True,
              "message" : message }
