@@ -9,18 +9,13 @@
 <div class="grid_16">
   <div class="application-view-content">
     <h1>test cases: {{ requirement.name }}</h1>
-    <div class="prefix_8 grid_8">
-      <div class="grid_4">
-        <a href="#">Tree</a> | Search
-      </div>
-      <div class="grid_12" style="text-align:right">
-        <form class="testcase-search"  method="post" 
-              action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
-          <input style="width:33%" type="text" name="testcase" style="display:inline"/>
-          <input style="width:33%" type="text" name="testcasedirectory" style="display:inline"/>
-          <input type="submit" value="Search" />
-        </form>
-      </div>
+    <div class="prefix_8 grid_8" style="text-align:right">
+      <form class="testcase-search"  method="post" 
+            action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
+        <input style="width:33%" type="text" name="testcase" style="display:inline"/>
+        <input style="width:33%" type="text" name="testcasedirectory" style="display:inline"/>
+        <input type="submit" value="Search" />
+      </form>
     </div>
   </div>
 </div> 
@@ -30,32 +25,36 @@
   <div class="grid_16">
     <div class="application-view-content">
       <div class="grid_8">
-        <table class="pretty ui-corner-all">
-          <tr>
-	    <th>path</th>
-	    <th>name</th>
-	    <th>remove</th>
-          </tr>
-          {% for testcase in connected_testcases %}
-          <tr>
-	    <td>{{ testcase.path }}</td>
-	    <td>{{ testcase.name }}</td>
-            <td style="width:0px">
-              <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
+        <div style="padding-right:2px">
+          <table class="pretty ui-corner-all">
+            <tr>
+	      <th>path</th>
+	      <th>name</th>
+	      <th>remove</th>
+            </tr>
+            {% for testcase in connected_testcases %}
+            <tr>
+	      <td>{{ testcase.path }}</td>
+	      <td>{{ testcase.name }}</td>
+              <td style="width:0px">
+                <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
       </div>
       
       <div class="grid_8">
-        <table class="available-testcases pretty ui-corner-all">
-          <tr>
-	    <th>path</th>
-	    <th>name</th>
-	    <th>add</th>
-          </tr>
-        </table>
+        <div style="padding-left:2px">
+          <table class="available-testcases pretty ui-corner-all">
+            <tr>
+	      <th>path</th>
+	      <th>name</th>
+	      <th>add</th>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>
