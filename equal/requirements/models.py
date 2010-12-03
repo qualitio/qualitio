@@ -14,7 +14,7 @@ class Requirement(core.BaseDirectoryModel):
     
     def save(self, *args, **kwargs):
         super(Requirement, self).save(*args, **kwargs)
-        RequirementDependency.objects.get_or_create(root=self)
+        RequirementDependency.objects.get_or_create(dependencyroot=self)
     
     def __unicode__(self):
         return self.name
