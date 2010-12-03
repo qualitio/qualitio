@@ -38,7 +38,7 @@ jnotify-item {
 }
 
 #notification .ui-state-highlight {
-    border-bottom: 1px solid #red;
+    border-bottom: 1px solid #ddff22;
     border-top: none;
     border-left:none;
     border-right: none;
