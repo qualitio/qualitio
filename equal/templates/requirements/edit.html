@@ -1,10 +1,13 @@
+{% block menu %}
 <div class="grid_16">
   <div id="application-view-menu">
     <a href="#requirement/{{ requirement.pk }}/details/">details</a> |
     <span class="active">edit</span> |
     <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
+    <a href="#requirement/{{ requirement.pk }}/new/">new</a> |
   </div>
 </div>
+{% endblock %}
 
 <script type="text/javascript"> 
   function showResponse(response, statusText, xhr, $form)  { 
@@ -24,6 +27,9 @@
         permanent: false,
         disappearTime: 2000
       });
+      hash.node = response.data; // for new created objects go to details view 
+      hash.view = "details" 
+      hash.update();
       $('#application-tree').jstree('refresh',-1);
     }
   }
@@ -35,10 +41,11 @@ $(document).ready(function() {
 }); 
 </script> 
 
-<form id="requirement_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
+<form id="requirement_form" 
+      action="{% block action %}/require/ajax/requirement/{{ requirement.id }}/edit/valid/{% endblock %}" method="post"> 
   <div class="grid_16">
     <div class="application-view-content">
-      <h1>edit: {{ requirement.name }}</h1>
+      <h1>{% block title %}edit: {{ requirement.name }}{% endblock %}</h1>
       {% csrf_token %}
       {% for field in requirement_form %}
       <div id="{{ field.html_name }}_wrapper" class="field-wrapper">

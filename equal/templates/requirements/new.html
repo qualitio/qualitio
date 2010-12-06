@@ -1,0 +1,15 @@
+{% extends 'requirements/edit.html'%}
+
+{% block menu %}
+<div id="application-view-menu">
+  <a href="#requirement/{{ requirement.pk }}/details/">details</a> |
+  <a href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
+  <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
+  <span class="active">new</span> |
+</div>
+{% endblock %}
+
+{% block title %}new requirement{% endblock %}
+
+{% block action %}/require/ajax/requirement/new/valid/{% endblock %}
+

@@ -4,13 +4,14 @@
     <span class="active">details</span> |
     <a href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
     <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
+    <a href="#requirement/{{ requirement.pk }}/new/">new</a> |
   </div>
 </div>
 
 <div class="grid_16">
   <div class="application-view-content">
     <h1>details: {{ requirement.name }}</h1>
-    <div class="text-bullet"><b>path:</b> {{ requirement.get_path }}</div>
+    <div class="text-bullet"><b>path:</b> {{ requirement.path }}</div>
     <div class="text-bullet" style="text-align:justify"><b>description:</b><br/> {{ requirement.description|linebreaksbr  }}</div>
     
     {% if testcases %}
@@ -33,6 +34,6 @@
 
 <div id="application-view-footer" class="grid_16 clearfix">
   <div class="prefix_8 grid_8 right">
-    <input type="submit" name="Executed" value="Create Requirement" />
+    <a href="#requirement/{{ requirement.pk }}/new/" class="button">new requirement</a>
   </div>
 </div>

@@ -31,17 +31,22 @@ def edit(request, requirement_id):
                               {'requirement' : requirement,
                                'requirement_form' : requirement_form})
 
+
 @json_response
-def edit_valid(request, requirement_id):
-    requirement = Requirement.objects.get(pk=requirement_id)
-    requirement_form = RequirementForm(request.POST, instance=requirement)
+def valid(request, requirement_id=0):
+    if requirement_id:
+        requirement = Requirement.objects.get(pk=requirement_id)
+        requirement_form = RequirementForm(request.POST, instance=requirement)
+    else:
+        requirement_form = RequirementForm(request.POST)
 
     if requirement_form.is_valid():
-        requirement_form.save()
-        return success(message='Requirment saved')
+        requirement = requirement_form.save()
+        return success(message='Requirment saved', data=requirement.id)
     
     return failed(message="Validation errors", 
                   data=[(k, v[0]) for k, v in requirement_form.errors.items()])
+
 
 def test_cases(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
@@ -53,6 +58,7 @@ def test_cases(request, requirement_id):
                                'available_testcases' : available_testcases},
                               context_instance=RequestContext(request))
 
+
 @json_response
 def available_testcases(request, requirement_id):
     testcase = request.POST.get("testcase", "")
@@ -62,6 +68,7 @@ def available_testcases(request, requirement_id):
         return success(data=loader.render_to_string("requirements/__testcases_search.html", 
                                                     { "testcases" : testcases }))
     return failed(message="No testcases found")
+
 
 @json_response
 def connect_testcases(request, requirement_id):
@@ -73,6 +80,14 @@ def connect_testcases(request, requirement_id):
         testcase.requirement = None
         testcase.save()
     return success();
+
+
+def new(request, requirement_id): 
+    requirement = Requirement.objects.get(id=requirement_id)
+    requirement_form = RequirementForm(initial={'parent': requirement})
+    return direct_to_template(request, 'requirements/new.html',
+                              { 'requirement': requirement,
+                                'requirement_form' : requirement_form})
 
 
 def filter(request):
