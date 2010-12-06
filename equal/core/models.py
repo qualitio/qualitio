@@ -8,6 +8,7 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+
 class BasePathModel(BaseModel):
     path = models.CharField(max_length=2048, blank=True)
     
@@ -20,9 +21,11 @@ class BasePathModel(BaseModel):
                               self.parent.name)
         return "/"
         
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs): # TODO: a bit risky stuff
         self.path = self._get_path()
         super(BasePathModel, self).save(*args, **kwargs)
+        for child in self.children.all(): # path update on children nodes 
+            child.save() 
 
 
 class BaseDirectoryModel(MPTTModel, BasePathModel):
