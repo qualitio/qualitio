@@ -6,5 +6,5 @@ class RequirementForm(forms.ModelForm):
     
     class Meta:
         model = Requirement
-        fields = ("name", "parent", "release_target", "description", "dependency")
+        fields = ("parent", "name", "release_target", "description", "dependency")
         widgets = {'release_target': forms.DateInput(attrs={'class':'date-field'})}
