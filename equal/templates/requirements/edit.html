@@ -1,13 +1,12 @@
-{% block menu %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a href="#requirement/{{ requirement.pk }}/details/">details</a> |
-    <span class="active">edit</span> |
-    <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
-    <a href="#requirement/{{ requirement.pk }}/new/">new</a> |
-  </div>
+<div id="application-view-header">
+  <h1>requirement: {{ requirement.name }}</h1>
 </div>
-{% endblock %}
+
+<div id="application-view-menu">
+  <a href="#requirement/{{ requirement.pk }}/details/">details</a>
+  <span class="active">edit</span>
+  <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a>
+</div>
 
 <script type="text/javascript"> 
   function showResponse(response, statusText, xhr, $form)  { 
@@ -41,27 +40,23 @@ $(document).ready(function() {
 }); 
 </script> 
 
-<form id="requirement_form" 
-      action="{% block action %}/require/ajax/requirement/{{ requirement.id }}/edit/valid/{% endblock %}" method="post"> 
-  <div class="grid_16">
-    <div class="application-view-content">
-      <h1>{% block title %}edit: {{ requirement.name }}{% endblock %}</h1>
-      {% csrf_token %}
-      {% for field in requirement_form %}
-      <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
-        {{ field.label_tag }}: <span class="error"></span>
-        {{ field }}
-      </div>
-      {% endfor %}
+<form id="requirement_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
+  <div class="application-view-content">
+    {% csrf_token %}
+    {% for field in requirement_form %}
+    <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
+      {{ field.label_tag }}: <span class="error"></span>
+      {{ field }}
     </div>
+    {% endfor %}
   </div>
-  
+
   <div id="application-view-footer" class="grid_16 clearfix">
     <div class="grid_8 left">
       <input type="submit" name="Executed" value="Delete" />
     </div>
     <div class="grid_8 right">
-      <input type="submit" name="Executed" value="Save" />
+    <input type="submit" name="Executed" value="Save" />
     </div>
   </div>
 </form>

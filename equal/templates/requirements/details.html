@@ -1,35 +1,35 @@
-{% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <span class="active">details</span> |
-    <a href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
-    <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a> |
-    <a href="#requirement/{{ requirement.pk }}/new/">new</a> |
-  </div>
+<div id="application-view-header">
+  <h1>requirement: {{ requirement.name }}</h1>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content">
-    <h1>details: {{ requirement.name }}</h1>
-    <div class="text-bullet"><b>path:</b> {{ requirement.path }}</div>
-    <div class="text-bullet" style="text-align:justify"><b>description:</b><br/> {{ requirement.description|linebreaksbr  }}</div>
-    
-    {% if testcases %}
-    <h2>connected testcases</h2>
-    <table class="pretty ui-corner-all">
-      <tr><th>Path</th><th>Name</th></tr>
-      {% for testcase in testcases %}
-      <tr>
-        <td><a href="#">{{ testcase.path }}</a></td>
-        <td><a href="#">{{ testcase.name }}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% endif %}
+<div id="application-view-menu">
+  <span class="active">details</span>
+  <a href="#requirement/{{ requirement.pk }}/edit/">edit</a>
+  <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a>
+</div>
 
-    <h2>dependencies</h2>
-    
+<div class="application-view-content">
+  <div class="text-bullet"><b>full name:</b> {{ requirement.path }}{{ requirement.name }}</div>
+  <div class="text-bullet"><b>path:</b> {{ requirement.path }}</div>
+  <div class="text-bullet" style="text-align:justify">
+    <b>description:</b><br/> {{ requirement.description|linebreaksbr  }}
   </div>
+    
+  {% if testcases %}
+  <h2>connected testcases</h2>
+  <table class="pretty ui-corner-all">
+    <tr><th>Path</th><th>Name</th></tr>
+    {% for testcase in testcases %}
+    <tr>
+      <td><a href="#">{{ testcase.path }}</a></td>
+        <td><a href="#">{{ testcase.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+  
+  <h2>dependencies</h2>
+
 </div>
 
 <div id="application-view-footer" class="grid_16 clearfix">

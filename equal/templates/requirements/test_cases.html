@@ -1,64 +1,61 @@
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a href="#requirement/{{ requirement.pk }}/details/">details</a> |
-    <a href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
-    <span class="active">test cases</span> |
-    <a href="#requirement/{{ requirement.pk }}/new/">new</a> |
-  </div>
+<div id="application-view-header">
+  <h1>requirement: {{ requirement.name }}</h1>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content">
-    <h1>test cases: {{ requirement.name }}</h1>
-    <div class="prefix_8 grid_8" style="text-align:right">
-      <form class="testcase-search"  method="post" 
-            action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
-        <input style="width:33%" type="text" name="testcase" style="display:inline"/>
-        <input style="width:33%" type="text" name="testcasedirectory" style="display:inline"/>
-        <input type="submit" value="Search" />
-      </form>
-    </div>
+<div id="application-view-menu">
+  <a href="#requirement/{{ requirement.pk }}/details/">details</a>
+  <a href="#requirement/{{ requirement.pk }}/edit/">edit</a>
+  <span class="active">test cases</span>
+</div>
+
+<div class="application-view-content">
+  <div class="prefix_8 grid_8" style="text-align:right">
+    <form class="testcase-search"  method="post" 
+          action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
+      <input style="width:33%" type="text" name="testcase" style="display:inline"/>
+      <input style="width:33%" type="text" name="testcasedirectory" style="display:inline"/>
+      <input type="submit" value="Search" />
+    </form>
   </div>
 </div> 
  
 <form class="testcase-connect" method="post"
       action="/require/ajax/requirement/{{ requirement.id }}/testcases/connect/">
-  <div class="grid_16">
-    <div class="application-view-content">
-      <div class="grid_8">
-        <div style="padding-right:2px">
-          <table class="pretty ui-corner-all">
-            <tr>
-	      <th>path</th>
-	      <th>name</th>
-	      <th>remove</th>
-            </tr>
-            {% for testcase in connected_testcases %}
-            <tr>
-	      <td>{{ testcase.path }}</td>
-	      <td>{{ testcase.name }}</td>
-              <td style="width:0px">
-                <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
-              </td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
+  <div class="application-view-content">
+    <div class="grid_8">
+      <div style="padding-right:2px">
+        <table class="pretty ui-corner-all">
+          <tr>
+	    <th>path</th>
+	    <th>name</th>
+	    <th>remove</th>
+          </tr>
+          {% for testcase in connected_testcases %}
+          <tr>
+	    <td>{{ testcase.path }}</td>
+	    <td>{{ testcase.name }}</td>
+            <td style="width:0px">
+              <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
       </div>
-      
-      <div class="grid_8">
-        <div style="padding-left:2px">
-          <table class="available-testcases pretty ui-corner-all">
-            <tr>
-	      <th>path</th>
-	      <th>name</th>
-	      <th>add</th>
-            </tr>
-          </table>
-        </div>
+    </div>
+    
+    <div class="grid_8">
+      <div style="padding-left:2px">
+        <table class="available-testcases pretty ui-corner-all">
+          <tr>
+	    <th>path</th>
+	    <th>name</th>
+	    <th>add</th>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
+  
   <div id="application-view-footer" class="grid_16 clearfix">
     <div class="prefix_8 grid_8 right">
       <input type="submit" name="save" value="Save" />

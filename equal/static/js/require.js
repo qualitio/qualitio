@@ -26,7 +26,7 @@ $(function() {
     $("#application-tree").jstree("open_node","li#"+data.rslt.obj.attr("id"));
     hash.object = 'requirement';
     hash.node = data.rslt.obj.attr('id');
-    if (!hash.view)
+    if (!hash.view || hash.view == 'new')
       hash.view = 'details';
     hash.update();
   }).bind("loaded.jstree", function (event, data) {
