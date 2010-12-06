@@ -13,25 +13,18 @@
     <div class="text-bullet"><b>path:</b> {{ requirement.get_path }}</div>
     <div class="text-bullet" style="text-align:justify"><b>description:</b><br/> {{ requirement.description|linebreaksbr  }}</div>
     
-    <h2>connected test cases</h2>
+    {% if testcases %}
+    <h2>connected testcases</h2>
     <table class="pretty ui-corner-all">
-      {% if requirement.get_children  %}
+      <tr><th>Path</th><th>Name</th></tr>
+      {% for testcase in testcases %}
       <tr>
-        <th>Path</th>
-        <th>Name</th>
-      </tr>
-      {% for child in requirement.get_children %}
-      <tr>
-        <td><a href="#requirement/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
-        <td><a href="#requirement/{{ child.pk }}/details/">{{child.name}}</a></td>
+        <td><a href="#">{{ testcase.path }}</a></td>
+        <td><a href="#">{{ testcase.name }}</a></td>
       </tr>
       {% endfor %}
-      {% else %}
-      <tr>
-        <th style="text-align:center">No children requirements</th>
-      </tr>
-      {% endif %}
     </table>
+    {% endif %}
 
     <h2>dependencies</h2>
     

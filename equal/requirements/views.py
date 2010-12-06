@@ -17,8 +17,11 @@ def index(request):
 
 
 def details(request, requirement_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    testcases = requirement.testcase_set.all()
     return direct_to_template(request, 'requirements/details.html',
-                              {'requirement' : Requirement.objects.get(pk=requirement_id)})
+                              {'requirement' : requirement ,
+                               'testcases' : testcases })
 
 
 def edit(request, requirement_id):
