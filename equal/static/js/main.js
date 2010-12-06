@@ -81,7 +81,7 @@ var hash = {
 // Ajax global settings
 var showLoader;
 $(document).ajaxStart(function() { 
-  showLoader = setTimeout("$('#loading').show()", 100);
+  showLoader = setTimeout("$('#loading').show()", 200);
 });
 
 $(document).ajaxComplete(function() {
