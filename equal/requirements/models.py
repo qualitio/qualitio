@@ -17,8 +17,7 @@ class Requirement(core.BaseDirectoryModel):
         RequirementDependency.objects.get_or_create(dependencyroot=self)
     
     def __unicode__(self):
-        return self.name
-
+        return "%s%s" % (self.path, self.name)
 
 class RequirementDependency(core.BaseDirectoryModel):
     dependencyroot = models.OneToOneField('Requirement', related_name="dependencyroot")
