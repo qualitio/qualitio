@@ -100,9 +100,10 @@ def filter(request):
 
 
 ## move to core app, as soon as possible
-def to_tree_element(object):
+def to_tree_element(object, type):
     return { 'data' : object.name,
-             'attr' : {'id' : object.pk},
+             'attr' : {'id' : object.pk, 
+                       'rel': type},
              'state' : 'closed',
              'children' : [] }
 
@@ -113,5 +114,5 @@ def get_children(request):
     else:
         qs = Requirement.objects.get(pk=node_id).get_children()
 
-    requirements_totreeel = map(lambda x: to_tree_element(x), qs)
+    requirements_totreeel = map(lambda x: to_tree_element(x, x._meta.module_name), qs)
     return HttpResponse(json.dumps(requirements_totreeel), mimetype="application/json")
