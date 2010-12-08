@@ -42,7 +42,9 @@ def valid(request, requirement_id=0):
 
     if requirement_form.is_valid():
         requirement = requirement_form.save()
-        return success(message='Requirment saved', data=requirement.id)
+        return success(message='Requirment saved', 
+                       data={ "parent_id" : requirement.parent.id, 
+                              "current_id" : requirement.id })
     
     return failed(message="Validation errors", 
                   data=[(k, v[0]) for k, v in requirement_form.errors.items()])
