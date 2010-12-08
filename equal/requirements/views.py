@@ -67,7 +67,7 @@ def available_testcases(request, requirement_id):
     testcasedirectory = request.POST.get("testcasedirectory", "")
     testcases =  TestCase.objects.filter(name__contains=testcase, path__contains=testcasedirectory)
     if testcases:
-        return success(data=loader.render_to_string("requirements/__testcases_search.html", 
+        return success(data=loader.render_to_string("requirements/_available_testcases.html", 
                                                     { "testcases" : testcases }))
     return failed(message="No testcases found")
 
