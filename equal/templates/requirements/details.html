@@ -14,7 +14,21 @@
   <div class="text-bullet" style="text-align:justify">
     <b>description:</b><br/> {{ requirement.description|linebreaksbr  }}
   </div>
-    
+  
+  {% if requirement.children.all %} 
+  <h2>sub-requirements</h2>
+  <table class="pretty ui-corner-all">
+    <tr><th class="icon">&nbsp;</th><th>Path</th><th>Name</th></tr>
+    {% for child in requirement.children.all %}
+    <tr>
+      <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+      <td><a href="#requirement/{{ child.id }}/details/">{{ child.path }}</a></td>
+      <td><a href="#requirement/{{ child.id }}/details/">{{ child.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+
   {% if testcases %}
   <h2>connected testcases</h2>
   <table class="pretty ui-corner-all">
@@ -27,8 +41,6 @@
     {% endfor %}
   </table>
   {% endif %}
-  
-  <h2>dependencies</h2>
 
 </div>
 
