@@ -21,17 +21,21 @@
  
 <form class="testcase-connect" method="post"
       action="/require/ajax/requirement/{{ requirement.id }}/testcases/connect/">
-  <div class="application-view-content">
+  <div class="application-view-content clearfix">
     <div class="grid_8">
       <div style="padding-right:2px">
         <table class="pretty ui-corner-all">
           <tr>
-	    <th>path</th>
-	    <th>name</th>
-	    <th>remove</th>
+            <th class="icon">&nbsp;</th>
+            <th class="id">id</th>
+            <th>path</th>
+            <th>name</th>
+            <th>remove</th>
           </tr>
           {% for testcase in connected_testcases %}
           <tr>
+            <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
+            <td>#{{ testcase.pk }}</td>
 	    <td>{{ testcase.path }}</td>
 	    <td>{{ testcase.name }}</td>
             <td style="width:0px">

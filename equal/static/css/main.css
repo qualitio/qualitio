@@ -193,7 +193,6 @@ h2 {
     padding: 3px 0;
     border-top: 1px solid #aaa;
     margin-top: 20px;
-    position:absolute;
     bottom: 0;
 }
 #application-view-footer .left input {
@@ -244,7 +243,10 @@ table.pretty {
     border-collapse: collapse;
 }
 table.pretty .icon {
-    width: 16px;
+    width: 20px;
+}
+table.pretty .id {
+    width: 15px;
 }
 table.pretty .path {
     width:45%;
