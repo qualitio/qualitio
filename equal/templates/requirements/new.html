@@ -24,11 +24,13 @@
         permanent: false,
         disappearTime: 2000
       });
-
-      hash.node = response.data; 
+      
+      hash.node = response.data.parent_id; // TODO: should be current_id
       hash.view = "details" 
       hash.update();
-      $('#application-tree').jstree('refresh',-1);
+      
+      jQuery.jstree._reference("#application-tree")
+        .refresh(response.data.parent_id);
     }
   }
 
