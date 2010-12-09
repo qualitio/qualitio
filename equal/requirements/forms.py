@@ -2,8 +2,6 @@ from django import forms
 from equal.requirements.models import Requirement
 
 class RequirementForm(forms.ModelForm):
-    dependencies = forms.ModelMultipleChoiceField(Requirement)
-
     class Meta:
         model = Requirement
         fields = ("parent", "name", "release_target", "description", "dependencies" )
