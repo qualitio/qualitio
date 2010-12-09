@@ -1,5 +1,4 @@
-.jnotify-item
-{
+.jnotify-item {
     height: auto;
     padding: 4px 4px 4px 4px;
     margin: 0 0 5px 0;
@@ -7,8 +6,7 @@
     position: relative;
 }
 
-.jnotify-item-close
-{
+.jnotify-item-close {
     float: right;
     margin-left: 2px;
 }
@@ -28,6 +26,7 @@ jnotify-item {
     -moz-opacity:0.9;
     -khtml-opacity: 0.9;
     opacity: 0.9;
+    display: none;
 }
  
 #notification .ui-state-error {
