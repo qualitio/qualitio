@@ -18,25 +18,58 @@
   {% if requirement.children.all %} 
   <h2>sub-requirements</h2>
   <table class="pretty ui-corner-all">
-    <tr><th class="icon">&nbsp;</th><th>Path</th><th>Name</th></tr>
+    <tr>
+      <th class="icon">&nbsp;</th>
+      <th class="id">id</th>
+      <th class="path">path</th>
+      <th>name</th>
+    </tr>
     {% for child in requirement.children.all %}
     <tr>
       <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+      <td><a href="#requirement/{{ child.id }}/details/">{{ child.id }}</a></td>
       <td><a href="#requirement/{{ child.id }}/details/">{{ child.path }}</a></td>
       <td><a href="#requirement/{{ child.id }}/details/">{{ child.name }}</a></td>
     </tr>
     {% endfor %}
   </table>
   {% endif %}
+  
+  {% if requirement.dependencies.all %} 
+  <h2>dependencies</h2>
+  <table class="pretty ui-corner-all">
+    <tr>
+      <th class="icon">&nbsp;</th>
+      <th class="id">id</th>
+      <th class="path">path</th>
+      <th>name</th>
+    </tr>
+    {% for requirement in requirement.dependencies.all %}
+    <tr>
+      <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+      <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
+      <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
+      <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
 
   {% if testcases %}
-  <h2>connected testcases</h2>
+  <h2>testcases</h2>
   <table class="pretty ui-corner-all">
-    <tr><th>Path</th><th>Name</th></tr>
+    <tr>
+      <th class="icon">&nbsp;</th>
+      <th class="id">id</th>
+      <th class="path">path</th>
+      <th>name</th>
+    </tr>
     {% for testcase in testcases %}
     <tr>
+      <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>      
+      <td><a href="#">{{ testcase.id }}</a></td>
       <td><a href="#">{{ testcase.path }}</a></td>
-        <td><a href="#">{{ testcase.name }}</a></td>
+      <td><a href="#">{{ testcase.name }}</a></td>
     </tr>
     {% endfor %}
   </table>

@@ -28,9 +28,9 @@
           <tr>
             <th class="icon">&nbsp;</th>
             <th class="id">id</th>
-            <th>path</th>
+            <th class="path">path</th>
             <th>name</th>
-            <th>remove</th>
+            <th class="checkbox">del</th>
           </tr>
           {% for testcase in connected_testcases %}
           <tr>
@@ -38,7 +38,7 @@
             <td>#{{ testcase.pk }}</td>
 	    <td>{{ testcase.path }}</td>
 	    <td>{{ testcase.name }}</td>
-            <td style="width:0px">
+            <td class="checkbox">
               <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
             </td>
           </tr>
