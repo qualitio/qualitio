@@ -3,7 +3,8 @@ function set_buttonbar_position() {
     of: "#application-view",
     my: "center bottom",
     at: "center bottom",
-    offset: "0 0"
+    offset: "0 0",
+    collision: "none none"
   });
 }
 
