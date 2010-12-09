@@ -5,6 +5,7 @@ from equal.core import models as core
 class Requirement(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
     release_target = models.DateField()
+    dependencies = models.ManyToManyField("Requirement")
     
     def add_dependency(self, requirement):
         pass
@@ -21,3 +22,6 @@ class Requirement(core.BaseDirectoryModel):
 
 class RequirementDependency(core.BaseDirectoryModel):
     dependencyroot = models.OneToOneField('Requirement', related_name="dependencyroot")
+    
+    def __unicode__(self):
+        return self.dependencyroot.name
