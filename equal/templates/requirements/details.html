@@ -55,6 +55,26 @@
   </table>
   {% endif %}
 
+  {% if requirement.blocks.all %} 
+  <h2>blocks</h2>
+  <table class="pretty ui-corner-all">
+    <tr>
+      <th class="icon">&nbsp;</th>
+      <th class="id">id</th>
+      <th class="path">path</th>
+      <th>name</th>
+    </tr>
+    {% for requirement in requirement.blocks.all %}
+    <tr>
+      <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+      <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
+      <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
+      <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+
   {% if testcases %}
   <h2>testcases</h2>
   <table class="pretty ui-corner-all">
