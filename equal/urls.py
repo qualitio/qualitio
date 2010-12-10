@@ -15,6 +15,10 @@ urlpatterns = patterns('',
                        (r'^admin/', include(admin.site.urls)),
                        )
 
+urlpatterns += patterns('django.views.generic.simple',
+                        ('^$', 'redirect_to', {'url': 'require/'}),
+                        )
+
 if settings.DEBUG:
     urlpatterns += patterns('',
                             (r'^static/(?P<path>.*)$', 'django.views.static.serve',
