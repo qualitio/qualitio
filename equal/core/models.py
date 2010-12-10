@@ -24,8 +24,9 @@ class BasePathModel(BaseModel):
     def save(self, *args, **kwargs): # TODO: a bit risky stuff
         self.path = self._get_path()
         super(BasePathModel, self).save(*args, **kwargs)
-        for child in self.children.all(): # path update on children nodes 
-            child.save() 
+        if hasattr(self, "children"): #TODO: change abstration model
+            for child in self.children.all(): # path update on children nodes 
+                child.save() 
 
 
 class BaseDirectoryModel(MPTTModel, BasePathModel):
