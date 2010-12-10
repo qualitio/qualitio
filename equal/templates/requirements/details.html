@@ -15,55 +15,6 @@
     <b>description:</b><br/> {{ requirement.description|linebreaksbr  }}
   </div>
   
-    
-  <div class="grid_8">
-    <h2>depends</h2>
-    {% if requirement.dependencies.all %} 
-    <table class="pretty ui-corner-all">
-      <tr>
-        <th class="icon">&nbsp;</th>
-        <th class="id">id</th>
-        <th class="path">path</th>
-        <th>name</th>
-      </tr>
-      {% for requirement in requirement.dependencies.all %}
-      <tr>
-        <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
-        <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-        <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
-        <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <span style="font-style:italic">none</span>
-    {% endif %}
-  </div>
-
-  <div class="grid_8">
-    <h2>blocks</h2>
-    {% if requirement.blocks.all %} 
-    <table class="pretty ui-corner-all">
-      <tr>
-        <th class="icon">&nbsp;</th>
-        <th class="id">id</th>
-        <th class="path">path</th>
-        <th>name</th>
-      </tr>
-      {% for requirement in requirement.blocks.all %}
-      <tr>
-        <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
-        <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-        <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
-        <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <span style="font-style:italic">none</span>
-    {% endif %}
-  </div>
-  
   <h2>sub-requirements</h2>
   {% if requirement.children.all %} 
   <table class="pretty ui-corner-all">
@@ -107,6 +58,56 @@
   {% else %}
   <span style="font-style:italic">none</span>
   {% endif %}
+
+  <div class="grid_16 clearfix">
+    <div class="grid_8">
+      <h2>depends</h2>
+      {% if requirement.dependencies.all %} 
+      <table class="pretty ui-corner-all">
+        <tr>
+          <th class="icon">&nbsp;</th>
+          <th class="id">id</th>
+          <th class="path">path</th>
+          <th>name</th>
+        </tr>
+        {% for requirement in requirement.dependencies.all %}
+        <tr>
+          <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
+          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
+          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <span style="font-style:italic">none</span>
+      {% endif %}
+    </div>
+
+    <div class="grid_8">
+      <h2>blocks</h2>
+      {% if requirement.blocks.all %} 
+      <table class="pretty ui-corner-all">
+        <tr>
+          <th class="icon">&nbsp;</th>
+          <th class="id">id</th>
+          <th class="path">path</th>
+          <th>name</th>
+        </tr>
+        {% for requirement in requirement.blocks.all %}
+        <tr>
+          <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
+          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
+          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <span style="font-style:italic">none</span>
+      {% endif %}
+    </div>
+  </div>
 
 </div>
 
