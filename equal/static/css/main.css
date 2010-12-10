@@ -383,6 +383,13 @@ form .ui-state-error .error {
     font-style: italic;
 }
 
+.testcase-search #id_search {
+    width: 85%;
+}
+.testcase-search input[type=submit] {
+    width:14%;
+}
+
 /* jQuery-ui fixes */
 .ui-button {
     font-size:0.9em;

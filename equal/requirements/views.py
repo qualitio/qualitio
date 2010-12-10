@@ -3,13 +3,13 @@ from django.template import RequestContext, loader
 from django.utils import simplejson as json
 from django.shortcuts import render_to_response
 from django.views.generic.simple import direct_to_template
-
+from django.db.models import Q
 from equal.core.utils import json_response, success, failed
 
 from equal.store.models import TestCase
 
 from equal.requirements.models import Requirement
-from equal.requirements.forms import RequirementForm
+from equal.requirements.forms import RequirementForm, SearchTestcasesForm
 from equal.requirements.tables import RequirementsFilterTable
 
 def index(request):
@@ -57,20 +57,24 @@ def test_cases(request, requirement_id):
     return render_to_response('requirements/test_cases.html',
                               {'requirement' : Requirement.objects.get(pk=requirement_id),
                                'connected_testcases' : connected_testcases,
-                               'available_testcases' : available_testcases},
+                               'available_testcases' : available_testcases,
+                               'search_testcases_form' : SearchTestcasesForm()},
                               context_instance=RequestContext(request))
-
 
 @json_response
 def available_testcases(request, requirement_id):
-    testcase = request.POST.get("testcase", "")
-    testcasedirectory = request.POST.get("testcasedirectory", "")
-    testcases =  TestCase.objects.filter(name__contains=testcase, path__contains=testcasedirectory)
-    if testcases:
-        return success(data=loader.render_to_string("requirements/_available_testcases.html", 
-                                                    { "testcases" : testcases }))
-    return failed(message="No testcases found")
+    search_testcases_form = SearchTestcasesForm(request.POST)
+    if search_testcases_form.is_valid():
+        search = request.POST["search"]
+        testcases =  TestCase.objects.filter(Q(name__contains=search) | Q(path__contains=search))
+        if testcases:
+            return success(message="%s testcases found" % testcases.count(),
+                           data=loader.render_to_string("requirements/_available_testcases.html", 
+                                                        { "testcases" : testcases }))
+        return success(message="No testcases found")
 
+    return failed(message="Validation errors",
+                  data=[(k, v[0]) for k, v in search_testcases_form.errors.items()])
 
 @json_response
 def connect_testcases(request, requirement_id):
@@ -82,7 +86,6 @@ def connect_testcases(request, requirement_id):
         testcase.requirement = None
         testcase.save()
     return success();
-
 
 def new(request, requirement_id): 
     requirement = Requirement.objects.get(id=requirement_id)

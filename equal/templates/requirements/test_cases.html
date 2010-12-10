@@ -12,9 +12,11 @@
   <div class="prefix_8 grid_8" style="text-align:right">
     <form class="testcase-search"  method="post" 
           action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
-      <input style="width:33%" type="text" name="testcase" style="display:inline"/>
-      <input style="width:33%" type="text" name="testcasedirectory" style="display:inline"/>
-      <input type="submit" value="Search" />
+      {% csrf_token %}
+      <div id="{{ search_testcases_form.search.html_name }}_wrapper" class="field-wrapper">
+        {{ search_testcases_form.search }}
+        <input id="id_search_submit" type="submit" value="Search" />
+      </div>
     </form>
   </div>
 </div> 
@@ -69,13 +71,23 @@
 
 <script>
   function testcase_search_success(response, statusText, xhr, $form) {
-    $(".available-testcases tr:not(:first-child)").detach();
-    $(".available-testcases tr").after(response.data);
-    if (!response.data) {
+    if(response.success) {
+      $('.field-wrapper').removeClass("ui-state-error");
+      $(".available-testcases tr:not(:first-child)").detach();
+      $(".available-testcases tr").after(response.data);
       $('#notification').jnotifyAddMessage({
         text: response.message,
         permanent: false,
         disappearTime: 2000
+      });
+    } else {
+      $(response.data).each(function(i, element) {
+        $("#"+element[0]+"_wrapper").addClass("ui-state-error");
+        $('#notification').jnotifyAddMessage({
+          text: element[1],
+          permanent: false,
+          type: "error"
+        });
       });
     }
   }

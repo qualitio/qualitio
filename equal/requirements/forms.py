@@ -16,4 +16,5 @@ class RequirementForm(forms.ModelForm):
         widgets = {"release_target": forms.DateInput(attrs={"class":"date-field"})}
 
 
-
+class SearchTestcasesForm(forms.Form):
+    search = forms.CharField(required=True)
