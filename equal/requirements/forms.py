@@ -17,4 +17,4 @@ class RequirementForm(forms.ModelForm):
 
 
 class SearchTestcasesForm(forms.Form):
-    search = forms.CharField(required=True)
+    search = forms.CharField(required=True, min_length = 3)

@@ -71,9 +71,9 @@ def available_testcases(request, requirement_id):
             return success(message="%s testcases found" % testcases.count(),
                            data=loader.render_to_string("requirements/_available_testcases.html", 
                                                         { "testcases" : testcases }))
-        return success(message="No testcases found")
+        return success(message="no testcases found")
 
-    return failed(message="Validation errors",
+    return failed(message="validation errors",
                   data=[(k, v[0]) for k, v in search_testcases_form.errors.items()])
 
 @json_response
