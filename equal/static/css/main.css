@@ -390,6 +390,10 @@ form .ui-state-error .error {
     width:14%;
 }
 
+.available-testcases tr.disabled td {
+    color:#555555;
+}
+
 /* jQuery-ui fixes */
 .ui-button {
     font-size:0.9em;

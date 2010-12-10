@@ -1,9 +1,15 @@
 {% for testcase in testcases %}
-<tr>
-  <td>{{ testcase.path }}</td>
+<tr class="{% if testcase.requirement %}disabled{% endif %}">
+  <td>
+    {{ testcase.path }}
+    {% if testcase.requirement %}
+    <a href="/require/#requirement/{{ testcase.requirement.pk }}/details/">
+      #{{ testcase.requirement.pk }}</a>
+    {% endif %}
+  </td>
   <td>{{ testcase.name }}</td>
   <td style="width:0px">
-    <input type="checkbox" name="connect" value="{{ testcase.id }}"/>
+    <input type="checkbox" name="connect" {% if testcase.requirement %}disabled=disabled{% endif %} value="{{ testcase.id }}"/>
   </td>
 </tr>
 {% endfor %}
