@@ -1,34 +1,37 @@
-{% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a class="active" href="#testcasedirectory/{{ directory.pk }}/details/">details</a> |
-    <a href="#testcasedirectory/{{ directory.pk }}/edit/">edit</a> |
-  </div>
+<div id="application-view-header">
+  <h1>test case directory: {{ directory.name }}</h1>
+</div>
 
-  <div class="application-view-content">
-    <h1>test case directory: {{ directory.name }}</h1>
-    <div class="text-bullet">directory: {{ directory.path }}</div>
+<div id="application-view-menu">
+  <span class="active">details</span>
+  <a href="#testcasedirectory/{{ directory.pk }}/edit/">edit</a>
+</div>
 
-    <table class="pretty ui-corner-all" style="margin-top: 20px">
-      <tr>
-	<th></th>
-	<th>Path</th>
-	<th>Name</th>
-      </tr>
-      {% for child in directory.get_children %}
-      <tr class="directory">
-	<td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
-	<td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
-	<td><a href="#testcasedirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-      {% for child in directory.testcase_set.all %}
-      <tr>
-	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-	<td class="path"><a href="#testcasedirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
-      <td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
+<div class="application-view-content">
+  <div class="text-bullet">directory: {{ directory.path }}</div>
+  
+  <table class="pretty ui-corner-all" style="margin-top: 20px">
+    <tr>
+      <th class="icon"></th>
+      <th>Path</th>
+      <th>Name</th>
+      <th>Requirement</th>
+    </tr>
+    {% for child in directory.get_children %}
+    <tr class="directory">
+      <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
+      <td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
+      <td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td>&nbsp;</td>
+    </tr>
+    {% endfor %}
+    {% for child in directory.testcase_set.all %}
+    <tr>
+      <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
+      <td class="path"><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
+      <td><a href="#testcase/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td><a href="/require/#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
 </div>

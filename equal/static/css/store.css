@@ -1,0 +1,15 @@
+.step {
+    margin:5px 0;
+}
+
+.step textarea {
+    height: 70px;
+    overflow: auto;
+}
+
+.step .description {
+    
+}
+.step .expected {
+    
+}

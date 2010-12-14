@@ -1,59 +1,45 @@
 {% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a href="#testcase/{{ testcase.pk }}/details">details</a> |
-    <a class="active" href="#testcase/{{ testcase.pk }}/edit">edit</a>
-    |
-    <a href="#testcase/{{ testcase.pk }}/attachments">attachments</a> |
-  </div>
+<div id="application-view-header">
+  <h1>test case: {{ testcase.name }}</h1>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content" style="min-height:450px">
-    <h1>test case: {{ testcase.name }}</h1>
-    <div class="grid_16 alpha omega">
-      <div class="grid_8 suffix_8">
-        {{ testcase_form.directory.label }}
-        <div class="text-bullet">{{ testcase_form.directory }}</div>
-        {{ testcase_form.name.label }}
-        <div class="text-bullet">{{ testcase_form.name }}</div>
-      </div>
+<div id="application-view-menu">
+  <a href="#testcase/{{ testcase.pk }}/details/">details</a>
+  <span class="active">edit</span>
+  <a href="#testcase/{{ testcase.pk }}/attachments/">attachments</a>
+</div>
 
-      <div class="step precondition clearfix">
-        <h2>{{ testcase_form.precondition.label }}</h2>
-        <div>{{ testcase_form.precondition }}</div>
-        <span style="color: inherit; font-size: 9px">
-          <a href="#">(preview)</a>
-          <a href="#">(add step)</a>
-        </span>
-      </div>
-      
-      {{ testcasesteps_form.management_form }}
-      
-      {% for form in testcasesteps_form.forms %}
-      {{ form.id }}
-      <div class="step clearfix">
-        <h2>Step {{ forloop.counter }}</h2>
-        <div class="grid_8 alpha description" style="">
-          <div style="padding: 0 15px 0 0">{{ form.description }}</div>
-          <span style="color: inherit; font-size: 9px">
-            <a href="#">(preview)</a>
-            <a href="#">(add step)</a>
-            <a class="add-translation" href="#">(add translation)</a>
-            <a class="add-attachment" href="#">(add attachment)</a>
-          </span>
-        </div>
-        <div class="grid_8 omega excpected">
-          <div style="padding: 0 0 0 5px">{{ form.expected }}</div>
-          <span style="color: inherit; font-size: 9px">
-            <a href="#">(remove)</a>
-          </span>
-        </div>
-      </div>
-      {% endfor %}
+<div class="application-view-content">
+  <form id="test_case_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
+    {% for field in testcase_form %}
+    <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
+      {{ field.label_tag }}: <span class="error"></span>
+      {{ field }}
     </div>
-    
-  </div>
+    {% endfor %}
+
+    {{ testcasesteps_form.management_form }}
+    {% for form in testcasesteps_form.forms %}
+    {{ form.id }}
+    <h2>Step {{ forloop.counter }}</h2>
+    <div class="step clearfix">
+      <div class="grid_8 description" style="">
+        <div id="{{ form.description.html_name }}" class="field-wrapper">
+          {{ form.description }}
+          <a class="button add-step" href="#">add step</a>
+          <a class="button add-translation" href="#">add translation</a>
+          <a class="button add-attachment" href="#">add attachment</a>
+        </div>
+      </div>
+      <div class="grid_8 excpected">
+        <div id="{{ form.expected.html_name }}" class="field-wrapper" style="text-align:right">
+          {{ form.expected }}
+          <a class="button remove">remove</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </form>
 </div>
 
 <div id="application-view-footer" class="grid_16 clearfix">

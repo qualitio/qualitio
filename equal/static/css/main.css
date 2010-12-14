@@ -176,7 +176,7 @@ h1 {
     font-weight: bold;
 }
 
-h2 {
+h2, label, .text-bullet {
     font-size: 1.2em;
     margin: 14px 0px 2px;
     color: #775555;
@@ -284,11 +284,6 @@ table a:visited {
     font-size: 1.0em;
 }
 
-label {
-    font-size:1.1em;
-    margin-top: 5px;
-}
-
 table.filter {
     width:100%;
     border-spacing: 0px;
@@ -343,32 +338,6 @@ table.filter td.add {
 .text-bullet {
     margin: 3px 0px;
     font-size: 1.2em;
-}
-
-.step {
-    display:inline-block;
-    width: 99%
-}
-
-.step .excpected {
-    text-align: justify;
-}
-
-.step textarea {
-    height: 70px;
-    width: 100%;
-}
-
-.precondition textarea {
-
-}
-
-.step .description p {
-    margin-right: 15px;
-}
-
-.step p {
-    text-align:justify;
 }
 
 form .field-wrapper {

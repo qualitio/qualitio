@@ -10,6 +10,7 @@ class TestCase(core.BasePathModel):
     requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
     
     name = models.CharField(max_length=512)
+    description = models.TextField(blank=True)
     precondition = models.TextField(blank=True)
     
     def __unicode__(self):
@@ -19,7 +20,7 @@ class TestCase(core.BasePathModel):
 class TestCaseStep(core.BaseModel):
     testcase = models.ForeignKey('TestCase')
     description = models.TextField()
-    expected = models.TextField()
+    expected = models.TextField(blank=True)
     
 
 class Attachment(core.BaseModel):
