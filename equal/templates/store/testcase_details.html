@@ -1,13 +1,9 @@
-{% load webdesign %}
+{% load application_view_menu %}
 <div id="application-view-header">
   <h1>test case: {{ testcase.name }}</h1>
 </div>
 
-<div id="application-view-menu">
-  <span class="active" >details</span>
-  <a href="#testcase/{{ testcase.pk }}/edit/">edit</a>
-  <a href="#testcase/{{ testcase.pk }}/attachments/">attachments</a>
-</div>
+{% application_view_menu testcase "details" %}
 
 <div class="application-view-content">
   <div class="text-bullet">directory:</div>{{ testcase.path }}

@@ -1,11 +1,9 @@
+{% load application_view_menu %}
 <div id="application-view-header">
   <h1>test case directory: {{ directory.name }}</h1>
 </div>
 
-<div id="application-view-menu">
-  <a href="#testcasedirectory/{{ directory.pk }}/details/">details</a>
-  <a class="active" href="#testcasedirectory/{{ directory.pk }}/edit/">edit</a>
-</div>
+{% application_view_menu directory "edit" %}
 
 <div class="application-view-content" style="min-height:450px">
   {% for field in testcasedirectory_form %}

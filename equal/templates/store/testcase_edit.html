@@ -1,13 +1,9 @@
-{% load webdesign %}
+{% load application_view_menu %}
 <div id="application-view-header">
   <h1>test case: {{ testcase.name }}</h1>
 </div>
 
-<div id="application-view-menu">
-  <a href="#testcase/{{ testcase.pk }}/details/">details</a>
-  <span class="active">edit</span>
-  <a href="#testcase/{{ testcase.pk }}/attachments/">attachments</a>
-</div>
+{% application_view_menu testcase "edit" %}
 
 <div class="application-view-content">
   <form id="test_case_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
