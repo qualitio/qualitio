@@ -7,9 +7,8 @@
     overflow: auto;
 }
 
-.step .description {
-    
-}
-.step .expected {
-    
+#id_description, 
+#id_precondition, 
+.step textarea {
+    height: 50px;
 }

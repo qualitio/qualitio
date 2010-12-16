@@ -35,11 +35,11 @@
       $(response.data).each(function(i, element) {
         $("#"+element[0]+"_wrapper").addClass("ui-state-error");
         $("#"+element[0]+"_wrapper .error").append(element[1]);
-        $('#notification').jnotifyAddMessage({
-          text: response.message,
-          permanent: false,
-          type: "error"
-        });
+      });
+      $('#notification').jnotifyAddMessage({
+        text: response.message,
+        permanent: false,
+        type: "error"
       });
     } else {
       $('#notification').jnotifyAddMessage({

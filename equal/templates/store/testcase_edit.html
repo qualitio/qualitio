@@ -5,8 +5,9 @@
 
 {% application_view_menu testcase "edit" %}
 
-<div class="application-view-content">
-  <form id="test_case_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
+<form id="testcase_form" action="/store/ajax/testcase/{{ testcase.id }}/edit/valid/" method="post"> 
+  <div class="application-view-content">
+    
     {% for field in testcase_form %}
     <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
       {{ field.label_tag }}: <span class="error"></span>
@@ -35,18 +36,17 @@
       </div>
     </div>
     {% endfor %}
-  </form>
-</div>
-
-<div id="application-view-footer" class="grid_16 clearfix">
-  <div class="grid_8 left">
-    <input type="submit" name="Executed" value="Delete" />
   </div>
-  <div class="grid_8 right">
-    <input type="submit" name="Executed" value="Save" />
-  </div>
-</div>
 
+  <div id="application-view-footer" class="grid_16 clearfix">
+    <div class="grid_8 left">
+      <input type="submit" name="Executed" value="Delete" />
+    </div>
+    <div class="grid_8 right">
+      <input type="submit" name="Executed" value="Save" />
+    </div>
+  </div>
+</form>
 
 <div id="dialog-attachmets" title="Use attachment?">
   <p><span class="ui-icon ui-icon-alert" style="float:left;
@@ -151,6 +151,33 @@ $(function() {
   $('.add-translation').click( function() {
     $( "#dialog-translations" ).dialog('open');
   });
-
+  
+  function showResponse(response, statusText, xhr, $form)  { 
+    if(!response.success) {
+      $(response.data).each(function(i, element) {
+        $("#"+element[0]+"_wrapper").addClass("ui-state-error");
+        $("#"+element[0]+"_wrapper .error").append(element[1]);
+      });        
+      $('#notification').jnotifyAddMessage({
+        text: response.message,
+        permanent: false,
+        type: "error"
+      });
+    } else {
+      $('#notification').jnotifyAddMessage({
+        text: response.message,
+        permanent: false,
+        disappearTime: 2000
+      });
+      hash.node = response.data.current_id; // for new created objects go to details view 
+      hash.view = "details" 
+      hash.update();
+      $('#application-tree').jstree('refresh',-1);
+    }
+  }
+  
+  $('#testcase_form').ajaxForm({ 
+    success: showResponse 
+  });
 });
 </script>
