@@ -7,7 +7,13 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-
+    
+    def clean(self):
+        for name, value in filter(lambda x: not x[0].startswith("_"), self.__dict__.items()):
+            value = getattr(self, name).strip()
+            if isinstance(value, basestring):
+                setattr(name,getattr(self, name).strip())
+        
 
 class BasePathModel(BaseModel):
     path = models.CharField(max_length=2048, blank=True)
