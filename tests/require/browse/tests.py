@@ -13,7 +13,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         
         if settings['username']:
             self.selenium.addCustomRequestHeader("Authorization", "Basic %s" % 
-                                                 base64.b64encode("equal:gulasz").strip())
+                                                 base64.b64encode("%s:%s" % (settings['username'], settings['password'])).strip())
         self.selenium.start()
 
     def tearDown(self):
