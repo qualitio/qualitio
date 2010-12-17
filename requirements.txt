@@ -15,6 +15,7 @@ django-tables==0.2
 django-templatetag-sugar==0.1
 django-treebeard==1.61
 docutils==0.7
+httplib2==0.6.0
 ipython==0.10
 nose==0.11.4
 paramiko==1.7.6
