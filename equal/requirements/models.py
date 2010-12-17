@@ -4,7 +4,8 @@ from equal.core import models as core
 
 class Requirement(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
-    release_target = models.DateField()
+    alias = models.TextField(blank=True) #TODO: alias is not unique and should be moved to core.models
+    release_target = models.DateField(null=True)
     dependencies = models.ManyToManyField("Requirement", related_name="blocks", null=True)
     
     def get_absolute_url(self):
