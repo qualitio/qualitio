@@ -1,12 +1,27 @@
 # -*- coding: utf-8 -*-
 from selenium import selenium
-import unittest, time, re
+from config import settings
+import unittest, time, base64
 
-class HeaderpageVerifytext(unittest.TestCase):
+class BaseSeleniumTestCase(unittest.TestCase):
     def setUp(self):
         self.verificationErrors = []
-        self.selenium = selenium("localhost", 4444, "*chrome", "http://equal.binop.org/")
+        self.selenium = selenium("localhost", 
+                                 4444, 
+                                 "*%s" % settings['browser'], 
+                                 settings['hostname'])
+        
+        if settings['username']:
+            self.selenium.addCustomRequestHeader("Authorization", "Basic %s" % 
+                                                 base64.b64encode("equal:gulasz").strip())
         self.selenium.start()
+
+    def tearDown(self):
+        self.selenium.stop()
+        self.assertEqual([], self.verificationErrors)
+
+
+class HeaderpageVerifytext(BaseSeleniumTestCase):
     
     def test_headerpage_verifytext(self):
         sel = self.selenium
@@ -35,18 +50,8 @@ class HeaderpageVerifytext(unittest.TestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("filter", sel.get_text("css=#application-menu ul li a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-    
-    def tearDown(self):
-        self.selenium.stop()
-        self.assertEqual([], self.verificationErrors)
 
-
-
-class NewreqSaveSamename(unittest.TestCase):
-    def setUp(self):
-        self.verificationErrors = []
-        self.selenium = selenium("localhost", 4444, "*chrome", "http://equal.binop.org/")
-        self.selenium.start()
+class NewreqSaveSamename(BaseSeleniumTestCase):
     
     def test_newreq_save_samename(self):
 	sel = self.selenium
@@ -119,16 +124,8 @@ class NewreqSaveSamename(unittest.TestCase):
 	time.sleep(1)
         try: self.failIf(sel.is_element_present("css=li#31 a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-    
-    def tearDown(self):
-        self.selenium.stop()
-#        self.assertEqual([], self.verificationErrors)
 
-class NewreqSaveLink(unittest.TestCase):
-    def setUp(self):
-        self.verificationErrors = []
-        self.selenium = selenium("localhost", 4444, "*chrome", "http://equal.binop.org/")
-        self.selenium.start()
+class NewreqSaveLink(BaseSeleniumTestCase):
     
     def test_newreq_save_link(self):
         sel = self.selenium
@@ -167,16 +164,9 @@ class NewreqSaveLink(unittest.TestCase):
         try: self.failUnless(sel.is_element_present("link=newrequirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
     
-    def tearDown(self):
-        self.selenium.stop()
-#        self.assertEqual([], self.verificationErrors)
 
-class NewreqSaveError(unittest.TestCase):
-    def setUp(self):
-        self.verificationErrors = []
-        self.selenium = selenium("localhost", 4444, "*chrome", "http://equal.binop.org/")
-        self.selenium.start()
-    
+class NewreqSaveError(BaseSeleniumTestCase):
+
     def test_newreq_save_error(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
@@ -202,16 +192,8 @@ class NewreqSaveError(unittest.TestCase):
         self.failUnless(sel.is_element_present("css=#release_target_wrapper.ui-state-error"))
         try: self.assertEqual("This field is required.", sel.get_text("css=#release_target_wrapper.ui-state-error span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-    
-    def tearDown(self):
-        self.selenium.stop()
-        self.assertEqual([], self.verificationErrors)
 
-class ModreqName(unittest.TestCase):
-    def setUp(self):
-        self.verificationErrors = []
-        self.selenium = selenium("localhost", 4444, "*chrome", "http://equal.binop.org/")
-        self.selenium.start()
+class ModreqName(BaseSeleniumTestCase):
     
     def test_modreq_name(self):
         sel = self.selenium
@@ -237,11 +219,6 @@ class ModreqName(unittest.TestCase):
         sel.click("css=input.ui-button")
         try: self.failUnless(sel.is_text_present("full name: /MeeGo/TV/MeeGo Handset test/newrequirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-    
-    def tearDown(self):
-        self.selenium.stop()
-#        self.assertEqual([], self.verificationErrors)
-
 
 if __name__ == "__main__":
     unittest.main()
