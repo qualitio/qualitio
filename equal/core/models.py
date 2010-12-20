@@ -10,9 +10,8 @@ class BaseModel(models.Model):
     
     def clean(self):
         for name, value in filter(lambda x: not x[0].startswith("_"), self.__dict__.items()):
-            value = getattr(self, name).strip()
             if isinstance(value, basestring):
-                setattr(name,getattr(self, name).strip())
+                setattr(self, name, getattr(self, name).strip())
         
 
 class BasePathModel(BaseModel):
