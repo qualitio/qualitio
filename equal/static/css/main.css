@@ -236,6 +236,14 @@ h2, label, .text-bullet {
     background: -moz-linear-gradient(top,  #eee,  #fff);
 }
 
+.tabble-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;
+}
+
 table.pretty {
     width:100%;
     border-collapse: collapse;
@@ -255,17 +263,16 @@ table.pretty .path {
 table.pretty td {
     border: 1px white solid;
     padding: 0.2em;
-    background: whitesmoke;
     vertical-align:middle;
 }
-table.pretty tr.directory td {
-    background: #E8E8E8;
+
+table.pretty tr:nth-child(even) { 
+    background: whitesmoke; 
 }
+
 table.pretty th {
     text-align: left;
     padding: 0.2em 0 0.1em;
-    border-bottom: 1px solid #aaa;
-    border-top: 1px solid #aaa;
 }
 table.pretty caption {
     margin-left: inherit;

@@ -16,45 +16,58 @@
   </div>
   
   <h2>sub-requirements</h2>
+  
   {% if requirement.children.all %} 
-  <table class="pretty ui-corner-all">
-    <tr>
-      <th class="icon">&nbsp;</th>
-      <th class="id">id</th>
-      <th class="path">path</th>
-      <th>name</th>
-    </tr>
-    {% for child in requirement.children.all %}
-    <tr>
-      <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
-      <td><a href="#requirement/{{ child.id }}/details/">{{ child.id }}</a></td>
-      <td><a href="#requirement/{{ child.id }}/details/">{{ child.path }}</a></td>
-      <td><a href="#requirement/{{ child.id }}/details/">{{ child.name }}</a></td>
-    </tr>
-    {% endfor %}
-  </table>
+  <div class="tabble-wrapper">
+    <table class="pretty ui-corner-all">
+      <thead>
+        <tr>
+          <th class="icon">&nbsp;</th>
+          <th class="id">id</th>
+          <th class="path">path</th>
+          <th>name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for child in requirement.children.all %}
+        <tr>
+          <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+          <td><a href="#requirement/{{ child.id }}/details/">{{ child.id }}</a></td>
+          <td><a href="#requirement/{{ child.id }}/details/">{{ child.path }}</a></td>
+          <td><a href="#requirement/{{ child.id }}/details/">{{ child.name }}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
   <span style="font-style:italic">none</span>
   {% endif %}
 
   <h2>testcases</h2>
   {% if testcases %}
-  <table class="pretty ui-corner-all">
-    <tr>
-      <th class="icon">&nbsp;</th>
-      <th class="id">id</th>
-      <th class="path">path</th>
-      <th>name</th>
-    </tr>
-    {% for testcase in testcases %}
-    <tr>
-      <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
-      <td><a href="#">{{ testcase.id }}</a></td>
-      <td><a href="#">{{ testcase.path }}</a></td>
-      <td><a href="#">{{ testcase.name }}</a></td>
-    </tr>
-    {% endfor %}
-  </table>
+  <div class="tabble-wrapper">
+    <table class="pretty ui-corner-all">
+      <thead>
+        <tr>
+          <th class="icon">&nbsp;</th>
+          <th class="id">id</th>
+          <th class="path">path</th>
+          <th>name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for testcase in testcases %}
+        <tr>
+          <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
+          <td><a href="#">{{ testcase.id }}</a></td>
+          <td><a href="#">{{ testcase.path }}</a></td>
+          <td><a href="#">{{ testcase.name }}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% else %}
   <span style="font-style:italic">none</span>
   {% endif %}
@@ -62,23 +75,25 @@
   <div class="grid_16 clearfix">
     <div class="grid_8">
       <h2>depends</h2>
-      {% if requirement.dependencies.all %} 
-      <table class="pretty ui-corner-all">
-        <tr>
-          <th class="icon">&nbsp;</th>
-          <th class="id">id</th>
-          <th class="path">path</th>
-          <th>name</th>
-        </tr>
-        {% for requirement in requirement.dependencies.all %}
-        <tr>
-          <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
-        </tr>
-        {% endfor %}
-      </table>
+      {% if requirement.dependencies.all %}
+      <div class="tabble-wrapper">
+        <table class="pretty ui-corner-all">
+          <tr>
+            <th class="icon">&nbsp;</th>
+            <th class="id">id</th>
+            <th class="path">path</th>
+            <th>name</th>
+          </tr>
+          {% for requirement in requirement.dependencies.all %}
+          <tr>
+            <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
+            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
+            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
       {% else %}
       <span style="font-style:italic">none</span>
       {% endif %}
@@ -87,22 +102,24 @@
     <div class="grid_8">
       <h2>blocks</h2>
       {% if requirement.blocks.all %} 
-      <table class="pretty ui-corner-all">
-        <tr>
-          <th class="icon">&nbsp;</th>
-          <th class="id">id</th>
-          <th class="path">path</th>
-          <th>name</th>
-        </tr>
-        {% for requirement in requirement.blocks.all %}
-        <tr>
-          <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
-        </tr>
-        {% endfor %}
-      </table>
+      <div class="tabble-wrapper">
+        <table class="pretty ui-corner-all">
+          <tr>
+            <th class="icon">&nbsp;</th>
+            <th class="id">id</th>
+            <th class="path">path</th>
+            <th>name</th>
+          </tr>
+          {% for requirement in requirement.blocks.all %}
+          <tr>
+            <td><img src="{{ MEDIA_URL }}images/requirement_icon_small.png"></td>
+            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
+            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
+            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
       {% else %}
       <span style="font-style:italic">none</span>
       {% endif %}
