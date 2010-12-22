@@ -31,7 +31,6 @@ def edit(request, requirement_id):
                               {'requirement' : requirement,
                                'requirement_form' : requirement_form})
 
-
 @json_response
 def valid(request, requirement_id=0):
     if requirement_id:
@@ -46,7 +45,8 @@ def valid(request, requirement_id=0):
                        data={ "parent_id" : getattr(requirement.parent,"id", 0), 
                               "current_id" : requirement.id })
     
-    return failed(message="Validation errors", 
+    # TODO: move this functionality to helpers
+    return failed(message="Validation errors %s" % " ".join([e for e in requirement_form.non_field_errors()]),
                   data=[(k, v[0]) for k, v in requirement_form.errors.items()])
 
 
@@ -102,7 +102,7 @@ def filter(request):
                               {'requirements_table' : requirements_table})
 
 
-## move to core app, as soon as possible
+#TODO: move to core app, as soon as possible
 def to_tree_element(object, type):
     return { 'data' : object.name,
              'attr' : {'id' : object.pk, 
@@ -110,6 +110,7 @@ def to_tree_element(object, type):
              'state' : 'closed',
              'children' : [] }
 
+#TODO: same here
 def get_children(request):
     node_id = int(request.GET['id'])
     if not node_id:

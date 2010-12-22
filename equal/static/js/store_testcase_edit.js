@@ -1,5 +1,4 @@
 $(function() {
-
   last_textarea = null;
   last_textarea_pointer = null;
 
@@ -98,7 +97,7 @@ $(function() {
     $( "#dialog-translations" ).dialog('open');
   });
   
-  function showResponse(response, statusText, xhr, $form)  { 
+  function show_response(response, statusText, xhr, $form)  { 
     if(!response.success) {
       $(response.data).each(function(i, element) {
         $("#"+element[0]+"_wrapper").addClass("ui-state-error");
@@ -122,7 +121,13 @@ $(function() {
     }
   }
   
+  function clear_errors(arr, $form, options) { 
+    $('.field-wrapper').removeClass('ui-state-error');
+    $('.field-wrapper .error').text("");
+  }
+  
   $('#testcase_form').ajaxForm({ 
-    success: showResponse 
+    success: show_response,
+    beforeSubmit: clear_errors
   });
 });
