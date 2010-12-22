@@ -28,35 +28,4 @@
     </div>
   </div>
 </form>
-
-<script type="text/javascript"> 
-  function showResponse(response, statusText, xhr, $form)  { 
-    if(!response.success) {
-      $(response.data).each(function(i, element) {
-        $("#"+element[0]+"_wrapper").addClass("ui-state-error");
-        $("#"+element[0]+"_wrapper .error").append(element[1]);
-      });
-      $('#notification').jnotifyAddMessage({
-        text: response.message,
-        permanent: false,
-        type: "error"
-      });
-    } else {
-      $('#notification').jnotifyAddMessage({
-        text: response.message,
-        permanent: false,
-        disappearTime: 2000
-      });
-      hash.node = response.data.current_id; // for new created objects go to details view 
-      hash.view = "details" 
-      hash.update();
-      $('#application-tree').jstree('refresh',-1);
-    }
-  }
-
-$(document).ready(function() { 
-  $('#requirement_form').ajaxForm({ 
-    success: showResponse 
-  });
-}); 
-</script> 
+<script type="text/javascript" src="{{ MEDIA_URL }}js/require_edit.js{{ STATIC_HASH }}"></script>

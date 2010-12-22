@@ -40,6 +40,8 @@ class BaseDirectoryModel(MPTTModel, BasePathModel):
     
     class Meta:
         abstract = True
+        unique_together = (("name", "parent"),)
 
     def __unicode__(self):
         return self.name
+    
