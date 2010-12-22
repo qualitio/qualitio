@@ -2,42 +2,52 @@ function render_application_view(object, node_id, view) {
   $('#application-view').load("/require/ajax/"+object+"/"+node_id+"/"+view+"/");
 }
 
-function render_application_tree(node_id) {
-  // jQuery.jstree._reference("#requirement-tree").select_node( 'li#'+node_id, true);
+function render_application_tree(object, node_id, view) {
+  if(view != "new")
+    jQuery.jstree._reference("#application-tree").select_node( 'li#'+object_plain_id, true);
 }
 
-hash.object = "requirement";
-hash.node = 1;
-hash.view = "details";
-
-// One function to rule them all
 hash.main = function() {
   object_plain_id = hash.node.split("_")[0];
   render_application_view(hash.object, object_plain_id, hash.view);
+  render_application_tree(hash.object, object_plain_id, hash.view);
 }
 
 $(function() {
   $("#application-tree").jstree({
-    "plugins" : [ "themes", "json_data", "ui", "cookies" ],
+    "plugins" : [ "themes", "json_data", "ui", "cookies", "types"],
     "json_data" : {
       "ajax" : {
 	"url" : "/require/ajax/get_children/",
 	"data" : function (n) {
-	  return { id : n.attr ? n.attr("id") : 0 };
+	  return { 
+            id : n.attr ? n.attr("id") : 0 ,
+            type: n.attr ? n.attr("rel") : "requirement"
+          };
 	}
+      }
+    },
+    "types" : {
+      "valid_children" : ["requirement"],
+      "types" : {
+        "requirement" : {
+          "icon" : {
+            "image" : "/static/images/requirement_icon_small.png"
+          }
+        }
       }
     }
   }).bind("select_node.jstree", function (node, data) {
     $("#application-tree").jstree("open_node","li#"+data.rslt.obj.attr("id"));
     hash.object = 'requirement';
     hash.node = data.rslt.obj.attr('id');
-    hash.view = 'details';
+    if (!hash.view || hash.view == 'new')
+      hash.view = 'details';
     hash.update();
+  }).bind("loaded.jstree", function (event, data) {
+    if(!window.location.hash)
+      $("#application-tree").jstree("select_node",".jstree-last");
   });
 
-  $('.switch-testcase-add-view').live('click', function() {
-    $('.testcase-add-view').toggle();
-  });
-  
   hash.init();
 });

@@ -5,8 +5,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import simplejson as json
 from django.http import HttpResponse
 
+from equal.core.utils import json_response, success, failed
 from equal.store.models import TestCaseDirectory, TestCase
-from equal.store import forms   
+from equal.store.forms import TestCaseForm, TestCaseDirectoryForm, AttachmentFormSet, TestCaseStepFormSet, GlossaryWord
 
 def index(request):
     return direct_to_template(request, 'store/base.html', {})
@@ -17,7 +18,7 @@ def directory_details(request, directory_id):
 
 def directory_edit(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
-    testcasedirectory_form = forms.TestCaseDirectoryForm(instance=directory)
+    testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
                               {'directory' : directory, 
                                'testcasedirectory_form' : testcasedirectory_form })
@@ -28,20 +29,39 @@ def testcase_details(request, testcase_id):
 
 def testcase_edit(request, testcase_id):
     testcase = TestCase.objects.get(pk=testcase_id)
-    testcase_form = forms.TestCaseForm(instance=testcase)
-    testcasesteps_form = forms.TestCaseStepFormSet(instance=testcase)
-    glossary_word_search_form = forms.GlossaryWord()
-    return direct_to_template(
-        request, 'store/testcase_edit.html',
-        {'testcase' : testcase,
-         'testcase_form' : testcase_form,
-         'testcasesteps_form' : testcasesteps_form,
-         'glossary_word_search_form' : glossary_word_search_form, 
-         })
+    testcase_form = TestCaseForm(instance=testcase)
+    testcasesteps_form = TestCaseStepFormSet(instance=testcase)
+    glossary_word_search_form = GlossaryWord()
+    return direct_to_template(request, 'store/testcase_edit.html',
+                              { 'testcase' : testcase,
+                                'testcase_form' : testcase_form,
+                                'testcasesteps_form' : testcasesteps_form,
+                                'glossary_word_search_form' : glossary_word_search_form })
+
+@json_response
+def testcase_valid(request, testcase_id):
+    testcase = TestCase.objects.get(pk=str(testcase_id))
+    testcase_form = TestCaseForm(request.POST, instance=testcase)
+    testcasesteps_form = TestCaseStepFormSet(request.POST, instance=testcase)
+    if testcase_form.is_valid() and testcasesteps_form.is_valid(): 
+        testcase_form.save()
+        testcasesteps_form.save()
+        return success(message='TestCase saved', 
+                       data={ "parent_id" : getattr(testcase.parent,"id", 0), 
+                              "current_id" : testcase.id })
+    else:
+        formset_errors = []
+        for i, error in filter(lambda x: x[1], list(enumerate(testcasesteps_form.errors))):
+            for v, k in error.items():
+                formset_errors.append(map(lambda x:(("testcasestep_set-%s-%s") % (i,v) ,x), k)[0])
+        # print formset_errors
+        return failed(message="Validation errors", 
+                      data=[(k, v[0]) for k, v in testcase_form.errors.items()] + formset_errors)
+
 
 def testcase_attachments(request, testcase_id):
     testcase = TestCase.objects.get(pk=testcase_id)
-    attachments_form = forms.AttachmentFormSet(instance=testcase)
+    attachments_form = AttachmentFormSet(instance=testcase)
     return direct_to_template(request, 'store/testcase_attachments.html',
                               {'testcase' : testcase,
                                'attachments_form' : attachments_form})
@@ -65,7 +85,7 @@ def get_children(request):
 
     except (ObjectDoesNotExist, ValueError):
         directories = TestCaseDirectory.tree.root_nodes()
-        files = TestCase.objects.filter(directory=None)
+        files = TestCase.objects.filter(parent=None)
     
     data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)+\
         map(lambda x: to_tree_element(x,x._meta.module_name), files)
