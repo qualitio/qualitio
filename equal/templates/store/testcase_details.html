@@ -1,48 +1,34 @@
-{% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a class="active" href="#testcase/{{ testcase.pk }}/details">details</a> |
-    <a href="#testcase/{{ testcase.pk }}/edit">edit</a> |
-    <a href="#testcase/{{ testcase.pk }}/attachments">attachments</a> |
-  </div>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test case: {{ testcase.name }}</h1>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content">
-    <h1>test case: {{ testcase.name }}</h1>
-    <div class="text-bullet">directory: {{ testcase.get_path }}</div>
-    <div class="text-bullet">pass rate: <i>not set</i></div>
-    <div class="text-bullet">status: <i>not set</i></div>
+{% application_view_menu testcase "details" %}
 
-    <div class="grid_16 alpha omega">
-      <div class="step clearfix">
-	<h2>Precondition</h2>
-	{% lorem 1 p %}
-      </div>
-      
-      <div class="step clearfix">
-      	<h2>Step 1</h2>
-      	<div class="grid_8 alpha description">
-          {% lorem 5 w random %} <a href="{{ MEDIA_URL }}storage/xml_dump">attachment:xml_dump</a> {% lorem 3 w random %} <br/>
-          --------
-        </div>
-	<div class="grid_8 omega excpected">
-          {% lorem 10 w random %}
-          <a class="translation" href="#">__logical_string__</a>
-          {% lorem 15 w random %}
-        </div>
-      </div>
-      
-      <div class="step clearfix">
-      	<h2>Step 2</h2>
-      	<div class="grid_8 alpha description">{% lorem 1 p random %}--------</div>
-	<div class="grid_8 omega excpected">{% lorem 1 p random %}</div>
-      </div>
+<div class="application-view-content">
+  <div class="text-bullet">directory:</div>{{ testcase.path }}
+  <div class="text-bullet">status:</div><i>empty</i>
+  <h2>description</h2> 
+  {{ testcase.description|default:"<i>empty</i>" }}
+
+  <h2>precondition</h2>
+  {{ testcase.precondition|default:"<i>empty</i>" }}
+  
+  {% for step in testcase.testcasestep_set.all %}
+  <h2>step {{ forloop.counter }}</h2>
+  <div class="step clearfix">
+    <div class="grid_8 description">
+      {{ step.description }}
     </div>
-
+    <div class="grid_8 expected">
+      {{ step.expected }}
+    </div>
   </div>
+  {% empty %}
+  <i>none</i>
+  {% endfor %}
 </div>
-
+{% comment %}
 <div class="tooltip-content">
   <table class="pretty ui-corner-all" style="margin-top: 20px">
     <tr>
@@ -58,6 +44,12 @@
       <td>Otwórz Wiadomości Przychodzące</td>
     </tr>
   </table>
+</div>
+{% endcomment %}
+<div id="application-view-footer" class="grid_16 clearfix">
+  <div class="prefix_8 grid_8 right">
+    <a href="#requirement/{{ requirement.pk }}/new/" class="button">new requirement</a>
+  </div>
 </div>
 
 <script>

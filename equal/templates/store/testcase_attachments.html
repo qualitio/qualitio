@@ -1,37 +1,34 @@
-{% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a href="#testcase/{{ testcase.pk }}/details">details</a> |
-    <a href="#testcase/{{ testcase.pk }}/edit">edit</a> |
-    <a class="active" href="#testcase/{{ testcase.pk }}/attachments">attachments</a> |
-  </div>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test case: {{ testcase.name }}</h1>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content">
-    <h1>test case: {{ testcase.name }}</h1>
-    <div class="grid_16 alpha omega">
-      <div class="step clearfix">
-        <h2>Attachments</h2>
-        {{ attachments_form.management_form }}
-        {% for form in attachments_form.forms %}
-        {{ form.id }}
-        <div class="grid_4 alpha">
-          <div style="flat:left; padding: 0 10px 0 0;">{{ form.name }}</div>
-        </div>
-        <div class="grid_4">
-          <div style="padding: 0 0 0 0px;">{{ form.attachment }}</div>
-        </div>
-        <div class="grid_1 omega suffix_7">
-          <div style="padding: 0 0 0 0px;"><a href="#" class="remove-attachment">+</a></div>
-        </div>
+{% application_view_menu testcase "attachments" %}
 
-        {% endfor %}
-        <a href="#" class="add-attachment-form">+</a>
+<div class="application-view-content">
+  <h1>test case: {{ testcase.name }}</h1>
+  <div class="grid_16 alpha omega">
+    <div class="step clearfix">
+      <h2>Attachments</h2>
+      {{ attachments_form.management_form }}
+      {% for form in attachments_form.forms %}
+      {{ form.id }}
+      <div class="grid_4 alpha">
+        <div style="flat:left; padding: 0 10px 0 0;">{{ form.name }}</div>
       </div>
+      <div class="grid_4">
+        <div style="padding: 0 0 0 0px;">{{ form.attachment }}</div>
+      </div>
+      <div class="grid_1 omega suffix_7">
+        <div style="padding: 0 0 0 0px;"><a href="#" class="remove-attachment">+</a></div>
+      </div>
+
+      {% endfor %}
+      <a href="#" class="add-attachment-form">+</a>
     </div>
   </div>
 </div>
+
 
 <script>
 $(function() {

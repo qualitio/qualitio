@@ -3,10 +3,10 @@
 {% block module-name %}{% block module-title%}requirements{% endblock %}{% endblock %}
 
 {% block js-include %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/require.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/require.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 
 {% block application-menu %}
-<a href="/require/">browse</a>
-<a href="/require/filter">filter</a>
+<li class="active">browse</li>
+<li><a href="/require/filter/">filter</a></li>
 {% endblock %}

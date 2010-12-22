@@ -1,5 +1,8 @@
+from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
-from treebeard.admin import TreeAdmin
-from equal.requirements.models import *
+from equal.requirements.models import Requirement
 
-admin.site.register(Requirement, TreeAdmin)
+class RequirementAdmin(MPTTModelAdmin):
+    list_display = ('name', 'modified_time', "created_time")
+    readonly_fields = ('path',)
+admin.site.register(Requirement, RequirementAdmin)

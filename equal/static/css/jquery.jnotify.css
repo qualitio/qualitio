@@ -1,0 +1,44 @@
+.jnotify-item {
+    height: auto;
+    padding: 4px 4px 4px 4px;
+    margin: 0 0 5px 0;
+    display: block;
+    position: relative;
+}
+
+.jnotify-item-close {
+    float: right;
+    margin-left: 2px;
+}
+
+jnotify-item {
+    border: none;
+}
+
+#notification {
+    position: fixed;
+    z-index:10000;
+    width: 100%;
+    min-height: 50px;
+    text-align: center;
+
+    filter:alpha(opacity=90);
+    -moz-opacity:0.9;
+    -khtml-opacity: 0.9;
+    opacity: 0.9;
+    display: none;
+}
+ 
+#notification .ui-state-error {
+    border-bottom: 1px solid #red;
+    border-top: none;
+    border-left:none;
+    border-right: none;
+}
+
+#notification .ui-state-highlight {
+    border-bottom: 1px solid #ddff22;
+    border-top: none;
+    border-left:none;
+    border-right: none;
+}

@@ -2,8 +2,6 @@ import django_tables as tables
 from django.utils.safestring import mark_safe
 from equal.requirements.models import Requirement
 
-# test = lambda x,y: 4
-
 class RequirementsFilterTable(tables.ModelTable):
     directory_path = tables.Column(verbose_name="Path")
     checked = tables.Column(verbose_name=" ")

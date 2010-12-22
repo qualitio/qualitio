@@ -1,14 +1,20 @@
 from django import forms
-
 from equal.requirements.models import Requirement
-from treebeard.forms import MoveNodeForm
 
-class RequirementForm(MoveNodeForm):
+class RequirementForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RequirementForm, self).__init__(*args, **kwargs)
+        self.fields['dependencies'].required = False
+        if self.instance:
+            self.fields['dependencies'].queryset = Requirement.objects.exclude(pk=self.instance.pk)
+        else:
+            self.fields['dependencies'].queryset = Requirement.objects.all()
 
     class Meta:
         model = Requirement
-        fields = ('name','_position')
+        fields = ("parent", "name", "release_target", "description", "dependencies" )
+        widgets = {"release_target": forms.DateInput(attrs={"class":"date-field"})}
 
-# class FilterForm(forms.Form):
 
-
+class SearchTestcasesForm(forms.Form):
+    search = forms.CharField(required=True, min_length = 3)

@@ -1,24 +1,15 @@
 from django.db import models
-
-from django.db import models
-from treebeard.mp_tree import MP_Node
+from equal.core import models as core
 
 
-class Requirement(MP_Node):
-    name = models.CharField(max_length=512)
+class Requirement(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
-
-    node_order_by = ['name']
-
-    # Extra SQL for every get, no to good
-    def get_path(self):
-        if self.get_ancestors():
-            return "/%s/" % "/".join(map(lambda x: x.name, self.get_ancestors()))
-        return "/"
-
-    def __unicode__(self):
-        return 'Requirement: %s' % self.name
-
-
+    alias = models.TextField(blank=True) #TODO: alias is not unique and should be moved to core.models
+    release_target = models.DateField(null=True)
+    dependencies = models.ManyToManyField("Requirement", related_name="blocks", null=True)
+    
     def get_absolute_url(self):
         return "/require/" % self.id
+    
+    def __unicode__(self):
+        return "%s%s" % (self.path, self.name)

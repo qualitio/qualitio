@@ -1,72 +1,77 @@
-{% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a href="#testcase/{{ testcase.pk }}/details">details</a> |
-    <a class="active" href="#testcase/{{ testcase.pk }}/edit">edit</a>
-    |
-    <a href="#testcase/{{ testcase.pk }}/attachments">attachments</a> |
-  </div>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test case: {{ testcase.name }}</h1>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content" style="min-height:450px">
-    <h1>test case: {{ testcase.name }}</h1>
-    <div class="grid_16 alpha omega">
-      <div class="grid_8 suffix_8">
-        {{ testcase_form.directory.label }}
-        <div class="text-bullet">{{ testcase_form.directory }}</div>
-        {{ testcase_form.name.label }}
-        <div class="text-bullet">{{ testcase_form.name }}</div>
-      </div>
+{% application_view_menu testcase "edit" %}
 
-      <div class="step precondition clearfix">
-        <h2>{{ testcase_form.precondition.label }}</h2>
-        <div>{{ testcase_form.precondition }}</div>
-        <span style="color: inherit; font-size: 9px">
-          <a href="#">(preview)</a>
-          <a href="#">(add step)</a>
-        </span>
-      </div>
-      
-      {{ testcasesteps_form.management_form }}
-      
-      {% for form in testcasesteps_form.forms %}
-      {{ form.id }}
-      <div class="step clearfix">
-        <h2>Step {{ forloop.counter }}</h2>
-        <div class="grid_8 alpha description" style="">
-          <div style="padding: 0 15px 0 0">{{ form.description }}</div>
-          <span style="color: inherit; font-size: 9px">
-            <a href="#">(preview)</a>
-            <a href="#">(add step)</a>
-            <a class="add-translation" href="#">(add translation)</a>
-            <a class="add-attachment" href="#">(add attachment)</a>
-          </span>
-        </div>
-        <div class="grid_8 omega excpected">
-          <div style="padding: 0 0 0 5px">{{ form.expected }}</div>
-          <span style="color: inherit; font-size: 9px">
-            <a href="#">(remove)</a>
-          </span>
-        </div>
-      </div>
-      {% endfor %}
+<div class="step template clearfix">
+  {{ testcasesteps_form.empty_form.id }}
+  {{ testcasesteps_form.empty_form.testcase }}
+  <h2 class="step-name">Step 0</h2>{{ testcasesteps_form.empty_form.sequence }}
+  <div class="grid_8 description">
+    <div id="{{ testcasesteps_form.empty_form.description.html_name }}_wrapper" class="field-wrapper">
+      {{ testcasesteps_form.empty_form.description.label_tag}} <span class="error"></span>
+      {{ testcasesteps_form.empty_form.description }}
     </div>
+    <a class="button add-step">add step</a>
+  </div>
+  <div class="grid_8 excpected">
+    <div id="{{ testcasesteps_form.empty_form.expected.html_name }}_wrapper" class="field-wrapper" style="text-align:right">
+      {{ testcasesteps_form.empty_form.expected.label_tag}} <span class="error"></span>
+      {{ testcasesteps_form.empty_form.expected }}
+      delete: {{ testcasesteps_form.empty_form.DELETE }}
+    </div>
+  </div>
+</div>
+
+<form id="testcase_form" action="/store/ajax/testcase/{{ testcase.id }}/edit/valid/" method="post"> 
+  <div class="application-view-content">
     
+    {% for field in testcase_form %}
+    <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
+      {{ field.label_tag }}: <span class="error"></span>
+      {{ field }}
+    </div>
+    {% endfor %}
+    
+    {{ testcasesteps_form.management_form }}
+    <a id="add-step-0" class="button add-step">add step</a>
+    
+    {% for form in testcasesteps_form.forms %}
+    <div class="step clearfix">
+      {{ form.id }}
+      {{ form.testcase }}
+      <h2 class="step-name">Step {{ forloop.counter }}</h2>{{ form.sequence }}
+      <div class="grid_8 description">
+        <div id="{{ form.description.html_name }}_wrapper" class="field-wrapper">
+          {{ form.description.label_tag}} <span class="error"></span>
+          {{ form.description }}
+        </div>
+        <a class="button add-step">add step</a>
+      </div>
+      <div class="grid_8 excpected">
+        <div id="{{ form.expected.html_name }}_wrapper" class="field-wrapper" style="text-align:right">
+          {{ form.expected.label_tag}} <span class="error"></span>
+          {{ form.expected }}
+          delete: {{ form.DELETE }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
-</div>
-
-<div id="application-view-footer" class="grid_16 clearfix">
-  <div class="grid_8 left">
-    <input type="submit" name="Executed" value="Delete" />
+  
+  <div id="application-view-footer" class="grid_16 clearfix">
+    <div class="grid_8 left">
+      <input type="submit" name="Executed" value="Delete" />
+    </div>
+    <div class="grid_8 right">
+      <input type="submit" name="Executed" value="Save" />
+    </div>
   </div>
-  <div class="grid_8 right">
-    <input type="submit" name="Executed" value="Save" />
-  </div>
-</div>
+</form>
 
-
-<div id="dialog-attachmets" title="Use attachment?">
+<div id="dialog-attachmets" title="Use attachment?" style="display:none">
   <p><span class="ui-icon ui-icon-alert" style="float:left;
 	                                        margin:0 7px 20px 0;"></span>
     List of availiable attachments for current TestCase
@@ -88,7 +93,7 @@
   </table>
 </div>
 
-<div id="dialog-translations" title="Add translation?">
+<div id="dialog-translations" title="Add translation?" style="display:none">
   <p><span class="ui-icon ui-icon-alert" style="float:left;
 	                                        margin:0 7px 20px 0;">
     </span>Search for logical strings/translations availiable attachments for project
@@ -112,63 +117,4 @@
     </tr>
   </table>
 </div>
-
-
-<script>
-$(function() {
-
-  last_textarea = null;
-  last_textarea_pointer = null;
-
-  $('textarea').focusout( function() {
-    last_textarea = this;
-  });
-
-  $('.add-translation').click( function() {
-    $(last_textarea).text($(this).text());
-  });
-
-  $('.add-this-attachment').click( function() {
-    $(last_textarea).text("#"+$(this).text());
-  });
-
-  $( "#dialog" ).dialog( "destroy" );
-
-  $( "#dialog-attachmets" ).dialog({
-    resizable: false,
-    autoOpen: false,
-    minHeight: 240,
-    minWidth: 800,
-    modal: true,
-    position: ['center',100],
-    buttons: { 
-      Cancel: function() {
-        $( this ).dialog( "close" )
-      }
-    }
-  });
-
-  $( "#dialog-translations" ).dialog({
-    resizable: false,
-    autoOpen: false,
-    minHeight: 240,
-    minWidth: 800,
-    modal: true,
-    position: ['center',100],
-    buttons: { 
-      Cancel: function() {
-        $( this ).dialog( "close" )
-      }
-    }
-  });
-
-  $('.add-attachment').click( function() {
-    $( "#dialog-attachmets" ).dialog('open');
-  });
-
-  $('.add-translation').click( function() {
-    $( "#dialog-translations" ).dialog('open');
-  });
-
-});
-</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_edit.js{{ STATIC_HASH }}"></script>

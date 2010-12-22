@@ -1,23 +1,8 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
+from nose.tools import *
 
-Replace these with more appropriate tests for your application.
-"""
+from equal.requirements.models import Requirement, RequirementDependency
 
-from django.test import TestCase
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
-
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
-
+def requirements_save():
+    requirement = Requirement.objects.create(name="req1")
+    requirement_dependency = RequirementDependency.objects.get(root=requirement)
+    assert requirement, requirement_dependency.root

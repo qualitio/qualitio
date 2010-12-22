@@ -25,11 +25,11 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/Warsaw'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 
@@ -37,9 +37,7 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
-USE_L10N = True
+DATE_FORMAT = "%y-%m-%d"
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -96,9 +94,10 @@ INSTALLED_APPS = (
     'equal.execute',
     'equal.store',
 
-    'treebeard',
     'mptt',
-    'debug_toolbar'
+    'debug_toolbar',
+    'ajax_validation',
+    'django_nose'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -106,7 +105,9 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.i18n",
                                "django.core.context_processors.media",
                                "django.core.context_processors.request",
-                               "django.contrib.messages.context_processors.messages")
+                               "django.contrib.messages.context_processors.messages",
+                               "equal.core.context_processors.settings",
+                               "equal.core.context_processors.development")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
 
@@ -115,3 +116,6 @@ INTERNAL_IPS = ('127.0.0.1',)
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+
+MPTT_ADMIN_LEVEL_INDENT = 30
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

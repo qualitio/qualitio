@@ -6,7 +6,11 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}js/store.js"></script>
 {% endblock %}
 
+{% block css-include %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/store.css" />
+{% endblock %}
+
 {% block application-menu %}
-<a href="/store/">browse</a>
-<a href="/store/filter/">filter</a>
+<li class="active">browse</li>
+<li><a href="/store/filter/">filter</a></li>
 {% endblock %}

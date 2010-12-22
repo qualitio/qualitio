@@ -1,7 +1,7 @@
 /* Global css */
 body {
     font-family:"trebuchet MS","Helvetica","Verdana","sans-serif";
-    font-size: 11px;
+    font-size: 12px;
 }
 
 #project-menu {
@@ -24,12 +24,78 @@ body {
     padding:2px;
 }
 
+#loading {
+    position: absolute;
+    left: 50%;
+    top: 55px;
+    display:none;
+    z-index:1;
+}
+
 #application-menu {
-    padding:0.6em 1.1em;
     line-height:1.4;
     text-align: left;
     border-bottom:2px solid #aaa;
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.14, rgb(238,238,238)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(238,238,238) 14%,
+        rgb(255,255,255) 100%
+    );
+    z-index:0;
+}
 
+#application-menu ul,
+#application-menu li {
+    display: inline;
+}
+#application-menu li {
+    padding: 5px 0;
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+}
+#application-menu li.active {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.14, rgb(222,222,222)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(222,222,222) 14%,
+        rgb(255,255,255) 100%
+    );
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #555;
+    text-decoration: none;
+}
+
+#application-menu a,
+#application-menu a:link {
+    font-size: 1.1em;
+    color: #555;
+    text-decoration: none;
+    /* margin: 0px 7px 0px 3px; */
+}
+
+#application-menu a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #777;
+}
+ 
+#application-view-menu {
+    border-bottom: 1px solid #aaa;
     background: -webkit-gradient(
         linear,
         left bottom,
@@ -44,29 +110,13 @@ body {
     );
 }
 
-#application-menu a,
-#application-menu a:link {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #555;
-    text-decoration: none;
-    margin: 0px 7px 0px 3px;
-}
-
-#application-menu a:hover {
-    text-decoration: underline;
-    font-weight: bold;
-    color: #777;
-}
-
-#application-view-menu {
-    padding: 5px 10px;
-    border-bottom: 1px solid #aaa;
-}
-
 #application-view-menu a{
+    padding:5px 15px;
     text-decoration: none;
-    color: #555
+    color: #555;
+    
+    text-align: center;
+    display:inline-block;
 }
 
 #application-view-menu a:hover{
@@ -75,36 +125,58 @@ body {
     color: #777;
 }
 
+
 #application-view-menu .active{
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.14, rgb(222,222,222)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(210,210,210) 14%,
+        rgb(255,255,255) 100%
+    );
     color: #222;
     font-weight: bold;
+    display:inline-block;
+    padding:5px 15px;
 }
 
 .application-view-content {
     padding: 10px 10px 0;
 }
 
-.application-view-content{
-    margin-bottom:50px;
+.application-view-content input:not(.ui-button):not([type=checkbox]),
+.application-view-content textarea {
+    width: 100%;
+    font-size: 1em;
+    border: 1px solid #ccc;
 }
 
-
-.application-view-content select,
-.application-view-content input:not(.ui-button):not([type=checkbox]) {
-    /* border:1px solid #CCCCCC; */
+.application-view-content select  {
     width: 100%;
-    font-size: 0.9em;
+    font-size: 1em;
+    border: 1px solid #ccc;
+}
+
+.application-view-content select[multiple],
+.application-view-content textarea  {
+    height: 100px;
+}
+.application-view-content select[multiple] option{
+    padding: 2px 0;
 }
 
 h1 {
-    font-size: 1.4em;
-    margin: 10px 0px;
+    font-size: 1.3em;
     color: #775555;
     font-weight: bold;
-    border-bottom: 1px solid #F0F0F0;
 }
 
-h2 {
+h2, label, .text-bullet {
     font-size: 1.2em;
     margin: 14px 0px 2px;
     color: #775555;
@@ -113,8 +185,7 @@ h2 {
 }
 
 #application-view-header {
-    border-bottom:2px solid #aaa;
-    padding: 0px 0px 10px 0px;
+    padding: 5px 10px;
 }
 
 #application-view-footer {
@@ -122,7 +193,6 @@ h2 {
     padding: 3px 0;
     border-top: 1px solid #aaa;
     margin-top: 20px;
-    position:absolute;
     bottom: 0;
 }
 #application-view-footer .left input {
@@ -151,7 +221,6 @@ h2 {
     background: #fafafa;
 }
 
-
 #footer {
     padding: 7px 7px 40px;
     border-top:2px solid #aaa;
@@ -165,15 +234,28 @@ h2 {
     background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
     /* for firefox 3.6+ */
     background: -moz-linear-gradient(top,  #eee,  #fff);
+}
 
+.tabble-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;
 }
 
 table.pretty {
     width:100%;
     border-collapse: collapse;
 }
+table.pretty .checkbox  {
+    width: 18px;
+}
 table.pretty .icon {
-    width: 16px;
+    width: 20px;
+}
+table.pretty .id {
+    width: 15px;
 }
 table.pretty .path {
     width:45%;
@@ -181,17 +263,16 @@ table.pretty .path {
 table.pretty td {
     border: 1px white solid;
     padding: 0.2em;
-    background: whitesmoke;
     vertical-align:middle;
 }
-table.pretty tr.directory td {
-    background: #E8E8E8;
+
+table.pretty tr:nth-child(even) { 
+    background: whitesmoke; 
 }
+
 table.pretty th {
     text-align: left;
     padding: 0.2em 0 0.1em;
-    border-bottom: 1px solid #aaa;
-    border-top: 1px solid #aaa;
 }
 table.pretty caption {
     margin-left: inherit;
@@ -208,12 +289,6 @@ table a:visited {
     font-weight: bold;
     color: black;
     font-size: 1.0em;
-}
-
-label {
-    display:block;
-    font-size:1.1em;
-    margin-top: 5px;
 }
 
 table.filter {
@@ -272,33 +347,34 @@ table.filter td.add {
     font-size: 1.2em;
 }
 
-.step {
-    display:inline-block;
-    width: 99%
+form .field-wrapper {
+    margin: 3px 0;
+    padding: 3px 0;
 }
 
-.step .excpected {
-    text-align: justify;
+form .ui-state-error label {
+    font-weight: bold;
+}
+form .ui-state-error .error {
+    font-style: italic;
 }
 
-.step textarea {
-    height: 70px;
-    width: 100%;
+.testcase-search #id_search {
+    width: 85%;
+}
+.testcase-search input[type=submit] {
+    width:14%;
 }
 
-.precondition textarea {
-
-}
-
-.step .description p {
-    margin-right: 15px;
-}
-
-.step p {
-    text-align:justify;
+.available-testcases tr.disabled td {
+    color:#555555;
 }
 
 /* jQuery-ui fixes */
+.ui-button {
+    font-size:0.9em;
+}
+
 .qtip .qtip-content{
    padding: 10px;
    overflow: hidden;
