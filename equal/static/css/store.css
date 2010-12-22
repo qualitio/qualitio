@@ -2,6 +2,16 @@
     margin:5px 0;
 }
 
+.template {
+    display:none;
+}
+
+.step.removed {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
 .step textarea {
     height: 70px;
     overflow: auto;
@@ -10,5 +20,5 @@
 #id_description, 
 #id_precondition, 
 .step textarea {
-    height: 50px;
+    height: 70px;
 }
