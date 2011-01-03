@@ -9,22 +9,22 @@ def push():
     "Get new development code to device"
 
     rsync_project(remote_dir="/home/services/www/",
-                  local_dir="equal",
+                  local_dir="qualitio",
                   delete=True,
                   exclude=[".git*",
                            "*.pyc",
                            "*.pyo"])
-    run("chown :dev -R /home/services/www/equal")
-    run("chmod g+rw -R /home/services/www/equal/data")
+    run("chown :dev -R /home/services/www/qualitio")
+    run("chmod g+rw -R /home/services/www/qualitio/data")
 
 
 def requirements():
     "Install required packages for application"
 
-    virtualenv = "source /home/services/python-virtualenvs/equal/bin/activate && "
-    with cd('/home/services/www/equal/'):
+    virtualenv = "source /home/services/python-virtualenvs/qualitio/bin/activate && "
+    with cd('/home/services/www/qualitio/'):
         put("requirements.txt",
-            "/home/services/www/equal")
+            "/home/services/www/qualitio")
 
         run(virtualenv+" pip install -r requirements.txt")
 
