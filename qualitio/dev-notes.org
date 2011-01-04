@@ -1,6 +1,0 @@
-Bugs: 
-* Requirement edit view, error text is not cleared before every save.
-
-
-Enhancements:
-* Requirement dependency tree
