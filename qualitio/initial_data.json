@@ -1,0 +1,138 @@
+[
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "admin", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2010-10-18 05:42:11", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$77074$a0439dd586835e301c02d5e4038b407ea0986573", 
+      "email": "admin@admin.pl", 
+      "date_joined": "2010-10-18 05:42:11"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 2, 
+      "name": "BigProject", 
+      "parent": null, 
+      "level": 0, 
+      "lft": 1, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "path": "/", 
+      "release_target": null, 
+      "description": "Example project"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 6, 
+      "name": "BigProject", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2011-01-04 14:22:34", 
+      "lft": 1, 
+      "tree_id": 1, 
+      "created_time": "2011-01-04 14:22:34", 
+      "path": "/"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 3, 
+      "name": "Simple tests", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2011-01-04 14:23:05", 
+      "lft": 2, 
+      "tree_id": 1, 
+      "created_time": "2011-01-04 14:23:05", 
+      "path": "/BigProject/"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 5, 
+      "name": "Advance tests", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2011-01-04 14:23:15", 
+      "lft": 4, 
+      "tree_id": 1, 
+      "created_time": "2011-01-04 14:23:15", 
+      "path": "/BigProject/"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": null, 
+      "name": "Simple test 1", 
+      "parent": 2, 
+      "precondition": "", 
+      "modified_time": "2011-01-04 14:24:20", 
+      "created_time": "2011-01-04 14:24:20", 
+      "path": "/BigProject/Simple tests/", 
+      "description": "Simple test 1"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": null, 
+      "name": "Simple test 2", 
+      "parent": 2, 
+      "precondition": "", 
+      "modified_time": "2011-01-04 14:25:48", 
+      "created_time": "2011-01-04 14:24:29", 
+      "path": "/BigProject/Simple tests/", 
+      "description": "Simple test 2"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": null, 
+      "name": "Advance test 1", 
+      "parent": 3, 
+      "precondition": "", 
+      "modified_time": "2011-01-04 14:25:23", 
+      "created_time": "2011-01-04 14:25:23", 
+      "path": "/BigProject/Advance tests/", 
+      "description": "Advance test 1"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": null, 
+      "name": "Advance test 2", 
+      "parent": 3, 
+      "precondition": "", 
+      "modified_time": "2011-01-04 14:25:37", 
+      "created_time": "2011-01-04 14:25:37", 
+      "path": "/BigProject/Advance tests/", 
+      "description": "Advance test 2"
+    }
+  }
+]
