@@ -612,7 +612,7 @@ class Test7ModreqParent(BaseSeleniumTestCase):
     def test_7_modreq_parent(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -813,7 +813,7 @@ class Test8ModreqReltarg(BaseSeleniumTestCase):
     def test_8_modreq_reltarg(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -1019,7 +1019,7 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
     def test_9_modreq_desript(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -1211,7 +1211,7 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
     def test_10_modreq_depend(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
