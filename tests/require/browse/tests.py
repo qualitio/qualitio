@@ -27,10 +27,10 @@ class HeaderpageVerifytext(BaseSeleniumTestCase):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         sel.click("link=MeeGo")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#logo"))
-        try: self.assertEqual("eQualrequirements", sel.get_text("css=#logo"))
+        try: self.assertEqual("qualitiorequirements", sel.get_text("css=#logo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#notification.notify-wrapper-oneattime"))
         try: self.assertEqual("requirments", sel.get_text("link=requirments"))
@@ -64,7 +64,7 @@ class TreeVerifyelements(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -111,7 +111,7 @@ class Newreq(BaseSeleniumTestCase):
     def test_newreq(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -209,7 +209,7 @@ class Modreq(BaseSeleniumTestCase):
     def test_modreq(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("eQual: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -385,7 +385,7 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
         sel.open("/require/#requirement/13/details/")
         for i in range(60):
             try:
-                if sel.is_text_present("eQualrequirements"): break
+                if sel.is_text_present("qualitiorequirements"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -497,7 +497,7 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         sel.open("/require/#requirement/13/details/")
         for i in range(60):
             try:
-                if sel.is_text_present("eQualrequirements"): break
+                if sel.is_text_present("qualitiorequirements"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
