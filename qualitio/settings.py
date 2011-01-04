@@ -74,7 +74,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'qualitio.urls'
 
 TEMPLATE_DIRS = (
-    '/home/seba/.virtualenvs/tcstorm-requirements/lib/python2.6/site-packages/treebeard/templates/',
     os.path.join(PROJECT_PATH, 'templates'),
 )
 
@@ -96,7 +95,6 @@ INSTALLED_APPS = (
 
     'mptt',
     'debug_toolbar',
-    'ajax_validation',
     'django_nose'
 )
 
