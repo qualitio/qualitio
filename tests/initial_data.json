@@ -1,0 +1,287 @@
+[
+  {
+    "pk": 1, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 32, 
+      "name": "MeeGo", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2010-12-09 12:24:07", 
+      "lft": 1, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-11-24 07:00:45", 
+      "path": "/", 
+      "release_target": "2010-12-01", 
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin scelerisque adipiscing neque, vitae luctus purus posuere vel. In non sapien non nisi tincidunt faucibus sit amet vitae lacus. \n\nSuspendisse ultricies tempus vestibulum. Quisque eget purus at leo posuere tincidunt. Pellentesque id nisl et massa ultricies mollis sit amet eget odio. Maecenas mattis mauris est, eu cursus libero. Nunc vel nisi ac erat auctor pulvinar non at velit. Nunc accumsan felis sed elit convallis porttitor. Vivamus nisl nibh, molestie quis dignissim a, dapibus quis eros. Sed quis dolor eu eros vulputate tincidunt nec a diam. Sed ut velit mi, et euismod sapien. "
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 5, 
+      "name": "Notebook", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2010-12-09 14:02:09", 
+      "lft": 4, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-02 16:05:56", 
+      "path": "/MeeGo/", 
+      "release_target": "2010-12-08", 
+      "description": "test1 "
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 7, 
+      "name": "IVI", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 6, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-02 16:06:19", 
+      "path": "/MeeGo/", 
+      "release_target": "2010-12-02", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 15, 
+      "name": "TV", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 8, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-02 16:09:20", 
+      "path": "/MeeGo/", 
+      "release_target": "2010-12-02", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 17, 
+      "name": "MeeGo Handset", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 16, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-02 16:09:39", 
+      "path": "/MeeGo/", 
+      "release_target": "2010-12-02", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 10, 
+      "name": "Bootscreen ", 
+      "parent": 4, 
+      "level": 2, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 9, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-06 15:10:13", 
+      "path": "/MeeGo/TV/", 
+      "release_target": "2010-12-02", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 19, 
+      "name": "MeeGo Media Phone", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 18, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-06 16:33:54", 
+      "path": "/MeeGo/", 
+      "release_target": "2010-12-31", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 31, 
+      "name": "Legacy", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 20, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-06 16:35:47", 
+      "path": "/MeeGo/", 
+      "release_target": "2010-12-15", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 30, 
+      "name": "n900", 
+      "parent": 10, 
+      "level": 2, 
+      "modified_time": "2010-12-09 12:24:08", 
+      "lft": 21, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-06 16:36:32", 
+      "path": "/MeeGo/Legacy/", 
+      "release_target": "2010-12-24", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 23, 
+      "name": "pr 1.0", 
+      "parent": 11, 
+      "level": 3, 
+      "modified_time": "2010-12-09 12:24:09", 
+      "lft": 22, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-06 16:37:05", 
+      "path": "/MeeGo/Legacy/n900/", 
+      "release_target": "2010-12-30", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 14, 
+      "name": "MeeGo Handset test", 
+      "parent": 4, 
+      "level": 2, 
+      "modified_time": "2010-12-09 14:11:03", 
+      "lft": 11, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-07 15:45:52", 
+      "path": "/MeeGo/TV/", 
+      "release_target": "2010-12-08", 
+      "description": "testtestest"
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 25, 
+      "name": "pr 1.1", 
+      "parent": 11, 
+      "level": 3, 
+      "modified_time": "2010-12-09 12:24:09", 
+      "lft": 24, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-07 16:31:24", 
+      "path": "/MeeGo/Legacy/n900/", 
+      "release_target": "2010-12-09", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 27, 
+      "name": "pr 1.2", 
+      "parent": 11, 
+      "level": 3, 
+      "modified_time": "2010-12-09 12:24:09", 
+      "lft": 26, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-07 16:32:37", 
+      "path": "/MeeGo/Legacy/n900/", 
+      "release_target": "2010-12-04", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 29, 
+      "name": "pr 1.3", 
+      "parent": 11, 
+      "level": 3, 
+      "modified_time": "2010-12-09 12:24:09", 
+      "lft": 28, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-07 16:36:45", 
+      "path": "/MeeGo/Legacy/n900/", 
+      "release_target": "2010-12-25", 
+      "description": "3123123"
+    }
+  }, 
+  {
+    "pk": 27, 
+    "model": "requirements.requirement", 
+    "fields": {
+      "rght": 13, 
+      "name": "test1", 
+      "parent": 13, 
+      "level": 3, 
+      "modified_time": "2010-12-09 14:12:57", 
+      "lft": 12, 
+      "alias": "", 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "created_time": "2010-12-09 14:12:57", 
+      "path": "/MeeGo/TV/MeeGo Handset test/", 
+      "release_target": "2010-12-08", 
+      "description": "test1 test1 "
+    }
+  }
+]

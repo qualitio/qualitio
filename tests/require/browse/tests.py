@@ -21,9 +21,9 @@ class BaseSeleniumTestCase(unittest.TestCase):
         self.assertEqual([], self.verificationErrors)
 
 
-class HeaderpageVerifytext(BaseSeleniumTestCase):
+class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
     
-    def test_headerpage_verifytext(self):
+    def test_1_headerpage_verifytext(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         sel.click("link=MeeGo")
@@ -52,9 +52,9 @@ class HeaderpageVerifytext(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
-class TreeVerifyelements(BaseSeleniumTestCase):
+class Test2TreeVerifyelements(BaseSeleniumTestCase):
     
-    def test_tree_verifyelements(self):
+    def test_2_tree_verifyelements(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         for i in range(60):
@@ -106,9 +106,9 @@ class TreeVerifyelements(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
-class Newreq(BaseSeleniumTestCase):
+class Test3Newreq(BaseSeleniumTestCase):
     
-    def test_newreq(self):
+    def test_3_newreq(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
@@ -204,9 +204,9 @@ class Newreq(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
-class Modreq(BaseSeleniumTestCase):
+class Test4Modreq(BaseSeleniumTestCase):
     
-    def test_modreq(self):
+    def test_4_modreq(self):
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
@@ -325,6 +325,7 @@ class Modreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.type("id_name", "mod requirement 3")
         sel.click("css=input.ui-button")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -459,6 +460,7 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=test cases"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=test cases")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("del"): break
@@ -493,7 +495,7 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
     
     def test_6_testcases_add(self):
         sel = self.selenium
-        sel.set_timeout("10000")
+        sel.set_timeout("30000")
         sel.open("/require/#requirement/13/details/")
         for i in range(60):
             try:
@@ -602,6 +604,1045 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("#1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test7ModreqParent(BaseSeleniumTestCase):
+    
+    def test_7_modreq_parent(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new requirement 4")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 4"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 4"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 4")
+        sel.click("link=new requirement 4")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 4" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("css=div#application-view-header h1"))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id_parent", "label=/MeeGo/TV/MeeGo Handset test")
+        sel.click("css=input.ui-button")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Notebook" == sel.get_text("link=Notebook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo Handset test"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "MeeGo Handset test" == sel.get_text("link=MeeGo Handset test"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo Handset test"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo Handset test")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 4"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=new requirement 4")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 4" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo/TV/MeeGo Handset test/new requirement 4"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("exact:requirement: new requirement 4"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo/TV/MeeGo Handset test/new requirement 4"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test8ModreqReltarg(BaseSeleniumTestCase):
+    
+    def test_8_modreq_reltarg(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new requirement 5")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 5"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 5"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 5")
+        sel.click("link=new requirement 5")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if "requirement: new requirement 5" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("css=div#application-view-header h1"))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_release_target"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_release_target"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_release_target")
+        sel.click("link=15")
+	time.sleep(1)
+        sel.click("css=input.ui-button")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Notebook" == sel.get_text("link=Notebook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 5"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=new requirement 5")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 5" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo/TV/new requirement 5"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("exact:requirement: new requirement 5"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id_release_target"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_release_target"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=15"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=15"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("15", sel.get_text("link=15"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("15", sel.get_text("css= .ui-state-active"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test9ModreqDesript(BaseSeleniumTestCase):
+    
+    def test_9_modreq_desript(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new requirement 6")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 6"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 6"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 6")
+        sel.click("link=new requirement 6")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 6" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("css=div#application-view-header h1"))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_description", "Desription of test")
+        sel.click("css=input.ui-button")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Notebook" == sel.get_text("link=Notebook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 6"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=new requirement 6")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 6" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo/TV/new requirement 6"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("exact:requirement: new requirement 6"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present(""))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test10ModreqDepend(BaseSeleniumTestCase):
+    
+    def test_10_modreq_depend(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new requirement 7")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 7"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 7"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 7")
+        sel.click("link=new requirement 7")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 7" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("css=div#application-view-header h1"))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_dependencies"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_dependencies"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.add_selection("id_dependencies", "label=/MeeGo/IVI")
+        sel.click("css=input.ui-button")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Notebook" == sel.get_text("link=Notebook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 7"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=new requirement 7")
+        for i in range(60):
+            try:
+                if "requirement: new requirement 7" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo/TV/new requirement 7"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("exact:requirement: new requirement 7"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_text_present("depends   id path name 3 /MeeGo/ IVI"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("depends   id path name 3 /MeeGo/ IVI"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test11Subrequir(BaseSeleniumTestCase):
+    
+    def test_11_subrequir(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new requirement 8")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 8"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 8"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 8")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: new requirement 8"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new subrequirement 8")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 8"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 8"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 8")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: new requirement 8"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "new sub2requirement 8")
+        sel.click("id_release_target")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#ui-datepicker-div div div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=1")
+        sel.click("release_target_wrapper")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "TV" == sel.get_text("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new requirement 8"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=new requirement 8"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=new requirement 8")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: new requirement 8"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("/MeeGo/TV/new requirement 8/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("new subrequirement 8"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("new sub2requirement 8"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
