@@ -93,7 +93,7 @@ body {
     font-weight: bold;
     color: #777;
 }
- 
+
 #application-view-menu {
     border-bottom: 1px solid #aaa;
     background: -webkit-gradient(
@@ -114,7 +114,7 @@ body {
     padding:5px 15px;
     text-decoration: none;
     color: #555;
-    
+
     text-align: center;
     display:inline-block;
 }
@@ -266,8 +266,8 @@ table.pretty td {
     vertical-align:middle;
 }
 
-table.pretty tr:nth-child(even) { 
-    background: whitesmoke; 
+table.pretty tr:nth-child(even) {
+    background: whitesmoke;
 }
 
 table.pretty th {
