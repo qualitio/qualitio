@@ -1,0 +1,5 @@
+python menage.py runserver
+  Uruchomienie serwera developerskiego
+
+python menage.py syncdb
+  Utworzenie bazy danych, wymagane tylko raz

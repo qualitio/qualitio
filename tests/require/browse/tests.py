@@ -325,6 +325,7 @@ class Modreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.type("id_name", "mod requirement 3")
         sel.click("css=input.ui-button")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -682,7 +683,6 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
-	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -724,13 +724,23 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.select("id_parent", "label=/MeeGo/TV/MeeGo Handset test")
         sel.click("css=input.ui-button")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
@@ -1124,6 +1134,7 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_description", "Desription of test")
         sel.click("css=input.ui-button")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -1131,6 +1142,7 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
@@ -1315,6 +1327,7 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.add_selection("id_dependencies", "label=/MeeGo/IVI")
         sel.click("css=input.ui-button")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -1322,6 +1335,7 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
