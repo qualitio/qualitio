@@ -283,5 +283,92 @@
       "release_target": "2010-12-08", 
       "description": "test1 test1 "
     }
+  },
+  {
+    "pk": 1, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 4, 
+      "name": "MeeGo Netbook", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2011-01-07 11:16:52", 
+      "lft": 1, 
+      "tree_id": 1, 
+      "created_time": "2011-01-07 11:16:52", 
+      "path": "/"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 2, 
+      "name": "MeeGo Handset bat", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2011-01-07 11:18:06", 
+      "lft": 1, 
+      "tree_id": 2, 
+      "created_time": "2011-01-07 11:18:06", 
+      "path": "/"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 3, 
+      "name": "MeeGo IVI BAT", 
+      "parent": 1, 
+      "level": 1, 
+      "modified_time": "2011-01-07 11:20:19", 
+      "lft": 2, 
+      "tree_id": 1, 
+      "created_time": "2011-01-07 11:20:19", 
+      "path": "/MeeGo Netbook/"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "Close navigation", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:37", 
+      "created_time": "2011-01-07 11:09:16", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "Open navigation", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 13, 
+      "name": "TestCase", 
+      "parent": 1, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 12:00:45", 
+      "created_time": "2011-01-07 11:11:17", 
+      "path": "/MeeGo Netbook/", 
+      "description": ""
+    }
   }
 ]
