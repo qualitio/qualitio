@@ -4,7 +4,7 @@ import os, sys
 try: 
     os.environ["VIRTUAL_ENV"]
 except KeyError:
-    developemnt_virtualenv = "../.virtualenv/bin/activate_this.py"
+    developemnt_virtualenv = os.path.join(os.path.dirname(__file__), "../.virtualenv/bin/activate_this.py")
     execfile(developemnt_virtualenv, dict(__file__=developemnt_virtualenv))
 
 from django.core.management import execute_manager

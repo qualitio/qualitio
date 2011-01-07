@@ -10,20 +10,33 @@ from fabric.colors import green
 def setup_development():
     "Create development envirotment"
     
-    local('sudo apt-get install -y python-setuptools python-dev')
-    local('sudo easy_install pip')
-    local('sudo pip install virtualenv')
+    with hide('running', 'stdout'):
+        print("Creating development evnirotment: ... ")
+        print("  1. Installing python libraries: python-setuptools, python-dev")
+        local('sudo apt-get install -y python-setuptools python-dev', capture=False)
+        print("  2. Installing pip")
+        local('sudo easy_install pip', capture=False)
+        print("  3. Installing virtualenv")
+        local('sudo pip install virtualenv', capture=False)
     
-    try: 
-        local('virtualenv %s/qualitio-dev' % os.environ["WORKON_HOME"])
-        print("\n\nDevelopment evnirotment for qualitio project created!" 
-              + "\nType " + green("workon qualitio-dev") + " to start workoing!")
+        try:
+            workon = os.environ["WORKON_HOME"]
+            print("  4. Creating virtualenv environment")
+            local('virtualenv %s/qualitio-dev' % workon)
+            print("  5. Downloading required development packages")
+            local('pip -E %s/qualitio-dev install -r requirements.txt' % workon)
+            print("\nDevelopment evnirotment for qualitio project created!" + 
+                  "\nType " + green("workon qualitio-dev") + " to start workoing!")
 
-    except KeyError:
-        local('virtualenv .virtualenv')
-        print("\n\nDevelopment evnirotment for qualitio project created in " + 
-              green(".virtualenv") + " directory")
-    
+        except KeyError:
+            print("  4. Creating virtualenv environment")
+            local('virtualenv .virtualenv')
+            print("  5. Downloading required development packages")
+            local('pip -E .virtualenv install -r requirements.txt')
+            
+            print("\nDevelopment evnirotment for qualitio project created in " + 
+                  green("%s/.virtualenv" % os.getcwd()) + " directory")
+        
 
 def push():
     "Get new development code to device"
