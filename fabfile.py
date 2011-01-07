@@ -4,6 +4,40 @@ import os
 from fabric.api import *
 
 from fabric.contrib.project import rsync_project
+from fabric.colors import green
+
+
+def setup_development():
+    "Create development envirotment"
+    
+    with hide('running', 'stdout'):
+        print("Creating development evnirotment: ... ")
+        print("  1. Installing python libraries: python-setuptools, python-dev")
+        local('sudo apt-get install -y python-setuptools python-dev', capture=False)
+        print("  2. Installing pip")
+        local('sudo easy_install pip', capture=False)
+        print("  3. Installing virtualenv")
+        local('sudo pip install virtualenv', capture=False)
+    
+        try:
+            workon = os.environ["WORKON_HOME"]
+            del(os.environ['VIRTUAL_ENV'])
+            print("  4. Creating virtualenv environment")
+            local('virtualenv %s/qualitio-dev' % workon)
+            print("  5. Downloading required development packages, this may take a while")
+            local('pip -E %s/qualitio-dev install -r requirements.txt' % workon)
+            print("\nDevelopment evnirotment for qualitio project created!" + 
+                  "\nType " + green("workon qualitio-dev") + " to start workoing!")
+
+        except KeyError:
+            print("  4. Creating virtualenv environment")
+            local('virtualenv .virtualenv')
+            print("  5. Downloading required development packages")
+            local('pip -E .virtualenv install -r requirements.txt')
+            
+            print("\nDevelopment evnirotment for qualitio project created in " + 
+                  green("%s/.virtualenv" % os.getcwd()) + " directory")
+        
 
 def push():
     "Get new development code to device"

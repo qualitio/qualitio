@@ -1,4 +1,4 @@
--e svn+http://code.djangoproject.com/svn/django/trunk@15147#egg=Django-1.3_beta_1-py2.6-dev_r15147
+django==1.2.4
 django-debug-toolbar==0.8.3
 django-mptt==0.4.2
 django-tables==0.2
