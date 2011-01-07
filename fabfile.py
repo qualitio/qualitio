@@ -21,9 +21,10 @@ def setup_development():
     
         try:
             workon = os.environ["WORKON_HOME"]
+            del(os.environ['VIRTUAL_ENV'])
             print("  4. Creating virtualenv environment")
             local('virtualenv %s/qualitio-dev' % workon)
-            print("  5. Downloading required development packages")
+            print("  5. Downloading required development packages, this may take a while")
             local('pip -E %s/qualitio-dev install -r requirements.txt' % workon)
             print("\nDevelopment evnirotment for qualitio project created!" + 
                   "\nType " + green("workon qualitio-dev") + " to start workoing!")
