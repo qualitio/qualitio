@@ -89,8 +89,26 @@ $(document).ajaxComplete(function() {
   $("#loading").hide();
 });
 
+
+var resize_main_window = function() {
+  $('#application-view, #application-tree')
+    .css('height',
+         document.body.clientHeight - 
+         $('#header').height() - 
+         // because overflow needs to be launched earlier
+         2*$('#footer').height());
+};
+
 $(document).ready(function() {
   $('#notification').jnotifyInizialize({
     oneAtTime: true
   });
+
+  resize_main_window();
 });
+
+$(window).resize(function() {
+  resize_main_window();
+});
+
+

@@ -1,3 +1,4 @@
+{% load webdesign %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
@@ -33,38 +34,41 @@
   </head>
   
   <body>
-    <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif" />
-    <div id="notification"></div>
+    <div id="main">
+      <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif" />
+      <div id="notification"></div>
       
-    <div class="container_16 clearfix" >
-      <div class="grid_3 suffix_8">
-        <div id="logo">
-          qualitio<span style="font-size:12px; font-weight: bold">{% block module-name %}{% endblock %}</span>
+      <div id="header" class="container_16 clearfix">
+        <div class="grid_3 suffix_8">
+          <div class="logo">
+            qualitio<span style="font-size:12px; font-weight: bold">{% block module-name %}{% endblock %}</span>
+          </div>
+        </div>
+
+        <div id="project-menu" class="grid_5" style="text-align:right">
+          <div class="content">
+            <a href="/require/">requirments</a> |
+            <a href="/store/">store</a> |
+            <!-- <a href="/execute/">execute</a> | -->
+            <!-- <a href="/report/">report</a> | -->
+            <!-- <a href="/settings/">settings</a> | -->
+            <a href="/admin/">admin</a>
+          </div>
         </div>
       </div>
 
-      <div class="grid_5" style="text-align:right">
-        <div id="project-menu">
-          <a href="/require/">requirments</a> |
-          <a href="/store/">store</a> |
-          <!-- <a href="/execute/">execute</a> | -->
-          <!-- <a href="/report/">report</a> | -->
-          <!-- <a href="/settings/">settings</a> | -->
-          <a href="/admin/">admin</a>
+      <div class="container_16 clearfix">
+        {% comment %}{% lorem 10 p %}{% endcomment %}
+        {% block application %}{% endblock %}
+      </div>
+
+      <div id="footer" class="container_16 clearfix">
+        <div class="grid_16">
+          <div class="content">
+            test
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="container_16 clearfix">
-      {% block application %}{% endblock %}
-    </div>
-
-    <div class="container_16 clearfix">
-      <div class="grid_16">
-        <div id="footer">  </div>
-
-      </div>
-    </div>
-
   </body>
 </html>

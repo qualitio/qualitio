@@ -1,27 +1,14 @@
-/* Global css */
+/* /\* Global css *\/ */
+body, html {
+    margin:0;
+    padding:0;
+    height:100%; 
+    overflow: hidden;
+}
+
 body {
     font-family:"trebuchet MS","Helvetica","Verdana","sans-serif";
     font-size: 12px;
-}
-
-#project-menu {
-    margin: 25px 0px 0px 0px;
-}
-#project-menu a:link,
-#project-menu a:visited{
-    text-decoration: none;
-    color: #666;
-    font-weight:bold;
-}
-
-#project-menu a:hover{
-    text-decoration: underline;
-}
-
-#logo {
-    color:#777777;
-    font-size:3em;
-    padding:2px;
 }
 
 #loading {
@@ -30,6 +17,54 @@ body {
     top: 55px;
     display:none;
     z-index:1;
+}
+
+#main {
+    /* position:relative; /\* needed for footer positioning*\/ */
+    margin:0 auto; /* center, not in IE5 */
+    height:auto !important; /* real browsers */
+    height:100%; /* IE6: treaded as min-height*/
+    min-height:100%; /* real browsers */
+}
+
+#header .logo {
+    color:#777777;
+    font-size:3em;
+    padding:2px;
+}
+
+#footer {
+    position:absolute;
+    bottom:0; /* stick to bottom */
+    z-index:1;
+}
+
+#footer .content {
+    padding: 7px;
+    height: 20px;
+    border-top:2px solid #aaa;
+    
+    /* for non-css3 browsers */
+    background: #f0f0f0;
+    /* for IE */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff');
+    /* for webkit browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
+    /* for firefox 3.6+ */
+    background: -moz-linear-gradient(top,  #eee,  #fff);
+}
+
+#project-menu .content {
+    margin: 25px 0px 0px 0px;
+}
+#project-menu a:link,
+#project-menu a:visited{
+    text-decoration: none;
+    color: #666;
+    font-weight:bold;
+}
+#project-menu a:hover{
+    text-decoration: underline;
 }
 
 #application-menu {
@@ -94,6 +129,10 @@ body {
     color: #777;
 }
 
+#application-view {
+    overflow-y: auto;
+}
+
 #application-view-menu {
     border-bottom: 1px solid #aaa;
     background: -webkit-gradient(
@@ -124,7 +163,6 @@ body {
     font-weight: bold;
     color: #777;
 }
-
 
 #application-view-menu .active{
     background: -webkit-gradient(
@@ -191,7 +229,6 @@ h2, label, .text-bullet {
 #application-view-footer {
     background: white;
     padding: 3px 0;
-    border-top: 1px solid #aaa;
     margin-top: 20px;
     bottom: 0;
 }
@@ -219,21 +256,6 @@ h2, label, .text-bullet {
 }
 #application-nav.list a:hover {
     background: #fafafa;
-}
-
-#footer {
-    padding: 7px 7px 40px;
-    border-top:2px solid #aaa;
-    min-height: 50px;
-
-    /* for non-css3 browsers */
-    /* background: #f0f0f0; */
-    /* for IE */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff');
-    /* for webkit browsers */
-    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
-    /* for firefox 3.6+ */
-    background: -moz-linear-gradient(top,  #eee,  #fff);
 }
 
 .tabble-wrapper {
@@ -322,24 +344,8 @@ table.filter td.add {
 
 #application-tree {
     border-right: 3px solid #aaa;
-    padding: 5px;
+    padding: 3px;
     overflow:auto;
-    display:block;
-}
-
-/* Settings */
-/* same styles as application-tree  */
-#application-list {
-    min-height: 400px;
-}
-#application-list .element {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 3px;
-    display: block;
-}
-#application-list a.element:hover {
-    background: #eee;
-    border-bottom: 2px solid #aaa; */
 }
 
 .text-bullet {
