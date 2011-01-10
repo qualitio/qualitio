@@ -37,19 +37,31 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("store", sel.get_text("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("execute", sel.get_text("link=execute"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("report", sel.get_text("link=report"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("settings", sel.get_text("link=settings"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        # <tr>
+        # 	<td>verifyText</td>
+        # 	<td>link=execute</td>
+        # 	<td>execute</td>
+        # </tr>
+        # <tr>
+        # 	<td>verifyText</td>
+        # 	<td>link=report</td>
+        # 	<td>report</td>
+        # </tr>
+        # <tr>
+        # 	<td>verifyText</td>
+        # 	<td>link=settings</td>
+        # 	<td>settings</td>
+        # </tr>
         try: self.assertEqual("admin", sel.get_text("link=admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#application-menu"))
         try: self.assertEqual("browse", sel.get_text("css=#application-menu ul li"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("filter", sel.get_text("css=#application-menu ul li a"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        # <tr>
+        # 	<td>verifyText</td>
+        # 	<td>css=#application-menu ul li a</td>
+        # 	<td>filter</td>
+        # </tr>
 
 
 class Test2TreeVerifyelements(BaseSeleniumTestCase):
@@ -95,7 +107,7 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("css=li#4 ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=li#4 ins")
-        sel.click("css=li#4 ins")
+	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=Bootscreen"): break
@@ -495,14 +507,10 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
     
     def test_6_testcases_add(self):
         sel = self.selenium
-        sel.set_timeout("30000")
+        sel.set_timeout("10000")
         sel.open("/require/#requirement/13/details/")
-        for i in range(60):
-            try:
-                if sel.is_text_present("qualitiorequirements"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("qualitiorequirements"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -593,17 +601,17 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("connect"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("connect")
+        sel.click("css=tr td input[value=\"3\"]")
         try: self.failUnless(sel.is_element_present("save"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("save")
         for i in range(60):
             try:
-                if sel.is_text_present("#1"): break
+                if sel.is_text_present("TestCase"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("#1"))
+        try: self.failUnless(sel.is_text_present("TestCase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
