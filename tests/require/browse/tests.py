@@ -29,8 +29,8 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         sel.click("link=MeeGo")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
-        self.failUnless(sel.is_element_present("css=#logo"))
-        try: self.assertEqual("qualitiorequirements", sel.get_text("css=#logo"))
+        self.failUnless(sel.is_element_present("css=div.logo"))
+        try: self.assertEqual("qualitiorequirements", sel.get_text("css=div.logo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#notification.notify-wrapper-oneattime"))
         try: self.assertEqual("requirments", sel.get_text("link=requirments"))
@@ -1538,6 +1538,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
+	time.sleep(1)
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1547,6 +1548,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
+	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -1651,6 +1653,149 @@ class Test11Subrequir(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("new subrequirement 8"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("new sub2requirement 8"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test12DetailsVerify(BaseSeleniumTestCase):
+
+    def test_12_details_verify(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("css=div#application-view-header"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view-header h1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("requirement: MeeGo", sel.get_text("css=div#application-view-header h1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("details", sel.get_text("css=div#application-view-menu span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("application-view-menu"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=test cases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div.application-view-content"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content div:first-child"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content div:first-child b"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("full name:", sel.get_text("css=div#application-view div.application-view-content div:first-child b"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("full name: /MeeGo", sel.get_text("css=div#application-view div.application-view-content div:first-child"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content div:nth-child(2)"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("path: /", sel.get_text("css=div#application-view div.application-view-content div:nth-child(2)"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content div:nth-child(3)"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content h2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("sub-requirements", sel.get_text("css=div#application-view div.application-view-content h2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content div:nth-child(3)"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view div.application-view-content h2:nth-child(1)"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("testcases", sel.get_text("css=div#application-view div.application-view-content h2:contains(\"testcases\")"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view-footer div a span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("application-view-footer"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("new requirement", sel.get_text("css=div#application-view-footer div a span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("depends"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("blocks"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test13EditVerify(BaseSeleniumTestCase):
+    
+    def test_13_edit_verify(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if "requirement: MeeGo" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("css=div#application-view-header h1"))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("application-view-header"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("application-view-menu"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div.application-view-content"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_release_target")
+        try: self.failUnless(sel.is_element_present("parent_wrapper"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_parent"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name_wrapper"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("release_target_wrapper"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_release_target"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div#ui-datepicker-div"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("description_wrapper"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("dependencies_wrapper"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_dependencies"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("application-view-footer"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=input.ui-button[value='Save']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
