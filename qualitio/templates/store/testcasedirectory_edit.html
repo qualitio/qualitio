@@ -1,21 +1,35 @@
 {% load application_view_menu %}
 <div id="application-view-header">
-  <h1>test case directory: {{ directory.name }}</h1>
+  <h1>
+    test case directory{% if testcasedirectory_form.instance.id %}: {{ testcasedirectory_form.instance.name }}
+    {% endif %}
+  </h1>
 </div>
 
-{% application_view_menu directory "edit" %}
-
-<div class="application-view-content" style="min-height:450px">
-  {% for field in testcasedirectory_form %}
-  <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
-    {{ field.label_tag }}: <span class="error"></span>
-    {{ field }}
+{% if testcasedirectory_form.instance.id %}
+{% application_view_menu testcasedirectory_form.instance "edit" %}
+{% else %}
+<div id="application-view-menu">
+  <span class="active">new</span>
+</div>
+{% endif %}
+<form id="testcasedirectory_form" 
+      action="{% if testcasedirectory_form.instance.id %}/store/ajax/testcasedirectory/{{ testcasedirectory_form.instance.id }}/edit/valid/
+              {% else %}/store/ajax/testcasedirectory/new/valid/{% endif %}"
+      method="post">{% csrf_token %}
+  <div class="application-view-content">
+    {% for field in testcasedirectory_form %}
+    <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
+      {{ field.label_tag }}: <span class="error"></span>
+      {{ field }}
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
-
-<div id="application-view-footer" class="grid_16 clearfix">
-  <div class="grid_16 right">
-    <input type="submit" name="Executed" value="Save" />
+  
+  <div id="application-view-footer" class="grid_16 clearfix">
+    <div class="grid_16 right">
+      <input type="submit" name="Executed" value="Save" />
+    </div>
   </div>
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_directory_edit.js{{ STATIC_HASH }}"></script>

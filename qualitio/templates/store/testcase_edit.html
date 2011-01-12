@@ -1,9 +1,15 @@
 {% load application_view_menu %}
 <div id="application-view-header">
-  <h1>test case: {{ testcase.name }}</h1>
+  <h1>test case{% if testcase_form.instance.id %}: {{ testcase.instance.name }}{% endif %}</h1>
 </div>
 
-{% application_view_menu testcase "edit" %}
+{% if testcase_form.instance.id %}
+{% application_view_menu testcase_form.instance "edit" %}
+{% else %}
+<div id="application-view-menu">
+  <span class="active">new</span>
+</div>
+{% endif %}
 
 <div class="step template clearfix">
   {{ testcasesteps_form.empty_form.id }}
@@ -25,7 +31,10 @@
   </div>
 </div>
 
-<form id="testcase_form" action="/store/ajax/testcase/{{ testcase.id }}/edit/valid/" method="post"> 
+<form id="testcase_form" 
+      action="{% if testcase_form.instance.id %}/store/ajax/testcase/{{ testcase_form.instance.id }}/edit/valid/
+              {% else %}/store/ajax/testcase/new/valid/{% endif %}"
+      method="post">{% csrf_token %}
   <div class="application-view-content">
     
     {% for field in testcase_form %}
