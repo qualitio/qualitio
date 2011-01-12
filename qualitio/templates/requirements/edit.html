@@ -9,8 +9,7 @@
 </div>
 
 <form id="requirement_form" action="/require/ajax/requirement/{{ requirement.id }}/edit/valid/" method="post"> 
-  <div class="application-view-content">
-    {% csrf_token %}
+  <div class="application-view-content">{% csrf_token %}
     {% for field in requirement_form %}
     <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
       {{ field.label_tag }}: <span class="error"></span>

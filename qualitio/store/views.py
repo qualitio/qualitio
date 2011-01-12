@@ -20,8 +20,31 @@ def directory_edit(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
-                              {'directory' : directory, 
-                               'testcasedirectory_form' : testcasedirectory_form })
+                              { 'testcasedirectory_form' : testcasedirectory_form })
+
+def directory_new(request, directory_id):
+    directory = TestCaseDirectory.objects.get(pk=directory_id)
+    testcasedirectory_form = TestCaseDirectoryForm(initial={'parent': directory })
+    print type(testcasedirectory_form.instance)
+    return direct_to_template(request, 'store/testcasedirectory_edit.html',
+                              { 'testcasedirectory_form' : testcasedirectory_form })
+
+@json_response
+def directory_valid(request, directory_id=0):
+    if directory_id:
+        testcase_directory = TestCaseDirectory.objects.get(pk=str(directory_id))
+        testcase_directory_form = TestCaseDirectoryForm(request.POST, instance=testcase_directory)
+    else:
+        testcase_directory_form = TestCaseDirectoryForm(request.POST)
+        
+    if testcase_directory_form.is_valid():
+        testcase_directory = testcase_directory_form.save()
+        return success(message='testcase directory saved', 
+                       data={ "parent_id" : getattr(testcase_directory.parent,"id", 0), 
+                              "current_id" : testcase_directory.id })
+    else:
+        return failed(message="Validation errors", 
+                      data=[(k, v[0]) for k, v in testcase_directory_form.errors.items()])
 
 def testcase_details(request, testcase_id):
     return direct_to_template(request, 'store/testcase_details.html',
@@ -33,18 +56,33 @@ def testcase_edit(request, testcase_id):
     testcasesteps_form = TestCaseStepFormSet(instance=testcase)
     glossary_word_search_form = GlossaryWord()
     return direct_to_template(request, 'store/testcase_edit.html',
-                              { 'testcase' : testcase,
-                                'testcase_form' : testcase_form,
+                              { 'testcase_form' : testcase_form,
                                 'testcasesteps_form' : testcasesteps_form,
                                 'glossary_word_search_form' : glossary_word_search_form })
 
+
+def testcase_new(request, directory_id):
+    directory = TestCaseDirectory.objects.get(pk=directory_id)
+    testcase_form = TestCaseForm(initial={'parent': directory})
+    testcasesteps_form = TestCaseStepFormSet()
+    return direct_to_template(request, 'store/testcase_edit.html', 
+                              { "testcase_form" : testcase_form,
+                                "testcasesteps_form" : testcasesteps_form })
+
+
 @json_response
-def testcase_valid(request, testcase_id):
-    testcase = TestCase.objects.get(pk=str(testcase_id))
-    testcase_form = TestCaseForm(request.POST, instance=testcase)
-    testcasesteps_form = TestCaseStepFormSet(request.POST, instance=testcase)
+def testcase_valid(request, testcase_id=0):
+    if testcase_id:
+        testcase = TestCase.objects.get(pk=str(testcase_id))
+        testcase_form = TestCaseForm(request.POST, instance=testcase)
+        testcasesteps_form = TestCaseStepFormSet(request.POST, instance=testcase)
+    else:
+        testcase_form = TestCaseForm(request.POST)
+        testcasesteps_form = TestCaseStepFormSet(request.POST)
+        
     if testcase_form.is_valid() and testcasesteps_form.is_valid(): 
-        testcase_form.save()
+        testcase = testcase_form.save()
+        testcasesteps_form.instance = testcase
         testcasesteps_form.save()
         return success(message='TestCase saved', 
                        data={ "parent_id" : getattr(testcase.parent,"id", 0), 
@@ -54,7 +92,7 @@ def testcase_valid(request, testcase_id):
         for i, error in filter(lambda x: x[1], list(enumerate(testcasesteps_form.errors))):
             for v, k in error.items():
                 formset_errors.append(map(lambda x:(("testcasestep_set-%s-%s") % (i,v) ,x), k)[0])
-        # print formset_errors
+
         return failed(message="Validation errors", 
                       data=[(k, v[0]) for k, v in testcase_form.errors.items()] + formset_errors)
 
