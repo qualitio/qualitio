@@ -50,7 +50,7 @@ def setup_production():
     sudo('mkdir -p %(path)s' % env)
 
 def download_release():
-    env.release = "master"
+    env.release = "development"
     env.release_download_tmp_file = "/tmp/%(release)s.tgz" % env
     env.path = "/var/www/qualtio"
     
@@ -59,9 +59,10 @@ def download_release():
     sudo("rm -f %(release_download_tmp_file)s" % env)
 
 def configure_webserver():
-    env.path = "/var/www/qualtio"
-    sudo("mv %(path)s/deploy/apache.virtualhost /etc/apache2/sites-enabled/qualitio", env)
+    env.path = "/var/www/qualtio" 
     
+    sudo("mv %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
+    sudo("a2ensite qualitio")
     
 def install_requirements():
     env.path = "/var/www/qualtio"
@@ -70,9 +71,10 @@ def install_requirements():
         del(os.environ['PIP_VIRTUALENV_BASE'])
     except KeyError:
         pass
-    sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
+    sudo('pip -E %(path)s/deploy/.virtualenv install -r %(path)s/requirements.txt' % env)
 
-def restart():
+def restart_webserver():
     "Restart apache"
 
     sudo("/etc/init.d/apache2 restart")
+

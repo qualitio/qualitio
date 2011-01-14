@@ -3,9 +3,8 @@ Listen 8081
 
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
-    WSGIScriptAlias / 
 
-    WSGIScriptAlias / /var/www/qualitioproject/qualitio.wsgi
+    WSGIScriptAlias / /var/www/qualtio/deploy/qualitio.wsgi
 
     Alias /static/ /var/www/qualitioproject/qualitio/static/
     <Directory /var/www/qualitioproject/qualitio/static/>
