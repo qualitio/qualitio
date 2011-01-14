@@ -6,8 +6,8 @@ Listen 8081
 
     WSGIScriptAlias / /var/www/qualtio/deploy/qualitio.wsgi
 
-    Alias /static/ /var/www/qualitioproject/qualitio/static/
-    <Directory /var/www/qualitioproject/qualitio/static/>
+    Alias /static/ /var/www/qualtio/qualitio/static/
+    <Directory /var/www/qualtio/qualitio/static/>
         Order deny,allow
         Allow from all
     </Directory>
