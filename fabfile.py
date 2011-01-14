@@ -65,7 +65,7 @@ def install_requirements():
         del(os.environ['PIP_VIRTUALENV_BASE'])
     except KeyError:
         pass
-    sudo('pip -E %(path)s/deploy/.virtualenv install -r %(path)s/requirements.txt' % env)
+    sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
 
 def configure_webserver():
     env.path = "/var/www/qualtio" 
@@ -73,6 +73,12 @@ def configure_webserver():
     # TODO: put here diff check between config versions
     sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
     sudo("a2ensite qualitio")
+
+def synchronize_database():
+    env.path = "/var/www/qualtio" 
+    
+    # TODO: put here diff check between config versions
+    sudo("python %(path)s/qualtio/manage.py syncdb --noinput")
     
 def restart_webserver():
     "Restart apache"
