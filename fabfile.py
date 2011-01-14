@@ -78,7 +78,8 @@ def synchronize_database():
     env.path = "/var/www/qualtio" 
     
     # TODO: put here diff check between config versions
-    sudo("python %(path)s/qualtio/manage.py syncdb --noinput")
+    sudo("chown :www-data -R %(path)s/qualitio/data && chmod g+rw -R %(path)s/qualitio/data" % env)
+    sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env, user="www-data")
     
 def restart_webserver():
     "Restart apache"
