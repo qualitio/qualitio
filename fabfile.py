@@ -58,12 +58,6 @@ def download_release():
     sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)
     sudo("rm -f %(release_download_tmp_file)s" % env)
 
-def configure_webserver():
-    env.path = "/var/www/qualtio" 
-    
-    sudo("mv %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
-    sudo("a2ensite qualitio")
-    
 def install_requirements():
     env.path = "/var/www/qualtio"
 
@@ -73,6 +67,13 @@ def install_requirements():
         pass
     sudo('pip -E %(path)s/deploy/.virtualenv install -r %(path)s/requirements.txt' % env)
 
+def configure_webserver():
+    env.path = "/var/www/qualtio" 
+    
+    # TODO: put here diff check between config versions
+    sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
+    sudo("a2ensite qualitio")
+    
 def restart_webserver():
     "Restart apache"
 
