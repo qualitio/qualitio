@@ -39,38 +39,40 @@ def setup_development():
                   green("%s/.virtualenv" % os.getcwd()) + " directory")
         
 
-def push():
-    "Get new development code to device"
+def setup_production():
+    sudo('apt-get install -y python-setuptools')
+    sudo('easy_install pip')
+    sudo('pip install virtualenv')
+    sudo('apt-get install -y apache2')
+    sudo('apt-get install -y libapache2-mod-wsgi')
+    
+    env.path = "/var/www/qualtio"
+    sudo('mkdir -p %(path)s' % env)
 
-    rsync_project(remote_dir="/home/services/www/",
-                  local_dir="qualitio",
-                  delete=True,
-                  exclude=[".git*",
-                           "*.pyc",
-                           "*.pyo"])
-    run("chown :dev -R /home/services/www/qualitio")
-    run("chmod g+rw -R /home/services/www/qualitio/data")
+def download_release():
+    env.release = "master"
+    env.release_download_tmp_file = "/tmp/%(release)s.tgz" % env
+    env.path = "/var/www/qualtio"
+    
+    sudo("wget http://github.com/qualitio/qualitio/tarball/%(release)s -O %(release_download_tmp_file)s --no-check-certificate" % env)
+    sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)
+    sudo("rm -f %(release_download_tmp_file)s" % env)
 
+def configure_webserver():
+    env.path = "/var/www/qualtio"
+    sudo("mv %(path)s/deploy/apache.virtualhost /etc/apache2/sites-enabled/qualitio", env)
+    
+    
+def install_requirements():
+    env.path = "/var/www/qualtio"
 
-def requirements():
-    "Install required packages for application"
-
-    virtualenv = "source /home/services/python-virtualenvs/qualitio/bin/activate && "
-    with cd('/home/services/www/qualitio/'):
-        put("requirements.txt",
-            "/home/services/www/qualitio")
-
-        run(virtualenv+" pip install -r requirements.txt")
-
+    try:
+        del(os.environ['PIP_VIRTUALENV_BASE'])
+    except KeyError:
+        pass
+    sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
 
 def restart():
     "Restart apache"
 
     sudo("/etc/init.d/apache2 restart")
-
-def deploy():
-    "Full deploy: push and start"
-
-    push()
-    requirements()
-    restart()
