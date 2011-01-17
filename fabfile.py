@@ -68,10 +68,13 @@ def install_requirements():
     sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
 
 def configure_webserver():
-    env.path = "/var/www/qualtio" 
-    
+    env.esc_path = env.path.replace('/','\/')
+    require("path", "esc_path")
+
+    sudo("sed 's/${PATH}/%(esc_path)s/g' %(path)s/deploy/apache.virtualhost > %(path)s/deploy/apache.virtualhost" % env)
     # TODO: put here diff check between config versions
     sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
+
     sudo("a2ensite qualitio")
 
 def synchronize_database():
