@@ -39,38 +39,50 @@ def setup_development():
                   green("%s/.virtualenv" % os.getcwd()) + " directory")
         
 
-def push():
-    "Get new development code to device"
+def setup_production():
+    sudo('apt-get install -y python-setuptools')
+    sudo('easy_install pip')
+    sudo('pip install virtualenv')
+    sudo('apt-get install -y apache2')
+    sudo('apt-get install -y libapache2-mod-wsgi')
+    
+    env.path = "/var/www/qualtio"
+    sudo('mkdir -p %(path)s' % env)
 
-    rsync_project(remote_dir="/home/services/www/",
-                  local_dir="qualitio",
-                  delete=True,
-                  exclude=[".git*",
-                           "*.pyc",
-                           "*.pyo"])
-    run("chown :dev -R /home/services/www/qualitio")
-    run("chmod g+rw -R /home/services/www/qualitio/data")
+def download_release():
+    env.release = "development"
+    env.release_download_tmp_file = "/tmp/%(release)s.tgz" % env
+    env.path = "/var/www/qualtio"
+    
+    sudo("wget http://github.com/qualitio/qualitio/tarball/%(release)s -O %(release_download_tmp_file)s --no-check-certificate" % env)
+    sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)
+    sudo("rm -f %(release_download_tmp_file)s" % env)
 
+def install_requirements():
+    env.path = "/var/www/qualtio"
 
-def requirements():
-    "Install required packages for application"
+    try:
+        del(os.environ['PIP_VIRTUALENV_BASE'])
+    except KeyError:
+        pass
+    sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
 
-    virtualenv = "source /home/services/python-virtualenvs/qualitio/bin/activate && "
-    with cd('/home/services/www/qualitio/'):
-        put("requirements.txt",
-            "/home/services/www/qualitio")
+def configure_webserver():
+    env.path = "/var/www/qualtio" 
+    
+    # TODO: put here diff check between config versions
+    sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
+    sudo("a2ensite qualitio")
 
-        run(virtualenv+" pip install -r requirements.txt")
-
-
-def restart():
+def synchronize_database():
+    env.path = "/var/www/qualtio" 
+    
+    # TODO: put here diff check between config versions
+    sudo("chown :www-data -R %(path)s/qualitio/data && chmod g+rw -R %(path)s/qualitio/data" % env)
+    sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env, user="www-data")
+    
+def restart_webserver():
     "Restart apache"
 
     sudo("/etc/init.d/apache2 restart")
 
-def deploy():
-    "Full deploy: push and start"
-
-    push()
-    requirements()
-    restart()
