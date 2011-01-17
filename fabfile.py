@@ -56,7 +56,7 @@ def setup_production(path="/var/www/qualitio"):
     configure_webserver()
     synchronize_database()
     restart_webserver()
-    load_dumpdata
+    load_dumpdata()
     print(green("\nDone.\n") + 
           "Check your site setup at http://%(host)s:8081" % env)
     
