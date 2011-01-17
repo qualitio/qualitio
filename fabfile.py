@@ -94,12 +94,12 @@ def synchronize_database():
     require("path")
     
     sudo("chown :www-data -R %(path)s/qualitio/data && chmod g+rw -R %(path)s/qualitio/data" % env)
-    sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env, user="www-data")
+    sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env)
 
 def load_dumpdata():
     require("path")
     
-    sudo("python %(path)s/qualitio/manage.py loaddata %(path)s/qualitio/initial_data.json" % env, user="www-data")
+    sudo("python %(path)s/qualitio/manage.py loaddata %(path)s/qualitio/initial_data.json" % env)
     
 def restart_webserver():
     "Restart apache"
