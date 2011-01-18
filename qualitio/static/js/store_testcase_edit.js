@@ -60,6 +60,7 @@ $(function() {
   $('.add-step').die('click'); 
   $('.add-step').live('click', function() {
     new_step = $('.step.template').clone();
+    step_count = $('.step:visible').length;
 
     if( $(this).attr("id") == "add-step-0" ) {
       $(this).after(new_step.removeClass("template")); 
@@ -69,8 +70,8 @@ $(function() {
 
     $('.step:visible').each( function(i) {
       $(this).find("[name^=testcasestep_set]").each(function() {
-        element_id = $(this).attr("id").replace(/(.+\-)(.+)(\-.+)/ig,"$1"+i+"$3");
-        element_name = $(this).attr("name").replace(/(.+\-)(.+)(\-.+)/ig,"$1"+i+"$3");
+        element_id = $(this).attr("id").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1"+step_count+"$3");
+        element_name = $(this).attr("name").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1"+step_count+"$3");
         $(this).attr("id", element_id);
         $(this).attr("name", element_name);
       });
