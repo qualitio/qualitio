@@ -4,10 +4,10 @@ Listen 8081
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
 
-    WSGIScriptAlias / /var/www/qualtio/deploy/qualitio.wsgi
+    WSGIScriptAlias / ${PATH}/deploy/qualitio.wsgi
 
-    Alias /static/ /var/www/qualtio/qualitio/static/
-    <Directory /var/www/qualtio/qualitio/static/>
+    Alias /static/ ${PATH}/qualitio/static/
+    <Directory ${PATH}/qualitio/static/>
         Order deny,allow
         Allow from all
     </Directory>

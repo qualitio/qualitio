@@ -39,27 +39,39 @@ def setup_development():
                   green("%s/.virtualenv" % os.getcwd()) + " directory")
         
 
-def setup_production():
+def setup_production(path="/var/www/qualitio"):
+    #TODO: switch to reall check. This normalization is pretty odd
+    env.path = path.rstrip("/")
+
     sudo('apt-get install -y python-setuptools')
     sudo('easy_install pip')
     sudo('pip install virtualenv')
     sudo('apt-get install -y apache2')
     sudo('apt-get install -y libapache2-mod-wsgi')
     
-    env.path = "/var/www/qualtio"
     sudo('mkdir -p %(path)s' % env)
-
-def download_release():
-    env.release = "development"
+    
+    download_release()
+    install_requirements()
+    configure_webserver()
+    synchronize_database()
+    restart_webserver()
+    load_dumpdata()
+    print(green("\nDone.\n") + 
+          "Check your site setup at http://%(host)s:8081" % env)
+    
+def download_release(release="development"):
+    require("path")
+    
+    env.release = release
     env.release_download_tmp_file = "/tmp/%(release)s.tgz" % env
-    env.path = "/var/www/qualtio"
     
     sudo("wget http://github.com/qualitio/qualitio/tarball/%(release)s -O %(release_download_tmp_file)s --no-check-certificate" % env)
     sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)
     sudo("rm -f %(release_download_tmp_file)s" % env)
 
 def install_requirements():
-    env.path = "/var/www/qualtio"
+    require("path")
 
     try:
         del(os.environ['PIP_VIRTUALENV_BASE'])
@@ -68,18 +80,26 @@ def install_requirements():
     sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
 
 def configure_webserver():
-    env.path = "/var/www/qualtio" 
+    env.esc_path = env.path.replace('/','\/')
+    require("path", "esc_path")
+
+    sudo("sed -i 's/${PATH}/%(esc_path)s/g' %(path)s/deploy/apache.virtualhost" % env)
     
     # TODO: put here diff check between config versions
     sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
+
     sudo("a2ensite qualitio")
 
 def synchronize_database():
-    env.path = "/var/www/qualtio" 
+    require("path")
     
-    # TODO: put here diff check between config versions
     sudo("chown :www-data -R %(path)s/qualitio/data && chmod g+rw -R %(path)s/qualitio/data" % env)
-    sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env, user="www-data")
+    sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env)
+
+def load_dumpdata():
+    require("path")
+    
+    sudo("python %(path)s/qualitio/manage.py loaddata %(path)s/qualitio/initial_data.json" % env)
     
 def restart_webserver():
     "Restart apache"
