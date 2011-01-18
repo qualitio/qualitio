@@ -81,12 +81,13 @@ var hash = {
 // Ajax global settings
 var showLoader = null;
 $(document).ajaxStart(function() { 
-  showLoader = setTimeout("$('#loading').show()", 200);
+  $('#loading').show();
+  $('#application-view').parent().css('opacity', '0.2');
 });
 
 $(document).ajaxComplete(function() {
-  clearTimeout(showLoader);
   $("#loading").hide();
+  $('#application-view').parent().css('opacity', '1');
 });
 
 
