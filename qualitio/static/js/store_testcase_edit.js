@@ -59,21 +59,7 @@ $(function() {
   // TODO related with page reloading, fix page reloading to happen once 
   $('.add-step').die('click'); 
   $('.add-step').live('click', function() {
-    initial_form = parseInt($('#id_testcasestep_set-INITIAL_FORMS').attr("value"));
-
     new_step = $('.step.template').clone();
-    
-    new_step.find("[name^=testcasestep_set]").each( function() { 
-      element_id = $(this).attr("id").replace(/id_testcasestep_set\-(__prefix__)/, "id_testcasestep_set-"+(initial_form));
-      element_name = $(this).attr("name").replace(/testcasestep_set\-(__prefix__)/, "testcasestep_set-"+(initial_form));
-      $(this).attr("id", element_id);
-      $(this).attr("name", element_name);
-    });
-
-    new_step.find(".field-wrapper").each( function() {
-      element_name = $(this).attr("id").replace(/(__prefix__)/, initial_form);
-      $(this).attr("id", element_name);
-    });
 
     if( $(this).attr("id") == "add-step-0" ) {
       $(this).after(new_step.removeClass("template")); 
@@ -82,6 +68,13 @@ $(function() {
     }
 
     $('.step:visible').each( function(i) {
+      $(this).find("[name^=testcasestep_set]").each(function() {
+        element_id = $(this).attr("id").replace(/(.+\-)(.+)(\-.+)/ig,"$1"+i+"$3");
+        element_name = $(this).attr("name").replace(/(.+\-)(.+)(\-.+)/ig,"$1"+i+"$3");
+        $(this).attr("id", element_id);
+        $(this).attr("name", element_name);
+      });
+
       title = $(this).find("h2").text().replace(/^Step +([0-9]+)/i, "Step "+(i+1));
       $(this).children("h2").text(title);
       $(this).find('input[name$=sequence]').attr('value', i);
@@ -100,8 +93,9 @@ $(function() {
   function success(response, statusText, xhr, $form)  { 
     if(!response.success) {
       $(response.data).each(function(i, element) {
-        $("#"+element[0]+"_wrapper").addClass("ui-state-error");
-        $("#"+element[0]+"_wrapper .error").append(element[1]);
+        filed_wrapper = $("[name="+element[0]+"]").parent(".field-wrapper");
+        filed_wrapper.addClass("ui-state-error");
+        filed_wrapper.find(".error").append(element[1]);
       });        
       $('#notification').jnotifyAddMessage({
         text: response.message,

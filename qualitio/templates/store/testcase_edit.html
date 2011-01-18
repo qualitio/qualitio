@@ -14,7 +14,8 @@
 <div class="step template clearfix">
   {{ testcasesteps_form.empty_form.id }}
   {{ testcasesteps_form.empty_form.testcase }}
-  <h2 class="step-name">Step 0</h2>{{ testcasesteps_form.empty_form.sequence }}
+  {{ testcasesteps_form.empty_form.sequence }}
+  <h2 class="step-name">Step 0</h2>
   <div class="grid_8 description">
     <div id="{{ testcasesteps_form.empty_form.description.html_name }}_wrapper" class="field-wrapper">
       {{ testcasesteps_form.empty_form.description.label_tag}} <span class="error"></span>
@@ -23,7 +24,7 @@
     <a class="button add-step">add step</a>
   </div>
   <div class="grid_8 excpected">
-    <div id="{{ testcasesteps_form.empty_form.expected.html_name }}_wrapper" class="field-wrapper" style="text-align:right">
+    <div class="field-wrapper" style="text-align:right">
       {{ testcasesteps_form.empty_form.expected.label_tag}} <span class="error"></span>
       {{ testcasesteps_form.empty_form.expected }}
       delete: {{ testcasesteps_form.empty_form.DELETE }}
