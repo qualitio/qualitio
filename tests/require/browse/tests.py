@@ -2094,5 +2094,99 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
+class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
+    
+    def test_17_store_testdirect_create(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "store" == sel.get_text("link=store"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=store")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo Netbook")
+        for i in range(60):
+            try:
+                if sel.is_text_present("create testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("create testcase directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=div#application-view-footer div a:nth-child(2)")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "testcase directory")
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("qualitio: store", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo Netbook")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=li#1_testcasedirectory ins"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=li#1_testcasedirectory ins")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=testcase directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("testcase directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("testcase directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=testcase directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test case directory: testcase directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("exact:directory: /MeeGo Netbook/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
 if __name__ == "__main__":
     unittest.main()
