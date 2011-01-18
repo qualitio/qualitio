@@ -97,7 +97,7 @@ $(function() {
     $( "#dialog-translations" ).dialog('open');
   });
   
-  function show_response(response, statusText, xhr, $form)  { 
+  function success(response, statusText, xhr, $form)  { 
     if(!response.success) {
       $(response.data).each(function(i, element) {
         $("#"+element[0]+"_wrapper").addClass("ui-state-error");
@@ -127,7 +127,7 @@ $(function() {
   }
   
   $('#testcase_form').ajaxForm({ 
-    success: show_response,
+    success: success,
     beforeSubmit: clear_errors
   });
 });
