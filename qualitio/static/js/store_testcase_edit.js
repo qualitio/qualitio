@@ -44,8 +44,6 @@ $(function() {
     }
   });
 
-  // TODO related with page reloading, fix page reloading to happen once 
-  $('input[type=checkbox][name$=DELETE]').die('click'); 
   $('input[type=checkbox][name$=DELETE]').live('click', function() {
     step = $(this).parents('.step');
     if(step.hasClass('removed')) {
@@ -56,8 +54,6 @@ $(function() {
     }
   });
 
-  // TODO related with page reloading, fix page reloading to happen once 
-  $('.add-step').die('click'); 
   $('.add-step').live('click', function() {
     new_step = $('.step.template').clone();
     step_count = $('.step:visible').length;
