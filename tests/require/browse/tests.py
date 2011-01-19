@@ -33,7 +33,7 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         try: self.assertEqual("qualitiorequirements", sel.get_text("css=div.logo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#notification.notify-wrapper-oneattime"))
-        try: self.assertEqual("requirments", sel.get_text("link=requirments"))
+        try: self.assertEqual("requirements", sel.get_text("link=requirements"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("store", sel.get_text("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -78,6 +78,7 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
         sel.click("link=MeeGo")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=li#1 ins")
         for i in range(60):
             try:
                 if "Notebook" == sel.get_text("link=Notebook"): break
@@ -107,7 +108,7 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("css=li#4 ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=li#4 ins")
-	time.sleep(1)
+        sel.click("css=li#4 ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Bootscreen"): break
@@ -134,6 +135,7 @@ class Test3Newreq(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
+        sel.click("css=li#1 ins")
         for i in range(60):
             try:
                 if "TV" == sel.get_text("link=TV"): break
@@ -149,7 +151,6 @@ class Test3Newreq(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=TV")
-	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: TV"): break
@@ -161,7 +162,7 @@ class Test3Newreq(BaseSeleniumTestCase):
             try:
                 if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
-            time.sleep(2)
+            time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "new requirement 1")
         sel.click("id_release_target")
@@ -180,7 +181,6 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
-	time.sleep(1)
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -188,7 +188,6 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
-	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -208,6 +207,7 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=TV")
+        sel.click("css=li#4 ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=new requirement 1"): break
