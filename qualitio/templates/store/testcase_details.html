@@ -9,19 +9,19 @@
   <div class="text-bullet">directory:</div>{{ testcase.path }}
   <div class="text-bullet">status:</div><i>empty</i>
   <h2>description</h2> 
-  {{ testcase.description|default:"<i>empty</i>" }}
+  {{ testcase.description|default:"<i>empty</i>"|linebreaksbr }}
 
   <h2>precondition</h2>
-  {{ testcase.precondition|default:"<i>empty</i>" }}
+  {{ testcase.precondition|default:"<i>empty</i>"|linebreaksbr }}
   
   {% for step in testcase.testcasestep_set.all %}
   <h2>step {{ forloop.counter }}</h2>
   <div class="step clearfix">
     <div class="grid_8 description">
-      {{ step.description }}
+      {{ step.description|linebreaksbr }}
     </div>
     <div class="grid_8 expected">
-      {{ step.expected }}
+      {{ step.expected|linebreaksbr }}
     </div>
   </div>
   {% empty %}

@@ -12,8 +12,4 @@ Listen 8081
         Allow from all
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/qualitio-error.log
-    LogLevel warn
-    CustomLog ${APACHE_LOG_DIR}/qualitio-access.log combined
-    
 </VirtualHost>

@@ -11,7 +11,7 @@ urlpatterns = patterns('',
                        url(r'^ajax/testcasedirectory/(?P<directory_id>\d+)/new/?$', directory_new),
                        
                        # valid
-                       url(r'^ajax/testcasedirectory/(?P<testcase_id>\d+)/edit/valid/?$', directory_valid),
+                       url(r'^ajax/testcasedirectory/(?P<directory_id>\d+)/edit/valid/?$', directory_valid),
                        url(r'^ajax/testcasedirectory/new/valid/?$', directory_valid),
 
                        url(r'^ajax/testcase/(?P<testcase_id>\d+)/details/?$', testcase_details),
