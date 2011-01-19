@@ -40,7 +40,7 @@ $(function() {
     hash.node = data.rslt.obj.attr("id").split("_")[0];
     if (!hash.view || hash.view == 'new')
       hash.view = 'details';
-    hash.update();
+    hash.update(true);
   }).bind("loaded.jstree", function (event, data) {
     if(!window.location.hash)
       $("#application-tree").jstree("select_node",".jstree-last");

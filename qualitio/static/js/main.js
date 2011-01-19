@@ -22,7 +22,7 @@ var hash = {
 
   _has_changed: function() {
     var locStr = hash.current_hash();
-    if(hash.storedHash != locStr) {
+    if(hash._clean(hash.storedHash) != locStr) {
       hash._parse();
 
       if(hash.listen == true) {
@@ -55,9 +55,12 @@ var hash = {
     hash._has_changed();
   },
 
-  update: function() {
+  update: function(refresh) {
     hash.storedHash = hash.to_string();
     window.location.hash = hash.to_string();
+    if (refresh) {
+      hash.main();
+    }
   },
 
   current_hash: function() {
