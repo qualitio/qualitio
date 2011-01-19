@@ -41,7 +41,7 @@ def valid(request, requirement_id=0):
 
     if requirement_form.is_valid():
         requirement = requirement_form.save()
-        return success(message='Requirment saved', 
+        return success(message='Requirement saved', 
                        data={ "parent_id" : getattr(requirement.parent,"id", 0), 
                               "current_id" : requirement.id })
     
