@@ -36,31 +36,17 @@ $(function() {
       }
     }
   }).bind("select_node.jstree", function (node, data) {
+    
     hash.object = data.rslt.obj.attr('rel');
     hash.node = data.rslt.obj.attr("id").split("_")[0];
-    hash.views = "details";
-    hash.update();
+    if (!hash.view || hash.view == 'new')
+      hash.view = 'details';
+    hash.update(true);
+    
+  }).bind("loaded.jstree", function (event, data) {
+    if(!window.location.hash)
+      $("#application-tree").jstree("select_node",".jstree-last");
   });
-
-  hash._parse();
-  if(!hash.object) {
-    hash.object = "testrundirectory";
-    if(!hash.node) {
-      hash.node = 1;
-      if(!hash.view) {
-        hash.view = "details";
-      }
-    }
-  }
+  
   hash.init();
-
-  $("#application-tree").parent().resizable({
-    alsoResize: '#application-tree',
-    resize: function(event, ui) {
-      percent = $(this).width()/$(this).offsetParent().width()*100;
-      neighbor = $('#application-view').parent();
-      neighbor.css("width", 100-percent+"%");
-    },
-    maxWidth: document.width/2
-  });
 });

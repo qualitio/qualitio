@@ -5,10 +5,10 @@ from qualitio.execute.models import *
 class TestRunInline(admin.TabularInline):
     model = TestRun
 
-class TestRunDirectoryAdmin(admin.ModelAdmin):
+class TestRunDirectoryAdmin(MPTTModelAdmin):
     inlines = [ TestRunInline ]
-    list_display = ("parent", "name")
-    list_display_links = ('name',)
+    list_display = ("id", "parent", "name")
+    list_display_links = ("id", "name")
 admin.site.register(TestRunDirectory, TestRunDirectoryAdmin)
 
 admin.site.register(TestRun)

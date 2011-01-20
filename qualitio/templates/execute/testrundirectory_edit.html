@@ -1,26 +1,41 @@
-<div class="grid_12 alpha">
-  <div id="application-view-menu">
-    <a href="#testrundirectory/{{ directory.pk }}/details/">details</a> |
-    <a class="active" href="#testrundirectory/{{ directory.pk }}/edit/">edit</a> |
-  </div>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test run directory
+    {% if testrundirectory_form.instance.id %}: {{ testrundirectory_form.instance.name }}{% endif %}
+  </h1>
 </div>
 
-<div class="grid_16">
+{% if testrundirectory_form.instance.id %}
+{% application_view_menu testrundirectory_form.instance "edit" %}
+{% else %}
+<div id="application-view-menu">
+  <span class="active">new</span>
+</div>
+{% endif %}
+
+<form id="testrundirectory_form"
+      action="{% if testrundirectory_form.instance.id %}
+              /execute/ajax/testrundirectory/{{ testrundirectory_form.instance.id }}/edit/valid/
+              {% else %}
+              /execute/ajax/testrundirectory/new/valid/
+              {% endif %}"
+      method="post">{% csrf_token %}
+
   <div class="application-view-content">
-    <h1>test run directory: {{ directory.name }}</h1>
-    <div class="content">
-      {{ directory_form }}
+    {% for field in testrundirectory_form %}
+    <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
+      {{ field.label_tag }}: <span class="error"></span>
+      {{ field }}
+    </div>
+    {% endfor %}
+  </div>
+  <div id="application-view-footer" class="grid_16 clearfix">
+    <div class="grid_8 left">
+      <input type="submit" name="Executed" value="Delete" />
+    </div>
+    <div class="grid_8 right">
+      <input type="submit" name="Executed" value="Save" />
     </div>
   </div>
-
-</div>
-
-
-<div id="application-view-footer" class="grid_16 clearfix">
-  <div class="grid_8 left">
-    <input type="submit" name="Executed" value="Delete" />
-  </div>
-  <div class="grid_8 right">
-    <input type="submit" name="Executed" value="Save" />
-  </div>
-</div>
+</form>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_directory_edit.js{{ STATIC_HASH }}"></script>

@@ -20,13 +20,9 @@ class TestRunDirectory(MPTTModel):
 
 
 class TestRun(models.Model):
-    directory = models.ForeignKey('TestRunDirectory')
+    parent = models.ForeignKey('TestRunDirectory')
 
     name = models.CharField(max_length=512)
-
-    def get_path(self):
-        return "%s%s/" % (self.directory.get_path(),
-                         self.directory.name)
 
 class TestCaseRun(models.Model):
     name = models.CharField(max_length=512)

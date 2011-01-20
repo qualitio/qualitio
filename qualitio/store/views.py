@@ -25,7 +25,6 @@ def directory_edit(request, directory_id):
 def directory_new(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(initial={'parent': directory })
-    print type(testcasedirectory_form.instance)
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
                               { 'testcasedirectory_form' : testcasedirectory_form })
 
