@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
     <link href="http://www.kernest.com/fonts/romeral.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="http://www.kernest.com/fonts/tex-gyre-adventor-regular.css" media="screen" rel="stylesheet" type="text/css" />
     {% block css-include %}{% endblock %}
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
@@ -33,7 +34,7 @@
     {% block js-include %}{% endblock %}
     <title>qualitio: {% block module-title %}{% endblock %}</title>
   </head>
-  
+
   <body>
     <div id="main">
       <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif" />
