@@ -87,6 +87,23 @@ def testrun_valid(request, testrun_id=0):
         return failed(message="Validation errors", 
                       data=[(k, v[0]) for k, v in testrun_form.errors.items()])
 
+
+# @json_response
+# def available_testcases(request, requirement_id):
+#     search_testcases_form = SearchTestcasesForm(request.POST)
+#     if search_testcases_form.is_valid():
+#         search = request.POST["search"]
+#         testcases =  TestCase.objects.filter(Q(name__contains=search) | Q(path__contains=search))
+#         if testcases:
+#             return success(message="%s testcases found" % testcases.count(),
+#                            data=loader.render_to_string("requirements/_available_testcases.html", 
+#                                                         { "testcases" : testcases }))
+#         return success(message="no testcases found")
+
+#     return failed(message="validation errors",
+#                   data=[(k, v[0]) for k, v in search_testcases_form.errors.items()])
+
+
 def to_tree_element(object, type):
     state = "closed" if isinstance(object, MPTTModel) else ""
     return { 'attr' : {'id' : "%s_%s" % (object.pk, type),
