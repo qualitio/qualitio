@@ -73,6 +73,7 @@ body {
 }
 
 #application-menu {
+    font-family: 'tex gyre adventor'; 
     line-height:1.4;
     text-align: left;
     border-bottom:2px solid #aaa;
