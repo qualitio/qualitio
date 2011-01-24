@@ -81,19 +81,6 @@ var hash = {
   }
 };
 
-// Ajax global settings
-var showLoader = null;
-$(document).ajaxStart(function() { 
-  $('#loading').show();
-  $('#application-view').parent().css('opacity', '0.2');
-});
-
-$(document).ajaxComplete(function() {
-  $("#loading").hide();
-  $('#application-view').parent().css('opacity', '1');
-});
-
-
 var resize_main_window = function() {
   $('#application-view, #application-tree')
     .css('height',
