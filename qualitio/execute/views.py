@@ -105,11 +105,15 @@ def testrun_valid(request, testrun_id=0):
 
 
 def to_tree_element(object, type):
-    state = "closed" if isinstance(object, MPTTModel) else ""
-    return { 'attr' : {'id' : "%s_%s" % (object.pk, type),
-                       'rel' : type},
-             'data' : object.name,
-             'state' : state }
+    tree_element = { 'attr' : {'id' : "%s_%s" % (object.pk, type),
+                               'rel' : type},
+                     'data' : object.name }
+
+    if isinstance(object, MPTTModel) and object.get_children():
+        tree_element['state'] = "closed"
+
+    return tree_element
+
 
 def get_children(request):
     data = []
@@ -126,5 +130,4 @@ def get_children(request):
         directories = TestRunDirectory.tree.root_nodes()
         data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
 
-        print data
     return HttpResponse(json.dumps(data), mimetype="application/json")
