@@ -30,7 +30,7 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=div.logo"))
-        try: self.assertEqual("qualitiorequirements", sel.get_text("css=div.logo"))
+        try: self.assertEqual("qualitio requirements", sel.get_text("css=div.logo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#notification.notify-wrapper-oneattime"))
         try: self.assertEqual("requirements", sel.get_text("link=requirements"))
@@ -188,6 +188,10 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
+	sel.click("css=li#1 ins")
+	time.sleep(1)
+	sel.click("css=li#1 ins")
+	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -400,7 +404,7 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
         sel.open("/require/#requirement/13/details/")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitiorequirements"): break
+                if sel.is_text_present("qualitio requirements"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -461,7 +465,7 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
             try:
                 if "requirement: MeeGo Handset test" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         try: self.assertEqual("requirement: MeeGo Handset test", sel.get_text("css=div#application-view-header h1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -511,7 +515,7 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         sel = self.selenium
         sel.set_timeout("10000")
         sel.open("/require/#requirement/13/details/")
-        try: self.failUnless(sel.is_text_present("qualitiorequirements"))
+        try: self.failUnless(sel.is_text_present("qualitio requirements"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -1885,11 +1889,11 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitiostore"): break
+                if sel.is_text_present("qualitio store"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitiostore"))
+        try: self.failUnless(sel.is_text_present("qualiti ostore"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -1970,11 +1974,11 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitiostore"): break
+                if sel.is_text_present("qualitio store"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitiostore"))
+        try: self.failUnless(sel.is_text_present("qualitio store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
