@@ -1,19 +1,24 @@
-{% load webdesign %}
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a class="active" href="/execute#testrun/{{ testrun.pk }}/details">details</a> |
-    <a href="/execute#testrun/{{ testrun.pk }}/notes">notes</a> |
-    <a href="/execute#testrun/{{ testrun.pk }}/edit">edit</a> |
-    <a href="/execute#testrun/{{ testrun.pk }}/execute">execute</a> |
-  </div>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test run: {{ testrun.name }}</h1>
 </div>
+
+{% application_view_menu testrun "details" %}
 
 <div class="grid_16">
   <div class="application-view-content">
-    <h1>test run: {{ testrun.name }}</h1>
-    <div class="text-bullet">directory: {{ testrun.get_path }}</div>
-    <div class="text-bullet">pass rate: <i>not set</i></div>
-    <div class="text-bullet">status: <i>not set</i></div>
+    <div class="text-bullet">
+      <span class="name">directory:</span> 
+      <span class="value">{{ testrun.get_path }}</span>
+    </div>
+    <div class="text-bullet">
+      <span class="name">pass rate:</span>
+      <span class="value"><i>not set</i></span>
+    </div>
+    <div class="text-bullet">
+      <span class="name">status:</span>
+      <span class="value"><i>not set</i></span>
+    </div>
 
     <table class="pretty ui-corner-all" style="margin-top: 20px">
       <tr>

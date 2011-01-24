@@ -1,33 +1,42 @@
-<div class="grid_16">
-  <div id="application-view-menu">
-    <a class="active" href="#testrundirectory/{{ directory.pk }}/details/">details</a> |
-    <a href="#testrundirectory/{{ directory.pk }}/edit/">edit</a> |
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test run directory: {{ directory.name }}</h1>
+</div>
+
+{% application_view_menu directory "details" %}
+
+<div class="application-view-content">
+  <div class="text-bullet">
+    <span class="name">directory:</span>
+    <span class="alue">{{ directory.get_path }}</span>
   </div>
-
-  <div class="application-view-content">
-    <h1>test run directory: {{ directory.name }}</h1>
-    <div class="text-bullet">directory: {{ directory.get_path }}</div>
-
-    <table class="pretty ui-corner-all" style="margin-top: 20px">
-      <tr>
-	<th></th>
-	<th>Path</th>
-	<th>Name</th>
-      </tr>
-      {% for child in directory.get_children %}
-      <tr class="directory">
-	<td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
-	<td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.get_path }}</a></td>
-	<td><a href="#testrundirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-      {% for child in directory.testrun_set.all %}
-      <tr>
-	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-	<td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
+  <table class="pretty ui-corner-all" style="margin-top: 20px">
+    <tr>
+      <th></th>
+      <th>Path</th>
+      <th>Name</th>
+    </tr>
+    {% for child in directory.get_children %}
+    <tr class="directory">
+      <td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
+      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.get_path }}</a></td>
+      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
+    </tr>
+    {% endfor %}
+    {% for child in directory.testrun_set.all %}
+    <tr>
+      <td class="icon"><span class="ui-icon ui-icon-document"></span></td>
+      <td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
       <td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
+    </tr>
+    {% endfor %}
+  </table>
+
+</div>
+
+<div id="application-view-footer" class="grid_16 clearfix">
+  <div class="prefix_8 grid_8 right">
+    <a class="button" href="#testrun/{{ directory.pk }}/new/" >create test run</a>
+    <a class="button" href="#testrundirectory/{{ directory.pk }}/new/" >create test case directory</a>
   </div>
 </div>

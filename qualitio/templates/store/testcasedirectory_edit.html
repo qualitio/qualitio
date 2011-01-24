@@ -17,6 +17,7 @@
       action="{% if testcasedirectory_form.instance.id %}/store/ajax/testcasedirectory/{{ testcasedirectory_form.instance.id }}/edit/valid/
               {% else %}/store/ajax/testcasedirectory/new/valid/{% endif %}"
       method="post">{% csrf_token %}
+
   <div class="application-view-content">
     {% for field in testcasedirectory_form %}
     <div id="{{ field.html_name }}_wrapper" class="field-wrapper">

@@ -6,7 +6,10 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute.js"></script>
 {% endblock %}
 
+{% block css-include %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/execute.css" />
+{% endblock %}
+
 {% block application-menu %}
-<a href="/execute/">browse</a>
-<a href="/execute/filter">filter</a>
+<li class="active">browse</li>
 {% endblock %}
