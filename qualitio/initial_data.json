@@ -134,5 +134,45 @@
       "path": "/BigProject/Advance tests/", 
       "description": "Advance test 2"
     }
+  },
+  {
+    "pk": 1, 
+    "model": "execute.testrundirectory", 
+    "fields": {
+      "rght": 2, 
+      "name": "BigProject", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2011-01-24 15:05:51", 
+      "lft": 1, 
+      "tree_id": 1, 
+      "created_time": "2011-01-24 15:05:51", 
+      "path": "/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "execute.testrun", 
+    "fields": {
+      "name": "TestRun 1", 
+      "parent": 1, 
+      "notes": "", 
+      "modified_time": "2011-01-24 15:06:19", 
+      "created_time": "2011-01-24 15:06:19", 
+      "path": "/BigProject/"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "execute.testrun", 
+    "fields": {
+      "name": "TestRun 2", 
+      "parent": 1, 
+      "notes": "", 
+      "modified_time": "2011-01-24 15:08:32", 
+      "created_time": "2011-01-24 15:06:45", 
+      "path": "/BigProject/"
+    }
   }
 ]

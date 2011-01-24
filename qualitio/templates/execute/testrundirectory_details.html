@@ -8,7 +8,7 @@
 <div class="application-view-content">
   <div class="text-bullet">
     <span class="name">directory:</span>
-    <span class="alue">{{ directory.get_path }}</span>
+    <span class="value">{{ directory.path }}</span>
   </div>
   <table class="pretty ui-corner-all" style="margin-top: 20px">
     <tr>
@@ -19,15 +19,15 @@
     {% for child in directory.get_children %}
     <tr class="directory">
       <td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
-      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.get_path }}</a></td>
-      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
+      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
+      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
     </tr>
     {% endfor %}
     {% for child in directory.testrun_set.all %}
     <tr>
       <td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-      <td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
-      <td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
+      <td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
+      <td><a href="#report/{{ child.pk }}/details/">{{ child.name }}</a></td>
     </tr>
     {% endfor %}
   </table>

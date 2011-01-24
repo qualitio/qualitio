@@ -16,7 +16,7 @@ class BaseModel(models.Model):
 
 class BasePathModel(BaseModel):
     path = models.CharField(max_length=2048, blank=True)
-    
+    #TODO: move here parent, name fileds from BaseDiBaseDirectoryModel
     class Meta:
         abstract = True
 
