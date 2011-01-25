@@ -7,15 +7,11 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 class TestCase(core.BasePathModel):
     #TODO: move parent attribute to BasePathModel
-    parent = models.ForeignKey('TestCaseDirectory', null=True, blank=True)
+    parent = models.ForeignKey('TestCaseDirectory', null=True, blank=True, related_name="subchildren")
     requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
     
-    name = models.CharField(max_length=512)
     description = models.TextField(blank=True)
     precondition = models.TextField(blank=True)
-    
-    def __unicode__(self):
-        return self.name
 
 
 class TestCaseStep(core.BaseModel):

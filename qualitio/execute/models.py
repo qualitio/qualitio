@@ -6,9 +6,8 @@ class TestRunDirectory(core.BaseDirectoryModel):
 
 
 class TestRun(core.BasePathModel):
-    parent = models.ForeignKey('TestRunDirectory')
+    parent = models.ForeignKey('TestRunDirectory', related_name="subchildren")
 
-    name = models.CharField(max_length=512)
     notes = models.TextField(blank=True)
 
 
