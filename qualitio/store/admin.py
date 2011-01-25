@@ -2,6 +2,7 @@ from django.contrib import admin
 from qualitio.store import models
 from qualitio.core.admin import PathModelInline, DirectoryModelAdmin, PathModelAdmin
 
+
 class TestCaseInline(PathModelInline):
     model = models.TestCase
 
