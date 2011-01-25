@@ -25,7 +25,6 @@ def directory_edit(request, directory_id):
 def directory_new(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(initial={'parent': directory })
-    print type(testcasedirectory_form.instance)
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
                               { 'testcasedirectory_form' : testcasedirectory_form })
 
@@ -118,8 +117,8 @@ def get_children(request):
     try:
         node_id = int(request.GET.get('id', 0))
         node = TestCaseDirectory.objects.get(pk=node_id)
-        directories = node.get_children()
-        files = node.testcase_set.all()
+        directories = node.children.all()
+        files = node.subchildren.all()
 
     except (ObjectDoesNotExist, ValueError):
         directories = TestCaseDirectory.tree.root_nodes()

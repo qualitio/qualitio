@@ -220,7 +220,7 @@ h1 {
     font-weight: bold;
 }
 
-h2, label, .text-bullet {
+h2, label {
     font-size: 1.2em;
     margin: 14px 0px 2px;
     color: #775555;
@@ -356,6 +356,14 @@ table.filter td.add {
 
 .text-bullet {
     margin: 3px 0px;
+    
+    margin: 14px 0px 2px;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.text-bullet .name {
+    color: #775555;
+    font-weight: bold;
     font-size: 1.2em;
 }
 
