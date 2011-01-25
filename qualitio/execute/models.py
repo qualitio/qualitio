@@ -12,7 +12,7 @@ class TestRun(core.BasePathModel):
 
 
 class TestCaseRun(core.BaseModel):
-    parent = models.ForeignKey('TestRun', null=True, blank=True)
+    parent = models.ForeignKey('TestRun', null=True, blank=True, related_name="subchildren")
     requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
     status = models.ForeignKey('TestCaseRun', null=True, blank=True)
     
