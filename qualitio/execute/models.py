@@ -4,9 +4,6 @@ from qualitio.core import models as core
 class TestRunDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
-    def get_absolute_url(self):
-        return "/execute/testrun/" % self.id
-
 
 class TestRun(core.BasePathModel):
     parent = models.ForeignKey('TestRunDirectory')
