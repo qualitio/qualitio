@@ -1,4 +1,3 @@
-from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
 from qualitio.store import models
 from qualitio.core.admin import PathModelInline, DirectoryModelAdmin, PathModelAdmin
