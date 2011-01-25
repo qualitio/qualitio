@@ -117,8 +117,8 @@ def get_children(request):
     try:
         node_id = int(request.GET.get('id', 0))
         node = TestCaseDirectory.objects.get(pk=node_id)
-        directories = node.get_children()
-        files = node.testcase_set.all()
+        directories = node.children.all()
+        files = node.subchildren.all()
 
     except (ObjectDoesNotExist, ValueError):
         directories = TestCaseDirectory.tree.root_nodes()
