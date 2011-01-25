@@ -1,4 +1,3 @@
-from mptt.forms import MoveNodeForm
 from django import forms
 from django.forms.models import inlineformset_factory
 

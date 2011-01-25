@@ -3,8 +3,9 @@ from mptt.admin import MPTTModelAdmin
 
 
 class PathModelAdmin(admin.ModelAdmin):
-    list_display = ("path", "name")
-    list_display_links = ('name',)
+    search_fields = ["id", "path", "name"]
+    list_display = ("id", "path", "name", 'modified_time', "created_time")
+    list_display_links = ("id", "name")
     readonly_fields = ("path",)
 
 

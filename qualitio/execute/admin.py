@@ -1,30 +1,27 @@
 from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
-from qualitio.execute.models import *
+from qualitio.execute import models
+from qualitio.core.admin import PathModelInline, DirectoryModelAdmin, PathModelAdmin
 
-class TestRunInline(admin.TabularInline):
-    model = TestRun
-    readonly_fields = ("path",)
+class TestRunInline(PathModelInline):
+    model = models.TestRun
 
 
-class TestRunDirectoryAdmin(MPTTModelAdmin):
+class TestRunDirectoryAdmin(DirectoryModelAdmin):
     inlines = [ TestRunInline ]
-    list_display = ("id", "parent", "name")
-    list_display_links = ("id", "name")
-    readonly_fields = ("path",)
-admin.site.register(TestRunDirectory, TestRunDirectoryAdmin)
+admin.site.register(models.TestRunDirectory, TestRunDirectoryAdmin)
+
 
 class TestCaseRunInline(admin.TabularInline):
-    model = TestCaseRun
+    model = models.TestCaseRun
     extra = 0
 
-class TestRunAdmin(admin.ModelAdmin):
-    list_display = ("id", "path", "name")
-    list_display_links = ("id", "name")
+
+class TestRunAdmin(PathModelAdmin):
     inlines = [ TestCaseRunInline ]
-    readonly_fields = ("path",)
-admin.site.register(TestRun, TestRunAdmin)
+admin.site.register(models.TestRun, TestRunAdmin)
+
 
 class TestCaseRunStatusAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "color")
-admin.site.register(TestCaseRunStatus, TestCaseRunStatusAdmin)
+admin.site.register(models.TestCaseRunStatus, TestCaseRunStatusAdmin)

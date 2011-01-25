@@ -1,16 +1,13 @@
-from mptt.forms import MoveNodeForm
-
-from django import forms
-
-from qualitio.execute.models import TestRunDirectory, TestRun
+from qualitio.core.forms import PathModelForm
+from qualitio.execute import models
 
 
-class TestRunDirectoryForm(forms.ModelForm):
-    class Meta:
-        model = TestRunDirectory
+class TestRunDirectoryForm(PathModelForm):
+    class Meta(PathModelForm.Meta):
+        model = models.TestRunDirectory
 
 
-class TestRunForm(forms.ModelForm):
-    class Meta:
-        model = TestRun
+class TestRunForm(PathModelForm):
+    class Meta(PathModelForm.Meta):
+        model = models.TestRun
 
