@@ -6,7 +6,6 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 
 class TestCase(core.BasePathModel):
-    #TODO: move parent attribute to BasePathModel
     parent = models.ForeignKey('TestCaseDirectory', null=True, blank=True, related_name="subchildren")
     requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
     
