@@ -2,7 +2,7 @@ from django.db import models
 from qualitio.core import models as core
 
 class TestCaseDirectory(core.BaseDirectoryModel):
-    pass
+    description = models.TextField(blank=True)
 
 
 class TestCase(core.BasePathModel):

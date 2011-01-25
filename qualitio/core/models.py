@@ -16,9 +16,11 @@ class BaseModel(models.Model):
 
 class BasePathModel(BaseModel):
     path = models.CharField(max_length=2048, blank=True)
-    
+    name = models.CharField(max_length=1024)
+    #TODO: move here parent, name fileds from BaseDiBaseDirectoryModel
     class Meta:
         abstract = True
+        unique_together = (("name", "parent"),)
 
     def _get_path(self):
         if self.parent:

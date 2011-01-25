@@ -109,8 +109,11 @@ def to_tree_element(object, type):
                                'rel' : type},
                      'data' : object.name }
 
-    if isinstance(object, MPTTModel) and object.get_children():
-        tree_element['state'] = "closed"
+    if isinstance(object, MPTTModel):
+        #TODO: temporary solution, remove TestRun call with something thath will be more generic, 
+        #      and will aply to all tree objects
+        if object.get_children() or TestRun.objects.filter(parent=object):
+            tree_element['state'] = "closed"
 
     return tree_element
 
