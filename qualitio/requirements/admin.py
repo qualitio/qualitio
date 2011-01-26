@@ -1,8 +1,7 @@
-from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
-from qualitio.requirements.models import Requirement
+from qualitio.requirements import models
+from qualitio.core.admin import DirectoryModelAdmin
 
-class RequirementAdmin(MPTTModelAdmin):
-    list_display = ('name', 'modified_time', "created_time")
+class RequirementAdmin(DirectoryModelAdmin):
     readonly_fields = ('path',)
-admin.site.register(Requirement, RequirementAdmin)
+admin.site.register(models.Requirement, RequirementAdmin)

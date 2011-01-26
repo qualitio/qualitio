@@ -57,7 +57,4 @@ class BaseDirectoryModel(MPTTModel, BasePathModel):
         # Children 2nd category ;)
         for subchild in self.subchildren.all():
             subchild.save()
-
-    def __unicode__(self):
-        return self.name
     

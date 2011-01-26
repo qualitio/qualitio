@@ -1,30 +1,29 @@
-from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
-from qualitio.store.models import *
+from qualitio.store import models
+from qualitio.core.admin import PathModelInline, DirectoryModelAdmin, PathModelAdmin
 
-class TestCaseInline(admin.TabularInline):
-    model = TestCase
-    extra = 0
-    readonly_fields = ("path",)
 
-class AttachmentInline(admin.TabularInline):
-    model = Attachment
-    extra = 1
+class TestCaseInline(PathModelInline):
+    model = models.TestCase
 
-class TestCaseDirectoryAdmin(MPTTModelAdmin):
+
+class TestCaseDirectoryAdmin(DirectoryModelAdmin):
     inlines = [ TestCaseInline ]
-    list_display = ("name",)
-    list_display_links = ('name',)
-    readonly_fields = ("path",)
-admin.site.register(TestCaseDirectory, TestCaseDirectoryAdmin)
+admin.site.register(models.TestCaseDirectory, TestCaseDirectoryAdmin)
+
 
 class TestCaseStepInline(admin.TabularInline):
-    model = TestCaseStep
+    model = models.TestCaseStep
     extra = 1
 
-class TestCaseAdmin(admin.ModelAdmin):
+
+class AttachmentInline(admin.TabularInline):
+    model = models.Attachment
+    extra = 1
+
+
+class TestCaseAdmin(PathModelAdmin):
     inlines = [ TestCaseStepInline,
                 AttachmentInline ]
-    list_display = ("path", "name")
-    readonly_fields = ("path",)
-admin.site.register(TestCase, TestCaseAdmin)
+admin.site.register(models.TestCase, TestCaseAdmin)
+
