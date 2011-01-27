@@ -12,7 +12,7 @@ $(function() {
     "plugins" : [ "themes", "json_data", "ui", "cookies", "types"],
     "json_data" : {
       "ajax" : {
-	"url" : "/require/ajax/get_children/",
+	"url" : "/require/ajax/get_children",
 	"data" : function (n) {
 	  return { 
             id : n.attr ? n.attr("id") : 0 ,

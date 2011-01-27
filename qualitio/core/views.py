@@ -9,7 +9,11 @@ def to_tree_element(object, type):
                     'data': object.name}
 
     if isinstance(object, MPTTModel):
-        if object.get_children() or object.subchildren.all():
+        try:
+            subchildren = getattr(getattr(object, "subchildren", None), "all", None)()
+        except TypeError:  # Not really good idea, slow typecheck?
+            subchildren = None
+        if object.get_children() or subchildren:
             tree_element['state'] = "closed"
 
     return tree_element
@@ -23,10 +27,13 @@ def get_children(request, directory):
         node_id = int(request.GET.get('id', 0))
         node = directory.objects.get(pk=node_id)
         directories = node.get_children()
-        files = node.subchildren.all()
-        data = map(lambda x: to_tree_element(x, x._meta.module_name),
-                   directories) + \
-               map(lambda x: to_tree_element(x, x._meta.module_name), files)
+        data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
+
+        try:
+            subchildren = getattr(getattr(node, "subchildren", None), "all", None)()
+            data.append(map(lambda x: to_tree_element(x, x._meta.module_name), subchildren))
+        except TypeError:  # Not really good idea, slow typecheck?
+            pass
 
     except (ObjectDoesNotExist, ValueError):
         directories = directory.tree.root_nodes()
