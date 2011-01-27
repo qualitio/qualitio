@@ -1,6 +1,7 @@
 from mptt.models import MPTTModel
 from django.db import models
 
+
 class BaseModel(models.Model):
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)

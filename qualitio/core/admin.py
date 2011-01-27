@@ -16,4 +16,3 @@ class DirectoryModelAdmin(MPTTModelAdmin, PathModelAdmin):
 class PathModelInline(admin.TabularInline):
     readonly_fields = ("path",)
     extra = 0
-
