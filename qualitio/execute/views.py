@@ -110,14 +110,12 @@ def to_tree_element(object, type):
                      'data' : object.name }
 
     if isinstance(object, MPTTModel):
-        #TODO: temporary solution, remove TestRun call with something thath will be more generic,
-        #      and will aply to all tree objects
-        if object.get_children() or TestRun.objects.filter(parent=object):
+        if object.get_children() or object.subchildren.all():
             tree_element['state'] = "closed"
 
     return tree_element
 
-
+@json_response
 def get_children(request):
     data = []
 
@@ -125,7 +123,7 @@ def get_children(request):
         node_id = int(request.GET.get('id', 0))
         node = TestRunDirectory.objects.get(pk=node_id)
         directories = node.get_children()
-        files = node.testrun_set.all()
+        files = node.subchildren.all()
         data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)+\
                map(lambda x: to_tree_element(x,x._meta.module_name), files)
 
@@ -133,4 +131,4 @@ def get_children(request):
         directories = TestRunDirectory.tree.root_nodes()
         data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
 
-    return HttpResponse(json.dumps(data), mimetype="application/json")
+    return data

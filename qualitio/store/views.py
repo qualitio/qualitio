@@ -12,7 +12,7 @@ from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, Attachment
 def index(request):
     return direct_to_template(request, 'store/base.html', {})
 
-def directory_details(request, directory_id): 
+def directory_details(request, directory_id):
     return direct_to_template(request, 'store/testcasedirectory_details.html',
                               {'directory' : TestCaseDirectory.objects.get(pk=directory_id)})
 
@@ -35,14 +35,14 @@ def directory_valid(request, directory_id=0):
         testcase_directory_form = TestCaseDirectoryForm(request.POST, instance=testcase_directory)
     else:
         testcase_directory_form = TestCaseDirectoryForm(request.POST)
-        
+
     if testcase_directory_form.is_valid():
         testcase_directory = testcase_directory_form.save()
-        return success(message='testcase directory saved', 
-                       data={ "parent_id" : getattr(testcase_directory.parent,"id", 0), 
+        return success(message='testcase directory saved',
+                       data={ "parent_id" : getattr(testcase_directory.parent,"id", 0),
                               "current_id" : testcase_directory.id })
     else:
-        return failed(message="Validation errors", 
+        return failed(message="Validation errors",
                       data=[(k, v[0]) for k, v in testcase_directory_form.errors.items()])
 
 def testcase_details(request, testcase_id):
@@ -64,7 +64,7 @@ def testcase_new(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcase_form = TestCaseForm(initial={'parent': directory})
     testcasesteps_form = TestCaseStepFormSet()
-    return direct_to_template(request, 'store/testcase_edit.html', 
+    return direct_to_template(request, 'store/testcase_edit.html',
                               { "testcase_form" : testcase_form,
                                 "testcasesteps_form" : testcasesteps_form })
 
@@ -78,13 +78,13 @@ def testcase_valid(request, testcase_id=0):
     else:
         testcase_form = TestCaseForm(request.POST)
         testcasesteps_form = TestCaseStepFormSet(request.POST)
-        
-    if testcase_form.is_valid() and testcasesteps_form.is_valid(): 
+
+    if testcase_form.is_valid() and testcasesteps_form.is_valid():
         testcase = testcase_form.save()
         testcasesteps_form.instance = testcase
         testcasesteps_form.save()
-        return success(message='TestCase saved', 
-                       data={ "parent_id" : getattr(testcase.parent,"id", 0), 
+        return success(message='TestCase saved',
+                       data={ "parent_id" : getattr(testcase.parent,"id", 0),
                               "current_id" : testcase.id })
     else:
         formset_errors = []
@@ -92,7 +92,7 @@ def testcase_valid(request, testcase_id=0):
             for v, k in error.items():
                 formset_errors.append(map(lambda x:(("testcasestep_set-%s-%s") % (i,v) ,x), k)[0])
 
-        return failed(message="Validation errors", 
+        return failed(message="Validation errors",
                       data=[(k, v[0]) for k, v in testcase_form.errors.items()] + formset_errors)
 
 
@@ -123,7 +123,7 @@ def get_children(request):
     except (ObjectDoesNotExist, ValueError):
         directories = TestCaseDirectory.tree.root_nodes()
         files = TestCase.objects.filter(parent=None)
-    
+
     data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)+\
         map(lambda x: to_tree_element(x,x._meta.module_name), files)
 

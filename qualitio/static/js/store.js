@@ -45,6 +45,6 @@ $(function() {
     if(!window.location.hash)
       $("#application-tree").jstree("select_node",".jstree-last");
   });
-  
+
   hash.init();
 });
