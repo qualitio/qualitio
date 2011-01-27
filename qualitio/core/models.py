@@ -8,15 +8,15 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-    
+
     def clean(self):
         for name, value in filter(lambda x: not x[0].startswith("_"), self.__dict__.items()):
             if isinstance(value, basestring):
                 setattr(self, name, getattr(self, name).strip())
-        
+
 
 class BasePathModel(BaseModel):
-    #TODO: move here parent, name fileds from BaseDiBaseDirectoryModel, 
+    #TODO: move here parent, name fileds from BaseDiBaseDirectoryModel,
     #      or crate MetaClass wich will handle this situation
     path = models.CharField(max_length=2048, blank=True)
     name = models.CharField(max_length=1024)
@@ -27,34 +27,34 @@ class BasePathModel(BaseModel):
         unique_together = (("name", "parent"),)
 
     def _get_path(self):
-        #TODO: exception needed when class is improperly configured, 
+        #TODO: exception needed when class is improperly configured,
         #      when parent is not defined in orginal class
         if self.parent:
             return "%s%s/" % (self.parent.path,
                               self.parent.name)
         return "/"
-        
+
     def save(self, *args, **kwargs): # TODO: a bit risky stuff
         self.path = self._get_path()
         super(BasePathModel, self).save(*args, **kwargs)
-        
+
     def __unicode__(self):
         return self.name
 
 
 class BaseDirectoryModel(MPTTModel, BasePathModel):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
-    
-    
+
+
     class Meta:
         abstract = True
         unique_together = (("name", "parent"),)
-        
-    def save(self, *args, **kwargs): 
+
+    def save(self, *args, **kwargs):
         super(BaseDirectoryModel, self).save(*args, **kwargs)
         for child in self.children.all():
-            child.save() 
+            child.save()
         # Children 2nd category ;)
         for subchild in self.subchildren.all():
             subchild.save()
-    
+
