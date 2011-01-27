@@ -21,7 +21,7 @@
       {{ testcasesteps_form.empty_form.description.label_tag}} <span class="error"></span>
       {{ testcasesteps_form.empty_form.description }}
     </div>
-    <a class="button add-step">add step</a>
+    <a class="button add-step">Add step</a>
   </div>
   <div class="grid_8 excpected">
     <div class="field-wrapper" style="text-align:right">
@@ -46,7 +46,7 @@
     {% endfor %}
     
     {{ testcasesteps_form.management_form }}
-    <a id="add-step-0" class="button add-step">add step</a>
+    <a id="add-step-0" class="button add-step">Add step</a>
     
     {% for form in testcasesteps_form.forms %}
     <div class="step clearfix">
@@ -58,7 +58,7 @@
           {{ form.description.label_tag}} <span class="error"></span>
           {{ form.description }}
         </div>
-        <a class="button add-step">add step</a>
+        <a class="button add-step">Add step</a>
       </div>
       <div class="grid_8 excpected">
         <div id="{{ form.expected.html_name }}_wrapper" class="field-wrapper" style="text-align:right">
