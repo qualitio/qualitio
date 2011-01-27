@@ -36,14 +36,14 @@ def directory_valid(request, directory_id=0):
         testrun_directory_form = TestRunDirectoryForm(request.POST, instance=testrun_directory)
     else:
         testrun_directory_form = TestRunDirectoryForm(request.POST)
-        
+
     if testrun_directory_form.is_valid():
         testrun_directory = testrun_directory_form.save()
-        return success(message='testrun directory saved', 
-                       data={ "parent_id" : getattr(testrun_directory.parent,"id", 0), 
+        return success(message='testrun directory saved',
+                       data={ "parent_id" : getattr(testrun_directory.parent,"id", 0),
                               "current_id" : testrun_directory.id })
     else:
-        return failed(message="Validation errors", 
+        return failed(message="Validation errors",
                       data=[(k, v[0]) for k, v in testrun_directory_form.errors.items()])
 
 def testrun_details(request, testrun_id):
@@ -61,7 +61,7 @@ def testrun_notes(request, testrun_id):
 def testrun_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = TestRunForm(initial={'parent': directory})
-    return direct_to_template(request, 'execute/testrun_edit.html', 
+    return direct_to_template(request, 'execute/testrun_edit.html',
                               { "testrun_form" : testrun_form })
 
 def testrun_edit(request, testrun_id):
@@ -77,14 +77,14 @@ def testrun_valid(request, testrun_id=0):
         testrun_form = TestRunForm(request.POST, instance=testrun)
     else:
         testrun_form = TestRunForm(request.POST)
-        
+
     if testrun_form.is_valid():
         testrun = testrun_form.save()
-        return success(message='testrun directory saved', 
-                       data={ "parent_id" : getattr(testrun.parent,"id", 0), 
+        return success(message='testrun directory saved',
+                       data={ "parent_id" : getattr(testrun.parent,"id", 0),
                               "current_id" : testrun.id })
     else:
-        return failed(message="Validation errors", 
+        return failed(message="Validation errors",
                       data=[(k, v[0]) for k, v in testrun_form.errors.items()])
 
 
@@ -96,7 +96,7 @@ def testrun_valid(request, testrun_id=0):
 #         testcases =  TestCase.objects.filter(Q(name__contains=search) | Q(path__contains=search))
 #         if testcases:
 #             return success(message="%s testcases found" % testcases.count(),
-#                            data=loader.render_to_string("requirements/_available_testcases.html", 
+#                            data=loader.render_to_string("requirements/_available_testcases.html",
 #                                                         { "testcases" : testcases }))
 #         return success(message="no testcases found")
 
@@ -110,7 +110,7 @@ def to_tree_element(object, type):
                      'data' : object.name }
 
     if isinstance(object, MPTTModel):
-        #TODO: temporary solution, remove TestRun call with something thath will be more generic, 
+        #TODO: temporary solution, remove TestRun call with something thath will be more generic,
         #      and will aply to all tree objects
         if object.get_children() or TestRun.objects.filter(parent=object):
             tree_element['state'] = "closed"

@@ -6,14 +6,20 @@ class RequirementForm(forms.ModelForm):
         super(RequirementForm, self).__init__(*args, **kwargs)
         self.fields['dependencies'].required = False
         if self.instance:
-            self.fields['dependencies'].queryset = Requirement.objects.exclude(pk=self.instance.pk)
+            qs = Requirement.objects.all()
+            qs = qs.exclude(pk=self.instance.pk)
+            qs = qs.exclude(dependencies__in=[self.instance])
+            qs = qs.exclude(dependencies__dependencies__in=[self.instance])
+            self.fields['dependencies'].queryset = qs
         else:
             self.fields['dependencies'].queryset = Requirement.objects.all()
+
 
     class Meta:
         model = Requirement
         fields = ("parent", "name", "release_target", "description", "dependencies" )
         widgets = {"release_target": forms.DateInput(attrs={"class":"date-field"})}
+
 
 
 class SearchTestcasesForm(forms.Form):
