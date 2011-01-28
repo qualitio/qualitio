@@ -86,12 +86,12 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=Notebook"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=li#2 a ins"))
+        try: self.failUnless(sel.is_element_present("css=li#2_requirement a ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=li#1 ins"))
+        try: self.failUnless(sel.is_element_present("css=li#1_requirement ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("css=li#1 ins")
-        sel.click("css=li#1 ins")
+        sel.click("css=li#1_requirement ins")
+        sel.click("css=li#1_requirement ins")
         for i in range(60):
             try:
                 if "TV" == sel.get_text("link=TV"): break
@@ -100,21 +100,21 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=li#2 ins"))
+        try: self.failUnless(sel.is_element_present("css=li#2_requirement ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=li#4 a ins"))
+        try: self.failUnless(sel.is_element_present("css=li#4_requirement a ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=li#4 ins"))
+        try: self.failUnless(sel.is_element_present("css=li#4_requirement ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("css=li#4 ins")
-        sel.click("css=li#4 ins")
+        sel.click("css=li#4_requirement ins")
+        sel.click("css=li#4_requirement ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Bootscreen"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("css=li#8 ins"))
+        try: self.failUnless(sel.is_element_present("css=li#8_requirement ins"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=Notebook")
         for i in range(60):
@@ -175,7 +175,7 @@ class Test3Newreq(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
-        sel.click("css=li#1 ins")
+        sel.click("css=li#1_requirement ins")
         for i in range(60):
             try:
                 if "TV" == sel.get_text("link=TV"): break
@@ -228,9 +228,9 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
-	sel.click("css=li#1 ins")
+	sel.click("css=li#1_requirement ins")
 	time.sleep(1)
-	sel.click("css=li#1 ins")
+	sel.click("css=li#1_requirement ins")
 	time.sleep(1)
         for i in range(60):
             try:
@@ -251,7 +251,7 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=TV")
-        sel.click("css=li#4 ins")
+        sel.click("css=li#4_requirement ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=new requirement 1"): break
@@ -1779,7 +1779,7 @@ class Test12DetailsVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("new requirement", sel.get_text("css=div#application-view-footer div a span"))
+        try: self.assertEqual("New requirement", sel.get_text("css=div#application-view-footer div a span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("depends"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2031,6 +2031,7 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo Netbook")
+        sel.click("css=li#1_testcasedirectory ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestCase"): break
@@ -2095,7 +2096,7 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("add step", sel.get_text("css=a#add-step-0 span"))
+        try: self.assertEqual("Add step", sel.get_text("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2166,11 +2167,11 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         sel.click("link=MeeGo Netbook")
         for i in range(60):
             try:
-                if sel.is_text_present("create testcase directory"): break
+                if sel.is_text_present("Create testcase directory"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("create testcase directory"))
+        try: self.failUnless(sel.is_text_present("Create testcase directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a:nth-child(2)")
         for i in range(60):
