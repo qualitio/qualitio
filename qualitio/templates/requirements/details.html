@@ -1,12 +1,9 @@
+{% load application_view_menu %}
 <div id="application-view-header">
   <h1>requirement: {{ requirement.name }}</h1>
 </div>
 
-<div id="application-view-menu">
-  <span class="active">details</span>
-  <a href="#requirement/{{ requirement.pk }}/edit/">edit</a>
-  <a href="#requirement/{{ requirement.pk }}/testcases/">test cases</a>
-</div>
+{% application_view_menu requirement "details" %}
 
 <div class="application-view-content">
   <div class="text-bullet"><b>full name:</b> {{ requirement.path }}{{ requirement.name }}</div>
