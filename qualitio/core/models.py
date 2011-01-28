@@ -43,7 +43,7 @@ class BasePathModel(BaseModel):
         super(BasePathModel, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return "%s/%s" % (self.path, self.name)
+        return "%s%s" % (self.path, self.name)
 
 
 class BaseDirectoryModel(MPTTModel, BasePathModel):
