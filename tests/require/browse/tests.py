@@ -200,7 +200,7 @@ class Test3Newreq(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -216,7 +216,7 @@ class Test3Newreq(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -304,7 +304,7 @@ class Test4Modreq(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(2)
         else: self.fail("time out")
@@ -326,7 +326,7 @@ class Test4Modreq(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -701,7 +701,7 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -723,7 +723,7 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -908,7 +908,7 @@ class Test8ModreqReltarg(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -930,7 +930,7 @@ class Test8ModreqReltarg(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1113,7 +1113,7 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1135,7 +1135,7 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1306,7 +1306,7 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1328,7 +1328,7 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1515,7 +1515,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1564,7 +1564,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1586,7 +1586,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1635,7 +1635,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1657,7 +1657,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("new requirement"): break
+                if sel.is_text_present("requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1779,7 +1779,7 @@ class Test12DetailsVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("New requirement", sel.get_text("css=div#application-view-footer div a span"))
+        try: self.assertEqual("Create requirement", sel.get_text("css=div#application-view-footer div a span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("depends"))
         except AssertionError, e: self.verificationErrors.append(str(e))
