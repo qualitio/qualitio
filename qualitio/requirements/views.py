@@ -101,22 +101,3 @@ def filter(request):
     return direct_to_template(request, 'requirements/filter.html',
                               {'requirements_table' : requirements_table})
 
-
-#TODO: move to core app, as soon as possible
-def to_tree_element(object, type):
-    return { 'data' : object.name,
-             'attr' : {'id' : object.pk,
-                       'rel': type},
-             'state' : 'closed',
-             'children' : [] }
-
-#TODO: same here
-def get_children(request):
-    node_id = int(request.GET['id'])
-    if not node_id:
-        qs = Requirement.tree.root_nodes()
-    else:
-        qs = Requirement.objects.get(pk=node_id).get_children()
-
-    requirements_totreeel = map(lambda x: to_tree_element(x, x._meta.module_name), qs)
-    return HttpResponse(json.dumps(requirements_totreeel), mimetype="application/json")
