@@ -41,10 +41,10 @@ def valid(request, requirement_id=0):
 
     if requirement_form.is_valid():
         requirement = requirement_form.save()
-        return success(message='Requirement saved', 
-                       data={ "parent_id" : getattr(requirement.parent,"id", 0), 
+        return success(message='Requirement saved',
+                       data={ "parent_id" : getattr(requirement.parent,"id", 0),
                               "current_id" : requirement.id })
-    
+
     # TODO: move this functionality to helpers
     return failed(message="Validation errors %s" % " ".join([e for e in requirement_form.non_field_errors()]),
                   data=[(k, v[0]) for k, v in requirement_form.errors.items()])
@@ -69,7 +69,7 @@ def available_testcases(request, requirement_id):
         testcases =  TestCase.objects.filter(Q(name__contains=search) | Q(path__contains=search))
         if testcases:
             return success(message="%s testcases found" % testcases.count(),
-                           data=loader.render_to_string("requirements/_available_testcases.html", 
+                           data=loader.render_to_string("requirements/_available_testcases.html",
                                                         { "testcases" : testcases }))
         return success(message="no testcases found")
 
@@ -87,7 +87,7 @@ def connect_testcases(request, requirement_id):
         testcase.save()
     return success();
 
-def new(request, requirement_id): 
+def new(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
     requirement_form = RequirementForm(initial={'parent': requirement})
     return direct_to_template(request, 'requirements/new.html',
@@ -105,7 +105,7 @@ def filter(request):
 #TODO: move to core app, as soon as possible
 def to_tree_element(object, type):
     return { 'data' : object.name,
-             'attr' : {'id' : object.pk, 
+             'attr' : {'id' : object.pk,
                        'rel': type},
              'state' : 'closed',
              'children' : [] }
