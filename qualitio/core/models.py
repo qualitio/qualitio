@@ -15,9 +15,6 @@ class BaseModel(models.Model):
             if isinstance(value, basestring):
                 setattr(self, name, getattr(self, name).strip())
 
-    def __unicode__(self):
-        return self.name
-
 
 class BasePathModel(BaseModel):
     #TODO: move here parent, name fileds from BaseDiBaseDirectoryModel,

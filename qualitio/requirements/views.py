@@ -28,8 +28,14 @@ def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
     return direct_to_template(request, 'requirements/edit.html',
-                              {'requirement' : requirement,
-                               'requirement_form' : requirement_form})
+                              {'requirement_form': requirement_form})
+
+
+def new(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    requirement_form = RequirementForm(initial={'parent': requirement})
+    return direct_to_template(request, 'requirements/edit.html',
+                              {'requirement_form': requirement_form})
 
 @json_response
 def valid(request, requirement_id=0):
@@ -87,13 +93,6 @@ def connect_testcases(request, requirement_id):
         testcase.save()
     return success();
 
-def new(request, requirement_id):
-    requirement = Requirement.objects.get(id=requirement_id)
-    requirement_form = RequirementForm(initial={'parent': requirement})
-    return direct_to_template(request, 'requirements/new.html',
-                              { 'requirement': requirement,
-                                'requirement_form' : requirement_form})
-
 
 def filter(request):
     requirements_table = RequirementsFilterTable(Requirement.objects.select_related(),
@@ -101,22 +100,3 @@ def filter(request):
     return direct_to_template(request, 'requirements/filter.html',
                               {'requirements_table' : requirements_table})
 
-
-#TODO: move to core app, as soon as possible
-def to_tree_element(object, type):
-    return { 'data' : object.name,
-             'attr' : {'id' : object.pk,
-                       'rel': type},
-             'state' : 'closed',
-             'children' : [] }
-
-#TODO: same here
-def get_children(request):
-    node_id = int(request.GET['id'])
-    if not node_id:
-        qs = Requirement.tree.root_nodes()
-    else:
-        qs = Requirement.objects.get(pk=node_id).get_children()
-
-    requirements_totreeel = map(lambda x: to_tree_element(x, x._meta.module_name), qs)
-    return HttpResponse(json.dumps(requirements_totreeel), mimetype="application/json")
