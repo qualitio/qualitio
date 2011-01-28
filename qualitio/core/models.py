@@ -15,6 +15,9 @@ class BaseModel(models.Model):
             if isinstance(value, basestring):
                 setattr(self, name, getattr(self, name).strip())
 
+    def __unicode__(self):
+        return self.name
+
 
 class BasePathModel(BaseModel):
     #TODO: move here parent, name fileds from BaseDiBaseDirectoryModel,
@@ -40,7 +43,7 @@ class BasePathModel(BaseModel):
         super(BasePathModel, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.name
+        return "%s/%s" % (self.path, self.name)
 
 
 class BaseDirectoryModel(MPTTModel, BasePathModel):
