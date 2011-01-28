@@ -28,8 +28,14 @@ def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
     return direct_to_template(request, 'requirements/edit.html',
-                              {'requirement' : requirement,
-                               'requirement_form' : requirement_form})
+                              {'requirement_form': requirement_form})
+
+
+def new(request, requirement_id):
+    requirement = Requirement.objects.get(id=requirement_id)
+    requirement_form = RequirementForm(initial={'parent': requirement})
+    return direct_to_template(request, 'requirements/edit.html',
+                              {'requirement_form': requirement_form})
 
 @json_response
 def valid(request, requirement_id=0):
@@ -86,13 +92,6 @@ def connect_testcases(request, requirement_id):
         testcase.requirement = None
         testcase.save()
     return success();
-
-def new(request, requirement_id):
-    requirement = Requirement.objects.get(id=requirement_id)
-    requirement_form = RequirementForm(initial={'parent': requirement})
-    return direct_to_template(request, 'requirements/new.html',
-                              { 'requirement': requirement,
-                                'requirement_form' : requirement_form})
 
 
 def filter(request):
