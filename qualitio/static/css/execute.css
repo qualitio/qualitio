@@ -1,0 +1,19 @@
+#testcaserun-list {
+    border-bottom: 3px solid #aaaaaa;
+    overflow: auto;
+}
+
+#testcaserun-list table {
+    border-collapse:collapse;
+}
+
+#testcaserun-list tr.row {
+    cursor: pointer;
+}
+
+#testcaserun-list .hover {
+    background:#dddddd;
+    font-weight: bold;
+}
+
+

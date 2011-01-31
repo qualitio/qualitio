@@ -1,8 +1,8 @@
 from django.views.generic.simple import direct_to_template
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.execute.models import TestRunDirectory, TestRun
-from qualitio.execute.forms import TestRunDirectoryForm, TestRunForm
+from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun
+from qualitio.execute.forms import TestRunDirectoryForm, TestRunForm, TestCaseRunStatus
 
 
 def index(request):
@@ -92,6 +92,14 @@ def testrun_valid(request, testrun_id=0):
     else:
         return failed(message="Validation errors",
                       data=[(k, v[0]) for k, v in testrun_form.errors.items()])
+
+
+def testcaserun(request, testcaserun_id):
+    testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
+    testcaserun_status = TestCaseRunStatus(instance=testcaserun)
+    return direct_to_template(request, 'execute/_testcaserun.html',
+                              {'testcaserun': TestCaseRun.objects.get(pk=testcaserun_id),
+                               'testcaserun_status': testcaserun_status})
 
 
 # @json_response

@@ -8,38 +8,20 @@
 {% application_view_menu testrun "execute" %}
 
 <div class="grid_16">
-  <div class="application-view-content">
+  <div id="testcaserun-list" class="application-view-content">
     <table class="pretty">
       <tr>
-	<th>status</th>
-	<th>directory</th>
 	<th>name</th>
+	<th>status</th>
 	<th class="checked">&nbsp;<th>
       </tr>
-      <tr>
-	<td>PASSED</td>
-	<td>{{ testrun.directory.get_path }}</td>
-	<td>{% lorem 12 w random %}</td>
+      {% for testcaserun in testrun.subchildren.all %}
+      <tr class="row" id="testcaserun_{{ testcaserun.pk }}" style="background: {{ testcaserun.status.color }}">
+	<td class="name">{{ testcaserun.name }}</td>
+	<td class="status">{{ testcaserun.status.name }}</td>
 	<td><input type="checkbox"></td>
       </tr>
-      <tr>
-	<td>FAILED</td>
-	<td>{{ testrun.directory.get_path }}</td>
-	<td>{% lorem 12 w random %}</td>
-	<td><input type="checkbox"></td>
-      </tr>
-      <tr>
-	<td>NA</td>
-	<td>{{ testrun.directory.get_path }}</td>
-	<td>{% lorem 12 w random %}</td>
-	<td><input type="checkbox"></td>
-      </tr>
-      <tr>
-	<td>IDLE</td>
-	<td>{{ testrun.directory.get_path }}</td>
-	<td>{% lorem 12 w random %}</td>
-	<td><input type="checkbox"></td>
-      </tr>
+      {% endfor %}
 
     </table>
     <div style="text-align: right;">
@@ -53,114 +35,9 @@
   </div>
 </div>
 
-<div class="grid_16">
-  <div class="application-view-content">
-
-    <h1>test case: Opening Installx3ed Service Profiles view when no accounts are configured</h1>
-    <div class="text-bullet">directory: {{ testrun.get_path }}</div>
-    <div class="text-bullet">origin test case: /Messaging/BAT/Opening Installx3ed Service Profiles view when no accounts are configured</div>
-    <div class="text-bullet">current status: Failed</div>
-
-    <h2>Status</h2>
-    <div id="radio">
-      <input type="radio" id="radio1" name="radio" /><label class="ui-icon-gear" for="radio1">Idle</label>
-      <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Passed</label>
-      <input type="radio" id="radio3" name="radio" /><label for="radio3">Failed</label>
-      <input type="radio" id="radio4" name="radio" /><label for="radio4">NA</label>
-    </div>
-
-    <div class="grid_16 alpha omega">
-      <div class="step clearfix">
-	<h2>Precondition</h2>
-	{% lorem 1 p %}
-      </div>
-
-      <div class="step clearfix">
-      	<h2>Step 1</h2>
-      	<div class="grid_8 alpha description">{% lorem 1 p random %}--------</div>
-	<div class="grid_8 omega excpected">{% lorem 1 p random %}</div>
-      </div>
-
-      <div class="step clearfix">
-      	<h2>Step 2</h2>
-      	<div class="grid_8 alpha description">{% lorem 1 p random %}--------</div>
-	<div class="grid_8 omega excpected">{% lorem 1 p random %}</div>
-      </div>
-    </div>
+<div class="grid_16"> 
+  <div id="testcaserun-details" class="application-view-content"> 
   </div>
 </div>
 
-<div class="grid_16 alpha">
-  <div class="application-view-content">
-
-    <div class="grid_8">
-      <h2>bugs
-	<a class="show-historical-bugs" href="#" style="color: inherit; font-size: 8px">
-	  (add bugs from historical?)
-	</a>
-      </h2>
-      <div><a class="move-bug-button" href="#">x</a> <a href="#">#111</a> {% lorem 4 w random %}</div>
-      <div><a class="move-bug-button" href="#">x</a> <a href="#">#112</a> {% lorem 4 w random %}</div>
-      <div><a class="move-bug-button" href="#">x</a> <a href="#">#113</a> {% lorem 4 w random %}</div>
-    </div>
-
-    <div class="grid_8">
-      <h2>attachments</h2>
-      <div><a class="delete-bug-button" href="#">x</a> {% lorem 6 w random %}</div>
-      <input type="file"/>
-    </div>
-
-  </div>
-</div>
-
-<div id="dialog-confirm" title="Add bugs from historical?">
-  <p><span class="ui-icon ui-icon-alert" style="float:left;
-						margin:0 7px 20px 0;">
-    </span>
-    Historical bugs connected to current TestCase some time in history. <br/>
-  </p>
-  <table class="pretty">
-    <tbody>
-      <tr>
-	<th class="id">Id</th>
-	<th class="name">name</th>
-	<th class="checked">&nbsp</th>
-      </tr>
-      <tr>
-	<td class="id">#123</td>
-	<td class="name">{% lorem 4 w random %}</td>
-	<td class="checked"><input type="checkbox"/></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-<script>
-    $( function() {
-	$('#radio').buttonset();
-	$('.move-bug-button').button({ icons: { primary: "ui-icon-circle-triangle-e" }, text: false });
-	$('.delete-bug-button').button({ icons: { primary: "ui-icon-circle-close" }, text: false });
-
-	$( "#dialog" ).dialog( "destroy" );
-	$( "#dialog-confirm" ).dialog({
-	    autoOpen: false,
-	    resizable: false,
-	    minHeight: 300,
-	    width: 500,
-	    modal: true,
-
-	    buttons: {
-		"Add bug(s)": function() {
-		    $( this ).dialog( "close" );
-		},
-		Cancel: function() {
-		    $( this ).dialog( "close" );
-		}
-	    }
-	});
-	$(".show-historical-bugs").click( function() {
-	    $("#dialog-confirm").dialog('open');
-	});
-    });
-</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_execute.js{{ STATIC_HASH }}"></script>
