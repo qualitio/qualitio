@@ -1,6 +1,7 @@
 from mptt.models import MPTTModel
 from django.db import models
 
+
 class BaseModel(models.Model):
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
@@ -39,7 +40,7 @@ class BasePathModel(BaseModel):
         super(BasePathModel, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.name
+        return "%s%s" % (self.path, self.name)
 
 
 class BaseDirectoryModel(MPTTModel, BasePathModel):
@@ -55,7 +56,7 @@ class BaseDirectoryModel(MPTTModel, BasePathModel):
         for child in self.children.all():
             child.save()
         # Children 2nd category ;)
-        if hasattr(self, 'subchildren'):
+        if hasattr(self, "subchildren"):
             for subchild in self.subchildren.all():
                 subchild.save()
 

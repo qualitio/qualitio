@@ -1,5 +1,7 @@
 from django.db import models
-from qualitio.core import models as core
+from qualitio import core
+from qualitio import store
+
 
 class TestRunDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
@@ -11,26 +13,14 @@ class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
 
 
-class TestCaseRun(core.BaseModel):
+class TestCaseRun(store.TestCaseBase):
     parent = models.ForeignKey('TestRun', null=True, blank=True, related_name="subchildren")
-    requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
     status = models.ForeignKey('TestCaseRun', null=True, blank=True)
-    
-    description = models.TextField(blank=True)
-    precondition = models.TextField(blank=True)
-    
-    name = models.CharField(max_length=512)
-
-    def __unicode__(self):
-        return self.name
 
 
-class TestCaseStepRun(core.BaseModel):
-    testcase = models.ForeignKey('TestCaseRun')
-    description = models.TextField()
-    expected = models.TextField(blank=True)
-    sequence = models.PositiveIntegerField()
-    
+class TestCaseStepRun(store.TestCaseStepBase):
+    testcaserun = models.ForeignKey('TestCaseRun')
+
     class Meta:
         ordering = ['sequence']
 

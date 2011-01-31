@@ -6,7 +6,6 @@ from qualitio.requirements.validators import RequirementDependencyValidator
 from qualitio.requirements.managers import RequirementManager
 
 
-
 class Requirement(core.BaseDirectoryModel):
     """
     This doc assumes you're familiar with django docs at
