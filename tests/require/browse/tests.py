@@ -77,7 +77,7 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
-        sel.click("css=li#1 ins")
+        sel.click("css=li#1_requirement ins")
         for i in range(60):
             try:
                 if "Notebook" == sel.get_text("link=Notebook"): break
@@ -1493,7 +1493,7 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
-                if "new requirement" == sel.get_text("css=div#application-view-header h1"): break
+                if "requirement" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1520,7 +1520,6 @@ class Test11Subrequir(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
-	time.sleep(1)
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1530,7 +1529,6 @@ class Test11Subrequir(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
-	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -1586,12 +1584,11 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("requirement"): break
+                if sel.is_text_present("new requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
-	time.sleep(1)
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1601,7 +1598,6 @@ class Test11Subrequir(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
-	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -1657,12 +1653,11 @@ class Test11Subrequir(BaseSeleniumTestCase):
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
-                if sel.is_text_present("requirement"): break
+                if sel.is_text_present("new requirement"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
-	time.sleep(1)
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1672,7 +1667,6 @@ class Test11Subrequir(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
-	time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -1779,7 +1773,7 @@ class Test12DetailsVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Create requirement", sel.get_text("css=div#application-view-footer div a span"))
+        try: self.assertEqual("create requirement", sel.get_text("css=div#application-view-footer div a span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("depends"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2352,6 +2346,18 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if "MeeGo Netbook" == sel.get_text("link=MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("MeeGo Netbook"): break
             except: pass
             time.sleep(1)
@@ -2363,6 +2369,13 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo Handset bat")
+	time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory: MeeGo Handset bat"): break
