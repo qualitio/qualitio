@@ -55,6 +55,7 @@ class BaseDirectoryModel(MPTTModel, BasePathModel):
         for child in self.children.all():
             child.save()
         # Children 2nd category ;)
-        for subchild in self.subchildren.all():
-            subchild.save()
+        if hasattr(self, 'subchildren'):
+            for subchild in self.subchildren.all():
+                subchild.save()
 
