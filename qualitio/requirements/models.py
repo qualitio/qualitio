@@ -1,9 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from qualitio.core import models as core
-from qualitio.requirements.validators import RequirementDependencyValidator
-from qualitio.requirements.managers import RequirementManager
+from qualitio import core
+from qualitio.requirements import validators, managers
 
 
 class Requirement(core.BaseDirectoryModel):
@@ -30,7 +29,7 @@ class Requirement(core.BaseDirectoryModel):
     release_target = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True)
 
-    objects = RequirementManager()
+    objects = managers.RequirementManager()
 
     def save(self, clean_dependencies=True, *args, **kwargs):
         """
@@ -93,6 +92,6 @@ class Requirement(core.BaseDirectoryModel):
             dependencies =  list(r for r in self.dependencies.all())
             dependencies += list(extra_dependencies)
 
-            validator = RequirementDependencyValidator(self, dependencies)
+            validator = validators.RequirementDependencyValidator(self, dependencies)
             if validator.is_valid():
                 raise ValidationError({'dependencies': [validator.format_error_msg()]})

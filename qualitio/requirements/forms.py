@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from qualitio.requirements.models import Requirement, RequirementDependencyValidator
+from qualitio.requirements.models import Requirement
 
 
 
