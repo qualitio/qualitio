@@ -55,7 +55,7 @@ class Requirement(core.BaseDirectoryModel):
         dependency cycles.
 
         Like in 'save' method you can pass clean_dependencies=False
-        to skill dependency cycles check.
+        to skip dependency cycles check.
         """
         errors = {}
 
