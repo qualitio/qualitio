@@ -4,7 +4,6 @@ from django.db.models import query
 from django.db import connection
 
 
-
 class QuerySet(query.QuerySet):
     def exclude_potential_cycles(self, requirement):
         qs = self.exclude(pk=requirement.pk)
@@ -14,7 +13,6 @@ class QuerySet(query.QuerySet):
         #       qs = qs.exclude(dependencies__dependencies__in=[requirement])
         #       qs = qs.exclude(dependencies__dependencies__dependencies__in=[requirement]) etc...
         return qs
-
 
 
 class RequirementManager(Manager):

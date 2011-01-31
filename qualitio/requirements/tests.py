@@ -28,7 +28,7 @@ class DependencyTestCase(TestCase):
     def setUp(self):
         mgr = Requirement.objects
 
-        self.big_project = mgr.get(name="BigProject") # assumes we've got it in fixtures !
+        self.big_project = mgr.get(name="BigProject")  # assumes we've got it in fixtures !
         self.mee_go = mgr.create(name="MeeGo")
         self.mee_go_IVI = mgr.create(name="IVI")
         self.mee_go_TV = mgr.create(name="TV")

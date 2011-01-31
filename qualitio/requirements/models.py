@@ -47,7 +47,6 @@ class Requirement(core.BaseDirectoryModel):
             self.clean_dependencies()
         super(Requirement, self).save(*args, **kwargs)
 
-
     def full_clean(self, clean_dependencies=True, exclude=None):
         """
         This method exists for consistency of django Model validation functionality.
@@ -73,7 +72,6 @@ class Requirement(core.BaseDirectoryModel):
         if errors:
             raise ValidationError(errors)
 
-
     def clean_dependencies(self, extra_dependencies=()):
         """
         Checks the dependency cycle.
@@ -89,7 +87,7 @@ class Requirement(core.BaseDirectoryModel):
         """
         # We don't want / cannot to check just created objects
         if self.id:
-            dependencies =  list(r for r in self.dependencies.all())
+            dependencies = list(r for r in self.dependencies.all())
             dependencies += list(extra_dependencies)
 
             validator = validators.RequirementDependencyValidator(self, dependencies)

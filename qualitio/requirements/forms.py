@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from qualitio.requirements.models import Requirement
 
 
-
 class BaseRequirementForm(forms.ModelForm):
     class Meta:
         model = Requirement
@@ -26,9 +25,10 @@ class BaseRequirementForm(forms.ModelForm):
         # additional check for dependencies cycles on model because it's
         # already done in '_post_clean' method.
 
-        # Because of the implementation of 'save' procedure in django.forms.models module,
-        # we need to change the 'save' method behaviour on self.instance just for
-        # the moment when this ModelForm instance will invoke it.
+        # Because of the implementation of 'save' procedure in
+        # django.forms.models module, we need to change the 'save' method
+        # behaviour on self.instance just for the moment when this ModelForm
+        # instance will invoke it.
         # TODO: maybe we should discuss this if Proxy for self.instance with
         #       overriden 'save' method fits better here.
 
@@ -49,21 +49,19 @@ class BaseRequirementForm(forms.ModelForm):
         return self.instance
 
 
-
 class RequirementForm(BaseRequirementForm):
     def __init__(self, *args, **kwargs):
         super(RequirementForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['dependencies'].queryset = Requirement.objects.exclude_potential_cycles(self.instance)
+            qs = Requirement.objects.exclude_potential_cycles(self.instance)
+            self.fields['dependencies'].queryset = qs
         self.fields['dependencies'].required = False
-
 
     class Meta:
         model = Requirement
-        fields = ("parent", "name", "release_target", "description", "dependencies" )
-        widgets = {"release_target": forms.DateInput(attrs={"class":"date-field"})}
-
+        fields = ("parent", "name", "release_target", "description", "dependencies")
+        widgets = {"release_target": forms.DateInput(attrs={"class": "date-field"})}
 
 
 class SearchTestcasesForm(forms.Form):
-    search = forms.CharField(required=True, min_length = 3)
+    search = forms.CharField(required=True, min_length=3)
