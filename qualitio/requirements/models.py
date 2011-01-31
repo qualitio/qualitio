@@ -1,5 +1,5 @@
 from django.db import models
-from qualitio.core import models as core
+from qualitio import core
 
 
 class Requirement(core.BaseDirectoryModel):
