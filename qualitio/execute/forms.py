@@ -1,13 +1,13 @@
-from qualitio.core.forms import PathModelForm
+from qualitio import core
 from qualitio.execute import models
 
 
-class TestRunDirectoryForm(PathModelForm):
-    class Meta(PathModelForm.Meta):
+class TestRunDirectoryForm(core.PathModelForm):
+    class Meta(core.PathModelForm.Meta):
         model = models.TestRunDirectory
 
 
-class TestRunForm(PathModelForm):
-    class Meta(PathModelForm.Meta):
+class TestRunForm(core.PathModelForm):
+    class Meta(core.PathModelForm.Meta):
         model = models.TestRun
 

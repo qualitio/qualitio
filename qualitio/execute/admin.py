@@ -1,13 +1,12 @@
-from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
 from qualitio.execute import models
-from qualitio.core.admin import PathModelInline, DirectoryModelAdmin, PathModelAdmin
+from qualitio import core
 
-class TestRunInline(PathModelInline):
+class TestRunInline(core.PathModelInline):
     model = models.TestRun
 
 
-class TestRunDirectoryAdmin(DirectoryModelAdmin):
+class TestRunDirectoryAdmin(core.DirectoryModelAdmin):
     inlines = [ TestRunInline ]
 admin.site.register(models.TestRunDirectory, TestRunDirectoryAdmin)
 
@@ -17,7 +16,7 @@ class TestCaseRunInline(admin.TabularInline):
     extra = 0
 
 
-class TestRunAdmin(PathModelAdmin):
+class TestRunAdmin(core.PathModelAdmin):
     inlines = [ TestCaseRunInline ]
 admin.site.register(models.TestRun, TestRunAdmin)
 
