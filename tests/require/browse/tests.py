@@ -1960,9 +1960,9 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div a:nth-child(2) span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("create testcase"))
+        try: self.failUnless(sel.is_text_present("Create testcase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("create testcase directory"))
+        try: self.failUnless(sel.is_text_present("Create testcase directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
@@ -2181,6 +2181,9 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "testcase directory")
+        try: self.failUnless(sel.is_text_present("Description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_description", "Description of testcase directory")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("qualitio: store", sel.get_title())
@@ -2228,6 +2231,21 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("test case directory: testcase directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:directory: /MeeGo Netbook/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Description of testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Description of testcase directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -2364,25 +2382,10 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("MeeGo Handset bat"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=MeeGo Handset bat")
-	time.sleep(2)
-        for i in range(60):
-            try:
                 if sel.is_element_present("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("test case directory: MeeGo Handset bat"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("css=li#2_testcasedirectory ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=test case 1"): break
