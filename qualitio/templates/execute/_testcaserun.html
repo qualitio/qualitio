@@ -1,0 +1,28 @@
+<h1>test case: {{ testcaserun.name }}</h1>
+<div class="text-bullet">directory: {{ testrun.get_path }}</div>
+<div class="text-bullet">origin test case: /Messaging/BAT/Opening Installx3ed Service Profiles view when no accounts are configured</div>
+<div class="text-bullet">current status: Failed</div>
+
+<h2>Status</h2>
+{{ testcaserun_status }}
+
+<div class="grid_16 alpha omega">
+  <h2>Description</h2>
+  {{ testcaserun.description }}
+  <div class="step clearfix">
+    <h2>Precondition</h2>
+    {{ testcaserun.precondition }}
+  </div>
+
+  <div class="step clearfix">
+    <h2>Step 1</h2>
+    <div class="grid_8 alpha description"></div>
+    <div class="grid_8 omega excpected"></div>
+  </div>
+
+  <div class="step clearfix">
+    <h2>Step 2</h2>
+    <div class="grid_8 alpha description"></div>
+    <div class="grid_8 omega excpected"></div>
+  </div>
+</div>

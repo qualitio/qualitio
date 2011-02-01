@@ -12,10 +12,13 @@ class TestRun(core.BasePathModel):
 
     notes = models.TextField(blank=True)
 
-
 class TestCaseRun(store.TestCaseBase):
     parent = models.ForeignKey('TestRun', null=True, blank=True, related_name="subchildren")
-    status = models.ForeignKey('TestCaseRun', null=True, blank=True)
+    status = models.ForeignKey('TestCaseRunStatus')
+
+    @staticmethod
+    def run_testcase(testcase):
+        pass
 
 
 class TestCaseStepRun(store.TestCaseStepBase):
@@ -28,3 +31,6 @@ class TestCaseStepRun(store.TestCaseStepBase):
 class TestCaseRunStatus(core.BaseModel):
     name = models.CharField(max_length=512)
     color = models.CharField(max_length=7, blank=True)
+
+    def __unicode__(self):
+        return self.name

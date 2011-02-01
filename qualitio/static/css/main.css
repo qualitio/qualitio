@@ -190,7 +190,7 @@ body {
 }
 
 .application-view-content {
-    padding: 10px 10px 0;
+    padding: 10px 10px;
 }
 
 .application-view-content input:not(.ui-button):not([type=checkbox]),
@@ -278,6 +278,10 @@ table.pretty {
 }
 table.pretty .checkbox  {
     width: 18px;
+}
+table.pretty .status  {
+    width: 60px;
+    text-align: center;
 }
 table.pretty .icon {
     width: 20px;
