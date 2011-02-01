@@ -27,4 +27,5 @@ urlpatterns = patterns('',
                        url(r'^ajax/testrun/new/valid/?$', testrun_valid),
 
                        url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/?$', testcaserun),
+                       url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/setstatus/?$', testcaserun_setstatus),
                        )
