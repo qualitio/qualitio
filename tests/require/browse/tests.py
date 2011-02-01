@@ -1132,6 +1132,8 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=1")
+        sel.click("link=4")
+        sel.click("description_wrapper")
         sel.click("release_target_wrapper")
         for i in range(60):
             try:
@@ -1149,7 +1151,6 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=MeeGo")
-	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -1193,7 +1194,6 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_description", "Desription of test")
         sel.click("css=input.ui-button")
-	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -1201,7 +1201,6 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo")
-	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
@@ -1773,7 +1772,7 @@ class Test12DetailsVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("create requirement", sel.get_text("css=div#application-view-footer div a span"))
+        try: self.assertEqual("Create requirement", sel.get_text("css=div#application-view-footer div a span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("depends"))
         except AssertionError, e: self.verificationErrors.append(str(e))
