@@ -19,6 +19,9 @@ class TestCaseRunStatus(forms.ModelForm):
     class Meta:
         model = models.TestCaseRun
         fields = ("status",)
+        widgets = {
+            'status': forms.RadioSelect(renderer=core.RawRadioSelectRenderer)
+            }
 
     def __init__(self, *args, **kwargs):
         super(TestCaseRunStatus, self).__init__(*args, **kwargs)
