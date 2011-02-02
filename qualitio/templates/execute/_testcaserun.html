@@ -4,7 +4,9 @@
 <div class="text-bullet">current status: Failed</div>
 
 <h2>Status</h2>
-{{ testcaserun_status }}
+<form id="testcaserun-status-form" method="post" action="/execute/ajax/testcaserun/{{ testcaserun.id }}/setstatus/">
+  {{ testcaserun_status_form.status }}
+</form>
 
 <div class="grid_16 alpha omega">
   <h2>Description</h2>

@@ -96,11 +96,25 @@ def testrun_valid(request, testrun_id=0):
 
 def testcaserun(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
-    testcaserun_status = TestCaseRunStatus(instance=testcaserun)
+    testcaserun_status_form = TestCaseRunStatus(instance=testcaserun)
     return direct_to_template(request, 'execute/_testcaserun.html',
                               {'testcaserun': TestCaseRun.objects.get(pk=testcaserun_id),
-                               'testcaserun_status': testcaserun_status})
+                               'testcaserun_status_form': testcaserun_status_form})
 
+@json_response
+def testcaserun_setstatus(request, testcaserun_id):
+    testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
+    testcaserun_status_form = TestCaseRunStatus(request.POST, instance=testcaserun)
+    if testcaserun_status_form.is_valid():
+        testcaserun = testcaserun_status_form.save()
+        return success(message=testcaserun.status.name,
+                       data=dict(id=testcaserun.pk,
+                                 name=testcaserun.status.name,
+                                 color=testcaserun.status.color))
+    else:
+        print testcaserun_status_form.errors
+        return failed(message=testcaserun.status.name,
+                      data=[(k, v[0]) for k, v in testcaserun_status_form.errors.items()])
 
 # @json_response
 # def available_testcases(request, requirement_id):
