@@ -27,6 +27,19 @@ class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
     pass
 
 
+class BaseInlineFormSet(forms.models.BaseInlineFormSet):
+    """
+    BaseInlineFormSet with additional error processing functionality.
+    """
+    def errors_list(self):
+        formset_errors = []
+        for i, error in filter(lambda x: x[1], list(enumerate(self.errors))):
+            for v, k in error.items():
+                formset_errors.append(map(lambda x: (("testcasestep_set-%s-%s") % (i, v), x), k)[0])
+        return formset_errors
+
+
+
 class PathModelForm(BaseModelForm):
     class Meta:
         exclude = ("path",)
