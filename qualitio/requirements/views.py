@@ -51,9 +51,8 @@ def valid(request, requirement_id=0):
                        data={ "parent_id" : getattr(requirement.parent,"id", 0),
                               "current_id" : requirement.id })
 
-    # TODO: move this functionality to helpers
-    return failed(message="Validation errors %s" % " ".join([e for e in requirement_form.non_field_errors()]),
-                  data=[(k, v[0]) for k, v in requirement_form.errors.items()])
+    return failed(message="Validation errors %s" % requirement_form.error_message(),
+                  data=requirement_form.errors_list())
 
 
 def test_cases(request, requirement_id):
@@ -80,7 +79,7 @@ def available_testcases(request, requirement_id):
         return success(message="no testcases found")
 
     return failed(message="validation errors",
-                  data=[(k, v[0]) for k, v in search_testcases_form.errors.items()])
+                  data=search_testcases_form.errors_list())
 
 @json_response
 def connect_testcases(request, requirement_id):
@@ -99,4 +98,3 @@ def filter(request):
                                                  order_by=request.GET.get('sort'))
     return direct_to_template(request, 'requirements/filter.html',
                               {'requirements_table' : requirements_table})
-
