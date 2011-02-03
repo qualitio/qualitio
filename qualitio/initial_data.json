@@ -173,5 +173,65 @@
       "created_time": "2011-01-24 15:06:45", 
       "path": "/BigProject/"
     }
+  },
+  {
+    "pk": 1, 
+    "model": "execute.testcaserun", 
+    "fields": {
+      "status": 3, 
+      "requirement": null, 
+      "name": "test", 
+      "parent": 1, 
+      "precondition": "123", 
+      "modified_time": "2011-02-02 13:16:47", 
+      "created_time": "2011-01-31 14:25:46", 
+      "path": "/BigProject/TestRun 1/", 
+      "description": "123"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "execute.testcaserun", 
+    "fields": {
+      "status": 3, 
+      "requirement": null, 
+      "name": "test2", 
+      "parent": 1, 
+      "precondition": "123", 
+      "modified_time": "2011-02-01 16:29:26", 
+      "created_time": "2011-01-31 14:58:26", 
+      "path": "/BigProject/TestRun 1/", 
+      "description": "123"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "created_time": "2011-01-31 14:25:16", 
+      "color": "#cceeee", 
+      "name": "IDLE", 
+      "modified_time": "2011-01-31 14:29:16"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "created_time": "2011-02-01 10:56:58", 
+      "color": "#88bb66", 
+      "name": "PASSED", 
+      "modified_time": "2011-02-01 10:56:58"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "created_time": "2011-02-01 16:28:15", 
+      "color": "red", 
+      "name": "FAILED", 
+      "modified_time": "2011-02-01 16:28:15"
+    }
   }
 ]
