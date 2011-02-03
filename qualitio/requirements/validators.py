@@ -98,7 +98,7 @@ class RequirementDependencyValidator(object):
             self._cycles = []
             if graph:
                 self._cycles = nx.simple_cycles(graph)
-                self._is_valid = bool(self._cycles)
+                self._is_valid = not bool(self._cycles)
         return self._is_valid
 
     def blame_dependencies(self):
