@@ -32,9 +32,41 @@ $(function() {
     });
     $('#testcaserun-status-form').submit();
   });
+  
+  // TODO: Remove this die() clear
+  $("#testcaserun-add-bug-form input[type=submit]").die('click');
+  $("#testcaserun-add-bug-form input[type=submit]").live('click', function() {
+    $('#testcaserun-add-bug-form').ajaxForm({
+      success: function(response) {
+        $("#testcaserun-add-bug-form .field-wrapper").removeClass('ui-state-error');
+        $("#testcaserun-add-bug-form .field-wrapper  .error").text("");
+        if(!response.success) {
+          $(response.data).each(function(i, element) {
+            $("#"+element[0]+"_wrapper").addClass("ui-state-error");
+            $("#"+element[0]+"_wrapper .error").append(element[1]);
+          });        
+          $('#notification').jnotifyAddMessage({
+            text: response.message,
+            permanent: false,
+            type: "error"
+          });
+        } else {
+          $('#notification').jnotifyAddMessage({
+            text: response.message,
+            permanent: false,
+            disappearTime: 2000
+          });
+        }
+      }
+    });
+  });
 });
 
 function update_status(status) {
   $("#testcaserun_" + status.data.id+" .status").text(status.data.name);
   $("#testcaserun_" + status.data.id).css("background", status.data.color);
+}
+
+function update_bug(response, $form, options) {
+  
 }

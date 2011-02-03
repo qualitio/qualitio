@@ -112,21 +112,24 @@ def testcaserun_setstatus(request, testcaserun_id):
                                  name=testcaserun.status.name,
                                  color=testcaserun.status.color))
     else:
-        print testcaserun_status_form.errors
         return failed(message=testcaserun.status.name,
                       data=[(k, v[0]) for k, v in testcaserun_status_form.errors.items()])
 
-# @json_response
-# def available_testcases(request, requirement_id):
-#     search_testcases_form = SearchTestcasesForm(request.POST)
-#     if search_testcases_form.is_valid():
-#         search = request.POST["search"]
-#         testcases =  TestCase.objects.filter(Q(name__contains=search) | Q(path__contains=search))
-#         if testcases:
-#             return success(message="%s testcases found" % testcases.count(),
-#                            data=loader.render_to_string("requirements/_available_testcases.html",
-#                                                         { "testcases" : testcases }))
-#         return success(message="no testcases found")
 
-#     return failed(message="validation errors",
-#                   data=[(k, v[0]) for k, v in search_testcases_form.errors.items()])
+@json_response
+def testcaserun_addbug(request, testcaserun_id):
+    try:
+        new_bug = Bug.objects.get(id=request.POST.get("id", None))
+    except Bug.DoesNotExist:
+        add_bug_form = forms.AddBugForm(request.POST)
+
+        if not add_bug_form.is_valid():
+            return failed(message="Validation error",
+                      data=[(k, v[0]) for k, v in add_bug_form.errors.items()])
+
+        new_bug = add_bug_form.save()
+    testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
+    testcaserun.bugs.add(new_bug)
+    return success(message="Issue #%s attached" % new_bug.name,
+                   data=dict(id=new_bug.id))
+

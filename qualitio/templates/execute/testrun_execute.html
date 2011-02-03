@@ -11,12 +11,14 @@
     <table class="pretty">
       <tr>
 	<th>name</th>
-	<th>status</th>
+	<th>bugs</th>
+        <th>status</th>
 	<th class="checked">&nbsp;<th>
       </tr>
       {% for testcaserun in testrun.subchildren.all %}
       <tr class="row" id="testcaserun_{{ testcaserun.pk }}" style="background: {{ testcaserun.status.color }}">
 	<td class="name">{{ testcaserun.name }}</td>
+        <td class="bugs">{% for bug in testcaserun.bugs.all %}#{{ bug.id }} {% endfor %}</td>
 	<td class="status">{{ testcaserun.status.name }}</td>
 	<td><input type="checkbox"></td>
       </tr>
