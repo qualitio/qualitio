@@ -1,10 +1,11 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from qualitio import core
 from qualitio.requirements.models import Requirement
 
 
-class BaseRequirementForm(forms.ModelForm):
+class BaseRequirementForm(core.BaseModelForm):
     class Meta:
         model = Requirement
 
@@ -63,5 +64,5 @@ class RequirementForm(BaseRequirementForm):
         widgets = {"release_target": forms.DateInput(attrs={"class": "date-field"})}
 
 
-class SearchTestcasesForm(forms.Form):
+class SearchTestcasesForm(core.BaseForm):
     search = forms.CharField(required=True, min_length=3)

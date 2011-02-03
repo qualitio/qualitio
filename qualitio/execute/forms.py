@@ -15,7 +15,7 @@ class TestRunForm(core.PathModelForm):
         model = models.TestRun
 
 
-class TestCaseRunStatus(forms.ModelForm):
+class TestCaseRunStatus(core.BaseModelForm):
 
     class Meta:
         model = models.TestCaseRun

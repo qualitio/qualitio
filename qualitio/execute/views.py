@@ -43,7 +43,7 @@ def directory_valid(request, directory_id=0):
                              "current_id": testrun_directory.id})
     else:
         return failed(message="Validation errors",
-                      data=[(k, v[0]) for k, v in testrun_directory_form.errors.items()])
+                      data=testrun_directory_form.errors_list())
 
 
 def testrun_details(request, testrun_id):
@@ -91,7 +91,7 @@ def testrun_valid(request, testrun_id=0):
                              "current_id": testrun.id})
     else:
         return failed(message="Validation errors",
-                      data=[(k, v[0]) for k, v in testrun_form.errors.items()])
+                      data=testrun_form.errors_list())
 
 
 def testcaserun(request, testcaserun_id):
@@ -117,7 +117,7 @@ def testcaserun_setstatus(request, testcaserun_id):
                                  color=testcaserun.status.color))
     else:
         return failed(message=testcaserun.status.name,
-                      data=[(k, v[0]) for k, v in testcaserun_status_form.errors.items()])
+                      data=testcaserun_status_form.errors_list())
 
 
 @json_response

@@ -178,3 +178,29 @@ class RequirementFormTest(DependencyTestCase):
 
         requirement = form.save()
         assert_equals(len(requirement.dependencies.all()), 2)
+
+
+
+class OnlyOneRequirementInDBTest(TestCase):
+    def setUp(self):
+        self.big_project = Requirement.objects.get(name="BigProject")  # assumes we've got it in fixtures !
+
+
+    def test_no_error_on_save(self):
+        assert_equals(Requirement.objects.count(), 1)
+
+        self.big_project.name = "BIG PROJECT"
+        try:
+            self.big_project.save()
+        except ValidationError, e:
+            self.fail("The exception shouldn't be raised!")
+
+
+    def configure_form(self):
+        data = {'name': 'BIG PROJECT'}
+        return RequirementForm(data, instance=self.big_project)
+
+
+    def test_no_error_on_form_save(self):
+        form = self.configure_form()
+        assert_true(form.is_valid())

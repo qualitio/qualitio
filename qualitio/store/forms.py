@@ -14,12 +14,13 @@ class TestCaseForm(core.PathModelForm):
         model = models.TestCase
 
 
-class TestCaseStepForm(forms.ModelForm):
+class TestCaseStepForm(core.BaseModelForm):
     sequence = forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model = models.TestCaseStep
 
 TestCaseStepFormSet = inlineformset_factory(models.TestCase, models.TestCaseStep,
+                                            formset=core.BaseInlineFormSet,
                                             form=TestCaseStepForm, extra=0, can_delete=True)
 TestCaseStepFormSet.empty_form = property(TestCaseStepFormSet._get_empty_form)
 AttachmentFormSet = inlineformset_factory(models.TestCase, models.Attachment,
