@@ -6,10 +6,16 @@
 {% application_view_menu requirement "details" %}
 
 <div class="application-view-content">
-  <div class="text-bullet"><b>full name:</b> {{ requirement.path }}{{ requirement.name }}</div>
-  <div class="text-bullet"><b>path:</b> {{ requirement.path }}</div>
+  <div class="text-bullet">
+    <span class="name">full name:</span>
+    <span class="value">{{ requirement.path }}{{ requirement.name }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">directory:</span>
+    <span class="value"> {{ requirement.path }}</span>
   <div class="text-bullet" style="text-align:justify">
-    <b>description:</b><br/> {{ requirement.description|linebreaksbr }}
+    <span class="name">description:</span>
+    <span class="value-block">{{ requirement.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
   
   <h2>sub-requirements</h2>

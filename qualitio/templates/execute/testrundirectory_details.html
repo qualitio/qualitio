@@ -7,8 +7,12 @@
 
 <div class="application-view-content">
   <div class="text-bullet">
-    <span class="name">directory:</span>
-    <span class="value">{{ directory.path }}</span>
+    <span class="name">full name:</span>
+    <span class="value">{{ directory.path }}{{ directory.name }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">description</span>
+    <span class="value-block">{{ directory.description|default:"<i>not set</i>" }}</span>
   </div>
   <table class="pretty ui-corner-all" style="margin-top: 20px">
     <tr>
