@@ -6,13 +6,25 @@
 {% application_view_menu testcase "details" %}
 
 <div class="application-view-content">
-  <div class="text-bullet">directory:</div>{{ testcase.path }}
-  <div class="text-bullet">status:</div><i>empty</i>
-  <h2>description</h2> 
-  {{ testcase.description|default:"<i>empty</i>"|linebreaksbr }}
-
+  <div class="text-bullet">
+    <span class="name">full name:</span>
+    <span class="value">{{ testcase.path }}{{ testcase.name }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">directory:</span>
+    <span class="value">{{ testcase.path }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">status:</span>
+    <span class="value">{{ testcase.status|default:"<i>not set</i>" }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">description</span>
+    <span class="value-block">{{ testcase.description|default:"<i>not set</i>" }}</span>
+  </div>
+  
   <h2>precondition</h2>
-  {{ testcase.precondition|default:"<i>empty</i>"|linebreaksbr }}
+  {{ testcase.precondition|default:"<i>not set</i>"|linebreaksbr }}
   
   {% for step in testcase.testcasestep_set.all %}
   <h2>step {{ forloop.counter }}</h2>
@@ -24,8 +36,6 @@
       {{ step.expected|linebreaksbr }}
     </div>
   </div>
-  {% empty %}
-  <i>none</i>
   {% endfor %}
 </div>
 
