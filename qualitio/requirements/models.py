@@ -91,5 +91,5 @@ class Requirement(core.BaseDirectoryModel):
             dependencies += list(extra_dependencies)
 
             validator = validators.RequirementDependencyValidator(self, dependencies)
-            if validator.is_valid():
+            if not validator.is_valid():
                 raise ValidationError({'dependencies': [validator.format_error_msg()]})

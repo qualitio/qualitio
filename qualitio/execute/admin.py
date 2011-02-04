@@ -21,6 +21,16 @@ class TestRunAdmin(core.PathModelAdmin):
 admin.site.register(models.TestRun, TestRunAdmin)
 
 
+class TestRunAdmin(core.PathModelAdmin):
+    list_display = core.PathModelAdmin.list_display + ("status",)
+admin.site.register(models.TestCaseRun, TestRunAdmin)
+
+
 class TestCaseRunStatusAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "color")
 admin.site.register(models.TestCaseRunStatus, TestCaseRunStatusAdmin)
+
+
+class BugAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "status", "resolution", "url")
+admin.site.register(models.Bug, BugAdmin)

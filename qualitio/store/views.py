@@ -43,7 +43,7 @@ def directory_valid(request, directory_id=0):
                               "current_id": testcase_directory.id})
     else:
         return failed(message="Validation errors",
-                      data=[(k, v[0]) for k, v in testcase_directory_form.errors.items()])
+                      data=testcase_directory_form.errors_list())
 
 
 def testcase_details(request, testcase_id):
@@ -89,13 +89,8 @@ def testcase_valid(request, testcase_id=0):
                        data={"parent_id": getattr(testcase.parent, "id", 0),
                               "current_id": testcase.id})
     else:
-        formset_errors = []
-        for i, error in filter(lambda x: x[1], list(enumerate(testcasesteps_form.errors))):
-            for v, k in error.items():
-                formset_errors.append(map(lambda x: (("testcasestep_set-%s-%s") % (i, v), x), k)[0])
-
         return failed(message="Validation errors",
-                      data=[(k, v[0]) for k, v in testcase_form.errors.items()] + formset_errors)
+                      data=testcase_form.errors_list() + testcasesteps_form.errors_list())
 
 
 def testcase_attachments(request, testcase_id):
