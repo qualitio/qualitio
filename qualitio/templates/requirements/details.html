@@ -5,7 +5,7 @@
 
 {% application_view_menu requirement "details" %}
 
-<div class="application-view-content">
+<div class="application-view-content clearfix">
   <div class="text-bullet">
     <span class="name">full name:</span>
     <span class="value">{{ requirement.path }}{{ requirement.name }}</span>
@@ -13,11 +13,14 @@
   <div class="text-bullet">
     <span class="name">directory:</span>
     <span class="value"> {{ requirement.path }}</span>
-  <div class="text-bullet" style="text-align:justify">
-    <span class="name">description:</span>
-    <span class="value-block">{{ requirement.description|default:"<i>not set</i>"|linebreaksbr }}</span>
+    <div class="text-bullet" style="text-align:justify">
+      <span class="name">description:</span>
+      <span class="value-block">{{ requirement.description|default:"<i>not set</i>"|linebreaksbr }}</span>
+    </div>
   </div>
-  
+</div>
+
+<div class="application-view-content clearfix">
   <h2>sub-requirements</h2>
   
   {% if requirement.children.all %} 
@@ -46,7 +49,9 @@
   {% else %}
   <span style="font-style:italic">none</span>
   {% endif %}
+</div>
 
+<div class="application-view-content clearfix">
   <h2>testcases</h2>
   {% if testcases %}
   <div class="tabble-wrapper">
@@ -74,9 +79,11 @@
   {% else %}
   <span style="font-style:italic">none</span>
   {% endif %}
+</div>
 
-  <div class="grid_16 clearfix">
-    <div class="grid_8">
+<div class="grid_16 clearfix">
+  <div class="application-view-content clearfix">
+    <div class="grid_8 clearfix">
       <h2>depends</h2>
       {% if requirement.dependencies.all %}
       <div class="tabble-wrapper">
@@ -101,8 +108,7 @@
       <span style="font-style:italic">none</span>
       {% endif %}
     </div>
-
-    <div class="grid_8">
+    <div class="grid_8 clearfix">
       <h2>blocks</h2>
       {% if requirement.blocks.all %} 
       <div class="tabble-wrapper">
@@ -129,9 +135,10 @@
     </div>
   </div>
 </div>
-
-<div id="application-view-footer" class="grid_16 clearfix">
-  <div class="prefix_8 grid_8 right">
-    <a href="#requirement/{{ requirement.pk }}/new/" class="button">create requirement</a>
+<div class="grid_16 clearfix">
+  <div id="application-view-footer" class="application-view-content clearfix">
+    <div class="prefix_8 grid_8 right clearfix">
+      <a href="#requirement/{{ requirement.pk }}/new/" class="button">create requirement</a>
+    </div>
   </div>
 </div>

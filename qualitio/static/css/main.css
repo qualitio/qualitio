@@ -38,6 +38,11 @@ body {
     text-rendering: optimizelegibility;
 }
 
+#header {
+    border-left: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+}
+
 #footer {
     position:absolute;
     bottom:0; /* stick to bottom */
@@ -73,10 +78,15 @@ body {
 }
 
 #application-menu {
+    -moz-border-radius: 0px 0px 8px 8px;
+    -webkit-border-radius: 0px 0px 8px 8px;
     font-family: 'tex gyre adventor'; 
     line-height:1.4;
     text-align: left;
-    border-bottom:2px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    padding: 0 11px;
     background: -webkit-gradient(
         linear,
         left bottom,
@@ -137,9 +147,17 @@ body {
 
 #application-view {
     overflow-y: auto;
+    background: #eee;
 }
 
 #application-view-menu {
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border-bottom: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    margin-right: 11px;
+
     font-family: 'Junction';
     border-bottom: 1px solid #aaa;
     background: -webkit-gradient(
@@ -192,6 +210,12 @@ body {
 
 .application-view-content {
     padding: 10px 10px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 1px solid #aaa;
+    margin-top: 4px;
+    margin-right: 11px;
+    background: white;
 }
 
 .application-view-content input:not(.ui-button):not([type=checkbox]),
@@ -229,7 +253,7 @@ h2, label {
     line-height: 140%;
     text-rendering: optimizeLegibility;
     font-size: 1.2em;
-    margin: 14px 0px 2px;
+    margin: 0 0px 2px;
     color: #775555;
     font-weight: bold;
     border-bottom: 1px solid #F0F0F0;
@@ -237,27 +261,26 @@ h2, label {
 
 #application-view-header {
     padding: 5px 10px;
+    -moz-border-radius: 8px 8px 0px 0px;
+    -webkit-border-radius: 8px 8px 0px 0px;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    margin-top: 11px;
+    margin-right: 11px;
+    background: white;
 }
 
 #application-view-footer {
-    background: white;
-    padding: 3px 0;
-    margin-top: 20px;
-    bottom: 0;
+    -moz-border-radius: 0px 0px 8px 8px;
+    -webkit-border-radius: 0px 0px 8px 8px;
 }
-#application-view-footer .left input {
-    margin-left:10px;
+
+#application-view-footer .left {
     text-align:left;
 }
 #application-view-footer .right {
     text-align:right;
-}
-#application-view-footer .right input{
-    margin-right:10px;
-}
-
-#application-nav.list {
-
 }
 
 #application-nav.list a {
@@ -269,6 +292,44 @@ h2, label {
 }
 #application-nav.list a:hover {
     background: #fafafa;
+}
+
+#application-tree {
+    -moz-border-radius: 8px 8px 8px 8px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #aaa;
+    margin: 11px 4px 11px 11px;
+    overflow: auto;
+    padding: 4px;
+}
+
+.text-bullet {
+    margin: 14px 0px 2px;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.text-bullet .name {
+    font-family: 'Junction';
+    color: #775555;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.text-bullet .value-block {
+    display: block;
+}
+
+form .field-wrapper {
+    margin: 3px 0;
+    padding: 3px 0;
+}
+
+form .ui-state-error label {
+    font-weight: bold;
+}
+form .ui-state-error .error {
+    font-style: italic;
 }
 
 .tabble-wrapper {
@@ -361,40 +422,6 @@ table.filter td.add {
 
 .action-parameters {
     display: none;
-}
-
-#application-tree {
-    border-right: 3px solid #aaa;
-    padding: 3px;
-    overflow:auto;
-}
-
-.text-bullet {
-    margin: 14px 0px 2px;
-    border-bottom: 1px solid #F0F0F0;
-}
-
-.text-bullet .name {
-    font-family: 'Junction';
-    color: #775555;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-.text-bullet .value-block {
-    display: block;
-}
-
-form .field-wrapper {
-    margin: 3px 0;
-    padding: 3px 0;
-}
-
-form .ui-state-error label {
-    font-weight: bold;
-}
-form .ui-state-error .error {
-    font-style: italic;
 }
 
 .testcase-search #id_search {
