@@ -1,9 +1,9 @@
-.step {
-    margin:5px 0;
-}
-
 .template {
     display:none;
+}
+
+.step {
+    margin-bottom: 5px;
 }
 
 .step.removed {
@@ -15,6 +15,14 @@
 .step textarea {
     height: 70px;
     overflow: auto;
+}
+
+.step .description {
+    margin-right: 10px;
+}
+
+.step .excpected {
+    margin-left: 10px;
 }
 
 #id_description, 
