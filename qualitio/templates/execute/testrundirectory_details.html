@@ -20,14 +20,14 @@
       <th>Path</th>
       <th>Name</th>
     </tr>
-    {% for child in directory.get_children %}
+    {% for child in directory.children.all %}
     <tr class="directory">
       <td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
     </tr>
     {% endfor %}
-    {% for child in directory.testrun_set.all %}
+    {% for child in directory.subchildren.all %}
     <tr>
       <td class="icon"><span class="ui-icon ui-icon-document"></span></td>
       <td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
