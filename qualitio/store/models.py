@@ -31,7 +31,7 @@ class TestCase(TestCaseBase):
 
 
 class TestCaseStep(TestCaseStepBase):
-    testcase = models.ForeignKey('TestCase')
+    testcase = models.ForeignKey('TestCase', related_name="steps")
 
 
 class Attachment(core.BaseModel):
