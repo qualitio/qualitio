@@ -1773,7 +1773,7 @@ class Test12DetailsVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Create requirement", sel.get_text("css=div#application-view-footer div a span"))
+        try: self.assertEqual("create requirement", sel.get_text("css=div#application-view-footer div a span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("depends"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -1962,9 +1962,9 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div a:nth-child(2) span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Create testcase"))
+        try: self.failUnless(sel.is_text_present("create testcase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Create testcase directory"))
+        try: self.failUnless(sel.is_text_present("create testcase directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
@@ -2051,9 +2051,11 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view div:nth-child(3)"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("exact:directory:"))
+        try: self.failUnless(sel.is_text_present("full name:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("exact:status:"))
+        try: self.failUnless(sel.is_text_present("exact:parent:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("requirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -2092,7 +2094,7 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Add step", sel.get_text("css=a#add-step-0 span"))
+        try: self.assertEqual("add step", sel.get_text("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2122,8 +2124,6 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("css=div.application-view-content"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("test case: TestCase", sel.get_text("css=div.application-view-content h1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view div:nth-child(3) div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2163,11 +2163,11 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         sel.click("link=MeeGo Netbook")
         for i in range(60):
             try:
-                if sel.is_text_present("Create testcase directory"): break
+                if sel.is_text_present("create testcase directory"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Create testcase directory"))
+        try: self.failUnless(sel.is_text_present("create testcase directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a:nth-child(2)")
         for i in range(60):
@@ -2289,11 +2289,11 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         sel.click("link=MeeGo Netbook")
         for i in range(60):
             try:
-                if sel.is_text_present("Create testcase"): break
+                if sel.is_text_present("create testcase"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Create testcase"))
+        try: self.failUnless(sel.is_text_present("create testcase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a")
         for i in range(60):
@@ -3128,7 +3128,7 @@ class Test24Dependblock(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failIf(sel.is_text_present("/MeeGo/IVI"))
+        try: self.failUnless(sel.is_text_present("exact:Dependencies: /MeeGo /MeeGo/Notebook /MeeGo/MeeGo Handset /MeeGo/TV/Bootscreen /MeeGo/MeeGo Media Phone /MeeGo/Legacy /MeeGo/Legacy/n900 /MeeGo/Legacy/n900/pr 1.0 /MeeGo/TV/MeeGo Handset test /MeeGo/Legacy/n900/pr 1.1 /MeeGo/Legacy/n900/pr 1.2 /MeeGo/Legacy/n900/pr 1.3 /MeeGo/TV/MeeGo Handset test/test1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.add_selection("id_dependencies", "label=/MeeGo/Notebook")
         sel.click("css=input[name='Executed'][value='Save']")
