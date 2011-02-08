@@ -30,7 +30,13 @@ class AbstractPathModel(BaseModel):
     def __unicode__(self):
         return "%s%s" % (self.path, self.name)
 
+    def _get_path(self):
+        if self.parent_id:
+            return "%s%s/" % (self.parent.path, self.parent.name)
+        return "/"
+
     def save(self, validate_path_unique=True, *args, **kwargs):
+        self.path = self._get_path()
         if validate_path_unique:
             self.clean()
         super(AbstractPathModel, self).save(*args, **kwargs)
