@@ -36,47 +36,16 @@ class AbstractPathModel(BaseModel):
         super(AbstractPathModel, self).save(*args, **kwargs)
 
     def clean(self):
-        qs = self.__class__._default_manager
-        qs = qs.filter(name=self.name)
+        parent = self.parent if self.parent_id else None
 
-        if self.parent_id:
-            qs = qs.filter(parent=self.parent)
-        else:
-            qs = qs.filter(parent=None)
+        manager = self.__class__.objects
+        qs = manager.filter(name=self.name, parent=parent)
 
-        if self.pk:
+        if self.pk:  # we do not want to search for *this* object
             qs = qs.exclude(pk=self.pk)
 
         if qs.exists():
             raise ValidationError('"parent" and "name" fields need to be always unique together.')
-
-
-# TODO: those two classes below should go to separate module core.models.fields
-#       following django conventions
-class ReverseSingleRelatedObjectDescriptor(models.fields.related.ReverseSingleRelatedObjectDescriptor):
-    def __set__(self, instance, value):
-        super(ReverseSingleRelatedObjectDescriptor, self).__set__(instance, value)
-
-        # syncronize the path attribute
-        if hasattr(instance, 'parent_id') and instance.parent:
-            instance.path = "%s%s/" % (instance.parent.path, instance.parent.name)
-        else:
-            instance.path = "/"
-
-
-class PathSyncForeignKeyField(models.ForeignKey):
-    # This method is re-written from
-    # django.db.models.related.ForeignKey.contribute_to_class
-    # It looks exactly the same as the method except it uses
-    # our own ReverseSingleRelatedObjectDescriptor implementation
-    def contribute_to_class(self, cls, name):
-        super(PathSyncForeignKeyField, self).contribute_to_class(cls, name)
-        setattr(cls, self.name, ReverseSingleRelatedObjectDescriptor(self))
-        if isinstance(self.rel.to, basestring):
-            target = self.rel.to
-        else:
-            target = self.rel.to._meta.db_table
-        cls._meta.duplicate_targets[self.column] = (target, "o2m")
 
 
 class BasePathModelMetaclass(models.base.ModelBase):
@@ -94,7 +63,7 @@ class BasePathModelMetaclass(models.base.ModelBase):
         #     raise ImproperlyConfigured(msg)
 
         if has_meta_parent_class and not is_abstract:
-            parent = PathSyncForeignKeyField(Meta.parent_class, related_name='subchildren')
+            parent = models.ForeignKey(Meta.parent_class, related_name='subchildren')
             attrs['parent'] = parent
 
             # Django raises error when Meta contains unexpected attributes
@@ -112,7 +81,7 @@ class BasePathModel(AbstractPathModel):
 
 
 class BaseDirectoryModel(MPTTModel, AbstractPathModel):
-    parent = PathSyncForeignKeyField('self', null=True, blank=True, related_name='children')
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
 
     class Meta:
         abstract = True

@@ -204,3 +204,7 @@ class OnlyOneRequirementInDBTest(TestCase):
     def test_no_error_on_form_save(self):
         form = self.configure_form()
         assert_true(form.is_valid())
+        try:
+            form.save()
+        except ValidationError, e:
+            self.fail("The exception shouldn't be raised!")
