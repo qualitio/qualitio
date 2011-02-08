@@ -1,8 +1,8 @@
 from django.views.generic.simple import direct_to_template
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun
-from qualitio.execute.forms import TestRunDirectoryForm, TestRunForm, TestCaseRunStatus
+from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, Bug
+from qualitio.execute import forms
 
 
 def index(request):
@@ -16,14 +16,14 @@ def directory_details(request, directory_id):
 
 def directory_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
-    testrundirectory_form = TestRunDirectoryForm(initial={'parent': directory})
+    testrundirectory_form = forms.TestRunDirectoryForm(initial={'parent': directory})
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
 
 def directory_edit(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
-    testrundirectory_form = TestRunDirectoryForm(instance=directory)
+    testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
@@ -32,9 +32,9 @@ def directory_edit(request, directory_id):
 def directory_valid(request, directory_id=0):
     if directory_id:
         testrun_directory = TestRunDirectory.objects.get(pk=str(directory_id))
-        testrun_directory_form = TestRunDirectoryForm(request.POST, instance=testrun_directory)
+        testrun_directory_form = forms.TestRunDirectoryForm(request.POST, instance=testrun_directory)
     else:
-        testrun_directory_form = TestRunDirectoryForm(request.POST)
+        testrun_directory_form = forms.TestRunDirectoryForm(request.POST)
 
     if testrun_directory_form.is_valid():
         testrun_directory = testrun_directory_form.save()
@@ -63,14 +63,14 @@ def testrun_notes(request, testrun_id):
 
 def testrun_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
-    testrun_form = TestRunForm(initial={'parent': directory})
+    testrun_form = forms.TestRunForm(initial={'parent': directory})
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {"testrun_form": testrun_form})
 
 
 def testrun_edit(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
-    testrun_form = TestRunForm(instance=testrun)
+    testrun_form = forms.TestRunForm(instance=testrun)
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {'testrun': testrun,
                                'testrun_form': testrun_form})
@@ -80,9 +80,9 @@ def testrun_edit(request, testrun_id):
 def testrun_valid(request, testrun_id=0):
     if testrun_id:
         testrun = TestRun.objects.get(pk=str(testrun_id))
-        testrun_form = TestRunForm(request.POST, instance=testrun)
+        testrun_form = forms.TestRunForm(request.POST, instance=testrun)
     else:
-        testrun_form = TestRunForm(request.POST)
+        testrun_form = forms.TestRunForm(request.POST)
 
     if testrun_form.is_valid():
         testrun = testrun_form.save()
@@ -96,15 +96,19 @@ def testrun_valid(request, testrun_id=0):
 
 def testcaserun(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
-    testcaserun_status_form = TestCaseRunStatus(instance=testcaserun)
+    testcaserun_status_form = forms.TestCaseRunStatus(instance=testcaserun)
+
+    testcaserun_add_bug_form = forms.AddBugForm()
     return direct_to_template(request, 'execute/_testcaserun.html',
                               {'testcaserun': TestCaseRun.objects.get(pk=testcaserun_id),
-                               'testcaserun_status_form': testcaserun_status_form})
+                               'testcaserun_status_form': testcaserun_status_form,
+                               'testcaserun_add_bug_form': testcaserun_add_bug_form})
+
 
 @json_response
 def testcaserun_setstatus(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
-    testcaserun_status_form = TestCaseRunStatus(request.POST, instance=testcaserun)
+    testcaserun_status_form = forms.TestCaseRunStatus(request.POST, instance=testcaserun)
     if testcaserun_status_form.is_valid():
         testcaserun = testcaserun_status_form.save()
         return success(message=testcaserun.status.name,
@@ -112,21 +116,24 @@ def testcaserun_setstatus(request, testcaserun_id):
                                  name=testcaserun.status.name,
                                  color=testcaserun.status.color))
     else:
-        print testcaserun_status_form.errors
         return failed(message=testcaserun.status.name,
                       data=testcaserun_status_form.errors_list())
 
-# @json_response
-# def available_testcases(request, requirement_id):
-#     search_testcases_form = SearchTestcasesForm(request.POST)
-#     if search_testcases_form.is_valid():
-#         search = request.POST["search"]
-#         testcases =  TestCase.objects.filter(Q(name__contains=search) | Q(path__contains=search))
-#         if testcases:
-#             return success(message="%s testcases found" % testcases.count(),
-#                            data=loader.render_to_string("requirements/_available_testcases.html",
-#                                                         { "testcases" : testcases }))
-#         return success(message="no testcases found")
 
-#     return failed(message="validation errors",
-#                   data=[(k, v[0]) for k, v in search_testcases_form.errors.items()])
+@json_response
+def testcaserun_addbug(request, testcaserun_id):
+    try:
+        new_bug = Bug.objects.get(id=request.POST.get("id", None))
+    except Bug.DoesNotExist:
+        add_bug_form = forms.AddBugForm(request.POST)
+
+        if not add_bug_form.is_valid():
+            return failed(message="Validation error",
+                      data=[(k, v[0]) for k, v in add_bug_form.errors.items()])
+
+        new_bug = add_bug_form.save()
+    testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
+    testcaserun.bugs.add(new_bug)
+    return success(message="Issue #%s attached" % new_bug.name,
+                   data=dict(id=new_bug.id))
+

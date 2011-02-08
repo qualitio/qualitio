@@ -29,67 +29,64 @@
     </div>
     {% endfor %}
   </div>
+  
+  <div class="grid_16 clearfix">
+    <div class="grid_8 clearfix">
+      <div class="application-view-content">
+        <h2>connected testcase</h2>
 
-  <div class="grid_8">
-    <div class="application-view-content">
-      <h2>connected testcase</h2>
-      <div style="text-align:right">
-        <a href="#">all</a> | <a href="#">invert</a> | <a href="#">clear</a>
-      </div>
-      <table class="pretty ui-corner-all">
-        <tr>
-	  <th>Path</th>
-	  <th>Status</th>
-	  <th style="width:43px">remove</th>
-        </tr>
-        {% for child in testrun.testcaserun_set.all %}
-        <tr>
-	  <td class="path"><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
-	  <td>IDLE</td>
-	  <td style="text-align:center"><input type="checkbox"></td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-  </div>
-
-  <div class="grid_8">
-    <div class="application-view-content">
-      <h2>available testcase</h2>
-
-      <div class="grid_8 alpha"><a class="switch-view">shitch view</a></div>
-      <div class="grid_8 omega">
         <div style="text-align:right">
-	  <a href="#">all</a> | <a href="#">invert</a> | <a href="#">clear</a>
+          <a href="#">all</a> | <a href="#">invert</a> | <a href="#">clear</a>
         </div>
+        <table class="pretty ui-corner-all">
+          <tr>
+            <th>Path</th>
+            <th>Status</th>
+            <th style="width:43px">remove</th>
+          </tr>
+          {% for child in testrun.testcaserun_set.all %}
+          <tr>
+            <td class="path"><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
+            <td>IDLE</td>
+            <td style="text-align:center"><input type="checkbox"></td>
+          </tr>
+          {% endfor %}
+        </table>
       </div>
-
-      <div class="grid_16 alpha">
+    </div>
+    
+    <div class="grid_8 clearfix">
+      <div class="application-view-content">
+        <h2>available testcase</h2>
+        
+        <div style="text-align:right">
+          <a href="#">all</a> | <a href="#">invert</a> | <a href="#">clear</a>
+        </div>
+        
         <div id="testcase-add-view-tree" style="margin:17px 0 0 10px; display:none">
         </div>
 
         <table id="testcase-add-view-table" class="pretty ui-corner-all">
-	  <tr>
-	    <th>Path</th>
-	    <th style="width:25px">add</th>
-	  </tr>
-	  {% for child in testrun.testcaserun_set.all %}
-	  <tr>
-	    <td><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
-	    <td style="text-align:center"><input type="checkbox"></td>
-	  </tr>
-	  {% endfor %}
+          <tr>
+            <th>Path</th>
+            <th style="width:25px">add</th>
+          </tr>
+          {% for child in testrun.testcaserun_set.all %}
+          <tr>
+            <td><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
+            <td style="text-align:center"><input type="checkbox"></td>
+          </tr>
+          {% endfor %}
         </table>
       </div>
     </div>
   </div>
-
-  <div id="application-view-footer" class="grid_16 clearfix">
-    <div class="grid_8 left">
-      <input type="submit" name="Executed" value="Delete" />
-    </div>
-    <div class="grid_8 right">
-      <input type="submit" name="Executed" value="Save" />
+  
+  <div class="grid_16 clearfix">
+    <div id="application-view-footer" class="application-view-content">
+      <div class="right">
+        <input type="submit" name="Executed" value="Save"/>
+      </div>
     </div>
   </div>
 </form>

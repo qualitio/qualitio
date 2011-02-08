@@ -8,8 +8,8 @@
 <div class="grid_16">
   <div class="application-view-content">
     <div class="text-bullet">
-      <span class="name">directory:</span> 
-      <span class="value">{{ testrun.get_path }}</span>
+      <span class="name">full name:</span>
+      <span class="value">{{ testrun.path }}{{ testrun.name }}</span>
     </div>
     <div class="text-bullet">
       <span class="name">pass rate:</span>
@@ -18,6 +18,10 @@
     <div class="text-bullet">
       <span class="name">status:</span>
       <span class="value"><i>not set</i></span>
+    </div>
+    <div class="text-bullet">
+      <span class="name">notes:</span>
+      <span class="value-block">{{ directory.description|default:"<i>not set</i>" }}</span>
     </div>
 
     <table class="pretty ui-corner-all" style="margin-top: 20px">

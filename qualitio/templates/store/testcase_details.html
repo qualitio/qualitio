@@ -6,35 +6,42 @@
 {% application_view_menu testcase "details" %}
 
 <div class="application-view-content">
-  <div class="text-bullet">directory:</div>{{ testcase.path }}
-  <div class="text-bullet">status:</div><i>empty</i>
-  <h2>description</h2> 
-  {{ testcase.description|default:"<i>empty</i>"|linebreaksbr }}
+  <div class="text-bullet">
+    <span class="name">full name:</span>
+    <span class="value">{{ testcase.path }}{{ testcase.name }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">parent:</span>
+    <span class="value">{{ testcase.path }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">requirement</span>
+    <span class="value">{{ testcase.requirement|default:"<i>not set</i>" }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">description</span>
+    <span class="value-block">{{ testcase.description|default:"<i>not set</i>" }}</span>
+  </div>
+</div>
+<div class="application-view-content">
+  <div class="step">
+    <h2>precondition</h2>
+    {{ testcase.precondition|default:"<i>not set</i>"|linebreaksbr }}
+  </div>
 
-  <h2>precondition</h2>
-  {{ testcase.precondition|default:"<i>empty</i>"|linebreaksbr }}
-  
   {% for step in testcase.testcasestep_set.all %}
-  <h2>step {{ forloop.counter }}</h2>
-  <div class="step clearfix">
-    <div class="grid_8 description">
-      {{ step.description|linebreaksbr }}
+  <div class="clearfix step">
+    <h2>step {{ forloop.counter }}</h2>
+    <div class="grid_8 clearfix">
+      <div class="description">
+        {{ step.description|linebreaksbr }}
+      </div>
     </div>
-    <div class="grid_8 expected">
-      {{ step.expected|linebreaksbr }}
+    <div class="grid_8 clearfix">
+      <div class="excpected">
+        {{ step.expected|linebreaksbr }}
+      </div>
     </div>
   </div>
-  {% empty %}
-  <i>none</i>
   {% endfor %}
 </div>
-
-<script>
-$(function() {
-$('.translation').qtip(
-{
-content: $('.tooltip-content').html()
-});
-
-});
-</script>

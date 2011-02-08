@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.models import modelformset_factory
 
 from qualitio import core
 from qualitio.execute import models
@@ -26,3 +27,12 @@ class TestCaseRunStatus(core.BaseModelForm):
     def __init__(self, *args, **kwargs):
         super(TestCaseRunStatus, self).__init__(*args, **kwargs)
         self.fields['status'].empty_label = None
+
+
+class AddBugForm(forms.ModelForm):
+    class Meta:
+        fields = ("id",)
+        model = models.Bug
+
+# BugsFormSet = modelformset_factory(models.Bug)
+

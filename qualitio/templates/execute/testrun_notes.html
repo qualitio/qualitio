@@ -7,14 +7,12 @@
 {% application_view_menu testrun "notes" %}
 
 <div class="application-view-content">
-  <div class="text-bullet">notes</div>
-  <textarea style="height:420px;">
-    {% lorem 100 w random %}
-  </textarea>
+  <h2>notes</h2>
+  <textarea style="height:320px;">{% lorem 100 w random %}</textarea>
 </div>
 
-<div id="application-view-footer" class="grid_16 clearfix">
-  <div class="grid_16 right">
+<div id="application-view-footer" class="application-view-content ">
+  <div class="right">
     <input type="submit" name="Executed" value="Save" />
   </div>
 </div>
