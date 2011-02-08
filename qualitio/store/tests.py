@@ -3,6 +3,7 @@ import re
 from nose.tools import *
 from django.test import TestCase as DjangoTestCase
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 
 from qualitio.store.models import TestCase, TestCaseDirectory
 from qualitio.store.forms import TestCaseDirectoryForm
@@ -41,14 +42,13 @@ class TestCaseDirectoryUniquityTest(DjangoTestCase):
         assert_false(form.is_valid())
         assert_equals(len(form.errors), 1)
 
-    def test_cannot_create_two_testcases_with_null_parent(self):
+    @raises(IntegrityError)
+    def test_cannot_create_testcase_with_none_parent(self):
+        TestCase.objects.create(name="Simple test 1")
+
+    @raises(ValueError)
+    def test_cannot_create_testcase_with_explicite_none_parent(self):
         TestCase.objects.create(name="Simple test 1", parent=None)
-        try:
-            TestCase.objects.create(name="Simple test 1", parent=None)
-        except ValidationError, e:
-            pass
-        else:
-            self.fail("The exception should be raised here.")
 
     def test_cannot_create_two_testcases_with_the_same_parent(self):
         TestCase.objects.create(name="Simple test 1", parent=self.big_project)

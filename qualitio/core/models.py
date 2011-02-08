@@ -37,7 +37,12 @@ class AbstractPathModel(BaseModel):
 
     def clean(self):
         qs = self.__class__._default_manager
-        qs = qs.filter(parent=self.parent, name=self.name)
+        qs = qs.filter(name=self.name)
+
+        if self.parent_id:
+            qs = qs.filter(parent=self.parent)
+        else:
+            qs = qs.filter(parent=None)
 
         if self.pk:
             qs = qs.exclude(pk=self.pk)
@@ -89,9 +94,7 @@ class BasePathModelMetaclass(models.base.ModelBase):
         #     raise ImproperlyConfigured(msg)
 
         if has_meta_parent_class and not is_abstract:
-            parent = PathSyncForeignKeyField(Meta.parent_class,
-                                             null=True, blank=True,
-                                             related_name='subchildren')
+            parent = PathSyncForeignKeyField(Meta.parent_class, related_name='subchildren')
             attrs['parent'] = parent
 
             # Django raises error when Meta contains unexpected attributes
