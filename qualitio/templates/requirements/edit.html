@@ -1,6 +1,6 @@
 {% load application_view_menu %}
 <div id="application-view-header">
-  <h1>requirement{% if requirement_form.instance.id %}: {{ requirement.instance.name }}{% endif %}</h1>
+  <h1>requirement{% if requirement_form.instance.id %}: {{ requirement_form.instance.name }}{% endif %}</h1>
 </div>
 
 {% if requirement_form.instance.id %}
