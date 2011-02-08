@@ -26,9 +26,6 @@ class TestCaseRun(store.TestCaseBase):
 class TestCaseStepRun(store.TestCaseStepBase):
     testcaserun = models.ForeignKey('TestCaseRun')
 
-    class Meta:
-        ordering = ['sequence']
-
 
 class TestCaseRunStatus(core.BaseModel):
     name = models.CharField(max_length=512)
