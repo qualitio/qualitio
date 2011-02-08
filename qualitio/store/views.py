@@ -31,7 +31,7 @@ def directory_new(request, directory_id):
 @json_response
 def directory_valid(request, directory_id=0):
     if directory_id:
-        testcase_directory = TestCaseDirectory.objects.get(pk=str(directory_id))
+        testcase_directory = TestCaseDirectory.objects.get(pk=directory_id)
         testcase_directory_form = TestCaseDirectoryForm(request.POST, instance=testcase_directory)
     else:
         testcase_directory_form = TestCaseDirectoryForm(request.POST)
@@ -42,7 +42,7 @@ def directory_valid(request, directory_id=0):
                        data={"parent_id": getattr(testcase_directory.parent, "id", 0),
                               "current_id": testcase_directory.id})
     else:
-        return failed(message="Validation errors",
+        return failed(message="Validation errors: %s" % testcase_directory_form.error_message(),
                       data=testcase_directory_form.errors_list())
 
 
@@ -89,7 +89,7 @@ def testcase_valid(request, testcase_id=0):
                        data={"parent_id": getattr(testcase.parent, "id", 0),
                               "current_id": testcase.id})
     else:
-        return failed(message="Validation errors",
+        return failed(message="Validation errors: %s" % testcase_form.error_message(),
                       data=testcase_form.errors_list() + testcasesteps_form.errors_list())
 
 
