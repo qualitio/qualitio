@@ -505,7 +505,7 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
             try:
                 if "requirement: MeeGo Handset test" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
-            time.sleep(2)
+            time.sleep(1)
         else: self.fail("time out")
         try: self.assertEqual("requirement: MeeGo Handset test", sel.get_text("css=div#application-view-header h1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -518,7 +518,6 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=test cases"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=test cases")
-	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("del"): break
@@ -532,13 +531,13 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
         sel.click("disconnect")
         for i in range(60):
             try:
-                if sel.is_element_present("save"): break
+                if sel.is_element_present("Executed"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("save"))
+        try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("save")
+        sel.click("Executed")
         for i in range(60):
             try:
                 if sel.is_element_present("id_search"): break
@@ -647,10 +646,10 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("connect"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("css=tr td input[value=\"3\"]")
-        try: self.failUnless(sel.is_element_present("save"))
+        sel.click("css=input[name='connect'][value='3']")
+        try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("save")
+        sel.click("Executed")
         for i in range(60):
             try:
                 if sel.is_text_present("TestCase"): break
@@ -658,6 +657,12 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("TestCase"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("/MeeGo Netbook/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=td img"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -1900,7 +1905,9 @@ class Test14TestcasesVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("save"))
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Save", sel.get_value("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -1962,9 +1969,9 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div a:nth-child(2) span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("create testcase"))
+        try: self.failUnless(sel.is_text_present("create test case"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("create testcase directory"))
+        try: self.failUnless(sel.is_text_present("create test case directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
@@ -2163,11 +2170,11 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         sel.click("link=MeeGo Netbook")
         for i in range(60):
             try:
-                if sel.is_text_present("create testcase directory"): break
+                if sel.is_text_present("create test case directory"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("create testcase directory"))
+        try: self.failUnless(sel.is_text_present("create test case directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a:nth-child(2)")
         for i in range(60):
@@ -2289,11 +2296,11 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         sel.click("link=MeeGo Netbook")
         for i in range(60):
             try:
-                if sel.is_text_present("create testcase"): break
+                if sel.is_text_present("create test case"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("create testcase"))
+        try: self.failUnless(sel.is_text_present("create test case"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a")
         for i in range(60):
@@ -2337,7 +2344,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         sel.type("id_precondition", "precondition")
         try: self.failUnless(sel.is_element_present("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Add step", sel.get_text("css=a#add-step-0 span"))
+        try: self.assertEqual("add step", sel.get_text("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=a#add-step-0 span")
         for i in range(60):
