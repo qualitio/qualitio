@@ -9,16 +9,18 @@ class TestRunDirectory(core.BaseDirectoryModel):
 
 
 class TestRun(core.BasePathModel):
-    parent = models.ForeignKey("TestRunDirectory", related_name="subchildren")
-
     notes = models.TextField(blank=True)
+
+    class Meta:
+        parent_class = 'TestRunDirectory'
 
 
 class TestCaseRun(store.TestCaseBase):
-    parent = models.ForeignKey("TestRun", null=True, blank=True, related_name="subchildren")
-    status = models.ForeignKey("TestCaseRunStatus", default=0)
+    status = models.ForeignKey("TestCaseRunStatus")
     bugs = models.ManyToManyField("Bug")
 
+    class Meta:
+        parent_class = 'TestRun'
 
     @classmethod
     def run(cls, test_case):

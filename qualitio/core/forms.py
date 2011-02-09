@@ -24,7 +24,26 @@ class BaseForm(forms.Form, FormErrorProcessingMixin):
 
 
 class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
-    pass
+    def save(self, *args, **kwargs):
+        """
+        Save method that allows to chage model's save kwargs
+        just for the model save invocation.
+
+        Some of core models allows to change save method behaviour
+        by passing some flags arguments.
+        """
+
+        model_save_kwargs = kwargs.pop('model_save_kwargs', {})
+        original_save = self.instance.save
+
+        def save(*a, **k):
+            k.update(model_save_kwargs)
+            original_save(*a, **k)
+
+        self.instance.save = save
+        self.instance = super(BaseModelForm, self).save(*args, **kwargs)
+        self.instance.save = original_save
+        return self.instance
 
 
 class BaseInlineFormSet(forms.models.BaseInlineFormSet):
@@ -39,7 +58,10 @@ class BaseInlineFormSet(forms.models.BaseInlineFormSet):
         return formset_errors
 
 
-
 class PathModelForm(BaseModelForm):
     class Meta:
         exclude = ("path",)
+
+    def save(self, validate_path_unique=False, *args, **kwargs):
+        kwargs['model_save_kwargs'] = {'validate_path_unique': validate_path_unique}
+        return super(PathModelForm, self).save(*args, **kwargs)

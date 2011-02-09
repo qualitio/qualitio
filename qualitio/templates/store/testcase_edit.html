@@ -1,6 +1,6 @@
 {% load application_view_menu %}
 <div id="application-view-header">
-  <h1>test case{% if testcase_form.instance.id %}: {{ testcase.instance.name }}{% endif %}</h1>
+  <h1>test case{% if testcase_form.instance.id %}: {{ testcase_form.instance.name }}{% endif %}</h1>
 </div>
 
 {% if testcase_form.instance.id %}
