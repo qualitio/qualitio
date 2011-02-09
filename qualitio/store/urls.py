@@ -2,11 +2,14 @@ from django.conf.urls.defaults import *
 
 from qualitio.core.views import get_children
 from qualitio.store.views import *
-from qualitio.store.models import TestCaseDirectory
+from qualitio.store.models import TestCaseDirectory, TestCase
+from qualitio.filter.views import filter
 
 
 urlpatterns = patterns('',
                        url(r'^$', index),
+                       url(r'filter/?$', filter, {'model': TestCase}),
+
                        url(r'^ajax/get_children$', get_children, {'directory': TestCaseDirectory}),
 
                        url(r'^ajax/testcasedirectory/(?P<directory_id>\d+)/details/?$', directory_details),
