@@ -29,7 +29,7 @@
     {{ testcase.precondition|default:"<i>not set</i>"|linebreaksbr }}
   </div>
 
-  {% for step in testcase.testcasestep_set.all %}
+  {% for step in testcase.steps.all %}
   <div class="clearfix step">
     <h2>step {{ forloop.counter }}</h2>
     <div class="grid_8 clearfix">

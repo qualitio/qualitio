@@ -1,1 +1,1 @@
-from qualitio.store.models import TestCaseBase, TestCaseStepBase
+from qualitio.store.models import TestCaseBase, TestCaseStepBase, TestCase
