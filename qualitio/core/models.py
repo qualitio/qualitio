@@ -26,6 +26,7 @@ class AbstractPathModel(BaseModel):
 
     class Meta:
         abstract = True
+        ordering = ['name']
 
     def __unicode__(self):
         return "%s%s" % (self.path, self.name)
@@ -82,14 +83,14 @@ class BasePathModelMetaclass(models.base.ModelBase):
 class BasePathModel(AbstractPathModel):
     __metaclass__ = BasePathModelMetaclass
 
-    class Meta:
+    class Meta(AbstractPathModel.Meta):
         abstract = True
 
 
 class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
 
-    class Meta:
+    class Meta(AbstractPathModel.Meta):
         abstract = True
 
     def save(self, *args, **kwargs):

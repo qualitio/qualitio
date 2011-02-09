@@ -26,7 +26,7 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 
 class TestCase(TestCaseBase):
-    class Meta:
+    class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
 
 
