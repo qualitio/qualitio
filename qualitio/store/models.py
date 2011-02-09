@@ -7,7 +7,7 @@ class TestCaseBase(core.BasePathModel):
     description = models.TextField(blank=True)
     precondition = models.TextField(blank=True)
 
-    class Meta:
+    class Meta(core.BasePathModel.Meta):
         abstract = True
 
 
@@ -25,7 +25,7 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 
 class TestCase(TestCaseBase):
-    class Meta:
+    class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
 
 

@@ -64,3 +64,30 @@ class TestCaseDirectoryUniquityTest(DjangoTestCase):
             '/store/ajax/testcasedirectory/new/valid/',
             self.data_that_should_cause_an_error())
         assert_true(re.search(r'"success": false', result.content))
+
+
+class OrderingTreeTest(TestCase):
+    def setUp(self):
+        self.big_project = TestCaseDirectory.objects(name="BigProject")
+
+        # testcases
+        manager = TestCase.objects
+        self.tc_z = manager.create(parent=self.big_project, name='z')
+        self.tc_x = manager.create(parent=self.big_project, name='x')
+        self.tc_a = manager.create(parent=self.big_project, name='b')
+
+        # testcase directories
+        manager = TestCaseDirectory.objects
+        self.tcd_z = manager.create(parent=self.big_project, name='z')
+        self.tcd_x = manager.create(parent=self.big_project, name='x')
+        self.tcd_a = manager.create(parent=self.big_project, name='b')
+
+    def test_subchildren_returned_in_alphabetical_order(self):
+        children = list(self.big_project.subchildren.all())
+        expected = [self.tc_a, self.tc_x, self.tc_z]
+        assert_equals(expected, children)
+
+    def test_children_returned_in_alphabetical_order(self):
+        children = list(self.big_project.children.all())
+        expected = [self.tcd_a, self.tcd_x, self.tcd_z]
+        assert_equals(expected, children)
