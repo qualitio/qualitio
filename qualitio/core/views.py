@@ -26,9 +26,8 @@ def get_children(request, directory):
     try:
         node_id = int(request.GET.get('id', 0))
         node = directory.objects.get(pk=node_id)
-        directories = node.get_children()
+        directories = node.children.all()
         data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
-
         try:
             subchildren = getattr(getattr(node, "subchildren", None), "all", None)()
             data.append(map(lambda x: to_tree_element(x, x._meta.module_name), subchildren))
@@ -36,7 +35,8 @@ def get_children(request, directory):
             pass
 
     except (ObjectDoesNotExist, ValueError):
-        directories = directory.tree.root_nodes()
+        # TODO: maybe the better way is to override method 'root_nodes' on manager
+        directories = directory.tree.root_nodes().order_by('name')
         data = map(lambda x: to_tree_element(x, x._meta.module_name),
                    directories)
 

@@ -11,7 +11,7 @@ class TestRunDirectory(core.BaseDirectoryModel):
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
 
-    class Meta:
+    class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
 
 
@@ -19,7 +19,7 @@ class TestCaseRun(store.TestCaseBase):
     status = models.ForeignKey("TestCaseRunStatus")
     bugs = models.ManyToManyField("Bug")
 
-    class Meta:
+    class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
 
     @classmethod
