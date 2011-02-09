@@ -16,17 +16,18 @@ class TestRun(core.BasePathModel):
 
 
 class TestCaseRun(store.TestCaseBase):
-    status = models.ForeignKey("TestCaseRunStatus")
+    status = models.ForeignKey("TestCaseRunStatus", default=0)
     bugs = models.ManyToManyField("Bug")
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
 
     @classmethod
-    def run(cls, test_case):
+    def run(cls, test_case, test_run):
         test_case_run = TestCaseRun.objects.create(name=test_case.name,
                                                    description=test_case.description,
-                                                   precondition=test_case.precondition)
+                                                   precondition=test_case.precondition,
+                                                   parent=test_run)
 
         for test_case_step in test_case.steps.all():
             test_case_run.steps.create(description=test_case_step.description,
