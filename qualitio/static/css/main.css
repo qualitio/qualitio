@@ -386,10 +386,10 @@ table.pretty th.checked {
     width:28px;
 }
 
-table a,
-table a:hover,
-table a:link,
-table a:visited {
+table.pretty a,
+table.pretty a:hover,
+table.pretty a:link,
+table.pretty a:visited {
     font-weight: bold;
     color: black;
     font-size: 1.0em;

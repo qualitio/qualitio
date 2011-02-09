@@ -21,6 +21,11 @@ $(window).resize(function() {
 
 $(document).ajaxComplete(function() {
   $("input[type=submit], .button").button();
+  $("table.data").dataTable({
+    "bFilter": true,
+    "sScrollY": "270px",
+    "sDom": 'rt<"bottom clearfix"lfp><"clear">'
+  });
   $(".date-field").datepicker({
     showWeek: true ,
     dateFormat: DATE_FORMAT
