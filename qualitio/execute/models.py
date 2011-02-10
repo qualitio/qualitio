@@ -17,7 +17,7 @@ class TestRun(core.BasePathModel):
 
 class TestCaseRun(store.TestCaseBase):
     status = models.ForeignKey("TestCaseRunStatus", default=0)
-    bugs = models.ManyToManyField("Bug")
+    bugs = models.ManyToManyField("Bug", null=True, blank=True)
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
