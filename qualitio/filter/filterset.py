@@ -11,7 +11,7 @@ class ModelFilterSet(django_filters.FilterSet):
     It also adds filters for reverse foreign key relations dynamically.
     """
 
-   def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
        super(django_filters.FilterSet, self).__init__(*args, **kwargs)
        for f in self.filters.values():
            if issubclass(f.__class__, (django_filters.CharFilter,)):
