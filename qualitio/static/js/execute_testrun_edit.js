@@ -39,4 +39,12 @@ $(function() {
     success: show_response,
     beforeSubmit: clear_errors
   });
+  $("table.display").dataTable({
+    "sScrollY": "230px",
+    "sDom": 'rt<"bottom clearfix"lfp><"clear">',
+    "aoColumnDefs": [
+      { "bSortable": false, "aTargets": [0],
+        "sWidth": "4px", "aTargets": [0]}
+    ]
+  });
 });
