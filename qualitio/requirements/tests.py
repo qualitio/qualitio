@@ -204,3 +204,23 @@ class OnlyOneRequirementInDBTest(TestCase):
     def test_no_error_on_form_save(self):
         form = self.configure_form()
         assert_true(form.is_valid())
+        try:
+            form.save()
+        except ValidationError, e:
+            self.fail("The exception shouldn't be raised!")
+
+
+class OrderingTreeTest(TestCase):
+    def setUp(self):
+        manager = Requirement.objects
+
+        self.big_project = manager.get(name="BigProject")  # assumes we've got it in fixtures !
+        self.z = manager.create(parent=self.big_project, name='z')
+        self.x = manager.create(parent=self.big_project, name='x')
+        self.a = manager.create(parent=self.big_project, name='b')
+
+
+    def test_children_returned_in_alphabetical_order(self):
+        children = list(self.big_project.children.all())
+        expected = [self.a, self.x, self.z]
+        assert_equals(expected, children)

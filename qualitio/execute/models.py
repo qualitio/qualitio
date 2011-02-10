@@ -9,22 +9,25 @@ class TestRunDirectory(core.BaseDirectoryModel):
 
 
 class TestRun(core.BasePathModel):
-    parent = models.ForeignKey("TestRunDirectory", related_name="subchildren")
-
     notes = models.TextField(blank=True)
+
+    class Meta(core.BasePathModel.Meta):
+        parent_class = 'TestRunDirectory'
 
 
 class TestCaseRun(store.TestCaseBase):
-    parent = models.ForeignKey("TestRun", null=True, blank=True, related_name="subchildren")
     status = models.ForeignKey("TestCaseRunStatus", default=0)
-    bugs = models.ManyToManyField("Bug")
+    bugs = models.ManyToManyField("Bug", null=True, blank=True)
 
+    class Meta(store.TestCaseBase.Meta):
+        parent_class = 'TestRun'
 
     @classmethod
-    def run(cls, test_case):
+    def run(cls, test_case, test_run):
         test_case_run = TestCaseRun.objects.create(name=test_case.name,
                                                    description=test_case.description,
-                                                   precondition=test_case.precondition)
+                                                   precondition=test_case.precondition,
+                                                   parent=test_run)
 
         for test_case_step in test_case.steps.all():
             test_case_run.steps.create(description=test_case_step.description,

@@ -26,8 +26,8 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 
 class TestCase(TestCaseBase):
-    parent = models.ForeignKey('TestCaseDirectory', null=True,
-                               blank=True, related_name="subchildren")
+    class Meta(TestCaseBase.Meta):
+        parent_class = 'TestCaseDirectory'
 
 
 class TestCaseStep(TestCaseStepBase):

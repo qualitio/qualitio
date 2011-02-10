@@ -43,7 +43,7 @@ def directory_valid(request, directory_id=0):
                        data={"parent_id": getattr(testrun_directory.parent, "id", 0),
                              "current_id": testrun_directory.id})
     else:
-        return failed(message="Validation errors",
+        return failed(message="Validation errors: %s" % testrun_directory_form.error_message(),
                       data=testrun_directory_form.errors_list())
 
 
