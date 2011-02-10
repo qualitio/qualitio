@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'qualitio.projects',
     'qualitio.execute',
     'qualitio.store',
+    'qualitio.filter',
 
     'mptt',
     'debug_toolbar',

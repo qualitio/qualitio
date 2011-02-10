@@ -1,11 +1,11 @@
 from django.conf.urls.defaults import patterns, url
 from qualitio.core.views import get_children
 from qualitio.requirements.models import Requirement
-
+from qualitio.filter.views import filter
 
 urlpatterns = patterns('qualitio.requirements.views',
                        url(r'^$', 'index'),
-                       url(r'filter/?$', filter),
+                       url(r'filter/?$', filter, {'model': Requirement}),
 
                        url(r'^ajax/get_children$', get_children, {'directory': Requirement}),
                        url(r'^ajax/requirement/(?P<requirement_id>\d+)/details/$', 'details'),

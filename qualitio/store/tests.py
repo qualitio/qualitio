@@ -17,7 +17,7 @@ class StoreModelParentFieldGenerationTest(DjangoTestCase):
 
 class TestCaseDirectoryUniquityTest(DjangoTestCase):
     def setUp(self):
-        self.big_project = TestCaseDirectory.objects.get(name="BigProject")  # assumes we've got it in fixtures !
+        self.big_project = TestCaseDirectory.objects.create(name="BigProject")
 
     def data_that_should_cause_an_error(self):
         return {
