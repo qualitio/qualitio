@@ -33,7 +33,8 @@ def directory_edit(request, directory_id):
 def directory_valid(request, directory_id=0):
     if directory_id:
         testrun_directory = TestRunDirectory.objects.get(pk=str(directory_id))
-        testrun_directory_form = forms.TestRunDirectoryForm(request.POST, instance=testrun_directory)
+        testrun_directory_form = forms.TestRunDirectoryForm(request.POST,
+                                                            instance=testrun_directory)
     else:
         testrun_directory_form = forms.TestRunDirectoryForm(request.POST)
 
@@ -74,7 +75,9 @@ def testrun_edit(request, testrun_id):
     testrun_form = forms.TestRunForm(instance=testrun, prefix="testrun")
     connected_test_cases_form = forms.ConnectedTestCases(instance=testrun,
                                                          prefix="connected_test_cases")
-    available_test_cases_form = forms.AvailableTestCases(prefix="available_test_cases")
+    available_test_cases_form = forms.AvailableTestCases(
+        prefix="available_test_cases",
+        queryset=store.TestCase.objects.exclude(testcaserun__parent=testrun))
 
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {'testrun': testrun,
@@ -108,14 +111,15 @@ def testrun_valid(request, testrun_id=0):
 
         to_run = filter(lambda x: x['action'], available_test_cases_form.cleaned_data)
         to_run = map(lambda x: x['id'], to_run)
+
+        # TODO: slow, greate mass run method
         for test_case in to_run:
-            TestCaseRun.run(test_case)
-        print type(to_run[0])
+            TestCaseRun.run(test_case, testrun)
+
         return success(message='testrun directory saved',
                        data={"parent_id": getattr(testrun.parent, "id", 0),
                              "current_id": testrun.id})
     else:
-        print available_test_cases_form.errors
         return failed(message="Validation errors",
                       data=testrun_form.errors_list())
 
