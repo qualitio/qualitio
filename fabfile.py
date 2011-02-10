@@ -99,7 +99,7 @@ def synchronize_database():
 def load_dumpdata():
     require("path")
 
-    sudo("python %(path)s/qualitio/manage.py loaddata %(path)s/qualitio/initial_data.json" % env)
+    sudo("python %(path)s/qualitio/manage.py loaddata %(path)s/qualitio/example_data.json" % env)
 
 def restart_webserver():
     "Restart apache"
