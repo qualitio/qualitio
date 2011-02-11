@@ -136,11 +136,19 @@ table.display {
 }
 
 table.display thead th {
-	padding: 3px 18px 3px 10px;
+        padding: 3px 18px 3px 10px;
 	border-bottom: 1px solid black;
 	font-weight: bold;
 	cursor: pointer;
 	* cursor: hand;
+}
+
+table.display thead th.no-soring {
+	padding: 3px 0px 3px 0px;
+}
+
+table.display thead th.tiny {
+	padding: 3px 0px 3px 0px;
 }
 
 table.display tfoot th {
@@ -154,7 +162,7 @@ table.display tr.heading2 td {
 }
 
 table.display td {
-	padding: 3px 10px;
+    padding: 3px 7px
 }
 
 table.display td.center {

@@ -30,7 +30,7 @@
     <table cellpadding="0" cellspacing="0" class="display">
       <thead>
         <tr>
-	  <th></th>
+          <th>id</id>
 	  <th>path</th>
           <th>name</th>
 	  <th>status</th>
@@ -44,9 +44,9 @@
 	  <td class="id">{{ child.id }}</td>
           <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
 	  <td class="name"><a href="#testrun/{{ child.parent.pk }}/details/">{{ child.name }}</a></td>
-	  <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a></td>
-          <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a>{{ child.modified_time }}</td>
-          <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a>{{ child.created_time }}</td>
+	  <td class="path">{{ child.status }}</td>
+          <td class="path">{{ child.modified_time }}</td>
+          <td class="path">{{ child.created_time }}</td>
         </tr>
         {% endfor %}
       </tbody>

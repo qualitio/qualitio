@@ -34,10 +34,12 @@
     <div class="grid_8 clearfix">
       <div class="application-view-content">
         <h2>connected testcase</h2>
+        {{ connected_test_cases_form.management_form }}
         <table cellpadding="0" cellspacing="0" class="display">
           <thead>
             <tr>
-	      <th></th>
+              <th class="no-soring"></th>
+	      <th>id</th>
 	      <th>name</th>
 	      <th>status</th>
               <th>modified</th>
@@ -45,13 +47,24 @@
             </tr>
           </thead>
           <tbody>
-            {% for child in testrun.subchildren.all %}
+            {% for form in connected_test_cases_form.forms %}
             <tr class="{% cycle 'odd' 'even' %}">
-	      <td class="id">{{ child.id }}</td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/">{{ child.name }}</a></td>
-	      <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a></td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a>{{ child.modified_time }}</td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a>{{ child.created_time }}</td>
+              <td>{{ form.DELETE }}{{ form.id }}</td>
+	      <td class="id">
+                {{ form.instance.id }}
+              </td>
+              <td class="path"><a href="#testrun/{{ test_case.parent.pk }}/details/">
+                  {{ form.instance.name }}
+              </a></td>
+	      <td class="path">
+                {{ form.instance.status }}
+              </td>
+              <td class="path">
+                {{ form.instance.modified_time }}
+              </td>
+              <td class="path">
+                {{ form.instance.created_time }}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -62,25 +75,25 @@
     <div class="grid_8 clearfix">
       <div class="application-view-content">
         <h2>available testcase</h2>
-        
+        {{ available_test_cases_form.management_form }}
         <table cellpadding="0" cellspacing="0" class="display">
           <thead>
             <tr>
-	      <th></th>
+              <th class="no-soring"></th>
+	      <th>id</th>
 	      <th>name</th>
-	      <th>status</th>
               <th>modified</th>
               <th>created</th>
             </tr>
           </thead>
           <tbody>
-            {% for child in testrun.subchildren.all %}
+            {% for form in available_test_cases_form.forms %}
             <tr class="{% cycle 'odd' 'even' %}">
-	      <td class="id">{{ child.id }}</td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/">{{ child.name }}</a></td>
-	      <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a></td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a>{{ child.modified_time }}</td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/"></a>{{ child.created_time }}</td>
+              <td class="id">{{ form.action }}{{ form.id }}</td>
+	      <td class="id">{{ form.instance.id }}</td>
+              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/">{{ form.instance.name }}</a></td>
+              <td class="path">{{ form.instance.modified_time }}</td>
+              <td class="path">{{ form.instance.created_time }}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -98,17 +111,3 @@
   </div>
 </form>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_edit.js{{ STATIC_HASH }}"></script>
-<!-- <script> -->
-  <!-- $(function () { -->
-  <!-- $("#testcase-add-view-tree").jstree({ -->
-  <!-- "core" : { "initially_open" : [ "root" ] }, -->
-  <!-- "html_data" : { -->
-  <!-- "data" : "<li id='root'><a href='#'>Root node</a><ul><li><a href='#'>Child node</a></li></ul></li>" -->
-  <!-- }, -->
-  <!-- "plugins" : [ "themes", "html_data","checkbox" ] -->
-  <!-- }); -->
-
-  <!-- $(".switch-view").click( function() { -->
-  <!--     $("#testcase-add-view-tree, #testcase-add-view-table").toggle(); -->
-  <!-- }); -->
-<!-- </script> -->

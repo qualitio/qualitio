@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block js-include %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
 {% endblock %}
+
+{% block css-include %}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/filter.css{{ STATIC_HASH }}"></link>
+{% endblock %}
+
 
 {% block application %}
 <div class="grid_16">
   <div id="application-menu" >
-    {% block application-menu %}{% endblock %}
+    <ul>
+      {% block application-menu %}{% endblock %}
+    </ul>
   </div>
 </div>
 

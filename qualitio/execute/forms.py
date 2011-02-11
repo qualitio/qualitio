@@ -1,7 +1,8 @@
 from django import forms
-from django.forms.models import modelformset_factory
+from django.forms.models import inlineformset_factory, BaseModelFormSet, modelformset_factory
 
 from qualitio import core
+from qualitio import store
 from qualitio.execute import models
 
 
@@ -33,6 +34,25 @@ class AddBugForm(forms.ModelForm):
     class Meta:
         fields = ("id",)
         model = models.Bug
+
+
+
+
+class BaseAvailableTestCases(BaseModelFormSet):
+    def add_fields(self, form, index):
+        super(BaseAvailableTestCases, self).add_fields(form, index)
+        form.fields["action"] = forms.BooleanField(required=False)
+
+
+AvailableTestCases = modelformset_factory(store.TestCase,
+                                          formset=BaseAvailableTestCases,
+                                          fields=("id", "action"),
+                                          extra=0)
+
+ConnectedTestCases = inlineformset_factory(models.TestRun,
+                                           models.TestCaseRun,
+                                           fields=("id",),
+                                           extra=0)
 
 # BugsFormSet = modelformset_factory(models.Bug)
 

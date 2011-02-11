@@ -1,0 +1,12 @@
+.filter-form {
+    width: 500px;
+}
+
+.filter-form .name{
+    text-align: right;
+    padding-right:10px;
+}
+
+table.pretty tr:hover, table.pretty tr:nth-child(2n):hover {
+    background: #CCFFFF;
+}
