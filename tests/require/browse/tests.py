@@ -2250,6 +2250,8 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:full name: /MeeGo Netbook/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("description Description of testcase directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
             try:
@@ -2508,10 +2510,16 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
         sel.click("css=input.ui-button[value=\"Save\"]")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:directory:"): break
+                if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("parent: /MeeGo Netbook/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("requirement: /MeeGo/TV/MeeGo Handset test"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("description test\n\ntest"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("precondition test\n\ntest"))
@@ -3132,8 +3140,6 @@ class Test24Dependblock(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("exact:Dependencies: /MeeGo /MeeGo/Notebook /MeeGo/MeeGo Handset /MeeGo/TV/Bootscreen /MeeGo/MeeGo Media Phone /MeeGo/Legacy /MeeGo/Legacy/n900 /MeeGo/Legacy/n900/pr 1.0 /MeeGo/TV/MeeGo Handset test /MeeGo/Legacy/n900/pr 1.1 /MeeGo/Legacy/n900/pr 1.2 /MeeGo/Legacy/n900/pr 1.3 /MeeGo/TV/MeeGo Handset test/test1"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.add_selection("id_dependencies", "label=/MeeGo/Notebook")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
