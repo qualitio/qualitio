@@ -6,13 +6,15 @@ import models
 
 class RunTestCase(TestCase):
     def setUp(self):
-        self.test_case_directory = store.TestCaseDirectory.objects.get(parent=None)
+        self.test_case_directory = store.TestCaseDirectory.objects.create(parent=None,
+                                                                          name="Root")
         self.test_case = store.TestCase.objects.create(name="test_name",
                                                        precondition="precondtion",
                                                        description="description",
                                                        parent=self.test_case_directory)
 
-        self.test_run_directory = models.TestRunDirectory.objects.get(parent=None)
+        self.test_run_directory = models.TestRunDirectory.objects.create(parent=None,
+                                                                          name="Root")
         self.test_run = models.TestRun.objects.create(name="name", parent=self.test_run_directory)
 
 
