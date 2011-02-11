@@ -19,6 +19,19 @@ class FormErrorProcessingMixin(object):
         return ' '.join([e for e in self.non_field_errors()])
 
 
+
+class FormsetErrorProcessingMixin(object):
+    """
+    FormSet with additional error processing functionality.
+    """
+    def errors_list(self):
+        formset_errors = []
+        for i, error in filter(lambda x: x[1], list(enumerate(self.errors))):
+            for v, k in error.items():
+                formset_errors.append(map(lambda x: (("testcasestep_set-%s-%s") % (i, v), x), k)[0])
+        return formset_errors
+
+
 class BaseForm(forms.Form, FormErrorProcessingMixin):
     pass
 
@@ -46,16 +59,12 @@ class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
         return self.instance
 
 
-class BaseInlineFormSet(forms.models.BaseInlineFormSet):
-    """
-    BaseInlineFormSet with additional error processing functionality.
-    """
-    def errors_list(self):
-        formset_errors = []
-        for i, error in filter(lambda x: x[1], list(enumerate(self.errors))):
-            for v, k in error.items():
-                formset_errors.append(map(lambda x: (("testcasestep_set-%s-%s") % (i, v), x), k)[0])
-        return formset_errors
+class BaseInlineFormSet(forms.models.BaseInlineFormSet, FormsetErrorProcessingMixin):
+    pass
+
+
+class BaseModelFormSet(forms.models.BaseModelFormSet, FormsetErrorProcessingMixin):
+    pass
 
 
 class PathModelForm(BaseModelForm):

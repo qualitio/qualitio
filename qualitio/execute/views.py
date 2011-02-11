@@ -66,8 +66,13 @@ def testrun_notes(request, testrun_id):
 def testrun_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = forms.TestRunForm(initial={'parent': directory})
+    available_test_cases_form = forms.AvailableTestCases(prefix="available_test_cases")
+    connected_test_cases_form = forms.ConnectedTestCases(request.POST,
+                                                         prefix="connected_test_cases")
     return direct_to_template(request, 'execute/testrun_edit.html',
-                              {"testrun_form": testrun_form})
+                              {"testrun_form": testrun_form,
+                               'available_test_cases_form': available_test_cases_form,
+                               'connected_test_cases_form' : connected_test_cases_form})
 
 
 def testrun_edit(request, testrun_id):
@@ -80,8 +85,7 @@ def testrun_edit(request, testrun_id):
         queryset=store.TestCase.objects.exclude(testcaserun__parent=testrun))
 
     return direct_to_template(request, 'execute/testrun_edit.html',
-                              {'testrun': testrun,
-                               'testrun_form': testrun_form,
+                              {'testrun_form': testrun_form,
                                'available_test_cases_form': available_test_cases_form,
                                'connected_test_cases_form' : connected_test_cases_form})
 

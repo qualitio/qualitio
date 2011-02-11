@@ -5,7 +5,7 @@ from qualitio.core.models import BasePathModel, BaseDirectoryModel
 
 
 class File(BasePathModel):
-    class Meta:
+    class Meta(BasePathModel.Meta):
         parent_class = 'Directory'
 
 

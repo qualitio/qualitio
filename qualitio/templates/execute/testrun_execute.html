@@ -8,22 +8,34 @@
 
 <div class="grid_16">
   <div id="testcaserun-list" class="application-view-content">
-    <table class="pretty">
-      <tr>
-	<th>name</th>
-	<th>bugs</th>
-        <th>status</th>
-	<th class="checked">&nbsp;<th>
-      </tr>
+    <table cellpadding="0" cellspacing="0" class="display">
+      <thead>
+        <tr>
+          <th class="no-soring"></th>
+	  <th>id</th>
+          <th>path</th>
+	  <th>name</th>
+	  <th>status</th>
+          <th>bugs</th>
+          <th>modified</th>
+          <th>created</th>
+        </tr>
+      </thead>
+      <tbody>
       {% for testcaserun in testrun.subchildren.all %}
-      <tr class="row" id="testcaserun_{{ testcaserun.pk }}" style="background: {{ testcaserun.status.color }}">
-	<td class="name">{{ testcaserun.name }}</td>
+      <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}" 
+          style="background: {{ testcaserun.status.color }}">
+        <td><input type="checkbox"></td>
+        <td>{{ testcaserun.origin.id }}</td>
+        <td>{{ testcaserun.path }}</td>
+        <td class="name">{{ testcaserun.name }}</td>
+        <td class="status">{{ testcaserun.status.name }}</td>
         <td class="bugs">{% for bug in testcaserun.bugs.all %}#{{ bug.id }} {% endfor %}</td>
-	<td class="status">{{ testcaserun.status.name }}</td>
-	<td><input type="checkbox"></td>
+        <td>{{ testcaserun.status.modified_time }}</td>
+        <td>{{ testcaserun.status.created_time }}</td>
       </tr>
       {% endfor %}
-
+      </tbody> 
     </table>
     <div style="text-align: right;">
       <select class="action-list" style="font-size: 1.2em">
