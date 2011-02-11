@@ -1,6 +1,7 @@
 from django.contrib import admin
-from qualitio.execute import models
 from qualitio import core
+from qualitio.execute import models
+
 
 class TestRunInline(core.PathModelInline):
     model = models.TestRun
@@ -21,9 +22,15 @@ class TestRunAdmin(core.PathModelAdmin):
 admin.site.register(models.TestRun, TestRunAdmin)
 
 
-class TestRunAdmin(core.PathModelAdmin):
+class TestCaseStepRunInline(admin.TabularInline):
+    model = models.TestCaseStepRun
+    extra = 0
+
+
+class TestCaseRunAdmin(core.PathModelAdmin):
     list_display = core.PathModelAdmin.list_display + ("status",)
-admin.site.register(models.TestCaseRun, TestRunAdmin)
+    inlines = [ TestCaseStepRunInline ]
+admin.site.register(models.TestCaseRun, TestCaseRunAdmin)
 
 
 class TestCaseRunStatusAdmin(admin.ModelAdmin):

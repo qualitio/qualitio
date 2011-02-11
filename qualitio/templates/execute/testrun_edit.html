@@ -48,7 +48,7 @@
           </thead>
           <tbody>
             {% for form in connected_test_cases_form.forms %}
-            <tr class="{% cycle 'odd' 'even' %}">
+            <tr class="{% cycle 'odd' 'even' %}" style="background: {{ form.instance.status.color }}">
               <td>{{ form.DELETE }}{{ form.id }}</td>
 	      <td class="id">
                 {{ form.instance.id }}

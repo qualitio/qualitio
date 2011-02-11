@@ -7,13 +7,12 @@
     border-collapse:collapse;
 }
 
-#testcaserun-list tr.row {
+#testcaserun-list .hover {
+    background: #eeeecc !important;
     cursor: pointer;
 }
 
-#testcaserun-list .hover {
-    background:#dddddd;
+#testcaserun-list .selected {
+    background: #dddd77 !important;
     font-weight: bold;
 }
-
-
