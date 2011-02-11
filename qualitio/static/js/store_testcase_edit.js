@@ -53,7 +53,9 @@ $(function() {
       step.addClass('removed');
     }
   });
-
+  
+  // TODO: again remove double load
+  $('.add-step').die('click');
   $('.add-step').live('click', function() {
     new_step = $('.step.template').clone();
     step_count = $('.step:visible').length;
@@ -65,7 +67,7 @@ $(function() {
     }
 
     $('.step:visible').each( function(i) {
-      $(this).find("[name^=testcasestep_set]").each(function() {
+      $(this).find("[name^=steps]").each(function() {
         element_id = $(this).attr("id").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1"+step_count+"$3");
         element_name = $(this).attr("name").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1"+step_count+"$3");
         $(this).attr("id", element_id);
@@ -76,7 +78,7 @@ $(function() {
       $(this).children("h2").text(title);
       $(this).find('input[name$=sequence]').attr('value', i);
     });
-    $('#id_testcasestep_set-TOTAL_FORMS').attr("value", parseInt($('#id_testcasestep_set-TOTAL_FORMS').attr("value"))+1);
+    $('#id_steps-TOTAL_FORMS').attr("value", parseInt($('#id_steps-TOTAL_FORMS').attr("value"))+1);
   });
 
   $('.add-attachment').click( function() {
