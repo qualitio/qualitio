@@ -33,7 +33,7 @@
     </div>
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
-      <h2>Step 1</h2>
+      <h2>step {{ forloop.counter }}</h2>
       <div class="grid_8 alpha description">{{ step.description }}</div>
       <div class="grid_8 omega excpected">{{ step.expected }}</div>
     </div>
