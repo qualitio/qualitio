@@ -2337,10 +2337,10 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type("id_description", "desription")
+        sel.type("id_description", "desription\ndesription")
         try: self.failUnless(sel.is_element_present("id_precondition"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_precondition", "precondition")
+        sel.type("id_precondition", "precondition\nprecondition")
         try: self.failUnless(sel.is_element_present("css=a#add-step-0 span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("add step", sel.get_text("css=a#add-step-0 span"))
@@ -2352,27 +2352,27 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("id_testcasestep_set-0-description"))
+        try: self.failUnless(sel.is_element_present("id_steps-0-description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_testcasestep_set-0-expected"))
+        try: self.failUnless(sel.is_element_present("id_steps-0-expected"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_testcasestep_set-0-description", "Description 1")
-        sel.type("id_testcasestep_set-0-expected", "Expected 1")
-        try: self.failUnless(sel.is_element_present("//form[@id='testcase_form']/div[2]/div[6]/div[1]/a/span"))
+        sel.type("id_steps-0-description", "Description 1\nDescription 1")
+        sel.type("id_steps-0-expected", "Expected 1\nExpected 1")
+        try: self.failUnless(sel.is_element_present("//form[@id='testcase_form']/div[3]/div[2]/div[1]/a/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//form[@id='testcase_form']/div[2]/div[6]/div[1]/a/span")
+        sel.click("//form[@id='testcase_form']/div[3]/div[2]/div[1]/a/span")
         for i in range(60):
             try:
                 if sel.is_text_present("Step 2"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("id_testcasestep_set-1-description"))
+        try: self.failUnless(sel.is_element_present("id_steps-1-description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_testcasestep_set-1-expected"))
+        try: self.failUnless(sel.is_element_present("id_steps-1-expected"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_testcasestep_set-1-description", "Description 2")
-        sel.type("id_testcasestep_set-1-expected", "Expected 2")
+        sel.type("id_steps-1-description", "Description 2\nDescription 2")
+        sel.type("id_steps-1-expected", "Expected 2\nExpected 2")
         try: self.failUnless(sel.is_element_present("css=input.ui-button[value=\"Save\"]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=input.ui-button[value=\"Save\"]")
@@ -2429,20 +2429,30 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("full name: /MeeGo Handset bat/test case 1 \n directory: /MeeGo Handset bat/ \n status: not set \n description desription \n precondition precondition step 1 Description 1 \n Expected 1 \n \n step 2 Description 2 \n Expected 2"))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Handset bat/test case 1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("parent: /MeeGo Handset bat/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("requirement: /MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("description\ndesription"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("precondition"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("precondition\nprecondition"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view div:nth-child(3)")
         try: self.failUnless(sel.is_text_present("step 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("step 2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Description 1"))
+        try: self.failUnless(sel.is_text_present("Description 1\nDescription 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Expected 1"))
+        try: self.failUnless(sel.is_text_present("Expected 1\nExpected 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Description 2"))
+        try: self.failUnless(sel.is_text_present("Description 2\nDescription 2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Expected 2"))
+        try: self.failUnless(sel.is_text_present("Expected 2\nExpected 2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -2536,7 +2546,7 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
         sel.click("css=input.ui-button[value=\"Save\"]")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:directory:"): break
+                if sel.is_text_present("full name: /MeeGo Netbook/TestCase"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3012,15 +3022,39 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.select("id_parent", "label=/MeeGo/IVI")
-        sel.click("//input[@name='Executed' and @value='Save']")
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: new subrequirement9"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("exact:requirement: new subrequirement9"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo/IVI/new subrequirement9"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=new subrequirement9"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("full name: /MeeGo/IVI/new subrequirement9"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=new subrequirement9"))
@@ -3040,6 +3074,20 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("full name: /MeeGo/TV/new requirement 9/new subrequirement9"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
