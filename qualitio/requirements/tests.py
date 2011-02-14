@@ -28,7 +28,7 @@ class DependencyTestCase(TestCase):
     def setUp(self):
         mgr = Requirement.objects
 
-        self.big_project = mgr.get(name="BigProject")  # assumes we've got it in fixtures !
+        self.big_project = mgr.create(name="BigProject")
         self.mee_go = mgr.create(name="MeeGo")
         self.mee_go_IVI = mgr.create(name="IVI")
         self.mee_go_TV = mgr.create(name="TV")
@@ -183,7 +183,7 @@ class RequirementFormTest(DependencyTestCase):
 
 class OnlyOneRequirementInDBTest(TestCase):
     def setUp(self):
-        self.big_project = Requirement.objects.get(name="BigProject")  # assumes we've got it in fixtures !
+        self.big_project = Requirement.objects.create(name="BigProject")
 
 
     def test_no_error_on_save(self):
@@ -214,7 +214,7 @@ class OrderingTreeTest(TestCase):
     def setUp(self):
         manager = Requirement.objects
 
-        self.big_project = manager.get(name="BigProject")  # assumes we've got it in fixtures !
+        self.big_project = manager.create(name="BigProject")
         self.z = manager.create(parent=self.big_project, name='z')
         self.x = manager.create(parent=self.big_project, name='x')
         self.a = manager.create(parent=self.big_project, name='b')

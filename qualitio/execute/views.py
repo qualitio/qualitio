@@ -1,6 +1,7 @@
 from django.views.generic.simple import direct_to_template
 
 from qualitio.core.utils import json_response, success, failed
+from qualitio import store
 from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, Bug
 from qualitio.execute import forms
 
@@ -32,7 +33,8 @@ def directory_edit(request, directory_id):
 def directory_valid(request, directory_id=0):
     if directory_id:
         testrun_directory = TestRunDirectory.objects.get(pk=str(directory_id))
-        testrun_directory_form = forms.TestRunDirectoryForm(request.POST, instance=testrun_directory)
+        testrun_directory_form = forms.TestRunDirectoryForm(request.POST,
+                                                            instance=testrun_directory)
     else:
         testrun_directory_form = forms.TestRunDirectoryForm(request.POST)
 
@@ -64,33 +66,65 @@ def testrun_notes(request, testrun_id):
 def testrun_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = forms.TestRunForm(initial={'parent': directory})
+    available_test_cases_form = forms.AvailableTestCases(prefix="available_test_cases")
+    connected_test_cases_form = forms.ConnectedTestCases(request.POST,
+                                                         prefix="connected_test_cases")
     return direct_to_template(request, 'execute/testrun_edit.html',
-                              {"testrun_form": testrun_form})
+                              {"testrun_form": testrun_form,
+                               'available_test_cases_form': available_test_cases_form,
+                               'connected_test_cases_form' : connected_test_cases_form})
 
 
 def testrun_edit(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
-    testrun_form = forms.TestRunForm(instance=testrun)
+    testrun_form = forms.TestRunForm(instance=testrun, prefix="testrun")
+    connected_test_cases_form = forms.ConnectedTestCases(instance=testrun,
+                                                         prefix="connected_test_cases")
+    available_test_cases_form = forms.AvailableTestCases(
+        prefix="available_test_cases",
+        queryset=store.TestCase.objects.exclude(testcaserun__parent=testrun))
+
     return direct_to_template(request, 'execute/testrun_edit.html',
-                              {'testrun': testrun,
-                               'testrun_form': testrun_form})
+                              {'testrun_form': testrun_form,
+                               'available_test_cases_form': available_test_cases_form,
+                               'connected_test_cases_form' : connected_test_cases_form})
 
 
 @json_response
 def testrun_valid(request, testrun_id=0):
     if testrun_id:
         testrun = TestRun.objects.get(pk=str(testrun_id))
-        testrun_form = forms.TestRunForm(request.POST, instance=testrun)
+        testrun_form = forms.TestRunForm(request.POST, instance=testrun, prefix="testrun")
+
+        connected_test_cases_form = forms.ConnectedTestCases(request.POST, instance=testrun,
+                                                             prefix="connected_test_cases")
     else:
         testrun_form = forms.TestRunForm(request.POST)
+        connected_test_cases_form = forms.ConnectedTestCases(request.POST,
+                                                             prefix="connected_test_cases")
 
-    if testrun_form.is_valid():
+    available_test_cases_form = forms.AvailableTestCases(request.POST,
+                                                         prefix="available_test_cases")
+
+    if testrun_form.is_valid() and\
+            connected_test_cases_form.is_valid() and\
+            available_test_cases_form.is_valid():
+
         testrun = testrun_form.save()
+        connected_test_cases_form.save()
+
+        to_run = filter(lambda x: x['action'], available_test_cases_form.cleaned_data)
+        to_run = map(lambda x: x['id'], to_run)
+
+        # TODO: slow, greate mass run method
+        for test_case in to_run:
+            TestCaseRun.run(test_case, testrun)
+
         return success(message='testrun directory saved',
                        data={"parent_id": getattr(testrun.parent, "id", 0),
                              "current_id": testrun.id})
     else:
-        return failed(message="Validation errors: %s" % testrun_form.error_message(),
+        return failed(message="Validation errors",
                       data=testrun_form.errors_list())
 
 

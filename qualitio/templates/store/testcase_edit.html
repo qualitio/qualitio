@@ -62,8 +62,6 @@
       {{ testcase_form.description }}
     </div>
     
-    {{ testcasesteps_form.management_form }}
-    <a id="add-step-0" class="button add-step">add step</a>
   </div>
 
   <div class="application-view-content">
@@ -73,6 +71,9 @@
       {{ testcase_form.precondition.label_tag }}: <span class="error"></span>
       {{ testcase_form.precondition }}
     </div>
+    
+    {{ testcasesteps_form.management_form }}
+    <a id="add-step-0" class="button add-step">add step</a>
 
     {% for form in testcasesteps_form.forms %}
     <div class="step clearfix">

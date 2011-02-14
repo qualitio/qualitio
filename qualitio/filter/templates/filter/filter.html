@@ -1,0 +1,42 @@
+{% extends "base_filter.html" %}
+
+{% block module-name %}{% block module-title%}{{ app_label }}{% endblock %}{% endblock %}
+
+{% block application-menu %}
+<li><a href="/{{ app_label }}/">browse</a></li>
+<li class="active">filter</li>
+{% endblock %}
+
+
+
+{% block application-view %}
+<form method="GET">
+  <div class="application-view-content">
+    <table class="filter-form">
+      {% for field in filterset.form %}
+      <tr class="text-bullet"><td class="name">{{ field.label }}</td><td class="value">{{ field }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="application-view-content">
+    <input type="submit" value="Search" />
+  </div>
+</form>
+
+<div class="application-view-content">
+  <table class="pretty ui-corner-all">
+    <tr>
+      {% for column in table.columns %}
+      <th>{{ column }}</th>
+      {% endfor %}
+    </tr>
+    {% for row in table.rows %}
+    <tr>
+      {% for value in row %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  {% endblock %}
+</div>

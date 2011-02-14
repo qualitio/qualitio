@@ -23,20 +23,34 @@
       <span class="name">notes:</span>
       <span class="value-block">{{ directory.description|default:"<i>not set</i>" }}</span>
     </div>
-
-    <table class="pretty ui-corner-all" style="margin-top: 20px">
-      <tr>
-	<th></th>
-	<th>Path</th>
-	<th>Status</th>
-      </tr>
-      {% for child in testrun.testcaserun_set.all %}
-      <tr>
-	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-	<td class="path"><a href="#testrun/{{ child.directory.pk }}/details/">{{ child.name }}</a></td>
-	<td class="path"><a href="#testrun/{{ child.directory.pk }}/details/"></a></td>
-      </tr>
-      {% endfor %}
+    <div class="text-bullet">
+      <span class="name">test cases:</span>
+    </div>
+    
+    <table cellpadding="0" cellspacing="0" class="display">
+      <thead>
+        <tr>
+          <th>id</id>
+	  <th>path</th>
+          <th>name</th>
+	  <th>status</th>
+          <th>modified</th>
+          <th>created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for child in testrun.subchildren.all %}
+        <tr class="{% cycle 'odd' 'even' %}" style="background: {{ child.status.color }}">
+	  <td class="id">{{ child.id }}</td>
+          <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
+	  <td class="name"><a href="#testrun/{{ child.parent.pk }}/details/">{{ child.name }}</a></td>
+	  <td class="path">{{ child.status }}</td>
+          <td class="path">{{ child.modified_time }}</td>
+          <td class="path">{{ child.created_time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_details.js{{ STATIC_HASH }}"></script>
