@@ -36,4 +36,21 @@ Qualitio Project
    where _{HOST}_ is address of your target machine, if you had plan
    deploy project locally simply type there _localhost_ (ssh server is
    required)
-   
+
+3. Setup Running Selenium Tests:
+-------------------------------------------------
+1. Before starting any tests you must start the Selenium server.
+   Go to tests directory where Selenium-RC’s server is located 
+   (qualitio/tests/selenium-server-1.0.3) and run the following from a command-line console.
+   * java -jar selenium-server.jar
+1. Go to tests directory and run tests with options:
+   * python tests.py <options>
+   Options:
+  -h, --help            show this help message and exit
+  -b BROWSER, --browser=BROWSER
+                        Browser environment to run on
+  -u USERNAME, --username=USERNAME
+                        Basic HTTP username
+  -p PASSWORD, --password=PASSWORD
+                        Basic HTTP password
+

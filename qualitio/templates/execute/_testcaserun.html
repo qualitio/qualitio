@@ -6,7 +6,11 @@
   </div>
   <div class="text-bullet">
     <span class="name">origin test case:</span>
-    <span class="value">{{ testcaserun.origin.path }}{{ testcaserun.origin.name }}</span>
+    <span class="value">
+      <a href="/store/#testcase/{{ testcaserun.origin.id }}/details/">
+        {{ testcaserun.origin.path }}{{ testcaserun.origin.name }}
+      </a>
+    </span>
   </div>
   <div class="text-bullet">
     <span class="name">status</span>
@@ -27,12 +31,11 @@
       <h2>Precondition</h2>
       {{ testcaserun.precondition }}
     </div>
-    {{ testcaserun.steps.all }}
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
-      <h2>Step 1</h2>
-      <div class="grid_8 alpha description"></div>
-      <div class="grid_8 omega excpected"></div>
+      <h2>step {{ forloop.counter }}</h2>
+      <div class="grid_8 alpha description">{{ step.description }}</div>
+      <div class="grid_8 omega excpected">{{ step.expected }}</div>
     </div>
     {% endfor %}
     
