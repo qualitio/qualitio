@@ -56,7 +56,7 @@ class Bugzilla(httplib2.Http):
                 if error:
                     raise IssueError(error)
 
-                bugs['id'] = node.getElementsByTagName("bug_id")[0].firstChild.data
+                bugs['alias'] = node.getElementsByTagName("bug_id")[0].firstChild.data
                 bugs['name'] = node.getElementsByTagName("short_desc")[0].firstChild.data
                 bugs['status'] = node.getElementsByTagName("bug_status")[0].firstChild.data
                 bugs['resolution'] = node.getElementsByTagName("resolution") or ""

@@ -18,12 +18,17 @@ class TestRun(core.BasePathModel):
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
     status = models.ForeignKey("TestCaseRunStatus", default=1)
-    bugs = models.ManyToManyField("Bug", null=True, blank=True)
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
 
+    @property
+    def bugs_history(self):
+        return Bug.objects.filter(testcaserun__origin=self.origin)\
+            .exclude(alias__in=self.bugs.values_list('alias',flat=True))
+
     @classmethod
+    # TODO: move this method to TestRun objects methods
     def run(cls, test_case, test_run):
         test_case_run = TestCaseRun.objects.create(name=test_case.name,
                                                    description=test_case.description,
@@ -51,13 +56,17 @@ class TestCaseRunStatus(core.BaseModel):
 
 
 class Bug(core.BaseModel):
-    id = models.CharField(primary_key=True, max_length=512)
+    testcaserun = models.ForeignKey('TestCaseRun', related_name="bugs")
+    alias = models.CharField(max_length=512)
     url = models.URLField(blank=True, verify_exists=False)
     name = models.CharField(max_length=512, blank=True)
     status = models.CharField(max_length=128, blank=True)
     resolution = models.CharField(max_length=128, blank=True)
 
+    class Meta:
+        unique_together = ("testcaserun", "alias")
+
     def __unicode__(self):
-        return "#%s: %s" % (self.id, self.name)
+        return "#%s: %s" % (self.alias, self.name)
 
 

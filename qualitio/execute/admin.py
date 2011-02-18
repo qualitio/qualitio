@@ -39,5 +39,5 @@ admin.site.register(models.TestCaseRunStatus, TestCaseRunStatusAdmin)
 
 
 class BugAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "status", "resolution", "url")
+    list_display = ("id", "alias", "name", "status", "resolution", "url")
 admin.site.register(models.Bug, BugAdmin)

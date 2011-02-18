@@ -13,44 +13,92 @@
     </span>
   </div>
   <div class="text-bullet">
+    <span class="name">description</span>
+    <span class="value-block">
+      {{ testcaserun.description }}
+    </span>
+  </div>
+
+  <div class="text-bullet">
     <span class="name">status</span>
-    <span class="block-value">
+    <span class="value-block">
       <form id="testcaserun-status-form" method="post" 
             action="/execute/ajax/testcaserun/{{ testcaserun.id }}/setstatus/">
         {% csrf_token %}
-        {{ testcaserun_status_form.status }}
+          {{ testcaserun_status_form.status }}
+
       </form>
     </span>
   </div>
 </div>
 <div class="grid_16 alpha omega clearfix">
   <div class="application-view-content">
-    <h2>Description</h2>
-    {{ testcaserun.description }}
     <div class="step clearfix">
-      <h2>Precondition</h2>
+      <h2>precondition</h2>
       {{ testcaserun.precondition }}
     </div>
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
       <h2>step {{ forloop.counter }}</h2>
-      <div class="grid_8 alpha description">{{ step.description }}</div>
-      <div class="grid_8 omega excpected">{{ step.expected }}</div>
+      <div class="grid_8 alpha">
+        <div class="description">{{ step.description }}</div>
+      </div>
+      <div class="grid_8 omega">
+        <div class="excpected">{{ step.expected }}</div>
+      </div>
     </div>
     {% endfor %}
-    
-    <h2>Bugs</h2>
-    {% for bug in testcaserun.bugs.all %}
-    <div> <a href="{{ bug.url }}">#{{ bug.id }}</a>{{ bug.name }}</div>
-    {% endfor %}
-    
-    <form id="testcaserun-add-bug-form" method="post" 
-          action="/execute/ajax/testcaserun/{{ testcaserun.id }}/addbug/">
-      {% csrf_token %}
-      <div id="{{ testcaserun_add_bug_form.id.html_name }}_wrapper" class="field-wrapper">
-        {{ testcaserun_add_bug_form.id }} <span class="error"></span>
-      </div>
-      <input type="submit" value="add" />
-    </form>
   </div>
 </div>
+
+<div class="grid_16 alpha omega clearfix">
+  <div class="grid_8 clearfix">
+    <div class="application-view-content bugs-panel">
+      <h2>Bugs</h2>
+      <div id="current-bugs-table">
+        <!-- place holder for current bugs table  -->
+      </div>
+      <h2>Add bug</h2>
+      <div id="add-bug-form">
+        <form id="testcaserun-add-bug-form" method="post" 
+              action="/execute/ajax/testcaserun/{{ testcaserun.id }}/addbug/">
+          {% csrf_token %}
+          <div id="{{ testcaserun_add_bug_form.bugs.html_name }}_wrapper" class="field-wrapper">
+            <input type="submit" value="add" />{{ testcaserun_add_bug_form.bugs }} <span class="error"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="grid_8 clearfix">
+    <div class="application-view-content">
+      <h2>History Bugs</h2>
+      <table class="display">
+        <thead>
+          <tr>
+            <th></th>
+            <th>id</th>
+            <th>name</th>
+            <th>status</th>
+            <th>resolution</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bug in testcaserun.bugs_history.all %}
+          <tr>
+            <td>{{ bug.DELETE }}{{ bug.id }}</td>
+            <td><a href="{{ bug.instance.url }}">{{ bug.alias }}</a></td>
+              <td><a href="{{ bug.instance.url }}">{{ bug.name }}</a></td>
+            <td>{{ bug.status }}</td>
+            <td>{{ bug.resolution }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  TESTCASERUN = {{ testcaserun.id }};
+</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testcaserun.js{{ STATIC_HASH }}"></script>
