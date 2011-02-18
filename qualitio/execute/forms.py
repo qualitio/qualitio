@@ -30,10 +30,29 @@ class TestCaseRunStatus(core.BaseModelForm):
         self.fields['status'].empty_label = None
 
 
-class AddBugForm(forms.ModelForm):
+class AddBugForm(core.BaseForm):
+    bugs = forms.CharField()
+
+    def clean_bugs(self):
+        return map(lambda x: x.strip(",").strip("#"),
+                   self.cleaned_data['bugs'].split())
+
+
+class BugForm(core.BaseModelForm):
     class Meta:
-        fields = ("id",)
         model = models.Bug
+        widgets = {'alias': forms.HiddenInput()}
+
+    def __init__(self, *args,**kwargs):
+        super(BugForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget = forms.HiddenInput()
+
+BugFormSet = inlineformset_factory(models.TestCaseRun,
+                                   models.Bug,
+                                   extra=0,
+                                   formset=core.BaseInlineFormSet,
+                                   form=BugForm)
 
 
 class BaseAvailableTestCases(core.BaseModelFormSet):
