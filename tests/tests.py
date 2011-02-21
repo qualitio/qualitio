@@ -86,7 +86,7 @@ if __name__ == "__main__":
                                    'syncdb',
                                    '--noinput',
                                    '--settings=selenium_settings'],
-                                    # stdout=out, stderr=subprocess.STDOUT,
+                                    stdout=out, stderr=subprocess.STDOUT,
                                   shell=False
                                   )
         syncdb.wait()
@@ -96,7 +96,7 @@ if __name__ == "__main__":
                                       'runserver',
                                       '127.0.0.1:8001',
                                       '--settings=selenium_settings'],
-                                     # stdout=out, stderr=subprocess.STDOUT,
+                                     stdout=out, stderr=subprocess.STDOUT,
                                      shell=False)
 
 
