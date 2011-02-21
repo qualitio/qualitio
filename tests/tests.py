@@ -68,45 +68,49 @@ if __name__ == "__main__":
     test_suite_path = args[0]
 
     with open("testing.log","wb") as out:
-        selenium = subprocess.Popen(['java',
-                                     '-jar',
-                                     'selenium-server.jar'],
-                                    stdout=out, stderr=subprocess.STDOUT)
-
-
-        print "1. Starting Selenium server"
-
-        print "2. Cleaning database"
+        result = None
         try:
-            os.remove("selenium-test-data.sqlite")
-        except OSError:
+            selenium = subprocess.Popen(['java',
+                                         '-jar',
+                                         'selenium-server.jar'],
+                                        stdout=out, stderr=subprocess.STDOUT)
+
+
+            print "1. Starting Selenium server"
+
+            print "2. Cleaning database"
+            try:
+                os.remove("selenium-test-data.sqlite")
+            except OSError:
+                pass
+
+            syncdb = subprocess.Popen(['../qualitio/manage.py',
+                                       'syncdb',
+                                       '--noinput',
+                                       '--settings=selenium_settings'],
+                                      stdout=out, stderr=subprocess.STDOUT,
+                                      shell=False
+                                      )
+            syncdb.wait()
+
+            print "3. Starting application test server"
+            runserver = subprocess.Popen(['../qualitio/manage.py',
+                                          'runserver',
+                                          '127.0.0.1:8001',
+                                          '--settings=selenium_settings'],
+                                         stdout=out, stderr=subprocess.STDOUT,
+                                         shell=False)
+
+
+            print "4. Starting tests"
+            result = unittest.TextTestRunner(verbosity=2).run(suite(test_suite_path))
+        except KeyboardInterrupt:
             pass
-
-        syncdb = subprocess.Popen(['../qualitio/manage.py',
-                                   'syncdb',
-                                   '--noinput',
-                                   '--settings=selenium_settings'],
-                                    stdout=out, stderr=subprocess.STDOUT,
-                                  shell=False
-                                  )
-        syncdb.wait()
-
-        print "3. Starting application test server"
-        runserver = subprocess.Popen(['../qualitio/manage.py',
-                                      'runserver',
-                                      '127.0.0.1:8001',
-                                      '--settings=selenium_settings'],
-                                     stdout=out, stderr=subprocess.STDOUT,
-                                     shell=False)
-
-
-        print "4. Starting tests"
-        result = unittest.TextTestRunner(verbosity=2).run(suite(test_suite_path))
-
+        finally:
         # real kill for process child process
-        selenium.kill()
+            selenium.kill()
 
-        os.system("kill -9 `ps -o pid,ppid ax | awk '{ if ($2 == '%s' ) print $1}'`" %
-                  runserver.pid)
-
-        sys.exit(not result.wasSuccessful())
+            os.system("kill -9 `ps -o pid,ppid ax | awk '{ if ($2 == '%s' ) print $1}'`" %
+                      runserver.pid)
+            if result:
+                sys.exit(not result.wasSuccessful())
