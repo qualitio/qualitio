@@ -438,6 +438,7 @@ table.filter td.add {
 /* jQuery-ui fixes */
 .ui-button {
     font-size:0.9em;
+    min-width: 70px;
 }
 
 .qtip .qtip-content{
@@ -464,4 +465,11 @@ table.filter td.add {
 
 .qtip-green .qtip-content .qtip-title{
     background-color: #B9DB8C;
+}
+
+/* TODO: attach disabled class to remoed testcasesteps */
+.disable {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
 }

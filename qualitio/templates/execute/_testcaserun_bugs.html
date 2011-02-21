@@ -1,0 +1,30 @@
+<form id="testcaserun-remove-bug-form" method="post" 
+      action="/execute/ajax/testcaserun/{{ bugs_formset.instance.id }}/removebug/">
+
+  {% csrf_token %}
+  {{ bugs_formset.management_form }}
+
+  <table class="display">
+    <thead>
+      <tr>
+        <th></th>
+        <th>id</th>
+        <th>name</th>
+        <th>status</th>
+        <th>resolution</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bug in bugs_formset.forms %}
+      <tr>
+        <td>{{ bug.DELETE }}{% for hidden in bug.hidden_fields %}{{ hidden }}{% endfor %}</td>
+        <td><a href="{{ bug.instance.url }}">{{ bug.instance.alias }}</a></td>
+        <td><a href="{{ bug.instance.url }}">{{ bug.instance.name }}</a></td>
+        <td>{{ bug.instance.status }}</td>
+        <td>{{ bug.instance.resolution }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <input type="submit" value="remove" />
+</form>
