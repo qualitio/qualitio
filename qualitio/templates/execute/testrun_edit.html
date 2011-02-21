@@ -52,8 +52,8 @@
               <td>{{ form.DELETE }}{{ form.id }}</td>
 	      <td class="id">
                 {{ form.instance.id }}
-              </td>
-              <td class="path"><a href="#testrun/{{ test_case.parent.pk }}/details/">
+              </td> 
+              <td class="path"><a href="/store/#testcase/{{ form.instance.origin.pk }}/details/">
                   {{ form.instance.name }}
               </a></td>
 	      <td class="path">
@@ -91,7 +91,9 @@
             <tr class="{% cycle 'odd' 'even' %}">
               <td class="id">{{ form.action }}{{ form.id }}</td>
 	      <td class="id">{{ form.instance.id }}</td>
-              <td class="path"><a href="#testrun/{{ child.parent.pk }}/details/">{{ form.instance.name }}</a></td>
+              <td class="path"><a href="/store/#testcase/{{ form.instance.pk }}/details/">
+                  {{ form.instance.name }}
+              </a></td>
               <td class="path">{{ form.instance.modified_time }}</td>
               <td class="path">{{ form.instance.created_time }}</td>
             </tr>
