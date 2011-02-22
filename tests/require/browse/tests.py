@@ -2721,6 +2721,115 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         sel.click("css=li#1_requirement ins")
 
 
+class Test32Samename(BaseSeleniumTestCase):
+    
+    def test_32_samename(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=span.ui-button-text")
+        for i in range(60):
+            try:
+                if sel.is_text_present("requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "IVI")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "IVI2")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: IVI2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("exact:requirement: IVI2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "IVI")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_parent", "label=/MeeGo/Legacy")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo/Legacy/IVI"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo/Legacy/IVI"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id_parent", "label=/MeeGo")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "requirement")
+        sel.type("id_name", "requirement same name")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: requirement same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("exact:requirement: requirement same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo/requirement same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
 
 
 if __name__ == "__main__":

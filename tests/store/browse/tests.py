@@ -1339,5 +1339,316 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
+class Test33StoreSamename(BaseSeleniumTestCase):
+    
+    def test_33_store_samename(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=store")
+        sel.wait_for_page_to_load("30000")
+        self.assertEqual("qualitio: store", sel.get_title())
+        for i in range(60):
+            try:
+                if "MeeGo Handset bat" == sel.get_text("link=MeeGo Handset bat"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo Netbook")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test case directory: MeeGo Netbook"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=div#application-view-footer div a:nth-child(2)")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "MeeGo IVI BAT")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "MeeGo IVI BAT2")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: MeeGo IVI BAT2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test case directory: MeeGo IVI BAT2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/MeeGo IVI BAT2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "MeeGo IVI BAT")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_parent", "label=/MeeGo Handset bat")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: MeeGo IVI BAT"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo Handset bat/MeeGo IVI BAT"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Handset bat/MeeGo IVI BAT"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id_parent", "label=/MeeGo Netbook")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "testcase directory same name")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: testcase directory same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test case directory: testcase directory same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/testcase directory same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio store"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: testcase directory same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo Handset bat"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo Netbook")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case directory: MeeGo Netbook"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "TestCase")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "TestCase2")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test case: TestCase2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "TestCase")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_parent", "label=/MeeGo Netbook/MeeGo IVI BAT")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("precondition"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo Netbook/MeeGo IVI BAT/TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo Netbook/MeeGo IVI BAT/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/MeeGo IVI BAT/TestCase"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id_parent", "label=/MeeGo Netbook")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "TestCase same name")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /MeeGo Netbook/TestCase same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test case: TestCase same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
 if __name__ == "__main__":
     unittest.main()
