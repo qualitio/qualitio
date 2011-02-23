@@ -59,14 +59,6 @@ class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
         return self.instance
 
 
-class BaseInlineFormSet(forms.models.BaseInlineFormSet, FormsetErrorProcessingMixin):
-    pass
-
-
-class BaseModelFormSet(forms.models.BaseModelFormSet, FormsetErrorProcessingMixin):
-    pass
-
-
 class PathModelForm(BaseModelForm):
     class Meta:
         exclude = ("path",)
@@ -74,3 +66,24 @@ class PathModelForm(BaseModelForm):
     def save(self, validate_path_unique=False, *args, **kwargs):
         kwargs['model_save_kwargs'] = {'validate_path_unique': validate_path_unique}
         return super(PathModelForm, self).save(*args, **kwargs)
+
+
+class DirectoryModelForm(PathModelForm):
+    class Meta(PathModelForm):
+        pass
+
+    def __init__(self, *args,**kwargs):
+        super(DirectoryModelForm, self).__init__(*args, **kwargs)
+        if self.instance.id:
+            desc_ids = map(lambda x: x.pk, self.instance.get_descendants())
+            self.fields['parent'].queryset =\
+                self.instance.__class__.objects.exclude(pk__in=desc_ids).exclude(pk=self.instance.id)
+
+
+class BaseInlineFormSet(forms.models.BaseInlineFormSet, FormsetErrorProcessingMixin):
+    pass
+
+
+class BaseModelFormSet(forms.models.BaseModelFormSet, FormsetErrorProcessingMixin):
+    pass
+

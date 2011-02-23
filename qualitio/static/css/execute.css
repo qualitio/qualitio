@@ -1,6 +1,5 @@
 #testcaserun-list {
     border-bottom: 3px solid #aaaaaa;
-    overflow: auto;
     height: 283px;
 }
 
@@ -14,8 +13,9 @@
 }
 
 #testcaserun-list .selected {
-    background: #dddd77 !important;
     font-weight: bold;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 #add-bug-form input[type=text]{

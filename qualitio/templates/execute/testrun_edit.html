@@ -40,6 +40,7 @@
             <tr>
               <th class="no-soring"></th>
 	      <th>id</th>
+              <th>path</th>
 	      <th>name</th>
 	      <th>status</th>
               <th>modified</th>
@@ -53,9 +54,14 @@
 	      <td class="id">
                 {{ form.instance.id }}
               </td> 
+              <td class="path"><a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
+                  {{ form.instance.origin.path }}
+                </a>
+              </td>
               <td class="path"><a href="/store/#testcase/{{ form.instance.origin.pk }}/details/">
                   {{ form.instance.name }}
-              </a></td>
+                </a>
+              </td>
 	      <td class="path">
                 {{ form.instance.status }}
               </td>
@@ -81,6 +87,7 @@
             <tr>
               <th class="no-soring"></th>
 	      <th>id</th>
+              <th>path</th>
 	      <th>name</th>
               <th>modified</th>
               <th>created</th>
@@ -91,6 +98,9 @@
             <tr class="{% cycle 'odd' 'even' %}">
               <td class="id">{{ form.action }}{{ form.id }}</td>
 	      <td class="id">{{ form.instance.id }}</td>
+              <td class="path"><a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
+                  {{ form.instance.path }}
+              </a></td>
               <td class="path"><a href="/store/#testcase/{{ form.instance.pk }}/details/">
                   {{ form.instance.name }}
               </a></td>

@@ -27,7 +27,7 @@
           style="background: {{ testcaserun.status.color }}">
         <td><input type="checkbox"></td>
         <td>{{ testcaserun.origin.id }}</td>
-        <td>{{ testcaserun.path }}</td>
+        <td>{{ testcaserun.origin.path }}</td>
         <td class="name">{{ testcaserun.name }}</td>
         <td class="status">{{ testcaserun.status.name }}</td>
         <td class="bugs">{% for bug in testcaserun.bugs.all %}#{{ bug.alias }} {% endfor %}</td>
