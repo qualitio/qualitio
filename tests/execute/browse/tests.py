@@ -652,5 +652,444 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         sel.click("link=edit")
 
 
+class Test34ExecSamename(BaseSeleniumTestCase):
+    
+    def test_34_exec_samename(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=execute")
+        sel.wait_for_page_to_load("30000")
+        self.assertEqual("qualitio: execute", sel.get_title())
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a:nth-child(2)")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "Directory1")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: Directory1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a:nth-child(2)")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "Directory1")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "Directory2")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: Directory2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run directory: Directory2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Directory2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory : Directory2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "Directory1")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_parent", "label=/TestRun directory/Directory1")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Directory1/Directory1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id_parent", "label=/TestRun directory")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "Directory1 same name")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: Directory1 same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run directory: Directory1 same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Directory1 same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test35ExecTestrunSamename(BaseSeleniumTestCase):
+    
+    def test_35_exec_testrun_samename(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=execute")
+        sel.wait_for_page_to_load("30000")
+        self.assertEqual("qualitio: execute", sel.get_title())
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a:nth-child(2)")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "Directory3")
+        sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: Directory3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=div#application-view-footer div a")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "TestRun 1")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "TestRun 3")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("pass rate:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/TestRun 3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("test run: TestRun 3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run : TestRun 3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_testrun-name", "TestRun 1")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_testrun-parent", "label=/TestRun directory/Directory3")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio execute"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("pass rate:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run: TestRun 1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Directory3/TestRun 1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-notes"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id_testrun-parent", "label=/TestRun directory")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_testrun-name", "TestRun 1 same name")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1 same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("pass rate:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run: TestRun 1 same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/TestRun 1 same name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
 if __name__ == "__main__":
     unittest.main()
