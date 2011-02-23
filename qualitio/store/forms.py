@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 from qualitio import core
 from qualitio.store import models
 
-class TestCaseDirectoryForm(core.PathModelForm):
+class TestCaseDirectoryForm(core.DirectoryModelForm):
     class Meta(core.PathModelForm.Meta):
         model = models.TestCaseDirectory
 

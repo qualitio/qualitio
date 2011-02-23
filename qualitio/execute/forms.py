@@ -6,8 +6,8 @@ from qualitio import store
 from qualitio.execute import models
 
 
-class TestRunDirectoryForm(core.PathModelForm):
-    class Meta(core.PathModelForm.Meta):
+class TestRunDirectoryForm(core.DirectoryModelForm):
+    class Meta(core.DirectoryModelForm.Meta):
         model = models.TestRunDirectory
 
 

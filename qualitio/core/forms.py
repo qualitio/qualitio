@@ -68,6 +68,18 @@ class PathModelForm(BaseModelForm):
         return super(PathModelForm, self).save(*args, **kwargs)
 
 
+class DirectoryModelForm(PathModelForm):
+    class Meta(PathModelForm):
+        pass
+
+    def __init__(self, *args,**kwargs):
+        super(DirectoryModelForm, self).__init__(*args, **kwargs)
+        if self.instance.id:
+            desc_ids = map(lambda x: x.pk, self.instance.get_descendants())
+            self.fields['parent'].queryset =\
+                self.instance.__class__.objects.exclude(pk__in=desc_ids).exclude(pk=self.instance.id)
+
+
 class BaseInlineFormSet(forms.models.BaseInlineFormSet, FormsetErrorProcessingMixin):
     pass
 
