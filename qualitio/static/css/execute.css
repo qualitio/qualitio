@@ -1,6 +1,6 @@
 #testcaserun-list {
     border-bottom: 3px solid #aaaaaa;
-    overflow: auto;
+    height: 283px;
 }
 
 #testcaserun-list table {
@@ -13,6 +13,35 @@
 }
 
 #testcaserun-list .selected {
-    background: #dddd77 !important;
     font-weight: bold;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+#add-bug-form input[type=text]{
+    width: 100px;
+}
+
+.bugs-panel {
+    height: 300px;
+}
+
+.step h2 {
+    padding: 5px 5px;
+}
+
+.step:nth-child(even) {
+    background: #f6f6f6;
+}
+.step {
+    padding-bottom: 25px;
+    text-align: justify;
+}
+
+.step .description {
+    padding: 5px 30px 0 5px;
+}
+
+.step .excpected {
+    padding-left: 5px 5px 0 30px;
 }

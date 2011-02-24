@@ -2,7 +2,7 @@ from django.views.generic.simple import direct_to_template
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
-from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, Bug
+from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun
 from qualitio.execute import forms
 
 
@@ -133,10 +133,25 @@ def testcaserun(request, testcaserun_id):
     testcaserun_status_form = forms.TestCaseRunStatus(instance=testcaserun)
 
     testcaserun_add_bug_form = forms.AddBugForm()
+    bugs_formset = forms.BugFormSet(instance=testcaserun)
     return direct_to_template(request, 'execute/_testcaserun.html',
                               {'testcaserun': TestCaseRun.objects.get(pk=testcaserun_id),
                                'testcaserun_status_form': testcaserun_status_form,
-                               'testcaserun_add_bug_form': testcaserun_add_bug_form})
+                               'testcaserun_add_bug_form': testcaserun_add_bug_form,
+                               'bugs_formset': bugs_formset
+                               })
+
+
+def testcaserun_bugs(request, testcaserun_id):
+    testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
+    if request.method == "POST":
+        bugs_formset = forms.BugFormSet(request.POST, instance=testcaserun)
+        if bugs_formset.is_valid():
+            bugs_formset.save()
+
+    bugs_formset = forms.BugFormSet(instance=testcaserun)
+    return direct_to_template(request, 'execute/_testcaserun_bugs.html',
+                              {'bugs_formset': bugs_formset})
 
 
 @json_response
@@ -156,18 +171,43 @@ def testcaserun_setstatus(request, testcaserun_id):
 
 @json_response
 def testcaserun_addbug(request, testcaserun_id):
-    try:
-        new_bug = Bug.objects.get(id=request.POST.get("id", None))
-    except Bug.DoesNotExist:
-        add_bug_form = forms.AddBugForm(request.POST)
-
-        if not add_bug_form.is_valid():
-            return failed(message="Validation error",
-                      data=[(k, v[0]) for k, v in add_bug_form.errors.items()])
-
-        new_bug = add_bug_form.save()
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
-    testcaserun.bugs.add(new_bug)
-    return success(message="Issue #%s attached" % new_bug.name,
-                   data=dict(id=new_bug.id))
+    add_bug_form = forms.AddBugForm(request.POST)
+
+    if add_bug_form.is_valid():
+        from backends.bugs import Bugzilla, IssueError, IssueServerError
+        bugs = []
+        for bug_id in add_bug_form.cleaned_data['bugs']:
+            try:
+                bugs.append(testcaserun.bugs.get_or_create(**Bugzilla.fetch_bug(bug_id))[0])
+            except (IssueError, IssueServerError) as e:
+                return failed(message="Issue server error meessage: %s" %e)
+
+        return success(message="Issue(s) attached",
+                       data=dict(testcaserun=testcaserun.id,
+                                 created_bugs=map(lambda x: { "alias" : x.alias,
+                                                              "name": x.name,
+                                                              "status" : x.status,
+                                                              "resolution": x.resolution },
+                                                  bugs),
+                                 all_bugs=list(testcaserun.bugs.values_list('alias', flat=True))))
+
+    return failed(message="Validation error",
+                  data=add_bug_form.errors_list())
+
+
+@json_response
+def testcaserun_removebug(request, testcaserun_id):
+    testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
+    bugs_formset = forms.BugFormSet(request.POST, instance=testcaserun)
+
+    if bugs_formset.is_valid():
+        bugs_formset.save()
+
+        return success(message="Issue(s) removed",
+                   data=dict(id=testcaserun.id,
+                             all=map(lambda x: x.id, testcaserun.bugs.all())))
+
+    return failed(message="Validation error",
+                  data=bugs_formset.errors_list())
 

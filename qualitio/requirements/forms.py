@@ -5,10 +5,11 @@ from qualitio import core
 from qualitio.requirements.models import Requirement
 
 
-class BaseRequirementForm(core.BaseModelForm):
+class BaseRequirementForm(core.DirectoryModelForm):
     class Meta:
         model = Requirement
 
+    # TODO: do we really need it?
     def _post_clean(self):
         # '_post_clean' hook is responsible for model validation on ModelForm.
         # We need addintional validation of dependencies.

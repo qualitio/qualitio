@@ -32,4 +32,6 @@ urlpatterns = patterns('',
                        url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/?$', testcaserun),
                        url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/setstatus/?$', testcaserun_setstatus),
                        url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/addbug/?$', testcaserun_addbug),
+                       url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/removebug/?$', testcaserun_removebug),
+                       url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/bugs/?$', testcaserun_bugs),
                        )

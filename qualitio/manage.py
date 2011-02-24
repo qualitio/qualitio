@@ -9,6 +9,11 @@ except KeyError:
                                           "../.virtualenv/bin/activate_this.py")
     execfile(developemnt_virtualenv, dict(__file__=developemnt_virtualenv))
 
+tests_path = os.path.join(os.path.dirname(__file__),
+                          "../tests")
+
+sys.path.append(tests_path)
+
 from django.core.management import execute_manager
 try:
     import settings  # Assumed to be in the same directory.
