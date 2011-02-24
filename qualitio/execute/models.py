@@ -21,6 +21,7 @@ class TestCaseRun(store.TestCaseBase):
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
+        for_parent_unique = False
 
     @property
     def bugs_history(self):
