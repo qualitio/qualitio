@@ -3,6 +3,7 @@ jQuery.fn.bugTable = function() {
     "bStateSave": true,
     "sScrollY": "150px",
     "sDom": 'rt<"bottom clearfix"><"clear">',
+    "bPaginate": false,
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
         "sWidth": "4px", "aTargets": [0,1]}
