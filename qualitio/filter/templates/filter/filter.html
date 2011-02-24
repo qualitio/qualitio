@@ -10,16 +10,28 @@
 
 
 {% block application-view %}
-<form method="GET">
-  <div class="application-view-content">
-    <table class="filter-form">
-      {% for field in filterset.form %}
-      <tr class="text-bullet"><td class="name">{{ field.label }}</td><td class="value">{{ field }}</td></tr>
+<form method="GET" class="filter-form">
+  <div class="filter-forms">
+    {% for group in filter %}
+    {% if not forloop.first %}<div style="text-align:center;">- OR -</div>{% endif %}
+    <div class="application-view-content group group-id-{{ group.id }}">
+      {% for form in group %}
+      <div class="fieldfilter-form">
+	<div style="width:250px; float:left;"><label>{{ form.field_name_label }}</label></div>
+	{% for field in form %}
+	<div style="float:left; width:220px; margin-right:5px;">{{ field.errors }}{{ field }}</div>
+	{% endfor %}
+	<div style="clear:both;"></div>
+      </div>
       {% endfor %}
-    </table>
-  </div>
-  <div class="application-view-content">
-    <input type="submit" value="Search" />
+    </div>
+    {% endfor %}
+
+    <div class="application-view-content">
+      <input type="submit" value="Search" /> |
+      <a href="/{{ app_label }}/filter/" class="button">Reset query</a>
+      <div style="float:right; width:350px;">{{ filter.new_group_form }}</div>
+    </div>
   </div>
 </form>
 
