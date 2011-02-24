@@ -43,16 +43,17 @@ class AbstractPathModel(BaseModel):
         super(AbstractPathModel, self).save(*args, **kwargs)
 
     def clean(self):
-        parent = self.parent if self.parent_id else None
+        if getattr(self, "_for_parent_unique", True):
+            parent = self.parent if self.parent_id else None
 
-        manager = self.__class__.objects
-        qs = manager.filter(name=self.name, parent=parent)
+            manager = self.__class__.objects
+            qs = manager.filter(name=self.name, parent=parent)
 
-        if self.pk:  # we do not want to search for *this* object
-            qs = qs.exclude(pk=self.pk)
+            if self.pk:  # we do not want to search for *this* object
+                qs = qs.exclude(pk=self.pk)
 
-        if qs.exists():
-            raise ValidationError('"parent" and "name" fields need to be always unique together.')
+            if qs.exists():
+                raise ValidationError('"parent" and "name" fields need to be always unique together.')
 
 
 class BasePathModelMetaclass(models.base.ModelBase):
@@ -60,22 +61,27 @@ class BasePathModelMetaclass(models.base.ModelBase):
         Meta = attrs.get('Meta')
 
         is_abstract = hasattr(Meta, 'abstract') and Meta.abstract
-        has_meta_parent_class = hasattr(Meta, 'parent_class')
-        has_parent_attr = ('parent' in attrs) or any(hasattr(b, 'parent') for b in bases)
 
         # TODO: this code below causes error in nose test framework
+        # has_parent_attr = ('parent' in attrs) or any(hasattr(b, 'parent') for b in bases)
         # if not is_abstract and not has_parent_attr and not has_meta_parent_class:
         #     msg =  'Meta for BasePathModel subclass %s(%s)' % (class_name, bases)
         #     msg += ' should provide "parent_class" param.'
         #     raise ImproperlyConfigured(msg)
 
-        if has_meta_parent_class and not is_abstract:
-            parent = models.ForeignKey(Meta.parent_class, related_name='subchildren')
-            attrs['parent'] = parent
+        if not is_abstract:
+            if hasattr(Meta, 'parent_class'):
+                related_name = 'subchildren'
+                if hasattr(Meta, 'parent_class_relation'):
+                    related_name = getattr(Meta, 'parent_class_relation')
+                    del Meta.parent_class_relation
+                parent = models.ForeignKey(Meta.parent_class, related_name=related_name)
+                attrs['parent'] = parent
+                del Meta.parent_class # Django raises error when Meta contains unexpected attributes
 
-            # Django raises error when Meta contains unexpected attributes
-            # so we'll remove it
-            del Meta.parent_class
+            if hasattr(Meta, 'for_parent_unique'):
+                attrs['_for_parent_unique'] = getattr(Meta, 'for_parent_unique', False)
+                del Meta.for_parent_unique
 
         return super(BasePathModelMetaclass, cls).__new__(cls, class_name, bases, attrs)
 
