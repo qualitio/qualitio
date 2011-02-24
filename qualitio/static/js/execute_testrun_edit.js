@@ -41,6 +41,7 @@ $(function() {
   });
   $("table.display").dataTable({
     "sScrollY": "230px",
+    "bPaginate": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
