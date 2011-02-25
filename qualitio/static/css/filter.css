@@ -1,5 +1,5 @@
-.filter-form {
-    width: 500px;
+.filter-forms {
+    width: 50%;
 }
 
 .filter-form .name{
@@ -9,4 +9,8 @@
 
 table.pretty tr:hover, table.pretty tr:nth-child(2n):hover {
     background: #CCFFFF;
+}
+
+.fieldfilter-form {
+    padding:5px;
 }

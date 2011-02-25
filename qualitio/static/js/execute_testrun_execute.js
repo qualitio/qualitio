@@ -7,6 +7,7 @@ $(function() {
   
   $("table.display").dataTable({
     "sScrollY": "200px",
+    "bPaginate": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],

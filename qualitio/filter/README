@@ -1,0 +1,44 @@
+* filters *
+  ver. 0.9.0 beta
+  TODO: missing things:
+        - unable to remove only one specified fieldfilter
+        - unable to remove only one specified group
+	- automatic "related object that points to this one exists" filter
+	- there's a lack of documentation
+	- not everything's tested
+	- the code should be organized in more "djang-ish" way
+
+  Reusable django application that makes posible
+  to create very flexible Model generic filters.
+
+  The basic idea is to create Form instance for each field
+  of model's fields and make possible to join them to sets
+  and then join those sets to groups.
+
+
+** convention **
+
+   Each Form representing the field shoud have:
+   - ``q`` form field which will represent query for the given field
+   - ``construct_Q`` method which returns django's Q object
+   - ``field_name`` instance variable with the field name
+   - ``field_name_label`` instance variable with label for field filter
+
+   There are special forms in field filters called control forms
+   designed to add field filters, field groups, and removing them
+   (removing is not implemented yet).
+
+
+** field mapping ***
+
+   Mapping between django ORM fields and field filter forms is defined in
+   fields.py module.
+
+
+** how does it work **
+
+   Mechanism is based on django's forms. Each model's field is translated
+   to FieldFilterForm subclass (with a pretty name). Application introduces
+   special control forms. Forms params are processed in filter.views.filter view.
+   If control field occur it changes number of field filters, removes
+   forms control params and redirects to same page withuot control params.
