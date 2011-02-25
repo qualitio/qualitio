@@ -69,8 +69,9 @@ class PathModelForm(BaseModelForm):
 
 
 class DirectoryModelForm(PathModelForm):
-    class Meta(PathModelForm):
+    class Meta(PathModelForm.Meta):
         pass
+
 
     def __init__(self, *args,**kwargs):
         super(DirectoryModelForm, self).__init__(*args, **kwargs)
