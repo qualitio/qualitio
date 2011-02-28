@@ -35,7 +35,7 @@
       <div class="application-view-content">
         <h2>connected testcase</h2>
         {{ connected_test_cases_form.management_form }}
-        <table cellpadding="0" cellspacing="0" class="display">
+        <table class="connected-testcases display">
           <thead>
             <tr>
               <th class="no-soring"></th>
@@ -52,13 +52,15 @@
             <tr class="{% cycle 'odd' 'even' %}" style="background: {{ form.instance.status.color }}">
               <td>{{ form.DELETE }}{{ form.id }}</td>
 	      <td class="id">
-                {{ form.instance.id }}
+                {{ form.instance.origin.id }}
               </td> 
-              <td class="path"><a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
+              <td class="path">
+                <a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
                   {{ form.instance.origin.path }}
                 </a>
               </td>
-              <td class="path"><a href="/store/#testcase/{{ form.instance.origin.pk }}/details/">
+              <td class="path">
+                <a href="/store/#testcase/{{ form.instance.origin.pk }}/details/">
                   {{ form.instance.name }}
                 </a>
               </td>
@@ -82,7 +84,7 @@
       <div class="application-view-content">
         <h2>available testcase</h2>
         {{ available_test_cases_form.management_form }}
-        <table cellpadding="0" cellspacing="0" class="display">
+        <table class="available-testcases display">
           <thead>
             <tr>
               <th class="no-soring"></th>
