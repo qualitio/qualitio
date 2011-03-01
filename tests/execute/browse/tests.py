@@ -1138,5 +1138,119 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
+class Test37ExecConnecttest(BaseSeleniumTestCase):
+    
+    def test_37_exec_connecttest(self):
+        sel = self.selenium
+        sel.open("/require/#requirement/1/details/")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=execute")
+        sel.wait_for_page_to_load("30000")
+        self.assertEqual("qualitio: execute", sel.get_title())
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=li#1_testrundirectory ins")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=TestRun 2")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "Open")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Open navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("id_available_test_cases-1-action")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /TestRun directory/TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/TestRun 2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("test run: TestRun 2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=Open navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Open navigation", sel.get_text("link=Open navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[2]/div/input", "Open")
+        sel.click("id_connected_test_cases-0-DELETE")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+
+
 if __name__ == "__main__":
     unittest.main()
