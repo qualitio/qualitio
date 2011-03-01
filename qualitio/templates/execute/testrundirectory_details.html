@@ -14,26 +14,48 @@
     <span class="name">description</span>
     <span class="value-block">{{ directory.description|default:"<i>not set</i>" }}</span>
   </div>
-  <table class="pretty ui-corner-all" style="margin-top: 20px">
-    <tr>
-      <th></th>
-      <th>Path</th>
-      <th>Name</th>
-    </tr>
+
+  <div class="text-bullet">
+    <span class="name">test cases:</span>
+  </div>
+  
+  <table class="display">
+    <thead>
+      <tr>
+        <th class="icon">&nbsp;</th>
+        <th class="id">id</th>
+        <th>path</th>
+        <th>name</th>
+        <th>modified</th>
+        <th>created</th>
+      </tr>
+    </thead>
+    <tbody>
     {% for child in directory.children.all %}
     <tr class="directory">
-      <td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
+      <td>
+        <span class="ui-icon ui-icon-folder-collapsed"></span>
+      </td>
+      <td>{{ child.pk }}</td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td class="path">{{ child.modified_time }}</td>
+      <td class="path">{{ child.created_time }}</td>
     </tr>
     {% endfor %}
     {% for child in directory.subchildren.all %}
     <tr>
-      <td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-      <td class="path"><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
+      <td>
+        <span class="ui-icon ui-icon-document"></span>
+      </td>
+      <td>{{ child.pk }}</td>
+      <td><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#report/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td>{{ child.modified_time }}</td>
+      <td>{{ child.created_time }}</td>
     </tr>
     {% endfor %}
+    </tbody>
   </table>
 </div>
 
@@ -43,3 +65,4 @@
     <a class="button" href="#testrundirectory/{{ directory.pk }}/new/" >create test case directory</a>
   </div>
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_directory_details.js{{ STATIC_HASH }}"></script>
