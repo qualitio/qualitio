@@ -34,12 +34,10 @@ function clear_errors(arr, $form, options) {
   $('.field-wrapper .error').text("");
 }
 
+
 $(function() {
-  $('#testrun_form').ajaxForm({ 
-    success: show_response,
-    beforeSubmit: clear_errors
-  });
-  $("table.display").dataTable({
+  
+  var connected_testcases = $(".display.connected-testcases").dataTable({
     "sScrollY": "230px",
     "bPaginate": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
@@ -48,4 +46,23 @@ $(function() {
         "sWidth": "4px", "aTargets": [0]}
     ]
   });
+  
+  var available_testcases = $(".display.available-testcases").dataTable({
+    "sScrollY": "230px",
+    "bPaginate": false,
+    "sDom": 'rt<"bottom clearfix"lfp><"clear">',
+    "aoColumnDefs": [
+      { "bSortable": false, "aTargets": [0],
+        "sWidth": "4px", "aTargets": [0]}
+    ]
+  });
+  
+  $('#testrun_form').ajaxForm({ 
+    success: show_response,
+    beforeSubmit: clear_errors,
+    data: $.extend({},
+                   $('input', available_testcases.fnGetNodes()).serializeJSON(), 
+                   $('input', connected_testcases.fnGetNodes()).serializeJSON())
+  });
+  
 });
