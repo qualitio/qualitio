@@ -111,3 +111,12 @@ $(window).resize(function() {
     return json;
   };
 })( jQuery );
+
+  
+jQuery.fn.dataTableToggleSelect = function() {
+  return jQuery(this).live('click', function() {
+    $(this).parents('.dataTables_wrapper')
+      .find('.select input')
+      .attr('checked', $(this).attr('checked'));
+  });
+};

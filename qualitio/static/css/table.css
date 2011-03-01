@@ -142,7 +142,7 @@ table.display thead th {
 	* cursor: hand;
 }
 
-table.display thead th.no-soring {
+table.display thead th.checkbox {
 	padding: 3px 0px 3px 0px;
 }
 

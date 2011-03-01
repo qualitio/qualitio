@@ -7,7 +7,9 @@
   <table class="display">
     <thead>
       <tr>
-        <th></th>
+        <th class="checkbox">
+          <input name="select-all" type="checkbox"/>
+        </th>
         <th>id</th>
         <th>name</th>
         <th>status</th>
@@ -17,7 +19,9 @@
     <tbody>
       {% for bug in bugs_formset.forms %}
       <tr>
-        <td>{{ bug.DELETE }}{% for hidden in bug.hidden_fields %}{{ hidden }}{% endfor %}</td>
+        <td class="select">
+          {{ bug.DELETE }}{% for hidden in bug.hidden_fields %}{{ hidden }}{% endfor %}
+        </td>
         <td><a href="{{ bug.instance.url }}">{{ bug.instance.alias }}</a></td>
         <td><a href="{{ bug.instance.url }}">{{ bug.instance.name }}</a></td>
         <td>{{ bug.instance.status }}</td>
