@@ -142,12 +142,13 @@ table.display thead th {
 	* cursor: hand;
 }
 
-table.display thead th.no-soring {
+table.display thead th.checkbox,
+table.display thead th.icon{
 	padding: 3px 0px 3px 0px;
 }
 
-table.display thead th.tiny {
-	padding: 3px 0px 3px 0px;
+table.display thead th.id {
+	padding: 0 12px;
 }
 
 table.display tfoot th {

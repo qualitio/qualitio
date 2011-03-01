@@ -11,7 +11,9 @@
     <table class="display">
       <thead>
         <tr>
-          <th class="no-soring"></th>
+          <th class="checkbox">
+            <input name="select-all" type="checkbox"/>
+          </th>
           <th>id</th>
           <th>path</th>
           <th>name</th>
@@ -25,7 +27,9 @@
       {% for testcaserun in testrun.subchildren.all %}
       <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}"
           style="background: {{ testcaserun.status.color }}">
-        <td><input type="checkbox"></td>
+        <td class="select">
+          <input type="checkbox">
+        </td>
         <td>{{ testcaserun.origin.id }}</td>
         <td>{{ testcaserun.origin.path }}</td>
         <td class="name">{{ testcaserun.name }}</td>

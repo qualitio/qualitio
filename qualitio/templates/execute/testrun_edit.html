@@ -38,7 +38,9 @@
         <table class="connected-testcases display">
           <thead>
             <tr>
-              <th class="no-soring"></th>
+              <th class="checkbox">
+                <input name="select-all" type="checkbox"/>
+              </th>
 	      <th>id</th>
               <th>path</th>
 	      <th>name</th>
@@ -50,7 +52,7 @@
           <tbody>
             {% for form in connected_test_cases_form.forms %}
             <tr class="{% cycle 'odd' 'even' %}" style="background: {{ form.instance.status.color }}">
-              <td>{{ form.DELETE }}{{ form.id }}</td>
+              <td class="select">{{ form.DELETE }}{{ form.id }}</td>
 	      <td class="id">
                 {{ form.instance.origin.id }}
               </td> 
@@ -87,7 +89,9 @@
         <table class="available-testcases display">
           <thead>
             <tr>
-              <th class="no-soring"></th>
+              <th class="checkbox">
+                <input name="select-all" type="checkbox"/>
+              </th>
 	      <th>id</th>
               <th>path</th>
 	      <th>name</th>
@@ -98,7 +102,7 @@
           <tbody>
             {% for form in available_test_cases_form.forms %}
             <tr class="{% cycle 'odd' 'even' %}">
-              <td class="id">{{ form.action }}{{ form.id }}</td>
+              <td class="select">{{ form.action }}{{ form.id }}</td>
 	      <td class="id">{{ form.instance.id }}</td>
               <td class="path"><a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
                   {{ form.instance.path }}

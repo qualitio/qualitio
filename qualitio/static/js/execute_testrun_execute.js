@@ -1,10 +1,5 @@
 $(function() {
-  // $("#testcaserun-list").parent().resizable({
-  //   alsoResize: "#testcaserun-list",
-  //   handles: 's',
-  //   maxHeight : $('#testcaserun-list table').height() + 50
-  // });
-  
+
   $("table.display").dataTable({
     "sScrollY": "200px",
     "bPaginate": false,
@@ -14,6 +9,7 @@ $(function() {
         "sWidth": "4px", "aTargets": [0,1]}
     ]
   });
+  $('input[name=select-all]').dataTableToggleSelect();
 
   $("#testcaserun-list tbody tr").hover(
     function() {

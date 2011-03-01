@@ -26,7 +26,6 @@
             action="/execute/ajax/testcaserun/{{ testcaserun.id }}/setstatus/">
         {% csrf_token %}
           {{ testcaserun_status_form.status }}
-
       </form>
     </span>
   </div>
@@ -76,7 +75,9 @@
       <table class="display">
         <thead>
           <tr>
-            <th></th>
+            <th class="checkbox">
+              <input name="select-all" type="checkbox"/>
+            </th>
             <th>id</th>
             <th>name</th>
             <th>status</th>
@@ -86,7 +87,7 @@
         <tbody>
           {% for bug in testcaserun.bugs_history.all %}
           <tr>
-            <td>{{ bug.DELETE }}{{ bug.id }}</td>
+            <td class="select">{{ bug.DELETE }}{{ bug.id }}</td>
             <td><a href="{{ bug.instance.url }}">{{ bug.alias }}</a></td>
               <td><a href="{{ bug.instance.url }}">{{ bug.name }}</a></td>
             <td>{{ bug.status }}</td>

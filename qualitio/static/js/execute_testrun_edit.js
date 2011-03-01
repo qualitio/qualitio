@@ -64,5 +64,6 @@ $(function() {
                    $('input', available_testcases.fnGetNodes()).serializeJSON(), 
                    $('input', connected_testcases.fnGetNodes()).serializeJSON())
   });
-  
+
+  $('input[name=select-all]').dataTableToggleSelect();
 });
