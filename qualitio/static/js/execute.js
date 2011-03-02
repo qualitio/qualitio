@@ -39,9 +39,9 @@ $(function() {
     },
 
     update: function(type, id, view) {
-      $(this.el).jstree("select_node","#"+ id +"_"+ type, true, function(e,a,i) {
-        console.log(e,a,i);
-      });
+      if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
+        $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
+      }
     }
   });
 
@@ -62,13 +62,14 @@ $(function() {
     },
 
     initialize: function() {
-      this.application_tree = new ApplicationTree();
       this.application_view = new ApplicationView();
+      this.application_tree = new ApplicationTree();
     },
     
     render: function(type, id, view) {
-      this.application_view.render(type, id, view);
       this.application_tree.update(type, id, view);
+      this.application_view.render(type, id, view);
+      
     },
     
   });
