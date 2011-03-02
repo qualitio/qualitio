@@ -1,52 +1,79 @@
-function render_application_view(type, node, view) {
-  $('#application-view').load("/execute/ajax/"+type+"/"+node+"/"+view+"/");
-}
-
-hash.main = function() {
-  object_plain_id = hash.node.split("_")[0]
-  render_application_view(hash.object, object_plain_id, hash.view);
-}
-
 $(function() {
-  $("#application-tree").jstree({
-    "plugins" : [ "themes", "json_data", "ui", "cookies","types"],
-    "json_data" : {
-      "ajax" : {
-        "url" : "ajax/get_children",
-        "data" : function (n) {
-          return {
-            id : n.attr ? n.attr("id").split("_")[0] : 0, //get only the id from {id}_{type_name}
-            type: n.attr ? n.attr("rel") : "testrundirectory"
-          };
-        }
-      }
-    },
-    "types" : {
-      "valid_children" : [ "testrundirectory"],
-      
-      "types" : {
-        "testrundirectory" : {
-          "valid_children" : "all"
+  
+  var ApplicationTree = Backbone.View.extend({
+    el: $('#application-tree'),
+
+    initialize: function() {
+      $(this.el).jstree({
+        "ui" : {
+	  "select_limit" : 1
         },
-        "testrun" : {
-          "icon" : {
-            "image" : "/static/images/file.png"
-          },
-        }
-      }
+        "json_data" : {
+          "ajax" : {
+            "url" : "ajax/get_children",
+            "data" : function (n) {
+              return {
+                id : n.attr ? n.attr("id").split("_")[0] : 0, //get only the id from {id}_{type_name}
+                type: n.attr ? n.attr("rel") : "testrundirectory"
+              };
+            }
+          }
+        },
+        "types" : {
+          "valid_children" : [ "testrundirectory"],
+          "types" : {
+            "testrundirectory" : {
+              "valid_children" : "all"
+            },
+            "testrun" : {
+              "icon" : {
+                "image" : "/static/images/file.png"
+              },
+            }
+          }
+        },
+        "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
+      }).bind("select_node.jstree", function (node, data) {
+        document.location.href = '#' + data.rslt.obj.attr('rel') +'/'+ data.rslt.obj.attr("id").split("_")[0] + "/details/";
+      });
+    },
+
+    update: function(type, id, view) {
+      $(this.el).jstree("select_node","#"+ id +"_"+ type, true, function(e,a,i) {
+        console.log(e,a,i);
+      });
     }
-  }).bind("select_node.jstree", function (node, data) {
+  });
+
+  var ApplicationView = Backbone.View.extend({
+    el: $('#application-view'),
     
-    hash.object = data.rslt.obj.attr('rel');
-    hash.node = data.rslt.obj.attr("id").split("_")[0];
-    if (!hash.view || hash.view == 'new')
-      hash.view = 'details';
-    hash.update(true);
-    
-  }).bind("loaded.jstree", function (event, data) {
-    if(!window.location.hash)
-      $("#application-tree").jstree("select_node",".jstree-last");
+    render: function(type, id, view) {
+      $(this.el).load("/execute/ajax/"+type+"/"+id+"/"+view+"/", function() {
+        $(this).removeClass('disable');
+      }).addClass('disable');
+    }
   });
   
-  hash.init();
+  var ExecuteController = Backbone.Controller.extend({
+    
+    routes: {
+      ":type/:id/:view/": "render",
+    },
+
+    initialize: function() {
+      this.application_tree = new ApplicationTree();
+      this.application_view = new ApplicationView();
+    },
+    
+    render: function(type, id, view) {
+      this.application_view.render(type, id, view);
+      this.application_tree.update(type, id, view);
+    },
+    
+  });
+  
+  new ExecuteController();
+  Backbone.history.start();
+  
 });
