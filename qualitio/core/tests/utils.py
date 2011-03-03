@@ -1,7 +1,9 @@
 from django.conf import settings
+from django.conf.urls.defaults import patterns, include
 from django.core.management import call_command
 from django.db.models import loading
 from django.test import TestCase
+from django.utils import importlib
 
 NO_SETTING = ('!', None)
 
@@ -55,8 +57,21 @@ class BaseTestCase(TestCase):
     def addTestApps(self, apps):
         installed_apps = settings.INSTALLED_APPS
         installed_apps = list(installed_apps) + list(apps)
+        urlpatterns = importlib.import_module(settings.ROOT_URLCONF).urlpatterns
+
+        for app in apps:
+            try:
+                app_url = importlib.import_module("%s.urls" % app)
+                app_name = app.split(".")[-1]
+                urlpatterns += patterns('',
+                                        (r'%s/' % app_name,include(app_url))
+                                        )
+            except ImportError:
+                pass
+
         self.settings_manager.set(**{
                 'INSTALLED_APPS': installed_apps,
+                'DEBUG' : True,
                 })
 
     def tearDown(self):
