@@ -34,7 +34,16 @@ $(function() {
         },
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
       }).bind("select_node.jstree", function (node, data) {
-        document.location.href = '#' + data.rslt.obj.attr('rel') +'/'+ data.rslt.obj.attr("id").split("_")[0] + "/details/";
+        id = data.rslt.obj.attr("id").split("_")[0],
+        type = data.rslt.obj.attr("id").split("_")[1];
+        
+        _id = document.location.hash.split("/")[1];
+        _type = document.location.hash.split("/")[0];
+        _view = document.location.hash.split("/")[2];
+        
+        if ( !(_type == type) || !(_id == id) ) {
+          document.location.hash = '#'+ type +'/'+ id +"/details/";
+        }
       });
     },
 
@@ -69,7 +78,6 @@ $(function() {
     render: function(type, id, view) {
       this.application_tree.update(type, id, view);
       this.application_view.render(type, id, view);
-      
     },
     
   });
