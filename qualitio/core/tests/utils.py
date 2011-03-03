@@ -63,9 +63,7 @@ class BaseTestCase(TestCase):
             try:
                 app_url = importlib.import_module("%s.urls" % app)
                 app_name = app.split(".")[-1]
-                urlpatterns += patterns('',
-                                        (r'%s/' % app_name,include(app_url))
-                                        )
+                urlpatterns += patterns('',(r'%s/' % app_name,include(app_url)))
             except ImportError:
                 pass
 

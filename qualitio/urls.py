@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include
+from django.conf.urls.defaults import *
 from django.conf import settings
 
 from django.contrib import admin

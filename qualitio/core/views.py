@@ -1,5 +1,8 @@
 from mptt.models import MPTTModel
+
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.loading import get_model
+
 from qualitio.core.utils import json_response
 
 
@@ -41,3 +44,20 @@ def get_children(request, directory):
                    directories)
 
     return data
+
+
+@json_response
+def get_ancestors(request, app):
+
+    Model = get_model(app, request.POST['type'])
+    object = Model.objects.get(pk=request.POST['id'])
+
+    ancestors = []
+    if isinstance(object, MPTTModel): # directory?
+        ancestors  = object.get_ancestors()
+    else:
+        if object.parent:
+            ancestors = object.parent.get_ancestors()
+
+    return {"nodes": map(lambda x: '%s_%s' % (x.pk, x._meta.module_name), ancestors),
+            "target": "%s_%s" % (object.pk, object._meta.module_name)}
