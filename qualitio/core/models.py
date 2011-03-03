@@ -28,9 +28,6 @@ class AbstractPathModel(BaseModel):
         abstract = True
         ordering = ['name']
 
-    def __unicode__(self):
-        return "%s%s" % (self.path, self.name)
-
     def _get_path(self):
         if self.parent_id:
             return "%s%s/" % (self.parent.path, self.parent.name)
@@ -54,6 +51,9 @@ class AbstractPathModel(BaseModel):
 
             if qs.exists():
                 raise ValidationError('"parent" and "name" fields need to be always unique together.')
+
+    def __unicode__(self):
+        return "%s%s" % (self.path, self.name)
 
 
 class BasePathModelMetaclass(models.base.ModelBase):
