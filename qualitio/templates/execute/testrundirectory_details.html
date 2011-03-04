@@ -16,7 +16,7 @@
   </div>
 
   <div class="text-bullet">
-    <span class="name">test cases:</span>
+    <span class="name">children:</span>
   </div>
   
   <table class="display">
@@ -50,7 +50,7 @@
       </td>
       <td>{{ child.pk }}</td>
       <td><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
-      <td><a href="#report/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td><a href="#testrun/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>{{ child.modified_time }}</td>
       <td>{{ child.created_time }}</td>
     </tr>
@@ -61,7 +61,7 @@
 
 <div id="application-view-footer" class="application-view-content">
   <div class="right">
-    <a class="button" href="#testrun/{{ directory.pk }}/new/" >create test run</a>
+    <a class="button" href="#testrundirectory/{{ directory.pk }}/newtestrun/" >create test run</a>
     <a class="button" href="#testrundirectory/{{ directory.pk }}/new/" >create test case directory</a>
   </div>
 </div>

@@ -17,7 +17,7 @@
       action="{% if testrun_form.instance.id %}
               /execute/ajax/testrun/{{ testrun_form.instance.id }}/edit/valid/
               {% else %}
-              /execute/ajax/testrun/new/valid/
+              /execute/ajax/testrundirectory/newtestrun/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 
