@@ -48,7 +48,7 @@ $(function() {
     },
 
     update: function(type, id, view) {
-      $(this.el).jstree("select_node","#"+ id +"_"+ type, true)
+      // $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
       // console.log( $(this.el).jstree("_is_loaded", "#"+ id +"_"+ type));
       // jQuery.getJSON("/execute/ajax/get_antecedents", {type:type,
       // id:id});
@@ -68,12 +68,12 @@ $(function() {
       // } else {
       //   $(this.el).jstree("select_node","#"+ id +"_"+ type, true)
       // }
-      // if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
+      if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
       //   // console.log( $("#"+ id +"_"+ type) );
       //   console.log("test");
       //   console.log( $("#"+ id +"_"+ type).css("display") );
-      //   console.log( $(this.el).jstree("select_node","#"+ id +"_"+ type, true) );
-      // }
+        $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
+      }
     }
   });
 
