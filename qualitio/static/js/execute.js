@@ -34,14 +34,15 @@ $(function() {
         },
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
       }).bind("select_node.jstree", function (node, data) {
+        console.log(document.location.hash)
         id = data.rslt.obj.attr("id").split("_")[0],
         type = data.rslt.obj.attr("id").split("_")[1];
         
         _id = document.location.hash.split("/")[1];
-        _type = document.location.hash.split("/")[0];
+        _type = window.location.hash.split('/')[0].split("#")[1];
         _view = document.location.hash.split("/")[2];
         
-        if ( !(_type == type) || !(_id == id) ) {
+        if ( !(_type == type) || !(_id == id) || (_view == 'new') || (_view == 'newtestrun') ){
           document.location.hash = '#'+ type +'/'+ id +"/details/";
         }
       });
