@@ -547,10 +547,10 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
     
     def test_6_testcases_add(self):
         sel = self.selenium
-        sel.set_timeout("10000")
         sel.open("/require/#requirement/13/details/")
         try: self.failUnless(sel.is_text_present("qualitio requirements"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -559,13 +559,7 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=MeeGo")
-        for i in range(60):
-            try:
-                if "requirement: MeeGo" == sel.get_text("css=div#application-view-header h1"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
+        sel.click("//li[@id='1_requirement']/ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -580,15 +574,7 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=TV")
-        for i in range(60):
-            try:
-                if "requirement: TV" == sel.get_text("css=div#application-view-header h1"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.assertEqual("requirement: TV", sel.get_text("css=div#application-view-header h1"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//li[@id='4_requirement']/ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo Handset test"): break
