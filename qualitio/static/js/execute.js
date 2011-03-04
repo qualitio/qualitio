@@ -34,7 +34,6 @@ $(function() {
         },
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
       }).bind("select_node.jstree", function (node, data) {
-        console.log(document.location.hash)
         id = data.rslt.obj.attr("id").split("_")[0],
         type = data.rslt.obj.attr("id").split("_")[1];
         
@@ -49,9 +48,32 @@ $(function() {
     },
 
     update: function(type, id, view) {
-      if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
-        $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
-      }
+      $(this.el).jstree("select_node","#"+ id +"_"+ type, true)
+      // console.log( $(this.el).jstree("_is_loaded", "#"+ id +"_"+ type));
+      // jQuery.getJSON("/execute/ajax/get_antecedents", {type:type,
+      // id:id});
+      // if( !$("#"+ id +"_"+ type).length) {
+      //   alert('nie widać');
+      //   jQuery.getJSON("/execute/ajax/get_antecedents", {type:type, id:id}, function(data) {
+      //     // console.log(data);
+      //     $.each(data.nodes, function(i, node) {
+      //       // console.log( "1_testrundirectory", node, "1_testrundirectory" == node)
+      //       $("#application-tree").jstree("open_node", "#"+ node, function() {
+      //         $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
+      //       });
+      //       // $("#application-tree").jstree("open_node", "#"+ node);
+      //       // console.log('$("#application-tree").jstree("open_node", "#'+ node +'")');
+      //     });
+      //   });
+      // } else {
+      //   $(this.el).jstree("select_node","#"+ id +"_"+ type, true)
+      // }
+      // if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
+      //   // console.log( $("#"+ id +"_"+ type) );
+      //   console.log("test");
+      //   console.log( $("#"+ id +"_"+ type).css("display") );
+      //   console.log( $(this.el).jstree("select_node","#"+ id +"_"+ type, true) );
+      // }
     }
   });
 

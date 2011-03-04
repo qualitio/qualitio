@@ -13,7 +13,7 @@ class ViewTest(BaseTestCase):
     def test_direcotry_root(self):
         obj = Directory.objects.create(name="level_1")
 
-        response = self.client.post('/testapp/ajax/get_ancestors',
+        response = self.client.get('/testapp/ajax/get_ancestors',
                                     {'type': obj._meta.module_name, 'id': obj.pk})
         json_response = json.loads(response.content)
 
@@ -24,7 +24,7 @@ class ViewTest(BaseTestCase):
         directory = Directory.objects.create(name="level_1")
         obj = File.objects.create(name="file",parent=directory)
 
-        response = self.client.post('/testapp/ajax/get_ancestors',
+        response = self.client.get('/testapp/ajax/get_ancestors',
                                     {'type': obj._meta.module_name, 'id': obj.pk})
 
         json_response = json.loads(response.content)
@@ -39,7 +39,7 @@ class ViewTest(BaseTestCase):
         directory3 = Directory.objects.create(name="level_2", parent=directory2)
         obj = File.objects.create(name="file",parent=directory3)
 
-        response = self.client.post('/testapp/ajax/get_ancestors',
+        response = self.client.get('/testapp/ajax/get_ancestors',
                                     {'type': obj._meta.module_name, 'id': obj.pk})
 
         json_response = json.loads(response.content)
