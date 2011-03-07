@@ -82,7 +82,7 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view div:nth-child(3)"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=a.button[href=\"#testrun/1/new/\"]"))
+        try: self.failUnless(sel.is_element_present("css=a.button[href=\"#testrundirectory/1/newtestrun/\"]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
