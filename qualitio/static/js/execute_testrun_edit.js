@@ -15,8 +15,6 @@ function show_response(response, statusText, xhr, $form)  {
       permanent: false,
       disappearTime: 2000
     });
-    document.location.href = "#testrun/" + response.data.current_id + "/details/"
-
     $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testrundirectory", response.data);
     
     $('#application-tree').bind("refresh.jstree", function (event, data) {
