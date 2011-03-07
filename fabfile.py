@@ -4,11 +4,11 @@ import os
 from fabric.api import *
 
 from fabric.contrib.project import rsync_project
-from fabric.colors import green
+from fabric import colors
 
 
 def setup_development():
-    "Create development envirotment"
+    "Creates local development envirotment"
 
     with hide('running', 'stdout'):
         print("Creating development evnirotment: ... ")
@@ -36,10 +36,12 @@ def setup_development():
             local('pip -E .virtualenv install -r requirements.txt')
 
             print("\nDevelopment evnirotment for qualitio project created in " +
-                  green("%s/.virtualenv" % os.getcwd()) + " directory")
+                  colors.green("%s/.virtualenv" % os.getcwd()) + " directory")
 
 
 def setup_production(path="/var/www/qualitio"):
+    "Creates remote production envirotment"
+
     #TODO: switch to reall check. This normalization is pretty odd
     env.path = path.rstrip("/")
 
@@ -51,16 +53,30 @@ def setup_production(path="/var/www/qualitio"):
 
     sudo('mkdir -p %(path)s' % env)
 
-    download_release()
-    install_requirements()
-    configure_webserver()
-    synchronize_database()
-    restart_webserver()
-    load_dumpdata()
-    print(green("\nDone.\n") +
-          "Check your site setup at http://%(host)s:8081" % env)
+    _download_release()
+    _install_requirements()
+    _configure_webserver()
+    _synchronize_database()
+    _restart_webserver()
+    _load_dumpdata()
 
-def download_release(release="development"):
+    print("Check your site setup at http://%s:8081" % colors.green(env.host))
+
+
+def update_production(path="/var/www/qualitio"):
+    """Updates remote production envirotment"""
+    env.path = path.rstrip("/")
+
+    _download_release()
+    _install_requirements()
+    _synchronize_database()
+    _restart_webserver()
+
+    print("Instsance at %s:%s, updated." % (colors.green(env.host),
+                                            colors.green(env.path)))
+
+
+def _download_release(release="development"):
     require("path")
 
     env.release = release
@@ -70,7 +86,8 @@ def download_release(release="development"):
     sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)
     sudo("rm -f %(release_download_tmp_file)s" % env)
 
-def install_requirements():
+
+def _install_requirements():
     require("path")
 
     try:
@@ -79,7 +96,8 @@ def install_requirements():
         pass
     sudo('pip -E %(path)s/.virtualenv install -r %(path)s/requirements.txt' % env)
 
-def configure_webserver():
+
+def _configure_webserver():
     env.esc_path = env.path.replace('/','\/')
     require("path", "esc_path")
 
@@ -90,18 +108,21 @@ def configure_webserver():
 
     sudo("a2ensite qualitio")
 
-def synchronize_database():
+
+def _synchronize_database():
     require("path")
 
     sudo("chown :www-data -R %(path)s/qualitio/data && chmod g+rw -R %(path)s/qualitio/data" % env)
     sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env)
 
-def load_dumpdata():
+
+def _load_dumpdata():
     require("path")
 
     sudo("python %(path)s/qualitio/manage.py loaddata %(path)s/qualitio/example_data.json" % env)
 
-def restart_webserver():
+
+def _restart_webserver():
     "Restart apache"
 
     sudo("/etc/init.d/apache2 restart")

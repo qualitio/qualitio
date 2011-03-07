@@ -37,20 +37,23 @@ Qualitio Project
    deploy project locally simply type there _localhost_ (ssh server is
    required)
 
-3. Setup Running Selenium Tests:
--------------------------------------------------
-1. Before starting any tests you must start the Selenium server.
-   Go to tests directory where Selenium-RC’s server is located 
-   (qualitio/tests/selenium-server-1.0.3) and run the following from a command-line console.
-   * java -jar selenium-server.jar
-1. Go to tests directory and run tests with options:
-   * python tests.py <options>
-   Options:
-  -h, --help            show this help message and exit
-  -b BROWSER, --browser=BROWSER
-                        Browser environment to run on
-  -u USERNAME, --username=USERNAME
-                        Basic HTTP username
-  -p PASSWORD, --password=PASSWORD
-                        Basic HTTP password
+3. Updating Remote Production Environment (Debian/Ubuntu):
+1. Go to cloned project directory, and run deployment script
+   * cd qualtio
+   * fab setup_production fab update_production -H _{HOST}_
+   where _{HOST}_ is address of your target machine, if you had plan
+   deploy project locally simply type there _localhost_ (ssh server is
+   required)
 
+
+4. Setup Running Selenium Tests:
+-------------------------------------------------
+1. Before starting any testing you have to make sure that Java-jre is
+installed (Selenium-RC test server is written used JAVA as running
+platform).
+1. Go to tests directory and start the Selenium-RC:
+   * cd tests
+   * java -jar selenium-server.jar
+1. Run test suite 
+   * python tests.py
+   Check python tests.py for more available options
