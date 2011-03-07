@@ -38,6 +38,7 @@ Qualitio Project
    required)
 
 3. Updating Remote Production Environment (Debian/Ubuntu):
+-------------------------------------------------
 1. Go to cloned project directory, and run deployment script
    * cd qualtio
    * fab setup_production fab update_production -H _{HOST}_
@@ -46,7 +47,7 @@ Qualitio Project
    required)
 
 
-4. Setup Running Selenium Tests:
+4. Running Selenium Tests:
 -------------------------------------------------
 1. Before starting any testing you have to make sure that Java-jre is
 installed (Selenium-RC test server is written used JAVA as running
