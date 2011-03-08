@@ -1252,7 +1252,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "Open")
+        sel.type_keys("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "Open")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Open navigation"): break
@@ -1261,6 +1261,17 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("id_available_test_cases-1-action")
         sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("No matching records found"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[1]/div[2]/table.1.3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 2"): break
@@ -1294,7 +1305,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[2]/div/input", "Open")
+        sel.type_keys("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[2]/div/input", "Open")
         sel.click("id_connected_test_cases-0-DELETE")
         sel.click("Executed")
         for i in range(60):
@@ -1303,6 +1314,8 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[2]/table.2.3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
 
 
 if __name__ == "__main__":
