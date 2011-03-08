@@ -1259,6 +1259,8 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_available_test_cases-1-action")
         sel.click("Executed")
         for i in range(60):
@@ -1268,6 +1270,8 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("No matching records found"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[1]/div[2]/table.1.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -1291,6 +1295,8 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=Open navigation"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("Open navigation", sel.get_text("link=Open navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
