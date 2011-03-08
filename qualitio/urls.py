@@ -5,6 +5,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+                       (r'^login/$', 'django.contrib.auth.views.login',
+                        {'template_name': 'login.html'}),
+                       (r'^logout/$', 'django.contrib.auth.views.logout_then_login'),
+
                        (r'^require/', include('qualitio.requirements.urls')),
                        (r'^report/', include('qualitio.report.urls')),
                        (r'^settings/', include('qualitio.projects.urls')),
