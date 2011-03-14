@@ -1,6 +1,8 @@
 from mptt.models import MPTTModel
+from reversion.models import Version
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic.simple import direct_to_template
 from django.db.models.loading import get_model
 
 from qualitio.core.utils import json_response
@@ -61,3 +63,12 @@ def get_ancestors(request, app):
             ancestors.extend([object.parent])
     return {"nodes": map(lambda x: '%s_%s' % (x.pk, x._meta.module_name), ancestors),
             "target": "%s_%s" % (object.pk, object._meta.module_name)}
+
+
+def history(request, object_id, Model):
+    object = Model.objects.get(pk=object_id)
+    versions = Version.objects.get_for_object(object)
+    return direct_to_template(request, 'core/history.html',
+                              {'object': object,
+                               'name' : object._meta.object_name,
+                               'versions' : versions})

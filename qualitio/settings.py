@@ -70,6 +70,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'core.middleware.LoginRequiredMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
 )
 
 ROOT_URLCONF = 'qualitio.urls'
@@ -97,6 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.webdesign',
 
+    'qualitio.core',
     'qualitio.requirements',
     'qualitio.report',
     'qualitio.projects',
@@ -106,7 +108,8 @@ INSTALLED_APPS = (
 
     'mptt',
     'debug_toolbar',
-    'django_nose'
+    'django_nose',
+    'reversion'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",

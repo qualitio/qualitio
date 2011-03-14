@@ -1,4 +1,7 @@
+from reversion import revision
+
 from django.views.generic.simple import direct_to_template
+from django.utils.encoding import force_unicode
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
@@ -28,7 +31,7 @@ def directory_edit(request, directory_id):
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
-
+@revision.create_on_success
 @json_response
 def directory_valid(request, directory_id=0):
     if directory_id:
@@ -40,6 +43,14 @@ def directory_valid(request, directory_id=0):
 
     if testrun_directory_form.is_valid():
         testrun_directory = testrun_directory_form.save()
+
+        comment = testrun_directory_form.changelog()
+        if comment:
+            revision.comment = comment
+            revision.user = request.user
+        else:
+            revision.invalidate()
+
         return success(message='testrun directory saved',
                        data={"parent_id": getattr(testrun_directory.parent, "id", 0),
                              "current_id": testrun_directory.id})
@@ -89,7 +100,7 @@ def testrun_edit(request, testrun_id):
                                'available_test_cases_form': available_test_cases_form,
                                'connected_test_cases_form' : connected_test_cases_form})
 
-
+@revision.create_on_success
 @json_response
 def testrun_valid(request, testrun_id=0):
     if testrun_id:
@@ -116,9 +127,19 @@ def testrun_valid(request, testrun_id=0):
         to_run = filter(lambda x: x['action'], available_test_cases_form.cleaned_data)
         to_run = map(lambda x: x['id'], to_run)
 
-        # TODO: slow, greate mass run method
+        # TODO: slow, create mass run method
         for test_case in to_run:
             TestCaseRun.run(test_case, testrun)
+
+        comment = [testrun_form.changelog(),
+                   connected_test_cases_form.changelog(),
+                   available_test_cases_form.changelog()]
+
+        if any(comment):
+            revision.comment = " ".join(comment)
+            revision.user = request.user
+        else:
+            revision.invalidate()
 
         return success(message='testrun directory saved',
                        data={"parent_id": getattr(testrun.parent, "id", 0),
@@ -132,12 +153,11 @@ def testcaserun(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     testcaserun_status_form = forms.TestCaseRunStatus(instance=testcaserun)
 
-    testcaserun_add_bug_form = forms.AddBugForm()
+
     bugs_formset = forms.BugFormSet(instance=testcaserun)
     return direct_to_template(request, 'execute/_testcaserun.html',
                               {'testcaserun': TestCaseRun.objects.get(pk=testcaserun_id),
                                'testcaserun_status_form': testcaserun_status_form,
-                               'testcaserun_add_bug_form': testcaserun_add_bug_form,
                                'bugs_formset': bugs_formset
                                })
 
@@ -150,16 +170,23 @@ def testcaserun_bugs(request, testcaserun_id):
             bugs_formset.save()
 
     bugs_formset = forms.BugFormSet(instance=testcaserun)
+    testcaserun_add_bug_form = forms.AddBugForm()
     return direct_to_template(request, 'execute/_testcaserun_bugs.html',
-                              {'bugs_formset': bugs_formset})
+                              {'bugs_formset': bugs_formset,
+                               'testcaserun_add_bug_form': testcaserun_add_bug_form})
 
 
+@revision.create_on_success
 @json_response
 def testcaserun_setstatus(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     testcaserun_status_form = forms.TestCaseRunStatus(request.POST, instance=testcaserun)
     if testcaserun_status_form.is_valid():
         testcaserun = testcaserun_status_form.save()
+
+        revision.comment = testcaserun_status_form.changelog()
+        revision.user = request.user
+
         return success(message=testcaserun.status.name,
                        data=dict(id=testcaserun.pk,
                                  name=testcaserun.status.name,
@@ -169,8 +196,10 @@ def testcaserun_setstatus(request, testcaserun_id):
                       data=testcaserun_status_form.errors_list())
 
 
+@revision.create_on_success
 @json_response
 def testcaserun_addbug(request, testcaserun_id):
+
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     add_bug_form = forms.AddBugForm(request.POST)
 
@@ -183,7 +212,19 @@ def testcaserun_addbug(request, testcaserun_id):
             except (IssueError, IssueServerError) as e:
                 return failed(message="Issue server error meessage: %s" %e)
 
-        return success(message="Issue(s) attached",
+        revision.add(testcaserun)
+        revision.user = request.user
+        message = []
+        for bug in bugs:
+            message.append('Created %(name)s "%(object)s"'
+                           % {'name': force_unicode(bug._meta.verbose_name),
+                              'object': force_unicode(bug)})
+
+        revision.comment = "%s %s: %s." % (testcaserun._meta.verbose_name.capitalize(),
+                                          testcaserun.pk,
+                                          ", ".join(message))
+
+        return success(message=revision.comment,
                        data=dict(testcaserun=testcaserun.id,
                                  created_bugs=map(lambda x: { "alias" : x.alias,
                                                               "name": x.name,
@@ -196,6 +237,7 @@ def testcaserun_addbug(request, testcaserun_id):
                   data=add_bug_form.errors_list())
 
 
+@revision.create_on_success
 @json_response
 def testcaserun_removebug(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
@@ -203,6 +245,12 @@ def testcaserun_removebug(request, testcaserun_id):
 
     if bugs_formset.is_valid():
         bugs_formset.save()
+
+        revision.add(testcaserun)
+        revision.user = request.user
+        revision.comment = "%s %s. %s" % (testcaserun._meta.verbose_name.capitalize(),
+                                          testcaserun.pk,
+                                          bugs_formset.changelog())
 
         return success(message="Issue(s) removed",
                    data=dict(id=testcaserun.id,

@@ -2,6 +2,8 @@
 from mptt.forms import MoveNodeForm
 
 from django import forms
+from django.utils.text import get_text_list
+from django.utils.encoding import force_unicode
 
 
 class FormErrorProcessingMixin(object):
@@ -19,7 +21,6 @@ class FormErrorProcessingMixin(object):
         return ' '.join([e for e in self.non_field_errors()])
 
 
-
 class FormsetErrorProcessingMixin(object):
     """
     FormSet with additional error processing functionality.
@@ -32,11 +33,38 @@ class FormsetErrorProcessingMixin(object):
         return formset_errors
 
 
+class FormsetChangelogMixin(object):
+    def changelog(self):
+        change_message = []
+
+        for added_object in getattr(self, "new_objects", ()):
+            change_message.append('Added %(name)s "%(object)s"'
+                                  % {'name': force_unicode(added_object._meta.verbose_name),
+                                     'object': force_unicode(added_object)})
+        for changed_object, changed_fields in getattr(self, "changed_objects", ()):
+            change_message.append('Changed %(list)s for %(name)s "%(object)s"'
+                                  % {'list': get_text_list(changed_fields, 'and'),
+                                     'name': force_unicode(changed_object._meta.verbose_name),
+                                     'object': force_unicode(changed_object)})
+        for deleted_object in getattr(self, "deleted_objects", ()):
+            change_message.append('Deleted %(name)s "%(object)s"'
+                                  % {'name': force_unicode(deleted_object._meta.verbose_name),
+                                     'object': force_unicode(deleted_object)})
+
+        return "%s." % ', '.join(change_message)
+
+
 class BaseForm(forms.Form, FormErrorProcessingMixin):
     pass
 
 
 class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
+    def changelog(self):
+        change_message = []
+        if self.changed_data:
+            change_message.append('Changed %s.' % get_text_list(self.changed_data, 'and'))
+        return ''.join(change_message)
+
     def save(self, *args, **kwargs):
         """
         Save method that allows to chage model's save kwargs
@@ -81,10 +109,15 @@ class DirectoryModelForm(PathModelForm):
                 self.instance.__class__.objects.exclude(pk__in=desc_ids).exclude(pk=self.instance.id)
 
 
-class BaseInlineFormSet(forms.models.BaseInlineFormSet, FormsetErrorProcessingMixin):
+
+class BaseInlineFormSet(forms.models.BaseInlineFormSet,
+                        FormsetErrorProcessingMixin,
+                        FormsetChangelogMixin):
     pass
 
 
-class BaseModelFormSet(forms.models.BaseModelFormSet, FormsetErrorProcessingMixin):
+class BaseModelFormSet(forms.models.BaseModelFormSet,
+                       FormsetErrorProcessingMixin,
+                       FormsetChangelogMixin):
     pass
 

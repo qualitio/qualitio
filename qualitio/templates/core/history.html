@@ -1,0 +1,29 @@
+{% load application_view_menu %}
+
+<div id="application-view-header">
+  <h1>{{ name|lower }}: {{ object.name }}</h1>
+</div>
+
+{% application_view_menu object "history" %}
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/core_history.js{{ STATIC_HASH }}"></script>
+<div class="application-view-content clearfix">
+  <table class="display">
+    <thead>
+      <tr>
+        <th>date</th>
+        <th>user</th>
+        <th>comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for version in versions %}
+      <tr>
+        <td >{{ version.revision.date_created }}</td>
+        <td >{{ version.revision.user }}</td>
+        <td >{{ version.revision.comment }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

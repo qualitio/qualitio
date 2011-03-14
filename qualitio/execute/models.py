@@ -68,6 +68,6 @@ class Bug(core.BaseModel):
         unique_together = ("testcaserun", "alias")
 
     def __unicode__(self):
-        return "#%s: %s" % (self.alias, self.name)
+        return "#%s" % self.alias
 
 
