@@ -4,6 +4,7 @@ from nose.tools import *
 from django.test import TestCase as DjangoTestCase
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
+from django.contrib.auth.models import User
 
 from qualitio.store.models import TestCase, TestCaseDirectory
 from qualitio.store.forms import TestCaseDirectoryForm
@@ -60,6 +61,8 @@ class TestCaseDirectoryUniquityTest(DjangoTestCase):
             self.fail("The exception should be raised here.")
 
     def test_directory_name_and_parent_should_be_unique_view(self):
+        User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.client.login(username='john', password='johnpassword')
         result = self.client.post(
             '/store/ajax/testcasedirectory/new/valid/',
             self.data_that_should_cause_an_error())

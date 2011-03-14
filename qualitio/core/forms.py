@@ -109,7 +109,6 @@ class DirectoryModelForm(PathModelForm):
                 self.instance.__class__.objects.exclude(pk__in=desc_ids).exclude(pk=self.instance.id)
 
 
-
 class BaseInlineFormSet(forms.models.BaseInlineFormSet,
                         FormsetErrorProcessingMixin,
                         FormsetChangelogMixin):

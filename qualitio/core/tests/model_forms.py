@@ -10,7 +10,7 @@ class MoveDirectoryFormTest(BaseTestCase):
         self.addTestApps(['core.tests.testapp'])
 
         self.root = Directory.objects.create(parent=None,
-                                             name="directory")
+                                             name="root")
 
         self.directory = Directory.objects.create(parent=self.root,
                                                   name="directory")
@@ -32,5 +32,6 @@ class MoveDirectoryFormTest(BaseTestCase):
 
         directory_form = DirectoryForm(instance=self.directory)
 
+        print directory_form.fields['parent'].queryset
         self.assertTrue(child1 not in directory_form.fields['parent'].queryset)
         self.assertTrue(child2 not in directory_form.fields['parent'].queryset)
