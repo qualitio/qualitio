@@ -68,10 +68,21 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'core.middleware.LoginRequiredMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
 )
 
 ROOT_URLCONF = 'qualitio.urls'
+
+LOGIN_REDIRECT_URL = "/require/"
+LOGIN_URL = '/login/'
+
+LOGIN_EXEMPT_URLS = (
+    r'^static/',
+    r'^login/.*',
+    r'^__debug__/.*',
+    )
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates'),
@@ -87,6 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.webdesign',
 
+    'qualitio.core',
     'qualitio.requirements',
     'qualitio.report',
     'qualitio.projects',
@@ -96,7 +108,8 @@ INSTALLED_APPS = (
 
     'mptt',
     'debug_toolbar',
-    'django_nose'
+    'django_nose',
+    'reversion'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",

@@ -29,13 +29,17 @@ class TestCaseRunStatus(core.BaseModelForm):
         super(TestCaseRunStatus, self).__init__(*args, **kwargs)
         self.fields['status'].empty_label = None
 
+    def changelog(self):
+        return "%s %s. Status changed: %s" % (self.instance._meta.verbose_name.capitalize(),
+                                              self.instance.pk,
+                                              self.instance.status)
 
 class AddBugForm(core.BaseForm):
     bugs = forms.CharField()
 
     def clean_bugs(self):
-        return map(lambda x: x.strip(",").strip("#"),
-                   self.cleaned_data['bugs'].split())
+        return map(lambda x: x.strip(",").strip("#").strip(" "),
+                   self.cleaned_data['bugs'].split(","))
 
 
 class BugForm(core.BaseModelForm):

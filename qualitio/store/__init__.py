@@ -1,1 +1,12 @@
-from qualitio.store.models import TestCaseBase, TestCaseStepBase, TestCase, TestCaseDirectory
+import reversion
+
+from models import TestCaseBase, TestCaseStepBase, TestCase, TestCaseStep, TestCaseDirectory
+
+
+if not reversion.is_registered(TestCase):
+    reversion.register(TestCaseStep)
+    reversion.register(TestCase, follow=["steps"])
+
+
+if not reversion.is_registered(TestCaseDirectory):
+    reversion.register(TestCaseDirectory)

@@ -16,4 +16,10 @@
   {% else %}
   <a href="#requirement/{{ obj.pk }}/testcases/">test cases</a>
   {% endif %}
+
+  {% if view == "history" %}
+  <span class="active" >history</span>
+  {% else %}
+  <a href="#requirement/{{ obj.pk }}/history/">history</a>
+  {% endif %}
 </div>

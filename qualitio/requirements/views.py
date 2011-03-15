@@ -1,13 +1,12 @@
-from django.http import HttpResponse
 from django.template import RequestContext, loader
-from django.utils import simplejson as json
 from django.shortcuts import render_to_response
 from django.views.generic.simple import direct_to_template
 from django.db.models import Q
+
+from reversion import revision
+
 from qualitio.core.utils import json_response, success, failed
-
 from qualitio.store.models import TestCase
-
 from qualitio.requirements.models import Requirement
 from qualitio.requirements.forms import RequirementForm, SearchTestcasesForm
 from qualitio.requirements.tables import RequirementsFilterTable
@@ -23,7 +22,6 @@ def details(request, requirement_id):
                               {'requirement' : requirement ,
                                'testcases' : testcases })
 
-
 def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
@@ -37,6 +35,7 @@ def new(request, requirement_id):
     return direct_to_template(request, 'requirements/edit.html',
                               {'requirement_form': requirement_form})
 
+@revision.create_on_success
 @json_response
 def valid(request, requirement_id=0):
     if requirement_id:
@@ -46,8 +45,13 @@ def valid(request, requirement_id=0):
         requirement_form = RequirementForm(request.POST)
 
     if requirement_form.is_valid():
+        revision.comment = requirement_form.changelog()
+        revision.user = request.user
+        if not revision.comment:
+            revision.invalidate()
+
         requirement = requirement_form.save()
-        return success(message='Requirement saved',
+        return success(message='Requirement saved: %s' % revision.comment,
                        data={ "parent_id" : getattr(requirement.parent,"id", 0),
                               "current_id" : requirement.id })
 
@@ -81,6 +85,7 @@ def available_testcases(request, requirement_id):
     return failed(message="validation errors",
                   data=search_testcases_form.errors_list())
 
+
 @json_response
 def connect_testcases(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
@@ -91,6 +96,16 @@ def connect_testcases(request, requirement_id):
         testcase.requirement = None
         testcase.save()
     return success();
+
+
+def history(request, requirement_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+
+    from reversion.models import Version
+    versions = Version.objects.get_for_object(requirement)
+    return direct_to_template(request, 'requirements/history.html',
+                          {'requirement': requirement,
+                           'versions' : versions})
 
 
 def filter(request):

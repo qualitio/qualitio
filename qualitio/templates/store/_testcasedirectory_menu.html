@@ -4,9 +4,16 @@
   {% else %}
   <a href="#testcasedirectory/{{ obj.pk }}/details/">details</a>
   {% endif %}
+  
   {% if view == "edit" %}
   <span class="active" >edit</span>
   {% else %}
   <a href="#testcasedirectory/{{ obj.pk }}/edit/">edit</a>
+  {% endif %}
+
+  {% if view == "history" %}
+  <span class="active" >history</span>
+  {% else %}
+  <a href="#testcasedirectory/{{ obj.pk }}/history/">history</a>
   {% endif %}
 </div>

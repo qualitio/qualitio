@@ -1,0 +1,74 @@
+body {
+    background: #eee;
+}
+
+#main {
+    text-align: center;
+}
+
+#login {
+    background: none repeat scroll 0 0 white;
+    width:500px; 
+    margin: 110px auto; 
+    text-align: left;
+    border: 1px solid #AAAAAA;
+    padding: 10px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+#logo {
+    font-family: 'Bevan', serif;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    text-shadow: none;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0em;
+    word-spacing: 0em;
+    line-height: 1.2;
+    color: #777777;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+#login label {
+    font-size: 21px;
+    color: #aaa;
+    font-family: Helvetica, Arial;
+    border: 0;
+    margin: 9px 11px;
+}
+
+#login fieldset {
+    margin: 10px 0;
+}
+
+#login fieldset input {
+    font-size: 21px;
+    height: 37px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+#submit-panel {
+    border-top: 1px solid #AAAAAA;
+    text-align: right;
+    padding: 10px 0 0 0;
+}
+
+#submit-panel input {
+    font-size: 14px;
+    height: 34px;
+    width: 110px;
+}
+
+#notification {
+    display: block;
+    position: relative;
+    
+}
+
+#notification .ui-state-error {
+    padding: 4px 4px 4px 4px;
+    font-family: helvetica;
+}

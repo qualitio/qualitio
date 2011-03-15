@@ -41,6 +41,17 @@ body {
 #header {
     border-left: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
+    position:relative
+}
+
+#header .user-panel{
+    bottom: -22px;
+    color: #555555;
+    position: absolute;
+    right: 15px;
+    text-align: right;
+    width: 243px;
+    z-index: 1;
 }
 
 #footer {

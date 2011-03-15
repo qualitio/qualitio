@@ -18,12 +18,32 @@
     border-bottom: 2px solid black;
 }
 
-#add-bug-form input[type=text]{
-    width: 100px;
+#addbugpanel {
+    position: relative;
 }
 
-.bugs-panel {
-    height: 300px;
+#addbugpanel .left{
+    float:left; 
+    width: 40px;
+}
+
+#addbugpanel .center{
+    margin-left: 45px; 
+    margin-right: 75px; 
+}
+
+#addbugpanel .center input {
+    margin-top: -5px;
+}
+
+#addbugpanel .right{
+    float:right; 
+    width: 70px; 
+    margin-top: -4px;
+}
+
+#add-bug-form input[type=text]{
+    width: 200px;
 }
 
 .step h2 {
