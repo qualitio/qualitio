@@ -51,7 +51,7 @@ MEDIA_URL = '/static/'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/static_admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '+xo!&_63g8h5(q0k$@+^lm@#a%l#3@1x(dw$c#e8p9jfx^*z*i'
@@ -69,7 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.LoginRequiredMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 )
 
