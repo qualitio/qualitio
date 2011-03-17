@@ -20,11 +20,44 @@ class BaseSeleniumTestCase(unittest.TestCase):
         self.selenium.stop()
         self.assertEqual([], self.verificationErrors)
 
+    def login(self):
+        sel = self.selenium
+        sel.open("/login/?next=/admin/")
+        self.assertEqual("qualitio: login", sel.get_title())
+        try: self.failUnless(sel.is_text_present("Qualitio"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_username")
+        sel.type("id_username", "admin")
+        sel.click("logo")
+        try: self.assertEqual("admin", sel.get_value("id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_password")
+        sel.type("id_password", "admin")
+        sel.click("logo")
+        try: self.failUnless(sel.is_element_present("id_password"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//input[@value='login']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='login']")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Site administration"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Site administration"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Groups", sel.get_text("link=Groups"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
 
 
 class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
     
     def test_28_exec_testdirect_verify(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -174,6 +207,7 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
 class Test29ExecTestrunVerify(BaseSeleniumTestCase):
     
     def test_29_exec_testrun_verify(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -424,6 +458,7 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
 class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
     
     def test_30_exec_testdirect_create(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -525,6 +560,7 @@ class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
 class Test31ExecTestrunCreate(BaseSeleniumTestCase):
     
     def test_31_exec_testrun_create(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -624,6 +660,7 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
 class Test34ExecSamename(BaseSeleniumTestCase):
     
     def test_34_exec_samename(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -864,6 +901,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
 class Test35ExecTestrunSamename(BaseSeleniumTestCase):
     
     def test_35_exec_testrun_samename(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -1112,6 +1150,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
 class Test36ExecTreeVerify(BaseSeleniumTestCase):
     
     def test_36_exec_tree_verify(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -1195,6 +1234,7 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
 class Test37ExecConnecttest(BaseSeleniumTestCase):
     
     def test_37_exec_connecttest(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -1328,6 +1368,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
 class Test38ExecConnecttestname(BaseSeleniumTestCase):
     
     def test_38_exec_connecttestname(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/4/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -1635,6 +1676,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
 class Test040ExecAddbug(BaseSeleniumTestCase):
     
     def test_040_exec_addbug(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/9/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -1850,6 +1892,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
 class Test039ExecAddbug(BaseSeleniumTestCase):
     
     def test_039_exec_addbug(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
@@ -2404,6 +2447,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
 class Test041ExecTestparam(BaseSeleniumTestCase):
     
     def test_041_exec_testparam(self):
+        self.login()
         sel = self.selenium
         sel.open("/require/#requirement/9/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
