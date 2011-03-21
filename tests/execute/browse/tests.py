@@ -1227,6 +1227,18 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio execute"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         self.assertEqual("qualitio: execute", sel.get_title())
         sel.click("link=TestRun directory")
         for i in range(60):
@@ -1241,7 +1253,6 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=TestRun directory")
         try: self.failUnless(sel.is_text_present("test run directory: TestRun directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory"))

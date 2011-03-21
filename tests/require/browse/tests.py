@@ -273,7 +273,6 @@ class Test3Newreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=MeeGo")
         sel.click("css=li#1_requirement ins")
         for i in range(60):
             try:
@@ -634,6 +633,12 @@ class Test5TestcasesDel(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:requirement: MeeGo Handset test"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view']/div[5]/div/div[1]/div[2]/table/tbody/tr/td"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.assertEqual("No data available in table", sel.get_text("//div[@id='application-view']/div[5]/div/div[1]/div[2]/table/tbody/tr/td"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("Showing 0 to 0 of 0 entries", sel.get_text("//div[@id='application-view']/div[5]/div/div[2]"))
@@ -732,6 +737,12 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("#3"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1940,8 +1951,13 @@ class Test13EditVerify(BaseSeleniumTestCase):
         self.login() 
         sel = self.selenium
 #        sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("qualitio: requirements", sel.get_title())
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1954,6 +1970,12 @@ class Test13EditVerify(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if "requirement: MeeGo" == sel.get_text("css=div#application-view-header h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2896,7 +2918,21 @@ class Test32Samename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("css=span.ui-button-text")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/a/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='application-view-footer']/div/a/span")
         for i in range(60):
             try:
                 if sel.is_text_present("requirement"): break
@@ -2986,6 +3022,10 @@ class Test32Samename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo/requirement same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+    
+    def tearDown(self):
+        self.selenium.stop()
+        self.assertEqual([], self.verificationErrors)
 
 
 if __name__ == "__main__":
