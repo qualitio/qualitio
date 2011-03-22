@@ -19,12 +19,11 @@
           <th>name</th>
           <th>status</th>
           <th>bugs</th>
-          <th>modified</th>
           <th>created</th>
         </tr>
       </thead>
       <tbody>
-      {% for testcaserun in testrun.subchildren.all %}
+      {% for testcaserun in testrun.testcases.all %}
       <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}"
           style="background: {{ testcaserun.status.color }}">
         <td class="select">
@@ -35,7 +34,6 @@
         <td class="name">{{ testcaserun.name }}</td>
         <td class="status">{{ testcaserun.status.name }}</td>
         <td class="bugs">{% for bug in testcaserun.bugs.all %}#{{ bug.alias }} {% endfor %}</td>
-        <td>{{ testcaserun.status.modified_time }}</td>
         <td>{{ testcaserun.status.created_time }}</td>
       </tr>
       {% endfor %}

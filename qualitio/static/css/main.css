@@ -242,6 +242,10 @@ body {
     border: 1px solid #ccc;
 }
 
+.application-view-content .right  {
+    text-align: right;
+}
+
 .application-view-content select[multiple],
 .application-view-content textarea  {
     height: 100px;
@@ -443,10 +447,6 @@ table.filter td.add {
     width:14%;
 }
 
-.available-testcases tr.disabled td {
-    color:#555555;
-}
-
 /* jQuery-ui fixes */
 .ui-button {
     font-size:0.9em;
@@ -481,7 +481,7 @@ table.filter td.add {
 
 /* TODO: attach disabled class to remoed testcasesteps */
 .disable {
-    cursor: default;
-    opacity: 0.3;
-    pointer-events: none;
+    cursor: default !important;
+    opacity: 0.3 !important;
+    pointer-events: none !important;
 }

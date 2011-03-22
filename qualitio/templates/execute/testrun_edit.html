@@ -31,11 +31,18 @@
   </div>
   
   <div class="grid_16 clearfix">
+    <div class="application-view-content">
+      <div class="right">
+        <input type="submit" name="Executed" value="Save"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid_16 clearfix">
     <div class="grid_8 clearfix">
-      <div class="application-view-content">
+      <div class="connected-testcases application-view-content">
         <h2>connected testcase</h2>
-        {{ connected_test_cases_form.management_form }}
-        <table class="connected-testcases display">
+        <table class="display">
           <thead>
             <tr>
               <th class="checkbox">
@@ -45,48 +52,43 @@
               <th>path</th>
 	      <th>name</th>
 	      <th>status</th>
-              <th>modified</th>
-              <th>created</th>
             </tr>
           </thead>
           <tbody>
-            {% for form in connected_test_cases_form.forms %}
-            <tr class="{% cycle 'odd' 'even' %}" style="background: {{ form.instance.status.color }}">
-              <td class="select">{{ form.DELETE }}{{ form.id }}</td>
+            {% for test_case in connected_test_cases %}
+            <tr class="{% cycle 'odd' 'even' %}" style="background: {{ test_case.status.color }}">
+              <td class="select">
+                <input type="checkbox" class="modify" value="{{ test_case.origin.id }}"/>
+                <input type="hidden" name="connected_test_case" value="{{ test_case.origin.id }}"/>
+              </td>
 	      <td class="id">
-                {{ form.instance.origin.id }}
+                {{ test_case.origin.id }}
               </td> 
               <td class="path">
-                <a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
-                  {{ form.instance.origin.path }}
+                <a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
+                  {{ test_case.origin.path }}
                 </a>
               </td>
-              <td class="path">
-                <a href="/store/#testcase/{{ form.instance.origin.pk }}/details/">
-                  {{ form.instance.name }}
+              <td class="name">
+                <a href="/store/#testcase/{{ test_case.origin.pk }}/details/">
+                  {{ test_case.name }}
                 </a>
               </td>
-	      <td class="path">
-                {{ form.instance.status }}
-              </td>
-              <td class="path">
-                {{ form.instance.modified_time }}
-              </td>
-              <td class="path">
-                {{ form.instance.created_time }}
+	      <td class="status">
+                {{ test_case.status }}
               </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+        <a id="remove-testcases-button" class="button">remove</a>
       </div>
     </div>
     
     <div class="grid_8 clearfix">
-      <div class="application-view-content">
+      <div class="available-testcases application-view-content">
         <h2>available testcase</h2>
-        {{ available_test_cases_form.management_form }}
-        <table class="available-testcases display">
+        <table class="display">
           <thead>
             <tr>
               <th class="checkbox">
@@ -95,27 +97,27 @@
 	      <th>id</th>
               <th>path</th>
 	      <th>name</th>
-              <th>modified</th>
-              <th>created</th>
             </tr>
           </thead>
           <tbody>
-            {% for form in available_test_cases_form.forms %}
+            {% for test_case in available_test_cases %}
             <tr class="{% cycle 'odd' 'even' %}">
-              <td class="select">{{ form.action }}{{ form.id }}</td>
-	      <td class="id">{{ form.instance.id }}</td>
-              <td class="path"><a href="/store/#testcasedirectory/{{ form.instance.parent.pk }}/details/">
-                  {{ form.instance.path }}
+              <td class="select">
+                <input type="checkbox" class="modify" value="{{ test_case.id }}"/>
+                <input type="hidden" name="available_test_case" value="{{ test_case.id }}" />
+              </td>
+	      <td class="id">{{ test_case.id }}</td>
+              <td class="path"><a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
+                  {{ test_case.path }}
               </a></td>
-              <td class="path"><a href="/store/#testcase/{{ form.instance.pk }}/details/">
-                  {{ form.instance.name }}
+              <td class="name"><a href="/store/#testcase/{{ test_case.pk }}/details/">
+                  {{ test_case.name }}
               </a></td>
-              <td class="path">{{ form.instance.modified_time }}</td>
-              <td class="path">{{ form.instance.created_time }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+        <a id="add-testcases-button" class="button">add</a>
       </div>
     </div>
   </div>
