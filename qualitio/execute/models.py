@@ -36,6 +36,7 @@ class TestRun(core.BasePathModel):
                                        expected=test_case_step.expected,
                                        sequence=test_case_step.sequence)
 
+        return test_case_run
 
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
