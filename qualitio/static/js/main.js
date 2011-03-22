@@ -116,7 +116,7 @@ $(window).resize(function() {
 jQuery.fn.dataTableToggleSelect = function() {
   return jQuery(this).live('click', function() {
     $(this).parents('.dataTables_wrapper')
-      .find('.select input')
+      .find('input.modify:not(:disabled)')
       .attr('checked', $(this).attr('checked'));
   });
 };

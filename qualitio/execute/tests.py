@@ -19,7 +19,10 @@ class TestRunTestCase(TestCase):
 
 
     def test_run_test_case(self):
-        test_case_run = models.TestCaseRun.run(self.test_case, self.test_run)
+
+        test_case_run = self.test_run.run(self.test_case)
+
+        # test_case_run = models.TestCaseRun.run(self.test_case, self.test_run)
 
         self.assertEqual(self.test_case.name, test_case_run.name)
         self.assertEqual(self.test_case.description, test_case_run.description)
@@ -38,7 +41,7 @@ class TestRunTestCase(TestCase):
                                     expected="step_2_excpected",
                                     sequence=1)
 
-        test_case_run = models.TestCaseRun.run(self.test_case, self.test_run)
+        test_case_run = self.test_run.run(self.test_case)
 
         self.assertEqual(self.test_case.steps.count(),
                          test_case_run.steps.count())
@@ -54,21 +57,21 @@ class TestBugshistory(TestCase):
     def setUp(self):
         self.test_case_directory = store.TestCaseDirectory.objects.create(parent=None,
                                                                           name="Root")
-        self.test_case = store.TestCase.objects.create(name="test_name",
+
+        self.test_case = store.TestCase.objects.create(name="test_case",
                                                        parent=self.test_case_directory)
 
         self.test_run_directory = models.TestRunDirectory.objects.create(parent=None,
                                                                           name="Root")
-        self.test_run = models.TestRun.objects.create(name="name",
-                                                      parent=self.test_run_directory)
+        self.test_run_1 = models.TestRun.objects.create(name="test_run_1",
+                                                        parent=self.test_run_directory)
 
-        self.test_case_run_1 = models.TestCaseRun.objects.create(name="name_1",
-                                                                 origin=self.test_case,
-                                                                 parent=self.test_run)
+        self.test_run_2 = models.TestRun.objects.create(name="test_run_2",
+                                                        parent=self.test_run_directory)
 
-        self.test_case_run_2 = models.TestCaseRun.objects.create(name="name_2",
-                                                                 origin=self.test_case,
-                                                                 parent=self.test_run)
+        self.test_case_run_1 = self.test_run_1.run(self.test_case)
+        self.test_case_run_2 = self.test_run_2.run(self.test_case)
+
 
     def test_bugs_history(self):
         bug_1 = self.test_case_run_1.bugs.create(alias="test1")

@@ -31,6 +31,7 @@ def directory_edit(request, directory_id):
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
+
 @revision.create_on_success
 @json_response
 def directory_valid(request, directory_id=0):
@@ -77,28 +78,20 @@ def testrun_notes(request, testrun_id):
 def testrun_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = forms.TestRunForm(initial={'parent': directory})
-    available_test_cases_form = forms.AvailableTestCases(prefix="available_test_cases")
-    connected_test_cases_form = forms.ConnectedTestCases(request.POST,
-                                                         prefix="connected_test_cases")
+
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {"testrun_form": testrun_form,
-                               'available_test_cases_form': available_test_cases_form,
-                               'connected_test_cases_form' : connected_test_cases_form})
+                               'available_test_cases': store.TestCase.objects.all()})
 
 
 def testrun_edit(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunForm(instance=testrun, prefix="testrun")
-    connected_test_cases_form = forms.ConnectedTestCases(instance=testrun,
-                                                         prefix="connected_test_cases")
-    available_test_cases_form = forms.AvailableTestCases(
-        prefix="available_test_cases",
-        queryset=store.TestCase.objects.exclude(testcaserun__parent=testrun))
 
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {'testrun_form': testrun_form,
-                               'available_test_cases_form': available_test_cases_form,
-                               'connected_test_cases_form' : connected_test_cases_form})
+                               'available_test_cases': store.TestCase.objects.all(),
+                               'connected_test_cases' : testrun.testcases.all()})
 
 @revision.create_on_success
 @json_response
@@ -107,43 +100,21 @@ def testrun_valid(request, testrun_id=0):
         testrun = TestRun.objects.get(pk=str(testrun_id))
         testrun_form = forms.TestRunForm(request.POST, instance=testrun, prefix="testrun")
 
-        connected_test_cases_form = forms.ConnectedTestCases(request.POST, instance=testrun,
-                                                             prefix="connected_test_cases")
     else:
         testrun_form = forms.TestRunForm(request.POST)
-        connected_test_cases_form = forms.ConnectedTestCases(request.POST,
-                                                             prefix="connected_test_cases")
 
-    available_test_cases_form = forms.AvailableTestCases(request.POST,
-                                                         prefix="available_test_cases")
-
-    if testrun_form.is_valid() and\
-            connected_test_cases_form.is_valid() and\
-            available_test_cases_form.is_valid():
-
+    if testrun_form.is_valid():
         testrun = testrun_form.save()
-        connected_test_cases_form.save()
 
-        to_run = filter(lambda x: x['action'], available_test_cases_form.cleaned_data)
-        to_run = map(lambda x: x['id'], to_run)
+        test_case_id_list = list(set(request.POST.getlist('connected_test_case')))
+        test_cases = store.TestCase.objects.filter(pk__in=test_case_id_list)
 
-        # TODO: slow, create mass run method
-        for test_case in to_run:
-            TestCaseRun.run(test_case, testrun)
+        testrun.testcase_setup(test_cases)
 
-        comment = [testrun_form.changelog(),
-                   connected_test_cases_form.changelog(),
-                   available_test_cases_form.changelog()]
-
-        if any(comment):
-            revision.comment = " ".join(comment)
-            revision.user = request.user
-        else:
-            revision.invalidate()
-
-        return success(message='testrun directory saved',
+        return success(message='Test run saved',
                        data={"parent_id": getattr(testrun.parent, "id", 0),
                              "current_id": testrun.id})
+
     else:
         return failed(message="Validation errors",
                       data=testrun_form.errors_list())

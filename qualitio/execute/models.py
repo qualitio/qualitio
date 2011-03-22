@@ -14,6 +14,29 @@ class TestRun(core.BasePathModel):
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
 
+    def testcase_setup(self, test_cases):
+
+        for test_case in test_cases:
+            if test_case.id not in self.testcases.values_list("origin__id" ,flat=True):
+                self.run(test_case)
+
+        to_delete_ids = set(self.testcases.values_list("origin__id", flat=True))\
+            - set(test_cases.values_list("id", flat=True))
+
+        self.testcases.filter(origin__id__in=to_delete_ids).delete()
+
+    def run(self, test_case):
+        test_case_run = self.testcases.create(name=test_case.name,
+                                              description=test_case.description,
+                                              precondition=test_case.precondition,
+                                              origin=test_case)
+
+        for test_case_step in test_case.steps.all():
+            test_case_run.steps.create(description=test_case_step.description,
+                                       expected=test_case_step.expected,
+                                       sequence=test_case_step.sequence)
+
+        return test_case_run
 
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
@@ -22,26 +45,13 @@ class TestCaseRun(store.TestCaseBase):
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
         for_parent_unique = False
+        parent_class_relation = "testcases"
+        unique_together = ("parent", "origin")
 
     @property
     def bugs_history(self):
         return Bug.objects.filter(testcaserun__origin=self.origin)\
             .exclude(alias__in=self.bugs.values_list('alias',flat=True))
-
-    @classmethod
-    # TODO: move this method to TestRun objects methods
-    def run(cls, test_case, test_run):
-        test_case_run = TestCaseRun.objects.create(name=test_case.name,
-                                                   description=test_case.description,
-                                                   precondition=test_case.precondition,
-                                                   parent=test_run,
-                                                   origin=test_case)
-
-        for test_case_step in test_case.steps.all():
-            test_case_run.steps.create(description=test_case_step.description,
-                                       expected=test_case_step.expected,
-                                       sequence=test_case_step.sequence)
-        return test_case_run
 
 
 class TestCaseStepRun(store.TestCaseStepBase):

@@ -14,6 +14,7 @@ class TestRunDirectoryForm(core.DirectoryModelForm):
 class TestRunForm(core.PathModelForm):
     class Meta(core.PathModelForm.Meta):
         model = models.TestRun
+        fields = ("parent", "name")
 
 
 class TestCaseRunStatus(core.BaseModelForm):
@@ -52,6 +53,7 @@ class BugForm(core.BaseModelForm):
         for name, field in self.fields.items():
             field.widget = forms.HiddenInput()
 
+
 BugFormSet = inlineformset_factory(models.TestCaseRun,
                                    models.Bug,
                                    extra=0,
@@ -59,20 +61,3 @@ BugFormSet = inlineformset_factory(models.TestCaseRun,
                                    form=BugForm)
 
 
-class BaseAvailableTestCases(core.BaseModelFormSet):
-    def add_fields(self, form, index):
-        super(BaseAvailableTestCases, self).add_fields(form, index)
-        form.fields["action"] = forms.BooleanField(required=False)
-
-
-AvailableTestCases = modelformset_factory(store.TestCase,
-                                          formset=BaseAvailableTestCases,
-                                          fields=("id", "action"),
-                                          extra=0)
-
-
-ConnectedTestCases = inlineformset_factory(models.TestRun,
-                                           models.TestCaseRun,
-                                           formset=core.BaseInlineFormSet,
-                                           fields=("id",),
-                                           extra=0)
