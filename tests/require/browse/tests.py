@@ -772,7 +772,7 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=MeeGo")
+        sel.click("//li[@id='1_requirement']/ins")
         for i in range(60):
             try:
                 if "TV" == sel.get_text("link=TV"): break
@@ -832,7 +832,6 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=MeeGo")
         for i in range(60):
             try:
                 if sel.is_element_present("link=TV"): break
@@ -847,7 +846,6 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=TV")
         for i in range(60):
             try:
                 if sel.is_element_present("link=new requirement 4"): break
@@ -892,13 +890,6 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=MeeGo")
-        for i in range(60):
-            try:
-                if sel.is_text_present("requirement: MeeGo"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
         for i in range(60):
             try:
                 if "Notebook" == sel.get_text("link=Notebook"): break
@@ -919,7 +910,6 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=TV")
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo Handset test"): break
