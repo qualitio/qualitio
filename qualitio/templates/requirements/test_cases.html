@@ -4,60 +4,115 @@
 </div>
 
 {% application_view_menu requirement "testcases" %}
-
-<div class="application-view-content clearfix">
-  <div class="prefix_8 grid_8" style="text-align:right">
-    <form class="testcase-search"  method="post" 
-          action="/require/ajax/requirement/{{ requirement.id }}/testcases/list/">
-      {% csrf_token %}
-      <div id="{{ search_testcases_form.search.html_name }}_wrapper" class="field-wrapper">
-        {{ search_testcases_form.search }}
-        <input id="id_search_submit" type="submit" value="Search" />
-      </div>
-    </form>
-  </div>
-</div> 
  
-<form class="testcase-connect" method="post"
-      action="/require/ajax/requirement/{{ requirement.id }}/testcases/connect/">
-  <div class="application-view-content clearfix">
-    <div class="grid_8">
-      <div style="padding-right:2px">
-        <table class="pretty ui-corner-all">
+<form id="testcases_connect_form" method="post"
+      action="{% url qualitio.requirements.views.testcases_connect requirement.id %}">
+  {% csrf_token %}
+  <div class="grid_8">
+    <div class="connected-testcases application-view-content clearfix">
+      <table class="display">
+        <thead>
           <tr>
-            <th class="icon">&nbsp;</th>
-            <th class="id">id</th>
-            <th class="path">path</th>
-            <th>name</th>
-            <th class="checkbox">del</th>
+            <th class="checkbox">
+              <input name="select-all" type="checkbox"/>
+            </th>
+	    <th>id</th>
+            <th>path</th>
+	    <th>name</th>
+            <th>modified</th>
+            <th>created</th>
           </tr>
+        </thead>
+        <tbody>
           {% for testcase in connected_testcases %}
-          <tr>
-            <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
-            <td>#{{ testcase.pk }}</td>
-	    <td>{{ testcase.path }}</td>
-	    <td>{{ testcase.name }}</td>
-            <td class="checkbox">
-              <input type="checkbox" name="disconnect" value="{{ testcase.id }}"/>
+          <tr class="{% cycle 'odd' 'even' %}" >
+            <td class="select">
+              <input type="checkbox" class="modify" value="{{ testcase.id }}"/>
+              <input type="hidden" name="connected_test_case" value="{{ testcase.id }}"/>
+            </td>
+	    <td class="id">
+              {{ testcase.id }}
+            </td> 
+            <td class="path">
+              <a href="/store/#testcasedirectory/{{ testcase.parent.pk }}/details/">
+                {{ testcase.path }}
+              </a>
+            </td>
+            <td class="name">
+              <a href="/store/#testcase/{{ testcase.pk }}/details/">
+                {{ testcase.name }}
+              </a>
+            </td>
+	    <td class="modified_time">
+              {{ testcase.modified_time }}
+            </td>
+            <td class="created_time">
+              {{ testcase.created_time }}
             </td>
           </tr>
           {% endfor %}
-        </table>
-      </div>
-    </div>
-    
-    <div class="grid_8">
-      <div style="padding-left:2px">
-        <table class="available-testcases pretty ui-corner-all">
-          <tr>
-	    <th>path</th>
-	    <th>name</th>
-	    <th>add</th>
-          </tr>
-        </table>
-      </div>
+        </tbody>
+      </table>
+      <a id="remove-testcases-button" class="button">remove</a>
     </div>
   </div>
+  
+  <div class="grid_8">
+    <div class="available-testcases application-view-content clearfix">
+      <table class="display">
+        <thead>
+          <tr>
+            <th class="checkbox">
+              <input name="select-all" type="checkbox"/>
+            </th>
+	    <th>id</th>
+            <th>path</th>
+	    <th>name</th>
+            <th>requirement</th>
+            <th>modified</th>
+            <th>created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for testcase in available_testcases %}
+          <tr class="{% cycle 'odd' 'even' %}" style="background: {{ testcase.status.color }}">
+            <td class="select">
+              <input type="checkbox" class="modify" value="{{ testcase.id }}"/>
+              <input type="hidden" name="available_test_case" value="{{ testcase.id }}"/>
+            </td>
+	    <td class="id">
+              {{ testcase.id }}
+            </td> 
+            <td class="path">
+              <a href="/store/#testcasedirectory/{{ testcase.parent.pk }}/details/">
+                {{ testcase.path }}
+              </a>
+            </td>
+            <td class="name">
+              <a href="/store/#testcase/{{ testcase.pk }}/details/">
+                {{ testcase.name }}
+              </a>
+            </td>
+	    <td class="requirement">
+              <a href="/require/#requirement/{{ testcase.requirement.pk }}/details/">
+                {{ testcase.requirement }}
+              </a>
+            </td>
+            
+	    <td class="modified_time">
+              {{ testcase.modified_time }}
+            </td>
+            <td class="created_time">
+              {{ testcase.created_time }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a id="add-testcases-button" class="button">add</a>
+    </div>
+  </div>
+
   <div class="grid_16 clearfix">
     <div id="application-view-footer" class="application-view-content">
       <div class="right">
@@ -66,40 +121,4 @@
     </div>
   </div>
 </form>
-
-<script>
-  function testcase_search_success(response, statusText, xhr, $form) {
-    if(response.success) {
-      $('.field-wrapper').removeClass("ui-state-error");
-      $(".available-testcases tr:not(:first-child)").detach();
-      $(".available-testcases tr").after(response.data);
-      $('#notification').jnotifyAddMessage({
-        text: response.message,
-        permanent: false,
-        disappearTime: 2000
-      });
-    } else {
-      $(response.data).each(function(i, element) {
-        $("#"+element[0]+"_wrapper").addClass("ui-state-error");
-        $('#notification').jnotifyAddMessage({
-          text: element[1],
-          permanent: true,
-          type: "error"
-        });
-      });
-    }
-  }
-
-  $(function () {
-    $("form.testcase-search").ajaxForm({ 
-      success: testcase_search_success
-    });
-    $("form.testcase-connect").ajaxForm({ 
-      success: hash.main
-    });
-  });
-</script>
-
-<style type="text/css">
-  input:focus, input.focused { border-color: #000; color: #333; }
-</style>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/require_testcases.js{{ STATIC_HASH }}"></script>
