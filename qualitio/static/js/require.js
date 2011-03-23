@@ -80,7 +80,7 @@ $(function() {
     
   });
   
-  new ExecuteController();
+  new ControllerView();
   Backbone.history.start();
 
 });
