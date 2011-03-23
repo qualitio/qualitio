@@ -62,7 +62,7 @@ $(function() {
     }
   });
   
-  var ExecuteController = Backbone.Controller.extend({
+  var ControllerView = Backbone.Controller.extend({
     
     routes: {
       ":type/:id/:view/": "render",
