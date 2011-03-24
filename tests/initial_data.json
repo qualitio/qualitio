@@ -1,6 +1,24 @@
 [
   {
     "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "admin", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2010-10-18 05:42:11", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$77074$a0439dd586835e301c02d5e4038b407ea0986573", 
+      "email": "admin@admin.pl", 
+      "date_joined": "2010-10-18 05:42:11"
+    }
+  },
+  {
+    "pk": 1, 
     "model": "requirements.requirement", 
     "fields": {
       "rght": 32, 
@@ -357,6 +375,202 @@
     }
   },
   {
+    "pk": 4, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase1", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase2", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase3", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase4", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase5", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase6", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase7", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase8", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase9", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase10", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase11", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase12", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase13", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": 1, 
+      "name": "TestCase14", 
+      "parent": 4, 
+      "precondition": "", 
+      "modified_time": "2011-01-07 11:21:24", 
+      "created_time": "2011-01-07 11:10:38", 
+      "path": "/MeeGo Netbook/MeeGo IVI BAT/", 
+      "description": ""
+    }
+  }, 
+  {
     "pk": 1, 
     "model": "execute.testrundirectory", 
     "fields": {
@@ -394,6 +608,36 @@
       "modified_time": "2011-01-24 15:08:32", 
       "created_time": "2011-01-24 15:06:45", 
       "path": "/TestRun directory/"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "created_time": "2011-01-31 14:25:16", 
+      "color": "#cceeee", 
+      "name": "IDLE", 
+      "modified_time": "2011-01-31 14:29:16"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "created_time": "2011-02-01 10:56:58", 
+      "color": "#88bb66", 
+      "name": "PASSED", 
+      "modified_time": "2011-02-01 10:56:58"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "created_time": "2011-02-01 16:28:15", 
+      "color": "red", 
+      "name": "FAILED", 
+      "modified_time": "2011-02-01 16:28:15"
     }
   }
 ]
