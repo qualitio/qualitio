@@ -9,6 +9,7 @@ urlpatterns = patterns('',
                         {'template_name': 'login.html'}),
                        (r'^logout/$', 'django.contrib.auth.views.logout',
                         {'next_page' : '/'}),
+                       (r'^permission_required/$', 'qualitio.core.permission_required'),
 
                        (r'^require/', include('qualitio.requirements.urls')),
                        (r'^report/', include('qualitio.report.urls')),

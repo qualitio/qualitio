@@ -1,4 +1,5 @@
 from django.views.generic.simple import direct_to_template
+from django.contrib.auth.decorators import permission_required
 
 from reversion import revision
 
@@ -16,6 +17,7 @@ def directory_details(request, directory_id):
                               {'directory': TestCaseDirectory.objects.get(pk=directory_id)})
 
 
+@permission_required('store.change_testcasedirectory', login_url='/permission_required/')
 def directory_edit(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
@@ -23,6 +25,7 @@ def directory_edit(request, directory_id):
                               {'testcasedirectory_form': testcasedirectory_form})
 
 
+@permission_required('store.add_testcasedirectory', login_url='/permission_required/')
 def directory_new(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(initial={'parent': directory})
@@ -59,6 +62,7 @@ def testcase_details(request, testcase_id):
                               {'testcase': TestCase.objects.get(pk=testcase_id)})
 
 
+@permission_required('store.change_testcase', login_url='/permission_required/')
 def testcase_edit(request, testcase_id):
     testcase = TestCase.objects.get(pk=testcase_id)
     testcase_form = TestCaseForm(instance=testcase)
@@ -70,6 +74,7 @@ def testcase_edit(request, testcase_id):
                                 'glossary_word_search_form': glossary_word_search_form})
 
 
+@permission_required('store.add_testcase', login_url='/permission_required/')
 def testcase_new(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcase_form = TestCaseForm(initial={'parent': directory})
@@ -77,6 +82,7 @@ def testcase_new(request, directory_id):
     return direct_to_template(request, 'store/testcase_edit.html',
                               {"testcase_form": testcase_form,
                                 "testcasesteps_form": testcasesteps_form})
+
 
 @revision.create_on_success
 @json_response
@@ -106,10 +112,3 @@ def testcase_valid(request, testcase_id=0):
         return failed(message="Validation errors: %s" % testcase_form.error_message(),
                       data=testcase_form.errors_list() + testcasesteps_form.errors_list())
 
-
-def testcase_attachments(request, testcase_id):
-    testcase = TestCase.objects.get(pk=testcase_id)
-    attachments_form = AttachmentFormSet(instance=testcase)
-    return direct_to_template(request, 'store/testcase_attachments.html',
-                              {'testcase': testcase,
-                               'attachments_form': attachments_form})

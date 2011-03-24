@@ -8,15 +8,10 @@
   {% if view == "edit" %}
   <span class="active" >edit</span>
   {% else %}
-  <a href="#testcase/{{ obj.pk }}/edit/">edit</a>
+  <a class="{% if not perms.store.change_testcase %}disable{% endif %}"
+     href="#testcase/{{ obj.pk }}/edit/">edit</a>
   {% endif %}
   
-  {% if view == "attachments" %}
-  <span class="active" >attachments</span>
-  {% else %}
-  <a href="#testcase/{{ obj.pk }}/attachments/">attachments</a>
-  {% endif %}
-
   {% if view == "history" %}
   <span class="active" >history</span>
   {% else %}

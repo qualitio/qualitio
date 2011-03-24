@@ -133,7 +133,8 @@
 <div class="grid_16 clearfix">
   <div id="application-view-footer" class="application-view-content clearfix">
     <div class="prefix_8 grid_8 right clearfix">
-      <a href="#requirement/{{ requirement.pk }}/new/" class="button">create requirement</a>
+      <a class="button {% if not perms.requirements.add_requirement %}disable{% endif %}"
+         href="#requirement/{{ requirement.pk }}/new/">create requirement</a>
     </div>
   </div>
 </div>

@@ -8,7 +8,8 @@
   {% if view == "edit" %}
   <span class="active" >edit</span>
   {% else %}
-  <a href="#testrundirectory/{{ obj.pk }}/edit/">edit</a>
+  <a class="{% if not perms.execute.change_testrundirectory %}disable{% endif %}" 
+     href="#testrundirectory/{{ obj.pk }}/edit/">edit</a>
   {% endif %}
 
   {% if view == "history" %}
@@ -18,4 +19,3 @@
   {% endif %}
 
 </div>
-

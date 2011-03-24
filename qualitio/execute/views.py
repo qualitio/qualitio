@@ -1,7 +1,8 @@
 from reversion import revision
 
-from django.views.generic.simple import direct_to_template
+from django.contrib.auth.decorators import permission_required
 from django.utils.encoding import force_unicode
+from django.views.generic.simple import direct_to_template
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
@@ -18,6 +19,7 @@ def directory_details(request, directory_id):
                               {'directory': TestRunDirectory.objects.get(pk=directory_id)})
 
 
+@permission_required('execute.add_testrundirectory', login_url='/permission_required/')
 def directory_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(initial={'parent': directory})
@@ -25,6 +27,7 @@ def directory_new(request, directory_id):
                               {'testrundirectory_form': testrundirectory_form})
 
 
+@permission_required('execute.change_testrundirectory', login_url='/permission_required/')
 def directory_edit(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
@@ -35,6 +38,7 @@ def directory_edit(request, directory_id):
 @revision.create_on_success
 @json_response
 def directory_valid(request, directory_id=0):
+    # TODO: should we think about permissions for valid views?
     if directory_id:
         testrun_directory = TestRunDirectory.objects.get(pk=str(directory_id))
         testrun_directory_form = forms.TestRunDirectoryForm(request.POST,
@@ -65,16 +69,7 @@ def testrun_details(request, testrun_id):
                               {'testrun': TestRun.objects.get(pk=testrun_id)})
 
 
-def testrun_execute(request, testrun_id):
-    return direct_to_template(request, 'execute/testrun_execute.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
-
-
-def testrun_notes(request, testrun_id):
-    return direct_to_template(request, 'execute/testrun_notes.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
-
-
+@permission_required('execute.add_testrun', login_url='/permission_required/')
 def testrun_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = forms.TestRunForm(initial={'parent': directory})
@@ -84,6 +79,7 @@ def testrun_new(request, directory_id):
                                'available_test_cases': store.TestCase.objects.all()})
 
 
+@permission_required('execute.change_testrun', login_url='/permission_required/')
 def testrun_edit(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunForm(instance=testrun, prefix="testrun")
@@ -92,6 +88,13 @@ def testrun_edit(request, testrun_id):
                               {'testrun_form': testrun_form,
                                'available_test_cases': store.TestCase.objects.all(),
                                'connected_test_cases' : testrun.testcases.all()})
+
+
+@permission_required('execute.change_testrun', login_url='/permission_required/')
+def testrun_notes(request, testrun_id):
+    return direct_to_template(request, 'execute/testrun_notes.html',
+                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+
 
 @revision.create_on_success
 @json_response
@@ -118,6 +121,12 @@ def testrun_valid(request, testrun_id=0):
     else:
         return failed(message="Validation errors",
                       data=testrun_form.errors_list())
+
+
+@permission_required('execute.change_testrun', login_url='/permission_required/')
+def testrun_execute(request, testrun_id):
+    return direct_to_template(request, 'execute/testrun_execute.html',
+                              {'testrun': TestRun.objects.get(pk=testrun_id)})
 
 
 def testcaserun(request, testcaserun_id):

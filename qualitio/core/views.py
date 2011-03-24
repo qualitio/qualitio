@@ -72,3 +72,7 @@ def history(request, object_id, Model):
                               {'object': object,
                                'name' : object._meta.object_name,
                                'versions' : versions})
+
+
+def permission_required(request):
+    return direct_to_template(request, 'core/permission_required.html')

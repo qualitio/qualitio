@@ -11,6 +11,14 @@ body {
     font-size: 12px;
 }
 
+a:link, a:visited {
+    color: #555555;    
+}
+
+a:hover {
+    color: #111111;
+}
+
 #loading {
     position: absolute;
     left: 50%;
@@ -296,6 +304,10 @@ h2, label {
 }
 #application-view-footer .right {
     text-align:right;
+}
+
+#application-view-permission-required {
+    margin-top:12px;
 }
 
 #application-nav.list a {

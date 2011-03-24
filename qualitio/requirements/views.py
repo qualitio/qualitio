@@ -1,6 +1,7 @@
 from reversion import revision
 
 from django.views.generic.simple import direct_to_template
+from django.contrib.auth.decorators import permission_required
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
@@ -19,7 +20,7 @@ def details(request, requirement_id):
                               {'requirement': requirement ,
                                'testcases': testcases })
 
-
+@permission_required('requirements.change_requirement', login_url='/permission_required/')
 def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
@@ -27,6 +28,7 @@ def edit(request, requirement_id):
                               {'requirement_form': requirement_form})
 
 
+@permission_required('requirements.add_requirement', login_url='/permission_required/')
 def new(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
     requirement_form = RequirementForm(initial={'parent': requirement})
@@ -58,6 +60,7 @@ def valid(request, requirement_id=0):
                   data=requirement_form.errors_list())
 
 
+@permission_required('perms.store.change_testcase', login_url='/permission_required/')
 def testcases(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     return direct_to_template(request, 'requirements/test_cases.html',
@@ -79,4 +82,3 @@ def testcases_connect(request, requirement_id):
         requirement.testcase_set.add(testcase)
 
     return success(message="Test cases connected")
-

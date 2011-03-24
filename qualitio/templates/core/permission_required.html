@@ -1,0 +1,9 @@
+<div class="grid_16 clearfix">
+  <div id="application-view-permission-required" class="application-view-content">
+    
+    <h1>You don't have permissions to perform this action!</h1>
+    Go <a id="go-back" href="#">back</a> or <a href="{% url django.contrib.auth.views.logout %}">login</a> as a different user.
+
+  </div>
+</div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/core_permission_required.js{{ STATIC_HASH }}"></script>

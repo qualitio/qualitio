@@ -34,8 +34,6 @@ urlpatterns = patterns('',
                            testcase_edit),
                        url(r'^ajax/testcase/(?P<directory_id>\d+)/new/?$',
                            testcase_new),
-                       url(r'^ajax/testcase/(?P<testcase_id>\d+)/attachments/?$',
-                           testcase_attachments),
                        url(r'^ajax/testcase/(?P<object_id>\d+)/history/$',
                            core.history, {'Model' : TestCase}),
 

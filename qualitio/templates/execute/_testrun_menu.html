@@ -8,19 +8,22 @@
   {% if view == "edit" %}
   <span class="active" >edit</span>
   {% else %}
-  <a href="#testrun/{{ obj.pk }}/edit/">edit</a>
+  <a class="{% if not perms.execute.change_testrun %}disable{% endif %}"
+     href="#testrun/{{ obj.pk }}/edit/">edit</a>
   {% endif %}
 
   {% if view == "execute" %}
   <span class="active" >execute</span>
   {% else %}
-  <a href="#testrun/{{ obj.pk }}/execute/">execute</a>
+  <a class="{% if not perms.execute.change_testrun %}disable{% endif %}"
+     href="#testrun/{{ obj.pk }}/execute/">execute</a>
   {% endif %}
 
   {% if view == "notes" %}
   <span class="active" >notes</span>
   {% else %}
-  <a href="#testrun/{{ obj.pk }}/notes/">notes</a>
+  <a class="{% if not perms.execute.change_testrun %}disable{% endif %}"
+     href="#testrun/{{ obj.pk }}/notes/">notes</a>
   {% endif %}
 
   {% if view == "history" %}
