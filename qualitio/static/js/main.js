@@ -120,3 +120,25 @@ jQuery.fn.dataTableToggleSelect = function() {
       .attr('checked', $(this).attr('checked'));
   });
 };
+
+
+jQuery.notification = {
+  
+  element: '#notification',
+  
+  notice: function(message) {
+    $(this.element).jnotifyAddMessage({
+      text: message,
+      permanent: false,
+      disappearTime: 2000
+    });
+  },
+  
+  error: function(message) {
+    $(this.element).jnotifyAddMessage({
+      text: message,
+      permanent: true,
+      type: "error"
+    });
+  }
+}
