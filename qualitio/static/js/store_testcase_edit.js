@@ -96,17 +96,11 @@ $(function() {
         filed_wrapper.addClass("ui-state-error");
         filed_wrapper.find(".error").append(element[1]);
       });        
-      $('#notification').jnotifyAddMessage({
-        text: response.message,
-        permanent: false,
-        type: "error"
-      });
+      
+      $.notification.error(response.message);
     } else {
-      $('#notification').jnotifyAddMessage({
-        text: response.message,
-        permanent: false,
-        disappearTime: 2000
-      });
+      $.notification.notice(response.message);
+      
       $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testcasedirectory", response.data);
       
       $('#application-tree').bind("refresh.jstree", function (event, data) {

@@ -5,20 +5,10 @@ function show_response(response, statusText, xhr, $form)  {
       $("#"+element[0]+"_wrapper .error").append(element[1]);
     });
     
-    $('#notification').jnotifyAddMessage({
-      text: response.message,
-      permanent: false,
-      type: "error"
-    });
+    $.notification.error(response.message);
   } else {
-    $('#notification').jnotifyAddMessage({
-      text: response.message,
-      permanent: false,
-      disappearTime: 2000
-    });
-    hash.node = response.data.current_id; // for new created objects go to details view 
-    hash.view = "details" 
-    hash.update();
+    $.notification.notice(response.message);
+    
     $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_requirement", response.data);
     
     $('#application-tree').bind("refresh.jstree", function (event, data) {

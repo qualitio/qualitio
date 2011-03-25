@@ -4,17 +4,11 @@ function show_response(response, statusText, xhr, $form)  {
       $("#"+element[0]+"_wrapper").addClass("ui-state-error");
       $("#"+element[0]+"_wrapper .error").append(element[1]);
     });        
-    $('#notification').jnotifyAddMessage({
-      text: response.message,
-      permanent: false,
-      type: "error"
-    });
+    
+    $.notification.error(response.message);
   } else {
-    $('#notification').jnotifyAddMessage({
-      text: response.message,
-      permanent: false,
-      disappearTime: 2000
-    });
+    $.notification.notice(response.message);
+
     $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testrundirectory", response.data);
 
     $('#application-tree').bind("refresh.jstree", function (event, data) {
