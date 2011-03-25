@@ -15,9 +15,6 @@ function show_response(response, statusText, xhr, $form)  {
       permanent: false,
       disappearTime: 2000
     });
-    hash.node = response.data.current_id; // for new created objects go to details view 
-    hash.view = "details" 
-    hash.update();
     $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testcasedirectory", response.data);
     
     $('#application-tree').bind("refresh.jstree", function (event, data) {

@@ -14,8 +14,11 @@
 </div>
 {% endif %}
 <form id="testcasedirectory_form" 
-      action="{% if testcasedirectory_form.instance.id %}/store/ajax/testcasedirectory/{{ testcasedirectory_form.instance.id }}/edit/valid/
-              {% else %}/store/ajax/testcasedirectory/new/valid/{% endif %}"
+      action="{% if testcasedirectory_form.instance.id %}
+              {% url qualitio.store.views.directory_valid testcasedirectory_form.instance.id %}
+              {% else %}
+              {% url qualitio.store.views.directory_valid %}
+              {% endif %}"
       method="post">{% csrf_token %}
 
   <div class="application-view-content">

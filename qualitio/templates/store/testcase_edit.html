@@ -37,9 +37,14 @@
 </div>
 
 <form id="testcase_form" 
-      action="{% if testcase_form.instance.id %}/store/ajax/testcase/{{ testcase_form.instance.id }}/edit/valid/
-              {% else %}/store/ajax/testcase/new/valid/{% endif %}"
-      method="post">{% csrf_token %}
+      action="{% if testcase_form.instance.id %}
+              {% url qualitio.store.views.testcase_valid testcase_form.instance.id %}
+              {% else %}
+              {% url qualitio.store.views.testcase_valid %}
+              {% endif %}"
+      method="post">
+  
+  {% csrf_token %}
   <div class="application-view-content">
     
     <div id="{{ testcase_form.name.html_name }}_wrapper" class="field-wrapper">
