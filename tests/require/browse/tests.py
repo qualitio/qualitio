@@ -110,8 +110,12 @@ class Test01Loginrequire(BaseSeleniumTestCase):
         self.assertEqual("qualitio: login", sel.get_title())
         try: self.failUnless(sel.is_text_present("Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
         sel.type("id_username", "admin")
+        try: self.failUnless(sel.is_element_present("id_password"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_password")
         sel.type("id_password", "admin")
         sel.click("submit-panel")
@@ -136,31 +140,112 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("store", sel.get_text("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("execute", sel.get_text("link=execute"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("admin", sel.get_text("link=admin"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
         # <tr>
         # 	<td>verifyText</td>
         # 	<td>link=execute</td>
         # 	<td>execute</td>
         # </tr>
+
+
+
         # <tr>
+
         # 	<td>verifyText</td>
+
         # 	<td>link=report</td>
+
         # 	<td>report</td>
+
         # </tr>
+
+
+
+
         # <tr>
+
+
         # 	<td>verifyText</td>
+
+
         # 	<td>link=settings</td>
+
+
         # 	<td>settings</td>
+
+
         # </tr>
+
+
+
+
         try: self.assertEqual("admin", sel.get_text("link=admin"))
+
+
+
         except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+
         self.failUnless(sel.is_element_present("css=#application-menu"))
+
+
+
         try: self.assertEqual("browse", sel.get_text("css=#application-menu ul li"))
+
+
+
         except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+
+        try: self.assertEqual("filter", sel.get_text("link=filter"))
+
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+
+        try: self.failUnless(sel.is_text_present("Welcome, admin."))
+
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+
+        try: self.failUnless(sel.is_element_present("link=Log out"))
+
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+
+
         # <tr>
+
+
+
         # 	<td>verifyText</td>
+
+
+
         # 	<td>css=#application-menu ul li a</td>
+
+
+
         # 	<td>filter</td>
+
+
+
         # </tr>
+
 
 
 class Test2TreeVerifyelements(BaseSeleniumTestCase):
@@ -504,6 +589,19 @@ class Test4Modreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=mod requirement 3")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_release_target"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
         for i in range(60):
             try:
                 if "requirement: mod requirement 3" == sel.get_text("css=div#application-view-header h1"): break
@@ -1107,7 +1205,6 @@ class Test8ModreqReltarg(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=new requirement 5"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=new requirement 5")
-        sel.click("link=new requirement 5")
         for i in range(60):
             try:
                 if "requirement: new requirement 5" == sel.get_text("css=div#application-view-header h1"): break
@@ -1131,7 +1228,27 @@ class Test8ModreqReltarg(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_release_target")
         sel.click("link=15")
+        sel.click("id_description")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("css=input.ui-button")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -1306,7 +1423,6 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=new requirement 6"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=new requirement 6")
-        sel.click("link=new requirement 6")
         for i in range(60):
             try:
                 if "requirement: new requirement 6" == sel.get_text("css=div#application-view-header h1"): break
@@ -1325,6 +1441,19 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_description", "Desription of test")
         sel.click("css=input.ui-button")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -1349,6 +1478,8 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Desription of test"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -1511,10 +1642,23 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
         sel.click("link=new requirement 7")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if "requirement: new requirement 7" == sel.get_text("css=div#application-view-header h1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("full name: /MeeGo/TV/new requirement 7"): break
@@ -2308,7 +2452,6 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         self.assertEqual("qualitio: requirements", sel.get_title())
-        sel.click("link=MeeGo")
         sel.click("css=li#1_requirement ins")
         for i in range(60):
             try:
@@ -2322,7 +2465,6 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("css=li#4_requirement ins")
         sel.click("link=TV")
         for i in range(60):
             try:
@@ -2330,6 +2472,14 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/a/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
@@ -2347,6 +2497,14 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         sel.click("id_release_target")
         sel.click("link=16")
         sel.type("id_description", "description\nnew\nrequirement\n9")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
@@ -2359,6 +2517,14 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=new requirement 9"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("new requirement 9", sel.get_text("link=new requirement 9"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/a/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
@@ -2408,6 +2574,21 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_element_present("id_release_target"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=details"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("/MeeGo/IVI/new subrequirement9"): break
             except: pass
             time.sleep(1)
@@ -2448,6 +2629,21 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.select("id_parent", "label=/MeeGo/TV/new requirement 9")
         sel.click("//input[@name='Executed' and @value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_release_target"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=details"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("full name: /MeeGo/TV/new requirement 9/new subrequirement9"): break
@@ -2520,6 +2716,19 @@ class Test24Dependblock(BaseSeleniumTestCase):
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name: /MeeGo/TV"): break
             except: pass
             time.sleep(1)
@@ -2568,6 +2777,19 @@ class Test24Dependblock(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.add_selection("id_dependencies", "label=/MeeGo/Notebook")
         sel.click("css=input[name='Executed'][value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("full name: /MeeGo/IVI"): break
@@ -2679,6 +2901,19 @@ class Test24Dependblock(BaseSeleniumTestCase):
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name: /MeeGo/IVI"): break
             except: pass
             time.sleep(1)
@@ -2729,6 +2964,19 @@ class Test24Dependblock(BaseSeleniumTestCase):
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name: /MeeGo/TV"): break
             except: pass
             time.sleep(1)
@@ -2755,6 +3003,14 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
             try:
@@ -2772,6 +3028,19 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_release_target"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
@@ -2782,13 +3051,27 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//li[@id='1_requirement']/ins")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Notebook"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=TV")
         for i in range(60):
             try:
@@ -2796,6 +3079,14 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
             try:
@@ -2813,6 +3104,19 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
@@ -2823,11 +3127,9 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=MeeGo")
-        sel.click("//li[@id='1_requirement']/ins")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:requirement: MeeGo"): break
+                if sel.is_element_present("link=Notebook"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2856,13 +3158,20 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=MeeGo")
+        for i in range(60):
+            try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("full name:"): break
+                if sel.is_text_present("full name: /MeeGo"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3083,6 +3392,19 @@ class Test32Samename(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name: /MeeGo/Legacy/IVI"): break
             except: pass
             time.sleep(1)
@@ -3111,6 +3433,19 @@ class Test32Samename(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("exact:requirement: requirement same name"): break
             except: pass
             time.sleep(1)
@@ -3119,6 +3454,7 @@ class Test32Samename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo/requirement same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
     
     def tearDown(self):
         self.selenium.stop()
