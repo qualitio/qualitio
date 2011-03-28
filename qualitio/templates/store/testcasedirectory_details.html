@@ -15,29 +15,44 @@
     <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
   
-  <table class="pretty ui-corner-all" style="margin-top: 20px">
-    <tr>
-      <th class="icon"></th>
-      <th>path</th>
-      <th>name</th>
-      <th>requirement</th>
-    </tr>
-    {% for child in directory.get_children %}
-    <tr class="directory">
-      <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
-      <td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
-      <td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
-      <td>&nbsp;</td>
-    </tr>
-    {% endfor %}
-    {% for child in directory.testcase_set.all %}
-    <tr>
-      <td><img src="{{ MEDIA_URL }}images/testcase_icon_small.png"></td>
-      <td class="path"><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
-      <td><a href="#testcase/{{ child.pk }}/details/">{{ child.name }}</a></td>
-      <td><a href="/require/#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a></td>
-    </tr>
-    {% endfor %}
+  <table class="display">
+    <thead>
+      <tr>
+        <th class="icon">&nbsp;</th>
+        <th class="id">id</th>
+        <th>path</th>
+        <th>name</th>
+        <th>requirement</th>
+        <th>modified</th>
+        <th>created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for child in directory.children.all %}
+      <tr class="directory">
+        <td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
+        <td>{{ child.pk }}</td>
+        <td><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
+        <td><a href="#testcase/{{ child.pk }}/details/">{{ child.name }}</a></td>
+        <td>&nbsp;</td>
+        <td>{{ child.modified_time }}</td>
+        <td>{{ child.created_time }}</td>
+      </tr>
+      {% endfor %}
+      {% for child in directory.subchildren.all %}
+      <tr>
+        <td><span class="ui-icon ui-icon-document"></span></td>
+        <td>{{ child.pk }}</td>
+        <td class="path"><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
+        <td class="name"><a href="#testcase/{{ child.pk }}/details/">{{ child.name }}</a></td>
+        <td class="requirement">
+          <a href="/require/#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a>
+        </td>
+        <td>{{ child.modified_time }}</td>
+        <td>{{ child.created_time }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 <div id="application-view-footer" class="application-view-content">
@@ -48,3 +63,4 @@
        href="#testcasedirectory/{{ directory.pk }}/new/" >create test case directory</a>
   </div>
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_directory_details.js{{ STATIC_HASH }}"></script>

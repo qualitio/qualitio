@@ -39,8 +39,8 @@
       <td>{{ child.pk }}</td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
-      <td class="path">{{ child.modified_time }}</td>
-      <td class="path">{{ child.created_time }}</td>
+      <td>{{ child.modified_time }}</td>
+      <td>{{ child.created_time }}</td>
     </tr>
     {% endfor %}
     {% for child in directory.subchildren.all %}
