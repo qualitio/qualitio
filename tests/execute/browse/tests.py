@@ -1983,11 +1983,23 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_bugs"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_bugs", "1234")
+        sel.type("id_bugs", "1234,1235,1236")
         sel.click("css=input[value='add']")
         for i in range(60):
             try:
                 if sel.is_element_present("link=1234"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1235"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1236"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1999,15 +2011,147 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("id_bugs-0-DELETE"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_bugs-1-DELETE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_bugs-2-DELETE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=1234"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1235"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1236"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("we need default style for the html 4 style tags", sel.get_text("link=we need default style for the html 4 style tags"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("VERIFIED"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("DUPLICATE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("FIXED"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("#1234"))
+        try: self.failUnless(sel.is_text_present("INVALID"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#1234 #1235 #1236"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_bugs-0-DELETE")
+        sel.click("id_bugs-1-DELETE")
+        sel.click("id_bugs-2-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='remove']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='remove']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='remove']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_bugs", "1237 , 1238 , 1239")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='add']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1237"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1238"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1239"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=1237"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1238"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1239"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#1237 #1238 #1239"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_bugs-0-DELETE")
+        sel.click("id_bugs-1-DELETE")
+        sel.click("id_bugs-2-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='remove']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='remove']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_bugs", "1231, 1232, 1233, 1234")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='add']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1231"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1232"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=1231"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1232"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1233"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1234"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#1231 #1232 #1233 #1234"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
