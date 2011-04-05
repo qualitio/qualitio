@@ -16,14 +16,20 @@ class TestRun(core.BasePathModel):
 
     def testcase_setup(self, test_cases):
 
+        to_create = []
         for test_case in test_cases:
             if test_case.id not in self.testcases.values_list("origin__id" ,flat=True):
+                to_create.append(test_case)
                 self.run(test_case)
 
         to_delete_ids = set(self.testcases.values_list("origin__id", flat=True))\
             - set(test_cases.values_list("id", flat=True))
 
         self.testcases.filter(origin__id__in=to_delete_ids).delete()
+
+        to_delete = store.TestCase.objects.filter(id__in=to_delete_ids)
+
+        return to_create, to_delete
 
     def run(self, test_case):
         test_case_run = self.testcases.create(name=test_case.name,

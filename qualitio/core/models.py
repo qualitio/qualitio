@@ -53,7 +53,7 @@ class AbstractPathModel(BaseModel):
                 raise ValidationError('"parent" and "name" fields need to be always unique together.')
 
     def __unicode__(self):
-        return "%s%s" % (self.path, self.name)
+        return "%s: %s%s" % (self.pk, self.path, self.name)
 
 
 class BasePathModelMetaclass(models.base.ModelBase):
