@@ -1,5 +1,5 @@
 $(function() {
-  $('input[type=submit]').button();
+  $('input[type=submit], .button').button();
   
   $("label").inFieldLabels(); 
   $("input").attr("autocomplete","off");

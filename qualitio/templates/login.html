@@ -41,8 +41,13 @@
           {{ form.password }}
         </fieldset>
         <div id="submit-panel">
-          <input type="submit" value="login" />
-          <input type="hidden" name="next" value="{{ next }}" />
+          <div class="left">
+            <a class="button" href="/login/google/">&nbsp;</a>
+          </div>
+          <div class="right">
+            <input type="submit" value="Login" />
+            <input type="hidden" name="next" value="{{ next }}" />
+          </div>
         </div>
       </form>
     </div>

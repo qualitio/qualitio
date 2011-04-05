@@ -5,11 +5,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       (r'^login/$', 'django.contrib.auth.views.login',
-                        {'template_name': 'login.html'}),
-                       (r'^logout/$', 'django.contrib.auth.views.logout',
-                        {'next_page' : '/'}),
+                       (r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
+                       (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page' : '/'}),
                        (r'^permission_required/$', 'qualitio.core.permission_required'),
+                       (r'', include('social_auth.urls')),
 
                        (r'^require/', include('qualitio.requirements.urls')),
                        (r'^report/', include('qualitio.report.urls')),
@@ -18,7 +17,8 @@ urlpatterns = patterns('',
                        (r'^store/', include('qualitio.store.urls')),
 
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-                       (r'^admin/', include(admin.site.urls)),
+                       (r'^admin/', include(admin.site.urls))
+
                        )
 
 urlpatterns += patterns('django.views.generic.simple',
@@ -30,3 +30,4 @@ if settings.DEBUG:
                             (r'^static/(?P<path>.*)$', 'django.views.static.serve',
                              {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
                             )
+

@@ -82,6 +82,7 @@ LOGIN_EXEMPT_URLS = (
     r'^static/',
     r'^login/.*',
     r'^__debug__/.*',
+    r'^complete/*',
     )
 
 TEMPLATE_DIRS = (
@@ -108,6 +109,7 @@ INSTALLED_APPS = (
 
     'mptt',
     'debug_toolbar',
+    'social_auth',
     'django_nose',
     'reversion'
 )
@@ -122,6 +124,13 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "qualitio.core.context_processors.development")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 INTERNAL_IPS = (
     '127.0.0.1',

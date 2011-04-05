@@ -60,12 +60,27 @@ body {
     font-size: 14px;
     height: 34px;
     width: 110px;
+    padding-top: 3px;
+}
+
+#submit-panel .button {
+    font-size: 14px;
+    height: 32px;
+    background: url("../images/google_openid.jpg") no-repeat;
+    width: 123px;
+}
+
+#submit-panel .left {
+    float: left;
+}
+
+#submit-panel .button .ui-button-text {
+    line-height: 18px !important;
 }
 
 #notification {
     display: block;
     position: relative;
-    
 }
 
 #notification .ui-state-error {
