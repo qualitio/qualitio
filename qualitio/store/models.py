@@ -20,6 +20,7 @@ class TestCaseStepBase(core.BaseModel):
     class Meta(core.BaseModel.Meta):
         abstract = True
         ordering = ['sequence']
+        verbose_name = "step"
 
 
 class TestCaseDirectory(core.BaseDirectoryModel):
@@ -36,6 +37,7 @@ class TestCaseStep(TestCaseStepBase):
 
     def __unicode__(self):
         return "%s" % (int(self.sequence) + 1)
+
 
 class Attachment(core.BaseModel):
     testcase = models.ForeignKey('TestCase')

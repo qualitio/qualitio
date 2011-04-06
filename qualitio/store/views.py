@@ -1,12 +1,11 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 
-from reversion import revision
-
 from qualitio.core.utils import json_response, success, failed
 from qualitio.store.models import TestCaseDirectory, TestCase
-from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, AttachmentFormSet, TestCaseStepFormSet, GlossaryWord
+from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, TestCaseStepFormSet, GlossaryWord
 
+from qualitio import history
 
 def index(request):
     return direct_to_template(request, 'store/base.html', {})
@@ -33,7 +32,6 @@ def directory_new(request, directory_id):
                               {'testcasedirectory_form': testcasedirectory_form})
 
 
-@revision.create_on_success
 @json_response
 def directory_valid(request, directory_id=0):
     if directory_id:
@@ -43,15 +41,14 @@ def directory_valid(request, directory_id=0):
         testcase_directory_form = TestCaseDirectoryForm(request.POST)
 
     if testcase_directory_form.is_valid():
-        revision.comment = testcase_directory_form.changelog()
-        revision.user = request.user
-        if not revision.comment:
-            revision.invalidate()
-
         testcase_directory = testcase_directory_form.save()
-        return success(message='Directory saved: %s' % revision.comment,
+
+        log = history.History(request.user, testcase_directory)
+        log.add_form(testcase_directory_form)
+        log.save()
+        return success(message='Directory saved',
                        data={"parent_id": getattr(testcase_directory.parent, "id", 0),
-                              "current_id": testcase_directory.id})
+                             "current_id": testcase_directory.id})
     else:
         return failed(message="Validation errors: %s" % testcase_directory_form.error_message(),
                       data=testcase_directory_form.errors_list())
@@ -81,10 +78,9 @@ def testcase_new(request, directory_id):
     testcasesteps_form = TestCaseStepFormSet()
     return direct_to_template(request, 'store/testcase_edit.html',
                               {"testcase_form": testcase_form,
-                                "testcasesteps_form": testcasesteps_form})
+                               "testcasesteps_form": testcasesteps_form})
 
 
-@revision.create_on_success
 @json_response
 def testcase_valid(request, testcase_id=0):
     if testcase_id:
@@ -100,11 +96,10 @@ def testcase_valid(request, testcase_id=0):
         testcasesteps_form.instance = testcase
         testcasesteps_form.save()
 
-        comment = [testcase_form.changelog(), testcasesteps_form.changelog()]
-        if comment:
-            revision.comment = " ".join(comment)
-            revision.user = request.user
-
+        log = history.History(request.user, testcase)
+        log.add_form(testcase_form)
+        log.add_formset(testcasesteps_form)
+        log.save()
         return success(message='TestCase saved',
                        data={"parent_id": getattr(testcase.parent, "id", 0),
                               "current_id": testcase.id})

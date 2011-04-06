@@ -8,6 +8,7 @@ from qualitio import store
 from qualitio.requirements.models import Requirement
 from qualitio.requirements.forms import RequirementForm
 
+from qualitio import history
 
 def index(request):
     return direct_to_template(request, 'requirements/base.html')
@@ -36,7 +37,6 @@ def new(request, requirement_id):
                               {'requirement_form': requirement_form})
 
 
-@revision.create_on_success
 @json_response
 def valid(request, requirement_id=0):
     if requirement_id:
@@ -46,12 +46,11 @@ def valid(request, requirement_id=0):
         requirement_form = RequirementForm(request.POST)
 
     if requirement_form.is_valid():
-        revision.comment = requirement_form.changelog()
-        revision.user = request.user
-        if not revision.comment:
-            revision.invalidate()
-
         requirement = requirement_form.save()
+
+        log = history.History(request.user, requirement)
+        log.add_form(requirement_form)
+        log.save()
         return success(message='Requirement saved: %s' % revision.comment,
                        data={"parent_id": getattr(requirement.parent,"id", 0),
                              "current_id": requirement.id })
@@ -73,6 +72,8 @@ def testcases(request, requirement_id):
 def testcases_connect(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
 
+    previously_connected = set(requirement.testcase_set.all()) # freeze
+
     requirement.testcase_set.clear()
 
     testcases =\
@@ -81,4 +82,12 @@ def testcases_connect(request, requirement_id):
     for testcase in testcases:
         requirement.testcase_set.add(testcase)
 
-    return success(message="Test cases connected")
+    currently_connected = set(requirement.testcase_set.all()) # freeze
+
+    created = list(currently_connected - previously_connected)
+    deleted = list(previously_connected - currently_connected)
+
+    log = history.History(request.user, requirement)
+    log.add_objects(created=created, deleted=deleted)
+    message = log.save()
+    return success(message=message)
