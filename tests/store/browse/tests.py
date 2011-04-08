@@ -682,13 +682,13 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_parent"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=/MeeGo Handset bat")
+        sel.select("id_parent", "label=2: /MeeGo Handset bat")
         try: self.failUnless(sel.is_element_present("id_name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "test case 1")
         try: self.failUnless(sel.is_element_present("id_requirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_requirement", "label=/MeeGo")
+        sel.select("id_requirement", "label=1: /MeeGo")
         for i in range(60):
             try:
                 if sel.is_element_present("id_description"): break
@@ -791,7 +791,9 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Handset bat/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("requirement: /MeeGo"))
+        try: self.failUnless(sel.is_element_present("link=exact:1: /MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("1: /MeeGo", sel.get_text("link=exact:1: /MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("desription\ndesription"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -900,7 +902,9 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Netbook/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("requirement: /MeeGo/TV/MeeGo Handset test"))
+        try: self.assertEqual("13: /MeeGo/TV/MeeGo Handset test", sel.get_text("link=exact:13: /MeeGo/TV/MeeGo Handset test"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=exact:13: /MeeGo/TV/MeeGo Handset test"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("description test\n\ntest"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -1312,7 +1316,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "test case1")
-        sel.select("id_requirement", "label=/MeeGo/MeeGo Handset")
+        sel.select("id_requirement", "label=5: /MeeGo/MeeGo Handset")
         sel.type("id_description", "description\ndescription")
         sel.type("id_precondition", "descriptprec\ndescriptprec")
         sel.click("css=input[name='Executed'][value='Save']")
@@ -1418,7 +1422,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_parent", "label=/MeeGo Netbook")
+        sel.select("id_parent", "label=1: /MeeGo Netbook")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1564,7 +1568,7 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "test case modification")
-        sel.select("id_requirement", "label=/MeeGo/MeeGo Handset")
+        sel.select("id_requirement", "label=5: /MeeGo/MeeGo Handset")
         sel.type("id_description", "testcase description")
         sel.type("id_precondition", "test case precondition")
         sel.click("css=a#add-step-0 span")
@@ -1595,7 +1599,9 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Handset bat/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("requirement: /MeeGo/MeeGo Handset"))
+        try: self.failUnless(sel.is_element_present("link=exact:5: /MeeGo/MeeGo Handset"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("5: /MeeGo/MeeGo Handset", sel.get_text("link=exact:5: /MeeGo/MeeGo Handset"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("description testcase description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -1619,8 +1625,8 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "modify test case modification")
-        sel.select("id_parent", "label=/MeeGo Netbook")
-        sel.select("id_requirement", "label=/MeeGo/Notebook")
+        sel.select("id_parent", "label=1: /MeeGo Netbook")
+        sel.select("id_requirement", "label=2: /MeeGo/Notebook")
         sel.type("id_description", "modify testcase description")
         sel.type("id_precondition", "modify test case precondition")
         sel.type("id_steps-0-description", "modify step1 description")
@@ -1675,7 +1681,9 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Netbook/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("requirement: /MeeGo/Notebook"))
+        try: self.failUnless(sel.is_element_present("link=exact:2: /MeeGo/Notebook"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("2: /MeeGo/Notebook", sel.get_text("link=exact:2: /MeeGo/Notebook"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("modify testcase description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -1842,7 +1850,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=/MeeGo Handset bat")
+        sel.select("id_parent", "label=2: /MeeGo Handset bat")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1884,7 +1892,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_parent", "label=/MeeGo Netbook")
+        sel.select("id_parent", "label=1: /MeeGo Netbook")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2008,7 +2016,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=/MeeGo Netbook/MeeGo IVI BAT")
+        sel.select("id_parent", "label=4: /MeeGo Netbook/MeeGo IVI BAT")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
@@ -2068,7 +2076,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_parent", "label=/MeeGo Netbook")
+        sel.select("id_parent", "label=1: /MeeGo Netbook")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
