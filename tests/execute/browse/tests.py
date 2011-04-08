@@ -883,7 +883,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=/TestRun directory/Directory1")
+        sel.select("id_parent", "label=3: /TestRun directory/Directory1")
         for i in range(60):
             try:
                 if sel.is_element_present("id_parent"): break
@@ -945,7 +945,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_parent", "label=/TestRun directory")
+        sel.select("id_parent", "label=1: /TestRun directory")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
@@ -1067,7 +1067,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "TestRun 1")
-        sel.select("id_parent", "label=/TestRun directory")
+        sel.select("id_parent", "label=1: /TestRun directory")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1130,7 +1130,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_testrun-parent", "label=/TestRun directory/Directory3")
+        sel.select("id_testrun-parent", "label=5: /TestRun directory/Directory3")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1179,7 +1179,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_testrun-parent", "label=/TestRun directory")
+        sel.select("id_testrun-parent", "label=1: /TestRun directory")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2309,8 +2309,26 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("#1234 #1235 #1236"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_bugs-0-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-0-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("id_bugs-1-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-1-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("id_bugs-2-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-2-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_element_present("//input[@value='remove']"): break
@@ -2326,6 +2344,12 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_element_present("//input[@value='remove']"): break
             except: pass
             time.sleep(1)
@@ -2336,6 +2360,14 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_bugs", "1237 , 1238 , 1239")
         for i in range(60):
             try:
@@ -2343,6 +2375,8 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='add']")
         for i in range(60):
             try:
@@ -2371,8 +2405,26 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("#1237 #1238 #1239"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_bugs-0-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-0-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("id_bugs-1-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-1-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("id_bugs-2-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-2-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_element_present("//input[@value='remove']"): break
@@ -2410,7 +2462,11 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_bugs", "1231, 1232, 1233, 1234")
+        try: self.assertEqual("1231, 1232, 1233, 1234", sel.get_value("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
                 if sel.is_element_present("//input[@value='add']"): break
