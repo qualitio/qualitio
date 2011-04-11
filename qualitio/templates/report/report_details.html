@@ -1,26 +1,35 @@
-<div class="grid_12 alpha">
-  <div>
-    <h1>Report "{{ report.name }}" preview:</h1>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>report: {{ report.name }}</h1>
+</div>
+
+{% application_view_menu report "details" %}
+
+<div class="grid_16">
+  <div class="application-view-content">
+    <div class="text-bullet">
+      <span class="name">path:</span>
+      <span class="value">{{ report.path }}</span>
+    </div>
+    <div class="text-bullet">
+      <span class="name">name:</span>
+      <span class="value">{{ report.name }}</span> 
+    </div>
+    <div class="text-bullet">
+      <span class="name">context:</span>
+      {% for context_element in report.context.all %}
+      {{ context_element.name}} : {{ context_element.query }}
+      {% endfor %}
+    </div>
   </div>
-</div>
-
-<div class="grid_12 alpha">
-  <div class="content">
-    <label>public link:</label>
-    <input value="http://projec.example.com/report/public/{{report.name}}" />
+  
+  <div class="application-view-content">
+    <pre>{{ report.template }}</pre>
   </div>
-</div>
 
-<div class="grid_12 alpha">
-  <div class="content">
-    sss
+  <div class="application-view-content">
+    {{ report.content|linebreaks }}
   </div>
+
 </div>
-
-
-
-<div class="grid_12 alpha button-bar ui-corner-all">
-  <div class="content">
-    sasd
-  <!-- </div> -->
-</div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report_report_details.js{{ STATIC_HASH }}"></script>

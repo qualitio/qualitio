@@ -1,54 +1,71 @@
-<div class="grid_12 alpha">
-  <div class="content">
-    <div>Name: {{ reportdirectory.name }}</div>
-    <div>Path: {{ reportdirectory.get_path }}</div>
-
-    <table class="pretty ui-corner-all" style="margin-top: 20px">
-      <tr>
-	<th></th>
-	<th>Path</th>
-	<th>Name</th>
-      </tr>
-      {% for child in reportdirectory.get_children %}
-      <tr class="directory">
-	<td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
-	<td><a href="#reportdirectory/{{ child.get_parent.pk }}/details/">{{ child.get_path }}</a></td>
-	<td><a href="#reportdirectory/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-      {% for child in reportdirectory.report_set.all %}
-      <tr>
-	<td class="icon"><span class="ui-icon ui-icon-document"></span></td>
-	<td class="path"><a href="#reportdirectory/{{ child.directory.pk }}/details/">{{ child.get_path }}</a></td>
-	<td><a href="#report/{{ child.pk }}/details/">{{child.name}}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-
-  </div>
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>report directory: {{ directory.name }}</h1>
 </div>
 
-<div class="grid_12 alpha button-bar ui-corner-all">
-  <div class="grid_6 alpha">
+{% application_view_menu directory "details" %}
 
-    <div class="content">
-      <input class="ui-button ui-widget ui-state-default
-      		    ui-corner-all ui-button-text-only"
-      	     type="submit" value="Delete" />
-    </div>
+<div class="application-view-content">
+  <div class="text-bullet">
+    <span class="name">full name:</span>
+    <span class="value">{{ directory.path }}{{ directory.name }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">description</span>
+    <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
 
-  <div class="grid_6 omega">
-    <div class="content" style="text-align:right;">
-      <input class="ui-button ui-widget ui-state-default
-      		    ui-corner-all ui-button-text-only"
-
-      	     type="submit" value="Create Report" />
-      <input class="ui-button ui-widget ui-state-default
-      		    ui-corner-all ui-button-text-only"
-
-      	     type="submit" value="Create Directory" />
-    </div>
+  <div class="text-bullet">
+    <span class="name">children:</span>
   </div>
+  
+  <table class="display">
+    <thead>
+      <tr>
+        <th class="icon">&nbsp;</th>
+        <th class="id">id</th>
+        <th>path</th>
+        <th>name</th>
+        <th>modified</th>
+        <th>created</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for child in directory.children.all %}
+    <tr class="directory">
+      <td>
+        <span class="ui-icon ui-icon-folder-collapsed"></span>
+      </td>
+      <td>{{ child.pk }}</td>
+      <td><a href="#reportdirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
+      <td><a href="#reportdirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td>{{ child.modified_time }}</td>
+      <td>{{ child.created_time }}</td>
+    </tr>
+    {% endfor %}
+    {% for child in directory.subchildren.all %}
+    <tr>
+      <td>
+        <span class="ui-icon ui-icon-document"></span>
+      </td>
+      <td>{{ child.pk }}</td>
+      <td><a href="#reportdirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
+      <td><a href="#report/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td>{{ child.modified_time }}</td>
+      <td>{{ child.created_time }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
 </div>
 
+<div id="application-view-footer" class="application-view-content">
+  <div class="right">
+    <a class="button {% if not perms.report.add_report %}disable{% endif %}" 
+       href="#reportdirectory/{{ directory.pk }}/newreport/" >create report</a>
+    <a class="button {% if not perms.execute.add_testrundirectory %}disable{% endif %}" 
+       href="#reportdirectory/{{ directory.pk }}/new/" >create report directory</a>
+  </div>
+</div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report_reportdirectory_details.js{{ STATIC_HASH }}"></script>

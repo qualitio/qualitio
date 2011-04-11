@@ -1,44 +1,61 @@
+import re
+
 from django.db import models
-from mptt.models import MPTTModel
+from django.template import Context, Template
 
-class ReportDirectory(MPTTModel):
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
-
-    name = models.CharField(max_length=256)
-
-    def get_path(self):
-        if self.get_ancestors():
-            return "/%s/" % "/".join(map(lambda x: x.name, self.get_ancestors()))
-        return "/"
-
-    def __unicode__(self):
-        return self.name
+from qualitio import core
 
 
-class Report(models.Model):
-    directory = models.ForeignKey('ReportDirectory')
+class RestrictedManager(models.Manager):
 
-    name = models.CharField(max_length=256)
+    allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
+                       "contribute_to_class", "_inherited", "creation_counter",
+                       "^get(\(.*\))?$",
+                       "^filter(\(.*\))?$",
+                       "^all(\(.*\))?$")
+
+    def __getattribute__(self, name):
+        if any(filter(lambda x: re.match(x,name), object.__getattribute__(self, "allowed_methods"))):
+            return object.__getattribute__(self, name)
+
+        raise AttributeError
+
+
+# TODO: Proxy nad typem obiektem http://docs.djangoproject.com/en/1.3/topics/db/models/#proxy-models
+class ReportDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
-    public = models.BooleanField()
-    context = models.TextField(blank=True)
 
-    class Meta:
-        unique_together = (("directory", "name"),)
 
-    def get_path(self):
-        if self.directory.get_ancestors():
-            return "/%s/" % "/".join(map(lambda x: x.name, self.get_ancestors()))
-        return "/"
+class Report(core.BasePathModel):
+    template = models.TextField(blank=True)
 
-    def __unicode__(self):
-        return self.name
+    class Meta(core.BasePathModel.Meta):
+        parent_class = 'ReportDirectory'
 
-class Query(models.Model):
-    report = models.ForeignKey('Report')
+    @property
+    def context_dict(self):
+        context_dict = {}
+        for context_element in self.context.all():
+           context_dict[context_element.name] = context_element.query_object
 
+        return context_dict
+
+    def content(self):
+        template = Template(self.template)
+        context = Context(self.context_dict)
+        return template.render(context)
+
+
+class ContextElement(models.Model):
+    report = models.ForeignKey("Report", related_name="context")
     name = models.CharField(max_length=512)
-    definition = models.CharField(max_length=512)
+    query = models.TextField()
 
-    class Meta:
-        unique_together = (("report", "name"),)
+    def query_object(self):
+        from qualitio.store.models import TestCase
+        from qualitio.execute.models import TestCaseRun, TestRun
+        return eval(self.query, {"__builtins__": None}, {'TestCase': TestCase,
+                                                         'TestCaseRun': TestCaseRun,
+                                                         'TestRun' : TestRun,
+                                                         'Report': Report})
+

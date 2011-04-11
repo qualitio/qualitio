@@ -1,0 +1,21 @@
+#template textarea, #context textarea, #context input {
+    font-family: monospace;
+}
+#editor-wrapper {
+    position: relative
+}
+#editor { 
+    margin-top: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    font-size: 13px;
+    border: 1px solid #CCCCCC;
+}
+
+.context-element {
+    padding-top: 4px;
+}

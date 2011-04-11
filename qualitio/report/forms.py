@@ -1,15 +1,25 @@
-from django.forms import ModelForm
+
 from django.forms.models import inlineformset_factory
+from django import forms
 
-from qualitio.report.models import Report, Query, ReportDirectory
+from qualitio import core
+from qualitio.report import models
 
-class ReportForm(ModelForm):
-    class Meta:
-        model = Report
 
-QueryFormSet = inlineformset_factory(Report, Query, extra=2)
+class ReportDirectoryForm(core.DirectoryModelForm):
+    class Meta(core.DirectoryModelForm.Meta):
+        model = models.ReportDirectory
 
-class ReportDirectoryForm(ModelForm):
-    class Meta:
-        model = ReportDirectory
 
+class ReportForm(core.PathModelForm):
+    public = forms.BooleanField(required=False)
+    class Meta(core.PathModelForm.Meta):
+        model = models.Report
+        fields = ("parent", "name", "template")
+        widgets = { 'template': forms.HiddenInput() }
+
+
+ContextElementFormset = inlineformset_factory(models.Report,
+                                              models.ContextElement,
+                                              extra=2,
+                                              formset=core.BaseInlineFormSet)
