@@ -19,3 +19,7 @@
 .context-element {
     padding-top: 4px;
 }
+
+.context-element textarea {
+    height: 53px;
+}
