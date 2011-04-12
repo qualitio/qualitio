@@ -398,10 +398,6 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_testrun-name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Notes:"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_testrun-notes"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Parent:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_testrun-parent"))
@@ -410,7 +406,7 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[1]/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[1]/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("connected testcase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -426,37 +422,21 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("No data available in table"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[1]/div[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[2]/div[1]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[3]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[4]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[5]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[1]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("1", sel.get_text("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Close navigation"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[4]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[2]/table/tbody/tr[1]/td[5]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div[1]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:Search:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Search:", sel.get_text("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("id", sel.get_text("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("path", sel.get_text("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("name", sel.get_text("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[4]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Search:", sel.get_text("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -491,6 +471,18 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=select.action-list"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='testcaserun-list']/div[2]/select/option[1]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("-- action on selected --", sel.get_text("//div[@id='testcaserun-list']/div[2]/select/option[1]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("set status"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("remove bug"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("add bug"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("add"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("-- action on selected -- set status add bug remove bug"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=notes")
@@ -517,6 +509,29 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         try: self.assertEqual("Save", sel.get_value("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=history"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=history")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view']/div[3]/div/div[1]/div[1]/div/table/thead/tr/th[1]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("date", sel.get_text("//div[@id='application-view']/div[3]/div/div[1]/div[1]/div/table/thead/tr/th[1]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("user", sel.get_text("//div[@id='application-view']/div[3]/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("comment", sel.get_text("//div[@id='application-view']/div[3]/div/div[1]/div[1]/div/table/thead/tr/th[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[3]/div/div[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[3]/div/div[2]/div[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("exact:Search:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//input[@type='text']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -673,9 +688,23 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "Test run testowy")
-        sel.type("id_notes", "Notes\nNotes")
-        sel.click("id_available_test_cases-2-action")
-        sel.click("id_available_test_cases-1-action")
+        sel.click("//input[@value='2']")
+        sel.click("//input[@value='3']")
+        try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Open navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -719,7 +748,6 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("TestCase", sel.get_text("link=TestCase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=edit")
 
 
 class Test34ExecSamename(BaseSeleniumTestCase):
@@ -855,7 +883,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=/TestRun directory/Directory1")
+        sel.select("id_parent", "label=3: /TestRun directory/Directory1")
         for i in range(60):
             try:
                 if sel.is_element_present("id_parent"): break
@@ -917,7 +945,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_parent", "label=/TestRun directory")
+        sel.select("id_parent", "label=1: /TestRun directory")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
@@ -1019,32 +1047,6 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=TestRun directory")
-        for i in range(60):
-            try:
-                if sel.is_text_present("test run directory: TestRun directory"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("details"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=TestRun directory")
-        for i in range(60):
-            try:
-                if sel.is_text_present("test run directory: TestRun directory"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("details"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
         sel.click("css=div#application-view-footer div a")
         for i in range(60):
             try:
@@ -1065,6 +1067,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "TestRun 1")
+        sel.select("id_parent", "label=1: /TestRun directory")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1127,7 +1130,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_testrun-parent", "label=/TestRun directory/Directory3")
+        sel.select("id_testrun-parent", "label=5: /TestRun directory/Directory3")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1172,11 +1175,11 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_testrun-parent", "label=/TestRun directory")
+        sel.select("id_testrun-parent", "label=1: /TestRun directory")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1369,7 +1372,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "Open")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "Open")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Open navigation"): break
@@ -1378,7 +1381,22 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_available_test_cases-1-action")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='2']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input")
+        try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Open navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1386,11 +1404,11 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("No matching records found"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[1]/div[2]/table.1.3"))
+        try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[4]/div[1]/div/div/div[1]/div[2]/table.1.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=details")
         for i in range(60):
@@ -1428,8 +1446,20 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[3]/div[1]/div/div/div[2]/div/input", "Open")
-        sel.click("id_connected_test_cases-0-DELETE")
+        sel.click("//input[@value='2']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//a[@id='remove-testcases-button']/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Open navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1437,7 +1467,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[2]/table.2.3"))
+        try: self.assertEqual("Open navigation", sel.get_table("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table.2.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -1553,23 +1583,42 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "TestCase1")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "TestCase1")
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestCase1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("id_available_test_cases-3-action")
-        sel.click("id_available_test_cases-4-action")
+        sel.click("//input[@value='4']")
+        sel.click("//input[@value='18']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//a[@id='add-testcases-button']/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestCase1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
                 if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1607,12 +1656,24 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("id_connected_test_cases-0-DELETE")
-        sel.click("id_connected_test_cases-1-DELETE")
+        sel.click("select-all")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//a[@id='remove-testcases-button']/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestCase1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1644,18 +1705,31 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "TestCase1")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "TestCase1")
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestCase1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input")
+        sel.click("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//a[@id='add-testcases-button']/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("4"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1665,7 +1739,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1707,14 +1781,21 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         sel.click("select-all")
         for i in range(60):
             try:
-                if sel.is_element_present("id_connected_test_cases-0-DELETE"): break
+                if sel.is_element_present("//input[@value='4']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("No data available in table"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1727,7 +1808,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1746,6 +1827,281 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("No data available in table"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test39ExecTestcolor(BaseSeleniumTestCase):
+    
+    def test_39_exec_testcolor(self):
+        self.login()
+        sel = self.selenium
+#        sel.open("/require/#requirement/1/details/")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=store"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=execute"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=execute"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=execute")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio execute"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: execute", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("//li[@id='1_testrundirectory']/ins"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//li[@id='1_testrundirectory']/ins"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//li[@id='1_testrundirectory']/ins")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TestRun 1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=TestRun 1")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-header']/h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run: TestRun 1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "Case1")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestCase1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestCase10"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//input[@value='4']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='4']")
+        try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='4']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='add-testcases-button']/span")
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//div[@id='application-view-menu']/a[2]")
+        for i in range(60):
+            try:
+                if sel.is_element_present("select-all"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("id"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("path"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@id='testcaserun_3']/td[2]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_3']/td[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//tr[@id='testcaserun_3']/td[2]")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("directory: TestCase1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("origin test case: /MeeGo Netbook/MeeGo IVI BAT/TestCase1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//form[@id='testcaserun-status-form']/label[1]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcaserun-status-form']/label[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcaserun-status-form']/label[3]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("IDLE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("PASSED"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("FAILED"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("FAILED", sel.get_text("//form[@id='testcaserun-status-form']/label[3]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("PASSED", sel.get_text("//form[@id='testcaserun-status-form']/label[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("IDLE", sel.get_text("//form[@id='testcaserun-status-form']/label[1]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//form[@id='testcaserun-status-form']/label[2]/span")
+        sel.click("id_status_1")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(136, 187, 102);\"]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(136, 187, 102);\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//form[@id='testcaserun-status-form']/label[3]/span")
+        sel.click("id_status_2")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% red;\"]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% red;\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//form[@id='testcaserun-status-form']/label[1]/span")
+        sel.click("id_status_0")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(204, 238, 238);\"]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(204, 238, 238);\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='4']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//a[@id='remove-testcases-button']/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//a[@id='remove-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//div[@id='application-view-footer']/div/input")
 
 
 
@@ -1818,13 +2174,26 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("id_available_test_cases-0-action"))
+        try: self.failUnless(sel.is_element_present("//input[@value='1']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_available_test_cases-0-action")
+        sel.click("//input[@value='1']")
+        try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1834,7 +2203,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1889,11 +2258,23 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_bugs"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_bugs", "1234")
+        sel.type("id_bugs", "1234,1235,1236")
         sel.click("css=input[value='add']")
         for i in range(60):
             try:
                 if sel.is_element_present("link=1234"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1235"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1236"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1905,15 +2286,215 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("id_bugs-0-DELETE"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_bugs-1-DELETE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_bugs-2-DELETE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=1234"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1235"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1236"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("we need default style for the html 4 style tags", sel.get_text("link=we need default style for the html 4 style tags"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("VERIFIED"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("DUPLICATE"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("FIXED"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("#1234"))
+        try: self.failUnless(sel.is_text_present("INVALID"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#1234 #1235 #1236"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_bugs-0-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-0-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("id_bugs-1-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-1-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("id_bugs-2-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-2-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='remove']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='remove']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='remove']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_bugs", "1237 , 1238 , 1239")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='add']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1237"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1238"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1239"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=1237"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1238"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1239"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#1237 #1238 #1239"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id_bugs-0-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-0-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("id_bugs-1-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-1-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("id_bugs-2-DELETE")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs-2-DELETE"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='remove']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='remove']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_bugs", "1231, 1232, 1233, 1234")
+        try: self.assertEqual("1231, 1232, 1233, 1234", sel.get_value("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//input[@value='add']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1231"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=1232"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=1231"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1232"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1233"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=1234"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("#1231 #1232 #1233 #1234"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
@@ -1924,13 +2505,22 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("id_connected_test_cases-0-DELETE"))
+        try: self.failUnless(sel.is_element_present("//input[@value='1']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_connected_test_cases-0-DELETE")
+        sel.click("//input[@value='1']")
+        try: self.failUnless(sel.is_element_present("//a[@id='remove-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
@@ -1942,7 +2532,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2028,24 +2618,41 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "close navi")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "close navi")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Close navigation"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input")
+        sel.click("//input[@value='1']")
         for i in range(60):
             try:
-                if sel.is_element_present("id_available_test_cases-0-action"): break
+                if sel.is_element_present("//a[@id='add-testcases-button']/span"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2055,7 +2662,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2201,30 +2808,41 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "close navigation")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "close navigation")
         for i in range(60):
             try:
                 if sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("id_available_test_cases-0-action")
+        sel.click("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input")
         for i in range(60):
             try:
-                if sel.is_element_present("id_available_test_cases-0-action"): break
+                if sel.is_element_present("//input[@value='1']"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2234,7 +2852,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2367,6 +2985,14 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[1]/div/table/thead/tr/th[1]/input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[1]/div/table/thead/tr/th[1]/input"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//form[@id='testcaserun-remove-bug-form']/div[2]/div[1]/div[1]/div/table/thead/tr/th[1]/input")
         for i in range(60):
             try:
@@ -2401,6 +3027,8 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div[1]/div[2]/table/tbody/tr/td"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("No data available in table", sel.get_text("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("No data available in table"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
@@ -2412,25 +3040,34 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("off", sel.get_value("id_connected_test_cases-0-DELETE"))
+        try: self.assertEqual("off", sel.get_value("//input[@value='1']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_connected_test_cases-0-DELETE")
+        sel.click("//input[@value='1']")
+        try: self.failUnless(sel.is_element_present("//a[@id='remove-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2481,13 +3118,26 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("id_connected_test_cases-0-DELETE"))
+        try: self.failUnless(sel.is_element_present("select-all"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_connected_test_cases-0-DELETE")
+        sel.click("select-all")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='1']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='remove-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
@@ -2499,7 +3149,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2518,6 +3168,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("No data available in table"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//li[@id='1_testrundirectory']/ins")
 
 
 class Test041ExecTestparam(BaseSeleniumTestCase):
@@ -2645,7 +3296,7 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("description"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2721,36 +3372,37 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type("//form[@id='testrun_form']/div[3]/div[2]/div/div/div[2]/div/input", "open")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_available_test_cases-1-action"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
+        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "open")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Open navigation"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("id_available_test_cases-1-action")
+        sel.click("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='2']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='add-testcases-button']/span")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2825,11 +3477,18 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("id_connected_test_cases-0-DELETE")
+        sel.click("select-all")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='2']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//a[@id='remove-testcases-button']/span")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
@@ -2841,7 +3500,7 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-notes"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
