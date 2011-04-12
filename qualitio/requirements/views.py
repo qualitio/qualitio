@@ -1,5 +1,3 @@
-from reversion import revision
-
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 
@@ -51,7 +49,7 @@ def valid(request, requirement_id=0):
         log = history.History(request.user, requirement)
         log.add_form(requirement_form)
         log.save()
-        return success(message='Requirement saved: %s' % revision.comment,
+        return success(message='Requirement saved',
                        data={"parent_id": getattr(requirement.parent,"id", 0),
                              "current_id": requirement.id })
 
