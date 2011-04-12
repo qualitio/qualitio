@@ -15,16 +15,6 @@
       <span class="name">name:</span>
       <span class="value">{{ report.name }}</span> 
     </div>
-    <div class="text-bullet">
-      <span class="name">context:</span>
-      {% for context_element in report.context.all %}
-      {{ context_element.name}} : {{ context_element.query }}
-      {% endfor %}
-    </div>
-  </div>
-  
-  <div class="application-view-content">
-    <pre>{{ report.template }}</pre>
   </div>
 
   <div class="application-view-content">
