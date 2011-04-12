@@ -19,6 +19,10 @@ class ReportForm(core.PathModelForm):
         widgets = { 'template': forms.HiddenInput() }
 
 
+class ContextElementForm(core.BaseModelForm):
+    pass
+
+
 ContextElementFormset = inlineformset_factory(models.Report,
                                               models.ContextElement,
                                               extra=2,
