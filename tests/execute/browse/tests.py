@@ -38,9 +38,9 @@ class BaseSeleniumTestCase(unittest.TestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_password"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//input[@value='login']"))
+        try: self.failUnless(sel.is_element_present("//input[@value='Login']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='login']")
+        sel.click("//input[@value='Login']")
         for i in range(60):
             try:
                 if sel.is_text_present("qualitio store"): break
@@ -65,7 +65,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel.click("id_password")
         sel.type("id_password", "admin")
         sel.click("submit-panel")
-        sel.click("//input[@value='login']")
+        sel.click("//input[@value='Login']")
         sel.wait_for_page_to_load("30000")
 
 
@@ -88,9 +88,9 @@ class Test01Loginexecute(BaseSeleniumTestCase):
         sel.click("id_password")
         sel.type("id_password", "admin")
         sel.click("submit-panel")
-        try: self.failUnless(sel.is_element_present("//input[@value='login']"))
+        try: self.failUnless(sel.is_element_present("//input[@value='Login']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='login']")
+        sel.click("//input[@value='Login']")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: execute", sel.get_title())
         for i in range(60):
@@ -115,7 +115,7 @@ class Test01Loginexecute(BaseSeleniumTestCase):
         sel.click("id_password")
         sel.type("id_password", "admin")
         sel.click("submit-panel")
-        sel.click("//input[@value='login']")
+        sel.click("//input[@value='Login']")
         sel.wait_for_page_to_load("30000")
 
 
