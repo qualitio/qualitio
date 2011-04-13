@@ -124,7 +124,7 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
     def test_28_exec_testdirect_verify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -274,7 +274,7 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
     def test_29_exec_testrun_verify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -540,7 +540,7 @@ class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
     def test_30_exec_testdirect_create(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -642,7 +642,7 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
     def test_31_exec_testrun_create(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -755,7 +755,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
     def test_34_exec_samename(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -996,7 +996,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
     def test_35_exec_testrun_samename(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -1220,7 +1220,7 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
     def test_36_exec_tree_verify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -1315,7 +1315,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
     def test_37_exec_connecttest(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -1476,7 +1476,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
     def test_38_exec_connecttestname(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/4/details/")
+        sel.open("/require/#requirement/4/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         sel.click("link=store")
         sel.wait_for_page_to_load("30000")
@@ -1834,7 +1834,7 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
     def test_39_exec_testcolor(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -2110,7 +2110,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
     def test_040_exec_addbug(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/9/details/")
+        sel.open("/require/#requirement/9/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -2366,6 +2366,45 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name: /TestRun directory/TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//div[@id='application-view-menu']/a[2]")
+        for i in range(60):
+            try:
+                if sel.is_element_present("select-all"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@id='testcaserun_1']/td[1]/input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//tr[@id='testcaserun_1']/td[1]")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("id_bugs"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_bugs", "1237 , 1238 , 1239")
@@ -2375,6 +2414,8 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.assertEqual("1237 , 1238 , 1239", sel.get_value("id_bugs"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_bugs"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='add']")
@@ -2450,6 +2491,45 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//div[@id='application-view-menu']/a[2]")
+        for i in range(60):
+            try:
+                if sel.is_element_present("select-all"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@id='testcaserun_1']/td[1]/input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//tr[@id='testcaserun_1']/td[1]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//tr[@id='testcaserun_1']/td[1]")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("Bugs"): break
@@ -2459,6 +2539,12 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_element_present("//input[@value='add']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_bugs"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2560,7 +2646,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
     def test_039_exec_addbug(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -3176,7 +3262,7 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
     def test_041_exec_testparam(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/9/details/")
+        sel.open("/require/#requirement/9/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:

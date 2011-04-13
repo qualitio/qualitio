@@ -124,7 +124,7 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
     def test_15_store_testdirect_verify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -222,7 +222,7 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
     def test_16_store_testcase_verify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -504,7 +504,7 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
     def test_17_store_testdirect_create(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -631,7 +631,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
     def test_18_store_testcase_create(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -821,7 +821,7 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
     def test_19_store_testcase_display(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         try: self.assertEqual("qualitio: requirements", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -954,7 +954,7 @@ class Test21StoreTreeVerify(BaseSeleniumTestCase):
     def test_21_store_tree_verify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         for i in range(60):
             try:
                 if sel.is_text_present("qualitio requirements"): break
@@ -1068,7 +1068,7 @@ class Test22StoreTreeVerifyEdit(BaseSeleniumTestCase):
     def test_22_store_tree_verify_edit(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         for i in range(60):
             try:
                 if sel.is_text_present("qualitio requirements"): break
@@ -1242,7 +1242,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
     def test_26_store_testdirect_modify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -1528,7 +1528,7 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
     def test_27_store_testcase_modify(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
@@ -1766,7 +1766,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
    def test_33_store_samename(self):
         self.login()
         sel = self.selenium
-#        sel.open("/require/#requirement/1/details/")
+        sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
             try:
