@@ -42,8 +42,10 @@
   <div class="grid_16">
     <div class="grid_10">
       <div id="template" class="application-view-content clearfix">
-        <h2>template</h2>
-        {{ report_form.template }}
+        <div id="{{ report_form.template.html_name }}_wrapper" class="field-wrapper">
+          {{ report_form.template.label_tag }}: <span class="error"></span>
+          {{ report_form.template }}
+        </div>
         <div id="editor-wrapper" class="clearfix">
           <div id="editor"></div>
         </div>

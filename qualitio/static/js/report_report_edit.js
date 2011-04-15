@@ -2,7 +2,6 @@ setupEditor = function(id_editor) {
   var editor = ace.edit(id_editor);
   var Mode = require("ace/mode/html").Mode;
   editor.getSession().setMode(new Mode());
-  editor.renderer.setShowGutter(false);
   editor.renderer.setHScrollBarAlwaysVisible(false);
   editor.renderer.setPadding(0);
   editor.renderer.setShowPrintMargin(false);
@@ -19,7 +18,7 @@ function show_response(response, statusText, xhr, $form)  {
       $("#"+element[0]+"_wrapper").addClass("ui-state-error");
       $("#"+element[0]+"_wrapper .error").append(element[1]);
     });        
-    
+    console.log(response.data);
     $.notification.error(response.message);
   } else {
     $.notification.notice(response.message);
@@ -51,7 +50,7 @@ $(function() {
   } else {
     $('#context').height( $('#template').height() );
   }
-  $('#editor').height( $('#template').height() - 29);
+  $('#editor').height( $('#template').height() - 40);
 
   
   setupEditor("editor");
@@ -79,7 +78,7 @@ $(function() {
     $('#id_context-TOTAL_FORMS').attr("value", $('.context-element:visible').length);
 
     $('#template').height( $('#context').height() );
-    $('#editor').height( $('#template').height() - 29);
+    $('#editor').height( $('#template').height() - 40);
     
     setupEditor("editor");
   });
