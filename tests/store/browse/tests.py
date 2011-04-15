@@ -215,6 +215,45 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("Save", sel.get_value("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=history"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=history")
+        for i in range(60):
+            try:
+                if sel.is_text_present("date"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("user"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("date"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("user"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("comment"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("No data available in table"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Show 102550100 entries"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div.paginate_disabled_previous"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=div.paginate_disabled_next"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("exact:Search:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=input[type='text']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
 
 
 class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
@@ -497,6 +536,99 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         # 	<td>+</td>
 
         # </tr>
+
+
+        try: self.failUnless(sel.is_element_present("link=history"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        sel.click("link=history")
+
+
+        for i in range(60):
+
+
+            try:
+
+
+                if sel.is_text_present("date"): break
+
+
+            except: pass
+
+
+            time.sleep(1)
+
+
+        else: self.fail("time out")
+
+
+        for i in range(60):
+
+
+            try:
+
+
+                if sel.is_text_present("user"): break
+
+
+            except: pass
+
+
+            time.sleep(1)
+
+
+        else: self.fail("time out")
+
+
+        try: self.failUnless(sel.is_text_present("date"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_text_present("user"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_text_present("comment"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_text_present("No data available in table"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_text_present("Show 102550100 entries"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_text_present("exact:Search:"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_element_present("css=input[type='text']"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+        try: self.failUnless(sel.is_element_present("css=div.paginate_disabled_previous"))
+
+
+        except AssertionError, e: self.verificationErrors.append(str(e))
 
 
 class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
