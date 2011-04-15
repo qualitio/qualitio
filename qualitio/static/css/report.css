@@ -16,10 +16,46 @@
     border: 1px solid #CCCCCC;
 }
 
+.context .button {
+    height: 70px;
+}
+
 .context-element {
-    padding-top: 4px;
+    padding: 4px 0;
+    position: relative;
+}
+ 
+.context-element.empty-form {
+    display:none; 
+}
+ 
+.context-element.right {
+    text-align: right;
+}
+
+.add-context-element {
+    text-align: right;
+    height: 23px;
 }
 
 .context-element textarea {
     height: 53px;
+}
+
+.context-element .delete {
+    background: url("../images/close-icon.png") no-repeat scroll 0 0 transparent;
+    position: absolute;
+    right: -9px;
+    top: -6px;
+    width: 22px;
+    height: 22px;
+    background-size: 23px auto;
+    cursor: pointer;
+}
+
+.context-element.removed input[type=text],
+.context-element.removed textarea{
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
 }

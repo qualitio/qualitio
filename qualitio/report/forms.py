@@ -20,10 +20,13 @@ class ReportForm(core.PathModelForm):
 
 
 class ContextElementForm(core.BaseModelForm):
-    pass
+    class Meta(core.BaseModelForm):
+        fields = ("name", "query")
+
 
 
 ContextElementFormset = inlineformset_factory(models.Report,
                                               models.ContextElement,
-                                              extra=2,
-                                              formset=core.BaseInlineFormSet)
+                                              extra=1,
+                                              formset=core.BaseInlineFormSet,
+                                              form=ContextElementForm)

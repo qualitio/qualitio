@@ -52,14 +52,24 @@
     <div class="grid_6">
       <div id="context" class="application-view-content clearfix">
         <h2>context</h2>
+        <div class="context-element empty-form">
+          {{ report_contextelement_formset.empty_form.id }}
+          {{ report_contextelement_formset.empty_form.name }}
+          {{ report_contextelement_formset.empty_form.query }}
+          <div class="delete"></div>
+          <div class="right hidden">{{ report_contextelement_formset.empty_form.DELETE }}</div>
+        </div>
         {{ report_contextelement_formset.management_form }}
         {% for form in report_contextelement_formset.forms %}
         <div class="context-element">
           {{ form.id }}
           {{ form.name }}
           {{ form.query }}
+          <div class="delete"></div>
+          <div class="right hidden">{{ form.DELETE }}</div>
         </div>
         {% endfor %}
+        <div class="add-context-element"><a class="button">add</a></div>
       </div>
     </div> 
   </div>

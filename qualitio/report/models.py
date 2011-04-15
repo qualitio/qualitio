@@ -1,7 +1,13 @@
 import re
+import pickle
 
+from django.core.exceptions import FieldError
 from django.db import models
 from django.template import Context, Template
+from django.core.exceptions import ValidationError
+from django.db.models import query
+from django.db.models import loading
+
 
 from qualitio import core
 
@@ -50,12 +56,70 @@ class ContextElement(models.Model):
     report = models.ForeignKey("Report", related_name="context")
     name = models.CharField(max_length=512)
     query = models.TextField()
+    query_pickled = models.TextField(blank=True)
+
+    ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report"]
+    ALLOWED_METHODS = ["all", "get", "filter", "exclude"]
 
     def query_object(self):
-        from qualitio.store.models import TestCase
-        from qualitio.execute.models import TestCaseRun, TestRun
-        return eval(self.query, {"__builtins__": None}, {'TestCase': TestCase,
-                                                         'TestCaseRun': TestCaseRun,
-                                                         'TestRun' : TestRun,
-                                                         'Report': Report})
+        return pickle.loads(str(self.query_pickled))
 
+
+    def clean(self):
+        query_segments  = self.query.split(".")
+        if len(query_segments) < 2:
+            raise ValidationError({"query": "Minimal query should be: ObjectType.method([key=value])"})
+
+        valid_object = query_segments[0]
+        methods = query_segments[1:]
+
+        if valid_object not in self.ALLOWED_OBJECTS:
+            raise ValidationError({"query": "Type '%s' is not supported" % valid_object})
+
+        valid_methods = []
+        for method in methods:
+            method_re = re.match("(?P<method>\w+)\((?P<args>(\w+=.+)?)\)$", method)
+
+            try:
+                method_name = method_re.groupdict()["method"]
+                try:
+                    args = dict([(method_re.groupdict()["args"].split("=")[0],
+                                  method_re.groupdict()["args"].split("=")[1].strip('"').strip("'"))])
+
+                except IndexError:
+                    args = dict()
+
+            except AttributeError:
+                raise ValidationError({"query": "Method '%s' is in wrong format" % method})
+
+            if method_name not in self.ALLOWED_METHODS:
+                raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
+
+            valid_methods.append((method_name, args))
+
+        self.query_pickled = pickle.dumps(self._build_query(valid_object, valid_methods))
+
+
+    @classmethod
+    def _build_query(cls, object_name, methods):
+
+        apps = ["requirements", "store", "execute", "report"]
+
+        Object = None
+        while not Object and apps:
+            Object = loading.get_model(apps.pop(), object_name)
+
+        if not Object:
+            return query.QuerySet()
+
+        query_set = Object.objects
+        for name, kwargs in methods:
+            try:
+                query_set = getattr(query_set, name)(**kwargs)
+            except Object.DoesNotExist:
+                return None
+            except FieldError as e:
+                raise ValidationError({"query": repr(e) })
+
+
+        return query_set

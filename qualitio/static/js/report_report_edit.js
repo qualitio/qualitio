@@ -1,3 +1,18 @@
+setupEditor = function(id_editor) {
+  var editor = ace.edit(id_editor);
+  var Mode = require("ace/mode/html").Mode;
+  editor.getSession().setMode(new Mode());
+  editor.renderer.setShowGutter(false);
+  editor.renderer.setHScrollBarAlwaysVisible(false);
+  editor.renderer.setPadding(0);
+  editor.renderer.setShowPrintMargin(false);
+  editor.getSession().setValue($('#id_template').val());
+  editor.getSession().on('change', function() {
+    $('#id_template').val( editor.getSession().getValue() );
+  });
+}
+
+
 function show_response(response, statusText, xhr, $form)  { 
   if(!response.success) {
     $(response.data).each(function(i, element) {
@@ -30,25 +45,42 @@ $(function() {
     beforeSubmit: clear_errors
   });
   
-
-  if( $('#template').height() < $('#context').height() ) {
+  
+  if(  $('#template').height() < $('#context').height() ) {
     $('#template').height( $('#context').height() );
   } else {
-    $('#context').height( $('#context').height() );
+    $('#context').height( $('#template').height() );
   }
-  
   $('#editor').height( $('#template').height() - 29);
+
   
-  var editor = ace.edit("editor");
-  var Mode = require("ace/mode/html").Mode;
-  editor.getSession().setMode(new Mode());
-  editor.renderer.setShowGutter(false);
-  editor.renderer.setHScrollBarAlwaysVisible(false);
-  editor.renderer.setPadding(0);
-  editor.renderer.setShowPrintMargin(false);
-  editor.getSession().setValue($('#id_template').val());
-  editor.getSession().on('change', function() {
-    $('#id_template').val( editor.getSession().getValue() );
+  setupEditor("editor");
+
+  
+  $(".context-element .delete").live("click", function(){
+    context_element = $(this).parents('.context-element')
+    delete_checkbox = context_element.find("input[name$=DELETE]")
+    if ( delete_checkbox.is(":checked") ) {
+      delete_checkbox.attr("checked", false);
+      context_element.removeClass("removed");
+    } else {
+      delete_checkbox.attr("checked", true);
+      context_element.addClass("removed");
+    }
   });
 
+
+  $(".add-context-element").click(function(){
+    new_context_element = $(".context-element.empty-form").clone().html()
+      .replace(/__prefix__/g, $('.context-element:visible').length);
+
+    $(".context-element:last").after( '<div class="context-element">' + new_context_element + "</div>");
+    
+    $('#id_context-TOTAL_FORMS').attr("value", $('.context-element:visible').length);
+
+    $('#template').height( $('#context').height() );
+    $('#editor').height( $('#template').height() - 29);
+    
+    setupEditor("editor");
+  });
 });

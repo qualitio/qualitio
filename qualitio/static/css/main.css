@@ -497,3 +497,7 @@ table.filter td.add {
     opacity: 0.3 !important;
     pointer-events: none !important;
 }
+
+.hidden {
+    display: none;
+}
