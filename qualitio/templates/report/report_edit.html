@@ -22,18 +22,19 @@
       method="post">{% csrf_token %}
 
   <div class="application-view-content">
-    <div id="{{ report_form.parent.html_name }}_wrapper" class="field-wrapper">
-      {{ report_form.parent.label_tag }}: <span class="error"></span>
+    
+    <div class="field">
+      {{ report_form.parent.label_tag }}:
       {{ report_form.parent }}
     </div>
 
-    <div id="{{ report_form.name.html_name }}_wrapper" class="field-wrapper">
-      {{ report_form.name.label_tag }}: <span class="error"></span>
+    <div class="field">
+      {{ report_form.name.label_tag }}: 
       {{ report_form.name }}
     </div>
 
-    <div id="{{ report_form.public.html_name }}_wrapper" class="field-wrapper">
-      {{ report_form.public.label_tag }}: <span class="error"></span>
+    <div class="field">
+      {{ report_form.public.label_tag }}:
       {{ report_form.public }}
     </div>
 
@@ -42,30 +43,31 @@
   <div class="grid_16">
     <div class="grid_10">
       <div id="template" class="application-view-content clearfix">
-        <div id="{{ report_form.template.html_name }}_wrapper" class="field-wrapper">
-          {{ report_form.template.label_tag }}: <span class="error"></span>
-          {{ report_form.template }}
-        </div>
+        {{ report_form.template }}
+        {{ report_form.template.label_tag }}: 
+        <div id="id_template_error" class="error"></div>
         <div id="editor-wrapper" class="clearfix">
-          <div id="editor"></div>
+          <div id="id_editor"></div>
         </div>
       </div>
     </div>
     <div class="grid_6">
       <div id="context" class="application-view-content clearfix">
-        <h2>context</h2>
+        <label>Context:</label>
         <div class="context-element empty-form">
           {{ report_contextelement_formset.empty_form.id }}
           {{ report_contextelement_formset.empty_form.name }}
+          <div id="id_{{ report_contextelement_formset.empty_form.prefix }}_error" class="error"></div>
           {{ report_contextelement_formset.empty_form.query }}
           <div class="delete"></div>
           <div class="right hidden">{{ report_contextelement_formset.empty_form.DELETE }}</div>
         </div>
         {{ report_contextelement_formset.management_form }}
         {% for form in report_contextelement_formset.forms %}
-        <div class="context-element">
+        <div id="id_{{ form.prefix }}" class="context-element">
           {{ form.id }}
           {{ form.name }}
+          <div id="id_{{ form.prefix }}_error" class="error"></div>
           {{ form.query }}
           <div class="delete"></div>
           <div class="right hidden">{{ form.DELETE }}</div>

@@ -121,6 +121,34 @@ jQuery.fn.dataTableToggleSelect = function() {
   });
 };
 
+jQuery.shortcuts = {
+  showErrors: function(errors) {
+    $(errors).each(function(i, element, value) {
+      field = element[0]; message = element[1];
+      
+      $field = $('#id_'+ field);
+      $field_errors = $('#id_' +field+ '_error');
+      
+      if( $field_errors.length ) {
+        $field_errors.text(message).fadeIn();
+      } else {
+        $field.before($('<div style="display:block" class="error">'+message+'</div>').fadeIn());
+      }
+    });
+  },
+  
+  hideErrors: function() {
+    $('.error').hide();
+  },
+
+  reloadTree: function(data, directory_type, target_type) {
+    if (!target_type) {
+      target_type = directory_type;
+    }
+    $('#application-tree').jstree('refresh', "#"+data.parent_id+"_"+directory_type, data);
+  },
+  
+}
 
 jQuery.notification = {
   

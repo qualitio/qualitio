@@ -104,6 +104,8 @@ def report_valid(request, report_id=0):
                              "current_id": report.id})
 
     else:
+        errors = report_form.errors_list()
+        errors.extend(report_contextelement_formset._errors_list())
         return failed(message="Validation errors",
-                      data=report_form.errors_list())
+                      data=errors)
 

@@ -23,8 +23,8 @@
 
   <div class="application-view-content">
     {% for field in reportdirectory_form %}
-    <div id="{{ field.html_name }}_wrapper" class="field-wrapper">
-      {{ field.label_tag }}: <span class="error"></span>
+    <div class="field">
+      {{ field.label_tag }}:
       {{ field }}
     </div>
     {% endfor %}

@@ -3,13 +3,13 @@ import pickle
 
 from django.core.exceptions import FieldError
 from django.db import models
-from django.template import Context, Template, TemplateSyntaxError
+from django.template import Context, Template
 from django.core.exceptions import ValidationError
 from django.db.models import query, loading
-from django.views import debug
 
 from qualitio import core
 
+import validators
 
 class RestrictedManager(models.Manager):
 
@@ -26,30 +26,12 @@ class RestrictedManager(models.Manager):
         raise AttributeError
 
 
-# TODO: Proxy nad typem obiektem http://docs.djangoproject.com/en/1.3/topics/db/models/#proxy-models
 class ReportDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
-def get_template_exception_info(exception):
-    origin, (start, end) = exception.source
-    template_source = origin.reload()
-    upto = line = 0
-    for num, next in enumerate(debug.linebreak_iter(template_source)):
-        if start >= upto and end <= next:
-            line = num
-        upto = next
-    return line
-
-def template_validate(template):
-    try:
-        Template(template)
-    except TemplateSyntaxError as e:
-        raise ValidationError({"template": "Line %s: %s"
-                               % (get_template_exception_info(e), e.message)})
-
 
 class Report(core.BasePathModel):
-    template = models.TextField(blank=True, validators=[template_validate])
+    template = models.TextField(blank=True, validators=[validators.template_validate])
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
@@ -111,6 +93,7 @@ class ContextElement(models.Model):
 
             if method_name not in self.ALLOWED_METHODS:
                 raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
+
 
             valid_methods.append((method_name, args))
 

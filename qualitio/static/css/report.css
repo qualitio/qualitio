@@ -4,8 +4,7 @@
 #editor-wrapper {
     position: relative
 }
-#editor { 
-    margin-top: 5px;
+#id_editor { 
     position: absolute;
     top: 0;
     bottom: 0;
@@ -21,7 +20,7 @@
 }
 
 .context-element {
-    padding: 4px 0;
+    padding: 0px 0px 8px 0px;
     position: relative;
 }
  
@@ -39,23 +38,16 @@
 }
 
 .context-element textarea {
-    height: 53px;
+    height: 65px;
 }
 
 .context-element .delete {
     background: url("../images/close-icon.png") no-repeat scroll 0 0 transparent;
     position: absolute;
     right: -9px;
-    top: -6px;
+    top: -10px;
     width: 22px;
     height: 22px;
     background-size: 23px auto;
     cursor: pointer;
-}
-
-.context-element.removed input[type=text],
-.context-element.removed textarea{
-    cursor: default;
-    opacity: 0.3;
-    pointer-events: none;
 }
