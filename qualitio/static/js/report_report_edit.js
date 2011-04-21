@@ -1,8 +1,8 @@
-setupEditor = function(id_editor) {
+setupEditor = function() {
   $('#template').height( $('#context').height() );
   $('#id_editor').height( $('#template').height() - 37);
 
-  var editor = ace.edit(id_editor);
+  var editor = ace.edit("id_editor");
   var Mode = require("ace/mode/html").Mode;
   editor.getSession().setMode(new Mode());
   editor.renderer.setHScrollBarAlwaysVisible(false);
@@ -14,6 +14,15 @@ setupEditor = function(id_editor) {
   });
 }
 
+setupLink = function(link) {
+  if(link) {
+    $("#id_link").val(document.location.protocol +"//"
+                      + document.location.host + "/"
+                      + "report/external/"
+                      + link);
+  }
+}
+
 $(function() {
   $('#report_form').ajaxForm({ 
     success: function(response) {
@@ -23,16 +32,18 @@ $(function() {
       } else {
         $.notification.notice(response.message);
         $.shortcuts.reloadTree(response.data, "reportdirectory");
+        setupLink(response.data.link);
       }
-      setupEditor("id_editor");
+      setupEditor();
     },
     beforeSubmit: function() {
       $.shortcuts.hideErrors();
-      setupEditor("id_editor");
+      setupEditor();
     }
   });
   
-  setupEditor("id_editor");
+  setupEditor();
+  setupLink($("#id_link").val());
   
   $(".context-element .delete").live("click", function(){
     context_element = $(this).parents('.context-element')
@@ -54,6 +65,6 @@ $(function() {
     
     $('#id_context-TOTAL_FORMS').attr("value", $('.context-element:visible').length);
     
-    setupEditor("id_editor");
+    setupEditor();
   });
 });

@@ -6,6 +6,7 @@ from django.db import models
 from django.template import Context, Template
 from django.core.exceptions import ValidationError
 from django.db.models import query, loading
+from django.template.defaultfilters import slugify
 
 from qualitio import core
 
@@ -32,6 +33,13 @@ class ReportDirectory(core.BaseDirectoryModel):
 
 class Report(core.BasePathModel):
     template = models.TextField(blank=True, validators=[validators.template_validate])
+    public = models.BooleanField()
+    link = models.URLField(blank=True, verify_exists=False)
+    MIME_CHOICES = (('text/html', 'html'),
+                    ('application/xml', 'xml'),
+                    ('application/json', 'json'),
+                    ('text/plain', 'plain'))
+    mime = models.CharField(blank=False, max_length=20, choices=MIME_CHOICES, default="text/html")
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
@@ -44,11 +52,27 @@ class Report(core.BasePathModel):
 
         return context_dict
 
+    @property
     def content(self):
         template = Template(self.template)
         context = Context(self.context_dict)
         return template.render(context)
 
+    def save(self, *args, **kwargs):
+        # significant part of this link is only ID, rest is only for information purposes.
+        # Filter applayed to get rid root's empty path
+        # print self
+        # print self.pk
+        if not self.pk:
+            super(Report, self).save(*args, **kwargs)
+
+        link_elements = filter(lambda x:x, [str(self.pk),
+                                            slugify(self.parent.path),
+                                            slugify(self.parent.name),
+                                            slugify(self.name),
+                                            self.created_time.strftime("%Y/%m/%d")])
+        self.link = "/".join(link_elements)
+        super(Report, self).save(*args, **kwargs)
 
 
 class ContextElement(models.Model):

@@ -22,7 +22,6 @@
       method="post">{% csrf_token %}
 
   <div class="application-view-content">
-    
     <div class="field">
       {{ report_form.parent.label_tag }}:
       {{ report_form.parent }}
@@ -31,6 +30,21 @@
     <div class="field">
       {{ report_form.name.label_tag }}: 
       {{ report_form.name }}
+    </div>
+
+    <label>External:</label>
+    <div class="clearfix">
+      <div class="grid_2 clearfix">
+        <div class="field clearfix">
+          {{ report_form.mime }}
+        </div>
+      </div>
+
+      <div class="grid_14">
+        <div class="field clearfix">
+          {{ report_form.link }}
+        </div>
+      </div>
     </div>
 
     <div class="field">

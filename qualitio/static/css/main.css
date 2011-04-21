@@ -510,6 +510,10 @@ table.filter td.add {
     pointer-events: none !important;
 }
 
+input[readonly] {
+    background-color: #EFEFEF;
+}
+
 .hidden {
     display: none;
 }

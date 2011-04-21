@@ -1,5 +1,6 @@
 
 from django.forms.models import inlineformset_factory
+
 from django import forms
 
 from qualitio import core
@@ -12,11 +13,12 @@ class ReportDirectoryForm(core.DirectoryModelForm):
 
 
 class ReportForm(core.PathModelForm):
-    public = forms.BooleanField(required=False)
+
     class Meta(core.PathModelForm.Meta):
         model = models.Report
-        fields = ("parent", "name", "template")
-        widgets = { 'template': forms.HiddenInput() }
+        fields = ("parent", "name", "template", "public", "link", "mime")
+        widgets = { "template": forms.HiddenInput(),
+                    "link": forms.TextInput(attrs={"readonly":"readonly"})}
 
 
 class ContextElementForm(core.BaseModelForm):
