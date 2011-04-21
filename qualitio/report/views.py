@@ -1,7 +1,8 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from qualitio.core.utils import json_response, success, failed
 
@@ -135,6 +136,11 @@ def report_valid(request, report_id=0):
 
 def report_external(request, report_id):
     report = get_object_or_404(Report, pk=report_id)
+
+    if not report.public and not request.user.is_authenticated():
+        return HttpResponseRedirect("%s?next=/report/external/%s"
+                                    % (reverse('django.contrib.auth.views.login'),
+                                       report.link))
 
     if report.is_html():
         return direct_to_template(request, 'report/report_external.html',
