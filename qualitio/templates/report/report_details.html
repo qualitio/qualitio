@@ -18,7 +18,13 @@
   </div>
 
   <div class="application-view-content">
-    {{ report.content|linebreaks }}
+    <style>
+      {{ styles }}
+    </style>
+    
+    <div class="code">
+      {{ content }}
+    </div>
   </div>
 
 </div>

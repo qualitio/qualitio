@@ -51,3 +51,15 @@
     background-size: 23px auto;
     cursor: pointer;
 }
+
+.highlighttable .linenos {
+    border-right: 2px solid #ccc; 
+}
+
+.highlighttable .code {
+    width: 100%;
+}
+
+.highlighttable .linenos {
+    padding-right: 3px;
+}

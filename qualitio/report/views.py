@@ -58,8 +58,28 @@ def directory_valid(request, directory_id=0):
 
 
 def report_details(request, report_id):
+    report = Report.objects.get(pk=report_id)
+    if report.mime == "text/html":
+        content = report.content
+        styles = None
+    else:
+        from pygments.lexers import XmlLexer, JavascriptLexer, TextLexer
+        from pygments import highlight
+        from pygments.formatters import HtmlFormatter
+        from django.utils.safestring import mark_safe
+
+        lexers = {"application/xml": XmlLexer(),
+                  "application/json": JavascriptLexer(),
+                  "text/plain" : TextLexer() }
+
+        formatter = HtmlFormatter(linenos=True)
+        content = mark_safe(highlight(report.content, lexers[report.mime], formatter))
+        styles = formatter.get_style_defs('.highlight')
+
     return direct_to_template(request, 'report/report_details.html',
-                              {'report': Report.objects.get(pk=report_id)})
+                              {'report': report,
+                               'content' : content,
+                               'styles' : styles})
 
 
 @permission_required('report.add_report', login_url='/permission_required/')
