@@ -58,6 +58,9 @@ class Report(core.BasePathModel):
         context = Context(self.context_dict)
         return template.render(context)
 
+    def is_html(self):
+        return self.mime == "text/html"
+
     def save(self, *args, **kwargs):
         # significant part of this link is only ID, rest is only for information purposes.
         # Filter applayed to get rid root's empty path

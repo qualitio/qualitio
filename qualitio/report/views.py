@@ -59,7 +59,7 @@ def directory_valid(request, directory_id=0):
 
 def report_details(request, report_id):
     report = Report.objects.get(pk=report_id)
-    if report.mime == "text/html":
+    if report.is_html():
         content = report.content
         styles = None
     else:
@@ -136,7 +136,7 @@ def report_valid(request, report_id=0):
 def report_external(request, report_id):
     report = get_object_or_404(Report, pk=report_id)
 
-    if report.mime == "text/html":
+    if report.is_html():
         return direct_to_template(request, 'report/report_external.html',
                                   {'report': report})
 
