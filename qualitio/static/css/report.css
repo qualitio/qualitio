@@ -63,3 +63,17 @@
 .highlighttable .linenos {
     padding-right: 3px;
 }
+
+.external {
+    padding: 10px;
+}
+
+.external h1.title {
+    color: black;
+    border-bottom: 1px solid;
+    display: block;
+    font-size: 1.4em;
+    line-height: 140%;
+    width: 100%;
+    margin-bottom: 10px;
+}

@@ -135,5 +135,10 @@ def report_valid(request, report_id=0):
 
 def report_external(request, report_id):
     report = get_object_or_404(Report, pk=report_id)
+
+    if report.mime == "text/html":
+        return direct_to_template(request, 'report/report_external.html',
+                                  {'report': report})
+
     return HttpResponse(report.content,
                         content_type=report.mime)
