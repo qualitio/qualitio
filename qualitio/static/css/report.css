@@ -52,6 +52,12 @@
     cursor: pointer;
 }
 
+.content ul,
+.external ul{
+
+    margin-left: 15px;
+}
+
 .highlighttable .linenos {
     border-right: 2px solid #ccc; 
 }
@@ -77,3 +83,4 @@
     width: 100%;
     margin-bottom: 10px;
 }
+
