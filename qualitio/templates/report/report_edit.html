@@ -31,20 +31,15 @@
       {{ report_form.name.label_tag }}: 
       {{ report_form.name }}
     </div>
+    
+    <div class="field">
+      {{ report_form.mime.label_tag }}: 
+      {{ report_form.mime }}
+    </div>
 
-    <label>External:</label>
-    <div class="clearfix">
-      <div class="grid_2 clearfix">
-        <div class="field clearfix">
-          {{ report_form.mime }}
-        </div>
-      </div>
-
-      <div class="grid_14">
-        <div class="field clearfix">
-          {{ report_form.link }}
-        </div>
-      </div>
+    <div class="field">
+      {{ report_form.link.label_tag }}: 
+      {{ report_form.link }}
     </div>
 
     <div class="field">

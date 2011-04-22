@@ -39,7 +39,8 @@ class Report(core.BasePathModel):
                     ('application/xml', 'xml'),
                     ('application/json', 'json'),
                     ('text/plain', 'plain'))
-    mime = models.CharField(blank=False, max_length=20, choices=MIME_CHOICES, default="text/html")
+    mime = models.CharField(blank=False, max_length=20, choices=MIME_CHOICES, 
+                            default="text/html", verbose_name="format")
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
