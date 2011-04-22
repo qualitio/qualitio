@@ -1,79 +1,98 @@
-<form action="/contact/" method="post">
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test run
+    {% if report_form.instance.id %}: {{ report_form.instance.name }}{% endif %}
+  </h1>
+</div>
 
-  <div class="grid_12 alpha">
-    <div>
-      <h1>Report "{{ report_form.instance.name }}" edit:</h1>
+{% if report_form.instance.id %}
+{% application_view_menu report_form.instance "edit" %}
+{% else %}
+<div id="application-view-menu">
+  <span class="active">new</span>
+</div>
+{% endif %}
+
+<form id="report_form"
+      action="{% if report_form.instance.id %}
+              /report/ajax/report/{{ report_form.instance.id }}/edit/valid/
+              {% else %}
+              /report/ajax/newreport/valid/
+              {% endif %}"
+      method="post">{% csrf_token %}
+
+  <div class="application-view-content">
+    <div class="field">
+      {{ report_form.parent.label_tag }}:
+      {{ report_form.parent }}
     </div>
-  </div>
-  <div class="grid_12 alpha">
-    <div class="content ">
 
-
-      {{ report_form.name.label_tag }}
+    <div class="field">
+      {{ report_form.name.label_tag }}: 
       {{ report_form.name }}
+    </div>
+    
+    <div class="field">
+      {{ report_form.mime.label_tag }}: 
+      {{ report_form.mime }}
+    </div>
 
-      {{ report_form.directory.label_tag }}
-      {{ report_form.directory }}
+    <div class="field">
+      {{ report_form.link.label_tag }}: 
+      {{ report_form.link }}
+    </div>
 
-      {{ report_form.public.label_tag }}
+    <div class="field">
+      {{ report_form.public.label_tag }}:
       {{ report_form.public }}
-
-      {{ report_form.description.label_tag }}
-      {{ report_form.description }}
-
     </div>
+
   </div>
 
-  {{ query_formset.management_form }}
-  {% for form in query_formset.forms %}
-  {{ form.id }}
-  <div class="grid_5 alpha">
-    <div class="content ">
-      {{ form.name }}
-    </div>
-  </div>
-
-  <div class="grid_7 omega">
-    <div class="content " >
-      {{ form.definition }}
-    </div>
-  </div>
-  {% endfor %}
-
-  <div class="grid_12 alpha">
-    <div class="content " style="text-align:right">
-      ++
-    </div>
-  </div>
-
-
-  <div class="grid_12 alpha omega">
-    <div class="content">
-      {{ report_form.context.label_tag }}
-      {{ report_form.context }}
-
-    </div>
-  </div>
-
-  <div class="grid_12 alpha button-bar ui-corner-all">
-    <div class="grid_6 alpha">
-
-      <div class="content" >
-	<input class="ui-button ui-widget ui-state-default
-      		      ui-corner-all ui-button-text-only"
-      	       type="submit" value="Delete" />
+  <div class="grid_16">
+    <div class="grid_10">
+      <div id="template" class="application-view-content clearfix">
+        {{ report_form.template }}
+        {{ report_form.template.label_tag }}: 
+        <div id="id_template_error" class="error"></div>
+        <div id="editor-wrapper" class="clearfix">
+          <div id="id_editor"></div>
+        </div>
       </div>
     </div>
-
-    <div class="grid_6 omega">
-      <div class="content" style="text-align:right;">
-      	<input class="ui-button ui-widget ui-state-default
-      		      ui-corner-all ui-button-text-only"
-
-      	       type="submit" value="Save" />
+    <div class="grid_6">
+      <div id="context" class="application-view-content clearfix">
+        <label>Context:</label>
+        <div class="context-element empty-form">
+          {{ report_contextelement_formset.empty_form.id }}
+          {{ report_contextelement_formset.empty_form.name }}
+          <div id="id_{{ report_contextelement_formset.empty_form.prefix }}_error" class="error"></div>
+          {{ report_contextelement_formset.empty_form.query }}
+          <div class="delete"></div>
+          <div class="right hidden">{{ report_contextelement_formset.empty_form.DELETE }}</div>
+        </div>
+        {{ report_contextelement_formset.management_form }}
+        {% for form in report_contextelement_formset.forms %}
+        <div id="id_{{ form.prefix }}" class="context-element">
+          {{ form.id }}
+          {{ form.name }}
+          <div id="id_{{ form.prefix }}_error" class="error"></div>
+          {{ form.query }}
+          <div class="delete"></div>
+          <div class="right hidden">{{ form.DELETE }}</div>
+        </div>
+        {% endfor %}
+        <div class="add-context-element"><a class="button">add</a></div>
       </div>
+    </div> 
+  </div>
+  <div class="grid_16 clearfix">
+    <div class="application-view-content">
+      <div class="right">
+        <input type="submit" value="Save"/>
       </div>
     </div>
   </div>
 
 </form>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report_report_edit.js{{ STATIC_HASH }}"></script>

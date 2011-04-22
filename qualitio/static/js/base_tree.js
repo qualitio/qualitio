@@ -19,11 +19,3 @@ $(window).resize(function() {
   resize_tree();
 });
 
-$(document).ajaxComplete(function() {
-  $("input[type=submit], .button").button();
-  $(".date-field").datepicker({
-    showWeek: true ,
-    dateFormat: DATE_FORMAT
-  });
-});
-

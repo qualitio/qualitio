@@ -1,28 +1,40 @@
-<form action="/contact/" method="post">
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>report directory
+    {% if reportdirectory_form.instance.id %}: {{ reportdirectory_form.instance.name }}{% endif %}
+  </h1>
+</div>
 
-  <div class="grid_12 alpha">
-    <div class="content">
-      {{ reportdirectory_form }}
+{% if reportdirectory_form.instance.id %}
+{% application_view_menu reportdirectory_form.instance "edit" %}
+{% else %}
+<div id="application-view-menu">
+  <span class="active">new</span>
+</div>
+{% endif %}
+
+<form id="reportdirectory_form"
+      action="{% if reportdirectory_form.instance.id %}
+              /report/ajax/reportdirectory/{{ reportdirectory_form.instance.id }}/edit/valid/
+              {% else %}
+              /report/ajax/reportdirectory/new/valid/
+              {% endif %}"
+      method="post">{% csrf_token %}
+
+  <div class="application-view-content">
+    {% for field in reportdirectory_form %}
+    <div class="field">
+      {{ field.label_tag }}:
+      {{ field }}
     </div>
+    {% endfor %}
   </div>
-
-  <div class="grid_12 alpha button-bar ui-corner-all">
-    <div class="grid_6 alpha">
-      <div class="content" >
-	<input class="ui-button ui-widget ui-state-default
-      		      ui-corner-all ui-button-text-only"
-      	       type="submit" value="Delete" />
-      </div>
-    </div>
-
-    <div class="grid_6 omega">
-      <div class="content" style="text-align:right;">
-      	<input class="ui-button ui-widget ui-state-default
-      		      ui-corner-all ui-button-text-only"
-
-      	       type="submit" value="Save" />
-      </div>
+  
+  <div id="application-view-footer" class="application-view-content clearfix">
+    <div class="grid_16 right clearfix">
+      <input type="submit" name="Reportd" value="Save" />
     </div>
   </div>
 
 </form>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report_reportdirectory_edit.js{{ STATIC_HASH }}"></script>

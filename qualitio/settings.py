@@ -67,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
@@ -83,6 +84,7 @@ LOGIN_EXEMPT_URLS = (
     r'^login/.*',
     r'^__debug__/.*',
     r'^complete/*',
+    r'^report/external/*',
     )
 
 TEMPLATE_DIRS = (
@@ -129,6 +131,7 @@ AUTH_PROFILE_MODULE = 'projects.UserProfile'
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
 )
 
 

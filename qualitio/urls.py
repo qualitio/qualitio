@@ -11,10 +11,10 @@ urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
 
                        (r'^require/', include('qualitio.requirements.urls')),
-                       (r'^report/', include('qualitio.report.urls')),
                        (r'^settings/', include('qualitio.projects.urls')),
                        (r'^execute/', include('qualitio.execute.urls')),
                        (r'^store/', include('qualitio.store.urls')),
+                       (r'^report/', include('qualitio.report.urls')),
 
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls))
