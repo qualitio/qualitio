@@ -39,7 +39,7 @@ def setup_development():
                   colors.green("%s/.virtualenv" % os.getcwd()) + " directory")
 
 
-def setup_production(path="/var/www/qualitio", local_settings=""):
+def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False):
     "Creates remote production envirotment"
 
     #TODO: switch to reall check. This normalization is pretty odd
@@ -59,17 +59,19 @@ def setup_production(path="/var/www/qualitio", local_settings=""):
     _local_settings(local_settings)
     _synchronize_database()
     _restart_webserver()
-    _load_dumpdata()
+    if fixtures:
+        _load_dumpdata()
 
     print("Check your site setup at http://%s:8081" % colors.green(env.host))
 
 
-def update_production(path="/var/www/qualitio"):
+def update_production(path="/var/www/qualitio", local_settings=""):
     """Updates remote production envirotment"""
     env.path = path.rstrip("/")
 
     _download_release()
     _install_requirements()
+    _local_settings(local_settings)
     _synchronize_database()
     _restart_webserver()
 
@@ -110,14 +112,14 @@ def _configure_webserver():
     sudo("a2ensite qualitio")
 
 
-def local_settings(local_settings):
+def _local_settings(local_settings):
     require("path")
 
     if not local_settings:
         print(colors.yellow("No local settins files provied, using defaults."))
     else:
         try:
-            put(settings, "%(path)s/qualitio/local_settings.py" % env, use_sudo=True)
+            put(local_settings, "%(path)s/qualitio/local_settings.py" % env, use_sudo=True)
         except ValueError:
             print(colors.yellow("Local settings file doesn't exists, using defaults."))
 
