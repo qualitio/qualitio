@@ -47,6 +47,29 @@ class BaseDateRangeFieldFilterForm(BaseFieldFilterForm):
         return Q()
 
 
+class RelatedObjectFilterForm(BaseFieldFilterForm):
+    q = forms.NullBooleanField(required=False)
+
+    related_object = None
+    field_name = None
+    field_name_label = None
+
+    def construct_Q(self):
+        ro = self.related_object
+        value = self.cleaned_data['q']
+        qs = Q()
+
+        if value == True:
+            other_model_qs = ro.model.objects.filter(**{'%s__isnull' % ro.field.name: False})
+            ids_of_current_model = other_model_qs.values_list('%s__id' % ro.field.name, flat=True)
+            ids_of_current_model = list(set(ids_of_current_model))
+            qs = Q(id__in=ids_of_current_model)
+        elif value == False:
+            qs = Q(**{'%s__isnull' % ro.var_name: True})
+
+        return qs
+
+
 # utils ######################################################
 def _get_db_field(Model, field_or_field_name_):
     field = field_or_field_name_
