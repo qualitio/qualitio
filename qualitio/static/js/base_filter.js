@@ -7,4 +7,11 @@ $(document).ready(function() {
 	showWeek: true ,
 	dateFormat: DATE_FORMAT
     });
+
+    $("table.display").dataTable({
+	"bPaginate": true,
+	"bFilter": false,
+	"sWidth": "4px", "aTargets": [0],
+	"aoColumnDefs": [ { "sWidth": "4px", "aTargets": [0,1] } ]
+    });
 });

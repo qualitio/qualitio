@@ -51,7 +51,6 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level')):
 
     query = Q() if not generic_filter.is_valid() else generic_filter.construct_Q()
     table = ModelTable(Model.objects.filter(query))
-
     return render_to_response('filter/filter.html',
                               {'table': table,
                                'app_label': Model._meta.app_label,

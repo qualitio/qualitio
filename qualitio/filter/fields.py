@@ -118,7 +118,6 @@ def date_fieldfilter(Model, field):
             })
 
 
-
 FIELD_FORM_FOR_DBFIELD_DEFAULTS = {
     models.CharField: text_fieldfilter,
     models.TextField: text_fieldfilter,
