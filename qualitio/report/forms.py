@@ -26,9 +26,8 @@ class ContextElementForm(core.BaseModelForm):
         fields = ("name", "query")
 
 
-
 ContextElementFormset = inlineformset_factory(models.Report,
                                               models.ContextElement,
-                                              extra=1,
+                                              extra=2,
                                               formset=core.BaseInlineFormSet,
                                               form=ContextElementForm)
