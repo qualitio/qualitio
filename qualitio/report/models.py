@@ -65,8 +65,6 @@ class Report(core.BasePathModel):
     def save(self, *args, **kwargs):
         # significant part of this link is only ID, rest is only for information purposes.
         # Filter applayed to get rid root's empty path
-        # print self
-        # print self.pk
         if not self.pk:
             super(Report, self).save(*args, **kwargs)
 
@@ -75,7 +73,9 @@ class Report(core.BasePathModel):
                                             slugify(self.parent.name),
                                             slugify(self.name),
                                             self.created_time.strftime("%Y/%m/%d")])
+
         self.link = "/".join(link_elements)
+        kwargs['force_insert'] = False
         super(Report, self).save(*args, **kwargs)
 
 
