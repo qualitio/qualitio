@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 from qualitio import core
-from qualitio.requirements import validators, managers
+from qualitio.require import validators, managers
 
 
 class Requirement(core.BaseDirectoryModel):

@@ -3,9 +3,8 @@ from nose.tools import *
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 
-from qualitio.requirements.models import Requirement
-from qualitio.requirements.forms import RequirementForm
-
+from qualitio.require.models import Requirement
+from qualitio.require.forms import RequirementForm
 
 
 class DependencyTestCase(TestCase):

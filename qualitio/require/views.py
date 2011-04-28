@@ -3,35 +3,35 @@ from django.contrib.auth.decorators import permission_required
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
-from qualitio.requirements.models import Requirement
-from qualitio.requirements.forms import RequirementForm
+from qualitio.require.models import Requirement
+from qualitio.require.forms import RequirementForm
 
 from qualitio import history
 
 def index(request):
-    return direct_to_template(request, 'requirements/base.html')
+    return direct_to_template(request, 'require/base.html')
 
 
 def details(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     testcases = requirement.testcase_set.all()
-    return direct_to_template(request, 'requirements/details.html',
+    return direct_to_template(request, 'require/details.html',
                               {'requirement': requirement ,
                                'testcases': testcases })
 
-@permission_required('requirements.change_requirement', login_url='/permission_required/')
+@permission_required('require.change_requirement', login_url='/permission_required/')
 def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
-    return direct_to_template(request, 'requirements/edit.html',
+    return direct_to_template(request, 'require/edit.html',
                               {'requirement_form': requirement_form})
 
 
-@permission_required('requirements.add_requirement', login_url='/permission_required/')
+@permission_required('require.add_requirement', login_url='/permission_required/')
 def new(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
     requirement_form = RequirementForm(initial={'parent': requirement})
-    return direct_to_template(request, 'requirements/edit.html',
+    return direct_to_template(request, 'require/edit.html',
                               {'requirement_form': requirement_form})
 
 
@@ -60,7 +60,7 @@ def valid(request, requirement_id=0):
 @permission_required('perms.store.change_testcase', login_url='/permission_required/')
 def testcases(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
-    return direct_to_template(request, 'requirements/test_cases.html',
+    return direct_to_template(request, 'require/test_cases.html',
                               {'requirement': requirement,
                                'connected_testcases': requirement.testcase_set.all(),
                                'available_testcases': store.TestCase.objects.all()})

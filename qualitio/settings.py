@@ -102,7 +102,7 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
 
     'qualitio.core',
-    'qualitio.requirements',
+    'qualitio.require',
     'qualitio.report',
     'qualitio.projects',
     'qualitio.execute',

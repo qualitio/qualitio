@@ -10,7 +10,7 @@ urlpatterns = patterns('',
                        (r'^permission_required/$', 'qualitio.core.permission_required'),
                        (r'', include('social_auth.urls')),
 
-                       (r'^require/', include('qualitio.requirements.urls')),
+                       (r'^require/', include('qualitio.require.urls')),
                        (r'^settings/', include('qualitio.projects.urls')),
                        (r'^execute/', include('qualitio.execute.urls')),
                        (r'^store/', include('qualitio.store.urls')),
