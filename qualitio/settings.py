@@ -123,7 +123,8 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.request",
                                "django.contrib.messages.context_processors.messages",
                                "qualitio.core.context_processors.settings",
-                               "qualitio.core.context_processors.development")
+                               "qualitio.core.context_processors.development",
+                               "qualitio.core.context_processors.core")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
 

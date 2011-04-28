@@ -13,3 +13,7 @@ def development(request):
         static_content_hash = uuid.uuid4()
 
     return { "STATIC_HASH" : "?%s" % static_content_hash }
+
+def core(request):
+    from django.core.urlresolvers import resolve
+    return { "CURRENT_MODULE" : resolve(request.get_full_path()).app_name}
