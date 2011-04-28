@@ -295,6 +295,18 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report directory: BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[1]/span"))
@@ -312,6 +324,12 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("test run"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("new"))
@@ -320,7 +338,21 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         sel.type("id_context-0-name", "TESTCASES")
         sel.type("id_context-0-query", "TestCase.all()")
         sel.type("id_template", "<h1>Testcases</h1> <br/> {% for testcase in TESTCASES %} <h2>{{testcase.name}}</h2> <ul>     <li><b>name</b>: {{testcase.name}}</li>     <li><b>path</b>: {{testcase.path}}</li>     <li><b>requirement</b>: {{testcase.requirement.name|default:'empty'}}</li> </ul> <hr/> <br/> {% endfor %}")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='Save']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//input[@value='Save']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//li[@id='1_reportdirectory']/ins"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_element_present("link=report testcases"): break
@@ -343,6 +375,12 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("path: /BigProject/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("name: report testcases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
