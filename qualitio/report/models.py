@@ -86,7 +86,7 @@ class ContextElement(models.Model):
     query_pickled = models.TextField(blank=True)
 
     ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report"]
-    ALLOWED_METHODS = ["all", "get", "filter", "exclude"]
+    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by"]
 
     def query_object(self):
         return pickle.loads(str(self.query_pickled))
