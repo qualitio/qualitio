@@ -131,7 +131,7 @@ class ContextElement(models.Model):
     @classmethod
     def _build_query(cls, object_name, methods):
 
-        apps = ["requirements", "store", "execute", "report"]
+        apps = ["require", "store", "execute", "report"]
 
         Object = None
         while not Object and apps:

@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from qualitio import core
-from qualitio.requirements.models import Requirement
+from qualitio.require.models import Requirement
 
 
 class RequirementForm(core.DirectoryModelForm):

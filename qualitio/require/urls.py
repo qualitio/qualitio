@@ -2,9 +2,9 @@ from django.conf.urls.defaults import *
 
 from qualitio import core
 from qualitio.filter.views import filter
-from qualitio.requirements.models import Requirement
+from qualitio.require.models import Requirement
 
-urlpatterns = patterns('qualitio.requirements.views',
+urlpatterns = patterns('qualitio.require.views',
                        url(r'^$', 'index'),
 
                        url(r'filter/?$', filter,

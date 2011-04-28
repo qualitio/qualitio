@@ -3,7 +3,7 @@ from qualitio import core
 
 
 class TestCaseBase(core.BasePathModel):
-    requirement = models.ForeignKey('requirements.Requirement', null=True, blank=True)
+    requirement = models.ForeignKey('require.Requirement', null=True, blank=True)
 
     description = models.TextField(blank=True)
     precondition = models.TextField(blank=True)

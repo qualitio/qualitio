@@ -6,7 +6,7 @@
 {% application_view_menu requirement "testcases" %}
  
 <form id="testcases_connect_form" method="post"
-      action="{% url qualitio.requirements.views.testcases_connect requirement.id %}">
+      action="{% url qualitio.require.views.testcases_connect requirement.id %}">
   {% csrf_token %}
   <div class="grid_8">
     <div class="connected-testcases application-view-content clearfix">

@@ -8,7 +8,7 @@
   {% if view == "edit" %}
   <span class="active" >edit</span>
   {% else %}
-  <a class="{% if not perms.requirements.change_requirement %}disable{% endif %}"
+  <a class="{% if not perms.require.change_requirement %}disable{% endif %}"
      href="#requirement/{{ obj.pk }}/edit/">edit</a>
   {% endif %}
 
