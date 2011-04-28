@@ -114,7 +114,6 @@ INSTALLED_APPS = (
     'social_auth',
     'django_nose',
     'reversion',
-    'django_extensions'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
