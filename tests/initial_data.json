@@ -110,7 +110,7 @@
   },
   {
     "pk": 1, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 32, 
       "name": "MeeGo", 
@@ -128,7 +128,7 @@
   }, 
   {
     "pk": 2, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 5, 
       "name": "Notebook", 
@@ -146,7 +146,7 @@
   }, 
   {
     "pk": 3, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 7, 
       "name": "IVI", 
@@ -164,7 +164,7 @@
   }, 
   {
     "pk": 4, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 15, 
       "name": "TV", 
@@ -182,7 +182,7 @@
   }, 
   {
     "pk": 5, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 17, 
       "name": "MeeGo Handset", 
@@ -200,7 +200,7 @@
   }, 
   {
     "pk": 8, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 10, 
       "name": "Bootscreen ", 
@@ -218,7 +218,7 @@
   }, 
   {
     "pk": 9, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 19, 
       "name": "MeeGo Media Phone", 
@@ -236,7 +236,7 @@
   }, 
   {
     "pk": 10, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 31, 
       "name": "Legacy", 
@@ -254,7 +254,7 @@
   }, 
   {
     "pk": 11, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 30, 
       "name": "n900", 
@@ -272,7 +272,7 @@
   }, 
   {
     "pk": 12, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 23, 
       "name": "pr 1.0", 
@@ -290,7 +290,7 @@
   }, 
   {
     "pk": 13, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 14, 
       "name": "MeeGo Handset test", 
@@ -308,7 +308,7 @@
   }, 
   {
     "pk": 24, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 25, 
       "name": "pr 1.1", 
@@ -326,7 +326,7 @@
   }, 
   {
     "pk": 25, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 27, 
       "name": "pr 1.2", 
@@ -344,7 +344,7 @@
   }, 
   {
     "pk": 26, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 29, 
       "name": "pr 1.3", 
@@ -362,7 +362,7 @@
   }, 
   {
     "pk": 27, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 13, 
       "name": "test1", 
