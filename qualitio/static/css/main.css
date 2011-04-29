@@ -62,6 +62,10 @@ a:hover {
     z-index: 1;
 }
 
+#project-content {
+    background: #eeeeee
+}
+
 #footer {
     position:absolute;
     bottom:0; /* stick to bottom */

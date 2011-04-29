@@ -82,12 +82,12 @@ var hash = {
 };
 
 var resize_main_window = function() {
-  $('#application-view, #application-tree')
-    .css('height',
-         document.body.clientHeight - 
-         $('#header').height() - 
-         // because overflow needs to be launched earlier
-         2*$('#footer').height());
+  $('#application-view')
+    .css('height', 
+         document.body.clientHeight - $('#header').height() - 5 - 2*$('#footer').height());
+  $('#application-tree')
+    .css('height', 
+         document.body.clientHeight - $('#header').height() - 25 - 2*$('#footer').height());
 };
 
 $(document).ready(function() {
