@@ -86,12 +86,12 @@ class ContextElement(models.Model):
     query_pickled = models.TextField(blank=True)
 
     ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report"]
-    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by"]
+    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse"]
 
     def query_object(self):
         return pickle.loads(str(self.query_pickled))
 
-
+    
     def clean(self):
         query_segments  = self.query.split(".")
         if len(query_segments) < 2:
