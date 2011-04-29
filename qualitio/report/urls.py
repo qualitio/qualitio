@@ -10,6 +10,9 @@ urlpatterns = patterns('',
                        url(r'^ajax/get_children/?$', core.get_children,
                            {'directory': ReportDirectory}),
 
+                       url(r'^ajax/get_antecedents$',
+                           core.get_ancestors, {'app': 'report'}),
+
                        url(r'^ajax/reportdirectory/(?P<directory_id>\d+)/details/?$',
                            directory_details),
                        url(r'^ajax/reportdirectory/(?P<directory_id>\d+)/new/?$',

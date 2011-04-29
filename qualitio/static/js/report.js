@@ -4,6 +4,10 @@ $(function() {
     el: $('#application-tree'),
 
     initialize: function() {
+              
+      _id = document.location.hash.split("/")[1];
+      _type = window.location.hash.split('/')[0].split("#")[1];
+
       $(this.el).jstree({
         "ui" : {
 	  "select_limit" : 1
@@ -40,17 +44,16 @@ $(function() {
         _id = document.location.hash.split("/")[1];
         _type = window.location.hash.split('/')[0].split("#")[1];
         _view = document.location.hash.split("/")[2];
-        
+
         if ( !(_type == type) || !(_id == id) || (_view == 'new') || (_view == 'newreport') ){
           document.location.hash = '#'+ type +'/'+ id +"/details/";
         }
       });
+      $.shortcuts.selectTreeNode(_id, _type);
     },
 
     update: function(type, id, view) {
-      if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
-        $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
-      }
+      $.shortcuts.selectTreeNode(id, type);
     }
   });
 

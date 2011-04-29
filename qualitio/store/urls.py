@@ -13,6 +13,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestCaseDirectory}),
 
+                       url(r'^ajax/get_antecedents$',
+                           core.get_ancestors, {'app': 'store'}),
 
                        url(r'^ajax/testcasedirectory/(?P<directory_id>\d+)/details/?$',
                            directory_details),
