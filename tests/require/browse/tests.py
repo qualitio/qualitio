@@ -23,7 +23,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
     def login(self):
         sel = self.selenium
         sel.open("/store/#testcasedirectory/1/details/")
-        self.assertEqual("qualitio: login", sel.get_title())
+	self.assertEqual("qualitio: login", sel.get_title())
         try: self.failUnless(sel.is_text_present("Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_password")
@@ -51,7 +51,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
             try:
                 if sel.is_element_present("link=store"): break
             except: pass
-            time.sleep(1)
+           time.sleep(1)
         else: self.fail("time out")
         sel.click("link=Loading ...")
         for i in range(60):
@@ -533,7 +533,7 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         try: self.assertEqual("qualitio requirements", sel.get_text("css=div.logo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#notification.notify-wrapper-oneattime"))
-        try: self.assertEqual("requirements", sel.get_text("link=requirements"))
+        try: self.assertEqual("require", sel.get_text("link=require"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("store", sel.get_text("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -541,107 +541,19 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("admin", sel.get_text("link=admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-
-        # <tr>
-        # 	<td>verifyText</td>
-        # 	<td>link=execute</td>
-        # 	<td>execute</td>
-        # </tr>
-
-
-
-        # <tr>
-
-        # 	<td>verifyText</td>
-
-        # 	<td>link=report</td>
-
-        # 	<td>report</td>
-
-        # </tr>
-
-
-
-
-        # <tr>
-
-
-        # 	<td>verifyText</td>
-
-
-        # 	<td>link=settings</td>
-
-
-        # 	<td>settings</td>
-
-
-        # </tr>
-
-
-
-
+        try: self.assertEqual("report", sel.get_text("link=report"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("admin", sel.get_text("link=admin"))
-
-
-
         except AssertionError, e: self.verificationErrors.append(str(e))
-
-
-
         self.failUnless(sel.is_element_present("css=#application-menu"))
-
-
-
         try: self.assertEqual("browse", sel.get_text("css=#application-menu ul li"))
-
-
-
         except AssertionError, e: self.verificationErrors.append(str(e))
-
-
-
         try: self.assertEqual("filter", sel.get_text("link=filter"))
-
-
-
         except AssertionError, e: self.verificationErrors.append(str(e))
-
-
-
         try: self.failUnless(sel.is_text_present("Welcome, admin."))
-
-
-
         except AssertionError, e: self.verificationErrors.append(str(e))
-
-
-
         try: self.failUnless(sel.is_element_present("link=Log out"))
-
-
-
         except AssertionError, e: self.verificationErrors.append(str(e))
-
-
-
-
-        # <tr>
-
-
-
-        # 	<td>verifyText</td>
-
-
-
-        # 	<td>css=#application-menu ul li a</td>
-
-
-
-        # 	<td>filter</td>
-
-
-
-        # </tr>
 
 
 
@@ -2962,7 +2874,7 @@ class Test20SetTree(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("test case: TestCase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=requirements")
+        sel.click("link=require")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -3772,7 +3684,7 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("description: test1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=requirements")
+        sel.click("link=require")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -3811,7 +3723,7 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("requirement: 1: /MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=requirements")
+        sel.click("link=require")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -3838,7 +3750,7 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("directory: /MeeGo/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=requirements")
+        sel.click("link=require")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
