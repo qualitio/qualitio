@@ -82,12 +82,12 @@ var hash = {
 };
 
 var resize_main_window = function() {
-  $('#application-view, #application-tree')
-    .css('height',
-         document.body.clientHeight - 
-         $('#header').height() - 
-         // because overflow needs to be launched earlier
-         2*$('#footer').height());
+  $('#application-view')
+    .css('height', 
+         document.body.clientHeight - $('#header').height() - 5 - 2*$('#footer').height());
+  $('#application-tree')
+    .css('height', 
+         document.body.clientHeight - $('#header').height() - 25 - 2*$('#footer').height());
 };
 
 $(document).ready(function() {
@@ -148,6 +148,21 @@ jQuery.shortcuts = {
     $('#application-tree').jstree('refresh', "#"+data.parent_id+"_"+directory_type, data);
   },
   
+  _openNode: function(nodes, target) {
+    if (node = nodes.shift()) {
+      $('#application-tree').jstree("open_node", "#"+node, function() {
+        jQuery.shortcuts._openNode(nodes, target);
+      }, true)
+    } else {
+      $('#application-tree').jstree("select_node", "#"+target, true);
+    }
+  },
+
+  selectTreeNode: function(id, type) {
+    jQuery.getJSON('ajax/get_antecedents', {'id': id, 'type': type}, function(data) {
+      jQuery.shortcuts._openNode(data.nodes, data.target);
+    });
+  }
 }
 
 jQuery.notification = {

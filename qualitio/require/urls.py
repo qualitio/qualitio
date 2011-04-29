@@ -13,6 +13,9 @@ urlpatterns = patterns('qualitio.require.views',
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': Requirement}),
 
+                       url(r'^ajax/get_antecedents$',
+                           core.get_ancestors, {'app': 'require'}),
+
                        url(r'^ajax/requirement/(?P<requirement_id>\d+)/details/$',
                            'details'),
 

@@ -4,6 +4,10 @@ $(function() {
     el: $('#application-tree'),
 
     initialize: function() {
+
+      _id = document.location.hash.split("/")[1];
+      _type = window.location.hash.split('/')[0].split("#")[1];
+
       $(this.el).jstree({
         "ui" : {
 	  "select_limit" : 1
@@ -45,35 +49,11 @@ $(function() {
           document.location.hash = '#'+ type +'/'+ id +"/details/";
         }
       });
+      $.shortcuts.selectTreeNode(_id, _type);
     },
 
     update: function(type, id, view) {
-      // $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
-      // console.log( $(this.el).jstree("_is_loaded", "#"+ id +"_"+ type));
-      // jQuery.getJSON("/execute/ajax/get_antecedents", {type:type,
-      // id:id});
-      // if( !$("#"+ id +"_"+ type).length) {
-      //   alert('nie widać');
-      //   jQuery.getJSON("/execute/ajax/get_antecedents", {type:type, id:id}, function(data) {
-      //     // console.log(data);
-      //     $.each(data.nodes, function(i, node) {
-      //       // console.log( "1_testrundirectory", node, "1_testrundirectory" == node)
-      //       $("#application-tree").jstree("open_node", "#"+ node, function() {
-      //         $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
-      //       });
-      //       // $("#application-tree").jstree("open_node", "#"+ node);
-      //       // console.log('$("#application-tree").jstree("open_node", "#'+ node +'")');
-      //     });
-      //   });
-      // } else {
-      //   $(this.el).jstree("select_node","#"+ id +"_"+ type, true)
-      // }
-      if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
-      //   // console.log( $("#"+ id +"_"+ type) );
-      //   console.log("test");
-      //   console.log( $("#"+ id +"_"+ type).css("display") );
-        $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
-      }
+      $.shortcuts.selectTreeNode(id, type);
     }
   });
 

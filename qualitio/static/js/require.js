@@ -1,8 +1,12 @@
 $(function() {
   var ApplicationTree = Backbone.View.extend({
     el: $('#application-tree'),
-
+    
     initialize: function() {
+
+      _id = document.location.hash.split("/")[1];
+      _type = window.location.hash.split('/')[0].split("#")[1];
+
       $(this.el).jstree({
         "ui" : {
 	  "select_limit" : 1
@@ -42,9 +46,11 @@ $(function() {
           document.location.hash = '#'+ type +'/'+ id +"/details/";
         }
       });
+      $.shortcuts.selectTreeNode(_id, _type);
     },
 
     update: function(type, id, view) {
+      $.shortcuts.selectTreeNode(id, type);
       if ( !$(this.el).jstree("is_selected", "#"+ id +"_"+ type) ) {
         $(this.el).jstree("select_node","#"+ id +"_"+ type, true);
       }
