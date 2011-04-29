@@ -1961,7 +1961,7 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=requirements"): break
+                if sel.is_element_present("link=require"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")

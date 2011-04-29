@@ -1629,7 +1629,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("/MeeGo Netbook/test case directory 2/", sel.get_text("link=/MeeGo Netbook/test case directory 2/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=requirements")
+        sel.click("link=require")
         sel.wait_for_page_to_load("30000")
         sel.click("link=store")
         sel.wait_for_page_to_load("30000")
