@@ -83,18 +83,39 @@ a:hover {
     background: -moz-linear-gradient(top,  #eee,  #fff);
 }
 
-#project-menu .content {
-    margin: 25px 15px 0px 0px;
+#project-menu div {
+    float: right;
 }
+
+#project-menu a {
+    display: block;
+    padding: 7px 50px;
+}
+
 #project-menu a:link,
 #project-menu a:visited{
     text-decoration: none;
     color: #666;
     font-weight:bold;
 }
+
 #project-menu a:hover{
     text-decoration: underline;
+    background: #E0E0E0; /* old browsers */
+    background: -moz-linear-gradient(top, #E0E0E0 0%, #FFFFFF 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#E0E0E0), color-stop(100%,#FFFFFF)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E0E0E0', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
+    background: -o-linear-gradient(top, #E0E0E0 0%,#FFFFFF 100%); /* opera */
 }
+
+#project-menu a.active {
+    background: #eeeeee; /* old browsers */
+    background: -moz-linear-gradient(top, #eeeeee 0%, #FFFFFF 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#FFFFFF)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
+    background: -o-linear-gradient(top, #eeeeee 0%,#FFFFFF 100%); /* opera */
+}
+
 
 #application-menu {
     -moz-border-radius: 0px 0px 8px 8px;
