@@ -51,7 +51,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
             try:
                 if sel.is_element_present("link=store"): break
             except: pass
-           time.sleep(1)
+            time.sleep(1)
         else: self.fail("time out")
         sel.click("link=Loading ...")
         for i in range(60):
