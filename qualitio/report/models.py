@@ -91,7 +91,7 @@ class ContextElement(models.Model):
     def query_object(self):
         return pickle.loads(str(self.query_pickled))
 
-    
+
     def clean(self):
         query_segments  = self.query.split(".")
         if len(query_segments) < 2:
