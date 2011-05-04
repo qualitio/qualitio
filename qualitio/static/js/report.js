@@ -1,51 +1,23 @@
-function render_application_view(type, node, view) {
-    $('#application-view').load("/report/ajax/"+type+"/"+node+"/"+view+"/");
-}
-
-hash.main = function() {
-    object_plain_id = hash.node.split("_")[0]
-    render_application_view(hash.object, object_plain_id, hash.view);
-}
-
 $(function() {
-    $("#application-tree").jstree({
-        "plugins" : [ "themes", "json_data", "ui", "cookies","types"],
-        "json_data" : {
-            "ajax" : {
-                "url" : "/report/ajax/get_children/",
-                "data" : function (n) {
-                    return {
-                        id : n.attr ? n.attr("id").split("_")[0] : 0, //get only the id from {id}_{type_name}
-                        type: n.attr ? n.attr("rel") : 'reportdirectory'
-                    };
-                }
-            }
-        },
-        "types" : {
-            "max_depth" : -2,
-            "max_children" : -2,
-            "valid_children" : [ "reportdirectory"],
-            "types" : {
-                "reportdirectory" : {
-                    "valid_children" : [ "directory", "file" ],
-                },
-                "report" : {
-                    "valid_children" : ["none"],
-                    "icon" : {
-                        "image" : "/static/images/file.png"
-                    },
-                }
-            }
-        }
-    }).bind("select_node.jstree", function (node, data) {
-        hash.object = data.rslt.obj.attr('rel');
-        hash.node = data.rslt.obj.attr("id").split("_")[0];
-        hash.update();
-    });
+  var ControllerView = Backbone.Controller.extend({
+    
+    routes: {
+      ":type/:id/:view/": "render",
+    },
 
-    hash.object = "reportdirectory";
-    hash.node = 1;
-    hash.view = "details";
-
-    hash.init();
+    initialize: function() {
+      this.application_view = new ApplicationView("report");
+      this.application_tree = new ApplicationTree({"directory": "reportedirectory",
+                                                   "file": "report"});
+    },
+    
+    render: function(type, id, view) {
+      this.application_tree.update(type, id, view);
+      this.application_view.render(type, id, view);
+    },
+    
+  });
+  
+  new ControllerView();
+  Backbone.history.start();
 });

@@ -32,6 +32,17 @@ class FormsetErrorProcessingMixin(object):
                 formset_errors.append(map(lambda x: (("testcasestep_set-%s-%s") % (i, v), x), k)[0])
         return formset_errors
 
+    def _errors_list(self):
+        errors = []
+        for i, error in  enumerate(self.errors):
+            for field, messages in error.items():
+                if field == "__all__":
+                    errors.append(("%s-%s" % (self.prefix, i), " .".join(messages)))
+                else:
+                    errors.append(("%s-%s-%s" % (self.prefix, i, field), " .".join(messages)))
+
+        return errors
+
 
 class FormsetChangelogMixin(object):
     def changelog(self):

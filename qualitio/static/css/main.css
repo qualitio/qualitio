@@ -62,6 +62,10 @@ a:hover {
     z-index: 1;
 }
 
+#project-content {
+    background: #eeeeee
+}
+
 #footer {
     position:absolute;
     bottom:0; /* stick to bottom */
@@ -83,18 +87,39 @@ a:hover {
     background: -moz-linear-gradient(top,  #eee,  #fff);
 }
 
-#project-menu .content {
-    margin: 25px 15px 0px 0px;
+#project-menu div {
+    float: right;
 }
+
+#project-menu a {
+    display: block;
+    padding: 7px 50px;
+}
+
 #project-menu a:link,
 #project-menu a:visited{
     text-decoration: none;
     color: #666;
     font-weight:bold;
 }
+
 #project-menu a:hover{
     text-decoration: underline;
+    background: #E0E0E0; /* old browsers */
+    background: -moz-linear-gradient(top, #E0E0E0 0%, #FFFFFF 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#E0E0E0), color-stop(100%,#FFFFFF)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E0E0E0', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
+    background: -o-linear-gradient(top, #E0E0E0 0%,#FFFFFF 100%); /* opera */
 }
+
+#project-menu a.active {
+    background: #eeeeee; /* old browsers */
+    background: -moz-linear-gradient(top, #eeeeee 0%, #FFFFFF 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#FFFFFF)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
+    background: -o-linear-gradient(top, #eeeeee 0%,#FFFFFF 100%); /* opera */
+}
+
 
 #application-menu {
     -moz-border-radius: 0px 0px 8px 8px;
@@ -348,7 +373,8 @@ h2, label {
     display: block;
 }
 
-form .field-wrapper {
+form .field-wrapper,
+form .field{
     margin: 3px 0;
     padding: 3px 0;
 }
@@ -358,6 +384,17 @@ form .ui-state-error label {
 }
 form .ui-state-error .error {
     font-style: italic;
+}
+
+.error {
+    color: #D8000C;
+}
+
+div.error {
+    background: #ffeedd;
+    padding: 2px 5px;
+    border: 1px solid #CD0A0A;
+    display:none;
 }
 
 .tabble-wrapper {
@@ -496,4 +533,20 @@ table.filter td.add {
     cursor: default !important;
     opacity: 0.3 !important;
     pointer-events: none !important;
+}
+
+input[readonly] {
+    background-color: #EFEFEF;
+}
+
+.hidden {
+    display: none;
+}
+
+.removed input[type=text],
+.removed textarea,
+.removed .error {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
 }

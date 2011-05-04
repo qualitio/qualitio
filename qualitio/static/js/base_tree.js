@@ -1,29 +1,28 @@
-var resize_tree = function() {
-  $("#application-tree").parent().resizable({
+var tree_ratio = 0;
+var view_ratio = 0;
+
+jQuery.fn.resize_tree = function() {
+  $(this).parent().resizable({
     handles: 'e',
     maxWidth: document.width/2,
     ghost: true,
     stop: function(event, ui) { 
       $('#application-view').parent().width(document.body.clientWidth - $(this).width());
+      tree_ratio = $('#application-tree').parent().width() / $(window).width();
+      view_ratio = $('#application-view').parent().width() / $(window).width();
     }
   });
-};
+}
 
 $(document).ready(function() {
-  resize_tree();
+  tree_ratio = $('#application-tree').parent().width() / $(window).width();
+  view_ratio = $('#application-view').parent().width() / $(window).width();
+  $('#application-tree').resize_tree();
 });
 
 $(window).resize(function() {
-  $('#application-view').parent()
-    .width(document.body.clientWidth - $('#application-tree').parent().width());
-  resize_tree();
-});
-
-$(document).ajaxComplete(function() {
-  $("input[type=submit], .button").button();
-  $(".date-field").datepicker({
-    showWeek: true ,
-    dateFormat: DATE_FORMAT
-  });
+  $('#application-tree').parent().width( $(window).width() * tree_ratio);
+  $('#application-view').parent().width( $(window).width() * view_ratio - 1);
+  $('#application-tree').resize_tree();
 });
 

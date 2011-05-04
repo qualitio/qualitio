@@ -1,93 +1,10 @@
-// HashController,
-// Implementation based on jquery-ui site, try to understand it, don't blame it.
-var hash = {
-  storedHash: '',
-  listen: true,
-  interval: null,
-  cache: '',
-
-  object : null,
-  node : null,
-  view : null,
-
-  _start_listening: function() {
-    setTimeout(function() {
-      hash.listen = true;
-    }, 600);
-  },
-
-  _stop_listening: function() {
-    hash.listen = false;
-  },
-
-  _has_changed: function() {
-    var locStr = hash.current_hash();
-    if(hash._clean(hash.storedHash) != locStr) {
-      hash._parse();
-
-      if(hash.listen == true) {
-        hash.main();
-        hash.post_main();
-      }
-      hash.storedHash = locStr;
-    }
-    if(!hash.interval) hash.interval = setInterval(hash._has_changed, 50);
-  },
-
-  _parse: function() {
-    segments = hash.current_hash().split("/");
-    hash.object = segments[0];
-    hash.node = segments[1];
-    hash.view = segments[2];
-  },
-
-  _clean: function(locStr){
-    return locStr.replace(/%23/g, "").replace(/[\?#]+/g, "");
-  },
-
-  init: function(){
-    if (window.location.hash) {
-      hash._parse()
-      hash.update();
-    } else {
-      hash.storedHash = '';
-    }
-    hash._has_changed();
-  },
-
-  update: function(refresh) {
-    hash.storedHash = hash.to_string();
-    window.location.hash = hash.to_string();
-    if (refresh) {
-      hash.main();
-    }
-  },
-
-  current_hash: function() {
-    return hash._clean(window.location.hash);
-  },
-
-  to_string: function() {
-    return "#"+[hash.object, hash.node, hash.view].join("/")+"/";
-  },
-
-  // Controller view. Will react on every anchor change. Implement your logic here
-  main: function() {
-    return alert("One function to rule them all, not implemented")
-  },
-
-  post_main: function() {
-    return 0;
-  }
-};
-
 var resize_main_window = function() {
-  $('#application-view, #application-tree')
-    .css('height',
-         document.body.clientHeight - 
-         $('#header').height() - 
-         // because overflow needs to be launched earlier
-         2*$('#footer').height());
+  $('#application-view')
+    .css('height', 
+         document.body.clientHeight - $('#header').height() - 5 - 2*$('#footer').height());
+  $('#application-tree')
+    .css('height', 
+         document.body.clientHeight - $('#header').height() - 25 - 2*$('#footer').height());
 };
 
 $(document).ready(function() {
@@ -121,6 +38,51 @@ jQuery.fn.dataTableToggleSelect = function() {
   });
 };
 
+jQuery.shortcuts = {
+  showErrors: function(errors) {
+    $(errors).each(function(i, element, value) {
+      field = element[0]; message = element[1];
+      
+      $field = $('#id_'+ field);
+      $field_errors = $('#id_' +field+ '_error');
+      
+      if( $field_errors.length ) {
+        $field_errors.text(message).fadeIn();
+      } else {
+        $field.before($('<div style="display:block" class="error">'+message+'</div>').fadeIn());
+      }
+    });
+  },
+  
+  hideErrors: function() {
+    $('.error').hide();
+  },
+
+  reloadTree: function(data, directory_type, target_type) {
+    if (!target_type) {
+      target_type = directory_type;
+    }
+    $('#application-tree').jstree('refresh', "#"+data.parent_id+"_"+directory_type, data);
+  },
+  
+  _openNode: function(nodes, target) {
+    if (node = nodes.shift()) {
+      $('#application-tree').jstree("open_node", "#"+node, function() {
+        jQuery.shortcuts._openNode(nodes, target);
+      }, true)
+    } else {
+      $('#application-tree').jstree("select_node", "#"+target, true);
+    }
+  },
+
+  selectTreeNode: function(id, type) {
+    if ( !$('#application-tree').jstree("is_selected", "#"+id+"_"+type) && id) {
+      jQuery.getJSON('ajax/get_antecedents', {'id': id, 'type': type}, function(data) {
+        jQuery.shortcuts._openNode(data.nodes, data.target);
+      });
+    }
+  }
+}
 
 jQuery.notification = {
   
@@ -142,3 +104,93 @@ jQuery.notification = {
     });
   }
 }
+
+$(document).ajaxComplete(function() {
+  $("input[type=submit], .button").button();
+  $(".date-field").datepicker({
+    showWeek: true ,
+    dateFormat: DATE_FORMAT
+  });
+});
+
+$(function() {
+  
+  ApplicationView = Backbone.View.extend({
+    el: $('#application-view'),
+    
+    initialize: function(application_name) {
+      this.application_name = application_name;
+    },
+    
+    render: function(type, id, view) {
+      $(this.el).load("/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
+        $(this).removeClass('disable');
+      }).addClass('disable');
+    }
+  });
+  
+  ApplicationTree = Backbone.View.extend({
+    el: $('#application-tree'),
+    
+    initialize: function(options) {
+      this.directory_type = options.directory;
+      this.file_type = options.file;
+      
+      this.id = document.location.hash.split("/")[1];
+      this.type = window.location.hash.split('/')[0].split("#")[1];
+      
+      var tree_types = {
+        "types": {
+          "valid_children" : [ this.directory_type ]
+        }
+      };
+      
+      tree_types.types[this.directory_type] = {
+        "valid_children": "all",
+        "icon": {
+          "image":  options.directory_icon || "/static/images/tree/directory.png"
+        }
+      }
+      
+      if (this.file_type) {
+        tree_types.types[this.file_type] = {
+          "icon": {
+            "image": options.file_icon || "/static/images/tree/file.png"
+          }
+        }
+      }
+      
+      var self = this;
+      $(this.el).jstree({
+        "ui" : {
+	  "select_limit" : 1
+        },
+        "json_data" : {
+          "ajax" : {
+            "url" : "ajax/get_children",
+            "data" : function (n) {
+              return {
+                id : n.attr ? n.attr("id").split("_")[0] : 0, //get only the id from {id}_{type_name}
+                type: n.attr ? n.attr("rel") : this.directory_type
+              };
+            }
+          }
+        },
+        "types" : tree_types,
+        "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
+      }).bind("select_node.jstree", function (node, data) {
+        self.id = data.rslt.obj.attr("id").split("_")[0],
+        self.type = data.rslt.obj.attr("id").split("_")[1];
+        document.location.hash = '#'+ self.type +'/'+ self.id +"/details/";
+      });
+      $.shortcuts.selectTreeNode(this.id, this.type);
+    },
+
+    update: function(type, id, view) {
+      this.type = type;
+      this.id = id;
+      $.shortcuts.selectTreeNode(id, type);
+    }
+  });
+  
+});

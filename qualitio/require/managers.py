@@ -26,7 +26,7 @@ class RequirementManager(Manager):
         """
         Returns all dependency connections as a list of pairs (tuples).
         """
-        query = "SELECT from_requirement_id, to_requirement_id FROM requirements_requirement_dependencies;"
+        query = "SELECT from_requirement_id, to_requirement_id FROM require_requirement_dependencies;"
         cursor = connection.cursor()
         cursor.execute(query)
         result = list(row for row in cursor.fetchall())

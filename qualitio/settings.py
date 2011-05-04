@@ -67,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
@@ -83,6 +84,7 @@ LOGIN_EXEMPT_URLS = (
     r'^login/.*',
     r'^__debug__/.*',
     r'^complete/*',
+    r'^report/external/*',
     )
 
 TEMPLATE_DIRS = (
@@ -100,7 +102,7 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
 
     'qualitio.core',
-    'qualitio.requirements',
+    'qualitio.require',
     'qualitio.report',
     'qualitio.projects',
     'qualitio.execute',
@@ -111,7 +113,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'social_auth',
     'django_nose',
-    'reversion'
+    'reversion',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -121,7 +123,8 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.request",
                                "django.contrib.messages.context_processors.messages",
                                "qualitio.core.context_processors.settings",
-                               "qualitio.core.context_processors.development")
+                               "qualitio.core.context_processors.development",
+                               "qualitio.core.context_processors.core")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
 
@@ -129,6 +132,7 @@ AUTH_PROFILE_MODULE = 'projects.UserProfile'
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
 )
 
 
@@ -145,3 +149,10 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 ISSUE_BACKEND = "qualitio.execute.backends.bugs.Bugzilla"
 ISSUE_BACKEND_BUGZILLA_URL = "https://bugzilla.mozilla.org/"
+
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
+

@@ -47,18 +47,27 @@
       <div id="notification"></div>
       
       <div id="header" class="container_16 clearfix">
-        <div class="grid_3 suffix_8">
+        <div class="grid_6">
           <div class="logo">
             qualitio<span style="font-size:12px; font-weight: bold"> {% block module-name %}{% endblock %}</span>
           </div>
         </div>
 
-        <div id="project-menu" class="grid_5" style="text-align:right">
-          <div class="content">
-            <a href="/require/">requirements</a> |
-            <a href="/store/">store</a> |
-            <a href="/execute/">execute</a> |
+        <div id="project-menu" class="grid_10 clearfix">
+          <div>
             <a href="/admin/">admin</a>
+          </div>
+          <div>
+            <a class="{% if CURRENT_MODULE == 'report' %}active{% endif %}" href="/report/">report</a>
+          </div>
+          <div>
+            <a class="{% if CURRENT_MODULE == 'execute' %}active{% endif %}" href="/execute/">execute</a>
+          </div>
+          <div>
+            <a class="{% if CURRENT_MODULE == 'store' %}active{% endif %}" href="/store/">store</a>
+          </div>
+          <div>
+            <a class="{% if CURRENT_MODULE == 'require' %}active{% endif %}" href="/require/">require</a>
           </div>
         </div>
         <div class="user-panel">
@@ -66,7 +75,7 @@
         </div>
       </div>
 
-      <div class="container_16 clearfix">
+      <div id="project-content" class="container_16 clearfix">
         {% block application %}{% endblock %}
       </div>
 
