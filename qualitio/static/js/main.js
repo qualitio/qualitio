@@ -112,3 +112,85 @@ $(document).ajaxComplete(function() {
     dateFormat: DATE_FORMAT
   });
 });
+
+$(function() {
+  
+  ApplicationView = Backbone.View.extend({
+    el: $('#application-view'),
+    
+    initialize: function(application_name) {
+      this.application_name = application_name;
+    },
+    
+    render: function(type, id, view) {
+      $(this.el).load("/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
+        $(this).removeClass('disable');
+      }).addClass('disable');
+    }
+  });
+  
+  ApplicationTree = Backbone.View.extend({
+    el: $('#application-tree'),
+    
+    initialize: function(options) {
+      this.directory_type = options.directory;
+      this.file_type = options.file;
+      
+      this.id = document.location.hash.split("/")[1];
+      this.type = window.location.hash.split('/')[0].split("#")[1];
+      
+      var tree_types = {
+        "types": {
+          "valid_children" : [ this.directory_type ]
+        }
+      };
+      
+      tree_types.types[this.directory_type] = {
+        "valid_children": "all",
+        "icon": {
+          "image":  options.directory_icon || "/static/images/tree/directory.png"
+        }
+      }
+      
+      if (this.file_type) {
+        tree_types.types[this.file_type] = {
+          "icon": {
+            "image": options.file_icon || "/static/images/tree/file.png"
+          }
+        }
+      }
+      
+      var self = this;
+      $(this.el).jstree({
+        "ui" : {
+	  "select_limit" : 1
+        },
+        "json_data" : {
+          "ajax" : {
+            "url" : "ajax/get_children",
+            "data" : function (n) {
+              return {
+                id : n.attr ? n.attr("id").split("_")[0] : 0, //get only the id from {id}_{type_name}
+                type: n.attr ? n.attr("rel") : this.directory_type
+              };
+            }
+          }
+        },
+        "types" : tree_types,
+        "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
+      }).bind("select_node.jstree", function (node, data) {
+        self.id = data.rslt.obj.attr("id").split("_")[0],
+        self.type = data.rslt.obj.attr("id").split("_")[1];
+        document.location.hash = '#'+ self.type +'/'+ self.id +"/details/";
+      });
+      $.shortcuts.selectTreeNode(this.id, this.type);
+    },
+
+    update: function(type, id, view) {
+      this.type = type;
+      this.id = id;
+      $.shortcuts.selectTreeNode(id, type);
+    }
+  });
+  
+});
