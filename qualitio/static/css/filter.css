@@ -2,15 +2,31 @@
     width: 100%;
 }
 
+.filter-forms .groups-linker{
+    text-align:center;
+}
+
 .filter-form .name{
     text-align: right;
     padding-right:10px;
 }
 
-table.pretty tr:hover, table.pretty tr:nth-child(2n):hover {
-    background: #CCFFFF;
-}
-
 .fieldfilter-form {
     padding:5px;
+}
+
+.fieldfilter-form .fieldfilter-label {
+    width:250px; float:left;
+}
+
+.fieldfilter-form .fieldfilter-field {
+    float:left; width:220px; margin-right:5px;
+}
+
+.fieldfilter-form .fieldfilter-tools {
+    float:right;
+}
+
+.add-new-group-form {
+    float:right; width:350px;
 }
