@@ -7,20 +7,27 @@
 <li class="active">filter</li>
 {% endblock %}
 
-
-
 {% block application-view %}
 <form method="GET" class="filter-form">
   <div class="filter-forms">
     {% for group in filter %}
-    {% if not forloop.first %}<div style="text-align:center;">- OR -</div>{% endif %}
+    {% if not forloop.first %}
+    <div class="groups-linker">- OR -</div>
+    {% endif %}
     <div class="application-view-content group group-id-{{ group.id }}">
       {% for form in group %}
       <div class="fieldfilter-form">
-	<div style="width:250px; float:left;"><label>{{ form.field_name_label }}</label></div>
+	<div class="fieldfilter-label"><label>{{ form.field_name_label }}</label></div>
 	{% for field in form %}
-	<div style="float:left; width:220px; margin-right:5px;">{{ field.errors }}{{ field }}</div>
+	<div class="fieldfilter-field">{{ field.errors }}{{ field }}</div>
 	{% endfor %}
+	{% if form.field_name %}
+	<div class="fieldfilter-tools">
+	  <div class="button remove-button">
+	    Remove <input type="checkbox" name="control-remove-filter-{{ form.prefix }}" />
+	  </div>
+	</div>
+	{% endif %}
 	<div style="clear:both;"></div>
       </div>
       {% endfor %}
@@ -30,25 +37,29 @@
     <div class="application-view-content">
       <input type="submit" value="Search" /> |
       <a href="/{{ app_label }}/filter/" class="button">Reset query</a>
-      <div style="float:right; width:350px;">{{ filter.new_group_form }}</div>
+      <div class="add-new-group-form">{{ filter.new_group_form }}</div>
     </div>
   </div>
 </form>
 
 <div class="application-view-content">
-  <table class="pretty ui-corner-all">
-    <tr>
-      {% for column in table.columns %}
-      <th>{{ column }}</th>
+  <table class="display">
+    <thead>
+      <tr>
+	{% for column in table.columns %}
+	<th>{{ column }}</th>
+	{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table.rows %}
+      <tr>
+	{% for value in row %}
+	<td>{{ value }}</td>
+	{% endfor %}
+      </tr>
       {% endfor %}
-    </tr>
-    {% for row in table.rows %}
-    <tr>
-      {% for value in row %}
-      <td>{{ value }}</td>
-      {% endfor %}
-    </tr>
-    {% endfor %}
+    </tbody>
   </table>
   {% endblock %}
 </div>

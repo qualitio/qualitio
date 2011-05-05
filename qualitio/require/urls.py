@@ -7,7 +7,7 @@ from qualitio.require.models import Requirement
 urlpatterns = patterns('qualitio.require.views',
                        url(r'^$', 'index'),
 
-                       url(r'filter/?$', filter,
+                       url(r'^filter/', filter,
                            {'model': Requirement}),
 
                        url(r'^ajax/get_children$', core.get_children,
