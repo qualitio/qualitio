@@ -7,6 +7,10 @@ $(document).ready(function() {
 	showWeek: true ,
 	dateFormat: DATE_FORMAT
     });
+    $('.remove-button').click(function(){
+	$('input[type="checkbox"]', $(this)).attr('checked', true);
+	$('.filter-form').submit();
+    });
 
     $("table.display").dataTable({
 	"bPaginate": true,

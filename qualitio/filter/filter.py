@@ -108,6 +108,7 @@ class Filter(object):
     field_name_ptr = re.compile(r'(?P<group_id>\d+)-(?P<form_class_id>\d+)-(?P<form_id>\d+)-(?P<field_name>\w+)')
     control_form_ptr = re.compile(r'(\d+)-control-new-criteria-(\w+)')
     control_group_ptr = re.compile(r'control-new-group-(\w+)')
+    control_remove_field_ptr = re.compile(r'control-remove-filter-(?P<field_id>[\w-]+)')
 
     def get_form_classes(self):
         return getattr(self.__class__, 'form_classes', ())
@@ -127,6 +128,20 @@ class Filter(object):
     def build_from_params(self):
         copy = self.data.copy()
         data = self.data.copy()
+
+        # before everything - try to check if there is something to remove
+        for fname in data.keys():
+            match = self.control_remove_field_ptr.match(fname)
+            if match:
+                field_prefix = match.group('field_id')
+                for key in data.keys():
+                    if key.startswith(field_prefix):
+                        # we need to remove from copy too since we want to redirect to the
+                        # same page witout the field
+                        del data[key], copy[key]
+
+                del data[fname], copy[fname]
+                self.has_control_params = True
 
         # first build existing groups...
         for fname in data.keys():
