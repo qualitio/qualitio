@@ -1492,6 +1492,25 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_text_present("test run: TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_element_present("id_testrun-name"): break
             except: pass
             time.sleep(1)
@@ -1555,7 +1574,32 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_text_present("test run: TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("No data available in table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=history"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1729,19 +1773,6 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-parent"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=details")
-        for i in range(60):
-            try:
                 if sel.is_text_present("full name: /TestRun directory/TestRun 1"): break
             except: pass
             time.sleep(1)
@@ -1794,13 +1825,6 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=details")
-        for i in range(60):
-            try:
                 if sel.is_text_present("test cases:"): break
             except: pass
             time.sleep(1)
@@ -1848,19 +1872,6 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-parent"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
@@ -1917,19 +1928,6 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-parent"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
@@ -2075,6 +2073,19 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=edit")
         for i in range(60):
             try:
                 if sel.is_element_present("id_testrun-name"): break
@@ -2246,6 +2257,7 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//div[@id='application-view-footer']/div/input")
+    
 
 
 
@@ -2341,13 +2353,13 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("link=edit"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("link=notes"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2756,21 +2768,6 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-parent"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=details"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=details")
-        for i in range(60):
-            try:
                 if sel.is_text_present("test run: TestRun 1"): break
             except: pass
             time.sleep(1)
@@ -2886,13 +2883,13 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("link=edit"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("link=notes"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3101,13 +3098,13 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("link=edit"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("link=notes"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3341,21 +3338,6 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=details"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=details")
-        for i in range(60):
-            try:
                 if sel.is_text_present("test run: TestRun 1"): break
             except: pass
             time.sleep(1)
@@ -3421,25 +3403,6 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-parent"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("link=details"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("No data available in table"): break
@@ -3676,6 +3639,19 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_text_present("test run: TestRun 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=edit")
+        for i in range(60):
+            try:
                 if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
@@ -3697,12 +3673,6 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         sel.click("//div[@id='application-view-menu']/a[2]")
         for i in range(60):
             try:
-                if sel.is_element_present("select-all"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
                 if sel.is_text_present("id"): break
             except: pass
             time.sleep(1)
@@ -3710,6 +3680,12 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("path"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3723,6 +3699,12 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_element_present("//div[@id='testcaserun-details']/div[1]/h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: Open navigation"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3774,13 +3756,7 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_text_present("test run: TestRun 2"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3842,7 +3818,7 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
     
     def test_42_exec_testdirectmod(self):
         self.login()        
-	sel = self.selenium
+        sel = self.selenium
         sel.open("/require/#requirement/1/details/")
         self.assertEqual("qualitio: requirements", sel.get_title())
         for i in range(60):
@@ -3987,21 +3963,6 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("testrun directory saved"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_description"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=details"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("test run directory: testrun subdirectory 2 modified"): break
