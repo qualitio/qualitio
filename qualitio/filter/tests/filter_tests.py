@@ -1,5 +1,7 @@
 from nose.tools import *
 from qualitio.core.tests.utils import BaseTestCase
+from qualitio.store.models import TestCase
+from qualitio.require.models import Requirement
 
 from qualitio.filter.tests.testapp.models import FileDescription
 from qualitio import filter as filterapp

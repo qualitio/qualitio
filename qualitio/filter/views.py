@@ -21,7 +21,6 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level')):
         class Meta:
             model = Model
             exclude = fields_to_exclude
-            related_objects = False
 
     generic_filter = ModelFilter(request.GET)
     has_control_params, params = generic_filter.build_from_params()

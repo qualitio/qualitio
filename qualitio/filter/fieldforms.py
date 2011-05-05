@@ -71,25 +71,3 @@ class DateRangeFieldFilterForm(FieldFilterForm):
         if from_date and to_date:
             return Q(**{'%s__%s' % (self.field_name, 'range'): [from_date, to_date]})
         return Q()
-
-
-class RelatedObjectFilterForm(FieldFilterForm):
-    q = forms.NullBooleanField(required=False)
-
-    # need to be set up by subclass of FieldFilter
-    related_object = None
-
-    def construct_Q(self):
-        ro = self.related_object
-        value = self.cleaned_data['q']
-        qs = Q()
-
-        if value == True:
-            other_model_qs = ro.model.objects.filter(**{'%s__isnull' % ro.field.name: False})
-            ids_of_current_model = other_model_qs.values_list('%s__id' % ro.field.name, flat=True)
-            ids_of_current_model = list(set(ids_of_current_model))
-            qs = Q(id__in=ids_of_current_model)
-        elif value == False:
-            qs = Q(**{'%s__isnull' % ro.var_name: True})
-
-        return qs

@@ -54,18 +54,6 @@ class DateFieldFilter(FieldFilter):
     form_class = fieldforms.DateRangeFieldFilterForm
 
 
-class RelatedObjectFieldFilter(FieldFilter):
-    forms_class = fieldforms.RelatedObjectFilterForm
-
-    def form_class_attrs(self):
-        ro = self.field
-        return {
-            'related_object': ro,
-            'field_name': ro.field.name,
-            'field_name_label': ("%s exists" % ro.var_name).capitalize(),
-            }
-
-
 FIELD_FORM_FOR_DBFIELD_DEFAULTS = {
     models.CharField: TextFieldFilter,
     models.TextField: TextFieldFilter,
@@ -106,13 +94,4 @@ def fieldfilters_for_model(Model, fields=None, exclude=(), fields_overrides=None
         if fieldfilter_class:
             result[f.name] = fieldfilter_class(model=Model, name=f.name, field=f)
 
-    return result
-
-
-def related_objects_filters_for_model(Model, fields=None, exclude=('parent',)):
-    result = {}
-    for f in Model._meta.get_all_related_objects():
-        if (fields and f.name not in fields) or (exclude and f.name in exclude):
-            continue
-        result[f.name] = RelatedObjectFieldFilter(model=Model, name=f.name, field=f)
     return result

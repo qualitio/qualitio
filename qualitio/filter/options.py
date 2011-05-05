@@ -2,9 +2,7 @@
 from django.utils.datastructures import SortedDict
 from django.core.exceptions import ImproperlyConfigured
 
-from qualitio.filter.fieldfilters import (FieldFilter,
-                                          fieldfilters_for_model,
-                                          related_objects_filters_for_model)
+from qualitio.filter.fieldfilters import FieldFilter, fieldfilters_for_model
 from qualitio.filter import utils
 
 
@@ -13,7 +11,6 @@ class Options(object):
         self.fields = getattr(opts, 'fields', None)
         self.exclude = getattr(opts, 'exclude', None)
         self.model = getattr(opts, 'model', None)
-        self.related_objects = getattr(opts, 'related_objects', False)
         self.object_name = object_name
 
 
@@ -69,10 +66,6 @@ class MetaFilter(type):
         base_filters = SortedDict()
         if opts.model:
             base_filters.update(fieldfilters_for_model(opts.model, fields=opts.fields, exclude=opts.exclude))
-
-        if opts.model and opts.related_objects:
-            base_filters.update(related_objects_filters_for_model(
-                    opts.model, fields=opts.fields, exclude=opts.exclude))
 
         # override base_fields with whose which are defined by user
         base_filters.update(declared_filters)
