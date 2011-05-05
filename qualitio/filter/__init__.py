@@ -1,14 +1,4 @@
-"""
-Application that allows filtering tables on fly.
-Just add filter.views.filter view to your urlpatters:
-
-
-from filter import views
-urlpatters = patterns(''
-                      (r'filter/', views.filter, {'model': MyModel}),
-                      )
-
-
-This will generate django_filter.FilterSet instance for the given model
-and will pass it into 'filter/filter.html' template.
-"""
+from qualitio.filter.fieldforms import *
+from qualitio.filter.fieldfilters import *
+from qualitio.filter.filter import Filter, ModelFilter, generate_form_classes
+from qualitio.filter import utils
