@@ -93,6 +93,15 @@ if __name__ == "__main__":
                                       )
             syncdb.wait()
 
+	    migrate = subprocess.Popen(['../qualitio/manage.py',
+                                       'migrate',
+                                      
+                                       '--settings=selenium_settings'],
+                                      stdout=out, stderr=subprocess.STDOUT,
+                                      shell=False
+                                      )
+            migrate.wait()
+
             print "3. Starting application test server"
             runserver = subprocess.Popen(['../qualitio/manage.py',
                                           'runserver',
