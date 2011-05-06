@@ -58,6 +58,7 @@ def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False
     _configure_webserver()
     _local_settings(local_settings)
     _synchronize_database()
+    _migrate_database()
     _restart_webserver()
     if fixtures:
         _load_dumpdata()
@@ -73,6 +74,7 @@ def update_production(path="/var/www/qualitio", local_settings=""):
     _install_requirements()
     _local_settings(local_settings)
     _synchronize_database()
+    _migrate_database()
     _restart_webserver()
 
     print("Instsance at %s:%s, updated." % (colors.green(env.host),
@@ -129,6 +131,11 @@ def _synchronize_database():
 
     sudo("chown :www-data -R %(path)s/qualitio/data && chmod g+rw -R %(path)s/qualitio/data" % env)
     sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env)
+
+
+def _migrate_database():
+    require("path")
+    sudo("python %(path)s/qualitio/manage.py migrate --noinput" % env)
 
 
 def _load_dumpdata():
