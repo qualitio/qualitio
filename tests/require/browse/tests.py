@@ -520,6 +520,95 @@ class Test02Authview(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
+class Test03Gmail(BaseSeleniumTestCase):
+
+    
+    def test_03_gmail(self):
+        sel = self.selenium
+        sel.open("/login/?next=/")
+        self.assertEqual("qualitio: login", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='submit-panel']/div[1]/a/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='submit-panel']/div[1]/a/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='submit-panel']/div[1]/a/span")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "Konta Google" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("Konta Google", sel.get_title())
+        sel.type("Email", "qualitio1")
+        sel.type("Passwd", "testqual")
+        try: self.failUnless(sel.is_element_present("signIn"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("signIn")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "qualitio: requirements" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: requirements" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("JackPack"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("JackPack"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=Log out"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=Log out")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: login" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: login", sel.get_title())
+        try: self.failUnless(sel.is_element_present("//div[@id='submit-panel']/div[1]/a/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='submit-panel']/div[1]/a/span")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: requirements" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.failUnless(sel.is_text_present("Welcome, JackPack"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
 class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
     
     def test_1_headerpage_verifytext(self):
