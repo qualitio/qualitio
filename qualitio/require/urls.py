@@ -4,13 +4,14 @@ from qualitio import core
 from qualitio.filter.views import filter
 from qualitio.require.models import Requirement
 from qualitio.require.filter import RequirementFilter
-from qualitio.require.tables import RequirementFilterTable
 
 urlpatterns = patterns('qualitio.require.views',
                        url(r'^$', 'index'),
 
                        url(r'^filter/', filter,
-                           {'model_filter_class': RequirementFilter}),
+                           {'model_filter_class': RequirementFilter,
+                            'exclude': ('lft', 'rght', 'tree_id', 'level', 'dependencies'),
+                            }),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': Requirement}),

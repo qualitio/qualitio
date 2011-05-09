@@ -152,6 +152,8 @@ ISSUE_BACKEND = "qualitio.execute.backends.bugs.Bugzilla"
 ISSUE_BACKEND_BUGZILLA_URL = "https://bugzilla.mozilla.org/"
 
 
+SOUTH_TESTS_MIGRATE = False
+
 try:
     from local_settings import *
 except ImportError:
