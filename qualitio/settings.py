@@ -71,6 +71,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.QueriesCounterMiddleware',  # work's only if DEBUG == True
     'django.middleware.transaction.TransactionMiddleware',
 )
 
