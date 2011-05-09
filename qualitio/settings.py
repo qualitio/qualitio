@@ -81,10 +81,12 @@ LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
     r'^static/',
+    r'^login/google/',
     r'^login/.*',
-    r'^__debug__/.*',
+    r'^associate/*',
     r'^complete/*',
     r'^report/external/*',
+    r'^__debug__/.*',
     )
 
 TEMPLATE_DIRS = (
@@ -101,6 +103,13 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.webdesign',
 
+    'mptt',
+    'debug_toolbar',
+    'social_auth',
+    'django_nose',
+    'reversion',
+    'south',
+
     'qualitio.core',
     'qualitio.require',
     'qualitio.report',
@@ -108,13 +117,6 @@ INSTALLED_APPS = (
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
-
-    'mptt',
-    'debug_toolbar',
-    'social_auth',
-    'django_nose',
-    'reversion',
-    'south'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
