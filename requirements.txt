@@ -6,7 +6,7 @@ distribute==0.6.16
 django-debug-toolbar==0.8.5
 django-extensions==0.6
 django-filter==0.5.3
--e git://github.com/django-mptt/django-mptt.git@bda85ec3fa9ecb2d083ca27dfe4cf7d449805f02#egg=django_mptt-0.5.pre-py2.6-dev
+-e git+https://github.com/django-mptt/django-mptt.git#egg=django_mptt
 django-nose==0.1.3
 django-reversion==1.4
 django-social-auth==0.3.15

@@ -228,13 +228,15 @@ class ModelFilter(Filter):
     qs = property(lambda self: self.queryset())
 
 
-def generate_form_classes(model, fields=None, exclude=(), bases=(ModelFilter,)):
+def generate_model_filter(model, fields=None, exclude=(), bases=(ModelFilter,)):
     _model, _fields, _exclude = model, fields, exclude
-
     class Meta:
         model = _model
         fields = _fields
         exclude = _exclude
+    return type('_Filter', bases, { 'Meta': Meta })
 
-    _Filter = type('_Filter', bases, { 'Meta': Meta })
+
+def generate_form_classes(model, fields=None, exclude=(), bases=(ModelFilter,)):
+    _Filter = generate_model_filter(model, fields=fields, exclude=exclude, bases=bases)
     return [f.create_form_class() for f in _Filter.base_filters.values()]

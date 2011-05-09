@@ -30,3 +30,18 @@
 .add-new-group-form {
     float:right; width:350px;
 }
+
+.results-container {
+    padding-bottom: 25px;
+}
+
+
+/* fixes for dataTable js plugin */
+.dataTables_info {
+    width: 60%;
+    float: left;
+    padding-top:5px;
+}
+.dataTables_wrapper select {
+    width: 50px;
+}
