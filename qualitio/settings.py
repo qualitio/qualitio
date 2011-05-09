@@ -71,6 +71,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.QueriesCounterMiddleware',  # work's only if DEBUG == True
     'django.middleware.transaction.TransactionMiddleware',
 )
 
@@ -153,6 +154,8 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 ISSUE_BACKEND = "qualitio.execute.backends.bugs.Bugzilla"
 ISSUE_BACKEND_BUGZILLA_URL = "https://bugzilla.mozilla.org/"
 
+
+SOUTH_TESTS_MIGRATE = False
 
 try:
     from local_settings import *
