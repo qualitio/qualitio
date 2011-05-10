@@ -3,14 +3,14 @@ import pickle
 
 from django.core.exceptions import FieldError
 from django.db import models
-from django.template import Context, Template
+from django.template import Context, Template, TemplateSyntaxError
 from django.core.exceptions import ValidationError
+from django.views import debug
 from django.db.models import query, loading
 from django.template.defaultfilters import slugify
 
 from qualitio import core
 
-import validators
 
 class RestrictedManager(models.Manager):
 
@@ -32,7 +32,7 @@ class ReportDirectory(core.BaseDirectoryModel):
 
 
 class Report(core.BasePathModel):
-    template = models.TextField(blank=True, validators=[validators.template_validate])
+    template = models.TextField(blank=True)
     public = models.BooleanField()
     link = models.URLField(blank=True, verify_exists=False)
     MIME_CHOICES = (('text/html', 'html'),
@@ -77,6 +77,23 @@ class Report(core.BasePathModel):
         self.link = "/".join(link_elements)
         kwargs['force_insert'] = False
         super(Report, self).save(*args, **kwargs)
+
+    def _get_template_exception_info(self, exception):
+        origin, (start, end) = exception.source
+        template_source = origin.reload()
+        upto = line = 0
+        for num, next in enumerate(debug.linebreak_iter(template_source)):
+            if start >= upto and end <= next:
+                line = num
+            upto = next
+        return line
+
+    def clean(self):
+        try:
+            str(Template(self.template).render(Context(self.context_dict)))
+        except TemplateSyntaxError as e:
+            raise ValidationError({"template": "Line %s: %s"
+                                   % (self._get_template_exception_info(e), e)})
 
 
 class ContextElement(models.Model):
