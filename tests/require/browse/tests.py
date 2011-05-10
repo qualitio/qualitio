@@ -521,7 +521,6 @@ class Test02Authview(BaseSeleniumTestCase):
 
 
 class Test03Gmail(BaseSeleniumTestCase):
-
     
     def test_03_gmail(self):
         sel = self.selenium
@@ -607,6 +606,7 @@ class Test03Gmail(BaseSeleniumTestCase):
         self.assertEqual("qualitio: requirements", sel.get_title())
         try: self.failUnless(sel.is_text_present("Welcome, JackPack"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+
 
 
 class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
