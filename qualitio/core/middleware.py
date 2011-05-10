@@ -1,5 +1,7 @@
+import sys
 from re import compile
 
+from django import db
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
@@ -16,4 +18,13 @@ class LoginRequiredMiddleware(object):
                 return HttpResponseRedirect('%s?next=%s' % (settings.LOGIN_URL, request.path_info) )
 
 
+class QueriesCounterMiddleware:
+    def process_request(self, request):
+        if settings.DEBUG:
+            db.reset_queries()
 
+    def process_response(self, request, response):
+        if settings.DEBUG:
+            sys.stdout.write("Number of queries: %d " % len(db.connection.queries))
+            sys.stdout.flush()
+        return response

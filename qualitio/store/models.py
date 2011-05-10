@@ -2,11 +2,17 @@ from django.db import models
 from qualitio import core
 
 
+class TestCaseBaseManager(core.BaseManager):
+    select_related_fields = core.BaseManager.select_related_fields + ['requirement']
+
+
 class TestCaseBase(core.BasePathModel):
     requirement = models.ForeignKey('require.Requirement', null=True, blank=True)
 
     description = models.TextField(blank=True)
     precondition = models.TextField(blank=True)
+
+    objects = TestCaseBaseManager()
 
     class Meta(core.BasePathModel.Meta):
         abstract = True
