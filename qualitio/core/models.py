@@ -86,8 +86,17 @@ class BasePathModelMetaclass(models.base.ModelBase):
         return super(BasePathModelMetaclass, cls).__new__(cls, class_name, bases, attrs)
 
 
+class BaseManager(models.Manager):
+    select_related_fields = ['parent']
+
+    def get_query_set(self):
+        return super(BaseManager, self).get_query_set().select_related(*self.select_related_fields)
+
+
 class BasePathModel(AbstractPathModel):
     __metaclass__ = BasePathModelMetaclass
+
+    objects = BaseManager()
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
@@ -95,6 +104,8 @@ class BasePathModel(AbstractPathModel):
 
 class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
+
+    objects = BaseManager()
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
