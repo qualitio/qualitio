@@ -6,17 +6,31 @@ body {
     text-align: center;
 }
 
-#login {
+.block {
     background: none repeat scroll 0 0 white;
-    width:500px; 
-    margin: 110px auto; 
-    text-align: left;
-    border: 1px solid #AAAAAA;
     padding: 10px;
+    width:500px; 
+    border: 1px solid #AAAAAA;
+    margin: 20px auto 20px; 
     border-radius: 8px 8px 8px 8px;
 }
 
-#logo {
+#openid-login {
+    text-align:center;
+}
+
+
+#openid-login .title {
+    margin-bottom: 10px;
+}
+
+
+#login {
+    text-align: left;
+}
+
+.title {
+    text-align: left;
     font-family: 'Bevan', serif;
     font-size: 36px;
     font-style: normal;
@@ -50,20 +64,20 @@ body {
     width: 100%;
 }
 
-#submit-panel {
+.submit-panel {
     border-top: 1px solid #AAAAAA;
     text-align: right;
     padding: 10px 0 0 0;
 }
 
-#submit-panel input {
+.submit-panel input {
     font-size: 14px;
     height: 34px;
     width: 110px;
     padding-top: 3px;
 }
 
-#submit-panel .button {
+#openid-login .button {
     font-size: 14px;
     height: 32px;
     background: url("../images/google_openid.jpg") no-repeat;
@@ -81,6 +95,10 @@ body {
 #notification {
     display: block;
     position: relative;
+}
+
+.or {
+    font-family: helvetica;
 }
 
 #notification .ui-state-error {

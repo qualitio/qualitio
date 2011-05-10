@@ -81,7 +81,6 @@ LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
     r'^static/',
-    r'^login/google/',
     r'^login/.*',
     r'^associate/*',
     r'^complete/*',
@@ -134,6 +133,7 @@ AUTH_PROFILE_MODULE = 'projects.UserProfile'
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.yahoo.YahooBackend',
     'django.contrib.auth.backends.ModelBackend',
     'django.contrib.auth.backends.RemoteUserBackend',
 )

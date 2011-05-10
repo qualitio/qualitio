@@ -8,8 +8,8 @@
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/login.css{{ STATIC_HASH }}" media="screen, projection" />
-  
-  <link  href="http://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
+
+  <link  href="http://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" >
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
@@ -18,47 +18,17 @@
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.infieldlabel.min.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
   
-  <title>qualitio: login</title>
-
+  <title>qualitio: registration</title>
+  
+</head>
 <body>
   {% if form.errors %}
   <div id="notification">
     <div class="ui-state-error">Your username and password didn't match. Please try again.</div>
   </div>
   {% endif %}
-
+  
   <div id="main">
-
-    <div id="login" class="block">
-      <div class="title">login</div>
-      <form method="post" action="{% url django.contrib.auth.views.login %}">
-        <fieldset>
-          {% csrf_token %}
-          {{ form.username.label_tag|lower }}
-          {{ form.username }}
-          {{ form.password.label_tag|lower }}
-          {{ form.password }}
-        </fieldset>
-        <div class="submit-panel">
-          <div class="right">
-            <input type="submit" value="Login" />
-            <input type="hidden" name="next" value="{{ next }}" />
-          </div>
-        </div>
-      </form>
-    </div>
-    
-    <div class="or"> or </div>
-    
-    <div id="openid-login" class="block">
-      <div class="title">OpenID login</div>
-        <a class="button" href="/login/google/">&nbsp;</a>
-        <a class="button" href="/login/yahoo/">&nbsp;</a>
-      </div>
-    </div>
-    
-    <div class="or"> or </div>
-
     <div id="registartion" class="block">
       <div class="title">registartion</div>
       
@@ -73,5 +43,7 @@
       </div>
     </div>
     
-  </body>
+  </div>
+</body>
 </html>
+
