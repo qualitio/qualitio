@@ -1,0 +1,20 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
+
+{% block form %}
+<form method="post" action="{% url registration.views.register %}">
+  <fieldset>
+    {% csrf_token %}
+    {{ form.username }}{{ form.username.label_tag|lower }}
+    {{ form.email }}{{ form.email.label_tag|lower }}
+    {{ form.password1 }}{{ form.password1.label_tag|lower }}
+    {{ form.password2 }}{{ form.password2.label_tag|lower }}
+  </fieldset>
+  <div class="submit-panel">
+    <div class="right">
+      <input type="submit" value="register" />
+    </div>
+  </div>
+</form>
+{% endblock %}

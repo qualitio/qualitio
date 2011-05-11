@@ -19,7 +19,7 @@ jnotify-item {
     position: fixed;
     z-index:10000;
     width: 100%;
-    min-height: 50px;
+    /* min-height: 50px; */
     text-align: center;
 
     filter:alpha(opacity=90);
