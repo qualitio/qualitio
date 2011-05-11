@@ -25,6 +25,13 @@
   <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
 
   <title>qualitio: {% block title %}{% endblock %}</title>
+  <script>
+    $(function () {
+      $('li.{% block jstitle %}{% endblock %}')
+        .css('font-weight', 'bold')
+        .css('color', 'black');
+    });
+  </script>
   <body>  
     <div id="main" style="width: 800px">
       <div id="header" class="clearfix">
@@ -37,8 +44,8 @@
         <div class="grid_16">
           <div id="application-menu" >
             <ul>
-              <li><a href="/login/">login</a></li>
-              <li><a href="/register/">registration</a></li>
+              <li class="login"><a href="/login/">login</a></li>
+              <li class="register"><a href="/register/">registration</a></li>
             </ul>
           </div>
         </div>

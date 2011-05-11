@@ -1,6 +1,7 @@
 {% extends 'registration/base.html' %}
 
-{% block title %}login{% endblock %}
+{% block title %}{% block jstitle %}login{% endblock %}{% endblock %}
+
 
 {% block form %}
 <form method="post" action="{% url django.contrib.auth.views.login %}">

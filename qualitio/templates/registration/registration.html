@@ -1,6 +1,6 @@
 {% extends 'registration/base.html' %}
 
-{% block title %}register{% endblock %}
+{% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
 
 {% block form %}
 <form method="post" action="{% url registration.views.register %}">
