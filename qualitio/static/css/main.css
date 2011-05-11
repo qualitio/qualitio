@@ -4,6 +4,7 @@ body, html {
     padding:0;
     height:100%; 
     overflow: hidden;
+    background: #eee;
 }
 
 body {
@@ -40,13 +41,13 @@ a:hover {
     font-family: 'Romeral';
     font-size: 3em;
     line-height: 88%;
-    margin-bottom: 10px;
     margin-top: -3px;
     padding: 2px 0 0 10px;
     text-rendering: optimizelegibility;
 }
 
 #header {
+    background: #fff;
     border-left: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
     position:relative

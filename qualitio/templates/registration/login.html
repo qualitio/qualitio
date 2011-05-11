@@ -1,0 +1,28 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}login{% endblock %}
+
+{% block form %}
+<form method="post" action="{% url django.contrib.auth.views.login %}">
+  <fieldset>
+    {% csrf_token %}
+    {{ form.username }}{{ form.username.label_tag|lower }}
+    {{ form.password }}{{ form.password.label_tag|lower }}
+    
+  </fieldset> 
+  <div class="submit-panel">
+    <div class="right">
+      <input type="submit" value="login" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+  </div>
+</form>
+
+<div id="openid" class="clearfix">
+  <div class="logo clearfix"></div>
+  <div class="button-set">
+    <a class="google button" href="/login/google/">&nbsp;</a>
+    <a class="yahoo button" href="/login/yahoo/">&nbsp;</a>
+  </div>
+</div>
+{% endblock %}

@@ -82,6 +82,7 @@ LOGIN_URL = '/login/'
 LOGIN_EXEMPT_URLS = (
     r'^static/',
     r'^login/.*',
+    r'^register/.*',
     r'^associate/*',
     r'^complete/*',
     r'^report/external/*',
@@ -107,6 +108,7 @@ INSTALLED_APPS = (
     'social_auth',
     'django_nose',
     'reversion',
+    'registration',
     'south',
 
     'qualitio.core',
