@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="en-us" />
+  
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/registration.css{{ STATIC_HASH }}" media="screen, projection" />
+
+  <link href="http://www.kernest.com/fonts/romeral.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="http://www.kernest.com/fonts/tex-gyre-adventor-regular.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="http://www.kernest.com/fonts/junction.css" media="screen" rel="stylesheet" type="text/css" />
+  
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+  
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.infieldlabel.min.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
+
+  <title>qualitio: {% block title %}{% endblock %}</title>
+  <script>
+    $(function () {
+      $('li.{% block jstitle %}{% endblock %}')
+        .css('font-weight', 'bold')
+        .css('color', 'black');
+    });
+  </script>
+  <body>  
+    <div id="main" style="width: 800px">
+      <div id="header" class="clearfix">
+        <div class="logo">
+          qualitio
+        </div>
+      </div>
+      
+      <div id="project-content" class="container_16 clearfix">
+        <div class="grid_16">
+          <div id="application-menu" >
+            <ul>
+              <li class="login"><a href="/login/">login</a></li>
+              <li class="register"><a href="/register/">registration</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+ 
+      <div id="main">  
+        <div class="block">
+
+          {% if form.errors %}
+          <div id="notification">
+            <div class="ui-state-error">
+              <div>{% for error in form.non_field_errors %}{{ error }}{% endfor %}</div>
+              {% for field in form %}
+              {% if field.errors %}
+              <div class="field-error">
+                <b>{{ field.label }}:</b>
+                {% for error in field.errors %}
+                {{ error }}
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          {% block form %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

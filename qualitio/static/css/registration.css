@@ -1,0 +1,129 @@
+#header {
+    border-left: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    position:relative
+}
+
+#header .logo {
+    color: #777777;
+    font-family: 'Romeral';
+    font-size: 3em;
+    line-height: 88%;
+    margin-top: -3px;
+    padding: 2px 0 0 10px;
+    text-rendering: optimizelegibility;
+    height: 47px;
+}
+
+.block {
+    background: none repeat scroll 0 0 white;
+    padding: 10px;
+    border: 1px solid #AAAAAA;
+    margin: 20px auto 20px; 
+    border-radius: 8px 8px 8px 8px;
+}
+
+#login {
+    text-align: left;
+}
+
+.title {
+    text-align: left;
+    font-family: 'Bevan', serif;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    text-shadow: none;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0em;
+    word-spacing: 0em;
+    line-height: 1.2;
+    color: #777777;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+.block label {
+    font-size: 21px;
+    color: #ddd;
+    font-family: Helvetica, Arial;
+    border: 0;
+    margin: 9px 11px;
+}
+
+.block fieldset {
+    margin: 10px 0;
+}
+
+.block fieldset input {
+    font-size: 21px;
+    height: 37px;
+    margin: 4px 0;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #dddddd;
+    padding-left: 10px;
+}
+
+.submit-panel {
+    text-align: right;
+    padding: 0 0 10px 0;
+}
+
+.submit-panel input {
+    font-size: 14px;
+    height: 34px;
+    width: 110px;
+    padding-top: 3px;
+}
+
+#openid {
+    padding: 20px 0 0 0;
+    border-top: 1px solid #AAAAAA;
+}
+
+#openid .logo {
+    width: 60px;
+    height: 60px;
+    float:left;
+    background: url("../images/openid.png") no-repeat;
+}
+
+#openid .button-set {
+    padding: 14px 100px;
+    font-size: 14px;
+}
+
+#openid .button {
+    width: 130px;
+    height: 30px;
+}
+
+#openid .button.google {
+    background: url("../images/google_openid.jpg") no-repeat scroll center -3px transparent;
+    
+}
+#openid .button.yahoo {
+    background: url("../images/yahoo_openid.png") no-repeat scroll center -1px transparent;
+}
+
+#submit-panel .button .ui-button-text {
+    line-height: 18px !important;
+}
+
+#notification {
+    display: block;
+    position: relative;
+}
+
+#notification .ui-state-error {
+    padding: 5px;
+    font-family: helvetica;
+    border-top: 1px solid #CD0A0A;
+}
+
+#notification .field-error {
+    width:100%; 
+    text-align:left;
+    margin: 0 0 0 10px;
+}

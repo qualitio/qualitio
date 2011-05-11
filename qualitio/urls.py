@@ -6,10 +6,18 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
-                       (r'^login/', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-                       (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page' : '/'}),
-                       (r'^permission_required/$', 'qualitio.core.permission_required'),
+                       (r'^logout/$', 'django.contrib.auth.views.logout',
+                        {'next_page' : '/'}),
+                       (r'^login/', 'django.contrib.auth.views.login',
+                        {'template_name': "registration/login.html"}),
 
+                       (r'^register/', 'registration.views.register',
+                        {'template_name': "registration/registration.html",
+                         'backend': 'registration.backends.simple.SimpleBackend',
+                         'success_url': 'django.contrib.auth.views.login' }),
+
+                       (r'^permission_required/$', 'qualitio.core.permission_required'),
+                       
                        (r'^require/', include('qualitio.require.urls', app_name="require")),
                        (r'^settings/', include('qualitio.projects.urls')),
                        (r'^execute/', include('qualitio.execute.urls', app_name="execute")),
