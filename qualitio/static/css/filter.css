@@ -1,3 +1,14 @@
+/* fixes for main.css */
+.application-view-content {
+    padding: 10px 10px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 1px solid rgb(170, 170, 170);
+    margin-bottom: 4px;
+    margin-right: 0px;
+    background: white;
+}
+
 .filter-forms {
     width: 100%;
 }

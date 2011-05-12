@@ -40,26 +40,39 @@
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
     </div>
   </div>
+
+  <div class="application-view-content results-container">
+    <table class="display">
+      <thead>
+	<tr>
+	  {% for column in table.columns %}
+	  <th>{{ column }}</th>
+	  {% endfor %}
+	</tr>
+      </thead>
+      <tbody>
+	{% for row in table.rows %}
+	<tr>
+	  {% for value in row %}
+	  <td>{{ value }}</td>
+	  {% endfor %}
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+  </div>
 </form>
 
-<div class="application-view-content results-container">
-  <table class="display">
-    <thead>
-      <tr>
-	{% for column in table.columns %}
-	<th>{{ column }}</th>
-	{% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in table.rows %}
-      <tr>
-	{% for value in row %}
-	<td>{{ value }}</td>
-	{% endfor %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% endblock %}
+<div class="application-view-content">
+  <div class="actions-form">
+    {% for action in actions %}
+    <div class="action" name="{{ action.name }}">
+      <span class="label">{{ action.label }}</span>
+      <span class="execution-url">/action/ajax/execute/{{ app_label }}/{{ action.name }}/</span>
+      <table class="action-form">{{ action.form }}</table>
+    </div>
+    {% endfor %}
+  </div>
+  <input type="submit" value="Go" />
 </div>
+{% endblock %}
