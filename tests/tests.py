@@ -37,8 +37,8 @@ if __name__ == "__main__":
                       type='choice',
                       action='store',
                       dest='browser',
-                      choices=['firefoxproxy', 'googlechrome', 'opera'],
-                      default='firefoxproxy',
+                      choices=['chrome', 'googlechrome', 'opera'],
+                      default='chrome',
                       help='Browser environment to run on',)
 
     parser.add_option('-u', '--username',

@@ -24,23 +24,23 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel = self.selenium
         sel.open("/store/#testcasedirectory/1/details/")
         self.assertEqual("qualitio: login", sel.get_title())
-        try: self.failUnless(sel.is_text_present("Qualitio"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_password")
         sel.type_keys("id_password", "admin")
-        sel.click("logo")
         try: self.failUnless(sel.is_element_present("id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
         sel.type_keys("id_username", "admin")
-        sel.click("logo")
         try: self.assertEqual("admin", sel.get_value("id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_password"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//input[@value='Login']"))
+        try: self.failUnless(sel.is_element_present("//input[@value='login']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='Login']")
+        sel.click("//input[@value='login']")
         for i in range(60):
             try:
                 if sel.is_text_present("qualitio store"): break
@@ -56,7 +56,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel.click("link=Loading ...")
         for i in range(60):
             try:
-                if sel.is_element_present("logo"): break
+                if sel.is_element_present("id_username"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -64,8 +64,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel.type("id_username", "admin")
         sel.click("id_password")
         sel.type("id_password", "admin")
-        sel.click("submit-panel")
-        sel.click("//input[@value='Login']")
+        sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
 
 
@@ -77,20 +76,20 @@ class Test01Loginreport(BaseSeleniumTestCase):
         self.assertEqual("qualitio: login", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("Qualitio"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Qualitio"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
         sel.type("id_username", "admin")
         sel.click("id_password")
         sel.type("id_password", "admin")
-        sel.click("submit-panel")
-        try: self.failUnless(sel.is_element_present("//input[@value='Login']"))
+        sel.click("css=div.right")
+        try: self.failUnless(sel.is_element_present("//input[@value='login']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='Login']")
+        sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: report", sel.get_title())
         for i in range(60):
@@ -108,14 +107,14 @@ class Test01Loginreport(BaseSeleniumTestCase):
         sel.click("link=Log out")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: login", sel.get_title())
-        try: self.failUnless(sel.is_text_present("Qualitio"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
         sel.type("id_username", "admin")
         sel.click("id_password")
         sel.type("id_password", "admin")
-        sel.click("submit-panel")
-        sel.click("//input[@value='Login']")
+        sel.click("css=div.right")
+        sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
 
 
