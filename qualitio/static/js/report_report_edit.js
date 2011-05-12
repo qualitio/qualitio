@@ -45,11 +45,17 @@ $(function() {
   setupEditor();
   setupLink($("#id_link").val());
   
+  // $(".context-element input[name$=DELETE]").attr("checked", false);
+  // $(".context-element").removeClass("removed");
+  
+  // delete all historical live connections
+  $(".context-element .delete").die(); 
+  
   $(".context-element .delete").live("click", function(){
     context_element = $(this).parents('.context-element')
     delete_checkbox = context_element.find("input[name$=DELETE]")
     if ( delete_checkbox.is(":checked") ) {
-      delete_checkbox.attr("checked", false);
+      delete_checkbox.removeAttr("checked");
       context_element.removeClass("removed");
     } else {
       delete_checkbox.attr("checked", true);
@@ -57,7 +63,7 @@ $(function() {
     }
   });
 
-  $(".add-context-element").click(function(){
+  $(".add-context-element").live("click", function(){
     new_context_element = $(".context-element.empty-form").clone().html()
       .replace(/__prefix__/g, $('.context-element:visible').length);
 
