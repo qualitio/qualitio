@@ -1,10 +1,11 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.exceptions import ImproperlyConfigured
 
+from qualitio.core.utils import success, failed, json_response
 from qualitio import filter as filterapp
-from qualitio.filter import actions, tables
+from qualitio.filter import tables
 
 
 def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
@@ -25,9 +26,22 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
         return HttpResponseRedirect('%s?%s' % (request.path, params.urlencode()))
 
     table = ModelTable(generic_filter.qs, query_dict=request.GET)
+
+    actions = [
+        filterapp.DeleteAction(app_label=model._meta.app_label),
+        ]
     return render_to_response('filter/filter.html', {
             'table': table,
             'app_label': model._meta.app_label,
             'filter': generic_filter,
-            'actions': []
+            'action_choice_form': filterapp.ActionChoiceForm(actions=actions),
             }, context_instance=RequestContext(request))
+
+@json_response
+def actions(request, app_label=None, action_name=None):
+    allactions = filterapp.find_actions('qualitio.%s' % app_label)
+    for action_class in allactions:
+        action = action_class(app_label=app_label)
+        if action.name == action_name:
+            return action.execute(request)
+    return failed(message="Wrong request")

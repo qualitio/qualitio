@@ -65,14 +65,17 @@
 
 <div class="application-view-content">
   <div class="actions-form">
-    {% for action in actions %}
-    <div class="action" name="{{ action.name }}">
-      <span class="label">{{ action.label }}</span>
-      <span class="execution-url">/action/ajax/execute/{{ app_label }}/{{ action.name }}/</span>
-      <table class="action-form">{{ action.form }}</table>
-    </div>
+    <table>
+      {{ action_choice_form }}
+    </table>
+    {% csrf_token %}
+    {% for action in action_choice_form.actions %}
+    <input type="hidden" class="action-url" name="{{ action.name }}" value="{{ action.url }}" />
+    {% if action.has_form %}
+    <table class="action-form" name="{{ action.name }}">{{ action.form }}</table>
+    {% endif %}
     {% endfor %}
   </div>
-  <input type="submit" value="Go" />
+  <input type="submit" name="action-submit" value="Go" />
 </div>
 {% endblock %}
