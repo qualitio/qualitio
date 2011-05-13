@@ -104,9 +104,14 @@ class ContextElement(models.Model):
 
     ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
     ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
+    ALLOWED_APPS = ["require", "store", "execute", "report"]
+
 
     def query_object(self):
-        return pickle.loads(str(self.query_pickled))
+        query_dict = pickle.loads(str(self.query_pickled))
+        _query = query.QuerySet()
+        _query.__dict__ = query_dict
+        return _query
 
 
     def clean(self):
@@ -147,12 +152,11 @@ class ContextElement(models.Model):
 
     @classmethod
     def _build_query(cls, object_name, methods):
-
-        apps = ["require", "store", "execute", "report"]
-
         Object = None
-        while not Object and apps:
-            Object = loading.get_model(apps.pop(), object_name)
+
+        for app in cls.ALLOWED_APPS:
+            Object = loading.get_model(app, object_name)
+            if Object: break
 
         if not Object:
             return query.QuerySet()
@@ -166,5 +170,7 @@ class ContextElement(models.Model):
             except FieldError as e:
                 raise ValidationError({"query": repr(e) })
 
-
-        return query_set
+        # print query_set
+        query_dict = query_set.__getstate__()
+        query_dict["_result_cache"] = None
+        return query_dict
