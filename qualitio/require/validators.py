@@ -51,7 +51,7 @@ class RequirementDependencyValidator(object):
         self.edges = edges
         if not self.edges:
             # to avoid circular imports
-            from require.models import Requirement
+            from qualitio.require.models import Requirement
             self.edges = Requirement.objects.get_dependency_graph_edges()
 
     def _complete_dependency_connections(self, potentialy_new_dependencies_ids):

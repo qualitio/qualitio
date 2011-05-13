@@ -1,3 +1,7 @@
+body {
+    overflow: auto;
+}
+
 #template textarea, #context textarea, #context input {
     font-family: monospace;
 }
