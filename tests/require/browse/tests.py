@@ -668,6 +668,95 @@ class Test04Gmail(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         self.assertEqual("qualitio: requirements", sel.get_title())
+
+
+class Test05Yahoo(BaseSeleniumTestCase):
+
+    
+    def test_05_yahoo(self):
+        sel = self.selenium
+        sel.open("/login/?next=/")
+        self.assertEqual("qualitio: login", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='openid']/div[2]/a[2]/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='openid']/div[2]/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='openid']/div[2]/a[2]/span")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "Sign in to Yahoo!" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("Sign in to Yahoo!", sel.get_title())
+        sel.type("username", "qualitio1")
+        sel.type("passwd", "testqual")
+        try: self.failUnless(sel.is_element_present(".save"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click(".save")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "qualitio: requirements" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: requirements" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("TomPlak"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("TomPlak"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=Log out"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=Log out")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: login" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: login", sel.get_title())
+        try: self.failUnless(sel.is_element_present("//div[@id='openid']/div[2]/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='openid']/div[2]/a[2]/span")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio requirements"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: requirements" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.failUnless(sel.is_text_present("Welcome, TomPlak"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
     
 
 
