@@ -818,6 +818,12 @@ class Test2TreeVerifyelements(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=li#2_requirement a ins"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=Notebook"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=li#2_requirement a ins"))
@@ -2188,6 +2194,18 @@ class Test9ModreqDesript(BaseSeleniumTestCase):
             try:
 
                 if "TV" == sel.get_text("link=TV"): break
+
+            except: pass
+
+            time.sleep(1)
+
+        else: self.fail("time out")
+
+        for i in range(60):
+
+            try:
+
+                if sel.is_text_present("Desription of test"): break
 
             except: pass
 
