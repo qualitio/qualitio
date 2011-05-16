@@ -13,7 +13,8 @@ from qualitio import core
 
 
 class RestrictedManager(models.Manager):
-
+    # TODO: this class is not used, but should be included 
+    # in future as replacment for orginal managers
     allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
                        "contribute_to_class", "_inherited", "creation_counter",
                        "^get(\(.*\))?$",
