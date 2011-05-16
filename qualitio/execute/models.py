@@ -11,6 +11,10 @@ class TestRunDirectory(core.BaseDirectoryModel):
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
 
+    @property
+    def passrate(self):
+        pass
+
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
 
@@ -58,6 +62,9 @@ class TestCaseRun(store.TestCaseBase):
     def bugs_history(self):
         return Bug.objects.filter(testcaserun__origin=self.origin)\
             .exclude(alias__in=self.bugs.values_list('alias',flat=True))
+
+    def save(self, *args, **kwargs):
+        super(TestCaseRun, self).save(*args, **kwargs)
 
 
 class TestCaseStepRun(store.TestCaseStepBase):
