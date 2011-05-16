@@ -13,7 +13,8 @@ from qualitio import core
 
 
 class RestrictedManager(models.Manager):
-
+    # TODO: this class is not used, but should be included
+    # in future as replacment for orginal managers
     allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
                        "contribute_to_class", "_inherited", "creation_counter",
                        "^get(\(.*\))?$",
@@ -106,14 +107,6 @@ class ContextElement(models.Model):
     ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
     ALLOWED_APPS = ["require", "store", "execute", "report"]
 
-
-    def query_object(self):
-        query_dict = pickle.loads(str(self.query_pickled))
-        _query = query.QuerySet()
-        _query.__dict__ = query_dict
-        return _query
-
-
     def clean(self):
         query_segments  = self.query.split(".")
         if len(query_segments) < 2:
@@ -149,8 +142,6 @@ class ContextElement(models.Model):
 
         self.query_pickled = pickle.dumps(self._build_query(valid_object, valid_methods))
 
-
-    @classmethod
     def _build_query(cls, object_name, methods):
         Object = None
 
@@ -170,7 +161,20 @@ class ContextElement(models.Model):
             except FieldError as e:
                 raise ValidationError({"query": repr(e) })
 
-        # print query_set
+        if not isinstance(query_set, query.QuerySet):
+            return query_set
+
         query_dict = query_set.__getstate__()
         query_dict["_result_cache"] = None
         return query_dict
+
+
+    def query_object(self):
+        query_dict = pickle.loads(str(self.query_pickled))
+        if not isinstance(query_dict, dict):
+            return query_dict
+
+        _query = query.QuerySet()
+        _query.__dict__ = query_dict
+        return _query
+
