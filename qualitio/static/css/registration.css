@@ -6,9 +6,9 @@
 
 #header .logo {
     color: #777777;
-    font-family: 'Romeral';
+    font-family: 'Bevan', serif;
     font-size: 3em;
-    line-height: 88%;
+    line-height: 135%;
     margin-top: -3px;
     padding: 2px 0 0 10px;
     text-rendering: optimizelegibility;
@@ -25,22 +25,6 @@
 
 #login {
     text-align: left;
-}
-
-.title {
-    text-align: left;
-    font-family: 'Bevan', serif;
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 400;
-    text-shadow: none;
-    text-decoration: none;
-    text-transform: none;
-    letter-spacing: 0em;
-    word-spacing: 0em;
-    line-height: 1.2;
-    color: #777777;
-    border-bottom: 1px solid #AAAAAA;
 }
 
 .block label {

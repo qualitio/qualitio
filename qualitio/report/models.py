@@ -13,7 +13,8 @@ from qualitio import core
 
 
 class RestrictedManager(models.Manager):
-
+    # TODO: this class is not used, but should be included
+    # in future as replacment for orginal managers
     allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
                        "contribute_to_class", "_inherited", "creation_counter",
                        "^get(\(.*\))?$",
@@ -104,10 +105,7 @@ class ContextElement(models.Model):
 
     ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
     ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
-
-    def query_object(self):
-        return pickle.loads(str(self.query_pickled))
-
+    ALLOWED_APPS = ["require", "store", "execute", "report"]
 
     def clean(self):
         query_segments  = self.query.split(".")
@@ -144,15 +142,12 @@ class ContextElement(models.Model):
 
         self.query_pickled = pickle.dumps(self._build_query(valid_object, valid_methods))
 
-
-    @classmethod
     def _build_query(cls, object_name, methods):
-
-        apps = ["require", "store", "execute", "report"]
-
         Object = None
-        while not Object and apps:
-            Object = loading.get_model(apps.pop(), object_name)
+
+        for app in cls.ALLOWED_APPS:
+            Object = loading.get_model(app, object_name)
+            if Object: break
 
         if not Object:
             return query.QuerySet()
@@ -166,5 +161,20 @@ class ContextElement(models.Model):
             except FieldError as e:
                 raise ValidationError({"query": repr(e) })
 
+        if not isinstance(query_set, query.QuerySet):
+            return query_set
 
-        return query_set
+        query_dict = query_set.__getstate__()
+        query_dict["_result_cache"] = None
+        return query_dict
+
+
+    def query_object(self):
+        query_dict = pickle.loads(str(self.query_pickled))
+        if not isinstance(query_dict, dict):
+            return query_dict
+
+        _query = query.QuerySet()
+        _query.__dict__ = query_dict
+        return _query
+
