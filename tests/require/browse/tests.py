@@ -5267,6 +5267,64 @@ class Test45FilterVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_control-new-group-add_group", "label=name")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if not sel.is_element_present("//div[@id='application-view']/form/div/div[1]/div[1]/div[1]/label"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_1-0-1-lookup"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("Name", sel.get_text("//div[@id='application-view']/form/div/div[1]/div[1]/div[1]/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_1-0-1-lookup"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("contains icontains startswith istartswith exact iexact"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_1-0-1-q"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/form/div/div[1]/div[1]/div[4]/div/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Remove"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("control-remove-filter-1-0-1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_1-control-new-criteria-add_field_filter", "label=parent")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_1-1-1-q"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Parent"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_1-1-1-q"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/form/div/div[1]/div[1]/div[3]/div/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/form/div/div[2]/a/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='application-view']/form/div/div[2]/a/span")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view']/form/div/div[1]/div[1]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("link=browse")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
@@ -5282,8 +5340,6 @@ class Test45FilterVerify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         self.assertEqual("qualitio: requirements", sel.get_title())
-        try: self.failUnless(sel.is_element_present("application-tree"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
     
 
 if __name__ == "__main__":
