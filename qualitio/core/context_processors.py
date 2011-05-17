@@ -21,5 +21,5 @@ def core(request):
     if request.is_secure():
         http_protocol += "s"
 
-    return { "CURRENT_MODULE" : resolve(request.get_full_path()).app_name,
-             "HTTP_PROTOCOL": http_protocol}
+    return { "CURRENT_MODULE" : resolve(request.path).app_name,
+             "HTTP_PROTOCOL": http_protocol }
