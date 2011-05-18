@@ -3694,6 +3694,18 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
 
         else: self.fail("time out")
 
+        for i in range(60):
+
+            try:
+
+                if sel.is_text_present("qualitio requirements"): break
+
+            except: pass
+
+            time.sleep(1)
+
+        else: self.fail("time out")
+
         try: self.failUnless(sel.is_text_present("full name: /MeeGo/TV/new requirement 9/new subrequirement9"))
 
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -3711,6 +3723,18 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
         sel.click("link=history")
+
+        for i in range(60):
+
+            try:
+
+                if sel.is_element_present("link=details"): break
+
+            except: pass
+
+            time.sleep(1)
+
+        else: self.fail("time out")
 
         for i in range(60):
 
