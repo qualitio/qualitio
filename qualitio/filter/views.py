@@ -18,7 +18,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
     ModelTable = tables.generate_model_table(model, exclude=exclude)
 
     if not model_filter_class:
-        model_filter_class = filterapp.generate_model_filter(model=Model, exclude=exclude)
+        model_filter_class = filterapp.generate_model_filter(model=model, exclude=exclude)
 
     generic_filter = model_filter_class(request.GET)
     has_control_params, params = generic_filter.build_from_params()
@@ -27,9 +27,9 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 
     table = ModelTable(generic_filter.qs, query_dict=request.GET)
 
-    actions = [
-        filterapp.DeleteAction(app_label=model._meta.app_label),
-        ]
+    action_classes = filterapp.find_actions('qualitio.%s' % model._meta.app_label)
+    actions = [ActionClass(request.POST, app_label=model._meta.app_label) for ActionClass in action_classes]
+
     return render_to_response('filter/filter.html', {
             'table': table,
             'app_label': model._meta.app_label,
@@ -41,7 +41,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 def actions(request, app_label=None, action_name=None):
     allactions = filterapp.find_actions('qualitio.%s' % app_label)
     for action_class in allactions:
-        action = action_class(app_label=app_label)
+        action = action_class(data=request.POST, app_label=app_label)
         if action.name == action_name:
-            return action.execute(request)
+            return action.execute()
     return failed(message="Wrong request")

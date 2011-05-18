@@ -34,7 +34,6 @@ $(document).ready(function() {
     $('.actions-form #id_action').change(function(){
 	$('.action-url').removeClass('current');
 	$('.action-form').hide().removeClass('current');
-
 	$('.action-url[name="' + $(this).val() + '"]').addClass('current');
 	$('.action-form[name="' + $(this).val() + '"]').show().addClass('current');
     });
@@ -46,21 +45,25 @@ $(document).ready(function() {
 	    return memo;
 	}, {});
 	data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
-
-	console.log(url);
-	console.log(typeof url);
-	console.log(data);
+	$('input, select, textarea', $('.action-form.current')).each(function(){
+	    data[$(this).attr('name')] = $(this).fieldValue()[0];
+	});
 
 	if (url !== undefined) {
-	    $.get({
-		'url': 'http://127.0.0.1:8000/filter/action/execute/require/delete/',
+	    $.ajax({
+		'type': 'post',
 		'dataType': 'json',
+		'url': url,
 		'data': data,
 		'success': function(data, textStatus){
 		    if (data.success) {
-			alert("Done!");
+			$('#notification').jnotifyAddMessage({
+			    text: 'Action done!',
+			    type: 'success'
+			});
+			window.location = window.location;
 		    } else {
-			alert("It's fucked!");
+			$.shortcuts.showErrors(data.data);
 		    }
 		}
 	    });

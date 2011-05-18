@@ -1,1 +1,6 @@
-from qualitio.filter.actions import DeleteAction
+from qualitio.require import models
+from qualitio.filter import actions
+
+
+class ChangeParent(actions.ChangeParent):
+    model = models.Requirement

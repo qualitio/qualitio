@@ -16,4 +16,4 @@ def development(request):
 
 def core(request):
     from django.core.urlresolvers import resolve
-    return { "CURRENT_MODULE" : resolve(request.get_full_path()).app_name}
+    return { "CURRENT_MODULE" : resolve(request.path).app_name}

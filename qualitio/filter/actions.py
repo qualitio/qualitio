@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import inspect
+import datetime
 from operator import itemgetter
 
 from django.utils import importlib
@@ -8,6 +9,10 @@ from django import forms
 
 from qualitio.core.utils import success, failed
 from qualitio.core.forms import BaseForm
+
+
+class ActionForm(BaseForm):
+    pass
 
 
 class Action(object):
@@ -22,11 +27,21 @@ class Action(object):
         self.data = data
         self.app_label = app_label
 
+    def _get_name(self):
+        if not hasattr(self, '_name'):
+            self._name = self.__class__.__name__.lower()
+        return self._name
+
+    def _set_name(self, name):
+        self._name = name
+
+    name = property(_get_name, _set_name)
+
     def has_form(self):
         return self.form_class
 
     def form(self):
-        return self.form_class() if self.form_class else ''
+        return self.form_class(self.data or None) if self.form_class else ''
 
     def url(self):
         return '/filter/action/execute/%s/%s/' % (self.app_label, self.name)
@@ -39,9 +54,20 @@ class Action(object):
                 result.append(int(match.group('id')))
         return self.model.objects.filter(id__in=result)
 
-    def execute(self, request):
-        print "Action!"
-        return success(message='Action validation OK')
+    def execute(self):
+        form = None
+        if self.has_form():
+            if self.data:
+                form = self.form_class(self.data)
+                if not form.is_valid():
+                    return failed(
+                        message=form.error_message(),
+                        data=form.errors_list())
+        self.run_action(self.data, self.queryset(), form)
+        return success(message='Action complete!')
+
+    def run_action(self, data, queryset, form=None):
+        pass
 
 
 def find_actions(app_label, module_name='actions'):
@@ -49,15 +75,6 @@ def find_actions(app_label, module_name='actions'):
     without_names = map(itemgetter(1), inspect.getmembers(actionmodule))
     classes = filter(inspect.isclass, without_names)
     return filter(lambda class_: issubclass(class_, Action), classes)
-
-
-class TestForm(forms.Form):
-    name = forms.CharField(required=False)
-
-
-class DeleteAction(Action):
-    name = 'delete'
-    label = 'Delete'
 
 
 class ActionChoiceForm(forms.Form):
@@ -74,3 +91,30 @@ class ActionChoiceForm(forms.Form):
 
         super(ActionChoiceForm, self).__init__(*args, **kwargs)
 
+
+# COMMON ACTIONS
+class ChangeParent(Action):
+    def _form_for_model(self):
+        model = self.model._meta.get_field('parent').rel.to
+
+        class ParentForm(ActionForm):
+            parent = forms.ModelChoiceField(queryset=model.objects.all())
+
+        return ParentForm
+
+    def _get_form_class(self):
+        if not hasattr(self, '_form_class'):
+            self._form_class = self._form_for_model()
+        return self._form_class
+
+    def _set_form_class(self, form_class):
+        self._form_class = form_class
+
+    form_class = property(_get_form_class, _set_form_class)
+    label = 'Change parent'
+
+    def run_action(self, data, queryset, form=None):
+        for obj in queryset.all():
+            obj.parent = form.cleaned_data.get('parent')
+            obj.modified_time = datetime.datetime.now()
+            obj.save()
