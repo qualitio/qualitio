@@ -694,7 +694,23 @@ class Test05Yahoo(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         self.assertEqual("Sign in to Yahoo!", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("username"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("passwd"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("username", "qualitio1")
+        try: self.failUnless(sel.is_element_present("passwd"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("passwd", "testqual")
         try: self.failUnless(sel.is_element_present(".save"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -5271,7 +5287,7 @@ class Test45FilterVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if not sel.is_element_present("//div[@id='application-view']/form/div/div[1]/div[1]/div[1]/label"): break
+                if sel.is_element_present("//div[@id='application-view']/form/div/div[1]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5281,6 +5297,8 @@ class Test45FilterVerify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.assertEqual("Name", sel.get_text("//div[@id='application-view']/form/div/div[1]/div[1]/div[1]/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("Name", sel.get_text("//div[@id='application-view']/form/div/div[1]/div[1]/div[1]/label"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_1-0-1-lookup"))
