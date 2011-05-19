@@ -32,8 +32,41 @@
 }
 
 .results-container {
-    padding-bottom: 25px;
+    padding-bottom: 13px;
 }
+
+.list-control-top {
+    margin-bottom:5px;
+}
+
+.list-control-bottom {
+    margin-top:15px;
+}
+
+.pagination {
+    float: left;
+    margin:3px 0px 0px 0px;
+}
+
+.onpage-form {
+}
+
+.pagination .current {
+    background: #dddddd;
+}
+
+.pagination .page, .pagination .next, .pagination .prev{
+    text-decoration: none;
+    padding: 2px 15px;
+    border: 1px solid;
+}
+
+.pagination .next {
+    padding: 2px 30px;
+}
+
+.left { float: left; }
+.right { float: right; }
 
 
 /* fixes for dataTable js plugin */
@@ -42,6 +75,7 @@
     float: left;
     padding-top:5px;
 }
+
 .dataTables_wrapper select {
     width: 50px;
 }

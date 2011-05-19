@@ -1,0 +1,23 @@
+{% for group in filter %}
+{% if not forloop.first %}
+<div class="groups-linker">- OR -</div>
+{% endif %}
+<div class="application-view-content group group-id-{{ group.id }}">
+  {% for form in group %}
+  <div class="fieldfilter-form">
+    <div class="fieldfilter-label"><label>{{ form.field_name_label }}</label></div>
+    {% for field in form %}
+    <div class="fieldfilter-field">{{ field.errors }}{{ field }}</div>
+    {% endfor %}
+    {% if form.field_name %}
+    <div class="fieldfilter-tools">
+      <div class="button remove-button">
+	Remove <input type="checkbox" name="control-remove-filter-{{ form.prefix }}" />
+      </div>
+    </div>
+    {% endif %}
+    <div style="clear:both;"></div>
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
