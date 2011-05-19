@@ -1,5 +1,5 @@
 {% extends "base_filter.html" %}
-{% load filtertags pagination_tags %}
+{% load pagination_tags %}
 
 {% block module-name %}{% block module-title%}{{ app_label }}{% endblock %}{% endblock %}
 
@@ -8,9 +8,17 @@
 <li class="active">filter</li>
 {% endblock %}
 
+{% block js-include %}
+<script type="text/javascript">
+  var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
+</script>
+{{ block.super }}
+{% endblock %}
+
 {% block application-view %}
 <form method="GET" class="filter-form">
   <div class="filter-forms">
+    <input type="hidden" name="sort" value="{{ filter.sort_by }}" />
     {% include "filter/_filter_groups.html" %}
 
     <div class="application-view-content">
@@ -19,9 +27,6 @@
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
     </div>
   </div>
-
-  {% autopaginate data onpage %}
-  {% create_table model_table_class data as table %}
 
   <div class="application-view-content results-container">
     <div class="list-control-top">

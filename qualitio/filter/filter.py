@@ -118,6 +118,7 @@ class Filter(object):
         self.groups = SortedDict()
         self.form_classes = form_classes or self.get_form_classes()
         self.has_control_params = False
+        self.sort_by = None
 
     def add_group(self, group_id=None):
         group_id = group_id or (len(self.groups) + 1)
@@ -128,6 +129,9 @@ class Filter(object):
     def build_from_params(self):
         copy = self.data.copy()
         data = self.data.copy()
+
+        # first take care of sorting params
+        self.sort_by = data.get('sort', 'id')
 
         # before everything - try to check if there is something to remove
         for fname in data.keys():
@@ -223,7 +227,10 @@ class ModelFilter(Filter):
 
     def queryset(self):
         query = Q() if not self.is_valid() else self.construct_Q()
-        return self._meta.model.objects.filter(query)
+        queryset = self._meta.model.objects.filter(query)
+        if self.sort_by:
+            queryset = queryset.order_by(self.sort_by)
+        return queryset
 
     qs = property(lambda self: self.queryset())
 

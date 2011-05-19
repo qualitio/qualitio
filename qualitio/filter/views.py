@@ -1,7 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import ImproperlyConfigured
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from qualitio import filter as filterapp
 from qualitio.filter import forms
@@ -26,11 +27,22 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
     onpage_form = forms.OnPageForm(request.GET)
     onpage = onpage_form.value()
 
+    # 1) pagination uses 'request.page' from django-pagination
+    #    which should work since "pagination.middleware.PaginationMiddleware" is installed.
+    # 2) We DO NOT use 'autopaginate' tag since it can raise 404 on wrong page number
+    #    and it causes 500.
+    paginator = Paginator(generic_filter.qs, onpage)
+    page_obj = None
+    try:
+        page_obj = paginator.page(request.page)
+    except (EmptyPage, InvalidPage):
+        raise Http404
+
     return render_to_response('filter/filter.html', {
-            'model_table_class': model_table_class,
             'app_label': model._meta.app_label,
             'filter': generic_filter,
-            'data': generic_filter.qs,
-            'onpage': onpage,
+            'table': model_table_class(page_obj.object_list),
+            'paginator': paginator,
+            'page_obj': page_obj,
             'onpage_form': onpage_form,
             }, context_instance=RequestContext(request))
