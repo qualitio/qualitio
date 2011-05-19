@@ -32,6 +32,7 @@ $(function() {
         $("#testcaserun_" + status.data.id).css("background", status.data.color);
         
         $(".passrate .element").remove();
+        $(".passrate .value").text(status.data.passrate.toFixed(1)+" %");
         $.each(status.data.passrate_ratio, function(i, status) {
           $('<div class="element '+ status.name +'  "/>').appendTo('.passrate')
             .css('width', status.ratio +"%")
