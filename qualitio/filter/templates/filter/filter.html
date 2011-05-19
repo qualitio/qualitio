@@ -24,7 +24,13 @@
   {% create_table TableClass data as table %}
 
   <div class="application-view-content results-container">
-    <div class="list-control-top">{% include "filter/_list_control.html" %}</div>
+    <div class="list-control-top">
+      <div class="onpage-form right">
+	{{ onpage_form.onpage }}
+      </div>
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
     <table class="display">
       <thead>
 	<tr>
@@ -43,7 +49,10 @@
 	{% endfor %}
       </tbody>
     </table>
-    <div class="list-control-bottom">{% include "filter/_list_control.html" %}</div>
+    <div class="list-control-bottom">
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
   </div>
 </form>
 {% endblock %}
