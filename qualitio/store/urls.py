@@ -8,7 +8,11 @@ from qualitio.filter.views import filter
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       url(r'^filter/', filter, {'model': TestCase}),
+                       url(r'^filter/', filter,
+                           {'model': TestCase,
+                            'fields_order': ['id', 'path', 'name', 'parent', 'requirement'],
+                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description'],
+                            }),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestCaseDirectory}),
