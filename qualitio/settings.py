@@ -73,6 +73,7 @@ MIDDLEWARE_CLASSES = (
     'qualitio.core.middleware.LoginRequiredMiddleware',
     'qualitio.core.middleware.QueriesCounterMiddleware',  # work's only if DEBUG == True
     'django.middleware.transaction.TransactionMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'qualitio.urls'
@@ -111,6 +112,7 @@ INSTALLED_APPS = (
     'reversion',
     'registration',
     'south',
+    'pagination',
 
     'qualitio.core',
     'qualitio.require',

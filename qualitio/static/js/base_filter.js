@@ -13,9 +13,14 @@ $(document).ready(function() {
     });
 
     $("table.display").dataTable({
-	"bPaginate": true,
+	"bPaginate": false,
 	"bFilter": false,
 	"sWidth": "4px", "aTargets": [0],
-	"aoColumnDefs": [ { "sWidth": "4px", "aTargets": [0,1] } ]
+	"aoColumnDefs": [ { "sWidth": "4px", "aTargets": [0,1] } ],
+	"bInfo": false
+    });
+
+    $('#id_onpage').change(function(){
+	$('form').submit();
     });
 });
