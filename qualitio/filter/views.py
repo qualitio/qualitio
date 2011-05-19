@@ -34,7 +34,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
     paginator = Paginator(generic_filter.qs, onpage)
     page_obj = None
     try:
-        page_obj = paginator.page(request.page)
+        page_obj = paginator.page(getattr(request,"page", 1))
     except (EmptyPage, InvalidPage):
         raise Http404
 
