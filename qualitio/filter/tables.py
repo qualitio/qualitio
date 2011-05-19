@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import django_tables as tables
 
 
@@ -19,3 +20,23 @@ class ModelTable(tables.ModelTable):
             self.fields_order,
             self.base_columns.keyOrder)
         super(ModelTable, self).__init__(*args, **kwargs)
+
+    def __unicode__(self):
+        return u''
+
+
+def generate_model_table(model, fields=None, exclude=(), fields_order=()):
+    Model = model
+    fields_to_include = fields
+    fields_to_exclude = exclude
+    new_fields_order = fields_order
+
+    class _ModelTable(ModelTable):
+        fields_order = new_fields_order
+
+        class Meta:
+            model = Model
+            fields = fields_to_include
+            exclude = fields_to_exclude
+
+    return _ModelTable

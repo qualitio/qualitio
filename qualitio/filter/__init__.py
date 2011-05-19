@@ -6,3 +6,5 @@ from qualitio.filter.fieldforms import TextFieldFilterForm, DateRangeFieldFilter
 
 from qualitio.filter.filter import Filter, ModelFilter, generate_model_filter, generate_form_classes
 from qualitio.filter import utils
+
+from qualitio.filter.tables import generate_model_table
