@@ -22,3 +22,4 @@ pycrypto==2.3
 python-openid==2.2.5
 wsgiref==0.1.2
 yolk==0.4.1
+django-pagination==1.0.7
