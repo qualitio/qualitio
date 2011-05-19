@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import permission_required
 from django.views.generic.simple import direct_to_template
+from django.db.models import Count
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
-from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun
+from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, TestCaseRunStatus
 from qualitio.execute import forms
 from qualitio import history
 
@@ -59,8 +60,15 @@ def directory_valid(request, directory_id=0):
 
 
 def testrun_details(request, testrun_id):
+    testrun = TestRun.objects.get(pk=testrun_id)
+    testcaseruns_count = testrun.testcases.count()
+    passrate = TestCaseRunStatus.objects.filter(testcaserun__parent=testrun).annotate(count=Count('testcaserun'))
+    for status in passrate:
+        status.ratio = float(status.count) / float(testcaseruns_count) * 100
+
     return direct_to_template(request, 'execute/testrun_details.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+                              {'testrun': testrun,
+                               'passrate': passrate})
 
 
 @permission_required('execute.add_testrun', login_url='/permission_required/')
@@ -167,7 +175,8 @@ def testcaserun_setstatus(request, testcaserun_id):
         return success(message=testcaserun.status.name,
                        data=dict(id=testcaserun.pk,
                                  name=testcaserun.status.name,
-                                 color=testcaserun.status.color))
+                                 color=testcaserun.status.color,
+                                 passrate=testcaserun.parent.passrate))
     else:
         return failed(message=testcaserun.status.name,
                       data=testcaserun_status_form.errors_list())

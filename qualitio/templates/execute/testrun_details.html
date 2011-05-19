@@ -7,13 +7,16 @@
 
 <div class="grid_16">
   <div class="application-view-content">
+    <div class="passrate">
+      {% for status in passrate %}
+      <div class="element" style="background: {{ status.color }}; width: {{ status.ratio }}%;"></div>
+      {% endfor %}
+      <div class="value">{{ testrun.passrate }} %</div>
+    </div>
+
     <div class="text-bullet">
       <span class="name">full name:</span>
       <span class="value">{{ testrun.path }}{{ testrun.name }}</span>
-    </div>
-    <div class="text-bullet">
-      <span class="name">pass rate:</span>
-      <span class="value"><i>not set</i></span>
     </div>
     <div class="text-bullet">
       <span class="name">status:</span>
@@ -21,7 +24,7 @@
     </div>
     <div class="text-bullet">
       <span class="name">notes:</span>
-      <span class="value-block">{{ directory.description|default:"<i>not set</i>" }}</span>
+      <span class="value">{{ directory.description|default:"<i>not set</i>" }}</span>
     </div>
     <div class="text-bullet">
       <span class="name">test cases:</span>
