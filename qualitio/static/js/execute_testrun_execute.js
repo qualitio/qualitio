@@ -1,7 +1,4 @@
 $(function() {
-
-  $("#testrun-passrate").passrate();
-
   $("table.display").dataTable({
     "sScrollY": "200px",
     "bPaginate": false,

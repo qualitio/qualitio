@@ -61,14 +61,8 @@ def directory_valid(request, directory_id=0):
 
 def testrun_details(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
-    testcaseruns_count = testrun.testcases.count()
-    passrate = TestCaseRunStatus.objects.filter(testcaserun__parent=testrun).annotate(count=Count('testcaserun'))
-    for status in passrate:
-        status.ratio = float(status.count) / float(testcaseruns_count) * 100
-
     return direct_to_template(request, 'execute/testrun_details.html',
-                              {'testrun': testrun,
-                               'passrate': passrate})
+                              {'testrun': testrun})
 
 
 @permission_required('execute.add_testrun', login_url='/permission_required/')
@@ -172,11 +166,25 @@ def testcaserun_setstatus(request, testcaserun_id):
         log = history.History(request.user, testcaserun.parent)
         log.add_form(testcaserun_status_form, capture=["status"], prefix=True)
         log.save()
+
+        # TODO: move this to testrun? method. Chec also templatetags
+        passrate_ratio = []
+        testrun = testcaserun.parent
+        testcaseruns_count = testrun.testcases.count()
+        statuses = TestCaseRunStatus.objects.filter(testcaserun__parent=testrun).annotate(count=Count('testcaserun'))
+        for status in statuses:
+            passrate_ratio.append({
+                "ratio": float(status.count) / float(testcaseruns_count) * 100,
+                "name": status.name,
+                "color": status.color,
+                })
+
         return success(message=testcaserun.status.name,
                        data=dict(id=testcaserun.pk,
                                  name=testcaserun.status.name,
                                  color=testcaserun.status.color,
-                                 passrate=testcaserun.parent.passrate))
+                                 passrate=testcaserun.parent.passrate,
+                                 passrate_ratio=passrate_ratio))
     else:
         return failed(message=testcaserun.status.name,
                       data=testcaserun_status_form.errors_list())

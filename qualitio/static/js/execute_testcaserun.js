@@ -30,7 +30,13 @@ $(function() {
       success: function(status) {
         $("#testcaserun_" + status.data.id+" .status").text(status.data.name);
         $("#testcaserun_" + status.data.id).css("background", status.data.color);
-        $("#testrun-passrate").passrate("update", status.data.passrate);
+        
+        $(".passrate .element").remove();
+        $.each(status.data.passrate_ratio, function(i, status) {
+          $('<div class="element '+ status.name +'  "/>').appendTo('.passrate')
+            .css('width', status.ratio +"%")
+            .css('background', status.color);
+        });
       },
     }).submit();
   });

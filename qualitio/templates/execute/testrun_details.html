@@ -1,4 +1,5 @@
 {% load application_view_menu %}
+{% load execute %}
 <div id="application-view-header">
   <h1>test run: {{ testrun.name }}</h1>
 </div>
@@ -7,13 +8,8 @@
 
 <div class="grid_16">
   <div class="application-view-content">
-    <div class="passrate">
-      {% for status in passrate %}
-      <div class="element" style="background: {{ status.color }}; width: {{ status.ratio }}%;"></div>
-      {% endfor %}
-      <div class="value">{{ testrun.passrate }} %</div>
-    </div>
-
+    {% passrate testrun %}
+    
     <div class="text-bullet">
       <span class="name">full name:</span>
       <span class="value">{{ testrun.path }}{{ testrun.name }}</span>
