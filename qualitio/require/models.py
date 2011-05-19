@@ -28,7 +28,7 @@ class Requirement(core.BaseDirectoryModel):
     dependencies = models.ManyToManyField("Requirement", related_name="blocks", null=True, blank=True)
     release_target = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True)
-
+    alias = models.CharField(max_length=512, blank=True) # Unique check in clean method
     objects = managers.RequirementManager()
 
     def save(self, clean_dependencies=True, *args, **kwargs):
@@ -46,6 +46,13 @@ class Requirement(core.BaseDirectoryModel):
         if clean_dependencies:
             self.clean_dependencies()
         super(Requirement, self).save(*args, **kwargs)
+
+
+    def clean(self):
+        if self.alias and not self.pk:
+            if Requirement.objects.filter(alias=self.alias).exists():
+                raise ValidationError({'alias': "column alias is not unique"})
+
 
     def full_clean(self, clean_dependencies=True, exclude=None):
         """
@@ -71,6 +78,7 @@ class Requirement(core.BaseDirectoryModel):
 
         if errors:
             raise ValidationError(errors)
+
 
     def clean_dependencies(self, extra_dependencies=()):
         """
