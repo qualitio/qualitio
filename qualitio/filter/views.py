@@ -14,7 +14,8 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
         raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
 
     model = model or model_filter_class._meta.model
-    model_table_class = model_table_class or filterapp.generate_model_table(model, exclude=exclude)
+    model_table_class = model_table_class or filterapp.generate_model_table(
+        model, exclude=exclude, fields_order=fields_order)
     model_filter_class = model_filter_class or filterapp.generate_model_filter(model=model, exclude=exclude)
 
     generic_filter = model_filter_class(request.GET)
