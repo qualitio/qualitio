@@ -887,6 +887,8 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "Directory2")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
@@ -918,6 +920,8 @@ class Test34ExecSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "Directory1")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
@@ -948,21 +952,6 @@ class Test34ExecSamename(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("css=input[name='Executed'][value='Save']")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_description"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.assertEqual("Directory1", sel.get_value("id_name"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("description"): break
@@ -1025,21 +1014,6 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "Directory1 same name")
         sel.click("css=input[name='Executed'][value='Save']")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_name"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_element_present("id_description"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.assertEqual("Directory1 same name", sel.get_value("id_name"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("test run directory: Directory1 same name"): break
