@@ -1,4 +1,5 @@
 {% extends "base_filter.html" %}
+{% load pagination_tags %}
 
 {% block module-name %}{% block module-title%}{{ app_label }}{% endblock %}{% endblock %}
 
@@ -7,32 +8,18 @@
 <li class="active">filter</li>
 {% endblock %}
 
+{% block js-include %}
+<script type="text/javascript">
+  var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
+</script>
+{{ block.super }}
+{% endblock %}
+
 {% block application-view %}
 <form method="GET" class="filter-form">
   <div class="filter-forms">
-    {% for group in filter %}
-    {% if not forloop.first %}
-    <div class="groups-linker">- OR -</div>
-    {% endif %}
-    <div class="application-view-content group group-id-{{ group.id }}">
-      {% for form in group %}
-      <div class="fieldfilter-form">
-	<div class="fieldfilter-label"><label>{{ form.field_name_label }}</label></div>
-	{% for field in form %}
-	<div class="fieldfilter-field">{{ field.errors }}{{ field }}</div>
-	{% endfor %}
-	{% if form.field_name %}
-	<div class="fieldfilter-tools">
-	  <div class="button remove-button">
-	    Remove <input type="checkbox" name="control-remove-filter-{{ form.prefix }}" />
-	  </div>
-	</div>
-	{% endif %}
-	<div style="clear:both;"></div>
-      </div>
-      {% endfor %}
-    </div>
-    {% endfor %}
+    <input type="hidden" name="sort" value="{{ filter.sort_by }}" />
+    {% include "filter/_filter_groups.html" %}
 
     <div class="application-view-content">
       <input type="submit" value="Search" /> |
@@ -40,26 +27,37 @@
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
     </div>
   </div>
-</form>
 
-<div class="application-view-content results-container">
-  <table class="display">
-    <thead>
-      <tr>
-	{% for column in table.columns %}
-	<th>{{ column }}</th>
+  <div class="application-view-content results-container">
+    <div class="list-control-top">
+      <div class="onpage-form right">
+	{{ onpage_form.onpage }}
+      </div>
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
+    <table class="display">
+      <thead>
+	<tr>
+	  {% for column in table.columns %}
+	  <th name="{{ column.name }}">{{ column }}</th>
+	  {% endfor %}
+	</tr>
+      </thead>
+      <tbody>
+	{% for row in table.rows %}
+	<tr>
+	  {% for value in row %}
+	  <td>{{ value }}</td>
+	  {% endfor %}
+	</tr>
 	{% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in table.rows %}
-      <tr>
-	{% for value in row %}
-	<td>{{ value }}</td>
-	{% endfor %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% endblock %}
-</div>
+      </tbody>
+    </table>
+    <div class="list-control-bottom">
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
+  </div>
+</form>
+{% endblock %}

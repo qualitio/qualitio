@@ -85,7 +85,7 @@ def _download_release(release="development"):
     require("path")
 
     env.release = release
-    env.release_download_tmp_file = "/tmp/%(release)s.tgz" % env
+    env.release_download_tmp_file = "~/%(release)s.tgz" % env
 
     sudo("wget http://github.com/qualitio/qualitio/tarball/%(release)s -O %(release_download_tmp_file)s --no-check-certificate" % env)
     sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)

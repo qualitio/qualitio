@@ -1,8 +1,12 @@
 Qualitio Project
 ================
 
+
 1. Setup Development Environment (Debian/Ubuntu): 
 -------------------------------------------------
+
+In a case of using Debian sudo package is required. In some cases also
+mercurial(hg) could be required.
 
 1. Install python-setuptools and python-dev packages
    * sudo apt-get install python-setuptools python-dev
@@ -24,6 +28,10 @@ Qualitio Project
 
 2. Setup Remote Production Environment (Debian/Ubuntu): 
 -------------------------------------------------
+
+In a case of using Debian sudo package is required. In some cases also
+mercurial(hg) could be required.
+
 1. Git clone this repository:
    * git clone git://github.com/qualitio/qualitio.git 
 1. Download and install fabric:
@@ -41,7 +49,7 @@ Qualitio Project
 -------------------------------------------------
 1. Go to cloned project directory, and run deployment script
    * cd qualtio
-   * fab setup_production fab update_production -H _{HOST}_
+   * fab update_production -H _{HOST}_
    where _{HOST}_ is address of your target machine, if you had plan
    deploy project locally simply type there _localhost_ (ssh server is
    required)

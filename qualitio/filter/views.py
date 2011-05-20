@@ -1,39 +1,48 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django import forms
+from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import ImproperlyConfigured
-
-import django_tables
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from qualitio import filter as filterapp
+from qualitio.filter import forms
 
 
 def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
-           model_filter_class=None):
+           model_filter_class=None, model_table_class=None, fields_order=()):
 
     if not model and not model_filter_class:
         raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
 
-    Model = model or model_filter_class._meta.model
-    fields_to_exclude = exclude
-
-    class ModelTable(django_tables.ModelTable):
-        class Meta:
-            model = Model
-            exclude = fields_to_exclude
-
-    if not model_filter_class:
-        model_filter_class = filterapp.generate_model_filter(model=Model, exclude=exclude)
+    model = model or model_filter_class._meta.model
+    model_table_class = model_table_class or filterapp.generate_model_table(
+        model, exclude=exclude, fields_order=fields_order)
+    model_filter_class = model_filter_class or filterapp.generate_model_filter(model=model, exclude=exclude)
 
     generic_filter = model_filter_class(request.GET)
     has_control_params, params = generic_filter.build_from_params()
     if has_control_params:
         return HttpResponseRedirect('%s?%s' % (request.path, params.urlencode()))
 
-    table = ModelTable(generic_filter.qs)
+    onpage_form = forms.OnPageForm(request.GET)
+    onpage = onpage_form.value()
+
+    # 1) pagination uses 'request.page' from django-pagination
+    #    which should work since "pagination.middleware.PaginationMiddleware" is installed.
+    # 2) We DO NOT use 'autopaginate' tag since it can raise 404 on wrong page number
+    #    and it causes 500.
+    paginator = Paginator(generic_filter.qs, onpage)
+    page_obj = None
+    try:
+        page_obj = paginator.page(getattr(request,"page", 1))
+    except (EmptyPage, InvalidPage):
+        raise Http404
+
     return render_to_response('filter/filter.html', {
-            'table': table,
-            'app_label': Model._meta.app_label,
+            'app_label': model._meta.app_label,
             'filter': generic_filter,
+            'table': model_table_class(page_obj.object_list),
+            'paginator': paginator,
+            'page_obj': page_obj,
+            'onpage_form': onpage_form,
             }, context_instance=RequestContext(request))
