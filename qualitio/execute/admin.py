@@ -34,7 +34,7 @@ admin.site.register(models.TestCaseRun, TestCaseRunAdmin)
 
 
 class TestCaseRunStatusAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "color")
+    list_display = ("id", "name", "color", "total", "passed")
 admin.site.register(models.TestCaseRunStatus, TestCaseRunStatusAdmin)
 
 

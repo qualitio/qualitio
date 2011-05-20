@@ -26,6 +26,7 @@
         <th class="id">id</th>
         <th>path</th>
         <th>name</th>
+        <th>pass rate</th>
         <th>modified</th>
         <th>created</th>
       </tr>
@@ -39,6 +40,7 @@
       <td>{{ child.pk }}</td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td>&nbsp;</td>
       <td>{{ child.modified_time }}</td>
       <td>{{ child.created_time }}</td>
     </tr>
@@ -51,6 +53,7 @@
       <td>{{ child.pk }}</td>
       <td><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrun/{{ child.pk }}/details/">{{ child.name }}</a></td>
+      <td>{{ child.passrate }}</td>
       <td>{{ child.modified_time }}</td>
       <td>{{ child.created_time }}</td>
     </tr>
