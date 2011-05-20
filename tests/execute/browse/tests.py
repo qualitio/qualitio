@@ -350,8 +350,6 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory/TestRun 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("pass rate: not set"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("status: not set"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:notes:"))
@@ -470,9 +468,7 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=select.action-list"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='testcaserun-list']/div[2]/select/option[1]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("-- action on selected --", sel.get_text("//div[@id='testcaserun-list']/div[2]/select/option[1]"))
+        try: self.failUnless(sel.is_text_present("-- action on selected -- set status add bug remove bug"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("set status"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -483,6 +479,8 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("add"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("-- action on selected -- set status add bug remove bug"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("-- action on selected -- set status add bug remove bug", sel.get_text("//div[@id='testcaserun-list']/div[3]/select"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=notes")
         for i in range(60):
@@ -743,8 +741,6 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("test run: Test run testowy"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Test run testowy"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("pass rate: not set"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("status: not set"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -1135,7 +1131,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("pass rate:"): break
+                if sel.is_text_present("test cases:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1200,7 +1196,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("pass rate:"): break
+                if sel.is_text_present("test cases:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1270,7 +1266,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("pass rate:"): break
+                if sel.is_text_present("test cases:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3884,6 +3880,12 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_element_present("link=TestRun directory 2"): break
             except: pass
             time.sleep(1)
@@ -4037,14 +4039,6 @@ class Test45ExecFilterVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_control-new-group-add_group"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("add group name parent notes modified_time created_time path"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Show"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div/div/div[1]/select"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("entries"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Id"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Modified time"))
@@ -4055,17 +4049,7 @@ class Test45ExecFilterVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Notes"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Parent"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Showing"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div/div/div[3]/div[1]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div/div/div[3]/div[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.select("id_control-new-group-add_group", "label=name")
         sel.wait_for_page_to_load("30000")
