@@ -23,6 +23,15 @@
     border-radius: 8px 8px 8px 8px;
 }
 
+.disclaimer p {
+    text-align: justify;
+    margin: 10px 0 0 0;
+}
+
+.disclaimer h1 {
+    margin: 10px 0 0 0;
+}
+
 #login {
     text-align: left;
 }
