@@ -76,7 +76,13 @@ $(document).ready(function() {
 	"bInfo": false,
 	"aaSorting": [sortParamConverter.fromDjango(
 	    $('.filter-form input[name="sort"]').val()
-	)]
+	)],
+        "aoColumns" : [
+            { sWidth: '5px'  },
+            { sWidth: '300px' },
+            { sWidth: '300px' },
+            { sWidth: '120px' }
+        ]
     });
 
     // prevent default bahaviour of sorting
