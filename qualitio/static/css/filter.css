@@ -57,12 +57,12 @@
 
 .pagination .page, .pagination .next, .pagination .prev{
     text-decoration: none;
-    padding: 2px 15px;
+    padding: 0px 10px;
     border: 1px solid;
 }
 
 .pagination .next {
-    padding: 2px 30px;
+    padding: 0px 20px;
 }
 
 .left { float: left; }

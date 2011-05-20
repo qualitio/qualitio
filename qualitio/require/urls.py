@@ -10,8 +10,8 @@ urlpatterns = patterns('qualitio.require.views',
 
                        url(r'^filter/', filter,
                            {'model_filter_class': RequirementFilter,
-                            'fields_order': ['id', 'path', 'name', 'parent', 'release_target'],
-                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'dependencies', 'description'],
+                            'fields_order': ['id', 'path', 'name', 'release_target'],
+                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'dependencies', 'description', 'parent', 'alias'],
                             }),
 
                        url(r'^ajax/get_children$', core.get_children,
