@@ -44,6 +44,9 @@ class ModelTable(tables.ModelTable):
             return obj.path
         return self.link(obj.parent.id, obj.path)
 
+    def render_name(self, obj):
+        return self.link(obj.id, obj.name)
+
     def __unicode__(self):
         return u''
 
