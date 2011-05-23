@@ -27,7 +27,6 @@ var sortParamConverter = function(column_names){
     };
 }(COLUMN_NAMES); // COLUMN_NAMES should be provided in template
 
-
 // returns new state for the current one
 var tableHeaderClassCycle = function(){
     var stateToNextState = {
@@ -47,6 +46,19 @@ var tableHeaderClassCycle = function(){
     }
 }();
 
+// 'id' is a-href link rendered on server side
+var parseIntFromLink = function(html){
+    return parseInt($('a', html).text(), 10);
+}
+
+jQuery.fn.dataTableExt.oSort['int-in-link-asc'] = function(x, y) {
+    var x = parseIntFromLink(x), y = parseIntFromLink(y);
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
+jQuery.fn.dataTableExt.oSort['int-in-link-desc'] = function(x, y) {
+    var x = parseIntFromLink(x), y = parseIntFromLink(y);
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
 
 $(document).ready(function() {
     $('input[type="submit"], .button').button();
@@ -76,7 +88,12 @@ $(document).ready(function() {
 	"bInfo": false,
 	"aaSorting": [sortParamConverter.fromDjango(
 	    $('.filter-form input[name="sort"]').val()
-	)]
+	)],
+	"bAutoWidth": false,
+	"aoColumnDefs": [
+	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [ 0 ] },
+            { "sWidth": '300px', "aTargets": [1, 2]}
+	]
     });
 
     // prevent default bahaviour of sorting

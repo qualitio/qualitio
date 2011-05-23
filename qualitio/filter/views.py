@@ -27,14 +27,20 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
     onpage_form = forms.OnPageForm(request.GET)
     onpage = onpage_form.value()
 
-    # 1) pagination uses 'request.page' from django-pagination
-    #    which should work since "pagination.middleware.PaginationMiddleware" is installed.
+    # 1) We DO NOT use django-pagination 'request.page' feature since
+    #    it doesn't work as expected
     # 2) We DO NOT use 'autopaginate' tag since it can raise 404 on wrong page number
     #    and it causes 500.
+    page = 1
+    try:
+        page = int(request.REQUEST['page'])
+    except (KeyError, ValueError, TypeError):
+        pass
+
     paginator = Paginator(generic_filter.qs, onpage)
     page_obj = None
     try:
-        page_obj = paginator.page(getattr(request,"page", 1))
+        page_obj = paginator.page(page)
     except (EmptyPage, InvalidPage):
         raise Http404
 

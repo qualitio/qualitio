@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/registration.css{{ STATIC_HASH }}" media="screen, projection" />
   
   <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
-  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
   
   <script type="text/javascript" src="{{ HTTP_PROTOCOL }}://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="{{ HTTP_PROTOCOL }}://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
@@ -49,10 +49,10 @@
           </div>
         </div>
       </div>
- 
+      
       <div id="main">  
         <div class="block">
-
+          
           {% if form.errors %}
           <div id="notification">
             <div class="ui-state-error">
@@ -73,7 +73,47 @@
           {% block form %}
           {% endblock %}
         </div>
+        <div class="block disclaimer">
+          <p>
+            The main goal of Qualitio project is to unleash MeeGo QA community. 
+            Qualitio is an open-source tool which allows testing community to 
+            contribute into Meego project with an ease and pleasure.
+          </p>
+          
+          <h1>How to start?</h1>
+          <p>
+            Just login with your Google or Yahoo account or register a new 
+            Qualitio account.
+          </p>
+          
+          <h1>What's next?</h1>
+          
+          <p>
+            Then please check Qualitio 
+            <a href="https://github.com/qualitio/qualitio/wiki" target="_blank">wiki page</a> 
+            and... that's it! You can start testing!
+            Prepare test cases for requirements that you want to test, execute them and 
+            compose complex report.
+          </p>
+          
+          <p>
+            Your contribution makes a difference! You can start testing 
+            today and have an influence on the MeeGo project. 
+            Qualitio is an open-source web application. 
+            More information can be found on Qualitio 
+            <a href="http://qualitio.com" target="_blank">web page</a>.
+          </p>
+          
+          <p>   
+            If you want to know more about MeeGo, please check the official MeeGo website.
+            MeeGo&trade; is a trademark of the Linux Foundation.
+          </p>
+          
+          
+        </div>
       </div>
     </div>
   </body>
 </html>
+  
+  

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.utils.safestring import mark_safe
+
 import django_tables as tables
 
 
@@ -20,6 +22,30 @@ class ModelTable(tables.ModelTable):
             self.fields_order,
             self.base_columns.keyOrder)
         super(ModelTable, self).__init__(*args, **kwargs)
+
+    def get_absolute_url(self, objid):
+        return u'/%(app_name)s/#%(model_name)s/%(id)s/details/' % {
+            'id': objid,
+            'app_name': self._meta.model._meta.app_label,
+            'model_name': self._meta.model.__name__.lower(),
+            }
+
+    def link(self, id, label):
+        return mark_safe(u'<a href="%(href)s">%(label)s</a>' % {
+            'href': self.get_absolute_url(id),
+            'label': label,
+            })
+
+    def render_id(self, obj):
+        return self.link(obj.id, obj.id)
+
+    def render_path(self, obj):
+        if not obj.parent:
+            return obj.path
+        return self.link(obj.parent.id, obj.path)
+
+    def render_name(self, obj):
+        return self.link(obj.id, obj.name)
 
     def __unicode__(self):
         return u''
