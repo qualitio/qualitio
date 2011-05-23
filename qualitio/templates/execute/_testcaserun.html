@@ -86,7 +86,7 @@
         <tbody>
           {% for bug in testcaserun.bugs_history.all %}
           <tr>
-            <td class="select">{{ bug.DELETE }}{{ bug.id }}</td>
+            <td class="select"><span style="display:none">{{ bug.DELETE }}{{ bug.id }}</span></td>
             <td><a href="{{ bug.instance.url }}">{{ bug.alias }}</a></td>
               <td><a href="{{ bug.instance.url }}">{{ bug.name }}</a></td>
             <td>{{ bug.status }}</td>

@@ -71,9 +71,7 @@ class TestCaseRun(store.TestCaseBase):
 
     @property
     def bugs_history(self):
-        return Bug.objects.filter(testcaserun__origin=self.origin)\
-            .exclude(alias__in=self.bugs.values_list('alias',flat=True))
-
+        return Bug.objects.filter(testcaserun__origin=self.origin).filter(testcaserun__parent__id__lt=self.parent.id)
 
     def save(self, *args, **kwargs):
         super(TestCaseRun, self).save(*args, **kwargs)
