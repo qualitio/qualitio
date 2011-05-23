@@ -9,8 +9,7 @@
     {% csrf_token %}
     {{ form.username }}{{ form.username.label_tag|lower }}
     {{ form.password }}{{ form.password.label_tag|lower }}
-    
-  </fieldset> 
+  </fieldset>
   <div class="submit-panel">
     <div class="right">
       <input type="submit" value="login" />
@@ -18,6 +17,4 @@
     </div>
   </div>
 </form>
-
-
 {% endblock %}

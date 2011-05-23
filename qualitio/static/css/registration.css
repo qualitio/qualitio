@@ -23,7 +23,7 @@
     background: none repeat scroll 0 0 white;
     padding: 10px;
     border: 1px solid #AAAAAA;
-    margin: 20px auto 20px; 
+    margin: 20px auto 20px;
     border-radius: 8px 8px 8px 8px;
 }
 
@@ -97,7 +97,7 @@
 
 #openid .button.google {
     background: url("../images/google_openid.jpg") no-repeat scroll center -3px transparent;
-    
+
 }
 #openid .button.yahoo {
     background: url("../images/yahoo_openid.png") no-repeat scroll center -1px transparent;
@@ -119,7 +119,7 @@
 }
 
 #notification .field-error {
-    width:100%; 
+    width:100%;
     text-align:left;
     margin: 0 0 0 10px;
 }
