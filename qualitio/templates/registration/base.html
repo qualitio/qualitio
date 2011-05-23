@@ -1,8 +1,13 @@
+{% load compress %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="en-us" />
+
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
   
+  {% compress css %}
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection"/>
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css"/>
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
@@ -10,20 +15,16 @@
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/registration.css{{ STATIC_HASH }}" media="screen, projection" />
-  
-  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
-  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
+  {% endcompress %}
 
+  {% compress js %}
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.js"></script>
-  
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.infieldlabel.min.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
-
-  <title>qualitio: {% block title %}{% endblock %}</title>
   <script>
     $(function () {
       $('li.{% block jstitle %}{% endblock %}')
@@ -31,6 +32,9 @@
         .css('color', 'black');
     });
   </script>
+  {% endcompress %}
+
+  <title>qualitio: {% block title %}{% endblock %}</title>
   <body>  
     <div id="main" style="width: 800px">
       <div id="header" class="clearfix">

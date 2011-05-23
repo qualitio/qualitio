@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'registration',
     'south',
     'pagination',
+    'compressor',
 
     'qualitio.core',
     'qualitio.require',
@@ -159,8 +160,14 @@ ISSUE_BACKEND_BUGZILLA_URL = "https://bugzilla.mozilla.org/"
 
 SOUTH_TESTS_MIGRATE = False
 
+
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
+                        'compressor.filters.cssmin.CSSMinFilter']
+
+COMPRESS = False
+
+
 try:
     from local_settings import *
 except ImportError:
     pass
-

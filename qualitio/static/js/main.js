@@ -177,6 +177,9 @@ $(function() {
           }
         },
         "types" : tree_types,
+        "themes" : {
+          "url": MEDIA_URL + "js/themes/default/style.css",
+	},
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
       }).bind("select_node.jstree", function (node, data) {
         self.id = data.rslt.obj.attr("id").split("_")[0],
