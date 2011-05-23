@@ -53,7 +53,8 @@ class BaseSeleniumTestCase(unittest.TestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=Loading ...")
+        sel.click("link=filter")
+        sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
                 if sel.is_element_present("id_username"): break

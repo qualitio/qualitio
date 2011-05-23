@@ -53,7 +53,8 @@ class BaseSeleniumTestCase(unittest.TestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=Loading ...")
+        sel.click("link=filter")
+        sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
                 if sel.is_element_present("id_username"): break
@@ -99,7 +100,8 @@ class BaseSeleniumTestCase(unittest.TestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=Loading ...")
+        sel.click("link=filter")
+        sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
                 if sel.is_element_present("id_username"): break
@@ -5300,8 +5302,6 @@ class Test45FilterVerify(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("Path"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Name"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Parent"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Release target"))
         except AssertionError, e: self.verificationErrors.append(str(e))
