@@ -16,17 +16,20 @@ class ActionForm(BaseForm):
 
 
 class Action(object):
+    # regex pattern to recognize QueryDict keys
+    # In this way we know the IDs of object we want action run on
     item_id_ptr = re.compile(r'^item-(?P<id>\d+)$')
+
+    # model is required to fetch data from db, Look at 'queryset' method
     model = None
+
+    # non-obligatory option - you add form if the action needs it
     form_class = None
-    name = 'action'
-    label = 'Action'
+
     app_label = None
 
-    def __init__(self, data=None, app_label=None):
-        self.data = data
-        self.app_label = app_label
-
+    # name property it's just the '<class_name>.lower()'.
+    # It is generated for you, but you can always change it.
     def _get_name(self):
         if not hasattr(self, '_name'):
             self._name = self.__class__.__name__.lower()
@@ -36,6 +39,13 @@ class Action(object):
         self._name = name
 
     name = property(_get_name, _set_name)
+
+    # the label that is displayed
+    label = 'Action'
+
+    def __init__(self, data=None, app_label=None):
+        self.data = data
+        self.app_label = app_label
 
     def has_form(self):
         return self.form_class
@@ -63,11 +73,10 @@ class Action(object):
                     return failed(
                         message=form.error_message(),
                         data=form.errors_list())
-        self.run_action(self.data, self.queryset(), form)
-        return success(message='Action complete!')
+        return self.run_action(self.data, self.queryset(), form)
 
     def run_action(self, data, queryset, form=None):
-        pass
+        return success(message='Action complete!')
 
 
 def find_actions(app_label, module_name='actions'):
@@ -94,13 +103,7 @@ class ActionChoiceForm(forms.Form):
 
 # COMMON ACTIONS
 class ChangeParent(Action):
-    def _form_for_model(self):
-        model = self.model._meta.get_field('parent').rel.to
-
-        class ParentForm(ActionForm):
-            parent = forms.ModelChoiceField(queryset=model.objects.all())
-
-        return ParentForm
+    label = 'Change parent'
 
     def _get_form_class(self):
         if not hasattr(self, '_form_class'):
@@ -111,10 +114,16 @@ class ChangeParent(Action):
         self._form_class = form_class
 
     form_class = property(_get_form_class, _set_form_class)
-    label = 'Change parent'
+
+    def _form_for_model(self):
+        model = self.model._meta.get_field('parent').rel.to
+        class ParentForm(ActionForm):
+            parent = forms.ModelChoiceField(queryset=model.objects.all())
+        return ParentForm
 
     def run_action(self, data, queryset, form=None):
         for obj in queryset.all():
             obj.parent = form.cleaned_data.get('parent')
             obj.modified_time = datetime.datetime.now()
             obj.save()
+        return success(message='Action complete!')
