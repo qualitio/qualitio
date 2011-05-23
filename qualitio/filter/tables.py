@@ -17,11 +17,21 @@ class ModelTable(tables.ModelTable):
     fields_order = []
 
     def __init__(self, *args, **kwargs):
+        self.query_dict = kwargs.pop('query_dict', {})
         self.fields_order = kwargs.pop('fields_order', self.__class__.fields_order)
         self.base_columns.keyOrder = unique_list(
+            ['checkbox'],
             self.fields_order,
             self.base_columns.keyOrder)
         super(ModelTable, self).__init__(*args, **kwargs)
+
+    checkbox = tables.Column(verbose_name="  ")
+
+    def render_checkbox(self, instance):
+        is_checked = self.query_dict.get('item-%s' % instance.id) == 'on'
+        widget = '<input class="table-item" name="item-%s" type="checkbox" %s/>'
+        widget = widget % (instance.id, 'checked' if is_checked else '')
+        return mark_safe(widget)
 
     def get_absolute_url(self, objid):
         return u'/%(app_name)s/#%(model_name)s/%(id)s/details/' % {
