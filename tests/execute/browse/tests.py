@@ -2819,6 +2819,12 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "close navi")
         for i in range(60):
             try:
@@ -2833,6 +2839,8 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//input[@value='1']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//a[@id='add-testcases-button']/span")
         for i in range(60):
             try:
@@ -2994,6 +3002,12 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=history")
         for i in range(60):
             try:
+                if sel.is_element_present("//div[@id='application-view']/div[3]/div/div[1]/div[1]/div/table"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("date"): break
             except: pass
             time.sleep(1)
@@ -3027,10 +3041,22 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:status:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("link=edit")
         for i in range(60):
             try:
                 if sel.is_element_present("id_testrun-parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3043,7 +3069,19 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "close navigation")
         for i in range(60):
             try:
+                if sel.is_element_present("//input[@value='1']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Close navigation"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3051,6 +3089,18 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_element_present("//input[@value='1']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//a[@id='add-testcases-button']/span"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3211,7 +3261,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("//div[@id='testcaserun-list']/div[2]/select"): break
+                if sel.is_text_present("IDLE"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3309,6 +3359,24 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=div.passrate"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view']/div[3]/div/div[1]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
