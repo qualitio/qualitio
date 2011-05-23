@@ -1,13 +1,8 @@
-{% load compress %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="en-us" />
-
-  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
-  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
   
-  {% compress css %}
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection"/>
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css"/>
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
@@ -15,16 +10,20 @@
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
   <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/registration.css{{ STATIC_HASH }}" media="screen, projection" />
-  {% endcompress %}
+  
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
 
-  {% compress js %}
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.js"></script>
+  
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.infieldlabel.min.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
+
+  <title>qualitio: {% block title %}{% endblock %}</title>
   <script>
     $(function () {
       $('li.{% block jstitle %}{% endblock %}')
@@ -32,9 +31,6 @@
         .css('color', 'black');
     });
   </script>
-  {% endcompress %}
-
-  <title>qualitio: {% block title %}{% endblock %}</title>
   <body>  
     <div id="main" style="width: 800px">
       <div id="header" class="clearfix">
@@ -43,19 +39,37 @@
         </div>
       </div>
       
-      <div id="project-content" class="container_16 clearfix">
-        <div class="grid_16">
-          <div id="application-menu" >
-            <ul>
-              <li class="login"><a href="/login/">login</a></li>
-              <li class="register"><a href="/register/">registration</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
       
       <div id="main">  
-        <div class="block">
+
+        <div class="block disclaimer">
+          <p>
+            Qualitio is an open-source web application that allows
+            testing community to contribute to the Meego project easily
+            and effectively.
+          </p>
+
+          <h1>How to start?</h1>
+
+          <p>
+            Just login with your Google or Yahoo account
+          </p>
+
+          <div id="openid" class="clearfix">
+            <div class="logo clearfix"></div>
+            <div class="button-set">
+              <a class="google button" href="/login/google/">&nbsp;</a>
+              <a class="yahoo button" href="/login/yahoo/">&nbsp;</a>
+            </div>
+          </div>
+
+          <p>
+            or <a href="/register/">register</a> a new Qualitio account.
+          </p>
+
+          <p>
+            Login - Qualitio account:
+          </p>
           
           {% if form.errors %}
           <div id="notification">
@@ -77,42 +91,34 @@
           {% block form %}
           {% endblock %}
         </div>
+
         <div class="block disclaimer">
-          <p>
-            The main goal of Qualitio project is to unleash MeeGo QA community. 
-            Qualitio is an open-source tool which allows testing community to 
-            contribute into Meego project with an ease and pleasure.
-          </p>
-          
-          <h1>How to start?</h1>
-          <p>
-            Just login with your Google or Yahoo account or register a new 
-            Qualitio account.
-          </p>
-          
+
           <h1>What's next?</h1>
           
           <p>
-            Then please check Qualitio 
-            <a href="https://github.com/qualitio/qualitio/wiki" target="_blank">wiki page</a> 
-            and... that's it! You can start testing!
-            Prepare test cases for requirements that you want to test, execute them and 
-            compose complex report.
+            That's it! You can start testing, preparing test cases
+            for requirements that you want to test, executing them and
+            composing complex reports.
           </p>
-          
+
           <p>
-            Your contribution makes a difference! You can start testing 
-            today and have an influence on the MeeGo project. 
-            Qualitio is an open-source web application. 
-            More information can be found on Qualitio 
-            <a href="http://qualitio.com" target="_blank">web page</a>.
+            Your contribution makes a difference! You can start
+            testing today and have an influence on the MeeGo
+            project. More information can be found on Qualitio
+            <a href="http://qualitio.com" target="_blank">web page</a>
+            and <a href="https://github.com/qualitio/qualitio/wiki" target="_blank">wiki page</a>.
           </p>
-          
-          <p>   
-            If you want to know more about MeeGo, please check the official MeeGo website.
-            MeeGo&trade; is a trademark of the Linux Foundation.
+
+          <p>
+            To learn more about MeeGo, please go to the official MeeGo
+            <a href="https://meego.com"
+            target="_blank">web site</a>.
           </p>
-          
+
+          <p>
+            MeeGo™ is a trademark of the Linux Foundation.
+          </p>
           
         </div>
       </div>

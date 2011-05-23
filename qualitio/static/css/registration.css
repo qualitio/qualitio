@@ -1,7 +1,10 @@
 #header {
     border-left: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
-    position:relative
+    border-bottom: 1px solid #AAAAAA;
+    position:relative;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 #header .logo {
@@ -13,6 +16,7 @@
     padding: 2px 0 0 10px;
     text-rendering: optimizelegibility;
     height: 47px;
+
 }
 
 .block {
@@ -72,7 +76,6 @@
 
 #openid {
     padding: 20px 0 0 0;
-    border-top: 1px solid #AAAAAA;
 }
 
 #openid .logo {
