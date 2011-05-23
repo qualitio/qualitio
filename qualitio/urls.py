@@ -17,7 +17,7 @@ urlpatterns = patterns('',
                          'success_url': 'django.contrib.auth.views.login' }),
 
                        (r'^permission_required/$', 'qualitio.core.permission_required'),
-                       
+
                        (r'^require/', include('qualitio.require.urls', app_name="require")),
                        (r'^settings/', include('qualitio.projects.urls')),
                        (r'^execute/', include('qualitio.execute.urls', app_name="execute")),
