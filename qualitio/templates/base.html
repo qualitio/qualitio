@@ -16,8 +16,8 @@
     <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css">
       
     {% block css-include %}{% endblock %}
-    <script type="text/javascript" src="{{ HTTP_PROTOCOL }}://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ HTTP_PROTOCOL }}://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min-1.1.4.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/backbone-min-0.3.3.js"></script>
     
@@ -41,7 +41,6 @@
 
   <body>
     <div id="main">
-      <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif" />
       <div id="notification"></div>
       
       <div id="header" class="container_16 clearfix">
