@@ -36,8 +36,8 @@
             <td class="select">
               {{ bug.DELETE }}{% for hidden in bug.hidden_fields %}{{ hidden }}{% endfor %}
             </td>
-            <td><a href="{{ bug.instance.url }}">{{ bug.instance.alias }}</a></td>
-            <td><a href="{{ bug.instance.url }}">{{ bug.instance.name }}</a></td>
+            <td><a href="{{ bug.instance.get_absolute_url }}">{{ bug.instance.alias }}</a></td>
+            <td><a href="{{ bug.instance.get_absolute_url }}">{{ bug.instance.name }}</a></td>
             <td>{{ bug.instance.status }}</td>
             <td>{{ bug.instance.resolution }}</td>
           </tr>

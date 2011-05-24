@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.views.generic.simple import direct_to_template
 from django.db.models import Count
+from django.conf import settings
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
@@ -196,13 +197,17 @@ def testcaserun_addbug(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     add_bug_form = forms.AddBugForm(request.POST)
 
+    from django.utils.importlib import import_module
+
+    backend_name = getattr(settings, "ISSUE_BACKEND", None)
+    issues = import_module(backend_name)
+
     if add_bug_form.is_valid():
-        from backends.bugs import Bugzilla, IssueError, IssueServerError
         bugs = []
         for bug_id in add_bug_form.cleaned_data['bugs']:
             try:
-                bugs.append(testcaserun.bugs.get_or_create(**Bugzilla.fetch_bug(bug_id))[0])
-            except (IssueError, IssueServerError) as e:
+                bugs.append(testcaserun.bugs.get_or_create(**issues.Backend.fetch_bug(bug_id))[0])
+            except (issues.IssueError, issues.IssueServerError) as e:
                 return failed(message="Issue server error meessage: %s" %e)
 
 

@@ -12,13 +12,13 @@ class IssueServerError(Exception):
     pass
 
 
-class Bugzilla(httplib2.Http):
+class Backend(httplib2.Http):
     resource = None
     url = ""
 
     @classmethod
     def _setup_connection(cls):
-        if hasattr(settings, "ISSUE_BACKEND_BUGZILLA_URL"):
+        if hasattr(settings, "ISSUE_BACKEND_URL"):
             cls.url = settings.ISSUE_BACKEND_BUGZILLA_URL.rstrip("/")
         else:
             raise ImproperlyConfigured("Bugzill issue backed requires ISSUE_BACKEND_BUGZILLA_URL value in settings")

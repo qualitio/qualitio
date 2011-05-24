@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from qualitio import core
 from qualitio import store
@@ -72,8 +73,7 @@ class TestCaseRun(store.TestCaseBase):
     @property
     def bugs_history(self):
         return Bug.objects.filter(testcaserun__origin=self.origin)\
-            .filter(testcaserun__parent__id__lt=self.parent.id)\
-            .values("alias", "name", "status","resolution").distinct()
+            .filter(testcaserun__parent__id__lt=self.parent.id)
 
     def save(self, *args, **kwargs):
         super(TestCaseRun, self).save(*args, **kwargs)
@@ -122,5 +122,12 @@ class Bug(core.BaseModel):
 
     def __unicode__(self):
         return "#%s" % self.alias
+
+    def get_absolute_url(self):
+        url = getattr(settings, "ISSUE_BACKEND_ABSOLUTE_URL", None)
+        if url:
+            return url % self.alias
+        return "#"
+
 
 
