@@ -4,6 +4,7 @@ import os
 from fabric.api import *
 
 from fabric.contrib.project import rsync_project
+from fabric.contrib import files
 from fabric import colors
 
 
@@ -70,15 +71,18 @@ def update_production(path="/var/www/qualitio", local_settings=""):
     """Updates remote production envirotment"""
     env.path = path.rstrip("/")
 
-    _download_release()
-    _install_requirements()
-    _local_settings(local_settings)
-    _synchronize_database()
-    _migrate_database()
-    _restart_webserver()
+    if not files.exists(env.path):
+        print colors.red("No instance found on path=%s. Breaking update." % env.path)
+    else:
+        _download_release()
+        _install_requirements()
+        _local_settings(local_settings)
+        _synchronize_database()
+        _migrate_database()
+        _restart_webserver()
 
-    print("Instsance at %s:%s, updated." % (colors.green(env.host),
-                                            colors.green(env.path)))
+        print("Instsance at %s:%s, updated." % (colors.green(env.host),
+                                                colors.green(env.path)))
 
 
 def _download_release(release="development"):
