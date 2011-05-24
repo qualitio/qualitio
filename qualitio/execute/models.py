@@ -103,7 +103,8 @@ class TestCaseRunStatus(core.BaseModel):
 
     def save(self, *args, **kwargs):
         if (self.total != self._orginals.get("total") or (self.passed != self._orginals.get("passed"))):
-            pass # recalculate passrate
+            for testrun in TestRun.objects.all():
+                testrun.update_passrate()
 
         super(TestCaseRunStatus, self).save(*args, **kwargs)
 
