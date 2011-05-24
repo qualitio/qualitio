@@ -109,6 +109,7 @@ def testrun_valid(request, testrun_id=0):
         testcases = store.TestCase.objects.filter(pk__in=testcase_id_list)
 
         created_testcases, deleted_testcases = testrun.testcase_setup(testcases)
+        testrun.update_passrate()
 
         log = history.History(request.user, testrun)
         log.add_form(testrun_form)
