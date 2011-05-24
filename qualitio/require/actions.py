@@ -1,3 +1,5 @@
+from django import forms
+
 from qualitio.require import models
 from qualitio.filter import actions
 

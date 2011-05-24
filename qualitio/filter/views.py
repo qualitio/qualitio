@@ -48,7 +48,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 
     # actions
     action_classes = filterapp.find_actions('qualitio.%s' % model._meta.app_label)
-    actions = [ActionClass(None, app_label=model._meta.app_label) for ActionClass in action_classes]
+    actions = [ActionClass(None) for ActionClass in action_classes]
 
     return render_to_response('filter/filter.html', {
             'app_label': model._meta.app_label,
@@ -64,7 +64,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 def actions(request, app_label=None, action_name=None):
     allactions = filterapp.find_actions('qualitio.%s' % app_label)
     for action_class in allactions:
-        action = action_class(data=request.POST, app_label=app_label)
+        action = action_class(data=request.POST)
         if action.name == action_name:
             return action.execute()
     return failed(message="Wrong request")

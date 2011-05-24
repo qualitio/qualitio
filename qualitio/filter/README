@@ -141,3 +141,44 @@
 
        # qustom ``first_name`` field filter with overriden label
        first_name = filters.FieldFilter(FirstNameFieldFilter, label="Field name blah blah")
+
+
+* actions *
+
+** where the actions came from?
+
+   filter view search for actions in '<model-application-name>.actions' module
+   and it pick up every class that is derived from 'qualitio.filter.actions.Action'
+
+   So to make sure you're actions will be founded put them in
+   '<your-application>.actions' module.
+
+
+** how to write an action?
+   For example for existing require application
+
+   # code ###############################################
+   # qualitio.require.actions
+   from django import forms
+
+   from qualitio.require import models
+   from qualitio.filter import actions
+
+   class ChangeParentForm(actions.ActionForm):
+       parent = forms.ModelChoiceField(queryset=models.Requirement.objects.all())
+
+   class ChangeParent(actions.Action):
+       model = models.Requirement
+       label = 'Change parent'
+       form_class = ChangeParentForm
+
+       def run_action(self, querydict, queryset, form=None):
+           for obj in queryset.all():
+               obj.parent = form.cleaned_data.get('parent')
+               obj.modified_time = datetime.datetime.now()
+               obj.save()
+	   return self.success(message='Action done!')
+   # code ###############################################
+
+   'form' param is used only if you attach form to your action.
+   Form is validated before 'run_actions' runs in 'execute' method.

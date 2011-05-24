@@ -9,6 +9,7 @@ from django import forms
 
 from qualitio.core.utils import success, failed
 from qualitio.core.forms import BaseForm
+from qualitio.filter.utils import Property
 
 
 class ActionForm(BaseForm):
@@ -16,9 +17,35 @@ class ActionForm(BaseForm):
 
 
 class Action(object):
+    """
+    Base Action class. Provides the action flow.
+    Action execution basically works this way:
+
+    * the execute() method is invoked:
+       1) it checks if there is something in queryset
+          (queryset with items that user selected)
+       2) it checks if form is valid (if your action has a form)
+       3) invokes run_action() method
+
+    * run_action() method should use core util responses:
+      success() and failed() methods are included to
+      do it really easy. Both accepts 'message' and 'data' kwargs.
+      eg:
+         # ...
+         return self.succes(message='Somethings went wrong', data={
+             'error1': 'error message'
+         })
+    """
+
     # regex pattern to recognize QueryDict keys
     # In this way we know the IDs of object we want action run on
     item_id_ptr = re.compile(r'^item-(?P<id>\d+)$')
+
+    app_label = Property(target='_app_label', default=lambda self: self.model._meta.app_label)
+    name = Property(target='_name', default=lambda self: self.__class__.__name__.lower())
+
+    # the label that is displayed
+    label = 'Action'
 
     # model is required to fetch data from db, Look at 'queryset' method
     model = None
@@ -26,26 +53,8 @@ class Action(object):
     # non-obligatory option - you add form if the action needs it
     form_class = None
 
-    app_label = None
-
-    # name property it's just the '<class_name>.lower()'.
-    # It is generated for you, but you can always change it.
-    def _get_name(self):
-        if not hasattr(self, '_name'):
-            self._name = self.__class__.__name__.lower()
-        return self._name
-
-    def _set_name(self, name):
-        self._name = name
-
-    name = property(_get_name, _set_name)
-
-    # the label that is displayed
-    label = 'Action'
-
-    def __init__(self, data=None, app_label=None):
+    def __init__(self, data=None):
         self.data = data
-        self.app_label = app_label
 
     def has_form(self):
         return self.form_class
@@ -56,6 +65,12 @@ class Action(object):
     def url(self):
         return '/filter/action/execute/%s/%s/' % (self.app_label, self.name)
 
+    def success(self, *args, **kwargs):
+        return success(*args, **kwargs)
+
+    def failed(self, *args, **kwargs):
+        return failed(*args, **kwargs)
+
     def queryset(self):
         result = []
         for key in self.data.keys():
@@ -64,19 +79,33 @@ class Action(object):
                 result.append(int(match.group('id')))
         return self.model.objects.filter(id__in=result)
 
-    def execute(self):
+    def validate_form(self):
         form = None
-        if self.has_form():
-            if self.data:
-                form = self.form_class(self.data)
-                if not form.is_valid():
-                    return failed(
-                        message=form.error_message(),
-                        data=form.errors_list())
-        return self.run_action(self.data, self.queryset(), form)
+        if self.has_form() and self.data is not None:
+            form = self.form_class(self.data)
+            if not form.is_valid():
+                return False, form
+        return True, form
+
+    def validate_queryset(self):
+        queryset = self.queryset()
+        if not queryset.exists():
+            return False, queryset
+        return True, queryset
 
     def run_action(self, data, queryset, form=None):
-        return success(message='Action complete!')
+        return self.success(message='Action complete!')
+
+    def execute(self):
+        queryset_is_valid, queryset = self.validate_queryset()
+        if not queryset_is_valid:
+            return failed(message='Check items you want run throught the action')
+
+        form_is_valid, form = self.validate_form()
+        if not form_is_valid:
+            return failed(message=form.error_message(), data=form.errors_list())
+
+        return self.run_action(self.data, queryset, form)
 
 
 def find_actions(app_label, module_name='actions'):
@@ -105,21 +134,13 @@ class ActionChoiceForm(forms.Form):
 class ChangeParent(Action):
     label = 'Change parent'
 
-    def _get_form_class(self):
-        if not hasattr(self, '_form_class'):
-            self._form_class = self._form_for_model()
-        return self._form_class
-
-    def _set_form_class(self, form_class):
-        self._form_class = form_class
-
-    form_class = property(_get_form_class, _set_form_class)
-
     def _form_for_model(self):
         model = self.model._meta.get_field('parent').rel.to
         class ParentForm(ActionForm):
             parent = forms.ModelChoiceField(queryset=model.objects.all())
         return ParentForm
+
+    form_class = Property(target='_form_class', default=_form_for_model)
 
     def run_action(self, data, queryset, form=None):
         for obj in queryset.all():
