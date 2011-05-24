@@ -40,10 +40,10 @@
     <div class="step clearfix">
       <h2>step {{ forloop.counter }}</h2>
       <div class="grid_8 alpha">
-        <div class="description">{{ step.description }}</div>
+        <div class="description">{{ step.description|linebreaksbr }}</div>
       </div>
       <div class="grid_8 omega">
-        <div class="excpected">{{ step.expected }}</div>
+        <div class="excpected">{{ step.expected|linebreaksbr }}</div>
       </div>
     </div>
     {% endfor %}
