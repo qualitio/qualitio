@@ -24,3 +24,4 @@ python-openid==2.2.5
 wsgiref==0.1.2
 yolk==0.4.1
 django-pagination==1.0.7
+django-dbtemplates==1.0.1
