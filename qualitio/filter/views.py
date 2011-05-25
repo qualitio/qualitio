@@ -14,7 +14,6 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 
     if not model and not model_filter_class:
         raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
-    model = model or model_filter_class._meta.model
 
     model = model or model_filter_class._meta.model
     model_table_class = model_table_class or filterapp.generate_model_table(
