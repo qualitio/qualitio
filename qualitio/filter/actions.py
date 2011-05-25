@@ -108,11 +108,14 @@ class Action(object):
         return self.run_action(self.data, queryset, form)
 
 
-def find_actions(app_label, module_name='actions'):
+def find_actions(app_label, module_name='actions', model=None):
     actionmodule = importlib.import_module('%s.%s' % (app_label, module_name))
     without_names = map(itemgetter(1), inspect.getmembers(actionmodule))
     classes = filter(inspect.isclass, without_names)
-    return filter(lambda class_: issubclass(class_, Action), classes)
+    classes = filter(lambda class_: issubclass(class_, Action), classes)
+    if model is not None:
+        classes = filter(lambda class_: hasattr(class_, 'model') and class_.model == model, classes)
+    return classes
 
 
 class ActionChoiceForm(forms.Form):

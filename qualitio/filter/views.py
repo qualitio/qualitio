@@ -47,7 +47,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
         raise Http404
 
     # actions
-    action_classes = filterapp.find_actions('qualitio.%s' % model._meta.app_label)
+    action_classes = filterapp.find_actions('qualitio.%s' % model._meta.app_label, model=model)
     actions = [ActionClass(None) for ActionClass in action_classes]
 
     return render_to_response('filter/filter.html', {
