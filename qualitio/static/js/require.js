@@ -14,6 +14,7 @@ $(function() {
     render: function(type, id, view) {
       this.application_tree.update(type, id, view);
       this.application_view.render(type, id, view);
+      $.shortcuts.selectTreeNode(id, type);
     },
     
   });

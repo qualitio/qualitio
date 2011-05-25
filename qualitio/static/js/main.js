@@ -133,34 +133,37 @@ $(function() {
     el: $('#application-tree'),
     
     initialize: function(options) {
-      this.directory_type = options.directory;
-      this.file_type = options.file;
+      var self = this;
+
+      self.directory_type = options.directory;
+      self.file_type = options.file;
       
-      this.id = document.location.hash.split("/")[1];
-      this.type = window.location.hash.split('/')[0].split("#")[1];
+      self.id = window.location.hash.split("/")[1];
+      self.type = window.location.hash.split('/')[0].split("#")[1];
+      self.view = window.location.hash.split('/')[2]
       
       var tree_types = {
         "types": {
-          "valid_children" : [ this.directory_type ]
+          "valid_children" : [ self.directory_type ]
         }
       };
       
-      tree_types.types[this.directory_type] = {
+      tree_types.types[self.directory_type] = {
         "valid_children": "all",
         "icon": {
           "image":  options.directory_icon || "/static/images/tree/directory.png"
         }
       }
       
-      if (this.file_type) {
-        tree_types.types[this.file_type] = {
+      if (self.file_type) {
+        tree_types.types[self.file_type] = {
           "icon": {
             "image": options.file_icon || "/static/images/tree/file.png"
           }
         }
       }
       
-      var self = this;
+      
       $(this.el).jstree({
         "ui" : {
 	  "select_limit" : 1
@@ -171,7 +174,7 @@ $(function() {
             "data" : function (n) {
               return {
                 id : n.attr ? n.attr("id").split("_")[0] : 0, //get only the id from {id}_{type_name}
-                type: n.attr ? n.attr("rel") : this.directory_type
+                type: n.attr ? n.attr("rel") : self.directory_type,
               };
             }
           }
@@ -181,12 +184,18 @@ $(function() {
           "url": MEDIA_URL + "js/themes/default/style.css",
 	},
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
-      }).bind("select_node.jstree", function (node, data) {
-        self.id = data.rslt.obj.attr("id").split("_")[0],
-        self.type = data.rslt.obj.attr("id").split("_")[1];
-        document.location.hash = '#'+ self.type +'/'+ self.id +"/details/";
       });
       $.shortcuts.selectTreeNode(this.id, this.type);
+    },
+
+    events: {
+      "click #application-tree a":          "open",
+    },
+
+    open: function(e) {
+      id = $(e.target).parents('li').attr("id").split("_")[0];
+      type = $(e.target).parents('li').attr("id").split("_")[1];
+      document.location.hash = '#'+ type +'/'+ id +"/details/";
     },
 
     update: function(type, id, view) {
