@@ -45,6 +45,7 @@ def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False
 
     #TODO: switch to reall check. This normalization is pretty odd
     env.path = path.rstrip("/")
+    env.apache_config = env.path.split("/")[-1]
 
     sudo('apt-get install -y python-setuptools')
     sudo('easy_install pip')
@@ -64,7 +65,7 @@ def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False
     if fixtures:
         _load_dumpdata()
 
-    print("Check your site setup at http://%s:8081" % colors.green(env.host))
+    print("Check your site setup at http://%s.%s:8081" % (colors.green(env.apache_config), colors.green(env.host)))
 
 
 def update_production(path="/var/www/qualitio", local_settings=""):
@@ -113,9 +114,10 @@ def _configure_webserver():
     sudo("sed -i 's/${PATH}/%(esc_path)s/g' %(path)s/deploy/apache.virtualhost" % env)
 
     # TODO: put here diff check between config versions
-    sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
 
-    sudo("a2ensite qualitio")
+    sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/%(apache_config)s" % env)
+
+    sudo("a2ensite %(apache_config)s" % env)
 
 
 def _local_settings(local_settings):
