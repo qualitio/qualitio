@@ -189,12 +189,17 @@ $(function() {
     },
 
     events: {
-      "click #application-tree a":          "open",
+      "click #application-tree a":          "open_event",
     },
 
-    open: function(e) {
-      id = $(e.target).parents('li').attr("id").split("_")[0];
-      type = $(e.target).parents('li').attr("id").split("_")[1];
+    open_event: function(e) {
+      this.open($(e.target).parents('li:first'));
+      
+    },
+    
+    open: function(target) {
+      id = target.attr("id").split("_")[0];
+      type = target.attr("id").split("_")[1];
       document.location.hash = '#'+ type +'/'+ id +"/details/";
     },
 

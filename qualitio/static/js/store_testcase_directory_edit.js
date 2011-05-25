@@ -15,6 +15,7 @@ function show_response(response, statusText, xhr, $form)  {
       $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_testcasedirectory", function() {
         $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_testcasedirectory");
         $("#application-tree").jstree("deselect_node", "#"+data.args[1].parent_id+"_testcasedirectory");
+        document.location.hash = '#testcasedirectory/'+ data.args[1].current_id +"/edit/";
       });
     });
   }
