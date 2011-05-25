@@ -18,10 +18,10 @@ class Backend(httplib2.Http):
 
     @classmethod
     def _setup_connection(cls):
-        if hasattr(settings, "ISSUE_BACKEND_URL"):
+        if hasattr(settings, "ISSUE_BACKEND_BUGZILLA_URL"):
             cls.url = settings.ISSUE_BACKEND_BUGZILLA_URL.rstrip("/")
         else:
-            raise ImproperlyConfigured("Bugzill issue backed requires ISSUE_BACKEND_BUGZILLA_URL value in settings")
+            raise ImproperlyConfigured("Bugzilla issue backed requires ISSUE_BACKEND_BUGZILLA_URL value in settings")
 
         login = getattr(settings, "ISSUE_BACKEND_BUGZILLA_USER", "")
         password = getattr(settings, "ISSUE_BACKEND_BUGZILLA_PASSWORD", "")
