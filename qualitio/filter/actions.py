@@ -117,7 +117,7 @@ def find_actions(app_label, module_name='actions'):
 
 class ActionChoiceForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        empty_value = '---------'
+        empty_value = ' -- Choose action -- '
         choices = [('', empty_value)]
         self.actions = kwargs.pop('actions', [])
 
