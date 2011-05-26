@@ -40,11 +40,11 @@ def setup_development(virtualenv_name="qualitio"):
             local('virtualenv %s/%s' % (workon, virtualenv_name))
 
             print("  5. Downloading required development packages, this may take a while")
-            local('pip -E %s/%s install -r requirements.txt' % (workon, virtualenv_name))
+            local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
 
-            print(" 6. Synchronizing database")
-            local("%s/%s/bin/python qualitio/manage.py syncdb" % (workon, virtualenv_name))
-            local("%s/%s/bin/python qualitio/manage.py migrate" % (workon, virtualenv_name))
+            print("  6. Synchronizing database")
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py syncdb" % (pdir, pdir))
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py migrate" % (pdir, pdir))
 
             print("\nDevelopment evnirotment for qualitio project created!" +\
                       "\nType " + colors.green("workon %s" % virtualenv_name) + " to start working!")
@@ -55,9 +55,9 @@ def setup_development(virtualenv_name="qualitio"):
             local('virtualenv %s/.virtualenv' % pdir)
 
             print("  5. Downloading required development packages")
-            local('pip -E .virtualenv install -r requirements.txt')
+            local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
 
-            print(" 6. Synchronizing database")
+            print("  6. Synchronizing database")
             local(".virtualenv %s/qualitio/manage.py syncdb" % pdir)
             local(".virtualenv %s/qualitio/manage.py migrate" % pdir)
 
