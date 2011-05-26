@@ -21,15 +21,10 @@ from development repos so you may need also: hg(mercurial), sudo apt-get install
    * cd qualtio
    * python fabfile.py setup_development
 
-
-1. Go to project directory and sync your base
+1. Qualitio development environment is ready to use, lunch development
+server
    * cd qualtio
-   * python manage.py syncdb
-   * python manage.py migrate
-   
-1. Qualitio development environment is ready to use, lunch development server
    * python manage.py runserver
-   
 
 2. Setup Remote Production Environment (Debian/Ubuntu): 
 -------------------------------------------------
