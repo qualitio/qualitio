@@ -41,7 +41,7 @@ def setup_development(virtualenv_name="qualitio"):
             print("  5. Downloading required development packages, this may take a while")
             local('pip -E %s/%s install -r requirements.txt' % (workon, virtualenv_name))
             print("\nDevelopment evnirotment for qualitio project created!" +
-                  "\nType " + colors.green("workon %s" % virtualenv_name) + " to start workoing!")
+                  "\nType " + colors.green("workon %s" % virtualenv_name) + " to start working!")
 
         except KeyError:
             print("  4. Creating virtualenv environment")
