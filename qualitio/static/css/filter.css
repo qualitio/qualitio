@@ -9,6 +9,10 @@
     background: white;
 }
 
+table.display thead th[name="checkbox"] {
+    padding: 0px;
+}
+
 .filter-forms {
     width: 100%;
 }

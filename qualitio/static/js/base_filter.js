@@ -46,45 +46,6 @@ var tableHeaderClassCycle = function(){
     }
 }();
 
-var itemsSelection = (function(){
-    var itemsSelector = '.table-item';
-    return {
-	selectAll: function(){
-	    $(itemsSelector).attr('checked', true);
-	},
-	invertSelection: function(){
-	    $(itemsSelector).each(function(){
-		$(this).attr('checked', ! $(this).attr('checked'));
-	    });
-	},
-	selectNone: function(){
-	    $(itemsSelector).attr('checked', false);
-	}
-    }
-})();
-
-var itemsSelectorUI = (function(){
-    function elementPosition(obj) {
-	var curleft = curtop = 0;
-	if (obj.offsetParent) {
-	    do {
-		curleft += obj.offsetLeft;
-		curtop += obj.offsetTop;
-	    } while (obj = obj.offsetParent);
-	}
-	return { left: curleft, top: curtop };
-    }
-
-    return {
-	bind: function(target){
-	    $(target).click(function(event, ui){
-		var ep = elementPosition(event.target);
-		// TODO: end this task
-	    });
-	}
-    }
-})();
-
 // 'id' is a-href link rendered on server side
 var parseIntFromLink = function(html){
     return parseInt($('a', html).text(), 10);
@@ -128,7 +89,7 @@ $(document).ready(function() {
 	)],
 	"bAutoWidth": false,
 	"aoColumnDefs": [
-	    { "sWidth": "4px", "asSorting":[], "aTargets": [0] },
+	    { "sWidth": "10px", "asSorting":[], "aTargets": [0] },
 	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [ 1 ] },
             { "sWidth": '300px', "aTargets": [2, 3]}
 	]
@@ -209,7 +170,7 @@ $(document).ready(function() {
 	return false;
     });
 
-
-    // add 'select-all-none-invert' button
-    itemsSelectorUI.bind('th[name="checkbox"]');
+    $('table.display th[name="checkbox"]').itemsSelector({
+	selector: '.table-item'
+    });
 });
