@@ -38,19 +38,30 @@ def setup_development(virtualenv_name="qualitio"):
 
             print("  4. Creating virtualenv environment")
             local('virtualenv %s/%s' % (workon, virtualenv_name))
+
             print("  5. Downloading required development packages, this may take a while")
             local('pip -E %s/%s install -r requirements.txt' % (workon, virtualenv_name))
-            print("\nDevelopment evnirotment for qualitio project created!" +
-                  "\nType " + colors.green("workon %s" % virtualenv_name) + " to start working!")
+
+            print(" 6. Synchronizing database")
+            local("%s/%s/bin/python qualitio/manage.py syncdb" % (workon, virtualenv_name))
+            local("%s/%s/bin/python qualitio/manage.py migrate" % (workon, virtualenv_name))
+
+            print("\nDevelopment evnirotment for qualitio project created!" +\
+                      "\nType " + colors.green("workon %s" % virtualenv_name) + " to start working!")
 
         except KeyError:
+            pdir = os.path.dirname(__file__)
             print("  4. Creating virtualenv environment")
-            local('virtualenv .virtualenv')
+            local('virtualenv %s/.virtualenv' % pdir)
+
             print("  5. Downloading required development packages")
             local('pip -E .virtualenv install -r requirements.txt')
 
-            print("\nDevelopment evnirotment for qualitio project created in " +
-                  colors.green("%s/.virtualenv" % os.getcwd()) + " directory")
+            print(" 6. Synchronizing database")
+            local(".virtualenv %s/qualitio/manage.py syncdb" % pdir)
+            local(".virtualenv %s/qualitio/manage.py migrate" % pdir)
+
+            print('\nDevelopment evnirotment for qualitio project created in "%s" direcotry' % (colors.green("%s/.virtualenv" % os.getcwd() + " directory")))
 
 
 
