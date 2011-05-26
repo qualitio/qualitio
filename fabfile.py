@@ -58,8 +58,8 @@ def setup_development(virtualenv_name="qualitio"):
             local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
 
             print("  6. Synchronizing database")
-            local(".virtualenv %s/qualitio/manage.py syncdb" % pdir)
-            local(".virtualenv %s/qualitio/manage.py migrate" % pdir)
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py syncdb" % (pdir, pdir))
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py migrate" % (pdir, pdir))
 
             print('\nDevelopment evnirotment for qualitio project created in "%s" direcotry' % (colors.green("%s/.virtualenv" % os.getcwd() + " directory")))
 
