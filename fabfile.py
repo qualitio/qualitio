@@ -1,14 +1,25 @@
+#!/usr/bin/env python
 from __future__ import with_statement
 
 import os
-from fabric.api import *
+import sys
+import subprocess
 
-from fabric.contrib.project import rsync_project
-from fabric.contrib import files
-from fabric import colors
+try:
+    from fabric.api import *
+    from fabric.contrib.project import rsync_project
+    from fabric.contrib import files
+    from fabric import colors
+except ImportError:
+    print ("""The 'fabric' package is currently not installed.  You can install it by typing:\n
+  - sudo apt-get install fabric or,
+  - sudo easy-install fabric or,
+  - sudo pip install fabric.
+""")
+    sys.exit()
 
 
-def setup_development():
+def setup_development(virtualenv_name="qualitio"):
     "Creates local development envirotment"
 
     with hide('running', 'stdout'):
@@ -24,11 +35,11 @@ def setup_development():
             workon = os.environ["WORKON_HOME"]
             del(os.environ['VIRTUAL_ENV'])
             print("  4. Creating virtualenv environment")
-            local('virtualenv %s/qualitio-dev' % workon)
+            local('virtualenv %s/%s' % (workon, virtualenv_name))
             print("  5. Downloading required development packages, this may take a while")
-            local('pip -E %s/qualitio-dev install -r requirements.txt' % workon)
+            local('pip -E %s/%s install -r requirements.txt' % (workon, virtualenv_name))
             print("\nDevelopment evnirotment for qualitio project created!" +
-                  "\nType " + green("workon qualitio-dev") + " to start workoing!")
+                  "\nType " + green("workon %s" % virtualenv_name) + " to start workoing!")
 
         except KeyError:
             print("  4. Creating virtualenv environment")
@@ -38,6 +49,7 @@ def setup_development():
 
             print("\nDevelopment evnirotment for qualitio project created in " +
                   colors.green("%s/.virtualenv" % os.getcwd()) + " directory")
+
 
 
 def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False):
@@ -155,3 +167,6 @@ def _restart_webserver():
 
     sudo("/etc/init.d/apache2 restart")
 
+
+if __name__ == '__main__':
+    subprocess.call(['fab', '-f', __file__] + sys.argv[1:])
