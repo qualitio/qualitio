@@ -72,7 +72,6 @@ $(function() {
   });
   $("#add-testcases-button").appendTo($(".available-testcases .bottom"));
 
-  $('input[name=select-all]').dataTableToggleSelect();
   $(".available-testcases").refresh();
   
 
