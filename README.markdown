@@ -1,30 +1,29 @@
 Qualitio Project
 ================
 
-
 1. Setup Development Environment (Debian/Ubuntu): 
 -------------------------------------------------
 
-In a case of using Debian sudo package is required. In some cases also
-mercurial(hg) could be required.
-
-1. Install python-setuptools and python-dev packages
-   * sudo apt-get install python-setuptools python-dev
-
-1. Download and install fabric:
-   * sudo easy_install -U fabric
+In a case of using Debian sudo package is required. Some required
+python packages are installed outside pypi repository but straight
+from development repos so you may need also: hg(mercurial), sudo apt-get install mercurial,git, sudo apt-get install git-core
+   
 
 1. Git clone this repository:
    * git clone git://github.com/qualitio/qualitio.git 
 
-1. Go to repository directory and run development setup script
-   * cd qualtio
-   * fab setup_development
+1. Download and install fabric:
+   * sudo apt-get install fabric or(not recommended),
+   * sudo easy_install -U fabric or,
+   * sudo pip install fabric.
 
-1. Go to project directory and sync your base
-   * cd qualtio
-   * python manage.py syncdb
+1. Run development setup script
+   * python fabfile.py setup_development
 
+1. Qualitio development environment is ready to use, lunch development
+server
+   * cd qualitio
+   * python manage.py runserver
 
 2. Setup Remote Production Environment (Debian/Ubuntu): 
 -------------------------------------------------

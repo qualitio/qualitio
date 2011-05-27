@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from qualitio import core
 from qualitio import store
@@ -72,8 +73,7 @@ class TestCaseRun(store.TestCaseBase):
     @property
     def bugs_history(self):
         return Bug.objects.filter(testcaserun__origin=self.origin)\
-            .exclude(alias__in=self.bugs.values_list('alias',flat=True))
-
+            .filter(testcaserun__parent__id__lt=self.parent.id)
 
     def save(self, *args, **kwargs):
         super(TestCaseRun, self).save(*args, **kwargs)
@@ -103,7 +103,8 @@ class TestCaseRunStatus(core.BaseModel):
 
     def save(self, *args, **kwargs):
         if (self.total != self._orginals.get("total") or (self.passed != self._orginals.get("passed"))):
-            pass # recalculate passrate
+            for testrun in TestRun.objects.all():
+                testrun.update_passrate()
 
         super(TestCaseRunStatus, self).save(*args, **kwargs)
 
@@ -121,5 +122,12 @@ class Bug(core.BaseModel):
 
     def __unicode__(self):
         return "#%s" % self.alias
+
+    def get_absolute_url(self):
+        url = getattr(settings, "ISSUE_BACKEND_ABSOLUTE_URL", None)
+        if url:
+            return url % self.alias
+        return "#"
+
 
 

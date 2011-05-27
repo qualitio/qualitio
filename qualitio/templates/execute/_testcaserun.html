@@ -15,7 +15,7 @@
   <div class="text-bullet">
     <span class="name">description</span>
     <span class="value-block">
-      {{ testcaserun.description }}
+      {{ testcaserun.description|linebreaksbr }}
     </span>
   </div>
 
@@ -34,16 +34,16 @@
   <div class="application-view-content">
     <div class="step clearfix">
       <h2>precondition</h2>
-      {{ testcaserun.precondition }}
+      {{ testcaserun.precondition|linebreaksbr }}
     </div>
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
       <h2>step {{ forloop.counter }}</h2>
       <div class="grid_8 alpha">
-        <div class="description">{{ step.description }}</div>
+        <div class="description">{{ step.description|linebreaksbr }}</div>
       </div>
       <div class="grid_8 omega">
-        <div class="excpected">{{ step.expected }}</div>
+        <div class="excpected">{{ step.expected|linebreaksbr }}</div>
       </div>
     </div>
     {% endfor %}
@@ -71,14 +71,14 @@
   <div class="grid_8 clearfix">
     <div class="application-view-content">
       <h2>History Bugs</h2>
-      <table class="display">
+      <table class="display testcaserun-history-bugs-list">
         <thead>
           <tr>
-            <th class="checkbox">
-              <input name="select-all" type="checkbox"/>
-            </th>
+            <th class="checkbox"></th>
             <th>id</th>
             <th>name</th>
+            <th>test run</th>
+            <th>test case</th>
             <th>status</th>
             <th>resolution</th>
           </tr>
@@ -86,9 +86,11 @@
         <tbody>
           {% for bug in testcaserun.bugs_history.all %}
           <tr>
-            <td class="select">{{ bug.DELETE }}{{ bug.id }}</td>
-            <td><a href="{{ bug.instance.url }}">{{ bug.alias }}</a></td>
-              <td><a href="{{ bug.instance.url }}">{{ bug.name }}</a></td>
+            <td class="select"><span style="display:none">{{ bug.DELETE }}{{ bug.id }}</span></td>
+            <td><a href="{{ bug.get_absolute_url }}">{{ bug.alias }}</a></td>
+            <td><a href="{{ bug.get_absolute_url }}">{{ bug.name }}</a></td>
+            <td><a href="#testrun/{{ bug.testcaserun.parent.pk }}/execute/">{{ bug.testcaserun.parent.pk }}</a></td>
+            <td><a href="#testrun/{{ bug.testcaserun.origin.pk }}/execute/">{{ bug.testcaserun.origin.pk }}</a></td>
             <td>{{ bug.status }}</td>
             <td>{{ bug.resolution }}</td>
           </tr>

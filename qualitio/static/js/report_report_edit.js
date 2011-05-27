@@ -33,6 +33,16 @@ $(function() {
         $.notification.notice(response.message);
         $.shortcuts.reloadTree(response.data, "reportdirectory");
         setupLink(response.data.link);
+        
+        $('#application-tree').bind("refresh.jstree", function (event, data) {
+          $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_reportdirectory", function() {
+            $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_reportdirectory");
+            $("#application-tree").jstree("deselect_node", "#"+data.args[1].parent_id+"_report");
+            document.location.hash = '#report/'+ data.args[1].current_id +"/edit/";
+          });
+        });
+
+        
       }
       setupEditor();
     },

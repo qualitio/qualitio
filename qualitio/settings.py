@@ -60,6 +60,7 @@ SECRET_KEY = '+xo!&_63g8h5(q0k$@+^lm@#a%l#3@1x(dw$c#e8p9jfx^*z*i'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+    'dbtemplates.loader.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,6 +112,8 @@ INSTALLED_APPS = (
     'registration',
     'south',
     'pagination',
+    'compressor',
+    'dbtemplates',
 
     'qualitio.core',
     'qualitio.require',
@@ -153,14 +156,23 @@ DEBUG_TOOLBAR_CONFIG = {
 MPTT_ADMIN_LEVEL_INDENT = 30
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-ISSUE_BACKEND = "qualitio.execute.backends.bugs.Bugzilla"
+ISSUE_BACKEND = "qualitio.execute.backends.bugzilla"
+ISSUE_BACKEND_ABSOLUTE_URL = "https://bugzilla.mozilla.org/show_bug.cgi?id=%s"
 ISSUE_BACKEND_BUGZILLA_URL = "https://bugzilla.mozilla.org/"
 
 
+
 SOUTH_TESTS_MIGRATE = False
+
+
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
+                        'compressor.filters.cssmin.CSSMinFilter']
+
+COMPRESS = False
+
+DBTEMPLATES_CACHE_BACKEND = 'dummy://127.0.0.1/'
 
 try:
     from local_settings import *
 except ImportError:
     pass
-

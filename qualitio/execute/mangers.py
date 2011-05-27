@@ -8,5 +8,9 @@ class TestCaseRunManager(core.BaseManager):
     def passrate(self):
         passed = self.filter(status__passed=True).count()
         total = self.filter(status__total=True).count()
+
+        if not total:
+            return 0
+        
         return round(float(passed)/float(total) * 100,2)
 

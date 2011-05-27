@@ -8,3 +8,4 @@ deploy/certs
 .virtualenv
 *~
 local_settings.py
+CACHE/

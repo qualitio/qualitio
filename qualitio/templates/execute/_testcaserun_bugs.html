@@ -18,12 +18,10 @@
           action="/execute/ajax/testcaserun/{{ bugs_formset.instance.id }}/removebug/">
       {% csrf_token %}
       {{ bugs_formset.management_form }}
-      <table class="display">
+      <table class="display testcaserun-bugs-list">
         <thead>
           <tr>
-            <th class="checkbox">
-              <input name="select-all" type="checkbox"/>
-            </th>
+            <th class="checkbox"></th>
             <th>id</th>
             <th>name</th>
             <th>status</th>
@@ -36,8 +34,8 @@
             <td class="select">
               {{ bug.DELETE }}{% for hidden in bug.hidden_fields %}{{ hidden }}{% endfor %}
             </td>
-            <td><a href="{{ bug.instance.url }}">{{ bug.instance.alias }}</a></td>
-            <td><a href="{{ bug.instance.url }}">{{ bug.instance.name }}</a></td>
+            <td><a href="{{ bug.instance.get_absolute_url }}">{{ bug.instance.alias }}</a></td>
+            <td><a href="{{ bug.instance.get_absolute_url }}">{{ bug.instance.name }}</a></td>
             <td>{{ bug.instance.status }}</td>
             <td>{{ bug.instance.resolution }}</td>
           </tr>

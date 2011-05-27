@@ -91,7 +91,7 @@ class Report(core.BasePathModel):
 
     def clean(self):
         try:
-            str(Template(self.template).render(Context(self.context_dict)))
+            unicode(Template(self.template).render(Context(self.context_dict)))
         except TemplateSyntaxError as e:
             raise ValidationError({"template": "Line %s: %s"
                                    % (self._get_template_exception_info(e), e)})
