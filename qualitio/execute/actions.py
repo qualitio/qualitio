@@ -1,16 +1,5 @@
-from qualitio.execute import models
 from qualitio.filter import actions
+from qualitio.execute.models import TestRun
 
-
-# class TestCaseRunStatusChooseForm(actions.ActionForm):
-#     status = forms.ModelChoiceField(queryset=models.TestCaseRunStatus.objects.all())
-
-
-# class ChangeStatusAction(actions.Action):
-#     name = 'setrequirement'
-#     label = 'Set requirement action'
-#     model = models.TestRun
-#     form_class = TestCaseRunStatusChooseForm
-
-#     def run_action(self, data, queryset, form=None):
-#         queryset.update(requirement=form.cleaned_data.get('requirement'))
+class ChangeParent(actions.ChangeParent):
+    model = TestRun

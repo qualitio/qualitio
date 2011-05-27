@@ -156,6 +156,6 @@ class ChangeParent(Action):
                 try:
                     obj.save()
                 except Exception, error:
-                    return failed(message='"%s" fail: %s' % (obj.name, error.message))
+                    return self.failed(message='"%s" fail: %s' % (obj.name, error.message))
 
-        return success(message='Action complete!')
+        return self.success(message='Action complete!')

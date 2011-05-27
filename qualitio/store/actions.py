@@ -1,9 +1,15 @@
+import datetime
+
 from django import forms
 
 from qualitio.store.models import TestCase
 from qualitio.require.models import Requirement
 from qualitio.core.utils import success, failed
 from qualitio.filter import actions
+
+
+class ChangeParent(actions.ChangeParent):
+    model = TestCase
 
 
 class RequirementChooseForm(actions.ActionForm):
@@ -16,12 +22,16 @@ class SetRequirement(actions.Action):
     form_class = RequirementChooseForm
 
     def run_action(self, data, queryset, form=None):
-        queryset.update(requirement=form.cleaned_data.get('requirement'))
+        from django.db import transaction
 
+        with transaction.commit_on_success():
+            for obj in queryset.all():
+                obj.requirement = form.cleaned_data.get('requirement')
+                obj.modified_time = datetime.datetime.now()
 
-class Delete(actions.Action):
-    label = 'Delete'
-    model = TestCase
+                try:
+                    obj.save()
+                except Exception, error:
+                    return failed(message='"%s" fail: %s' % (obj.name, error.message))
 
-    def run_action(self, data, queryset, form=None):
-        queryset.delete()
+        return self.success(message='Action complete!')
