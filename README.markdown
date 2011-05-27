@@ -13,23 +13,17 @@ from development repos so you may need also: hg(mercurial), sudo apt-get install
    * git clone git://github.com/qualitio/qualitio.git 
 
 1. Download and install fabric:
-   * sudo apt-get install fabric or,
+   * sudo apt-get install fabric or(not recommended),
    * sudo easy_install -U fabric or,
    * sudo pip install fabric.
 
-1. Go to repository directory and run development setup script
-   * cd qualtio
+1. Run development setup script
    * python fabfile.py setup_development
 
-
-1. Go to project directory and sync your base
-   * cd qualtio
-   * python manage.py syncdb
-   * python manage.py migrate
-   
-1. Qualitio development environment is ready to use, lunch development server
+1. Qualitio development environment is ready to use, lunch development
+server
+   * cd qualitio
    * python manage.py runserver
-   
 
 2. Setup Remote Production Environment (Debian/Ubuntu): 
 -------------------------------------------------
