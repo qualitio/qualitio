@@ -29,15 +29,6 @@ $(window).resize(function() {
   };
 })( jQuery );
 
-  
-jQuery.fn.dataTableToggleSelect = function() {
-  return jQuery(this).live('click', function() {
-    $(this).parents('.dataTables_wrapper')
-      .find('input.modify:not(:disabled)')
-      .attr('checked', $(this).attr('checked'));
-  });
-};
-
 jQuery.shortcuts = {
   showErrors: function(errors) {
     $(errors).each(function(i, element, value) {

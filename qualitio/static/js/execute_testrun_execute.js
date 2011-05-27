@@ -8,7 +8,6 @@ $(function() {
         "sWidth": "4px", "aTargets": [0,1]}
     ]
   });
-  $('input[name=select-all]').dataTableToggleSelect();
 
   $("#testcaserun-list tbody tr").hover(
     function() {
@@ -25,4 +24,10 @@ $(function() {
     testcaserun_id = $(this).attr("id").split("_")[1];
     $("#testcaserun-details").load("/execute/ajax/testcaserun/"+testcaserun_id+"/");
   });
+
+  // items selection
+  $("table.display th.checkbox:first").itemsSelector({
+      selector: "table.display td .modify"
+  });
+  $(".dataTables_scrollHead").css('overflow', 'visible');
 });

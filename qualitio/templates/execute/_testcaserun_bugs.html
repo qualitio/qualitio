@@ -18,12 +18,10 @@
           action="/execute/ajax/testcaserun/{{ bugs_formset.instance.id }}/removebug/">
       {% csrf_token %}
       {{ bugs_formset.management_form }}
-      <table class="display">
+      <table class="display testcaserun-bugs-list">
         <thead>
           <tr>
-            <th class="checkbox">
-              <input name="select-all" type="checkbox"/>
-            </th>
+            <th class="checkbox"></th>
             <th>id</th>
             <th>name</th>
             <th>status</th>

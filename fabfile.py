@@ -1,17 +1,28 @@
+#!/usr/bin/env python
 from __future__ import with_statement
 
 import os
-from fabric.api import *
+import sys
+import subprocess
 
-from fabric.contrib.project import rsync_project
-from fabric.contrib import files
-from fabric import colors
+try:
+    from fabric.api import *
+    from fabric.contrib.project import rsync_project
+    from fabric.contrib import files
+    from fabric import colors
+except ImportError:
+    print ("""The 'fabric' package is currently not installed.  You can install it by typing:\n
+  - sudo apt-get install fabric or,
+  - sudo easy-install fabric or,
+  - sudo pip install fabric.
+""")
+    sys.exit()
 
 
-def setup_development():
+def setup_development(virtualenv_name="qualitio"):
     "Creates local development envirotment"
 
-    with hide('running', 'stdout'):
+    with hide('running', 'stdout', "warnings"):
         print("Creating development evnirotment: ... ")
         print("  1. Installing python libraries: python-setuptools, python-dev")
         local('sudo apt-get install -y python-setuptools python-dev', capture=False)
@@ -22,22 +33,36 @@ def setup_development():
 
         try:
             workon = os.environ["WORKON_HOME"]
-            del(os.environ['VIRTUAL_ENV'])
+            if os.environ.has_key('VIRTUAL_ENV'):
+                del(os.environ['VIRTUAL_ENV'])
+
             print("  4. Creating virtualenv environment")
-            local('virtualenv %s/qualitio-dev' % workon)
+            local('virtualenv %s/%s' % (workon, virtualenv_name))
+
             print("  5. Downloading required development packages, this may take a while")
-            local('pip -E %s/qualitio-dev install -r requirements.txt' % workon)
-            print("\nDevelopment evnirotment for qualitio project created!" +
-                  "\nType " + green("workon qualitio-dev") + " to start workoing!")
+            local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
+
+            print("  6. Synchronizing database")
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py syncdb" % (pdir, pdir))
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py migrate" % (pdir, pdir))
+
+            print("\nDevelopment evnirotment for qualitio project created!" +\
+                      "\nType " + colors.green("workon %s" % virtualenv_name) + " to start working!")
 
         except KeyError:
+            pdir = os.path.dirname(__file__)
             print("  4. Creating virtualenv environment")
-            local('virtualenv .virtualenv')
-            print("  5. Downloading required development packages")
-            local('pip -E .virtualenv install -r requirements.txt')
+            local('virtualenv %s/.virtualenv' % pdir)
 
-            print("\nDevelopment evnirotment for qualitio project created in " +
-                  colors.green("%s/.virtualenv" % os.getcwd()) + " directory")
+            print("  5. Downloading required development packages")
+            local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
+
+            print("  6. Synchronizing database")
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py syncdb" % (pdir, pdir))
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py migrate" % (pdir, pdir))
+
+            print('\nDevelopment evnirotment for qualitio project created in "%s" direcotry' % (colors.green("%s/.virtualenv" % os.getcwd() + " directory")))
+
 
 
 def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False):
@@ -155,3 +180,6 @@ def _restart_webserver():
 
     sudo("/etc/init.d/apache2 restart")
 
+
+if __name__ == '__main__':
+    subprocess.call(['fab', '-f', __file__] + sys.argv[1:])
