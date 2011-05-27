@@ -1,7 +1,10 @@
 from django.db import models
+from django.conf import settings
 
 from qualitio import core
 from qualitio import store
+
+import mangers
 
 
 class TestRunDirectory(core.BaseDirectoryModel):
@@ -10,6 +13,7 @@ class TestRunDirectory(core.BaseDirectoryModel):
 
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
+    passrate = models.FloatField(default=0)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
@@ -44,9 +48,17 @@ class TestRun(core.BasePathModel):
 
         return test_case_run
 
+
+    def update_passrate(self):
+        self.passrate = self.testcases.passrate()
+        self.save(force_update=True)
+
+
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
     status = models.ForeignKey("TestCaseRunStatus", default=1)
+
+    objects = mangers.TestCaseRunManager()
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
@@ -54,10 +66,19 @@ class TestCaseRun(store.TestCaseBase):
         parent_class_relation = "testcases"
         unique_together = ("parent", "origin")
 
+    def __init__(self, *args, **kwargs):
+        super(TestCaseRun, self).__init__(*args, **kwargs)
+        self._orginals = {"status": self.status}
+
     @property
     def bugs_history(self):
         return Bug.objects.filter(testcaserun__origin=self.origin)\
-            .exclude(alias__in=self.bugs.values_list('alias',flat=True))
+            .filter(testcaserun__parent__id__lt=self.parent.id)
+
+    def save(self, *args, **kwargs):
+        super(TestCaseRun, self).save(*args, **kwargs)
+        if self._orginals.get("status") != self.status:
+            self.parent.update_passrate()
 
 
 class TestCaseStepRun(store.TestCaseStepBase):
@@ -67,9 +88,25 @@ class TestCaseStepRun(store.TestCaseStepBase):
 class TestCaseRunStatus(core.BaseModel):
     name = models.CharField(max_length=512)
     color = models.CharField(max_length=7, blank=True)
+    total = models.BooleanField(
+        help_text="Count test cases with this status to total in test run passrate?")
+    passed = models.BooleanField(
+        help_text="Count test cases with this status to passed test cases in test run passrate?")
+
+    def __init__(self, *args, **kwargs):
+        super(TestCaseRunStatus, self).__init__(*args, **kwargs)
+        self._orginals = {"total": self.total,
+                          "passed": self.passed}
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if (self.total != self._orginals.get("total") or (self.passed != self._orginals.get("passed"))):
+            for testrun in TestRun.objects.all():
+                testrun.update_passrate()
+
+        super(TestCaseRunStatus, self).save(*args, **kwargs)
 
 
 class Bug(core.BaseModel):
@@ -85,5 +122,12 @@ class Bug(core.BaseModel):
 
     def __unicode__(self):
         return "#%s" % self.alias
+
+    def get_absolute_url(self):
+        url = getattr(settings, "ISSUE_BACKEND_ABSOLUTE_URL", None)
+        if url:
+            return url % self.alias
+        return "#"
+
 
 

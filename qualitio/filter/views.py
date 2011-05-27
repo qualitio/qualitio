@@ -1,35 +1,54 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
+from django.core.exceptions import ImproperlyConfigured
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-import django_tables
-
-from qualitio.filter.fields import *
-from qualitio.filter.filter import Filter
+from qualitio import filter as filterapp
+from qualitio.filter import forms
 
 
-def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level')):
-    Model = model
-    fields_to_exclude = exclude
+def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
+           model_filter_class=None, model_table_class=None, fields_order=()):
 
-    class ModelTable(django_tables.ModelTable):
-        class Meta:
-            model = Model
-            exclude = fields_to_exclude
+    if not model and not model_filter_class:
+        raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
 
-    form_classes = generate_field_forms(Model, exclude=fields_to_exclude)
+    model = model or model_filter_class._meta.model
+    model_table_class = model_table_class or filterapp.generate_model_table(
+        model, exclude=exclude, fields_order=fields_order)
+    model_filter_class = model_filter_class or filterapp.generate_model_filter(model=model, exclude=exclude)
 
-    generic_filter = Filter(request.GET, form_classes=form_classes)
+    generic_filter = model_filter_class(request.GET)
     has_control_params, params = generic_filter.build_from_params()
     if has_control_params:
         return HttpResponseRedirect('%s?%s' % (request.path, params.urlencode()))
 
-    query = Q() if not generic_filter.is_valid() else generic_filter.construct_Q()
-    table = ModelTable(Model.objects.filter(query))
+    onpage_form = forms.OnPageForm(request.GET)
+    onpage = onpage_form.value()
 
-    return render_to_response('filter/filter.html',
-                              {'table': table,
-                               'app_label': Model._meta.app_label,
-                               'filter': generic_filter,
-                               },
-                              context_instance=RequestContext(request))
+    # 1) We DO NOT use django-pagination 'request.page' feature since
+    #    it doesn't work as expected
+    # 2) We DO NOT use 'autopaginate' tag since it can raise 404 on wrong page number
+    #    and it causes 500.
+    page = 1
+    try:
+        page = int(request.REQUEST['page'])
+    except (KeyError, ValueError, TypeError):
+        pass
+
+    paginator = Paginator(generic_filter.qs, onpage)
+    page_obj = None
+    try:
+        page_obj = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        raise Http404
+
+    return render_to_response('filter/filter.html', {
+            'app_label': model._meta.app_label,
+            'filter': generic_filter,
+            'table': model_table_class(page_obj.object_list),
+            'paginator': paginator,
+            'page_obj': page_obj,
+            'onpage_form': onpage_form,
+            }, context_instance=RequestContext(request))

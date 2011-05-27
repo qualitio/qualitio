@@ -1,6 +1,7 @@
 #testcaserun-list {
+    margin-top: 5px;
     border-bottom: 3px solid #aaaaaa;
-    height: 283px;
+    height: 300px;
 }
 
 #testcaserun-list table {
@@ -64,4 +65,29 @@
 
 .step .excpected {
     padding-left: 5px 5px 0 30px;
+}
+
+.passrate {
+    /* padding: 3px; */
+    font-weight: bold;
+    font-family: 'Cabin',serif;
+    font-size: 13px;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+    text-align: center;
+    height: 23px;
+    position: relative;
+    
+}
+
+.passrate .element {
+    float:left;
+    /* border-right: 1px solid; */
+    height: 23px;
+}
+
+.passrate .value {
+    position: absolute;
+    left: 49%;
+    top: 4px;
 }

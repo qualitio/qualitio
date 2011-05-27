@@ -8,13 +8,14 @@ function show_response(response, statusText, xhr, $form)  {
     $.notification.error(response.message);
   } else {
     $.notification.notice(response.message);
-
+    
     $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_requirement", response.data);
     
     $('#application-tree').bind("refresh.jstree", function (event, data) {
       $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_requirement", function() {
         $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_requirement");
         $("#application-tree").jstree("deselect_node", "#"+data.args[1].parent_id+"_requirement");
+        document.location.hash = '#requirement/'+ data.args[1].current_id +"/edit/";
       });
     });
 

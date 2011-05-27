@@ -1,5 +1,5 @@
 {% load application_view_menu %}
-
+{% load execute %}
 <div id="application-view-header">
   <h1>test run: {{ testrun.name }}</h1>
 </div>
@@ -8,6 +8,9 @@
 
 <div class="grid_16">
   <div id="testcaserun-list" class="application-view-content">
+    
+    {% passrate testrun %}
+    
     <table class="display">
       <thead>
         <tr>

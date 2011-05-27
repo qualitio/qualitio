@@ -1,4 +1,5 @@
 deploy/settings
+deploy/certs
 *.pyc
 .#*
 *.sqlite
@@ -6,3 +7,5 @@ deploy/settings
 \#*\#
 .virtualenv
 *~
+local_settings.py
+CACHE/

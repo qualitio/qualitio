@@ -4,6 +4,7 @@ body, html {
     padding:0;
     height:100%; 
     overflow: hidden;
+    background: #eee;
 }
 
 body {
@@ -37,16 +38,16 @@ a:hover {
 
 #header .logo {
     color: #777777;
-    font-family: 'Romeral';
-    font-size: 3em;
-    line-height: 88%;
-    margin-bottom: 10px;
+    font-family: 'Bevan',serif;
+    font-size: 2em;
+    line-height: 121%;
     margin-top: -3px;
     padding: 2px 0 0 10px;
     text-rendering: optimizelegibility;
 }
 
 #header {
+    background: #fff;
     border-left: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
     position:relative
@@ -124,7 +125,7 @@ a:hover {
 #application-menu {
     -moz-border-radius: 0px 0px 8px 8px;
     -webkit-border-radius: 0px 0px 8px 8px;
-    font-family: 'tex gyre adventor'; 
+    font-family: 'Cabin', serif;
     line-height:1.4;
     text-align: left;
     border-bottom: 1px solid #aaa;
@@ -202,7 +203,7 @@ a:hover {
     border-right: 1px solid #aaa;
     margin-right: 11px;
 
-    font-family: 'Junction';
+    font-family: 'Cabin', serif;
     border-bottom: 1px solid #aaa;
     background: -webkit-gradient(
         linear,
@@ -290,14 +291,14 @@ a:hover {
 h1 {
     font-size: 1.4em;
     color: #775555;
-    font-family: 'Junction';
+    font-family: 'Cabin', serif;
     line-height: 140%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
 
 h2, label {
-    font-family: 'Junction';
+    font-family: 'Cabin', serif;
     line-height: 140%;
     text-rendering: optimizeLegibility;
     font-size: 1.2em;
@@ -363,7 +364,7 @@ h2, label {
 }
 
 .text-bullet .name {
-    font-family: 'Junction';
+    font-family: 'Cabin', serif;
     color: #775555;
     font-weight: bold;
     font-size: 1.2em;

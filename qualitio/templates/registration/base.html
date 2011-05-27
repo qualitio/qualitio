@@ -1,0 +1,86 @@
+{% load compress %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="en-us" />
+
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
+  <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
+  
+  {% compress css %}
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/registration.css{{ STATIC_HASH }}" media="screen, projection" />
+  {% endcompress %}
+
+  {% compress js %}
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form-2.43.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.infieldlabel.min.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
+  <script>
+    $(function () {
+      $('li.{% block jstitle %}{% endblock %}')
+        .css('font-weight', 'bold')
+        .css('color', 'black');
+    });
+  </script>
+  {% endcompress %}
+
+  <title>qualitio: {% block title %}{% endblock %}</title>
+  <body>  
+    <div id="main" style="width: 800px">
+      <div id="header" class="clearfix">
+        <div class="logo">
+          qualitio
+        </div>
+      </div>
+      
+      <div id="project-content" class="container_16 clearfix">
+        <div class="grid_16">
+          <div id="application-menu" >
+            <ul>
+              <li class="login"><a href="/login/">login</a></li>
+              <li class="register"><a href="/register/">registration</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div id="main">  
+        <div class="block">
+          
+          {% if form.errors %}
+          <div id="notification">
+            <div class="ui-state-error">
+              <div>{% for error in form.non_field_errors %}{{ error }}{% endfor %}</div>
+              {% for field in form %}
+              {% if field.errors %}
+              <div class="field-error">
+                <b>{{ field.label }}:</b>
+                {% for error in field.errors %}
+                {{ error }}
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          {% block form %}
+          {% endblock %}
+        </div>
+
+	{{ disclaimer.content|safe }}
+
+      </div>
+    </div>
+  </body>
+</html>

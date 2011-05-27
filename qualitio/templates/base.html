@@ -1,28 +1,35 @@
+{% load compress %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en-us" />
 
+    <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
+    <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
+    
+    {% compress css %}
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection" />
-    <!-- <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/forms.css" media="screen, projection" /> -->
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/table.css{{ STATIC_HASH }}" media="screen, projection" />
-    <link href="http://www.kernest.com/fonts/romeral.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="http://www.kernest.com/fonts/tex-gyre-adventor-regular.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="http://www.kernest.com/fonts/junction.css" media="screen" rel="stylesheet" type="text/css" />
     {% block css-include %}{% endblock %}
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+    {% endcompress %}
+      
     
+    {% compress js %}
+    <script>
+      DATE_FORMAT = {{ DATE_FORMAT }};
+      MEDIA_URL = {{ MEDIA_URL }};
+    </script>
+
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min-1.1.4.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/backbone-min-0.3.3.js"></script>
-    
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jstree.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.hotkeys.js"></script>
@@ -32,18 +39,17 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
-    <script>
-      DATE_FORMAT = {{ DATE_FORMAT }};
-    </script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js{{ STATIC_HASH }}"></script>
+    
     {% block js-base-include %}{% endblock %}
     {% block js-include %}{% endblock %}
+    {% endcompress %}
+    
     <title>qualitio: {% block module-title %}{% endblock %}</title>
   </head>
 
   <body>
     <div id="main">
-      <img id="loading" src="{{ MEDIA_URL }}images/ajax-loader.gif" />
       <div id="notification"></div>
       
       <div id="header" class="container_16 clearfix">
@@ -82,7 +88,6 @@
       <div id="footer" class="container_16 clearfix">
         <div class="grid_16">
           <div class="content">
-            test
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ function show_response(response, statusText, xhr, $form)  {
     $('#application-tree').bind("refresh.jstree", function (event, data) {
       $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_testrundirectory", function() {
         $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_testrun", true)
+        document.location.hash = '#testrun/'+ data.args[1].current_id +"/edit/";
       });
     });
   }

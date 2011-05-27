@@ -1,16 +1,28 @@
+#!/usr/bin/env python
 from __future__ import with_statement
 
 import os
-from fabric.api import *
+import sys
+import subprocess
 
-from fabric.contrib.project import rsync_project
-from fabric import colors
+try:
+    from fabric.api import *
+    from fabric.contrib.project import rsync_project
+    from fabric.contrib import files
+    from fabric import colors
+except ImportError:
+    print ("""The 'fabric' package is currently not installed.  You can install it by typing:\n
+  - sudo apt-get install fabric or,
+  - sudo easy-install fabric or,
+  - sudo pip install fabric.
+""")
+    sys.exit()
 
 
-def setup_development():
+def setup_development(virtualenv_name="qualitio"):
     "Creates local development envirotment"
 
-    with hide('running', 'stdout'):
+    with hide('running', 'stdout', "warnings"):
         print("Creating development evnirotment: ... ")
         print("  1. Installing python libraries: python-setuptools, python-dev")
         local('sudo apt-get install -y python-setuptools python-dev', capture=False)
@@ -21,22 +33,36 @@ def setup_development():
 
         try:
             workon = os.environ["WORKON_HOME"]
-            del(os.environ['VIRTUAL_ENV'])
+            if os.environ.has_key('VIRTUAL_ENV'):
+                del(os.environ['VIRTUAL_ENV'])
+
             print("  4. Creating virtualenv environment")
-            local('virtualenv %s/qualitio-dev' % workon)
+            local('virtualenv %s/%s' % (workon, virtualenv_name))
+
             print("  5. Downloading required development packages, this may take a while")
-            local('pip -E %s/qualitio-dev install -r requirements.txt' % workon)
-            print("\nDevelopment evnirotment for qualitio project created!" +
-                  "\nType " + green("workon qualitio-dev") + " to start workoing!")
+            local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
+
+            print("  6. Synchronizing database")
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py syncdb" % (pdir, pdir))
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py migrate" % (pdir, pdir))
+
+            print("\nDevelopment evnirotment for qualitio project created!" +\
+                      "\nType " + colors.green("workon %s" % virtualenv_name) + " to start working!")
 
         except KeyError:
+            pdir = os.path.dirname(__file__)
             print("  4. Creating virtualenv environment")
-            local('virtualenv .virtualenv')
-            print("  5. Downloading required development packages")
-            local('pip -E .virtualenv install -r requirements.txt')
+            local('virtualenv %s/.virtualenv' % pdir)
 
-            print("\nDevelopment evnirotment for qualitio project created in " +
-                  colors.green("%s/.virtualenv" % os.getcwd()) + " directory")
+            print("  5. Downloading required development packages")
+            local('pip -E %s/.virtualenv install -r requirements.txt' % pdir)
+
+            print("  6. Synchronizing database")
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py syncdb" % (pdir, pdir))
+            local("%s/.virtualenv/bin/python %s/qualitio/manage.py migrate" % (pdir, pdir))
+
+            print('\nDevelopment evnirotment for qualitio project created in "%s" direcotry' % (colors.green("%s/.virtualenv" % os.getcwd() + " directory")))
+
 
 
 def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False):
@@ -44,6 +70,7 @@ def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False
 
     #TODO: switch to reall check. This normalization is pretty odd
     env.path = path.rstrip("/")
+    env.apache_config = env.path.split("/")[-1]
 
     sudo('apt-get install -y python-setuptools')
     sudo('easy_install pip')
@@ -58,32 +85,37 @@ def setup_production(path="/var/www/qualitio", local_settings="", fixtures=False
     _configure_webserver()
     _local_settings(local_settings)
     _synchronize_database()
+    _migrate_database()
     _restart_webserver()
     if fixtures:
         _load_dumpdata()
 
-    print("Check your site setup at http://%s:8081" % colors.green(env.host))
+    print("Check your site setup at http://%s.%s:8081" % (colors.green(env.apache_config), colors.green(env.host)))
 
 
 def update_production(path="/var/www/qualitio", local_settings=""):
     """Updates remote production envirotment"""
     env.path = path.rstrip("/")
 
-    _download_release()
-    _install_requirements()
-    _local_settings(local_settings)
-    _synchronize_database()
-    _restart_webserver()
+    if not files.exists(env.path):
+        print colors.red("No instance found on path=%s. Breaking update." % env.path)
+    else:
+        _download_release()
+        _install_requirements()
+        _local_settings(local_settings)
+        _synchronize_database()
+        _migrate_database()
+        _restart_webserver()
 
-    print("Instsance at %s:%s, updated." % (colors.green(env.host),
-                                            colors.green(env.path)))
+        print("Instsance at %s:%s, updated." % (colors.green(env.host),
+                                                colors.green(env.path)))
 
 
 def _download_release(release="development"):
     require("path")
 
     env.release = release
-    env.release_download_tmp_file = "/tmp/%(release)s.tgz" % env
+    env.release_download_tmp_file = "~/%(release)s.tgz" % env
 
     sudo("wget http://github.com/qualitio/qualitio/tarball/%(release)s -O %(release_download_tmp_file)s --no-check-certificate" % env)
     sudo("tar xzvf %(release_download_tmp_file)s --strip-components=1 --directory=%(path)s" % env)
@@ -107,9 +139,10 @@ def _configure_webserver():
     sudo("sed -i 's/${PATH}/%(esc_path)s/g' %(path)s/deploy/apache.virtualhost" % env)
 
     # TODO: put here diff check between config versions
-    sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/qualitio" % env)
 
-    sudo("a2ensite qualitio")
+    sudo("cp %(path)s/deploy/apache.virtualhost /etc/apache2/sites-available/%(apache_config)s" % env)
+
+    sudo("a2ensite %(apache_config)s" % env)
 
 
 def _local_settings(local_settings):
@@ -131,6 +164,11 @@ def _synchronize_database():
     sudo("python %(path)s/qualitio/manage.py syncdb --noinput" % env)
 
 
+def _migrate_database():
+    require("path")
+    sudo("python %(path)s/qualitio/manage.py migrate --noinput" % env)
+
+
 def _load_dumpdata():
     require("path")
 
@@ -142,3 +180,6 @@ def _restart_webserver():
 
     sudo("/etc/init.d/apache2 restart")
 
+
+if __name__ == '__main__':
+    subprocess.call(['fab', '-f', __file__] + sys.argv[1:])

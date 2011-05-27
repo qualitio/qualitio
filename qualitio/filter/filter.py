@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import Q
 from django import forms
 from django.utils.datastructures import SortedDict
-
+from qualitio.filter.options import MetaFilter
 
 class BaseControlForm(forms.Form):
     form_classes = []
@@ -105,16 +105,20 @@ class FilterGroup(object):
 
 
 class Filter(object):
-    form_classes = []
     field_name_ptr = re.compile(r'(?P<group_id>\d+)-(?P<form_class_id>\d+)-(?P<form_id>\d+)-(?P<field_name>\w+)')
     control_form_ptr = re.compile(r'(\d+)-control-new-criteria-(\w+)')
     control_group_ptr = re.compile(r'control-new-group-(\w+)')
+    control_remove_field_ptr = re.compile(r'control-remove-filter-(?P<field_id>[\w-]+)')
+
+    def get_form_classes(self):
+        return getattr(self.__class__, 'form_classes', ())
 
     def __init__(self, data=None, form_classes=()):
         self.data = data
         self.groups = SortedDict()
-        self.form_classes = form_classes or self.__class__.form_classes
+        self.form_classes = form_classes or self.get_form_classes()
         self.has_control_params = False
+        self.sort_by = None
 
     def add_group(self, group_id=None):
         group_id = group_id or (len(self.groups) + 1)
@@ -125,6 +129,23 @@ class Filter(object):
     def build_from_params(self):
         copy = self.data.copy()
         data = self.data.copy()
+
+        # first take care of sorting params
+        self.sort_by = data.get('sort', 'id')
+
+        # before everything - try to check if there is something to remove
+        for fname in data.keys():
+            match = self.control_remove_field_ptr.match(fname)
+            if match:
+                field_prefix = match.group('field_id')
+                for key in data.keys():
+                    if key.startswith(field_prefix):
+                        # we need to remove from copy too since we want to redirect to the
+                        # same page witout the field
+                        del data[key], copy[key]
+
+                del data[fname], copy[fname]
+                self.has_control_params = True
 
         # first build existing groups...
         for fname in data.keys():
@@ -196,3 +217,33 @@ class Filter(object):
         for group in self:
             query = query | group.construct_Q()
         return query
+
+
+class ModelFilter(Filter):
+    __metaclass__ = MetaFilter
+
+    def get_form_classes(self):
+        return [f.create_form_class() for f in self.base_filters.values()]
+
+    def queryset(self):
+        query = Q() if not self.is_valid() else self.construct_Q()
+        queryset = self._meta.model.objects.filter(query)
+        if self.sort_by:
+            queryset = queryset.order_by(self.sort_by)
+        return queryset
+
+    qs = property(lambda self: self.queryset())
+
+
+def generate_model_filter(model, fields=None, exclude=(), bases=(ModelFilter,)):
+    _model, _fields, _exclude = model, fields, exclude
+    class Meta:
+        model = _model
+        fields = _fields
+        exclude = _exclude
+    return type('_Filter', bases, { 'Meta': Meta })
+
+
+def generate_form_classes(model, fields=None, exclude=(), bases=(ModelFilter,)):
+    _Filter = generate_model_filter(model, fields=fields, exclude=exclude, bases=bases)
+    return [f.create_form_class() for f in _Filter.base_filters.values()]

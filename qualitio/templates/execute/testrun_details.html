@@ -1,4 +1,5 @@
 {% load application_view_menu %}
+{% load execute %}
 <div id="application-view-header">
   <h1>test run: {{ testrun.name }}</h1>
 </div>
@@ -7,13 +8,11 @@
 
 <div class="grid_16">
   <div class="application-view-content">
+    {% passrate testrun %}
+    
     <div class="text-bullet">
       <span class="name">full name:</span>
       <span class="value">{{ testrun.path }}{{ testrun.name }}</span>
-    </div>
-    <div class="text-bullet">
-      <span class="name">pass rate:</span>
-      <span class="value"><i>not set</i></span>
     </div>
     <div class="text-bullet">
       <span class="name">status:</span>
@@ -21,7 +20,7 @@
     </div>
     <div class="text-bullet">
       <span class="name">notes:</span>
-      <span class="value-block">{{ directory.description|default:"<i>not set</i>" }}</span>
+      <span class="value">{{ directory.description|default:"<i>not set</i>" }}</span>
     </div>
     <div class="text-bullet">
       <span class="name">test cases:</span>

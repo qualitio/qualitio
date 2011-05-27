@@ -107,6 +107,7 @@ $(function() {
         $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_testcasedirectory", function() {
           $("#application-tree").jstree("deselect_node", "#"+data.args[1].parent_id+"_testcasedirectory");
           $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_testcase")
+          document.location.hash = '#testcase/'+ data.args[1].current_id +"/edit/";
         });
       });
       

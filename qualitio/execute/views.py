@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import permission_required
 from django.views.generic.simple import direct_to_template
+from django.db.models import Count
+from django.conf import settings
 
 from qualitio.core.utils import json_response, success, failed
 from qualitio import store
-from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun
+from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, TestCaseRunStatus
 from qualitio.execute import forms
 from qualitio import history
 
@@ -59,8 +61,9 @@ def directory_valid(request, directory_id=0):
 
 
 def testrun_details(request, testrun_id):
+    testrun = TestRun.objects.get(pk=testrun_id)
     return direct_to_template(request, 'execute/testrun_details.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+                              {'testrun': testrun})
 
 
 @permission_required('execute.add_testrun', login_url='/permission_required/')
@@ -106,6 +109,7 @@ def testrun_valid(request, testrun_id=0):
         testcases = store.TestCase.objects.filter(pk__in=testcase_id_list)
 
         created_testcases, deleted_testcases = testrun.testcase_setup(testcases)
+        testrun.update_passrate()
 
         log = history.History(request.user, testrun)
         log.add_form(testrun_form)
@@ -164,10 +168,25 @@ def testcaserun_setstatus(request, testcaserun_id):
         log = history.History(request.user, testcaserun.parent)
         log.add_form(testcaserun_status_form, capture=["status"], prefix=True)
         log.save()
+
+        # TODO: move this to testrun? method. Chec also templatetags
+        passrate_ratio = []
+        testrun = testcaserun.parent
+        testcaseruns_count = testrun.testcases.count()
+        statuses = TestCaseRunStatus.objects.filter(testcaserun__parent=testrun).annotate(count=Count('testcaserun'))
+        for status in statuses:
+            passrate_ratio.append({
+                "ratio": float(status.count) / float(testcaseruns_count) * 100,
+                "name": status.name,
+                "color": status.color,
+                })
+
         return success(message=testcaserun.status.name,
                        data=dict(id=testcaserun.pk,
                                  name=testcaserun.status.name,
-                                 color=testcaserun.status.color))
+                                 color=testcaserun.status.color,
+                                 passrate=testcaserun.parent.passrate,
+                                 passrate_ratio=passrate_ratio))
     else:
         return failed(message=testcaserun.status.name,
                       data=testcaserun_status_form.errors_list())
@@ -179,13 +198,17 @@ def testcaserun_addbug(request, testcaserun_id):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     add_bug_form = forms.AddBugForm(request.POST)
 
+    from django.utils.importlib import import_module
+
+    backend_name = getattr(settings, "ISSUE_BACKEND", None)
+    issues = import_module(backend_name)
+
     if add_bug_form.is_valid():
-        from backends.bugs import Bugzilla, IssueError, IssueServerError
         bugs = []
         for bug_id in add_bug_form.cleaned_data['bugs']:
             try:
-                bugs.append(testcaserun.bugs.get_or_create(**Bugzilla.fetch_bug(bug_id))[0])
-            except (IssueError, IssueServerError) as e:
+                bugs.append(testcaserun.bugs.get_or_create(**issues.Backend.fetch_bug(bug_id))[0])
+            except (issues.IssueError, issues.IssueServerError) as e:
                 return failed(message="Issue server error meessage: %s" %e)
 
 

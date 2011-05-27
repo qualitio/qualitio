@@ -1,12 +1,9 @@
-NameVirtualHost *:8081
-Listen 8081
-
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
 
     WSGIScriptAlias / ${PATH}/deploy/qualitio.wsgi
 
-    Alias /static/ ${PATH}/qualitio/static
+    Alias /static/ ${PATH}/qualitio/static/
     Alias /static_admin/ ${PATH}/.virtualenv/lib/python2.6/site-packages/django/contrib/admin/media/
     
     <Directory ${PATH}/qualitio/static/>

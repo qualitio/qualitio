@@ -16,4 +16,10 @@ def development(request):
 
 def core(request):
     from django.core.urlresolvers import resolve
-    return { "CURRENT_MODULE" : resolve(request.get_full_path()).app_name}
+
+    http_protocol = "http"
+    if request.is_secure():
+        http_protocol += "s"
+
+    return { "CURRENT_MODULE" : resolve(request.path).app_name,
+             "HTTP_PROTOCOL": http_protocol }

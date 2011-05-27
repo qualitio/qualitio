@@ -33,6 +33,16 @@ $(function() {
         $.notification.notice(response.message);
         $.shortcuts.reloadTree(response.data, "reportdirectory");
         setupLink(response.data.link);
+        
+        $('#application-tree').bind("refresh.jstree", function (event, data) {
+          $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_reportdirectory", function() {
+            $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_reportdirectory");
+            $("#application-tree").jstree("deselect_node", "#"+data.args[1].parent_id+"_report");
+            document.location.hash = '#report/'+ data.args[1].current_id +"/edit/";
+          });
+        });
+
+        
       }
       setupEditor();
     },
@@ -45,18 +55,19 @@ $(function() {
   setupEditor();
   setupLink($("#id_link").val());
   
+  $(".context-element .delete").die(); 
   $(".context-element .delete").live("click", function(){
     context_element = $(this).parents('.context-element')
     delete_checkbox = context_element.find("input[name$=DELETE]")
     if ( delete_checkbox.is(":checked") ) {
-      delete_checkbox.attr("checked", false);
+      delete_checkbox.removeAttr("checked");
       context_element.removeClass("removed");
     } else {
       delete_checkbox.attr("checked", true);
       context_element.addClass("removed");
     }
   });
-
+  
   $(".add-context-element").click(function(){
     new_context_element = $(".context-element.empty-form").clone().html()
       .replace(/__prefix__/g, $('.context-element:visible').length);

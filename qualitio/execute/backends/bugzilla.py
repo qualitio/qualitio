@@ -12,7 +12,7 @@ class IssueServerError(Exception):
     pass
 
 
-class Bugzilla(httplib2.Http):
+class Backend(httplib2.Http):
     resource = None
     url = ""
 
@@ -21,7 +21,7 @@ class Bugzilla(httplib2.Http):
         if hasattr(settings, "ISSUE_BACKEND_BUGZILLA_URL"):
             cls.url = settings.ISSUE_BACKEND_BUGZILLA_URL.rstrip("/")
         else:
-            raise ImproperlyConfigured("Bugzill issue backed requires ISSUE_BACKEND_BUGZILLA_URL value in settings")
+            raise ImproperlyConfigured("Bugzilla issue backed requires ISSUE_BACKEND_BUGZILLA_URL value in settings")
 
         login = getattr(settings, "ISSUE_BACKEND_BUGZILLA_USER", "")
         password = getattr(settings, "ISSUE_BACKEND_BUGZILLA_PASSWORD", "")

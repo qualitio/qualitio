@@ -3,17 +3,18 @@ import pickle
 
 from django.core.exceptions import FieldError
 from django.db import models
-from django.template import Context, Template
+from django.template import Context, Template, TemplateSyntaxError
 from django.core.exceptions import ValidationError
+from django.views import debug
 from django.db.models import query, loading
 from django.template.defaultfilters import slugify
 
 from qualitio import core
 
-import validators
 
 class RestrictedManager(models.Manager):
-
+    # TODO: this class is not used, but should be included
+    # in future as replacment for orginal managers
     allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
                        "contribute_to_class", "_inherited", "creation_counter",
                        "^get(\(.*\))?$",
@@ -32,7 +33,7 @@ class ReportDirectory(core.BaseDirectoryModel):
 
 
 class Report(core.BasePathModel):
-    template = models.TextField(blank=True, validators=[validators.template_validate])
+    template = models.TextField(blank=True)
     public = models.BooleanField()
     link = models.URLField(blank=True, verify_exists=False)
     MIME_CHOICES = (('text/html', 'html'),
@@ -78,6 +79,23 @@ class Report(core.BasePathModel):
         kwargs['force_insert'] = False
         super(Report, self).save(*args, **kwargs)
 
+    def _get_template_exception_info(self, exception):
+        origin, (start, end) = exception.source
+        template_source = origin.reload()
+        upto = line = 0
+        for num, next in enumerate(debug.linebreak_iter(template_source)):
+            if start >= upto and end <= next:
+                line = num
+            upto = next
+        return line
+
+    def clean(self):
+        try:
+            unicode(Template(self.template).render(Context(self.context_dict)))
+        except TemplateSyntaxError as e:
+            raise ValidationError({"template": "Line %s: %s"
+                                   % (self._get_template_exception_info(e), e)})
+
 
 class ContextElement(models.Model):
     report = models.ForeignKey("Report", related_name="context")
@@ -85,13 +103,10 @@ class ContextElement(models.Model):
     query = models.TextField()
     query_pickled = models.TextField(blank=True)
 
-    ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report"]
-    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse"]
+    ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
+    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
+    ALLOWED_APPS = ["require", "store", "execute", "report"]
 
-    def query_object(self):
-        return pickle.loads(str(self.query_pickled))
-
-    
     def clean(self):
         query_segments  = self.query.split(".")
         if len(query_segments) < 2:
@@ -127,15 +142,12 @@ class ContextElement(models.Model):
 
         self.query_pickled = pickle.dumps(self._build_query(valid_object, valid_methods))
 
-
-    @classmethod
     def _build_query(cls, object_name, methods):
-
-        apps = ["require", "store", "execute", "report"]
-
         Object = None
-        while not Object and apps:
-            Object = loading.get_model(apps.pop(), object_name)
+
+        for app in cls.ALLOWED_APPS:
+            Object = loading.get_model(app, object_name)
+            if Object: break
 
         if not Object:
             return query.QuerySet()
@@ -149,5 +161,20 @@ class ContextElement(models.Model):
             except FieldError as e:
                 raise ValidationError({"query": repr(e) })
 
+        if not isinstance(query_set, query.QuerySet):
+            return query_set
 
-        return query_set
+        query_dict = query_set.__getstate__()
+        query_dict["_result_cache"] = None
+        return query_dict
+
+
+    def query_object(self):
+        query_dict = pickle.loads(str(self.query_pickled))
+        if not isinstance(query_dict, dict):
+            return query_dict
+
+        _query = query.QuerySet()
+        _query.__dict__ = query_dict
+        return _query
+

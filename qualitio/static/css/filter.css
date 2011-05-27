@@ -1,5 +1,9 @@
 .filter-forms {
-    width: 50%;
+    width: 100%;
+}
+
+.filter-forms .groups-linker{
+    text-align:center;
 }
 
 .filter-form .name{
@@ -7,10 +11,71 @@
     padding-right:10px;
 }
 
-table.pretty tr:hover, table.pretty tr:nth-child(2n):hover {
-    background: #CCFFFF;
-}
-
 .fieldfilter-form {
     padding:5px;
+}
+
+.fieldfilter-form .fieldfilter-label {
+    width:250px; float:left;
+}
+
+.fieldfilter-form .fieldfilter-field {
+    float:left; width:220px; margin-right:5px;
+}
+
+.fieldfilter-form .fieldfilter-tools {
+    float:right;
+}
+
+.add-new-group-form {
+    float:right; width:350px;
+}
+
+.results-container {
+    padding-bottom: 13px;
+}
+
+.list-control-top {
+    margin-bottom:5px;
+}
+
+.list-control-bottom {
+    margin-top:15px;
+}
+
+.pagination {
+    float: left;
+    margin:3px 0px 0px 0px;
+}
+
+.onpage-form {
+}
+
+.pagination .current {
+    background: #dddddd;
+}
+
+.pagination .page, .pagination .next, .pagination .prev{
+    text-decoration: none;
+    padding: 0px 10px;
+    border: 1px solid;
+}
+
+.pagination .next {
+    padding: 0px 20px;
+}
+
+.left { float: left; }
+.right { float: right; }
+
+
+/* fixes for dataTable js plugin */
+.dataTables_info {
+    width: 60%;
+    float: left;
+    padding-top:5px;
+}
+
+.dataTables_wrapper select {
+    width: 50px;
 }
