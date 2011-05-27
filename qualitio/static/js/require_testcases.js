@@ -42,8 +42,6 @@ $(function() {
   });
   $("#add-testcases-button").appendTo($(".available-testcases .bottom"));
 
-  $('input[name=select-all]').dataTableToggleSelect();
-
   $(".available-testcases").refresh();
 
   $("#remove-testcases-button").click(function() {
@@ -82,4 +80,12 @@ $(function() {
     },
   });
 
+  // items selection
+  $(".connected-testcases table.display th.checkbox:first").itemsSelector({
+      elector: ".connected-testcases table.display td .modify"
+  });
+  $(".available-testcases table.display th.checkbox:first").itemsSelector({
+      selector: ".available-testcases table.display td .modify"
+  });
+  $(".dataTables_scrollHead").css('overflow', 'visible');
 });
