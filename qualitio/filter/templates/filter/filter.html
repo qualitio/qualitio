@@ -60,4 +60,21 @@
     </div>
   </div>
 </form>
+
+<div class="application-view-content">
+  <div class="actions-form">
+    <div class="left action-choice-form">
+      {{ action_choice_form.action }}
+    </div>
+    <input class="left" type="submit" name="action-submit" value="Go" />
+    <div class="clear"></div>
+
+    {% csrf_token %}
+
+    {% for action in action_choice_form.actions %}
+    <input type="hidden" class="action-url" name="{{ action.name }}" value="{{ action.url }}" />
+    {% if action.has_form %}<table class="action-form" name="{{ action.name }}">{{ action.form }}</table>{% endif %}
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
+from qualitio.core.utils import json_response, failed
 from qualitio import filter as filterapp
 from qualitio.filter import forms
 
@@ -44,11 +45,25 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
     except (EmptyPage, InvalidPage):
         raise Http404
 
+    # actions
+    action_classes = filterapp.find_actions('qualitio.%s' % model._meta.app_label, model=model)
+    actions = [ActionClass(None) for ActionClass in action_classes]
+
     return render_to_response('filter/filter.html', {
             'app_label': model._meta.app_label,
             'filter': generic_filter,
-            'table': model_table_class(page_obj.object_list),
+            'table': model_table_class(page_obj.object_list, query_dict=request.GET),
             'paginator': paginator,
             'page_obj': page_obj,
             'onpage_form': onpage_form,
+            'action_choice_form': filterapp.ActionChoiceForm(actions=actions),
             }, context_instance=RequestContext(request))
+
+@json_response
+def actions(request, app_label=None, action_name=None):
+    allactions = filterapp.find_actions('qualitio.%s' % app_label)
+    for action_class in allactions:
+        action = action_class(data=request.POST)
+        if action.name == action_name:
+            return action.execute()
+    return failed(message="Wrong request")
