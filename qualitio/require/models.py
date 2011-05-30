@@ -31,6 +31,9 @@ class Requirement(core.BaseDirectoryModel):
     alias = models.CharField(max_length=512, blank=True) # Unique check in clean method
     objects = managers.RequirementManager()
 
+    class Meta:
+        unique_together = ("parent", "name")
+
     def save(self, clean_dependencies=True, *args, **kwargs):
         """
         save method calls 'clean_dependencies' by default, but this can

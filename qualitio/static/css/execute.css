@@ -47,6 +47,10 @@
     width: 200px;
 }
 
+.step {
+    word-wrap: break-word;
+}
+
 .step h2 {
     padding: 5px 5px;
 }
