@@ -1,12 +1,12 @@
 <VirtualHost *:8081>
     ServerAdmin webmaster@localhost
 
-    WSGIScriptAlias / ${PATH}/deploy/qualitio.wsgi
+    WSGIScriptAlias / _PATH/deploy/qualitio.wsgi
 
-    Alias /static/ ${PATH}/qualitio/static/
-    Alias /static_admin/ ${PATH}/.virtualenv/lib/python2.6/site-packages/django/contrib/admin/media/
+    Alias /static/ _PATH/qualitio/static/
+    Alias /static_admin/ _PATH/.virtualenv/lib/python2.6/site-packages/django/contrib/admin/media/
     
-    <Directory ${PATH}/qualitio/static/>
+    <Directory _PATH/qualitio/static/>
         Order deny,allow
         Allow from all
     </Directory>
