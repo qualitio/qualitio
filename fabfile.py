@@ -90,19 +90,21 @@ def _download_release(release="development"):
     run_it("rm -f %s" % release_download)
 
 def _install_requirements():
-    print("%s. Install requirements %s" % count.inc())
+    print("%s. Install requirements" % count.inc())
     require("path", "virtualenv_path")
+
+    sudo_it("apt-get install git-core mercurial")
 
     try:
         del(os.environ['PIP_VIRTUALENV_BASE'])
     except KeyError:
         pass
 
-    sudo('pip -E %(virtualenv_path)s install -r %(path)s/requirements.txt' % env)
+    run_it('pip -E %(virtualenv_path)s install -r %(path)s/requirements.txt' % env)
 
 
 def _configure_apache():
-    print("%s. Setup apache server %s" % count.inc())
+    print("%s. Setup apache server" % count.inc())
     require("path", "instance_name")
 
     run_it('sed -i "s/_PATH/%s/g" %s/deploy/apache.virtualhost'
@@ -112,10 +114,10 @@ def _configure_apache():
     sudo_it("cp %s/deploy/apache.virtualhost /etc/apache2/sites-available/%s"
             % (env.path, env.instance_name))
 
-    sudo("a2ensite %s" % env.instance_name)
+    sudo_it("a2ensite %s" % env.instance_name)
 
 def _setup_local_settings(local_settings):
-    print("%s. Setup local settings %s" % count.inc())
+    print("%s. Setup local settings" % count.inc())
     require("path")
 
     if local_settings:
@@ -127,7 +129,7 @@ def _setup_local_settings(local_settings):
 def _restart_webserver():
     print("%s. Restart apache" % count.inc())
 
-    sudo("/etc/init.d/apache2 restart")
+    sudo_it("/etc/init.d/apache2 restart")
 
 def setup_development(virtualenv_name="qualitio-dev"):
     "Creates local development envirotment"
