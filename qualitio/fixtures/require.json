@@ -1,0 +1,19 @@
+[
+  {
+    "pk": 1, 
+    "model": "require.requirement", 
+    "fields": {
+      "alias": "", 
+      "rght": 2, 
+      "name": "Test requirement", 
+      "parent": null, 
+      "level": 0, 
+      "lft": 1, 
+      "release_target": null, 
+      "dependencies": [], 
+      "tree_id": 1, 
+      "path": "/", 
+      "description": "Test requirement"
+    }
+  }
+]

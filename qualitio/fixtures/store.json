@@ -1,0 +1,32 @@
+[
+  {
+    "pk": 1, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 2, 
+      "name": "Test testcase directory", 
+      "parent": null, 
+      "level": 0, 
+      
+      "lft": 1, 
+      "tree_id": 1, 
+      
+      "path": "/", 
+      "description": "Test testcase directory"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "store.testcase", 
+    "fields": {
+      "requirement": null, 
+      "name": "Test testcase", 
+      "parent": 1, 
+      "precondition": "", 
+      
+      
+      "path": "/Test testcase directory/", 
+      "description": ""
+    }
+  }
+]
