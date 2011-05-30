@@ -33,6 +33,7 @@
           <th>path</th>
           <th>name</th>
 	  <th>status</th>
+          <th>modified</th>
           <th>created</th>
         </tr>
       </thead>
@@ -43,6 +44,7 @@
           <td class="path"><a href="/store/#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
 	  <td class="name"><a href="/store/#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
 	  <td class="path">{{ child.status }}</td>
+          <td class="path">{{ child.modified_time }}</td>
           <td class="path">{{ child.created_time }}</td>
         </tr>
         {% endfor %}
