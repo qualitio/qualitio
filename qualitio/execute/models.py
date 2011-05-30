@@ -10,6 +10,9 @@ import mangers
 class TestRunDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Test run directories'
+
 
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
@@ -92,6 +95,9 @@ class TestCaseRunStatus(core.BaseModel):
         help_text="Count test cases with this status to total in test run passrate?")
     passed = models.BooleanField(
         help_text="Count test cases with this status to passed test cases in test run passrate?")
+
+    class Meta:
+        verbose_name_plural = 'Test case run statuses'
 
     def __init__(self, *args, **kwargs):
         super(TestCaseRunStatus, self).__init__(*args, **kwargs)
