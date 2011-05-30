@@ -1,7 +1,7 @@
 #testcaserun-list {
     margin-top: 5px;
     border-bottom: 3px solid #aaaaaa;
-    height: 300px;
+    height: 310px;
 }
 
 #testcaserun-list table {
@@ -45,6 +45,10 @@
 
 #add-bug-form input[type=text]{
     width: 200px;
+}
+
+.step {
+    word-wrap: break-word;
 }
 
 .step h2 {
