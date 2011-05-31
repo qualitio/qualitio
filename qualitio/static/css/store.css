@@ -7,6 +7,10 @@
     word-wrap: break-word;
 }
 
+.step:nth-child(even) {
+    background: #F6F6F6;
+}
+
 .step.removed {
     cursor: default;
     opacity: 0.3;
