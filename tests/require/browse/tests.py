@@ -1013,6 +1013,15 @@ class Test3Newreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=new requirement 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[4]/div/div[1]/div[1]/div/table/thead/tr/th[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='application-view']/div[4]/div/div[1]/div[1]/div/table/thead/tr/th[3]")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view']/div[4]/div/div[1]/div[2]/table/tbody/tr[3]/td[3]/a"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("//div[@id='application-view']/div[4]/div/div[1]/div[2]/table/tbody/tr[3]/td[3]/a")
         for i in range(60):
             try:
@@ -4157,7 +4166,7 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("//div[@id='application-view']/div[4]/div/div[1]/div[2]/table/tbody/tr[1]/td[3]/a")
+        sel.click("//div[@id='application-view']/div[4]/div/div[1]/div[2]/table/tbody/tr[2]/td[3]/a")
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: IVI"): break
@@ -4226,9 +4235,9 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo/IVI"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody[2]/tr/td[4]/a"))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[4]/a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody[2]/tr/td[4]/a")
+        sel.click("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[4]/a")
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
@@ -4368,11 +4377,11 @@ class Test32Samename(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."): break
+                if sel.is_text_present("Validation errors Requirement with this Parent and Name already exists."): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."))
+        try: self.failUnless(sel.is_text_present("Validation errors Requirement with this Parent and Name already exists."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "IVI2")
         sel.click("Executed")
@@ -4382,9 +4391,16 @@ class Test32Samename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=IVI2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("exact:requirement: IVI2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=edit")
+        try: self.failUnless(sel.is_element_present("link=IVI2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
                 if sel.is_text_present("Parent"): break
@@ -4395,11 +4411,11 @@ class Test32Samename(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."): break
+                if sel.is_text_present("Validation errors Requirement with this Parent and Name already exists."): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."))
+        try: self.failUnless(sel.is_text_present("Validation errors Requirement with this Parent and Name already exists."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.select("id_parent", "label=10: /MeeGo/Legacy")
         sel.click("Executed")
@@ -4412,6 +4428,20 @@ class Test32Samename(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_element_present("id_description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4435,11 +4465,11 @@ class Test32Samename(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."): break
+                if sel.is_text_present("Validation errors Requirement with this Parent and Name already exists."): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Validation errors \"parent\" and \"name\" fields need to be always unique together."))
+        try: self.failUnless(sel.is_text_present("Validation errors Requirement with this Parent and Name already exists."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "requirement")
         sel.type("id_name", "requirement same name")
@@ -4456,6 +4486,22 @@ class Test32Samename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=history"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=details"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=details")
         for i in range(60):
             try:
@@ -4465,9 +4511,8 @@ class Test32Samename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("exact:requirement: requirement same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("full name: /MeeGo/requirement same name"))
+        try: self.failUnless(sel.is_element_present("link=requirement same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=edit")
 
 
 class Test45FilterVerify(BaseSeleniumTestCase):
