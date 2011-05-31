@@ -23,16 +23,33 @@ class ObjectCounterMetaclass(type):
     with creation counter that doesn't need to invoke
     __init__ method.
     """
-    def __new__(cls, cls_name, bases, attrs):
-        attrs['creation_counter'] = 0
-        return type.__new__(cls, cls_name, bases, attrs)
+    creation_counter = 0
 
     def __call__(cls, *args, **kwargs):
         obj = type.__call__(cls, *args, **kwargs)
-        obj.creation_counter = obj.__class__.creation_counter
-        obj.__class__.creation_counter += 1
+        obj.creation_counter = ObjectCounterMetaclass.creation_counter
+        ObjectCounterMetaclass.creation_counter += 1
         return obj
 
 
 class ObjectCounter(object):
     __metaclass__ = ObjectCounterMetaclass
+
+
+
+class Property(object):
+    def __init__(self, target, default=lambda instance: None):
+        self.name = target
+        self.default_value = default
+
+    def __get__(self, instance, type_instance):
+        if instance is None:
+            raise AttributeError('%s attribute can be get only on instance' % self.name)
+
+        if not hasattr(instance, self.name):
+            setattr(instance, self.name, self.default_value(instance))
+
+        return getattr(instance, self.name)
+
+    def __set__(self, instance, value):
+        setattr(instance, self.name, value)

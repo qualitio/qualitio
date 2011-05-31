@@ -4,6 +4,7 @@
 
 .step {
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .step.removed {

@@ -4,8 +4,10 @@ from django.utils.safestring import mark_safe
 from django.conf import settings as global_settings
 
 def settings(request):
-    return {'DATE_FORMAT' : mark_safe('"%s"' %
-                                      get_format('DATE_FORMAT').replace("%","").replace("y","yy"))}
+    # conversion between python and javaScript date(time) formats
+    format = get_format('DATE_FORMAT')
+    format = format.replace('d', 'dd').replace('m', 'mm').replace("Y","yy")
+    return {'DATE_FORMAT' : mark_safe('"%s"' % format)}
 
 def development(request):
     static_content_hash = ""
