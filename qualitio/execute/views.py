@@ -121,7 +121,7 @@ def testrun_valid(request, testrun_id=0):
                              "current_id": testrun.id})
 
     else:
-        return failed(message="Validation errors",
+        return failed(message="Validation errors: %s" % testrun_form.error_message(),
                       data=testrun_form.errors_list())
 
 
