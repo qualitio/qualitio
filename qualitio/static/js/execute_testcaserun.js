@@ -15,8 +15,8 @@ jQuery.fn.bugTable = function() {
 jQuery.fn.loadBugs = function(testcaserun) {
   $(this).load('/execute/ajax/testcaserun/'+ testcaserun +'/bugs/', function() {
     $(this).find('table.display').bugTable();
-    $("table.display.testcaserun-bugs-list th.checkbox:first", $(this)).itemsSelector({
-	selector: "table.display.testcaserun-bugs-list td .modify"
+      $("table.testcaserun-bugs-list th.checkbox:first", $(this)).itemsSelector({
+	selector: "table.testcaserun-bugs-list td input[type='checkbox']"
     });
     $(".dataTables_scrollHead", $(this)).css('overflow', 'visible');
   });
@@ -107,9 +107,4 @@ $(function() {
       }
     });
   });
-
-  $("table.display.testcaserun-history-bugs-list th.checkbox:first").itemsSelector({
-      selector: "table.display.testcaserun-history-bugs-list td .modify"
-  });
-  $(".dataTables_scrollHead").css('overflow', 'visible');
 });
