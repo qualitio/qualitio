@@ -31,6 +31,9 @@ class RestrictedManager(models.Manager):
 class ReportDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Report directories'
+
 
 class Report(core.BasePathModel):
     template = models.TextField(blank=True)
