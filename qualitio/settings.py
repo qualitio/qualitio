@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
+    'qualitio.glossary',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",

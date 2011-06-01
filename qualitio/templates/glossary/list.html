@@ -1,0 +1,5 @@
+<div class="word-search"><input style="width: 100%"/></div>
+{% for word in words_list %}
+<a href="#word/{{ word.id }}/edit/" id="id_word_{{ word.id }}" class="word">{{ word }}</a>
+{% endfor %}
+

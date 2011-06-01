@@ -70,6 +70,10 @@ class BaseForm(forms.Form, FormErrorProcessingMixin):
 
 
 class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
+
+    class Meta:
+        pass
+
     def changelog(self):
         change_message = []
         if self.changed_data:
