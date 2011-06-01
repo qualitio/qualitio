@@ -1,8 +1,12 @@
 <div class="application-view-content clearfix">
   <h1>test case: {{ testcaserun.name }}</h1>
   <div class="text-bullet">
-    <span class="name">directory:</span>
-    <span class="value">{{ testcaserun.name }}</span>
+    <span class="name">parent:</span>
+    <span class="value">
+      <a href="/store/#testcasedirectory/{{ testcaserun.origin.parent.id }}/details/">
+	{{ testcaserun.origin.parent.path }}{{ testcaserun.origin.parent.name }}
+      </a>
+    </span>
   </div>
   <div class="text-bullet">
     <span class="name">origin test case:</span>
