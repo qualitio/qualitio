@@ -31,6 +31,9 @@ class RestrictedManager(models.Manager):
 class ReportDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Report directories'
+
 
 class Report(core.BasePathModel):
     template = models.TextField(blank=True)
@@ -45,6 +48,7 @@ class Report(core.BasePathModel):
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
+        for_parent_unique = True
 
     @property
     def context_dict(self):
@@ -90,6 +94,7 @@ class Report(core.BasePathModel):
         return line
 
     def clean(self):
+        super(Report, self).clean()
         try:
             unicode(Template(self.template).render(Context(self.context_dict)))
         except TemplateSyntaxError as e:

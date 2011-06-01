@@ -30,6 +30,7 @@ urlpatterns = patterns('',
                        (r'^execute/', include('qualitio.execute.urls', app_name="execute")),
                        (r'^store/', include('qualitio.store.urls', app_name="store")),
                        (r'^report/', include('qualitio.report.urls', app_name="report")),
+                       (r'^filter/', include('qualitio.filter.urls')),
 
                        (r'^glossary/', include('qualitio.glossary.urls')),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),

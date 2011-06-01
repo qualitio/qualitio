@@ -32,6 +32,9 @@ class TestCaseStepBase(core.BaseModel):
 class TestCaseDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Test case directories'
+
 
 class TestCase(TestCaseBase):
     class Meta(TestCaseBase.Meta):

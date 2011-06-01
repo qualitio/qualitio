@@ -39,6 +39,8 @@ USE_I18N = True
 
 DATE_FORMAT = "d-m-Y"
 DATETIME_FORMAT = "d-m-Y, H:i:s"
+DATE_INPUT_FORMATS = ('%d-%m-%Y',)
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'static')
