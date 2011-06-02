@@ -1397,7 +1397,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         sel.click("link=details")
         for i in range(60):
             try:
-                if sel.is_text_present("test run: TestRun 1 same name"): break
+                if sel.is_text_present("test run: TestRun 1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1458,6 +1458,12 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("Validation errors"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_testrun-name", "TestRun 1 same name")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2445,6 +2451,14 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-menu']/a[2]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-menu']/a[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//div[@id='application-view-menu']/a[2]")
         for i in range(60):
             try:
@@ -2475,7 +2489,7 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("directory: TestCase1"): break
+                if sel.is_text_present("parent: /MeeGo Netbook/MeeGo IVI BAT"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4872,7 +4886,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("css=input.modify[disabled=\"disabled\"]"))
+        try: self.failUnless(sel.is_element_present("css=tr.disable"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div input"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -4886,12 +4900,6 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("1: /TestRun directory"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("testrun1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5046,19 +5054,25 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         sel.click("//div[@id='application-view-footer']/div/input")
         for i in range(60):
             try:
-                if sel.is_text_present("test run: testrun2"): break
+                if sel.is_element_present("id_testrun-parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("full name: /TestRun directory/testrun2"): break
+                if sel.is_text_present("test run : testrun2"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:status:"): break
+                if sel.is_text_present("1: /TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("testrun2"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5108,7 +5122,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:directory:"): break
+                if sel.is_text_present("exact:parent:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5245,10 +5259,23 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         sel.click("//div[@id='application-view-footer']/div/input")
         for i in range(60):
             try:
-                if sel.is_text_present("test run: testrun3"): break
+                if sel.is_element_present("link=details"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run : testrun3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_testrun-parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("full name: /TestRun directory/testrun3"): break
