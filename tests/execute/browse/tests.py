@@ -4425,24 +4425,71 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         sel.click("css=div#application-view-footer div a:nth-child(2)")
         for i in range(60):
             try:
-                if sel.is_text_present("test run directory"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_name"): break
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "testrun subdirectory 2")
         try: self.failUnless(sel.is_text_present("Description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_description", "Description\ndescription")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=history"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
                 if sel.is_text_present("test run directory: testrun subdirectory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4454,7 +4501,7 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("create test case directory"))
+        try: self.failUnless(sel.is_text_present("create test run directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//div[@id='application-view-footer']/div/a[2]/span")
         for i in range(60):
@@ -4476,13 +4523,21 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "TestRun directory 2")
+        try: self.failUnless(sel.is_element_present("id_parent"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.select("id_parent", "label=---------")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("link=edit"): break
+                if sel.is_element_present("link=details"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4538,8 +4593,17 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("testrun directory saved"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=details"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=details")
         for i in range(60):
             try:
                 if sel.is_text_present("test run directory: testrun subdirectory 2 modified"): break
@@ -4808,24 +4872,26 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("css=input.modify[disabled=\"disabled\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=div#application-view-footer div input"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div input")
         for i in range(60):
             try:
-                if sel.is_text_present("test run: testrun1"): break
+                if sel.is_text_present("test run : testrun1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("full name: /TestRun directory/testrun1"): break
+                if sel.is_text_present("1: /TestRun directory"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:status:"): break
+                if sel.is_text_present("testrun1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
