@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.utils import simplejson as json
+from dbtemplates.models import Template
 
 def json_response(func):
     def _jsonize(*args,**kwargs):
@@ -16,3 +17,6 @@ def failed(**kwargs):
     return { "success" : False,
              "message" : kwargs.get("message",""),
              "data" : kwargs.get("data","") }
+
+def load_dbtemplate(name):
+    return lambda : (Template.objects.filter(name=name) or [''])[0]
