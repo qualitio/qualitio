@@ -202,3 +202,22 @@ $(function() {
   });
   
 });
+
+
+/* This jQuery plugin allows to take control over
+ * the creation event of dataTables plugin. Basically
+ * we need this response with table's draw function
+ * on windows resize.
+ */
+(function($){
+  $.fn.originDataTable = $.fn.dataTable;
+
+  $.fn.dataTable = function(setting){
+    return $(this).each(function(index, tableElement){
+      var table = $(tableElement).originDataTable(setting);
+      $(window).resize(function(){
+	table.fnDraw();
+      });
+    });
+  }
+})(jQuery);

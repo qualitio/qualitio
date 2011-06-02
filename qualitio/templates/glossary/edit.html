@@ -1,0 +1,37 @@
+
+<div id="application-view-header">
+  <h1>word{% if word_form.instance.id %}: {{ word_form.instance.name }}{% endif %}</h1>
+</div>
+
+<form id="word_form"
+      action="{% if word_form.instance.id %}
+              /glossary/ajax/word/{{ word_form.instance.id }}/edit/valid/
+              {% else %}
+              /glossary/ajax/word/new/valid/
+              {% endif %}"
+      method="post">{% csrf_token %}
+
+  <div class="application-view-content">
+    <div class="field">
+      {{ word_form.name.label_tag }}:
+      {{ word_form.name }}
+    </div>
+  </div>
+
+  <div class="application-view-content">
+    {% for language, representation_form in representation_form_list %}
+    <div class="field">
+      <label>{{ language.name }}</label>
+      {{ representation_form.representation }}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div id="application-view-footer" class="application-view-content clearfix">
+    <div class="grid_16 right clearfix">
+      <input type="submit" name="Executed" value="Save" />
+    </div>
+  </div>
+
+</form>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/glossary_edit.js{{ STATIC_HASH }}"></script>
