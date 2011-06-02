@@ -213,11 +213,16 @@ $(function() {
   $.fn.originDataTable = $.fn.dataTable;
 
   $.fn.dataTable = function(setting){
-    return $(this).each(function(index, tableElement){
-      var table = $(tableElement).originDataTable(setting);
-      $(window).resize(function(){
-	table.fnDraw();
-      });
+    var tables = [];
+
+    this.each(function(){
+      tables.push($(this).originDataTable(setting));
     });
+
+    $(window).resize(function(){
+      $.each(tables, function(index, table){ table.fnDraw(); });
+    });
+
+    return tables.length > 0 ? tables[0] : null;
   }
 })(jQuery);
