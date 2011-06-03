@@ -8,6 +8,7 @@ function show_response(response, statusText, xhr, $form)  {
     $.notification.error(response.message);
   } else {
     $.notification.notice(response.message);
+    $("h1").text("requirement: " + $('#id_name').val());
     
     $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_requirement", response.data);
     

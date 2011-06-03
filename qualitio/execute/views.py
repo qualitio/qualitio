@@ -79,7 +79,7 @@ def testrun_new(request, directory_id):
 @permission_required('execute.change_testrun', login_url='/permission_required/')
 def testrun_edit(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
-    testrun_form = forms.TestRunForm(instance=testrun, prefix="testrun")
+    testrun_form = forms.TestRunForm(instance=testrun)
 
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {'testrun_form': testrun_form,
@@ -97,7 +97,7 @@ def testrun_notes(request, testrun_id):
 def testrun_valid(request, testrun_id=0):
     if testrun_id:
         testrun = TestRun.objects.get(pk=str(testrun_id))
-        testrun_form = forms.TestRunForm(request.POST, instance=testrun, prefix="testrun")
+        testrun_form = forms.TestRunForm(request.POST, instance=testrun)
 
     else:
         testrun_form = forms.TestRunForm(request.POST)

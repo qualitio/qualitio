@@ -96,6 +96,7 @@ $(function() {
 	$.shortcuts.showErrors(response.data);
       } else {
 	$.notification.notice(response.message);
+        $("h1").text("test case: " + $('#id_name').val());
 	$('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testcasedirectory", response.data);
 
 	$('#application-tree').bind("refresh.jstree", function (event, data) {
