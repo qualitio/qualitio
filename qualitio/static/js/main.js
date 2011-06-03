@@ -219,9 +219,17 @@ $(function() {
       tables.push($(this).originDataTable(setting));
     });
 
-    $(window).resize(function(){
+    var onResize = function(){
       $.each(tables, function(index, table){ table.fnDraw(); });
-    });
+    };
+
+    $(window).resize(onResize);
+
+    // if it is a tree view bind the event.
+    // we don't need it if the filter view is load.
+    if ($.onTreeResize) {
+      $.onTreeResize(onResize);
+    }
 
     return tables.length > 0 ? tables[0] : null;
   }
