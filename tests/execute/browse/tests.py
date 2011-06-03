@@ -388,17 +388,17 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Name:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_testrun-name"))
+        try: self.failUnless(sel.is_element_present("id_name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Parent:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_testrun-parent"))
+        try: self.failUnless(sel.is_element_present("id_parent"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=form#testrun_form div:nth-child(2)"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -756,7 +756,7 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1149,7 +1149,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("test run directory : Directory1 same name"): break
+                if sel.is_text_present("test run directory: Directory1 same name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1348,11 +1348,11 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type("id_testrun-name", "TestRun 1")
+        sel.type("id_name", "TestRun 1")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1362,7 +1362,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_testrun-parent", "label=5: /TestRun directory/Directory3")
+        sel.select("id_parent", "label=5: /TestRun directory/Directory3")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1378,7 +1378,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("test run : TestRun 1"): break
+                if sel.is_text_present("test run: TestRun 1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1437,17 +1437,17 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if "" == sel.get_text("id_testrun-name"): break
+                if "" == sel.get_text("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_testrun-parent", "label=1: /TestRun directory")
+        sel.select("id_parent", "label=1: /TestRun directory")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1457,7 +1457,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_testrun-name", "TestRun 1 same name")
+        sel.type("id_name", "TestRun 1 same name")
         for i in range(60):
             try:
                 if sel.is_element_present("Executed"): break
@@ -1467,7 +1467,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_text_present("test run : TestRun 1 same name"): break
+                if sel.is_text_present("test run: TestRun 1 same name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1643,7 +1643,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1702,13 +1702,13 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1728,13 +1728,13 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1776,7 +1776,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1811,13 +1811,13 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1845,13 +1845,13 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1990,13 +1990,13 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2031,7 +2031,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2039,13 +2039,13 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2077,13 +2077,13 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2111,13 +2111,13 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2125,7 +2125,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2153,13 +2153,13 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2194,7 +2194,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2208,7 +2208,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2250,13 +2250,13 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2395,13 +2395,13 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2441,13 +2441,13 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2585,13 +2585,13 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2679,13 +2679,13 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3110,13 +3110,13 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3163,7 +3163,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3245,13 +3245,13 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3502,7 +3502,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3514,7 +3514,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3815,13 +3815,13 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3848,7 +3848,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3856,7 +3856,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3886,13 +3886,13 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4174,13 +4174,13 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4217,13 +4217,13 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4310,13 +4310,13 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         sel.click("link=edit")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-name"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4551,7 +4551,7 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_element_present("link=details"): break
+                if sel.is_element_present("id_name"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5054,7 +5054,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         sel.click("//div[@id='application-view-footer']/div/input")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5271,7 +5271,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("id_testrun-parent"): break
+                if sel.is_element_present("id_parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")

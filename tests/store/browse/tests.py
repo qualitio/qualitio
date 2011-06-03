@@ -851,9 +851,21 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=history"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=details"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("full name:"): break
@@ -862,11 +874,17 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=13: /MeeGo/TV/MeeGo Handset test"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=13: /MeeGo/TV/MeeGo Handset test"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Netbook/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("13: /MeeGo/TV/MeeGo Handset test", sel.get_text("link=exact:13: /MeeGo/TV/MeeGo Handset test"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("link=exact:13: /MeeGo/TV/MeeGo Handset test"))
+        try: self.failUnless(sel.is_text_present("requirement: 13: /MeeGo/TV/MeeGo Handset test"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("description test\n\ntest"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -915,6 +933,12 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("full name: /MeeGo Netbook/TestCase"): break
@@ -2251,6 +2275,7 @@ class Test34StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.wait_for_page_to_load("")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
@@ -2406,6 +2431,12 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "TestCase same name")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
@@ -2424,6 +2455,12 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=history"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
