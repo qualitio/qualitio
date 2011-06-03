@@ -226,3 +226,20 @@ $(function() {
     return tables.length > 0 ? tables[0] : null;
   }
 })(jQuery);
+
+(function($){
+  $.fn.languageSwitcher = function() {
+    $(this).load("/glossary/ajax/language_switch/", function() {
+      $(this).appendTo("#application-view-menu");
+      $(this).find('form').change( function() {
+      $(this).submit();
+      })
+        .ajaxForm({ 
+          success: function(response) {
+            $.notification.notice(response.message);
+            Backbone.history.loadUrl();
+          },
+        });
+    });
+  }
+})(jQuery);

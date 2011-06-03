@@ -1,9 +1,13 @@
 {% load application_view_menu %}
+{% load glossary %}
+
 <div id="application-view-header">
   <h1>test case: {{ testcase.name }}</h1>
 </div>
 
 {% application_view_menu testcase "details" %}
+
+<div class="glossary-language-switch"></div>
 
 <div class="application-view-content">
   <div class="text-bullet">
@@ -22,13 +26,15 @@
   </div>
   <div class="text-bullet">
     <span class="name">description</span>
-    <span class="value-block">{{ testcase.description|default:"<i>not set</i>"|linebreaksbr }}</span>
+    <span class="value-block">
+      {% glossary_aware testcase.description %}
+    </span>
   </div>
 </div>
 <div class="application-view-content">
   <div class="step">
     <h2>precondition</h2>
-    {{ testcase.precondition|default:"<i>not set</i>"|linebreaksbr }}
+    {% glossary_aware testcase.precondition %}
   </div>
 
   {% for step in testcase.steps.all %}
@@ -36,14 +42,15 @@
     <h2>step {{ forloop.counter }}</h2>
     <div class="grid_8 clearfix">
       <div class="description">
-        {{ step.description|linebreaksbr }}
+        {% glossary_aware step.description %}
       </div>
     </div>
     <div class="grid_8 clearfix">
       <div class="excpected">
-        {{ step.expected|linebreaksbr }}
+        {% glossary_aware step.expected %}
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_details.js{{ STATIC_HASH }}"></script>

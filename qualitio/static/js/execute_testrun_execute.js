@@ -30,4 +30,6 @@ $(function() {
       selector: "table.display td .modify"
   });
   $(".dataTables_scrollHead").css('overflow', 'visible');
+  
+  $(".glossary-language-switch").languageSwitcher();
 });

@@ -1,6 +1,4 @@
 $(function() {
-  $(".word-search input").focus();
-
   $(".word-add-button")
     .button({
       icons: {
@@ -22,7 +20,11 @@ $(function() {
     },
 
     initialize: function() {
-      $(this.list_el).load("/glossary/ajax/word/list/");
+      $(this.list_el).load("/glossary/ajax/word/list/", function() {
+        $(".word-search input")
+          .focus()
+          .livefilter({selector:'#application-tree a'});
+      });
     },
 
     edit: function(id) {
@@ -41,7 +43,5 @@ $(function() {
 
   new ControllerView();
   Backbone.history.start();
-
+  
 });
-
-

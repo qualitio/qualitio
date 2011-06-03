@@ -19,4 +19,11 @@ urlpatterns = patterns('',
 
                        url(r'^ajax/word/(?P<word_id>\d+)/edit/valid/$',
                            'glossary.views.edit_valid'),
+
+                       url(r'^ajax/language_switch/$',
+                           'glossary.views.language_switch'),
+
+                       url(r'^ajax/language_switch_valid/$',
+                           'glossary.views.language_switch_valid'),
+
                        )
