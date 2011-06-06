@@ -114,8 +114,6 @@ def _configure_apache():
     sudo_it("cp %s/deploy/apache.virtualhost /etc/apache2/sites-available/%s"
             % (env.path, env.instance_name))
 
-    sudo_it("a2ensite %s" % env.instance_name)
-
 def _setup_local_settings(local_settings):
     print("%s. Setup local settings" % count.inc())
     require("path")
@@ -203,22 +201,31 @@ def setup_production(path="/var/www/qualitio", instance_name=None, local_setting
     _synchronize_database()
     _migrate_database()
     _load_startdata()
-    _restart_webserver()
 
-    print("Check your site setup at http://%s.%s"
-          % (colors.green(env.instance_name), colors.green(env.host)))
+    print("Instance was successfully deployed in %s"
+          % colors.green(env.path))
+    print("Adapt your settings for instance in /etc/apache2/sites-available/%s and "
+          % (colors.green(env.instance_name)))
+    print("start instance using a2ensite %s" % colors.green(("a2ensite %s" % env.instance_name)))
 
 
 def update_production(path="/var/www/qualitio", local_settings=""):
     """Updates remote production envirotment"""
+
+    global run_it
+    global sudo_it
+
+    run_it = lambda command: sudo(command, user="www-data")
+    sudo_it = sudo
+
     env.path = path.rstrip("/")
+    env.virtualenv_path = "%s/.virtualenv" % env.path
 
     if not files.exists(env.path):
         print colors.red("No instance found on path=%s. Breaking update." % env.path)
     else:
         _download_release()
         _install_requirements()
-        _local_settings(local_settings)
         _synchronize_database()
         _migrate_database()
         _restart_webserver()
