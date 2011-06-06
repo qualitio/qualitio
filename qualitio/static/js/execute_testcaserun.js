@@ -95,9 +95,12 @@ $(function() {
             type: "error"
           });
         } else {
+          // Update testcaserunlist
+          $("#testcaserun_"+response.data.testcaserun+" .bugs").text(
+            $.map(response.data.all_bugs, function(value) { return "#"+value }).join(" ")
+          );
           // Reload bugtable
           $('#current-bugs-table').reloadBugs(TESTCASERUN);
-          
           $('#notification').jnotifyAddMessage({
             text: response.message,
             permanent: false,
