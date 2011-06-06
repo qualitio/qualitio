@@ -2,9 +2,10 @@ from django import forms
 from qualitio import core
 from qualitio.glossary import models
 
+WORD_RE = "[a-zA-Z0-9_\-]+"
 
 class WordForm(core.BaseModelForm):
-    name = forms.RegexField(regex=r"^[a-zA-Z0-9_\-]+$",
+    name = forms.RegexField(regex=r"^%s$" % WORD_RE,
                             error_messages={"invalid": 'Invalid character used. Allowed characters are: "a-zA-Z0-9_-"'})
     class Meta(core.BaseModelForm.Meta):
         model = models.Word
@@ -47,3 +48,6 @@ class RepresentationFormsSet(object):
         for language, form  in self.forms:
             yield language, form
 
+
+class LanguageSwitchForm(forms.Form):
+    language = forms.ModelChoiceField(queryset=models.Language.objects.all(), empty_label=None)

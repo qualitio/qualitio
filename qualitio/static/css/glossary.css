@@ -32,3 +32,7 @@
 #application-tree {
     position: relative;
 }
+
+#application-view-header {
+    border-bottom: 1px solid #AAAAAA;
+}

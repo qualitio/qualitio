@@ -196,8 +196,7 @@ a:hover {
 }
 
 #application-view-menu {
-    -moz-border-radius: 0px 0px 0px 0px;
-    -webkit-border-radius: 0px 0px 0px 0px;
+    position: relative;
     border-bottom: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
@@ -556,4 +555,27 @@ input[readonly] {
     cursor: default;
     opacity: 0.3;
     pointer-events: none;
+}
+
+.glossary-language-switch {
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    text-align: right;
+}
+
+.glosarry-word {
+    font-style: italic;
+}
+
+.glosarry-word.no-word {
+    color: #770022
+}
+
+.glosarry-word.no-translation {
+    color: #aa8800;
+}
+
+.glosarry-word.translation {
+    color: #006633;
 }

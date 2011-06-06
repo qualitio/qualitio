@@ -3,7 +3,7 @@ from django.views.generic.simple import direct_to_template
 from qualitio.core.utils import json_response, success, failed
 
 from qualitio.glossary.models import Word
-from qualitio.glossary.forms import WordForm, RepresentationFormsSet
+from qualitio.glossary.forms import WordForm, RepresentationFormsSet, LanguageSwitchForm
 
 
 def index(request):
@@ -55,3 +55,14 @@ def edit_valid(request, word_id=0):
         return failed(message="Validation errors: %s" % word_form.error_message(),
                       data=word_form.errors_list())
 
+
+def language_switch(request):
+    return direct_to_template(request, 'glossary/language_switch.html',
+                              {"form": LanguageSwitchForm(initial={"language": request.session.get('glossary_language', None)})})
+
+@json_response
+def language_switch_valid(request):
+    form = LanguageSwitchForm(request.POST)
+    if form.is_valid():
+        request.session['glossary_language'] = form.cleaned_data['language']
+        return success(message="Current glossary language: %s" % form.cleaned_data['language'])
