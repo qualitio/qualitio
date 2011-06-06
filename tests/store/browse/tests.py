@@ -1924,6 +1924,12 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("parent: /MeeGo Netbook/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.assertEqual("modify step1 description", sel.get_text("//div[@id='application-view']/div[4]/div[2]/div[1]/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("step 3 decription", sel.get_text("//div[@id='application-view']/div[4]/div[3]/div[1]/div"))
