@@ -7,7 +7,8 @@ def settings(request):
     # conversion between python and javaScript date(time) formats
     format = get_format('DATE_FORMAT')
     format = format.replace('d', 'dd').replace('m', 'mm').replace("Y","yy")
-    return {'DATE_FORMAT' : mark_safe('"%s"' % format)}
+    return {'DATE_FORMAT' : mark_safe('"%s"' % format),
+            'AUTH_AUTO_LOGIN': getattr(global_settings, "AUTH_AUTO_LOGIN", "")}
 
 def development(request):
     static_content_hash = ""

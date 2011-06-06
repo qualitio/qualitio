@@ -4,6 +4,21 @@
 
 
 {% block form %}
+<script>
+  $(function() {
+    creditinals_blocks = '{{ AUTH_AUTO_LOGIN }}'.split(":");
+    
+    if (creditinals_blocks.length == 2) {
+      $("#id_username").val(creditinals_blocks[0]);
+      $("label[for=id_username]").hide();
+
+      $("#id_password").val(creditinals_blocks[1]);
+      $("label[for=id_password]").hide();
+    }
+  })
+
+</script>
+
 <form method="post" action="{% url django.contrib.auth.views.login %}">
   <fieldset>
     {% csrf_token %}
