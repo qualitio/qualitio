@@ -51,7 +51,15 @@ class TestCaseDirectory(core.BaseDirectoryModel):
         verbose_name_plural = 'Test case directories'
 
 
+class TestCaseStatus(core.BaseModel):
+    name = models.CharField(unique=True, max_length=256)
+
+    def __unicode__(self):
+        return self.name
+
 class TestCase(TestCaseBase):
+    status = models.ForeignKey('TestCaseStatus')
+
     class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
 
