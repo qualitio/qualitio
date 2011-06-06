@@ -13,9 +13,8 @@ def glossary_aware(context, text):
 
     def translate(m):
         word_html = '<span class="glosarry-word %s">%s</span>'
-        try: 
+        try:
             word = Word.objects.get(name=m.group(1))
-            print word
             try:
                 representation = word.representation_set.get(language=language)
                 if representation.representation:
@@ -23,7 +22,7 @@ def glossary_aware(context, text):
                 return mark_safe(word_html % ("no-translation", m.group(1)))
             except Representation.DoesNotExist:
                 return mark_safe(word_html % ("no-translation", m.group(1)))
-        except Word.DoesNotExist: 
+        except Word.DoesNotExist:
             return mark_safe(word_html % ("no-word", m.group(1)))
-    
+
     return re.sub("\$(%s)\$" % WORD_RE, translate, text)
