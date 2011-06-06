@@ -5,7 +5,7 @@
     <span class="name">parent:</span>
     <span class="value">
       <a href="/store/#testcasedirectory/{{ testcaserun.origin.parent.id }}/details/">
-	{{ testcaserun.origin.parent.path }}{{ testcaserun.origin.parent.name }}
+        {{ testcaserun.origin.parent.path }}{{ testcaserun.origin.parent.name }}
       </a>
     </span>
   </div>
@@ -20,14 +20,14 @@
   <div class="text-bullet">
     <span class="name">description</span>
     <span class="value-block">
-      {% glossary_aware testcaserun.description %}
+      {% glossary_aware testcaserun.description_br %}
     </span>
   </div>
 
   <div class="text-bullet">
     <span class="name">status</span>
     <span class="value-block">
-      <form id="testcaserun-status-form" method="post" 
+      <form id="testcaserun-status-form" method="post"
             action="/execute/ajax/testcaserun/{{ testcaserun.id }}/setstatus/">
         {% csrf_token %}
           {{ testcaserun_status_form.status }}
@@ -39,19 +39,19 @@
   <div class="application-view-content">
     <div class="step clearfix">
       <h2>precondition</h2>
-      {% glossary_aware testcaserun.precondition %}
+      {% glossary_aware testcaserun.precondition_br %}
     </div>
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
       <h2>step {{ forloop.counter }}</h2>
       <div class="grid_8 alpha">
         <div class="description">
-          {% glossary_aware step.description %}
+          {% glossary_aware step.description_br %}
         </div>
       </div>
       <div class="grid_8 omega">
         <div class="excpected">
-          {% glossary_aware step.expected %}
+          {% glossary_aware step.expected_br %}
         </div>
       </div>
     </div>

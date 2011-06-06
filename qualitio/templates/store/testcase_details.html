@@ -27,14 +27,14 @@
   <div class="text-bullet">
     <span class="name">description</span>
     <span class="value-block">
-      {% glossary_aware testcase.description %}
+      {% glossary_aware testcase.description_br %}
     </span>
   </div>
 </div>
 <div class="application-view-content">
   <div class="step">
     <h2>precondition</h2>
-    {% glossary_aware testcase.precondition %}
+    {% glossary_aware testcase.precondition_br %}
   </div>
 
   {% for step in testcase.steps.all %}
@@ -42,12 +42,12 @@
     <h2>step {{ forloop.counter }}</h2>
     <div class="grid_8 clearfix">
       <div class="description">
-        {% glossary_aware step.description %}
+        {% glossary_aware step.description_br %}
       </div>
     </div>
     <div class="grid_8 clearfix">
       <div class="excpected">
-        {% glossary_aware step.expected %}
+        {% glossary_aware step.expected_br %}
       </div>
     </div>
   </div>
