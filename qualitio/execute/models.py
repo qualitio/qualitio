@@ -3,6 +3,7 @@ from django.conf import settings
 
 from qualitio import core
 from qualitio import store
+from qualitio import glossary
 
 import mangers
 
@@ -17,6 +18,7 @@ class TestRunDirectory(core.BaseDirectoryModel):
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
     passrate = models.FloatField(default=0)
+    translation = models.ForeignKey("glossary.Language", default=glossary.Language.default)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'

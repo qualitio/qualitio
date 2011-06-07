@@ -14,7 +14,7 @@ class TestRunDirectoryForm(core.DirectoryModelForm):
 class TestRunForm(core.PathModelForm):
     class Meta(core.PathModelForm.Meta):
         model = models.TestRun
-        fields = ("parent", "name")
+        fields = ("parent", "name", "translation")
 
 
 class TestCaseRunStatus(core.BaseModelForm):
