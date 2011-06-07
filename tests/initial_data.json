@@ -424,14 +424,23 @@
     }
   }, 
   {
-    "pk": 1,
-    "model": "store.testcasestatus",
+    "pk": 1, 
+    "model": "store.testcasestatus", 
     "fields": {
-      "created_time": "2011-06-06 16:16:00",
-      "name": "Proposed",
+      "created_time": "2011-06-06 16:16:00", 
+      "name": "Proposed", 
       "modified_time": "2011-06-06 16:16:00"
     }
-  },
+  }, 
+  {
+    "pk": 2, 
+    "model": "store.testcasestatus", 
+    "fields": {
+      "created_time": "2011-06-07 14:34:48", 
+      "name": "Done", 
+      "modified_time": "2011-06-07 14:34:48"
+    }
+  }, 
   {
     "pk": 1, 
     "model": "store.testcase", 
