@@ -122,6 +122,7 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
 
 class BaseStatusModel(BaseModel):
     default_name = "default"
+
     name = models.CharField(unique=True, max_length=256)
 
     class Meta(BaseModel.Meta):
