@@ -7,10 +7,10 @@
       "name": "Test report directory", 
       "parent": null, 
       "level": 0, 
-      
+      "modified_time": "2011-05-27 10:50:43", 
       "lft": 1, 
       "tree_id": 1, 
-      
+      "created_time": "2011-05-27 10:50:43", 
       "path": "/", 
       "description": ""
     }
@@ -22,10 +22,10 @@
       "name": "Test report", 
       "parent": 1, 
       "mime": "text/html", 
-      
+      "modified_time": "2011-05-27 10:53:05", 
       "link": "1/test-report-directory/test-report/2011/05/27", 
       "template": "{% for testcase in TESTCASES %}\n<div>#{{ forloop.counter }} {{ testcase.name }}</div>\n{% endfor %}", 
-      
+      "created_time": "2011-05-27 10:51:04", 
       "path": "/Test report directory/", 
       "public": false
     }

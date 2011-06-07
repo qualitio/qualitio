@@ -15,10 +15,15 @@ class TestRunDirectory(core.BaseDirectoryModel):
         verbose_name_plural = 'Test run directories'
 
 
+class TestRunStatus(core.BaseStatusModel):
+    pass
+
+
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
     passrate = models.FloatField(default=0)
     translation = models.ForeignKey("glossary.Language", default=glossary.Language.default)
+    status = models.ForeignKey("TestRunStatus", default=TestRunStatus.default)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'

@@ -4,14 +4,16 @@
     "model": "require.requirement", 
     "fields": {
       "alias": "", 
-      "rght": 2, 
+      "rght": 6, 
       "name": "Test requirement", 
       "parent": null, 
       "level": 0, 
+      "modified_time": "2011-05-27 14:36:08", 
       "lft": 1, 
       "release_target": null, 
       "dependencies": [], 
       "tree_id": 1, 
+      "created_time": null, 
       "path": "/", 
       "description": "Test requirement"
     }

@@ -7,13 +7,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'TestCase.status'
         db.add_column('store_testcase', 'status', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['store.TestCaseStatus']), keep_default=False)
 
 
     def backwards(self, orm):
-        
+
         # Deleting field 'TestCase.status'
         db.delete_column('store_testcase', 'status_id')
 
