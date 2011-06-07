@@ -1563,7 +1563,7 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[5]/div/div[1]/div[2]/table/tbody/tr/td[1]/img"))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[5]/div/div[1]/div[2]/table/tbody/tr/td[1]/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=3"))
         except AssertionError, e: self.verificationErrors.append(str(e))

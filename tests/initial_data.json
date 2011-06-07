@@ -424,9 +424,19 @@
     }
   }, 
   {
+    "pk": 1,
+    "model": "store.testcasestatus",
+    "fields": {
+      "created_time": "2011-06-06 16:16:00",
+      "name": "Proposed",
+      "modified_time": "2011-06-06 16:16:00"
+    }
+  },
+  {
     "pk": 1, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "Close navigation", 
       "parent": 4, 
@@ -441,6 +451,7 @@
     "pk": 2, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "Open navigation", 
       "parent": 4, 
@@ -455,6 +466,7 @@
     "pk": 3, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 13, 
       "name": "TestCase", 
       "parent": 1, 
@@ -469,6 +481,7 @@
     "pk": 4, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase1", 
       "parent": 4, 
@@ -483,6 +496,7 @@
     "pk": 5, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase2", 
       "parent": 4, 
@@ -497,6 +511,7 @@
     "pk": 6, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase3", 
       "parent": 4, 
@@ -511,6 +526,7 @@
     "pk": 7, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase4", 
       "parent": 4, 
@@ -525,6 +541,7 @@
     "pk": 8, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase5", 
       "parent": 4, 
@@ -539,6 +556,7 @@
     "pk": 9, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase6", 
       "parent": 4, 
@@ -553,6 +571,7 @@
     "pk": 10, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase7", 
       "parent": 4, 
@@ -567,6 +586,7 @@
     "pk": 11, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase8", 
       "parent": 4, 
@@ -581,6 +601,7 @@
     "pk": 12, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase9", 
       "parent": 4, 
@@ -595,6 +616,7 @@
     "pk": 13, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase10", 
       "parent": 4, 
@@ -609,6 +631,7 @@
     "pk": 14, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase11", 
       "parent": 4, 
@@ -623,6 +646,7 @@
     "pk": 15, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase12", 
       "parent": 4, 
@@ -637,6 +661,7 @@
     "pk": 16, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase13", 
       "parent": 4, 
@@ -651,6 +676,7 @@
     "pk": 17, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase14", 
       "parent": 4, 
