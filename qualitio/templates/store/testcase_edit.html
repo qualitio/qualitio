@@ -36,17 +36,17 @@
   </div>
 </div>
 
-<form id="testcase_form" 
+<form id="testcase_form"
       action="{% if testcase_form.instance.id %}
               {% url qualitio.store.views.testcase_valid testcase_form.instance.id %}
               {% else %}
               {% url qualitio.store.views.testcase_valid %}
               {% endif %}"
       method="post">
-  
+
   {% csrf_token %}
   <div class="application-view-content">
-    
+
     <div id="{{ testcase_form.name.html_name }}_wrapper" class="field-wrapper">
       {{ testcase_form.name.label_tag }}: <span class="error"></span>
       {{ testcase_form.name }}
@@ -62,21 +62,26 @@
       {{ testcase_form.requirement }}
     </div>
 
+    <div id="{{ testcase_form.status.html_name }}_wrapper" class="field-wrapper">
+      {{ testcase_form.status.label_tag }}: <span class="error"></span>
+      {{ testcase_form.status }}
+    </div>
+
     <div id="{{ testcase_form.description.html_name }}_wrapper" class="field-wrapper">
       {{ testcase_form.description.label_tag }}: <span class="error"></span>
       {{ testcase_form.description }}
     </div>
-    
+
   </div>
 
   <div class="application-view-content">
 
-    
+
     <div id="{{ testcase_form.description.html_name }}_wrapper" class="field-wrapper">
       {{ testcase_form.precondition.label_tag }}: <span class="error"></span>
       {{ testcase_form.precondition }}
     </div>
-    
+
     {{ testcasesteps_form.management_form }}
     <a id="add-step-0" class="button add-step">add step</a>
 
@@ -106,7 +111,7 @@
     </div>
     {% endfor %}
   </div>
-    
+
   <div id="application-view-footer" class="application-view-content clearfix">
     <div class="grid_16 right clearfix">
       <input type="submit" name="Executed" value="Save" />
@@ -117,7 +122,7 @@
 
 <div id="dialog-attachmets" title="Use attachment?" style="display:none">
   <p><span class="ui-icon ui-icon-alert" style="float:left;
-	                                        margin:0 7px 20px 0;"></span>
+                                                margin:0 7px 20px 0;"></span>
     List of availiable attachments for current TestCase
   </p>
   <table class="pretty">
@@ -139,7 +144,7 @@
 
 <div id="dialog-translations" title="Add translation?" style="display:none">
   <p><span class="ui-icon ui-icon-alert" style="float:left;
-	                                        margin:0 7px 20px 0;">
+                                                margin:0 7px 20px 0;">
     </span>Search for logical strings/translations availiable attachments for project
   </p>
   <!-- <form action="#"> -->
