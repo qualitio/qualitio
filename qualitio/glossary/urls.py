@@ -3,27 +3,27 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
                        url(r'^$',
-                           'glossary.views.index'),
+                           'qualitio.glossary.views.index'),
 
                        url(r'ajax/word/list/$',
-                           'glossary.views.list'),
+                           'qualitio.glossary.views.list'),
 
                        url(r'^ajax/word/new/$',
-                           'glossary.views.new'),
+                           'qualitio.glossary.views.new'),
 
                        url(r'^ajax/word/(?P<word_id>\d+)/edit/?$',
-                           'glossary.views.edit'),
+                           'qualitio.glossary.views.edit'),
 
                        url(r'^ajax/word/new/valid/$',
-                           'glossary.views.edit_valid'),
+                           'qualitio.glossary.views.edit_valid'),
 
                        url(r'^ajax/word/(?P<word_id>\d+)/edit/valid/$',
-                           'glossary.views.edit_valid'),
+                           'qualitio.glossary.views.edit_valid'),
 
                        url(r'^ajax/language_switch/$',
-                           'glossary.views.language_switch'),
+                           'qualitio.glossary.views.language_switch'),
 
                        url(r'^ajax/language_switch_valid/$',
-                           'glossary.views.language_switch_valid'),
+                           'qualitio.glossary.views.language_switch_valid'),
 
                        )
