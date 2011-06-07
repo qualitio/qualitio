@@ -19,6 +19,10 @@
     <span class="value">{{ testcase.path }}</span>
   </div>
   <div class="text-bullet">
+    <span class="name">status:</span>
+    <span class="value">{{ testcase.status }}</span>
+  </div>
+  <div class="text-bullet">
     <span class="name">requirement:</span>
     <span class="value">
       <a href="/require/#requirement/{{ testcase.requirement.pk }}/details/">{{ testcase.requirement|default:"<i>not set</i>" }}</a>

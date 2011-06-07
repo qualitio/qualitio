@@ -240,8 +240,8 @@ def testcaserun_removebug(request, testcaserun_id):
         log.add_formset(bugs_formset, prefix=True)
         log.save()
         return success(message="Issue(s) deleted.",
-                       data=dict(id=testcaserun.id,
-                                 all=map(lambda x: x.id, testcaserun.bugs.all())))
+                       data=dict(testcaserun=testcaserun.id,
+                                 all_bugs=list(testcaserun.bugs.values_list('alias', flat=True))))
 
     return failed(message="Validation error",
                   data=bugs_formset.errors_list())
