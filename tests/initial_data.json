@@ -714,26 +714,41 @@
   }, 
   {
     "pk": 1, 
+    "model": "execute.testrunstatus", 
+    "fields": {
+      "created_time": "2011-06-07 15:43:28", 
+      "name": "default", 
+      "modified_time": "2011-06-07 15:43:28"
+    }
+  }, 
+  {
+    "pk": 1, 
     "model": "execute.testrun", 
     "fields": {
+      "status": 1, 
       "name": "TestRun 1", 
       "parent": 1, 
       "notes": "", 
-      "modified_time": "2011-01-24 15:06:19", 
+      "modified_time": "2011-06-07 16:19:38", 
+      "passrate": 0.0, 
       "created_time": "2011-01-24 15:06:19", 
-      "path": "/TestRun directory/"
+      "path": "/TestRun directory/", 
+      "translation": 1
     }
   }, 
   {
     "pk": 2, 
     "model": "execute.testrun", 
     "fields": {
+      "status": 1, 
       "name": "TestRun 2", 
       "parent": 1, 
       "notes": "", 
-      "modified_time": "2011-01-24 15:08:32", 
+      "modified_time": "2011-06-07 16:19:47", 
+      "passrate": 0.0, 
       "created_time": "2011-01-24 15:06:45", 
-      "path": "/TestRun directory/"
+      "path": "/TestRun directory/", 
+      "translation": 1
     }
   },
   {
