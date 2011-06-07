@@ -8,8 +8,9 @@ from qualitio.glossary.models import Word, Representation
 register = template.Library()
 
 @register.simple_tag(takes_context=True)
-def glossary_aware(context, text):
-    language = context['request'].session.get('glossary_language', None)
+def glossary_aware(context, text, language=None):
+    if not language:
+        language = context['request'].session.get('glossary_language', None)
 
     def translate(m):
         word_html = '<span class="glosarry-word %s">%s</span>'

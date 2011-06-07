@@ -8,12 +8,8 @@ class Word(core.BaseModel):
     def __unicode__(self):
         return self.name
 
-
-class Language(core.BaseModel):
-    name = models.CharField(max_length=512, unique=True)
-
-    def __unicode__(self):
-        return self.name
+class Language(core.BaseStatusModel):
+    # ToDo: not to ideal base name, check implementation
 
     def save(self, *kwargs, **args):
         if self.id:
