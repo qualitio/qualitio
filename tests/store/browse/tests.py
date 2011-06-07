@@ -321,6 +321,8 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:parent:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("exact:status:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("requirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -349,6 +351,10 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("Requirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_requirement"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Status"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_status"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -618,6 +624,9 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("id_requirement"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.select("id_requirement", "label=1: /MeeGo")
+        try: self.failUnless(sel.is_element_present("id_status"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id_status", "label=Proposed")
         for i in range(60):
             try:
                 if sel.is_element_present("id_description"): break
@@ -720,6 +729,8 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Handset bat/"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("status: Proposed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=exact:1: /MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("1: /MeeGo", sel.get_text("link=exact:1: /MeeGo"))
@@ -764,7 +775,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"1\" and added step \"2\"."))
+        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition, changed status and changed parent. Added step \"1\" and added step \"2\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -1350,6 +1361,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.type("id_name", "test case1")
         sel.select("id_requirement", "label=5: /MeeGo/MeeGo Handset")
+        sel.select("id_status", "label=Proposed")
         sel.type("id_description", "description\ndescription")
         sel.type("id_precondition", "descriptprec\ndescriptprec")
         sel.click("css=input[name='Executed'][value='Save']")
@@ -1702,6 +1714,7 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.type("id_name", "test case modification")
         sel.select("id_requirement", "label=5: /MeeGo/MeeGo Handset")
+        sel.select("id_status", "label=Proposed")
         sel.type("id_description", "testcase description")
         sel.type("id_precondition", "test case precondition")
         sel.click("css=a#add-step-0 span")
@@ -1957,11 +1970,11 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"1\"."))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"2\", added step \"3\" and changed description and expected for step \"1\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Added step \"4\" and deleted step \"2\"."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition, changed status and changed parent. Added step \"1\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -2253,6 +2266,7 @@ class Test34StoreSamename(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "TestCase")
+        sel.select("id_status", "label=Proposed")
         sel.click("css=input[name='Executed'][value='Save']")
         for i in range(60):
             try:
@@ -2495,6 +2509,7 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+    
 
 
 if __name__ == "__main__":
