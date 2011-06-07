@@ -1,32 +1,93 @@
 [
   {
-    "pk": 1, 
-    "model": "store.testcasedirectory", 
+    "pk": 1,
+    "model": "store.testcasedirectory",
     "fields": {
-      "rght": 2, 
-      "name": "Test testcase directory", 
-      "parent": null, 
-      "level": 0, 
-      
-      "lft": 1, 
-      "tree_id": 1, 
-      
-      "path": "/", 
+      "rght": 2,
+      "name": "Test testcase directory",
+      "parent": null,
+      "level": 0,
+      "modified_time": "2011-05-27 10:45:26",
+      "lft": 1,
+      "tree_id": 1,
+      "created_time": "2011-05-27 10:45:26",
+      "path": "/",
       "description": "Test testcase directory"
     }
-  }, 
+  },
   {
-    "pk": 1, 
-    "model": "store.testcase", 
+    "pk": 1,
+    "model": "store.testcasestatus",
     "fields": {
-      "requirement": null, 
-      "name": "Test testcase", 
-      "parent": 1, 
-      "precondition": "", 
-      
-      
-      "path": "/Test testcase directory/", 
+      "created_time": "2011-06-06 16:16:00",
+      "name": "Proposed",
+      "modified_time": "2011-06-06 16:16:00"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "store.testcase",
+    "fields": {
+      "status": 1,
+      "requirement": 3,
+      "name": "Test testcase",
+      "parent": 1,
+      "precondition": "",
+      "modified_time": "2011-06-06 11:11:38",
+      "created_time": "2011-05-27 10:45:26",
+      "path": "/Test testcase directory/",
       "description": ""
+    }
+  },
+  {
+    "pk": 2,
+    "model": "store.testcase",
+    "fields": {
+      "status": 1,
+      "requirement": 3,
+      "name": "Test testcase 2",
+      "parent": 1,
+      "precondition": "Precondition ",
+      "modified_time": "2011-06-03 15:22:06",
+      "created_time": "2011-06-03 14:41:25",
+      "path": "/Test testcase directory/",
+      "description": "$manage$ test description"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "store.testcasestep",
+    "fields": {
+      "description": "$manage$ test description",
+      "sequence": 0,
+      "modified_time": "2011-06-03 14:41:25",
+      "testcase": 2,
+      "expected": "Text expected",
+      "created_time": "2011-06-03 14:41:25"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "store.testcasestep",
+    "fields": {
+      "description": "dasda s\nasd asda s\nasd asd",
+      "sequence": 0,
+      "modified_time": "2011-06-06 10:54:44",
+      "testcase": 1,
+      "expected": "123123\n123\n131231\n23",
+      "created_time": "2011-06-06 10:54:44"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "store.testcasestep",
+    "fields": {
+      "description": "dasda s\nasd asda s\nasd asd",
+      "sequence": 0,
+      "modified_time": "2011-06-06 10:54:54",
+      "testcase": 1,
+      "expected": "123123\n123\n131231\n23",
+      "created_time": "2011-06-06 10:54:54"
     }
   }
 ]
