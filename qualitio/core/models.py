@@ -118,3 +118,21 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
         if hasattr(self, "subchildren"):
             for subchild in self.subchildren.all():
                 subchild.save()
+
+
+class BaseStatusModel(BaseModel):
+    default_name = "default"
+    name = models.CharField(unique=True, max_length=256)
+
+    class Meta(BaseModel.Meta):
+        abstract = True
+
+    @classmethod
+    def default(cls):
+        try:
+            return cls.objects.all()[0]
+        except IndexError:
+            return cls.objects.create(name=cls.default_name)
+
+    def __unicode__(self):
+        return self.name
