@@ -775,7 +775,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition, changed status and changed parent. Added step \"1\" and added step \"2\"."))
+        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"1\" and added step \"2\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -1974,7 +1974,7 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Added step \"4\" and deleted step \"2\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition, changed status and changed parent. Added step \"1\"."))
+        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"1\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -2274,6 +2274,18 @@ class Test34StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_requirement"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\" and \"name\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -2291,6 +2303,12 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if sel.is_element_present("id_precondition"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_element_present("Executed"): break
             except: pass
             time.sleep(1)
@@ -2298,7 +2316,6 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("Executed")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2322,13 +2339,13 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("link=history"): break
+                if sel.is_element_present("link=store"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=details"): break
+                if sel.is_element_present("link=execute"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2338,10 +2355,10 @@ class Test34StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=details")
+        sel.click("link=MeeGo Netbook")
         for i in range(60):
             try:
-                if sel.is_text_present("test case: TestCase2"): break
+                if sel.is_element_present("link=edit"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2351,6 +2368,15 @@ class Test34StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("link=TestCase2")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: TestCase2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("test case: TestCase2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase2"))
@@ -2578,9 +2604,13 @@ class Test35StoreTestcaseStatus(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("This field is required."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors:"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("This field is required.", sel.get_text("css=div#status_wrapper div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("This field is required.", sel.get_text("css=div#name_wrapper div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2646,24 +2676,6 @@ class Test35StoreTestcaseStatus(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.select("id_status", "label=---------")
-        for i in range(60):
-            try:
-                if sel.is_element_present("Executed"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.click("Executed")
-        for i in range(60):
-            try:
-                if sel.is_text_present("Validation errors:"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Validation errors:"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("This field is required.", sel.get_text("css=div#status_wrapper div"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.select("id_status", "label=Done")
         for i in range(60):
             try:
@@ -2714,6 +2726,23 @@ class Test35StoreTestcaseStatus(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("status: Done"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=history"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=history")
+        for i in range(60):
+            try:
+                if sel.is_text_present("date"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("user"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Changed status."))
         except AssertionError, e: self.verificationErrors.append(str(e))
     
 
