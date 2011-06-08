@@ -9,8 +9,8 @@ from qualitio.glossary.models import Language
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        status = orm.TestRunStatus.objects.all()[0]
-        language = Language.objects.all()[0]
+        status = orm.TestRunStatus.objects.get_or_create(name="default")[0]
+        language = Language.objects.get_or_create(name="default")[0]
         for test_run in orm.TestRun.objects.all():
             test_run.status = status
             test_run.translation = language
