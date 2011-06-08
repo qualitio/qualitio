@@ -2689,9 +2689,9 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//input[@value='1']"))
+        try: self.failUnless(sel.is_element_present("//input[@value='1' and @type='checkbox']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='1']")
+        sel.click("//input[@value='1' and @type='checkbox']")
         try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//a[@id='add-testcases-button']/span")
@@ -3120,9 +3120,9 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//input[@value='1']"))
+        try: self.failUnless(sel.is_element_present("//input[@value='1' and @type='checkbox']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='1']")
+        sel.click("//input[@value='1' and @type='checkbox']")
         try: self.failUnless(sel.is_element_present("//a[@id='remove-testcases-button']/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//a[@id='remove-testcases-button']/span")
@@ -3268,7 +3268,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("//input[@value='1']")
+        sel.click("//input[@value='1' and @type='checkbox']")
         for i in range(60):
             try:
                 if sel.is_element_present("//a[@id='add-testcases-button']/span"): break
@@ -3825,9 +3825,9 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("off", sel.get_value("//input[@value='1']"))
+        try: self.assertEqual("off", sel.get_value("//input[@value='1' and @type='checkbox']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//input[@value='1']")
+        sel.click("//input[@value='1' and @type='checkbox']")
         try: self.failUnless(sel.is_element_present("//a[@id='remove-testcases-button']/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//a[@id='remove-testcases-button']/span")
@@ -3842,7 +3842,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_text_present("test run : TestRun 1"): break
+                if sel.is_text_present("test run: TestRun 1"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3896,9 +3896,9 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("css=input[value='1']"))
+        try: self.failUnless(sel.is_element_present("//input[@value='1' and @type='checkbox']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("css=input[value='1']")
+        sel.click("//input[@value='1' and @type='checkbox']")
         for i in range(60):
             try:
                 if sel.is_element_present("css=input[value='1']"): break
