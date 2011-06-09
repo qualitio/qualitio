@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'pagination',
     'compressor',
     'dbtemplates',
+    'tastypie',
 
     'qualitio.core',
     'qualitio.require',

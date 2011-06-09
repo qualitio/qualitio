@@ -3,6 +3,8 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
+from qualitio import api
+
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
                        (r'^logout/$', 'django.contrib.auth.views.logout',
@@ -23,11 +25,10 @@ urlpatterns = patterns('',
                        (r'^store/', include('qualitio.store.urls', app_name="store")),
                        (r'^report/', include('qualitio.report.urls', app_name="report")),
                        (r'^filter/', include('qualitio.filter.urls')),
-
                        (r'^glossary/', include('qualitio.glossary.urls')),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-                       (r'^admin/', include(admin.site.urls))
-
+                       (r'^admin/', include(admin.site.urls)),
+                       (r'', include(api.urls)),
                        )
 
 urlpatterns += patterns('django.views.generic.simple',
