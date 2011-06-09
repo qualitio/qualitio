@@ -1,0 +1,70 @@
+[
+  {
+    "pk": 1,
+    "model": "execute.testrundirectory",
+    "fields": {
+      "rght": 2,
+      "name": "Test testrun directory",
+      "parent": null,
+      "level": 0,
+      "modified_time": "2011-05-27 10:47:24",
+      "lft": 1,
+      "tree_id": 1,
+      "created_time": "2011-05-27 10:47:24",
+      "path": "/",
+      "description": ""
+    }
+  },
+  {
+    "pk": 1,
+    "model": "execute.testrunstatus",
+    "fields": {
+      "created_time": "2011-06-07 14:46:03",
+      "name": "default",
+      "modified_time": "2011-06-07 14:46:03"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "execute.testrun",
+    "fields": {
+      "status": 1,
+      "name": "test",
+      "parent": 1,
+      "notes": "",
+      "modified_time": "2011-06-07 14:19:33",
+      "passrate": 0.0,
+      "created_time": "2011-06-07 13:39:45",
+      "path": "/Test testrun directory/",
+      "translation": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "execute.testcaserunstatus",
+    "fields": {
+      "name": "IDLE",
+      "color": "",
+      "modified_time": "2011-06-07 13:18:48",
+      "passed": false,
+      "created_time": "2011-06-07 13:18:48",
+      "total": false
+    }
+  },
+  {
+    "pk": 1,
+    "model": "execute.testcaserun",
+    "fields": {
+      "origin": 1,
+      "status": 1,
+      "requirement": null,
+      "name": "test",
+      "parent": 1,
+      "precondition": "$test1$",
+      "modified_time": "2011-06-07 14:06:16",
+      "created_time": "2011-06-07 14:06:16",
+      "path": "/Test testrun directory/test/",
+      "description": "$test$"
+    }
+  }
+]

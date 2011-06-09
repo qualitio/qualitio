@@ -1,0 +1,11 @@
+[
+  {
+    "pk": 1,
+    "model": "glossary.language",
+    "fields": {
+      "created_time": "2011-06-01 14:51:34",
+      "name": "default",
+      "modified_time": "2011-06-01 14:51:34"
+    }
+  }
+]
