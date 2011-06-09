@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.db.models.query import QuerySet
+from django.core.exceptions import ValidationError
 
 from qualitio import store
 from qualitio.report.models import ReportDirectory, Report, ContextElement
-from django.core.exceptions import ValidationError
+from qualitio.report.validators import report_query_validator
 
 
 class TestContextElementValidation(TestCase):
@@ -41,52 +42,52 @@ class TestContextElementValidation(TestCase):
         self.assertRaises(ValidationError, context_element.full_clean)
 
 
-class TestContextElementQueryBuild(TestCase):
+class TestReportQueryBuilder(TestCase):
     def setUp(self):
-        self.root = ReportDirectory.objects.create(name="root")
-        self.report = Report.objects.create(name="report", parent=self.root)
-
+        self.root = store.TestCaseDirectory.objects.create(name="root")
+        self.status = store.TestCaseStatus.objects.create(name="Proposal")
 
     def test_build(self):
-        root = store.TestCaseDirectory.objects.create(name="root")
         testcase = store.TestCase.objects.create(name="test",
-                                                 parent=root)
+                                                 parent=self.root,
+                                                 status=self.status)
 
         object_name = "TestCase"
         methods = [("all", {})]
 
-        query = ContextElement._build_query(object_name, methods)
+        query = report_query_validator.build_query(object_name, methods)
 
         self.assertTrue(isinstance(query, QuerySet))
         self.assertTrue(testcase in query)
 
 
     def test_build_exclude(self):
-        root = store.TestCaseDirectory.objects.create(name="root")
         testcase1 = store.TestCase.objects.create(name="test1",
-                                                 parent=root)
+                                                 parent=self.root,
+                                                 status=self.status)
 
         testcase2 = store.TestCase.objects.create(name="test2",
-                                                  parent=root)
+                                                  parent=self.root,
+                                                  status=self.status)
 
         object_name = "TestCase"
         methods = [("all", {}), ("exclude", {"pk": testcase1.pk})]
 
-        query = ContextElement._build_query(object_name, methods)
+        query = report_query_validator.build_query(object_name, methods)
 
         self.assertTrue(isinstance(query, QuerySet))
         self.assertTrue(testcase2 in query)
 
 
     def test_build_get(self):
-        root = store.TestCaseDirectory.objects.create(name="root")
         testcase = store.TestCase.objects.create(name="test1",
-                                                 parent=root)
+                                                 parent=self.root,
+                                                 status=self.status)
 
         object_name = "TestCase"
         methods = [("get", {"pk": testcase.pk})]
 
-        query = ContextElement._build_query(object_name, methods)
+        query = report_query_validator.build_query(object_name, methods)
 
         self.assertEquals(query, testcase)
 
@@ -94,7 +95,7 @@ class TestContextElementQueryBuild(TestCase):
         object_name = "TestCase"
         methods = [ ("get", {"pk": 1} )]
 
-        query = ContextElement._build_query(object_name, methods)
+        query = report_query_validator.build_query(object_name, methods)
 
         self.assertEquals(query, None)
 
@@ -103,16 +104,20 @@ class TestContextElementQuerySet(TestCase):
     def setUp(self):
         self.report_root = ReportDirectory.objects.create(name="root")
         self.report = Report.objects.create(name="report", parent=self.report_root)
+        self.status = store.TestCaseStatus.objects.create(name="Proposal")
 
         self.testcase_root = store.TestCaseDirectory.objects.create(name="root")
         self.testcase1 = store.TestCase.objects.create(name="testcase1",
-                                                       parent=self.testcase_root)
+                                                       parent=self.testcase_root,
+                                                       status=self.status)
 
         self.testcase2 = store.TestCase.objects.create(name="testcase2",
-                                                       parent=self.testcase_root)
+                                                       parent=self.testcase_root,
+                                                       status=self.status)
 
         self.testcase3 = store.TestCase.objects.create(name="testcase3",
-                                                       parent=self.testcase_root)
+                                                       parent=self.testcase_root,
+                                                       status=self.status)
 
     def test_queryset_all(self):
         query = "TestCase.all()"
@@ -153,7 +158,7 @@ class TestContextElementQuerySet(TestCase):
         context_element.full_clean()
         queryset = context_element.query_object()
 
-        self.assertTrue(queryset,self.testcase1)
+        self.assertTrue(queryset, self.testcase1)
 
 
     def test_queryset_exclude(self):
@@ -174,7 +179,8 @@ class TestContextElementQuerySet(TestCase):
 
     def test_queryset_combine(self):
         testcase4 = store.TestCase.objects.create(name="Testcase4",
-                                                  parent=self.testcase_root)
+                                                  parent=self.testcase_root,
+                                                  status=self.status)
 
         query = 'TestCase.exclude(pk=1).filter(name__startswith="Test")'
 
@@ -190,7 +196,8 @@ class TestContextElementQuerySet(TestCase):
 
     def test_queryset_invalid(self):
         store.TestCase.objects.create(name="Testcase4",
-                                      parent=self.testcase_root)
+                                      parent=self.testcase_root,
+                                      status=self.status)
 
         query = 'TestCase.filter(name__sssstartswith="Test")'
 
