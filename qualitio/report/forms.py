@@ -24,14 +24,14 @@ class ContextElementForm(core.BaseModelForm):
         fields = ("name", "query")
 
 
-_ContextElementFormset = inlineformset_factory(models.Report,
+BaseContextElementFormset = inlineformset_factory(models.Report,
                                               models.ContextElement,
                                               extra=2,
                                               formset=core.BaseInlineFormSet,
                                               form=ContextElementForm)
 
 
-class ContextElementFormset(_ContextElementFormset):
+class ContextElementFormset(BaseContextElementFormset):
     def get_context(self):
         context = {}
         for cd in filter(lambda cd: 'name' in cd and 'query' in cd, self.cleaned_data):
