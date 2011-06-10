@@ -90,6 +90,7 @@ LOGIN_EXEMPT_URLS = (
     r'^complete/*',
     r'^report/external/*',
     r'^__debug__/.*',
+    r'^api/.*',
     )
 
 TEMPLATE_DIRS = (

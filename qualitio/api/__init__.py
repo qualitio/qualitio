@@ -7,7 +7,6 @@ from tastypie.authorization import DjangoAuthorization
 
 api = Api(api_name="api")
 
-from django.contrib.auth.models import User
 from qualitio import require
 from qualitio import store
 from qualitio import execute
@@ -34,6 +33,7 @@ class StateMeta(BaseMeta):
 
 
 class RequirementResource(ModelResource):
+    parent = fields.ForeignKey('self', 'parent', null=True)
     class Meta(DirectoryMeta):
         queryset = require.Requirement.objects.all()
         resource_name = 'require/requirement'
