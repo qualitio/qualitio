@@ -29,15 +29,6 @@ $(window).resize(function() {
   };
 })( jQuery );
 
-  
-jQuery.fn.dataTableToggleSelect = function() {
-  return jQuery(this).live('click', function() {
-    $(this).parents('.dataTables_wrapper')
-      .find('input.modify:not(:disabled)')
-      .attr('checked', $(this).attr('checked'));
-  });
-};
-
 jQuery.shortcuts = {
   showErrors: function(errors) {
     $(errors).each(function(i, element, value) {
@@ -211,3 +202,52 @@ $(function() {
   });
   
 });
+
+
+/* This jQuery plugin allows to take control over
+ * the creation event of dataTables plugin. Basically
+ * we need this response with table's draw function
+ * on windows resize.
+ */
+(function($){
+  $.fn.originDataTable = $.fn.dataTable;
+
+  $.fn.dataTable = function(setting){
+    var tables = [];
+
+    this.each(function(){
+      tables.push($(this).originDataTable(setting));
+    });
+
+    var onResize = function(){
+      $.each(tables, function(index, table){ table.fnDraw(); });
+    };
+
+    $(window).resize(onResize);
+
+    // if it is a tree view bind the event.
+    // we don't need it if the filter view is load.
+    if ($.onTreeResize) {
+      $.onTreeResize(onResize);
+    }
+
+    return tables.length > 0 ? tables[0] : null;
+  }
+})(jQuery);
+
+(function($){
+  $.fn.languageSwitcher = function() {
+    $(this).load("/glossary/ajax/language_switch/", function() {
+      $(this).appendTo("#application-view-menu");
+      $(this).find('form').change( function() {
+      $(this).submit();
+      })
+        .ajaxForm({ 
+          success: function(response) {
+            $.notification.notice(response.message);
+            Backbone.history.loadUrl();
+          },
+        });
+    });
+  }
+})(jQuery);

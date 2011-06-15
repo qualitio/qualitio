@@ -29,7 +29,7 @@
     </div>
     {% endfor %}
   </div>
-  
+
   <div class="grid_16 clearfix">
     <div class="application-view-content">
       <div class="right">
@@ -45,13 +45,11 @@
         <table class="display">
           <thead>
             <tr>
-              <th class="checkbox">
-                <input name="select-all" type="checkbox"/>
-              </th>
-	      <th>id</th>
+              <th class="checkbox"></th>
+              <th>id</th>
               <th>path</th>
-	      <th>name</th>
-	      <th>status</th>
+              <th>name</th>
+              <th>status</th>
             </tr>
           </thead>
           <tbody>
@@ -61,9 +59,9 @@
                 <input type="checkbox" class="modify" value="{{ test_case.origin.id }}"/>
                 <input type="hidden" name="connected_test_case" value="{{ test_case.origin.id }}"/>
               </td>
-	      <td class="id">
+              <td class="id">
                 {{ test_case.origin.id }}
-              </td> 
+              </td>
               <td class="path">
                 <a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
                   {{ test_case.origin.path }}
@@ -74,7 +72,7 @@
                   {{ test_case.name }}
                 </a>
               </td>
-	      <td class="status">
+              <td class="status">
                 {{ test_case.status }}
               </td>
             </tr>
@@ -84,19 +82,17 @@
         <a id="remove-testcases-button" class="button">remove</a>
       </div>
     </div>
-    
+
     <div class="grid_8 clearfix">
       <div class="available-testcases application-view-content">
         <h2>available testcase</h2>
         <table class="display">
           <thead>
             <tr>
-              <th class="checkbox">
-                <input name="select-all" type="checkbox"/>
-              </th>
-	      <th>id</th>
+              <th class="checkbox"></th>
+              <th>id</th>
               <th>path</th>
-	      <th>name</th>
+              <th>name</th>
             </tr>
           </thead>
           <tbody>
@@ -106,7 +102,7 @@
                 <input type="checkbox" class="modify" value="{{ test_case.id }}"/>
                 <input type="hidden" name="available_test_case" value="{{ test_case.id }}" />
               </td>
-	      <td class="id">{{ test_case.id }}</td>
+              <td class="id">{{ test_case.id }}</td>
               <td class="path"><a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
                   {{ test_case.path }}
               </a></td>
@@ -121,7 +117,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="grid_16 clearfix">
     <div id="application-view-footer" class="application-view-content">
       <div class="right">

@@ -7,11 +7,15 @@ from django.utils.encoding import force_unicode
 
 
 class FormErrorProcessingMixin(object):
-    def errors_list(self):
+    def errors_list(self, additional=()):
         """
-        Returns all errors as list of tuples: (field_name, first_of_field_errors)
+        Returns all errors as list of tuples: (field_name, first_of_field_errors).
+        Errors can be extended with 'additional' error list.
         """
-        return [(fname, errors[0]) for fname, errors in self.errors.items()]
+        additional_errors = additional or ()
+        errors = [(fname, errors[0]) for fname, errors in self.errors.items()]
+        errors += list(additional_errors)
+        return errors
 
     def error_message(self):
         """
@@ -70,6 +74,10 @@ class BaseForm(forms.Form, FormErrorProcessingMixin):
 
 
 class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
+
+    class Meta:
+        pass
+
     def changelog(self):
         change_message = []
         if self.changed_data:

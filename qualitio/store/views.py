@@ -105,5 +105,5 @@ def testcase_valid(request, testcase_id=0):
                               "current_id": testcase.id})
     else:
         return failed(message="Validation errors: %s" % testcase_form.error_message(),
-                      data=testcase_form.errors_list() + testcasesteps_form.errors_list())
+                      data=testcase_form.errors_list() + testcasesteps_form._errors_list())
 

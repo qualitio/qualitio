@@ -1,15 +1,15 @@
 import re
 import pickle
 
-from django.core.exceptions import FieldError
-from django.db import models
-from django.template import Context, Template, TemplateSyntaxError
 from django.core.exceptions import ValidationError
+from django.template import Context, Template
+from django.db import models
 from django.views import debug
-from django.db.models import query, loading
+from django.db.models import query
 from django.template.defaultfilters import slugify
 
 from qualitio import core
+from qualitio.report.validators import report_query_validator
 
 
 class RestrictedManager(models.Manager):
@@ -31,6 +31,9 @@ class RestrictedManager(models.Manager):
 class ReportDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Report directories'
+
 
 class Report(core.BasePathModel):
     template = models.TextField(blank=True)
@@ -45,13 +48,13 @@ class Report(core.BasePathModel):
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
+        for_parent_unique = True
 
     @property
     def context_dict(self):
         context_dict = {}
         for context_element in self.context.all():
-           context_dict[context_element.name] = context_element.query_object
-
+           context_dict[context_element.name] = context_element.query_object()
         return context_dict
 
     @property
@@ -79,23 +82,6 @@ class Report(core.BasePathModel):
         kwargs['force_insert'] = False
         super(Report, self).save(*args, **kwargs)
 
-    def _get_template_exception_info(self, exception):
-        origin, (start, end) = exception.source
-        template_source = origin.reload()
-        upto = line = 0
-        for num, next in enumerate(debug.linebreak_iter(template_source)):
-            if start >= upto and end <= next:
-                line = num
-            upto = next
-        return line
-
-    def clean(self):
-        try:
-            unicode(Template(self.template).render(Context(self.context_dict)))
-        except TemplateSyntaxError as e:
-            raise ValidationError({"template": "Line %s: %s"
-                                   % (self._get_template_exception_info(e), e)})
-
 
 class ContextElement(models.Model):
     report = models.ForeignKey("Report", related_name="context")
@@ -103,71 +89,53 @@ class ContextElement(models.Model):
     query = models.TextField()
     query_pickled = models.TextField(blank=True)
 
-    ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
-    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
-    ALLOWED_APPS = ["require", "store", "execute", "report"]
+    def save(self, *args, **kwargs):
+        """
+        save method makes ability setup 'query_pickled' field with user own value.
+        Usefull then set of ContextElement objects are created / edited.
+        See qualitio.report.forms.ContextElementFormset.save method.
+        """
+        query_result = kwargs.pop('query_result', None)
+        if query_result:
+            self.query_pickled = self.pickle_query_result(query_result)
+        return super(ContextElement, self).save(*args, **kwargs)
 
-    def clean(self):
-        query_segments  = self.query.split(".")
-        if len(query_segments) < 2:
-            raise ValidationError({"query": "Minimal query should be: ObjectType.method([key=value])"})
+    def full_clean(self):
+        """
+        full_clean starts the base class full_clean validation and
+        also adds 'clean_query' validation.
 
-        valid_object = query_segments[0]
-        methods = query_segments[1:]
+        Construction of the method looks like this, because 'full_clean'
+        should return ALL validation errors, not just a part.
+        """
+        errors = {}
 
-        if valid_object not in self.ALLOWED_OBJECTS:
-            raise ValidationError({"query": "Type '%s' is not supported" % valid_object})
+        try:
+            super(ContextElement, self).full_clean()
+        except ValidationError as e:
+            errors = e.update_error_dict(errors)
 
-        valid_methods = []
-        for method in methods:
-            method_re = re.match("(?P<method>\w+)\((?P<args>(\w+=.+)?)\)$", method)
+        try:
+            self.clean_query()
+        except ValidationError as e:
+            errors = e.update_error_dict(errors)
 
-            try:
-                method_name = method_re.groupdict()["method"]
-                try:
-                    args = dict([(method_re.groupdict()["args"].split("=")[0],
-                                  method_re.groupdict()["args"].split("=")[1].strip('"').strip("'"))])
+        if errors:
+            raise ValidationError(errors)
 
-                except IndexError:
-                    args = dict()
+    def clean_query(self):
+        """
+        clean_query does two things
+        1) it validates query string
+        2) it syncronize evaluated query with 'query_pickled' attribute.
+        """
+        self.query_pickled = self.pickle_query_result(report_query_validator.clean(self.query))
 
-            except AttributeError:
-                raise ValidationError({"query": "Method '%s' is in wrong format" % method})
-
-            if method_name not in self.ALLOWED_METHODS:
-                raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
-
-
-            valid_methods.append((method_name, args))
-
-        self.query_pickled = pickle.dumps(self._build_query(valid_object, valid_methods))
-
-    def _build_query(cls, object_name, methods):
-        Object = None
-
-        for app in cls.ALLOWED_APPS:
-            Object = loading.get_model(app, object_name)
-            if Object: break
-
-        if not Object:
-            return query.QuerySet()
-
-        query_set = Object.objects
-        for name, kwargs in methods:
-            try:
-                query_set = getattr(query_set, name)(**kwargs)
-            except Object.DoesNotExist:
-                return None
-            except FieldError as e:
-                raise ValidationError({"query": repr(e) })
-
-        if not isinstance(query_set, query.QuerySet):
-            return query_set
-
-        query_dict = query_set.__getstate__()
-        query_dict["_result_cache"] = None
-        return query_dict
-
+    def pickle_query_result(self, result):
+        if isinstance(result, query.QuerySet):
+            result = result.__getstate__()
+            result["_result_cache"] = None
+        return pickle.dumps(result)
 
     def query_object(self):
         query_dict = pickle.loads(str(self.query_pickled))
@@ -177,4 +145,3 @@ class ContextElement(models.Model):
         _query = query.QuerySet()
         _query.__dict__ = query_dict
         return _query
-

@@ -31,10 +31,12 @@ def get_children(request, directory):
     try:
         node_id = int(request.GET.get('id', 0))
         node = directory.objects.get(pk=node_id)
-        directories = node.children.all()
+        directories = node.children.order_by('name')
         data = map(lambda x: to_tree_element(x, x._meta.module_name), directories)
         try:
-            subchildren = getattr(getattr(node, "subchildren", None), "all", None)()
+            subchildren = getattr(node, "subchildren", None)
+            subchildren = getattr(subchildren, "order_by", lambda *a, **k: None)('name')
+
             data.append(map(lambda x: to_tree_element(x, x._meta.module_name), subchildren))
         except TypeError:  # Not really good idea, slow typecheck?
             pass

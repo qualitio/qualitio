@@ -25,3 +25,4 @@ wsgiref==0.1.2
 yolk==0.4.1
 django-pagination==1.0.7
 django-dbtemplates==1.0.1
+django-tastypie==0.9.9

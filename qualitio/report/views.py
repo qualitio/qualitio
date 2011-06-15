@@ -8,6 +8,7 @@ from qualitio.core.utils import json_response, success, failed
 
 from qualitio.report.models import ReportDirectory, Report
 from qualitio.report.forms import ReportDirectoryForm, ReportForm, ContextElementFormset
+from qualitio.report.validators import ReportValidator
 
 
 def index(request):
@@ -112,26 +113,27 @@ def report_valid(request, report_id=0):
         report_form = ReportForm(request.POST)
         report_contextelement_formset = ContextElementFormset(request.POST)
 
+    errors = {}
+
     if report_form.is_valid() and report_contextelement_formset.is_valid():
-        report = report_form.save()
-        report_contextelement_formset.instance = report
-        report_contextelement_formset.save()
+        validator = ReportValidator(report_form.cleaned_data['template'],
+                                    report_contextelement_formset.get_context())
+        if validator.raport_is_valid():
+            report = report_form.save()
+            report_contextelement_formset.instance = report
+            report_contextelement_formset.save(queries=validator.queries)
+            # TODO: the history should be updated here I guess
+            return success(message='report saved',
+                           data={"parent_id": getattr(report.parent, "id", 0),
+                                 "current_id": report.id,
+                                 "link": report.link})
+        else:
+            errors.update(validator.errors)
 
-        # log = history.History(request.user, report)
-        # log.add_form(report_form)
-        # log.add_objects(created=created_testcases, deleted=deleted_testcases)
-        # log.save()
-
-        return success(message='report saved',
-                       data={"parent_id": getattr(report.parent, "id", 0),
-                             "current_id": report.id,
-                             "link": report.link})
-
-    else:
-        errors = report_form.errors_list()
-        errors.extend(report_contextelement_formset._errors_list())
-        return failed(message="Validation errors",
-                      data=errors)
+    errors = report_form.errors_list(additional=errors.items())
+    errors.extend(report_contextelement_formset._errors_list())
+    return failed(message="Validation errors: %s" % report_form.error_message(),
+                  data=errors)
 
 
 def report_external(request, report_id):

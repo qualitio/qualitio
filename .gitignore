@@ -9,3 +9,6 @@ deploy/certs
 *~
 local_settings.py
 CACHE/
+dist/
+*.egg-info
+build/

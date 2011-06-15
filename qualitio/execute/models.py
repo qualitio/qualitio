@@ -3,6 +3,7 @@ from django.conf import settings
 
 from qualitio import core
 from qualitio import store
+from qualitio import glossary
 
 import mangers
 
@@ -10,10 +11,19 @@ import mangers
 class TestRunDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Test run directories'
+
+
+class TestRunStatus(core.BaseStatusModel):
+    pass
+
 
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
     passrate = models.FloatField(default=0)
+    translation = models.ForeignKey("glossary.Language", default=glossary.Language.default)
+    status = models.ForeignKey("TestRunStatus", default=TestRunStatus.default)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
@@ -54,9 +64,34 @@ class TestRun(core.BasePathModel):
         self.save(force_update=True)
 
 
+class TestCaseRunStatus(core.BaseStatusModel):
+    default_name = "IDLE"
+
+    color = models.CharField(max_length=7, blank=True)
+    total = models.BooleanField(
+        help_text="Count test cases with this status to total in test run passrate?")
+    passed = models.BooleanField(
+        help_text="Count test cases with this status to passed test cases in test run passrate?")
+
+    class Meta:
+        verbose_name_plural = 'Test case run statuses'
+
+    def __init__(self, *args, **kwargs):
+        super(TestCaseRunStatus, self).__init__(*args, **kwargs)
+        self._orginals = {"total": self.total,
+                          "passed": self.passed}
+
+    def save(self, *args, **kwargs):
+        if (self.total != self._orginals.get("total") or (self.passed != self._orginals.get("passed"))):
+            for testrun in TestRun.objects.all():
+                testrun.update_passrate()
+
+        super(TestCaseRunStatus, self).save(*args, **kwargs)
+
+
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
-    status = models.ForeignKey("TestCaseRunStatus", default=1)
+    status = models.ForeignKey("TestCaseRunStatus", default=TestCaseRunStatus.default)
 
     objects = mangers.TestCaseRunManager()
 
@@ -85,30 +120,6 @@ class TestCaseStepRun(store.TestCaseStepBase):
     testcaserun = models.ForeignKey('TestCaseRun', related_name="steps")
 
 
-class TestCaseRunStatus(core.BaseModel):
-    name = models.CharField(max_length=512)
-    color = models.CharField(max_length=7, blank=True)
-    total = models.BooleanField(
-        help_text="Count test cases with this status to total in test run passrate?")
-    passed = models.BooleanField(
-        help_text="Count test cases with this status to passed test cases in test run passrate?")
-
-    def __init__(self, *args, **kwargs):
-        super(TestCaseRunStatus, self).__init__(*args, **kwargs)
-        self._orginals = {"total": self.total,
-                          "passed": self.passed}
-
-    def __unicode__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if (self.total != self._orginals.get("total") or (self.passed != self._orginals.get("passed"))):
-            for testrun in TestRun.objects.all():
-                testrun.update_passrate()
-
-        super(TestCaseRunStatus, self).save(*args, **kwargs)
-
-
 class Bug(core.BaseModel):
     testcaserun = models.ForeignKey('TestCaseRun', related_name="bugs")
     alias = models.CharField(max_length=512)
@@ -128,6 +139,3 @@ class Bug(core.BaseModel):
         if url:
             return url % self.alias
         return "#"
-
-
-

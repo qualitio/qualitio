@@ -1,6 +1,6 @@
 {% load application_view_menu %}
 <div id="application-view-header">
-  <h1>test run
+  <h1>report
     {% if report_form.instance.id %}: {{ report_form.instance.name }}{% endif %}
   </h1>
 </div>
@@ -55,7 +55,6 @@
         {{ report_form.template }}
         {{ report_form.template.label_tag }}: 
         <div id="id_template_error" class="error"></div>
-        <div id="id___all___error" class="error"></div>
         <div id="editor-wrapper" class="clearfix">
           <div id="id_editor"></div>
         </div>

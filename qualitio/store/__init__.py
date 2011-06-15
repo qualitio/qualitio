@@ -1,6 +1,6 @@
 import reversion
 
-from models import TestCaseBase, TestCaseStepBase, TestCase, TestCaseStep, TestCaseDirectory
+from models import TestCaseBase, TestCaseStepBase, TestCase, TestCaseStep, TestCaseDirectory, TestCaseStatus
 
 
 if not reversion.is_registered(TestCase):

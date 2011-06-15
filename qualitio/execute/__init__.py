@@ -1,6 +1,6 @@
 import reversion
 
-from models import TestRunDirectory, TestRun, TestCaseRun, Bug
+from models import TestRunDirectory, TestRun, TestCaseRun, Bug, TestRunStatus
 
 
 if not reversion.is_registered(TestRun):

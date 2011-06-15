@@ -1,3 +1,18 @@
+/* fixes for main.css */
+.application-view-content {
+    padding: 10px 10px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 1px solid rgb(170, 170, 170);
+    margin-bottom: 4px;
+    margin-right: 0px;
+    background: white;
+}
+
+table.display thead th[name="checkbox"] {
+    padding: 0px;
+}
+
 .filter-forms {
     width: 100%;
 }
@@ -69,13 +84,16 @@
 .right { float: right; }
 
 
-/* fixes for dataTable js plugin */
-.dataTables_info {
-    width: 60%;
-    float: left;
-    padding-top:5px;
+.action-choice-form {
+    margin-right: 5px;
 }
 
-.dataTables_wrapper select {
-    width: 50px;
+.action-choice-form select {
+    margin: 1px 0px 0px 0px;
+}
+
+.action-form {
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin-top: 10px;
 }

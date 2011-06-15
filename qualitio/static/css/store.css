@@ -4,6 +4,11 @@
 
 .step {
     margin-bottom: 5px;
+    word-wrap: break-word;
+}
+
+.step:nth-child(even) {
+    background: #F6F6F6;
 }
 
 .step.removed {

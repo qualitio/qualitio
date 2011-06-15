@@ -1,0 +1,42 @@
+[
+  {
+    "pk": 1, 
+    "model": "store.testcasedirectory", 
+    "fields": {
+      "rght": 2, 
+      "name": "Test testcase directory", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2011-05-27 10:45:26", 
+      "lft": 1, 
+      "tree_id": 1, 
+      "created_time": "2011-05-27 10:45:26", 
+      "path": "/", 
+      "description": "Test testcase directory"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "store.testcasestatus", 
+    "fields": {
+      "created_time": "2011-06-07 12:57:19", 
+      "name": "Proposed", 
+      "modified_time": "2011-06-07 12:57:19"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "store.testcase", 
+    "fields": {
+      "status": 1, 
+      "requirement": null, 
+      "name": "test", 
+      "parent": 1, 
+      "precondition": "$test1$", 
+      "modified_time": "2011-06-07 14:05:58", 
+      "created_time": "2011-06-07 13:16:52", 
+      "path": "/Test testcase directory/", 
+      "description": "$test$"
+    }
+  }
+]

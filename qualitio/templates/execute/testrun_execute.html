@@ -6,6 +6,8 @@
 
 {% application_view_menu testrun "execute" %}
 
+<div class="glossary-language-switch"></div>
+
 <div class="grid_16">
   <div id="testcaserun-list" class="application-view-content">
     
@@ -14,9 +16,7 @@
     <table class="display">
       <thead>
         <tr>
-          <th class="checkbox">
-            <input name="select-all" type="checkbox"/>
-          </th>
+          <th class="checkbox"></th>
           <th>id</th>
           <th>path</th>
           <th>name</th>
@@ -30,7 +30,7 @@
       <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}"
           style="background: {{ testcaserun.status.color }}">
         <td class="select">
-          <input type="checkbox">
+          <input type="checkbox" class="modify" />
         </td>
         <td>{{ testcaserun.origin.id }}</td>
         <td>{{ testcaserun.origin.path }}</td>

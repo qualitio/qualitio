@@ -27,3 +27,7 @@ class TestCaseAdmin(core.PathModelAdmin):
                 AttachmentInline ]
 admin.site.register(models.TestCase, VersionAdmin)
 
+
+class TestCaseStatus(admin.ModelAdmin):
+    list_display = ("id", "name", 'modified_time', "created_time")
+admin.site.register(models.TestCaseStatus, TestCaseStatus)

@@ -1,0 +1,6 @@
+include LICENSE
+include VERSION
+include README.markdown
+recursive-include qualitio/templates *
+recursive-include qualitio/static *
+recursive-include deploy *

@@ -196,8 +196,7 @@ a:hover {
 }
 
 #application-view-menu {
-    -moz-border-radius: 0px 0px 0px 0px;
-    -webkit-border-radius: 0px 0px 0px 0px;
+    position: relative;
     border-bottom: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
@@ -346,10 +345,11 @@ h2, label {
 #application-nav.list a:hover {
     background: #fafafa;
 }
-
+#application-list,
 #application-tree {
     -moz-border-radius: 8px 8px 8px 8px;
     -webkit-border-radius: 8px 8px 8px 8px;
+    radius: 8px 8px 8px 8px;
     background: none repeat scroll 0 0 white;
     border: 1px solid #aaa;
     margin: 11px 4px 11px 11px;
@@ -357,10 +357,15 @@ h2, label {
     padding: 4px;
 }
 
-.text-bullet {
-    margin: 5px 0 14px;
-    border-bottom: 1px solid #F0F0F0;
-    
+#application-tree {
+    -moz-border-radius: 8px 8px 8px 8px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    radius: 8px 8px 8px 8px;
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #aaa;
+    margin: 11px 4px 11px 11px;
+    overflow: auto;
+    padding: 4px;
 }
 
 .text-bullet .name {
@@ -550,4 +555,27 @@ input[readonly] {
     cursor: default;
     opacity: 0.3;
     pointer-events: none;
+}
+
+.glossary-language-switch {
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    text-align: right;
+}
+
+.glosarry-word {
+    font-style: italic;
+}
+
+.glosarry-word.no-word {
+    color: #770022
+}
+
+.glosarry-word.no-translation {
+    color: #aa8800;
+}
+
+.glosarry-word.translation {
+    color: #006633;
 }

@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import linebreaksbr
 from qualitio import core
 
 
@@ -14,6 +15,13 @@ class TestCaseBase(core.BasePathModel):
 
     objects = TestCaseBaseManager()
 
+    # TODO: remove this two, replace them with custom model fields
+    def description_br(self):
+        return linebreaksbr(self.description)
+
+    def precondition_br(self):
+        return linebreaksbr(self.precondition)
+
     class Meta(core.BasePathModel.Meta):
         abstract = True
 
@@ -22,6 +30,13 @@ class TestCaseStepBase(core.BaseModel):
     description = models.TextField()
     expected = models.TextField(blank=True)
     sequence = models.PositiveIntegerField(null=True, default=0)
+
+    # TODO: remove this two, the same as TestCaseBase
+    def description_br(self):
+        return linebreaksbr(self.description)
+
+    def expected_br(self):
+        return linebreaksbr(self.expected)
 
     class Meta(core.BaseModel.Meta):
         abstract = True
@@ -32,8 +47,22 @@ class TestCaseStepBase(core.BaseModel):
 class TestCaseDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Directories'
+        verbose_name= 'Directory'
+
+
+class TestCaseStatus(core.BaseStatusModel):
+    default_name = "Proposed"
+
+    class Meta:
+        verbose_name_plural = 'Test case statuses'
+        verbose_name= 'Test case status'
+
 
 class TestCase(TestCaseBase):
+    status = models.ForeignKey('TestCaseStatus', default=TestCaseStatus.default)
+
     class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
 
