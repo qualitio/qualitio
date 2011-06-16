@@ -11,6 +11,20 @@ class CustomizableModel(models.Model):
     def has_customization(self):
         return hasattr(self, '_customization_model')
 
+    def custom_fields_values(self):
+        """
+        Iterates through self.customization fields values
+        and yields (name, value) tuples.
+        """
+        if not self.has_customization():
+            raise StopIteration
+
+        customization = self.customization
+
+        for f in self._customization_model._custom_meta.get_custom_fields():
+            choices_name = 'get_%s_display' % f.name
+            yield f.name.replace('_', ' '), getattr(customization, choices_name, getattr(customization, f.name))
+
     def full_clean(self, exclude=None, clean_customization=True):
         errors = {}
 
@@ -52,6 +66,11 @@ class CustomizationTarget(models.fields.related.OneToOneField):
     def contribute_to_related_class(self, cls, related):
         setattr(cls, related.get_accessor_name(),
                 CustomRelatedObjectDescriptor(related))
+
+
+# adding definitions to south
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^qualitio\.core\.custommodel\.models\.CustomizationTarget"])
 
 
 class Options(object):
@@ -102,10 +121,6 @@ class ModelCustomization(models.Model):
 
     class Meta:
         abstract = True
-
-    def _clean_origin(self):
-        if self.origin.pk is not None:
-            self.clean_origin()
 
     def clean_origin(self):
         pass
