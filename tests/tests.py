@@ -37,8 +37,8 @@ if __name__ == "__main__":
                       type='choice',
                       action='store',
                       dest='browser',
-                      choices=['firefoxproxy', 'googlechrome', 'opera'],
-                      default='firefoxproxy',
+                      choices=['chrome', 'googlechrome', 'opera'],
+                      default='chrome',
                       help='Browser environment to run on',)
 
     parser.add_option('-u', '--username',
@@ -92,6 +92,15 @@ if __name__ == "__main__":
                                       shell=False
                                       )
             syncdb.wait()
+
+	    migrate = subprocess.Popen(['../qualitio/manage.py',
+                                       'migrate',
+                                      
+                                       '--settings=selenium_settings'],
+                                      stdout=out, stderr=subprocess.STDOUT,
+                                      shell=False
+                                      )
+            migrate.wait()
 
             print "3. Starting application test server"
             runserver = subprocess.Popen(['../qualitio/manage.py',
