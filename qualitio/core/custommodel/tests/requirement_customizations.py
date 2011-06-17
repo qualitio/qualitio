@@ -33,6 +33,25 @@ class CreatingModelCustomization(BaseTestCase):
         self.assertEquals(customization.origin, requirement)
 
 
+class CustomizableModelAPI(BaseTestCase):
+    def setUp(self):
+        self.addTestApps([TESTAPP_MODULE])
+
+    def test_custom_fields_returns_dict_with_fields_values(self):
+        requirement = Requirement.objects.create(name="Root")
+        requirement.customization.special_alias = 12
+        requirement.customization.testfield = "Test content"
+        requirement.save()  # requirement.customization.save also invoked
+
+        values = requirement.custom_fields()
+
+        self.assertTrue(isinstance(values, dict))
+        self.assertEquals(len(values), 2)
+
+        for key in ['special alias', 'testfield']:
+            assert key in values, '"%s" key is not in %s' % (key, values)
+
+
 class CreatingCustomizableModelWithForm(BaseTestCase):
     def setUp(self):
         self.addTestApps([TESTAPP_MODULE])
