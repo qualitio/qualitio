@@ -15,7 +15,8 @@ class CustomizableModelFormMetaclass(forms.models.ModelFormMetaclass):
 
         if hasattr(opts.model, '_customization_model'):
             for field in opts.model._customization_model._custom_meta.get_custom_fields():
-                if should_be_excluded(field.name, opts.fields, opts.exclude):
+                # NOTE: we don't check "fields" because we do not support it right now
+                if should_be_excluded(field.name, None, opts.exclude):
                     continue
                 model_form.base_fields[field.name] = field.formfield()
 
