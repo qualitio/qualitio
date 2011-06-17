@@ -1,0 +1,20 @@
+#account {
+    border: 1px solid;
+    padding: 0 0 0 10px;
+}
+
+#account .panel {
+    border-radius: 6px;
+}
+
+#account .activity-log {
+    padding: 10px 0;
+}
+
+.activity-log .object {
+    font-weight: 700;
+}
+
+.activity-log .message {
+    font-style: italic;
+}

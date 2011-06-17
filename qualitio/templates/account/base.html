@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block css-include %}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/account.css{{ STATIC_HASH }}"></link>
+{% endblock %}
+
+
+{% block js-include %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/account.js{{ STATIC_HASH }}"></script>
+{% endblock %}
+
+{% block application %}
+<div class="grid_16">
+  <div id="application-menu" >
+    <ul>
+      <li class="active">home</li>
+    </ul>
+  </div>
+</div>
+
+<div id="account">
+  <div class="container_16">
+    <div class="grid_8">
+      <div class="application-view-content panel" style="border: 1px solid grey">
+        <h1> recent activity </h1>
+        {% for revision in revisons %}
+        <div class="activity-log">
+          <div class="date">
+            {{ revision.date_created }}
+          </div>
+
+          <div class="message">
+            <span class="object">{% for version in revision.version_set.all %}
+              {% if forloop.last %}version{{ version.content_type|capfirst}}{% endif %}{% endfor %}</span>
+            {{ revision.comment }}
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    <div class="grid_8">
+      <div class="application-view-content panel" style="border: 1px solid grey">
+        <h1>information</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

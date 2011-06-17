@@ -77,6 +77,9 @@
           <div>
             <a class="{% if CURRENT_MODULE == 'require' %}active{% endif %}" href="/require/">require</a>
           </div>
+          <div>
+            <a class="{% if CURRENT_MODULE == 'account' %}active{% endif %}" href="/account/">account</a>
+          </div>
         </div>
         <div class="user-panel">
           Welcome, <b>{{ user.username }}</b>. <a href="{% url django.contrib.auth.views.logout %}">Log out</a>
