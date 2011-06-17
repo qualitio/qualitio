@@ -18,6 +18,12 @@
     <span class="name">description:</span>
     <span class="value-block">{{ requirement.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
+  {% for name, value in requirement.custom_fields.items %}
+  <div class="text-bullet" style="text-align:justify">
+    <span class="name">{{ name }}:</span>
+    <span class="value-block">{{ value }}</span>
+  </div>
+  {% endfor %}
 </div>
 
 <div class="application-view-content clearfix">

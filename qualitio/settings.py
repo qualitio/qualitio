@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'tastypie',
 
     'qualitio.core',
+    'qualitio.core.custommodel',  # iternal core django application
     'qualitio.require',
     'qualitio.report',
     'qualitio.projects',
@@ -127,6 +128,8 @@ INSTALLED_APPS = (
     'qualitio.store',
     'qualitio.filter',
     'qualitio.glossary',
+
+    'qualitio.customizations',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
