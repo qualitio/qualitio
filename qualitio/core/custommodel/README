@@ -1,0 +1,34 @@
+* qualitio.core.custommodel *
+  custommodel  is django  application that  makes base  foundation for
+  model customizations. By  model customization I mean an  easy way of
+  extending  execute, store,  require  models fields  and adding  your
+  custom validation.
+
+** How customization works **
+  Each  customization model defines  it's target  (the model  which it
+  will extend). Here's how it works:
+
+  ##########################################################
+  from django.db import models
+
+  from qualitio.core.custommodel.models import ModelCustomization
+  from qualitio.require.models import Requirement
+
+  class RequirementCustomization(ModelCustomization):
+	mark = models.IntegerField(null=True, blank=True, choices=(
+		(1, "Good"),
+		(2, "Better"),
+		(3, "The best"),
+		))
+
+	class Meta:
+	    customization_target = Requirement
+  ##########################################################
+
+  You're simply telling django which  model is the target to customize
+  and    you're   defining    fields   on    your   ModelCustomization
+  model.  ModelCustomization will  simply have  OneToOneField  to your
+  customization_target.
+
+  ATENTION! Do  not ever, ever create  ModelCustomization instances by
+  your self. It is created (or saved) on every CustomizableModel save.
