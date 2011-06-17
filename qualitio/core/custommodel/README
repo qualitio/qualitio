@@ -32,3 +32,14 @@
 
   ATENTION! Do  not ever, ever create  ModelCustomization instances by
   your self. It is created (or saved) on every CustomizableModel save.
+
+
+** How add ModelCustomization **
+  Assuming    you've    just    saved   RequirementCustomization    in
+  customizations.models   module  type  schemamigration   &  migration
+  command:
+
+  $ ./manage.py schemamigration --add-model=RequirementCustomization customizations
+  $ ./manage.py migrate
+
+  Every time you add new model run such command for each of them.
