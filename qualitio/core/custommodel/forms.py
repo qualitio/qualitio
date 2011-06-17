@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
+from django.forms.forms import BoundField
 
 
 def should_be_excluded(name, fields, exclude):
@@ -24,6 +25,9 @@ class CustomizableModelFormMetaclass(forms.models.ModelFormMetaclass):
 class CustomizableModelForm(forms.ModelForm):
     __metaclass__ = CustomizableModelFormMetaclass
 
+    def _custom_fields_meta(self):
+        return self._meta.model._customization_model._custom_meta.get_custom_fields()
+
     def _construct_instance(self):
         instance = forms.models.construct_instance(
             self, self.instance, self._meta.fields, self._meta.exclude)
@@ -31,7 +35,7 @@ class CustomizableModelForm(forms.ModelForm):
         if hasattr(self._meta.model, '_customization_model'):
             # All do we need here is just to setup instance.customization fields
             # validation on this will be trigered by instance.full_clean validation
-            for field in self._meta.model._customization_model._custom_meta.get_custom_fields():
+            for field in self._custom_fields_meta():
                 setattr(instance.customization, field.name, self.cleaned_data.get(field.name))
             # NOTE: self.cleaned_data.get method is used here intentionally. Even if it
             #       returns None the instance.full_clean method will check it.
@@ -73,3 +77,9 @@ class CustomizableModelForm(forms.ModelForm):
         # Validate uniqueness if needed.
         if self._validate_unique:
             self.validate_unique()
+
+
+    def custom_fields(self):
+        field_names = map(lambda f: f.name, self._custom_fields_meta())
+        for name, field in [(n, self.fields[n]) for n in field_names]:
+            yield BoundField(self, field, name)
