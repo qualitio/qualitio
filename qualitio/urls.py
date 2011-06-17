@@ -34,7 +34,7 @@ urlpatterns = patterns('',
                        )
 
 urlpatterns += patterns('django.views.generic.simple',
-                        ('^$', 'redirect_to', {'url': 'require/'}),
+                        ('^$', 'redirect_to', {'url': settings.LOGIN_REDIRECT_URL }),
                         )
 
 if settings.DEBUG:
