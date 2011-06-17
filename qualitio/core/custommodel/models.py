@@ -8,8 +8,9 @@ class CustomizableModel(models.Model):
     class Meta:
         abstract = True
 
-    def has_customization(self):
-        return hasattr(self, '_customization_model')
+    @classmethod
+    def has_customization(cls):
+        return hasattr(cls, '_customization_model')
 
     def custom_fields(self):
         """
