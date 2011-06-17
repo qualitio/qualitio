@@ -11,19 +11,24 @@ class CustomizableModel(models.Model):
     def has_customization(self):
         return hasattr(self, '_customization_model')
 
-    def custom_fields_values(self):
+    def custom_fields(self):
         """
-        Iterates through self.customization fields values
-        and yields (name, value) tuples.
+        Return custom fields values dict.
+        For easy template usage.
+        Key of each value is 'verbose_name' NOT 'name'!
         """
         if not self.has_customization():
-            raise StopIteration
+            return {}
 
         customization = self.customization
+        result = {}
 
         for f in self._customization_model._custom_meta.get_custom_fields():
-            choices_name = 'get_%s_display' % f.name
-            yield f.name.replace('_', ' '), getattr(customization, choices_name, getattr(customization, f.name))
+            value = getattr(customization, f.name)
+            if hasattr(f, 'get_%s_display' % f.name):
+                value = getattr(customization, 'get_%s_display' % f.name)()
+            result[f.verbose_name] = value
+        return result
 
     def full_clean(self, exclude=None, clean_customization=True):
         errors = {}
@@ -35,6 +40,7 @@ class CustomizableModel(models.Model):
 
         if self.has_customization() and clean_customization:
             try:
+                self.customization.origin = self
                 self.customization.clean_origin()
             except ValidationError as e:
                 errors = e.update_error_dict(errors)

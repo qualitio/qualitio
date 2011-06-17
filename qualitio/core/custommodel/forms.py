@@ -32,7 +32,9 @@ class CustomizableModelForm(forms.ModelForm):
             # All do we need here is just to setup instance.customization fields
             # validation on this will be trigered by instance.full_clean validation
             for field in self._meta.model._customization_model._custom_meta.get_custom_fields():
-                setattr(instance.customization, field.name, self.cleaned_data[field.name])
+                setattr(instance.customization, field.name, self.cleaned_data.get(field.name))
+            # NOTE: self.cleaned_data.get method is used here intentionally. Even if it
+            #       returns None the instance.full_clean method will check it.
 
         return instance
 
