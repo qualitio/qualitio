@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block css-include %}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/account.css{{ STATIC_HASH }}"></link>
+{% endblock %}
+
+
+{% block js-include %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/account.js{{ STATIC_HASH }}"></script>
+{% endblock %}
+
+{% block application %}
+<div class="grid_16">
+  <div id="application-menu" >
+    <ul>
+      <li class="active">home</li>
+    </ul>
+  </div>
+</div>
+
+<div id="account">
+  <div class="container_16">
+    <div class="grid_8">
+      <div class="application-view-content panel" style="border: 1px solid grey">
+        <h1>Your activity</h1>
+        {% for revision in revisons %}
+        <div class="activity-log">
+          <div class="date">
+            {{ revision.date_created }}
+          </div>
+
+          <div class="message">
+            <span class="object">{% for version in revision.version_set.all %}
+              {% if forloop.last %}{{ version.content_type|capfirst}}{% endif %}{% endfor %}</span>
+            {{ revision.comment }}
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    <div class="grid_8">
+      <div class="application-view-content panel" style="border: 1px solid grey">
+        <h1>News</h1>
+        <div class="blog">
+          {% for article in articles %}
+          <div class="article">
+            <div class="title">{{ article.title }}</div>
+            <div class="content">{{ article.rendered_content|safe|linebreaksbr }}</div>
+            <div class="footer clearfix">
+              <div class="date">{{ article.publish_date }}</div>
+              <div class="author">by {{ article.author }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

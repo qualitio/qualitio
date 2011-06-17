@@ -26,3 +26,5 @@ yolk==0.4.1
 django-pagination==1.0.7
 django-dbtemplates==1.0.1
 django-tastypie==0.9.9
+textile==2.1.5
+django-articles==2.1.1

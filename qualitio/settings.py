@@ -79,7 +79,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'qualitio.urls'
 
-LOGIN_REDIRECT_URL = "/require/"
+LOGIN_REDIRECT_URL = "/account/"
 LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
@@ -106,6 +106,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.webdesign',
+    'django.contrib.markup',
+    'django.contrib.humanize',
 
     'mptt',
     'debug_toolbar',
@@ -118,6 +120,7 @@ INSTALLED_APPS = (
     'compressor',
     'dbtemplates',
     'tastypie',
+    'articles',
 
     'qualitio.core',
     'qualitio.core.custommodel',  # iternal core django application
