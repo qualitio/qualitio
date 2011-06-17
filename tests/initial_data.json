@@ -110,7 +110,7 @@
   },
   {
     "pk": 1, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 32, 
       "name": "MeeGo", 
@@ -128,7 +128,7 @@
   }, 
   {
     "pk": 2, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 5, 
       "name": "Notebook", 
@@ -146,7 +146,7 @@
   }, 
   {
     "pk": 3, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 7, 
       "name": "IVI", 
@@ -164,7 +164,7 @@
   }, 
   {
     "pk": 4, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 15, 
       "name": "TV", 
@@ -182,7 +182,7 @@
   }, 
   {
     "pk": 5, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 17, 
       "name": "MeeGo Handset", 
@@ -200,7 +200,7 @@
   }, 
   {
     "pk": 8, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 10, 
       "name": "Bootscreen ", 
@@ -218,7 +218,7 @@
   }, 
   {
     "pk": 9, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 19, 
       "name": "MeeGo Media Phone", 
@@ -236,7 +236,7 @@
   }, 
   {
     "pk": 10, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 31, 
       "name": "Legacy", 
@@ -254,7 +254,7 @@
   }, 
   {
     "pk": 11, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 30, 
       "name": "n900", 
@@ -272,7 +272,7 @@
   }, 
   {
     "pk": 12, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 23, 
       "name": "pr 1.0", 
@@ -290,7 +290,7 @@
   }, 
   {
     "pk": 13, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 14, 
       "name": "MeeGo Handset test", 
@@ -308,7 +308,7 @@
   }, 
   {
     "pk": 24, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 25, 
       "name": "pr 1.1", 
@@ -326,7 +326,7 @@
   }, 
   {
     "pk": 25, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 27, 
       "name": "pr 1.2", 
@@ -344,7 +344,7 @@
   }, 
   {
     "pk": 26, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 29, 
       "name": "pr 1.3", 
@@ -362,7 +362,7 @@
   }, 
   {
     "pk": 27, 
-    "model": "requirements.requirement", 
+    "model": "require.requirement", 
     "fields": {
       "rght": 13, 
       "name": "test1", 
@@ -425,8 +425,27 @@
   }, 
   {
     "pk": 1, 
+    "model": "store.testcasestatus", 
+    "fields": {
+      "created_time": "2011-06-06 16:16:00", 
+      "name": "Proposed", 
+      "modified_time": "2011-06-06 16:16:00"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "store.testcasestatus", 
+    "fields": {
+      "created_time": "2011-06-07 14:34:48", 
+      "name": "Done", 
+      "modified_time": "2011-06-07 14:34:48"
+    }
+  }, 
+  {
+    "pk": 1, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "Close navigation", 
       "parent": 4, 
@@ -441,6 +460,7 @@
     "pk": 2, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "Open navigation", 
       "parent": 4, 
@@ -455,6 +475,7 @@
     "pk": 3, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 13, 
       "name": "TestCase", 
       "parent": 1, 
@@ -469,6 +490,7 @@
     "pk": 4, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase1", 
       "parent": 4, 
@@ -483,6 +505,7 @@
     "pk": 5, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase2", 
       "parent": 4, 
@@ -497,6 +520,7 @@
     "pk": 6, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase3", 
       "parent": 4, 
@@ -511,6 +535,7 @@
     "pk": 7, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase4", 
       "parent": 4, 
@@ -525,6 +550,7 @@
     "pk": 8, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase5", 
       "parent": 4, 
@@ -539,6 +565,7 @@
     "pk": 9, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase6", 
       "parent": 4, 
@@ -553,6 +580,7 @@
     "pk": 10, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase7", 
       "parent": 4, 
@@ -567,6 +595,7 @@
     "pk": 11, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase8", 
       "parent": 4, 
@@ -581,6 +610,7 @@
     "pk": 12, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase9", 
       "parent": 4, 
@@ -595,6 +625,7 @@
     "pk": 13, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase10", 
       "parent": 4, 
@@ -609,6 +640,7 @@
     "pk": 14, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase11", 
       "parent": 4, 
@@ -623,6 +655,7 @@
     "pk": 15, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase12", 
       "parent": 4, 
@@ -637,6 +670,7 @@
     "pk": 16, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase13", 
       "parent": 4, 
@@ -651,6 +685,7 @@
     "pk": 17, 
     "model": "store.testcase", 
     "fields": {
+      "status": 1,
       "requirement": 1, 
       "name": "TestCase14", 
       "parent": 4, 
@@ -679,56 +714,165 @@
   }, 
   {
     "pk": 1, 
+    "model": "execute.testrunstatus", 
+    "fields": {
+      "created_time": "2011-06-07 15:43:28", 
+      "name": "default", 
+      "modified_time": "2011-06-07 15:43:28"
+    }
+  }, 
+  {
+    "pk": 1, 
     "model": "execute.testrun", 
     "fields": {
+      "status": 1, 
       "name": "TestRun 1", 
       "parent": 1, 
       "notes": "", 
-      "modified_time": "2011-01-24 15:06:19", 
+      "modified_time": "2011-06-07 16:19:38", 
+      "passrate": 0.0, 
       "created_time": "2011-01-24 15:06:19", 
-      "path": "/TestRun directory/"
+      "path": "/TestRun directory/", 
+      "translation": 1
     }
   }, 
   {
     "pk": 2, 
     "model": "execute.testrun", 
     "fields": {
+      "status": 1, 
       "name": "TestRun 2", 
       "parent": 1, 
       "notes": "", 
-      "modified_time": "2011-01-24 15:08:32", 
+      "modified_time": "2011-06-07 16:19:47", 
+      "passrate": 0.0, 
       "created_time": "2011-01-24 15:06:45", 
-      "path": "/TestRun directory/"
+      "path": "/TestRun directory/", 
+      "translation": 1
     }
   },
   {
     "pk": 1, 
     "model": "execute.testcaserunstatus", 
     "fields": {
-      "created_time": "2011-01-31 14:25:16", 
-      "color": "#cceeee", 
       "name": "IDLE", 
-      "modified_time": "2011-01-31 14:29:16"
+      "color": "#cceeee", 
+      "modified_time": "2011-05-23 11:02:42", 
+      "passed": false, 
+      "created_time": "2011-01-31 14:25:16", 
+      "total": true
     }
   }, 
   {
     "pk": 2, 
     "model": "execute.testcaserunstatus", 
     "fields": {
-      "created_time": "2011-02-01 10:56:58", 
-      "color": "#88bb66", 
       "name": "PASSED", 
-      "modified_time": "2011-02-01 10:56:58"
+      "color": "#88bb66", 
+      "modified_time": "2011-05-23 11:02:37", 
+      "passed": true, 
+      "created_time": "2011-02-01 10:56:58", 
+      "total": true
     }
   }, 
   {
     "pk": 3, 
     "model": "execute.testcaserunstatus", 
     "fields": {
-      "created_time": "2011-02-01 16:28:15", 
-      "color": "red", 
       "name": "FAILED", 
-      "modified_time": "2011-02-01 16:28:15"
+      "color": "red", 
+      "modified_time": "2011-05-23 11:02:31", 
+      "passed": false, 
+      "created_time": "2011-02-01 16:28:15", 
+      "total": true
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "execute.testcaserunstatus", 
+    "fields": {
+      "name": "N/A", 
+      "color": "#ffff9", 
+      "modified_time": "2011-05-23 11:02:19", 
+      "passed": false, 
+      "created_time": "2011-05-23 11:02:19", 
+      "total": true
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "report.reportdirectory", 
+    "fields": {
+      "rght": 2, 
+      "name": "BigProject", 
+      "parent": null, 
+      "level": 0, 
+      "modified_time": "2011-04-22 11:27:15", 
+      "lft": 1, 
+      "tree_id": 1, 
+      "created_time": "2011-04-20 10:56:22", 
+      "path": "/", 
+      "description": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "report.report", 
+    "fields": {
+      "name": "Report, html", 
+      "parent": 1, 
+      "mime": "text/html", 
+      "modified_time": "2011-04-22 12:12:08", 
+      "link": "2/bigproject/report-html/2011/04/22", 
+      "template": "<h1>Testcases</h1>\n<br/>\n{% for testcase in TESTCASES %}\n<h2>{{testcase.name}}</h2>\n<ul>\n    <li><b>name</b>: {{testcase.name}}</li>\n    <li><b>path</b>: {{testcase.path}}</li>\n    <li><b>requirement</b>: {{testcase.requirement.name|default:'empty'}}</li>\n</ul>\n<hr/>\n<br/>\n{% endfor %}\n", 
+      "created_time": "2011-04-22 11:29:03", 
+      "path": "/BigProject/", 
+      "public": false
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "report.report", 
+    "fields": {
+      "name": "Report, json", 
+      "parent": 1, 
+      "mime": "application/json", 
+      "modified_time": "2011-04-22 11:29:11", 
+      "link": "1/bigproject/report-json/2011/04/20", 
+      "template": "{\n   \"testcases\": {\n        {% for testcase in TESTCASES %}\n        \"{{testcase.name}}\" : \"{{testcase.name}}\"{% if not forloop.last %},{% endif %}\n        {% endfor %}\n    }\n}", 
+      "created_time": "2011-04-20 11:05:26", 
+      "path": "/BigProject/", 
+      "public": false
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "report.contextelement", 
+    "fields": {
+      "report": 1, 
+      "query": "TestCase.all()", 
+      "name": "TESTCASES", 
+      "query_pickled": "ccopy_reg\n_reconstructor\np0\n(cdjango.db.models.query\nQuerySet\np1\nc__builtin__\nobject\np2\nNtp3\nRp4\n(dp5\nS'_iter'\np6\nNsS'_for_write'\np7\nI00\nsS'_sticky_filter'\np8\nI00\nsS'query'\np9\ng0\n(cdjango.db.models.sql.query\nQuery\np10\ng2\nNtp11\nRp12\n(dp13\nS'aggregate_select_mask'\np14\nNsS'_aggregate_select_cache'\np15\nNsS'extra'\np16\ng0\n(cdjango.utils.datastructures\nSortedDict\np17\nc__builtin__\ndict\np18\n(dp19\ntp20\nRp21\n(dp22\nS'keyOrder'\np23\n(lp24\nsbsS'join_map'\np25\n(dp26\n(NS'store_testcase'\np27\nNNtp28\n(g27\ntp29\nssS'related_select_fields'\np30\n(lp31\nsS'extra_tables'\np32\n(tsS'select'\np33\n(lp34\nsS'quote_cache'\np35\n(dp36\nsS'rev_join_map'\np37\n(dp38\ng27\ng28\nssS'used_aliases'\np39\nc__builtin__\nset\np40\n((lp41\ntp42\nRp43\nsS'order_by'\np44\n(lp45\nsS'distinct'\np46\nI00\nsS'dupe_avoidance'\np47\n(dp48\nsS'group_by'\np49\nNsS'alias_map'\np50\n(dp51\ng27\n(g27\ng27\nNNNNI00\ntp52\nssS'select_related'\np53\nI00\nsS'deferred_loading'\np54\n(g40\n((lp55\ntp56\nRp57\nI01\ntp58\nsS'select_fields'\np59\n(lp60\nsS'_extra_select_cache'\np61\nNsS'max_depth'\np62\nI5\nsS'standard_ordering'\np63\nI01\nsS'extra_order_by'\np64\n(tsS'default_ordering'\np65\nI01\nsS'tables'\np66\n(lp67\ng27\nasS'aggregates'\np68\ng0\n(g17\ng18\n(dp69\ntp70\nRp71\n(dp72\ng23\n(lp73\nsbsS'filter_is_sticky'\np74\nI00\nsS'low_mark'\np75\nI0\nsS'alias_refcount'\np76\n(dp77\ng27\nI3\nssS'related_select_cols'\np78\n(lp79\nsS'default_cols'\np80\nI01\nsS'ordering_aliases'\np81\n(lp82\nsS'having'\np83\ng0\n(cdjango.db.models.sql.where\nWhereNode\np84\ng2\nNtp85\nRp86\n(dp87\nS'connector'\np88\nS'AND'\np89\nsS'negated'\np90\nI00\nsS'children'\np91\n(lp92\nsS'subtree_parents'\np93\n(lp94\nsbsS'included_inherited_models'\np95\n(dp96\nNg27\nssS'table_map'\np97\n(dp98\ng27\n(lp99\ng27\nassS'where_class'\np100\ng84\nsS'model'\np101\ncqualitio.store.models\nTestCase\np102\nsS'where'\np103\ng0\n(g84\ng2\nNtp104\nRp105\n(dp106\ng88\ng89\nsg90\nI00\nsg91\n(lp107\nsg93\n(lp108\nsbsS'high_mark'\np109\nNsS'extra_select_mask'\np110\nNsbsS'_db'\np111\nNsg101\ng102\nsS'_result_cache'\np112\n(lp113\ncdjango.db.models.base\nmodel_unpickle\np114\n(g102\n(lp115\ncdjango.db.models.base\nsimple_class_factory\np116\ntp117\nRp118\n(dp119\nS'precondition'\np120\nVtest 123  123asdas\np121\nsS'name'\np122\nVAdvance test 2 3 2 xx 123asd\np123\nsS'description'\np124\nVAdvance test 2 123 asd\np125\nsS'_state'\np126\ng0\n(cdjango.db.models.base\nModelState\np127\ng2\nNtp128\nRp129\n(dp130\nS'adding'\np131\nI00\nsS'db'\np132\nS'default'\np133\nsbsS'modified_time'\np134\ncdatetime\ndatetime\np135\n(S'\\x07\\xdb\\x04\\x15\\x0c(8\\x00\\xb1\\x02'\np136\ntp137\nRp138\nsS'parent_id'\np139\nI3\nsS'created_time'\np140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x19%\\x00\\x00\\x00'\np141\ntp142\nRp143\nsS'path'\np144\nV/BigProject2 3231333/Advance tests/\np145\nsS'id'\np146\nI4\nsS'requirement_id'\np147\nI3\nsbag114\n(g102\n(lp148\ng116\ntp149\nRp150\n(dp151\ng120\nVtest12123\np152\nsg122\nVAdvance test 212312312333\np153\nsg124\nVAdvance test 1123123\np154\nsg126\ng0\n(g127\ng2\nNtp155\nRp156\n(dp157\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S'\\x07\\xdb\\x04\\x0b\\x0e\\x1c\\x12\\x01XB'\np158\ntp159\nRp160\nsg139\nI3\nsg140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x19\\x17\\x00\\x00\\x00'\np161\ntp162\nRp163\nsg144\nV/BigProject2 3231333/Advance tests/\np164\nsg146\nI3\nsg147\nI3\nsbag114\n(g102\n(lp165\ng116\ntp166\nRp167\n(dp168\ng120\nVasdasd testasdfffasd\np169\nsg122\nVSimple test 1ffasd\np170\nsg124\nVSimple test 1asdfasdffasdasd\np171\nsg126\ng0\n(g127\ng2\nNtp172\nRp173\n(dp174\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S\"\\x07\\xdb\\x04\\x05\\x0c '\\x07j\\xc3\"\np175\ntp176\nRp177\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x18\\x14\\x00\\x00\\x00'\np178\ntp179\nRp180\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np181\nsg146\nI1\nsg147\nNsbag114\n(g102\n(lp182\ng116\ntp183\nRp184\n(dp185\ng120\nV\np186\nsg122\nVadaddfff\np187\nsg124\ng186\nsg126\ng0\n(g127\ng2\nNtp188\nRp189\n(dp190\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S\"\\x07\\xdb\\x04\\x05\\x0c '\\x07\\xc6\\x11\"\np191\ntp192\nRp193\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x03\\x19\\x0c(\\x06\\t\\x83\\xcc'\np194\ntp195\nRp196\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np197\nsg146\nI6\nsg147\nNsbag114\n(g102\n(lp198\ng116\ntp199\nRp200\n(dp201\ng120\ng186\nsg122\nVasdasd 12\np202\nsg124\ng186\nsg126\ng0\n(g127\ng2\nNtp203\nRp204\n(dp205\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S'\\x07\\xdb\\x04\\x05\\x0c!\\x10\\x00\\xd9\\xb1'\np206\ntp207\nRp208\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x03\\x19\\x0c\\x07\\x1d\\x02&,'\np209\ntp210\nRp211\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np212\nsg146\nI5\nsg147\nI1\nsbasb."
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "report.contextelement", 
+    "fields": {
+      "report": 2, 
+      "query": "TestCase.all()", 
+      "name": "TESTCASES", 
+      "query_pickled": "ccopy_reg\n_reconstructor\np0\n(cdjango.db.models.query\nQuerySet\np1\nc__builtin__\nobject\np2\nNtp3\nRp4\n(dp5\nS'_iter'\np6\nNsS'_for_write'\np7\nI00\nsS'_sticky_filter'\np8\nI00\nsS'query'\np9\ng0\n(cdjango.db.models.sql.query\nQuery\np10\ng2\nNtp11\nRp12\n(dp13\nS'aggregate_select_mask'\np14\nNsS'_aggregate_select_cache'\np15\nNsS'extra'\np16\ng0\n(cdjango.utils.datastructures\nSortedDict\np17\nc__builtin__\ndict\np18\n(dp19\ntp20\nRp21\n(dp22\nS'keyOrder'\np23\n(lp24\nsbsS'join_map'\np25\n(dp26\n(NS'store_testcase'\np27\nNNtp28\n(g27\ntp29\nssS'related_select_fields'\np30\n(lp31\nsS'extra_tables'\np32\n(tsS'select'\np33\n(lp34\nsS'quote_cache'\np35\n(dp36\nsS'rev_join_map'\np37\n(dp38\ng27\ng28\nssS'used_aliases'\np39\nc__builtin__\nset\np40\n((lp41\ntp42\nRp43\nsS'order_by'\np44\n(lp45\nsS'distinct'\np46\nI00\nsS'dupe_avoidance'\np47\n(dp48\nsS'group_by'\np49\nNsS'alias_map'\np50\n(dp51\ng27\n(g27\ng27\nNNNNI00\ntp52\nssS'select_related'\np53\nI00\nsS'deferred_loading'\np54\n(g40\n((lp55\ntp56\nRp57\nI01\ntp58\nsS'select_fields'\np59\n(lp60\nsS'_extra_select_cache'\np61\nNsS'max_depth'\np62\nI5\nsS'standard_ordering'\np63\nI01\nsS'extra_order_by'\np64\n(tsS'default_ordering'\np65\nI01\nsS'tables'\np66\n(lp67\ng27\nasS'aggregates'\np68\ng0\n(g17\ng18\n(dp69\ntp70\nRp71\n(dp72\ng23\n(lp73\nsbsS'filter_is_sticky'\np74\nI00\nsS'low_mark'\np75\nI0\nsS'alias_refcount'\np76\n(dp77\ng27\nI3\nssS'related_select_cols'\np78\n(lp79\nsS'default_cols'\np80\nI01\nsS'ordering_aliases'\np81\n(lp82\nsS'having'\np83\ng0\n(cdjango.db.models.sql.where\nWhereNode\np84\ng2\nNtp85\nRp86\n(dp87\nS'connector'\np88\nS'AND'\np89\nsS'negated'\np90\nI00\nsS'children'\np91\n(lp92\nsS'subtree_parents'\np93\n(lp94\nsbsS'included_inherited_models'\np95\n(dp96\nNg27\nssS'table_map'\np97\n(dp98\ng27\n(lp99\ng27\nassS'where_class'\np100\ng84\nsS'model'\np101\ncqualitio.store.models\nTestCase\np102\nsS'where'\np103\ng0\n(g84\ng2\nNtp104\nRp105\n(dp106\ng88\ng89\nsg90\nI00\nsg91\n(lp107\nsg93\n(lp108\nsbsS'high_mark'\np109\nNsS'extra_select_mask'\np110\nNsbsS'_db'\np111\nNsg101\ng102\nsS'_result_cache'\np112\n(lp113\ncdjango.db.models.base\nmodel_unpickle\np114\n(g102\n(lp115\ncdjango.db.models.base\nsimple_class_factory\np116\ntp117\nRp118\n(dp119\nS'precondition'\np120\nVtest 123  123asdas\np121\nsS'name'\np122\nVAdvance test 2 3 2 xx 123asd\np123\nsS'description'\np124\nVAdvance test 2 123 asd\np125\nsS'_state'\np126\ng0\n(cdjango.db.models.base\nModelState\np127\ng2\nNtp128\nRp129\n(dp130\nS'adding'\np131\nI00\nsS'db'\np132\nS'default'\np133\nsbsS'modified_time'\np134\ncdatetime\ndatetime\np135\n(S'\\x07\\xdb\\x04\\x15\\x0c(8\\x00\\xb1\\x02'\np136\ntp137\nRp138\nsS'parent_id'\np139\nI3\nsS'created_time'\np140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x19%\\x00\\x00\\x00'\np141\ntp142\nRp143\nsS'path'\np144\nV/BigProject2 3231333/Advance tests/\np145\nsS'id'\np146\nI4\nsS'requirement_id'\np147\nI3\nsbag114\n(g102\n(lp148\ng116\ntp149\nRp150\n(dp151\ng120\nVtest12123\np152\nsg122\nVAdvance test 212312312333\np153\nsg124\nVAdvance test 1123123\np154\nsg126\ng0\n(g127\ng2\nNtp155\nRp156\n(dp157\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S'\\x07\\xdb\\x04\\x0b\\x0e\\x1c\\x12\\x01XB'\np158\ntp159\nRp160\nsg139\nI3\nsg140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x19\\x17\\x00\\x00\\x00'\np161\ntp162\nRp163\nsg144\nV/BigProject2 3231333/Advance tests/\np164\nsg146\nI3\nsg147\nI3\nsbag114\n(g102\n(lp165\ng116\ntp166\nRp167\n(dp168\ng120\nVasdasd testasdfffasd\np169\nsg122\nVSimple test 1ffasd\np170\nsg124\nVSimple test 1asdfasdffasdasd\np171\nsg126\ng0\n(g127\ng2\nNtp172\nRp173\n(dp174\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S\"\\x07\\xdb\\x04\\x05\\x0c '\\x07j\\xc3\"\np175\ntp176\nRp177\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x18\\x14\\x00\\x00\\x00'\np178\ntp179\nRp180\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np181\nsg146\nI1\nsg147\nNsbag114\n(g102\n(lp182\ng116\ntp183\nRp184\n(dp185\ng120\nV\np186\nsg122\nVadaddfff\np187\nsg124\ng186\nsg126\ng0\n(g127\ng2\nNtp188\nRp189\n(dp190\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S\"\\x07\\xdb\\x04\\x05\\x0c '\\x07\\xc6\\x11\"\np191\ntp192\nRp193\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x03\\x19\\x0c(\\x06\\t\\x83\\xcc'\np194\ntp195\nRp196\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np197\nsg146\nI6\nsg147\nNsbag114\n(g102\n(lp198\ng116\ntp199\nRp200\n(dp201\ng120\ng186\nsg122\nVasdasd 12\np202\nsg124\ng186\nsg126\ng0\n(g127\ng2\nNtp203\nRp204\n(dp205\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S'\\x07\\xdb\\x04\\x05\\x0c!\\x10\\x00\\xd9\\xb1'\np206\ntp207\nRp208\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x03\\x19\\x0c\\x07\\x1d\\x02&,'\np209\ntp210\nRp211\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np212\nsg146\nI5\nsg147\nI1\nsbasb."
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "report.contextelement", 
+    "fields": {
+      "report": 2, 
+      "query": "TestCase.all()", 
+      "name": "TESTCASES", 
+      "query_pickled": "ccopy_reg\n_reconstructor\np0\n(cdjango.db.models.query\nQuerySet\np1\nc__builtin__\nobject\np2\nNtp3\nRp4\n(dp5\nS'_iter'\np6\nNsS'_for_write'\np7\nI00\nsS'_sticky_filter'\np8\nI00\nsS'query'\np9\ng0\n(cdjango.db.models.sql.query\nQuery\np10\ng2\nNtp11\nRp12\n(dp13\nS'aggregate_select_mask'\np14\nNsS'_aggregate_select_cache'\np15\nNsS'extra'\np16\ng0\n(cdjango.utils.datastructures\nSortedDict\np17\nc__builtin__\ndict\np18\n(dp19\ntp20\nRp21\n(dp22\nS'keyOrder'\np23\n(lp24\nsbsS'join_map'\np25\n(dp26\n(NS'store_testcase'\np27\nNNtp28\n(g27\ntp29\nssS'related_select_fields'\np30\n(lp31\nsS'extra_tables'\np32\n(tsS'select'\np33\n(lp34\nsS'quote_cache'\np35\n(dp36\nsS'rev_join_map'\np37\n(dp38\ng27\ng28\nssS'used_aliases'\np39\nc__builtin__\nset\np40\n((lp41\ntp42\nRp43\nsS'order_by'\np44\n(lp45\nsS'distinct'\np46\nI00\nsS'dupe_avoidance'\np47\n(dp48\nsS'group_by'\np49\nNsS'alias_map'\np50\n(dp51\ng27\n(g27\ng27\nNNNNI00\ntp52\nssS'select_related'\np53\nI00\nsS'deferred_loading'\np54\n(g40\n((lp55\ntp56\nRp57\nI01\ntp58\nsS'select_fields'\np59\n(lp60\nsS'_extra_select_cache'\np61\nNsS'max_depth'\np62\nI5\nsS'standard_ordering'\np63\nI01\nsS'extra_order_by'\np64\n(tsS'default_ordering'\np65\nI01\nsS'tables'\np66\n(lp67\ng27\nasS'aggregates'\np68\ng0\n(g17\ng18\n(dp69\ntp70\nRp71\n(dp72\ng23\n(lp73\nsbsS'filter_is_sticky'\np74\nI00\nsS'low_mark'\np75\nI0\nsS'alias_refcount'\np76\n(dp77\ng27\nI3\nssS'related_select_cols'\np78\n(lp79\nsS'default_cols'\np80\nI01\nsS'ordering_aliases'\np81\n(lp82\nsS'having'\np83\ng0\n(cdjango.db.models.sql.where\nWhereNode\np84\ng2\nNtp85\nRp86\n(dp87\nS'connector'\np88\nS'AND'\np89\nsS'negated'\np90\nI00\nsS'children'\np91\n(lp92\nsS'subtree_parents'\np93\n(lp94\nsbsS'included_inherited_models'\np95\n(dp96\nNg27\nssS'table_map'\np97\n(dp98\ng27\n(lp99\ng27\nassS'where_class'\np100\ng84\nsS'model'\np101\ncqualitio.store.models\nTestCase\np102\nsS'where'\np103\ng0\n(g84\ng2\nNtp104\nRp105\n(dp106\ng88\ng89\nsg90\nI00\nsg91\n(lp107\nsg93\n(lp108\nsbsS'high_mark'\np109\nNsS'extra_select_mask'\np110\nNsbsS'_db'\np111\nNsg101\ng102\nsS'_result_cache'\np112\n(lp113\ncdjango.db.models.base\nmodel_unpickle\np114\n(g102\n(lp115\ncdjango.db.models.base\nsimple_class_factory\np116\ntp117\nRp118\n(dp119\nS'precondition'\np120\nVtest 123  123asdas\np121\nsS'name'\np122\nVAdvance test 2 3 2 xx 123asd\np123\nsS'description'\np124\nVAdvance test 2 123 asd\np125\nsS'_state'\np126\ng0\n(cdjango.db.models.base\nModelState\np127\ng2\nNtp128\nRp129\n(dp130\nS'adding'\np131\nI00\nsS'db'\np132\nS'default'\np133\nsbsS'modified_time'\np134\ncdatetime\ndatetime\np135\n(S'\\x07\\xdb\\x04\\x15\\x0c(8\\x00\\xb1\\x02'\np136\ntp137\nRp138\nsS'parent_id'\np139\nI3\nsS'created_time'\np140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x19%\\x00\\x00\\x00'\np141\ntp142\nRp143\nsS'path'\np144\nV/BigProject2 3231333/Advance tests/\np145\nsS'id'\np146\nI4\nsS'requirement_id'\np147\nI3\nsbag114\n(g102\n(lp148\ng116\ntp149\nRp150\n(dp151\ng120\nVtest12123\np152\nsg122\nVAdvance test 212312312333\np153\nsg124\nVAdvance test 1123123\np154\nsg126\ng0\n(g127\ng2\nNtp155\nRp156\n(dp157\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S'\\x07\\xdb\\x04\\x0b\\x0e\\x1c\\x12\\x01XB'\np158\ntp159\nRp160\nsg139\nI3\nsg140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x19\\x17\\x00\\x00\\x00'\np161\ntp162\nRp163\nsg144\nV/BigProject2 3231333/Advance tests/\np164\nsg146\nI3\nsg147\nI3\nsbag114\n(g102\n(lp165\ng116\ntp166\nRp167\n(dp168\ng120\nVasdasd testasdfffasd\np169\nsg122\nVSimple test 1ffasd\np170\nsg124\nVSimple test 1asdfasdffasdasd\np171\nsg126\ng0\n(g127\ng2\nNtp172\nRp173\n(dp174\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S\"\\x07\\xdb\\x04\\x05\\x0c '\\x07j\\xc3\"\np175\ntp176\nRp177\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x01\\x04\\x0e\\x18\\x14\\x00\\x00\\x00'\np178\ntp179\nRp180\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np181\nsg146\nI1\nsg147\nNsbag114\n(g102\n(lp182\ng116\ntp183\nRp184\n(dp185\ng120\nV\np186\nsg122\nVadaddfff\np187\nsg124\ng186\nsg126\ng0\n(g127\ng2\nNtp188\nRp189\n(dp190\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S\"\\x07\\xdb\\x04\\x05\\x0c '\\x07\\xc6\\x11\"\np191\ntp192\nRp193\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x03\\x19\\x0c(\\x06\\t\\x83\\xcc'\np194\ntp195\nRp196\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np197\nsg146\nI6\nsg147\nNsbag114\n(g102\n(lp198\ng116\ntp199\nRp200\n(dp201\ng120\ng186\nsg122\nVasdasd 12\np202\nsg124\ng186\nsg126\ng0\n(g127\ng2\nNtp203\nRp204\n(dp205\ng131\nI00\nsg132\ng133\nsbsg134\ng135\n(S'\\x07\\xdb\\x04\\x05\\x0c!\\x10\\x00\\xd9\\xb1'\np206\ntp207\nRp208\nsg139\nI2\nsg140\ng135\n(S'\\x07\\xdb\\x03\\x19\\x0c\\x07\\x1d\\x02&,'\np209\ntp210\nRp211\nsg144\nV/BigProject2 3231333/Advance tests/Simple tests2sd 2 23 123 123rtasdasdasd/\np212\nsg146\nI5\nsg147\nI1\nsbasb."
     }
   }
 ]
