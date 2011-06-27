@@ -53,9 +53,7 @@
    - ALL FieldFilterForm fields MUSN'T be required.
 
    There are special forms in field filters called control forms
-   designed to add field filters, field groups, and removing them
-   (removing is not implemented yet).
-
+   designed to add field filters, field groups, and removing them.
 
 ** field mapping ***
 
