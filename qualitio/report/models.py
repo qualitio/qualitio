@@ -13,22 +13,6 @@ from qualitio import core
 from qualitio.report import validators
 
 
-class RestrictedManager(models.Manager):
-    # TODO: this class is not used, but should be included
-    # in future as replacment for orginal managers
-    allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
-                       "contribute_to_class", "_inherited", "creation_counter",
-                       "^get(\(.*\))?$",
-                       "^filter(\(.*\))?$",
-                       "^all(\(.*\))?$")
-
-    def __getattribute__(self, name):
-        if any(filter(lambda x: re.match(x,name), object.__getattribute__(self, "allowed_methods"))):
-            return object.__getattribute__(self, name)
-
-        raise AttributeError
-
-
 class ReportDirectory(core.BaseDirectoryModel):
     description = models.TextField(blank=True)
 
