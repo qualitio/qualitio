@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
 from django.db import models
 from django import forms
 from django.db.models import Q
@@ -61,6 +63,33 @@ class TextFieldFilterForm(AutoQueryFieldFilterForm):
         return Q()
 
 
+def to_datetime(date, hour=0, minute=0, second=0):
+    if not date:
+        return date
+    return datetime(date.year, date.month, date.day, hour, minute, second)
+
+
+class DateFieldFilterForm(FieldFilterForm):
+    date = forms.DateField(required=False)
+
+    def construct_Q(self):
+        date = self.cleaned_data['date']
+        if date:
+            return Q(**{self.field_name: date})
+        return Q()
+
+
+class DateTimeFieldFilterForm(FieldFilterForm):
+    date = forms.DateField(required=False)
+
+    def construct_Q(self):
+        date = to_datetime(self.cleaned_data['date'])
+        to_date = to_datetime(date, 23, 59, 59)
+        if date:
+            return Q(**{'%s__%s' % (self.field_name, 'range'): [date, to_date]})
+        return Q()
+
+
 class DateRangeFieldFilterForm(FieldFilterForm):
     from_date = forms.DateField(required=False)
     to_date = forms.DateField(required=False)
@@ -68,6 +97,15 @@ class DateRangeFieldFilterForm(FieldFilterForm):
     def construct_Q(self):
         from_date = self.cleaned_data['from_date']
         to_date = self.cleaned_data['to_date']
+        if from_date and to_date:
+            return Q(**{'%s__%s' % (self.field_name, 'range'): [from_date, to_date]})
+        return Q()
+
+
+class DateTimeRangeFieldFilterForm(DateRangeFieldFilterForm):
+    def construct_Q(self):
+        from_date = to_datetime(self.cleaned_data['from_date'])
+        to_date = to_datetime(self.cleaned_data['to_date'] or from_date, 23, 59, 59)
         if from_date and to_date:
             return Q(**{'%s__%s' % (self.field_name, 'range'): [from_date, to_date]})
         return Q()

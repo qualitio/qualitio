@@ -10,7 +10,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 
 from qualitio import core
-from qualitio.report.validators import report_query_validator
+from qualitio.report import validators
 
 
 class RestrictedManager(models.Manager):
@@ -58,7 +58,7 @@ class Report(core.BasePathModel):
     def context_dict(self):
         context_dict = {}
         for context_element in self.context.all():
-           context_dict[context_element.name] = context_element.query_object()
+           context_dict[context_element.name] = context_element.build()
         return context_dict
 
     @property
@@ -91,18 +91,6 @@ class ContextElement(models.Model):
     report = models.ForeignKey("Report", related_name="context")
     name = models.CharField(max_length=512)
     query = models.TextField()
-    query_pickled = models.TextField(blank=True)
-
-    def save(self, *args, **kwargs):
-        """
-        save method makes ability setup 'query_pickled' field with user own value.
-        Usefull then set of ContextElement objects are created / edited.
-        See qualitio.report.forms.ContextElementFormset.save method.
-        """
-        query_result = kwargs.pop('query_result', None)
-        if query_result:
-            self.query_pickled = self.pickle_query_result(query_result)
-        return super(ContextElement, self).save(*args, **kwargs)
 
     def full_clean(self):
         """
@@ -129,23 +117,9 @@ class ContextElement(models.Model):
 
     def clean_query(self):
         """
-        clean_query does two things
-        1) it validates query string
-        2) it syncronize evaluated query with 'query_pickled' attribute.
+        clean_query validates query string
         """
-        self.query_pickled = self.pickle_query_result(report_query_validator.clean(self.query))
+        validators.clean_query_string(self.query)
 
-    def pickle_query_result(self, result):
-        if isinstance(result, query.QuerySet):
-            result = result.__getstate__()
-            result["_result_cache"] = None
-        return pickle.dumps(result)
-
-    def query_object(self):
-        query_dict = pickle.loads(str(self.query_pickled))
-        if not isinstance(query_dict, dict):
-            return query_dict
-
-        _query = query.QuerySet()
-        _query.__dict__ = query_dict
-        return _query
+    def build(self):
+        return validators.clean_query_string(self.query)

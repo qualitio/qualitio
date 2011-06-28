@@ -7,89 +7,79 @@ from django.db.models import query, loading
 from django.views import debug
 
 
-class report_query_validator(object):
-    """
-    Intentionaly created more like module then class.
-    There was no sense to have an instance but it makes
-    sense to keep all the stuff together.
-    """
+ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
+ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
+ALLOWED_APPS = ["require", "store", "execute", "report"]
 
-    ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
-    ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
-    ALLOWED_APPS = ["require", "store", "execute", "report"]
 
-    @classmethod
-    def clean(cls, query):
-        query_segments = query.split(".")
-        if len(query_segments) < 2:
-            raise ValidationError({"query": "Minimal query should be: ObjectType.method([key=value])"})
+def clean_query_string(query):
+    query_segments = query.split(".")
+    if len(query_segments) < 2:
+        raise ValidationError({"query": "Minimal query should be: ObjectType.method([key=value])"})
 
-        valid_object, methods = query_segments[0], query_segments[1:]
-        if valid_object not in cls.ALLOWED_OBJECTS:
-            raise ValidationError({"query": "Type '%s' is not supported" % valid_object})
+    valid_object, methods = query_segments[0], query_segments[1:]
+    if valid_object not in ALLOWED_OBJECTS:
+        raise ValidationError({"query": "Type '%s' is not supported" % valid_object})
 
-        valid_methods = []
-        for method in methods:
-            method_re = re.match("(?P<method>\w+)\((?P<args>(\w+=.+)?)\)$", method)
+    valid_methods = []
+    for method in methods:
+        method_re = re.match("(?P<method>\w+)\((?P<args>(\w+=.+)?)\)$", method)
 
+        try:
+            method_name = method_re.groupdict()["method"]
             try:
-                method_name = method_re.groupdict()["method"]
-                try:
-                    args = dict([(method_re.groupdict()["args"].split("=")[0],
-                                  method_re.groupdict()["args"].split("=")[1].strip('"').strip("'"))])
-                except IndexError:
-                    args = dict()
-            except AttributeError:
-                raise ValidationError({"query": "Method '%s' is in wrong format" % method})
+                args = dict([(method_re.groupdict()["args"].split("=")[0],
+                              method_re.groupdict()["args"].split("=")[1].strip('"').strip("'"))])
+            except IndexError:
+                args = dict()
+        except AttributeError:
+            raise ValidationError({"query": "Method '%s' is in wrong format" % method})
 
-            if method_name not in cls.ALLOWED_METHODS:
-                raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
+        if method_name not in ALLOWED_METHODS:
+            raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
 
-            valid_methods.append((method_name, args))
+        valid_methods.append((method_name, args))
 
-        return cls.build_query(valid_object, valid_methods)
+    return build_query(valid_object, valid_methods)
 
-    @classmethod
-    def get_model(cls, model_name):
-        for app in cls.ALLOWED_APPS:
-            Model = loading.get_model(app, model_name)
-            if Model:
-                return Model
-        return None
+def get_model(model_name):
+    for app in ALLOWED_APPS:
+        Model = loading.get_model(app, model_name)
+        if Model:
+            return Model
+    return None
 
-    @classmethod
-    def build_query(cls, model_name, methods):
-        """
-        build_query method evaluates query starting with
-        primitives:
+def build_query(model_name, methods):
+    """
+    build_query method evaluates query starting with
+    primitives:
 
-        validator = ReportQueryValidator()
-        validator.build_query(
-            "Person",
-            [('filter', {'name': 'Some name', 'last_name': 'Some last name'}),
-             ('exclude', {'id': 1 }),
-            ])
+    build_query(
+        "Person",
+        [('filter', {'name': 'Some name', 'last_name': 'Some last name'}),
+         ('exclude', {'id': 1 }),
+        ])
 
-        It returns one of following:
-        1) queryset (if the last invoked method was: filter, exclude, order_by, reverse)
-        2) model_instance (if the last invoked method was: get)
-        3) number (if the last invoked method was: count)
-        """
+    It returns one of following:
+    1) queryset (if the last invoked method was: filter, exclude, order_by, reverse)
+    2) model_instance (if the last invoked method was: get)
+    3) number (if the last invoked method was: count)
+    """
 
-        Model = cls.get_model(model_name)
-        if not Model:
-            return query.QuerySet()
+    Model = get_model(model_name)
+    if not Model:
+        return query.QuerySet()
 
-        queryset = Model.objects.all()
-        for name, kwargs in methods:
-            try:
-                queryset = getattr(queryset, name)(**kwargs)
-            except Model.DoesNotExist:  # in case of using 'get' method
-                return None
-            except FieldError as e:
-                raise ValidationError({"query": repr(e) })
+    queryset = Model.objects.all()
+    for name, kwargs in methods:
+        try:
+            queryset = getattr(queryset, name)(**kwargs)
+        except Model.DoesNotExist:  # in case of using 'get' method
+            return None
+        except FieldError as e:
+            raise ValidationError({"query": repr(e) })
 
-        return queryset
+    return queryset
 
 
 class ReportValidator(object):
@@ -99,6 +89,12 @@ class ReportValidator(object):
 
     validator = ReportValidator("{% for e in elements %}<p>{{ e.name }}</p>{% endfor %}", {
         "elements": "TestCase.all()",
+    })
+
+    OR:
+
+    validator = ReportValidator("{% for e in elements %}<p>{{ e.name }}</p>{% endfor %}", {
+        "elements": TestCase.objects.all(),  # real queryset objects
     })
 
     Validation goes this way:
@@ -113,14 +109,14 @@ class ReportValidator(object):
 
     def __init__(self, template_string, context_queries):
         self.template_string = template_string
-        self.queries_queries = context_queries
+        self.context_queries = context_queries
         self.errors = {}
         self.queries = {}
 
-    def raport_is_valid(self):
-        for name, query_string in self.queries_queries.items():
+    def is_valid(self):
+        for name, query in self.context_queries.items():
             try:
-                self.queries[name] = self.clean_query_string(query_string)
+                self.queries[name] = self.clean_query(query)
             except ValidationError as e:
                 self.errors = e.update_error_dict(self.errors)
 
@@ -131,8 +127,10 @@ class ReportValidator(object):
 
         return not bool(self.errors)
 
-    def clean_query_string(self, query_string):
-        return report_query_validator.clean(query_string)
+    def clean_query(self, query):
+        if isinstance(query, basestring):
+            return clean_query_string(query)
+        return query
 
     def clean_template(self, template_string, context):
         try:

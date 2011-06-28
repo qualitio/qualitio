@@ -66,7 +66,7 @@ $(document).ready(function() {
 	$('.filter-form').submit();
     });
 
-    $('input[name$="from_date"], input[name$="to_date"]').datepicker({
+    $('input[name$="from_date"], input[name$="to_date"], input[name$="date"]').datepicker({
 	showWeek: true,
 	dateFormat: DATE_FORMAT
     });
