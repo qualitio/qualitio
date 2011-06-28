@@ -26,7 +26,7 @@ class CustomizableModel(models.Model):
 
         for f in self._customization_model._custom_meta.get_custom_fields():
             value = getattr(customization, f.name)
-            if hasattr(f, 'get_%s_display' % f.name):
+            if hasattr(customization, 'get_%s_display' % f.name):
                 value = getattr(customization, 'get_%s_display' % f.name)()
             result[f.verbose_name] = value
         return result
