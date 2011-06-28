@@ -83,10 +83,10 @@ add_introspection_rules([], ["^qualitio\.core\.custommodel\.models\.Customizatio
 class Options(object):
     def __init__(self, Meta):
         # setup
-        self.customization_target = Meta.customization_target
+        self.model = Meta.model  # customization_target
 
         # cleanup
-        del Meta.customization_target
+        del Meta.model
 
         # this will be setup in __new__ of metaclass
         self.customization_model = None
@@ -94,7 +94,7 @@ class Options(object):
     def _field_filter(self, f):
         return f.name != 'origin' and not isinstance(f, models.AutoField)
 
-    # This will be handy shortcut for things like CustomizableModelForm
+    # This will be handy shortcut for eg. forms
     def get_custom_fields(self):
         return filter(self._field_filter, self.customization_model._meta.fields)
 
@@ -106,16 +106,16 @@ class ModelCustomizationMetaclass(models.base.ModelBase):
         custom_meta = None
 
         if Meta is not None:
-            if hasattr(Meta, 'customization_target'):
+            if hasattr(Meta, 'model'):
                 custom_meta = Options(Meta)
-                if custom_meta.customization_target is not None:
+                if custom_meta.model is not None:
                     attrs['_custom_meta'] = custom_meta
-                    attrs['origin'] = CustomizationTarget(custom_meta.customization_target, related_name='customization')
+                    attrs['origin'] = CustomizationTarget(custom_meta.model, related_name='customization')
 
         new_model = super(ModelCustomizationMetaclass, cls).__new__(cls, name, bases, attrs)
         if custom_meta is not None:
             custom_meta.customization_model = new_model
-            custom_meta.customization_target._customization_model = new_model
+            custom_meta.model._customization_model = new_model
 
         # TODO: for migration reason - should we check
         #       if there all ModelCustomization fields has blank==True?
