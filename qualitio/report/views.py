@@ -121,7 +121,7 @@ def report_valid(request, report_id=0):
         if validator.raport_is_valid():
             report = report_form.save()
             report_contextelement_formset.instance = report
-            report_contextelement_formset.save(queries=validator.queries)
+            report_contextelement_formset.save()
             # TODO: the history should be updated here I guess
             return success(message='report saved',
                            data={"parent_id": getattr(report.parent, "id", 0),
