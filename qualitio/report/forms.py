@@ -3,7 +3,7 @@ from django import forms
 
 from qualitio import core
 from qualitio.report import models
-from qualitio.report.validators import report_query_validator
+from qualitio.report import validators
 
 
 class ReportDirectoryForm(core.DirectoryModelForm):
@@ -21,12 +21,17 @@ class ReportForm(core.PathModelForm):
 
 
 class ContextElementForm(core.BaseModelForm):
+    """
+    ContextElementForm has special behaviour.
+    If query string is valid it is evaluated
+    and stored in cleaned_data 'evaluated_query' key.
+    """
     class Meta(core.BaseModelForm):
         fields = ("name", "query")
 
     def clean_query(self):
         query = self.cleaned_data['query']
-        report_query_validator.clean(query)
+        self.cleaned_data['evaluated_query'] = validators.clean_query_string(query)
         return query
 
 
@@ -38,8 +43,8 @@ BaseContextElementFormset = inlineformset_factory(models.Report,
 
 
 class ContextElementFormset(BaseContextElementFormset):
-    def get_context(self):
+    def context_queries(self):
         context = {}
-        for cd in filter(lambda cd: 'name' in cd and 'query' in cd, self.cleaned_data):
-            context[cd['name']] = cd['query']
+        for cd in filter(lambda cd: 'name' in cd and 'evaluated_query' in cd, self.cleaned_data):
+            context[cd['name']] = cd['evaluated_query']
         return context

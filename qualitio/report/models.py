@@ -9,7 +9,7 @@ from django.db.models import query
 from django.template.defaultfilters import slugify
 
 from qualitio import core
-from qualitio.report.validators import report_query_validator
+from qualitio.report import validators
 
 
 class RestrictedManager(models.Manager):
@@ -54,7 +54,7 @@ class Report(core.BasePathModel):
     def context_dict(self):
         context_dict = {}
         for context_element in self.context.all():
-           context_dict[context_element.name] = context_element.query_object()
+           context_dict[context_element.name] = context_element.build()
         return context_dict
 
     @property
@@ -115,7 +115,7 @@ class ContextElement(models.Model):
         """
         clean_query validates query string
         """
-        report_query_validator.clean(self.query)
+        validators.clean_query_string(self.query)
 
-    def query_object(self):
-        return report_query_validator.clean(self.query)
+    def build(self):
+        return validators.clean_query_string(self.query)

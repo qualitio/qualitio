@@ -117,8 +117,8 @@ def report_valid(request, report_id=0):
 
     if report_form.is_valid() and report_contextelement_formset.is_valid():
         validator = ReportValidator(report_form.cleaned_data['template'],
-                                    report_contextelement_formset.get_context())
-        if validator.raport_is_valid():
+                                    report_contextelement_formset.context_queries())
+        if validator.is_valid():
             report = report_form.save()
             report_contextelement_formset.instance = report
             report_contextelement_formset.save()
