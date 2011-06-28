@@ -7,6 +7,7 @@ from django.db import models
 from django.views import debug
 from django.db.models import query
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
 
 from qualitio import core
 from qualitio.report.validators import report_query_validator
@@ -45,6 +46,9 @@ class Report(core.BasePathModel):
                     ('text/plain', 'plain'))
     mime = models.CharField(blank=False, max_length=20, choices=MIME_CHOICES,
                             default="text/html", verbose_name="format")
+    limit_choices_to = {'model__in': ["testcase", "requirement", "testrun"]}
+    bound_type = models.ForeignKey(ContentType, blank=True, null=True,
+                                   limit_choices_to=limit_choices_to)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'

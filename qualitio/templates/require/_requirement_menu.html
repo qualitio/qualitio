@@ -24,4 +24,13 @@
   {% else %}
   <a href="#requirement/{{ obj.pk }}/history/">history</a>
   {% endif %}
+
+  {% for bound_view in BOUND_VIEWS.requirement %}
+  {% if bound_view.pk == view %}
+  <span class="active" >{{ bound_view.name }}</span>
+  {% else %}
+  <a href="#requirement/{{ obj.pk }}/{{ bound_view.id }}/">{{ bound_view.name }}</a>
+  {% endif %}
+  {% endfor %}
+
 </div>

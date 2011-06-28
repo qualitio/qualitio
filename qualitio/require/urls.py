@@ -5,6 +5,7 @@ from qualitio.filter.views import filter
 from qualitio.require.models import Requirement
 from qualitio.require.filter import RequirementFilter
 
+
 urlpatterns = patterns('qualitio.require.views',
                        url(r'^$', 'index'),
 
@@ -40,4 +41,8 @@ urlpatterns = patterns('qualitio.require.views',
 
                        url(r'^ajax/requirement/(?P<object_id>\d+)/history/$', core.history,
                            {'Model' : Requirement}),
+
+                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/(?P<report_id>\d+)/$',
+                           'report_details'),
                        )
+

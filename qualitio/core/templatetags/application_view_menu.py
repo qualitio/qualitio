@@ -6,7 +6,8 @@ register = template.Library()
 @register.tag
 def application_view_menu(parser, token):
     obj, view = token.split_contents()[1:]
-    return ApplicationViewMenuNode(parser.compile_filter(obj), view.strip("'").strip('"'))
+    return ApplicationViewMenuNode(parser.compile_filter(obj), parser.compile_filter(view))
+
 
 class ApplicationViewMenuNode(template.Node):
     # TODO: this could be probably better resolved by using some registartion form for views,
@@ -18,9 +19,10 @@ class ApplicationViewMenuNode(template.Node):
 
     def render(self, context):
         materialized_obj = self.obj.resolve(context)
+        materialized_view = self.view.resolve(context)
         return template.loader.render_to_string("%s/_%s_menu.html"
                                                 % (materialized_obj._meta.app_label,
                                                    materialized_obj._meta.module_name),
                                                 {"obj" : materialized_obj,
-                                                 "view" : self.view},
+                                                 "view" : materialized_view},
                                                 context_instance=RequestContext(context['request']))
