@@ -1,11 +1,6 @@
-import re
-import pickle
-
 from django.core.exceptions import ValidationError
 from django.template import Context, Template
 from django.db import models
-from django.views import debug
-from django.db.models import query
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 
