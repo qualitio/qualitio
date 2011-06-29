@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to qualitio's documentation!
-====================================
+Qualitio's documentation
+========================
 
 
 Qualitio is an Open Source web application that helps in QA process.
@@ -12,16 +12,17 @@ Qualitio is an Open Source web application that helps in QA process.
 
 Contents:
 
+.. .#QUALITIO_README.rst file is automatically copied from qualitio/README.rst
+   to docs/source dir on every conf.py read. It's shouldn't be under control
+   version.
+
 .. toctree::
    :maxdepth: 2
 
-   installation
+   .#QUALITIO_README
    custom_attributes
+   api
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 

@@ -21,7 +21,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 def copy_qualitio_readme_as_installation():
     readme_path = os.path.join(os.path.dirname(__file__), "..", "..", "README.rst")
-    installation_path = os.path.join(os.path.dirname(__file__), "installation.rst")
+    installation_path = os.path.join(os.path.dirname(__file__), ".#QUALITIO_README.rst")
     shutil.copyfile(readme_path, installation_path)
 
 copy_qualitio_readme_as_installation()

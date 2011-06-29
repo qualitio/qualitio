@@ -44,9 +44,10 @@ customization  and you're defining  fields on  your ModelCustomization
 model.   ModelCustomization  will simply  have  OneToOneField to  your
 ``model``.
 
-| ATENTION! Do  not ever, ever create  ModelCustomization instances by
-| your self. It is created (or saved) on every CustomizableModel save so
-| you don't need to bother about it.
+.. note::
+   Do  not ever, ever create  ModelCustomization instances by
+   your self. It is created (and saved) on every CustomizableModel save so
+   you don't need to bother about it.
 
 
 How add ModelCustomization

@@ -7,8 +7,8 @@ Setup Development Environment (Debian/Ubuntu)
 In a case of using Debian sudo package is required. Some required
 python packages are installed outside pypi repository but straight
 from development repos so you may need also:
- - hg(mercurial)
- - git
+- hg(mercurial)
+- git
 
 On Debian-like systems simply type:
 ::
@@ -48,6 +48,7 @@ mercurial(hg) could be required.
 
 1. Git clone this repository
 ::
+
    git clone git://github.com/qualitio/qualitio.git
 
 2. Download and install fabric
@@ -69,7 +70,7 @@ project locally simply type there _localhost_ (ssh server is required)
 
 
 Updating Remote Production Environment (Debian/Ubuntu)
--------------------------------------------------
+------------------------------------------------------
 
 1. Go to cloned project directory, and run deployment script
 ::
