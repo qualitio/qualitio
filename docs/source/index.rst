@@ -12,14 +12,13 @@ Qualitio is an Open Source web application that helps in QA process.
 
 Contents:
 
-.. .#QUALITIO_README.rst file is automatically copied from qualitio/README.rst
-   to docs/source dir on every conf.py read. It's shouldn't be under control
-   version.
+.. \_qualitio_readme.rst file is automatically copied from qualitio/README.rst
+   to docs/source dir on every Makefile usage and it is removed after build.
 
 .. toctree::
    :maxdepth: 2
 
-   .#QUALITIO_README
+   _qualitio_readme.rst
    custom_attributes
    api
 

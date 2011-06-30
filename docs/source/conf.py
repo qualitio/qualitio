@@ -11,20 +11,12 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os, shutil
+import sys, os
 
 
 # Adding source to sys.path
 os.environ['DJANGO_SETTINGS_MODULE'] = 'qualitio.settings'
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-
-
-def copy_qualitio_readme_as_installation():
-    readme_path = os.path.join(os.path.dirname(__file__), "..", "..", "README.rst")
-    installation_path = os.path.join(os.path.dirname(__file__), ".#QUALITIO_README.rst")
-    shutil.copyfile(readme_path, installation_path)
-
-copy_qualitio_readme_as_installation()
 
 
 # If extensions (or modules to document with autodoc) are in another directory,
