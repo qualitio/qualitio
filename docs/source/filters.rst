@@ -1,14 +1,18 @@
-* filters *
-  ver. 0.9.3
-  TODO: missing things:
-	- not everything's tested
+Filters
+-------
 
-  Reusable django application that makes posible
-  to create very flexible Model generic filters.
+Reusable django application that makes posible
+to create very flexible Model generic filters.
 
-  The basic idea is to create Form instance for each field
-  of model's fields and make possible to join them to sets
-  and then join those sets to groups:
+.. note::
+   This documentation site assumes that you're
+   familiar with django.
+
+The basic idea is to create Form instance for each field
+of model's fields and make possible to join them to sets
+and then join those sets to groups:
+
+::
 
   field_name     :    field_value-to-filter AND
   field_name     :    field_value-to-filter AND
@@ -22,53 +26,69 @@
 
   - etc ... -
 
-  All filter values in one set are join with AND operator
-  all sets values are join with OR operator.
+All filter values in one set are join with AND operator
+all sets values are join with OR operator.
 
-** how does it work **
 
-   Mechanism is based on django.forms. Each model's field is translated
-   to FieldFilterForm subclass (with a pretty name) eg. if you have model:
+How does it work
+================
+
+1) Mechanism is based on django.forms. Each model's field is translated
+   to FieldFilterForm subclass (with a pretty name) eg. if you have Person
+   model:
+
+.. code-block:: python
 
    class Person(models.Model):
        name = models.CharField(max_length=512)
 
-   filter form that will be generated for this field is:
+
+filter form that will be generated for ``name`` field would be:
+
+
+.. code-block:: python
 
    class PersonNameFieldFilterForm(FieldFilterForm):
        q = forms.CharField(required=False)
 
-   Application introduces special control forms. Forms params are processed
+
+2) Application introduces special control forms. Forms params are processed
    in filter.views.filter view. If control field occur it changes number of
    field filters, removes forms control params and redirects to same page
    withuot control params.
 
 
-** convention **
+Convention
+==========
 
-   Each Form representing the field shoud have:
-   - ``construct_Q`` method which returns django's Q object
-   - ``field_name`` instance variable with the field name
-   - ``field_name_label`` instance variable with label for field filter
-   - ALL FieldFilterForm fields MUSN'T be required.
-
-   There are special forms in field filters called control forms
-   designed to add field filters, field groups, and removing them.
-
-** field mapping ***
-
-   Mapping between django ORM fields and field filter forms is defined in
-   fieldfilters.py module.
+Each Form representing the field shoud have:
+  - ``construct_Q`` method which returns django's Q object
+  - ``field_name`` instance variable with the field name
+  - ``field_name_label`` instance variable with label for field filter
+  - ALL FieldFilterForm fields MUSN'T be required.
 
 
-** Usage **
-   Suppose we have example ``people`` application
+Mapping between django ORM fields and field filter forms is defined in
+``qualitio.filter.fieldfilters`` module.
+
+
+Usage
+=====
+
+Suppose we have example ``people`` application with following model:
+
+.. code-block:: python
 
    # people/models.py
    class Person(models.Model):
        first_name = models.CharField(max_length=512)
        last_name = models.CharField(max_length=512)
 
+
+We can define filter for the above model:
+
+
+.. code-block:: python
 
    # people/filters.py
    from people.models import Person
@@ -81,6 +101,11 @@
 	   # fields = (<field names>)
 	   # exclude = (<field names to exclude>)
 
+
+and construct view for it:
+
+
+.. code-block:: python
 
    # people/views.py
    from people.filters import PeopleFilter
@@ -98,12 +123,16 @@
        })
 
 
-** Customizations **
-   # people/models.py
-   class Person(models.Model):
-       first_name = models.CharField(max_length=512)
-       last_name = models.CharField(max_length=512)
+Custom filters
+==============
 
+Filter works fully dynamic however it can be customized.
+
+Let's customize out previous example. We'll make custom
+field filter for ``first_name`` field.
+
+
+.. code-block:: python
 
    # people/filters.py
    from django import forms
@@ -112,9 +141,9 @@
    from people.models import Person
    from qualitio import filter as filterapp
 
-
-   # it's really important to MAKE FIELDS NOT REQUIRED
    class FirstNameFieldFilter(filterapp.FieldFilterForm):
+
+       # It's really important to MAKE FIELDS NOT REQUIRED
        startswith = forms.CharField(required=False)
        endswith = forms.CharField(required=False)
 
@@ -130,8 +159,7 @@
        	   startswith = self.cleaned_data.get('startswith')
        	   endswith = self.cleaned_data.get('endswith')
 	   return Q('%s__startswith' % self.field_name : startswith,
-	   	    '%s__endswith' % self.field_name : endswith)
-
+	            '%s__endswith' % self.field_name : endswith)
 
    class PeopleFilter(filterapp.ModelFilter):
        class Meta:
@@ -141,9 +169,24 @@
        first_name = filters.FieldFilter(FirstNameFieldFilter, label="Field name blah blah")
 
 
-* actions *
+Filter app in Qualitio
+======================
 
-** where the actions came from?
+Filter app provides generic way for filtering in Qualitio. Each of main applications
+(require, store, execute) can provide it's own customization for filtering.
+
+Example filter customization can be found in ``qualitio/require/filter.py`` file.
+
+
+
+Actions
+=======
+
+Actions are an operations that can be run on filtered (and selected)
+items in filter views.
+
+
+* where the actions came from?
 
    filter view search for actions in '<model-application-name>.actions' module
    and it pick up every class that is derived from 'qualitio.filter.actions.Action'
@@ -152,10 +195,13 @@
    '<your-application>.actions' module.
 
 
-** how to write an action?
-   For example for existing require application
+* how to write an action?
 
-   # code ###############################################
+   Eg. for existing require application
+
+
+.. code-block:: python
+
    # qualitio.require.actions
    from django import forms
 
@@ -176,7 +222,7 @@
                obj.modified_time = datetime.datetime.now()
                obj.save()
 	   return self.success(message='Action done!')
-   # code ###############################################
 
-   'form' param is used only if you attach form to your action.
-   Form is validated before 'run_actions' runs in 'execute' method.
+
+'form' param is used only if you attach form to your action.
+Form is validated before 'run_actions' runs in 'execute' method.
