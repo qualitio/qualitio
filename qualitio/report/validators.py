@@ -1,46 +1,38 @@
 # -*- coding: utf-8 -*-
 import re
+from lepl import *
 
 from django.core.exceptions import ValidationError, FieldError
 from django.template import Context, Template, TemplateSyntaxError
 from django.db.models import query, loading
 from django.views import debug
 
+dot             = Drop('.')
+comma           = Drop(',')
+ident           = Word(Letter() | '_', Letter() | '_' | Digit())
+ID              = '$ID'
+None_           = Literal('None') >> (lambda x: None)
+bool_           = (Literal('True') | Literal('False')) >> (lambda x: x == 'True')
+float_          = Real()   >> float
+int_            = Integer() >> int
+str_            = String() | String("'") | String('""')
+argument        = str_ | int_ | float_ | bool_ | None_ | ident | ID
+with DroppedSpace():
+    args            = (argument[:, comma] > list) >> 'args'
+    kwarg           = (ident & Drop("=") & argument) > tuple
+    kwargs          = (kwarg[:, comma] > list) >> 'kwargs'
+    arguments       = args[0:1] & Drop(",") & kwargs[0:1] | args[0:1] | kwargs[0:1]
+method_name     = ident > 'name'
+method_call     = dot & method_name & Drop("(") & arguments & Drop(")") > Node
+methods_chain   = method_call[1:] >> 'methods'
+object_type     = ident > 'name'
+expr            = object_type & methods_chain > Node
+
 
 ALLOWED_OBJECTS = ["TestCase", "TestCaseRun", "TestRun", "Report", "Requirement", "Bug"]
 ALLOWED_METHODS = ["all", "get", "filter", "exclude", "order_by", "reverse", "count"]
 ALLOWED_APPS = ["require", "store", "execute", "report"]
 
-
-def clean_query_string(query):
-    query_segments = query.split(".")
-    if len(query_segments) < 2:
-        raise ValidationError({"query": "Minimal query should be: ObjectType.method([key=value])"})
-
-    valid_object, methods = query_segments[0], query_segments[1:]
-    if valid_object not in ALLOWED_OBJECTS:
-        raise ValidationError({"query": "Type '%s' is not supported" % valid_object})
-
-    valid_methods = []
-    for method in methods:
-        method_re = re.match("(?P<method>\w+)\((?P<args>(\w+=.+)?)\)$", method)
-
-        try:
-            method_name = method_re.groupdict()["method"]
-            try:
-                args = dict([(method_re.groupdict()["args"].split("=")[0],
-                              method_re.groupdict()["args"].split("=")[1].strip('"').strip("'"))])
-            except IndexError:
-                args = dict()
-        except AttributeError:
-            raise ValidationError({"query": "Method '%s' is in wrong format" % method})
-
-        if method_name not in ALLOWED_METHODS:
-            raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
-
-        valid_methods.append((method_name, args))
-
-    return build_query(valid_object, valid_methods)
 
 def get_model(model_name):
     for app in ALLOWED_APPS:
@@ -49,35 +41,46 @@ def get_model(model_name):
             return Model
     return None
 
-def build_query(model_name, methods):
-    """
-    build_query method evaluates query starting with
-    primitives:
 
-    build_query(
-        "Person",
-        [('filter', {'name': 'Some name', 'last_name': 'Some last name'}),
-         ('exclude', {'id': 1 }),
-        ])
+def clean_query_string(query_string, object_id=0):
+    query_string = query_string.replace("$ID", str(object_id))
+    try:
+        ast = expr.parse(query_string)[0]
+    except FullFirstMatchException as e:
+        raise ValidationError({"query": str(e)})
 
-    It returns one of following:
-    1) queryset (if the last invoked method was: filter, exclude, order_by, reverse)
-    2) model_instance (if the last invoked method was: get)
-    3) number (if the last invoked method was: count)
-    """
+    return build_query(ast)
 
-    Model = get_model(model_name)
+
+def build_query(ast):
+    object_name = ast.name[0]
+    if object_name not in ALLOWED_OBJECTS:
+        raise ValidationError({"query": "Type '%s' is not supported" % object_name})
+
+    Model = get_model(object_name)
     if not Model:
         return query.QuerySet()
 
     queryset = Model.objects.all()
-    for name, kwargs in methods:
+    for method in ast.methods:
+        method_name = method.name[0]
+        if method_name not in ALLOWED_METHODS:
+            raise ValidationError({"query": "Method '%s' is unsupported" % method_name})
+
+        if hasattr(method, 'args'):
+            args = method.args[0]
+        else:
+            args = []
+        if hasattr(method, 'kwargs'):
+            kwargs = dict(method.kwargs[0])
+        else:
+            kwargs = {}
         try:
-            queryset = getattr(queryset, name)(**kwargs)
-        except Model.DoesNotExist:  # in case of using 'get' method
+            queryset = getattr(queryset, method_name)(*args, **kwargs)
+        except Model.DoesNotExist:
             return None
-        except FieldError as e:
-            raise ValidationError({"query": repr(e) })
+        except (ValueError, FieldError, TypeError) as e:
+            raise ValidationError({"query": str(e) })
 
     return queryset
 

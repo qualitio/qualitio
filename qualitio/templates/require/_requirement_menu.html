@@ -25,7 +25,7 @@
   <a href="#requirement/{{ obj.pk }}/history/">history</a>
   {% endif %}
 
-  {% for bound_view in BOUND_VIEWS.requirement %}
+  {% for bound_view in BOUND_REPORTS.requirement %}
   {% if bound_view.pk == view %}
   <span class="active" >{{ bound_view.name }}</span>
   {% else %}

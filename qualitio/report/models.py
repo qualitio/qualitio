@@ -33,11 +33,18 @@ class Report(core.BasePathModel):
         parent_class = 'ReportDirectory'
         for_parent_unique = True
 
+    def __init__(self, *args, **kwargs):
+        super(Report, self).__init__(*args, **kwargs)
+        self.bound_id = None
+
+    def materialize(self, bound_id):
+        self.bound_id = bound_id
+
     @property
     def context_dict(self):
         context_dict = {}
         for context_element in self.context.all():
-           context_dict[context_element.name] = context_element.build()
+           context_dict[context_element.name] = context_element.build(self.bound_id)
         return context_dict
 
     @property
@@ -48,6 +55,15 @@ class Report(core.BasePathModel):
 
     def is_html(self):
         return self.mime == "text/html"
+
+    def is_bound(self):
+        return True if self.bound_type else False
+
+    def bound_link(self):
+        link_elements = self.link.split("/")
+        link_elements.insert(1, str(self.bound_id))
+        link_elements.insert(1, str(self.bound_type_id))
+        return "/".join(link_elements)
 
     def save(self, *args, **kwargs):
         # significant part of this link is only ID, rest is only for information purposes.
@@ -100,5 +116,8 @@ class ContextElement(models.Model):
         """
         validators.clean_query_string(self.query)
 
-    def build(self):
-        return validators.clean_query_string(self.query)
+    def build(self, bound_id=None):
+        if bound_id:
+            return validators.clean_query_string(self.query, bound_id)
+        else:
+            return validators.clean_query_string(self.query)

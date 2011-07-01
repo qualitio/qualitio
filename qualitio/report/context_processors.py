@@ -12,5 +12,4 @@ def bound_reports(request):
     for bound_type in bound_types:
         reports[bound_type.model] = Report.objects.filter(bound_type=bound_type)
 
-    return {'BOUND_VIEWS': reports}
-
+    return {'BOUND_REPORTS': reports}
