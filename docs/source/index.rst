@@ -20,6 +20,7 @@ Contents:
 
    _qualitio_readme.rst
    custom_attributes
+   filters
    api
 
 
