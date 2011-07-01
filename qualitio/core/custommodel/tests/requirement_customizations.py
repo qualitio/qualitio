@@ -16,14 +16,14 @@ class CreatingModelCustomization(BaseTestCase):
         self.addTestApps([TESTAPP_MODULE])
 
     def test_adds_custom_meta_attr_to_customizator_model(self):
-        msg = "%s customizator should have '_custom_meta' attribute" % models.RequirementCustomization
-        assert hasattr(models.RequirementCustomization, '_custom_meta'), msg
+        msg = "%s customizator should have '_custom_meta' attribute" % models.TestRequirementCustomization
+        assert hasattr(models.TestRequirementCustomization, '_custom_meta'), msg
 
     def test_request_for_not_existed_customization_dont_saves_new_one(self):
         requirement = Requirement(name='Root')
 
         # no customizations at all
-        self.assertEquals(models.RequirementCustomization.objects.count(), 0)
+        self.assertEquals(models.TestRequirementCustomization.objects.count(), 0)
 
         # new customization object is created BUT NOT SAVED
         customization = requirement.customization

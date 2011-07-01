@@ -30,6 +30,7 @@ install_requires = [
     'django-registration',
 
     'distribute',
+    'sphinx==1.0.7',
 ]
 
 

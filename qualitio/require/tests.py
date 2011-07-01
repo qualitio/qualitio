@@ -214,9 +214,9 @@ class OrderingTreeTest(TestCase):
         manager = Requirement.objects
 
         self.big_project = manager.create(name="BigProject")
-        self.z = manager.create(parent=self.big_project, name='z')
-        self.x = manager.create(parent=self.big_project, name='x')
-        self.a = manager.create(parent=self.big_project, name='b')
+        self.z = manager.create(parent=self.big_project, name='Z')
+        self.x = manager.create(parent=self.big_project, name='X')
+        self.a = manager.create(parent=self.big_project, name='A')
 
 
     def test_children_returned_in_alphabetical_order(self):
