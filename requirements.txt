@@ -4,7 +4,6 @@ Pygments==1.4
 South==0.7.3
 distribute==0.6.16
 django-compressor==0.9.1
-django-debug-toolbar==0.8.5
 django-extensions==0.6
 django-filter==0.5.3
 -e git://github.com/django-mptt/django-mptt.git#egg=django_mptt
