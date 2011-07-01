@@ -144,7 +144,6 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 MPTT_ADMIN_LEVEL_INDENT = 30
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 ISSUE_BACKEND = "qualitio.execute.backends.bugzilla"
 ISSUE_BACKEND_ABSOLUTE_URL = "https://bugzilla.mozilla.org/show_bug.cgi?id=%s"
