@@ -40,8 +40,10 @@ urlpatterns = patterns('',
                        url(r'^ajax/report/(?P<report_id>\d+)/edit/valid/?$',
                            report_valid),
 
+                       url(r'^external/(?P<report_id>\d+)/(?P<object_type_id>\d+)/(?P<object_id>\d+)/.*',
+                           report_external),
+
                        url(r'^external/(?P<report_id>\d+)/.*',
                            report_external)
-
                        )
 

@@ -15,7 +15,7 @@ class ReportForm(core.PathModelForm):
 
     class Meta(core.PathModelForm.Meta):
         model = models.Report
-        fields = ("parent", "name", "template", "public", "link", "mime")
+        fields = ("parent", "name", "template", "public", "link", "mime", "bound_type")
         widgets = { "template": forms.HiddenInput(),
                     "link": forms.TextInput(attrs={"readonly":"readonly"})}
 

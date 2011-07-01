@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 from qualitio import core
+from qualitio import report
 from qualitio.execute.views import *
 from qualitio.execute.models import TestRunDirectory, TestRun
 
@@ -19,6 +20,9 @@ urlpatterns = patterns('',
                            {'directory': TestRunDirectory}),
                        url(r'^ajax/get_antecedents$',
                            core.get_ancestors, {'app': 'execute'}),
+
+                       url(r'^ajax/testrun/(?P<object_id>\d+)/(?P<report_id>\d+)/$',
+                           report.report_bound, {'Model': TestRun}),
 
                        # Test run directory directory urls
                        url(r'^ajax/testrundirectory/(?P<directory_id>\d+)/details/?$',

@@ -1,31 +1,11 @@
-import re
-import pickle
-
 from django.core.exceptions import ValidationError
 from django.template import Context, Template
 from django.db import models
-from django.views import debug
-from django.db.models import query
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
 
 from qualitio import core
 from qualitio.report import validators
-
-
-class RestrictedManager(models.Manager):
-    # TODO: this class is not used, but should be included
-    # in future as replacment for orginal managers
-    allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
-                       "contribute_to_class", "_inherited", "creation_counter",
-                       "^get(\(.*\))?$",
-                       "^filter(\(.*\))?$",
-                       "^all(\(.*\))?$")
-
-    def __getattribute__(self, name):
-        if any(filter(lambda x: re.match(x,name), object.__getattribute__(self, "allowed_methods"))):
-            return object.__getattribute__(self, name)
-
-        raise AttributeError
 
 
 class ReportDirectory(core.BaseDirectoryModel):
@@ -45,16 +25,26 @@ class Report(core.BasePathModel):
                     ('text/plain', 'plain'))
     mime = models.CharField(blank=False, max_length=20, choices=MIME_CHOICES,
                             default="text/html", verbose_name="format")
+    limit_choices_to = {'model__in': ["testcase", "requirement", "testrun"]}
+    bound_type = models.ForeignKey(ContentType, blank=True, null=True,
+                                   limit_choices_to=limit_choices_to)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
         for_parent_unique = True
 
+    def __init__(self, *args, **kwargs):
+        super(Report, self).__init__(*args, **kwargs)
+        self.bound_id = None
+
+    def materialize(self, bound_id):
+        self.bound_id = bound_id
+
     @property
     def context_dict(self):
         context_dict = {}
         for context_element in self.context.all():
-           context_dict[context_element.name] = context_element.build()
+           context_dict[context_element.name] = context_element.build(self.bound_id)
         return context_dict
 
     @property
@@ -65,6 +55,15 @@ class Report(core.BasePathModel):
 
     def is_html(self):
         return self.mime == "text/html"
+
+    def is_bound(self):
+        return True if self.bound_type else False
+
+    def bound_link(self):
+        link_elements = self.link.split("/")
+        link_elements.insert(1, str(self.bound_id))
+        link_elements.insert(1, str(self.bound_type_id))
+        return "/".join(link_elements)
 
     def save(self, *args, **kwargs):
         # significant part of this link is only ID, rest is only for information purposes.
@@ -117,5 +116,8 @@ class ContextElement(models.Model):
         """
         validators.clean_query_string(self.query)
 
-    def build(self):
-        return validators.clean_query_string(self.query)
+    def build(self, bound_id=None):
+        if bound_id:
+            return validators.clean_query_string(self.query, bound_id)
+        else:
+            return validators.clean_query_string(self.query)

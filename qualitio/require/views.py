@@ -5,6 +5,7 @@ from qualitio.core.utils import json_response, success, failed
 from qualitio import store
 from qualitio.require.models import Requirement
 from qualitio.require.forms import RequirementForm
+from qualitio.report.models import Report
 
 from qualitio import history
 
@@ -89,3 +90,11 @@ def testcases_connect(request, requirement_id):
     log.add_objects(created=created, deleted=deleted)
     message = log.save()
     return success(message=message)
+
+def report_details(request, requirement_id, report_id):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    report = Report.objects.get(pk=report_id)
+    report.materialize(requirement.pk)
+    return direct_to_template(request, 'require/report.html',
+                              {'report': report,
+                               'requirement': requirement})

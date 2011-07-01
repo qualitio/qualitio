@@ -1,9 +1,11 @@
 from django.conf.urls.defaults import *
 
 from qualitio import core
+from qualitio import report
 from qualitio.filter.views import filter
 from qualitio.require.models import Requirement
 from qualitio.require.filter import RequirementFilter
+
 
 urlpatterns = patterns('qualitio.require.views',
                        url(r'^$', 'index'),
@@ -19,6 +21,9 @@ urlpatterns = patterns('qualitio.require.views',
 
                        url(r'^ajax/get_antecedents$',
                            core.get_ancestors, {'app': 'require'}),
+
+                       url(r'^ajax/requirement/(?P<object_id>\d+)/(?P<report_id>\d+)/$',
+                           report.report_bound, {'Model': Requirement}),
 
                        url(r'^ajax/requirement/(?P<requirement_id>\d+)/details/$',
                            'details'),
@@ -41,3 +46,4 @@ urlpatterns = patterns('qualitio.require.views',
                        url(r'^ajax/requirement/(?P<object_id>\d+)/history/$', core.history,
                            {'Model' : Requirement}),
                        )
+

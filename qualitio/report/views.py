@@ -2,6 +2,7 @@ from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 
 from qualitio.core.utils import json_response, success, failed
@@ -61,18 +62,18 @@ def directory_valid(request, directory_id=0):
 
 def report_details(request, report_id):
     report = Report.objects.get(pk=report_id)
-    if report.is_html():
+    if report.is_html() and not report.is_bound():
         content = report.content
         styles = None
     else:
-        from pygments.lexers import XmlLexer, JavascriptLexer, TextLexer
-        from pygments import highlight
+        from pygments import highlight, lexers
         from pygments.formatters import HtmlFormatter
         from django.utils.safestring import mark_safe
 
-        lexers = {"application/xml": XmlLexer(),
-                  "application/json": JavascriptLexer(),
-                  "text/plain" : TextLexer() }
+        lexers = {"application/xml": lexers.XmlLexer(),
+                  "application/json": lexers.JavascriptLexer(),
+                  "text/plain" : lexers.TextLexer(),
+                  "text/html": lexers.HtmlDjangoLexer()}
 
         formatter = HtmlFormatter(linenos=True)
         content = mark_safe(highlight(report.content, lexers[report.mime], formatter))
@@ -136,8 +137,12 @@ def report_valid(request, report_id=0):
                   data=errors)
 
 
-def report_external(request, report_id):
+def report_external(request, report_id, object_type_id=None, object_id=None):
     report = get_object_or_404(Report, pk=report_id)
+    if object_type_id:
+        object_type = ContentType.objects.get(pk=object_type_id)
+        _object = object_type.get_object_for_this_type(pk=object_id)
+        report.materialize(_object.pk)
 
     if not report.public and not request.user.is_authenticated():
         return HttpResponseRedirect("%s?next=/report/external/%s"
@@ -150,3 +155,13 @@ def report_external(request, report_id):
 
     return HttpResponse(report.content,
                         content_type=report.mime)
+
+def report_bound(request, Model, object_id, report_id):
+    _object = Model.objects.get(pk=object_id)
+    report = Report.objects.get(pk=report_id)
+    report.materialize(_object.pk)
+
+    return direct_to_template(request, 'report/report_bound.html',
+                              {'report': report,
+                               'object': _object})
+

@@ -29,3 +29,4 @@ django-tastypie==0.9.9
 textile==2.1.5
 django-articles==2.1.1
 sphinx==1.0.7
+LEPL==5.0.0

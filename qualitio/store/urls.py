@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 from qualitio import core
+from qualitio import report
 from qualitio.store.views import *
 from qualitio.store.models import TestCaseDirectory, TestCase
 from qualitio.filter.views import filter
@@ -20,6 +21,9 @@ urlpatterns = patterns('',
 
                        url(r'^ajax/get_antecedents$',
                            core.get_ancestors, {'app': 'store'}),
+
+                       url(r'^ajax/testcase/(?P<object_id>\d+)/(?P<report_id>\d+)/$',
+                           report.report_bound, {'Model': TestCase}),
 
                        url(r'^ajax/testcasedirectory/(?P<directory_id>\d+)/details/?$',
                            directory_details),
