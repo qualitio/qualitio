@@ -10,7 +10,8 @@ from qualitio.filter import forms
 
 
 def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
-           model_filter_class=None, model_table_class=None, fields_order=()):
+           model_filter_class=None, model_table_class=None, fields_order=(),
+           app_menu_items=()):
 
     if not model and not model_filter_class:
         raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
@@ -51,6 +52,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 
     return render_to_response('filter/filter.html', {
             'app_label': model._meta.app_label,
+            'app_menu_items': app_menu_items,
             'filter': generic_filter,
             'table': model_table_class(page_obj.object_list, query_dict=request.GET),
             'paginator': paginator,
