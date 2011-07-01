@@ -50,7 +50,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 )
@@ -88,7 +87,6 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'mptt',
-    'debug_toolbar',
     'social_auth',
     'django_nose',
     'reversion',
@@ -134,14 +132,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.RemoteUserBackend',
 )
 
-
-INTERNAL_IPS = (
-    '127.0.0.1',
-    )
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
 
 MPTT_ADMIN_LEVEL_INDENT = 30
 
