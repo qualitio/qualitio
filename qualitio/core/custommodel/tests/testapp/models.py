@@ -1,12 +1,12 @@
 from django.db import models
 
-from qualitio.core.custommodel.models import ModelCustomization
-from qualitio.require.models import Requirement
+from qualitio.core import ModelCustomization
+from qualitio.core.tests.testapp.models import Directory
 
 
-class TestRequirementCustomization(ModelCustomization):
+class DirectoryCustomization(ModelCustomization):
     special_alias = models.IntegerField(null=True, blank=True)
     testfield = models.TextField(blank=True)
 
     class Meta:
-        model = Requirement
+        model = Directory

@@ -1,8 +1,8 @@
 import datetime
 
 from qualitio.core.tests.utils import BaseTestCase
-from qualitio.require.models import Requirement
-from qualitio.core.custommodel.forms import CustomizableModelForm
+from qualitio.core.tests.testapp.models import Directory
+from qualitio.core import CustomizableModelForm
 from qualitio.core.custommodel.tests.testapp import models
 
 
@@ -16,21 +16,21 @@ class CreatingModelCustomization(BaseTestCase):
         self.addTestApps([TESTAPP_MODULE])
 
     def test_adds_custom_meta_attr_to_customizator_model(self):
-        msg = "%s customizator should have '_custom_meta' attribute" % models.TestRequirementCustomization
-        assert hasattr(models.TestRequirementCustomization, '_custom_meta'), msg
+        msg = "%s customizator should have '_custom_meta' attribute" % models.DirectoryCustomization
+        assert hasattr(models.DirectoryCustomization, '_custom_meta'), msg
 
     def test_request_for_not_existed_customization_dont_saves_new_one(self):
-        requirement = Requirement(name='Root')
+        directory = Directory(name='Root')
 
         # no customizations at all
-        self.assertEquals(models.TestRequirementCustomization.objects.count(), 0)
+        self.assertEquals(models.DirectoryCustomization.objects.count(), 0)
 
         # new customization object is created BUT NOT SAVED
-        customization = requirement.customization
+        customization = directory.customization
 
         # make sure 'customization' property cached object properly
-        self.assertEquals(customization, requirement._customization_cache)
-        self.assertEquals(customization.origin, requirement)
+        self.assertEquals(customization, directory._customization_cache)
+        self.assertEquals(customization.origin, directory)
 
 
 class CustomizableModelAPI(BaseTestCase):
@@ -38,12 +38,12 @@ class CustomizableModelAPI(BaseTestCase):
         self.addTestApps([TESTAPP_MODULE])
 
     def test_custom_fields_returns_dict_with_fields_values(self):
-        requirement = Requirement.objects.create(name="Root")
-        requirement.customization.special_alias = 12
-        requirement.customization.testfield = "Test content"
-        requirement.save()  # requirement.customization.save also invoked
+        directory = Directory.objects.create(name="Root")
+        directory.customization.special_alias = 12
+        directory.customization.testfield = "Test content"
+        directory.save()  # directory.customization.save also invoked
 
-        values = requirement.custom_fields()
+        values = directory.custom_fields()
 
         self.assertTrue(isinstance(values, dict))
         self.assertEquals(len(values), 2)
@@ -58,74 +58,70 @@ class CreatingCustomizableModelWithForm(BaseTestCase):
 
     def form_class(self, model, exclude=()):
         model_, exclude_= model, exclude
-        class RequirementForm(CustomizableModelForm):
+        class DirectoryForm(CustomizableModelForm):
             class Meta:
                 model = model_
                 exclude = exclude_
-        return RequirementForm
+        return DirectoryForm
 
     def test_form_has_fields_from_model_customization_object(self):
-        form_class = self.form_class(Requirement)
+        form_class = self.form_class(Directory)
         expected = set([
-                'path', 'name', 'parent', 'dependencies', 'release_target', 'description', 'alias',  # original
-                'testfield', 'special_alias',  # field from RequirementCustomization class
+                'path', 'name', 'parent', # original
+                'testfield', 'special_alias',  # field from DirectoryCustomization class
                 ])
         current = set(form_class.base_fields.keys())
         self.assertEquals(expected, current)
 
     # TODO: there's still no support for 'fields' option
     def test_form_exclude_works_for_model_customization_as_well(self):
-        form_class = self.form_class(Requirement, exclude=(
-                'path', 'name', 'parent',  # exlude from Requirement model
-                'testfield',  # exclude from RequirementCustomization model
+        form_class = self.form_class(Directory, exclude=(
+                'path', 'name',  # exlude from Directory model
+                'testfield',  # exclude from DirectoryCustomization model
                 ))
         expected = set([
-                'dependencies', 'release_target', 'description', 'alias',  # original
-                'special_alias',  # field from RequirementCustomization class
+                'parent',  # original
+                'special_alias',  # field from DirectoryCustomization class
                 ])
         current = set(form_class.base_fields.keys())
         self.assertEquals(expected, current)
 
     def test_customizable_model_form_can_edit_model_customization_fields_as_well(self):
-        requirement = Requirement.objects.create(name="Root", parent=None)
-        form_class = self.form_class(Requirement)
+        directory = Directory.objects.create(name="Root", parent=None)
+        form_class = self.form_class(Directory)
 
         # let's edit the object
         form = form_class({
-                # editing requirement
+                # editing directory
                 'name': 'Root',
-                'release_target': '12-06-2011',  # watchout for the date format!
 
-                # editing requirement.customization
+                # editing directory.customization
                 'special_alias': '1',
                 'testfield': 'Test field content',
-                }, instance=requirement)
+                }, instance=directory)
 
         assert form.is_valid(), "Somethings wrong - this form should be valid! %s" % form.errors
-        requirement = form.save()
+        directory = form.save()
 
-        self.assertEquals(requirement.release_target, datetime.date(2011, 6, 12))
-        self.assertEquals(requirement.customization.special_alias, 1)
-        self.assertEquals(requirement.customization.testfield, 'Test field content')
+        self.assertEquals(directory.customization.special_alias, 1)
+        self.assertEquals(directory.customization.testfield, 'Test field content')
 
     def test_customizable_model_form_can_create_model_customization_fields_as_well(self):
-        form_class = self.form_class(Requirement)
+        form_class = self.form_class(Directory)
 
         # let's edit the object
         form = form_class({
-                # editing requirement
+                # editing directory
                 'name': 'New root',
-                'release_target': '12-06-2011',  # watchout for the date format!
                 'parent': None,
 
-                # editing requirement.customization
+                # editing directory.customization
                 'special_alias': '10',
                 'testfield': 'Test field content 3',
                 })
 
         assert form.is_valid(), "Somethings wrong - this form should be valid! %s" % form.errors
-        requirement = form.save()
+        directory = form.save()
 
-        self.assertEquals(requirement.release_target, datetime.date(2011, 6, 12))
-        self.assertEquals(requirement.customization.special_alias, 10)
-        self.assertEquals(requirement.customization.testfield, 'Test field content 3')
+        self.assertEquals(directory.customization.special_alias, 10)
+        self.assertEquals(directory.customization.testfield, 'Test field content 3')
