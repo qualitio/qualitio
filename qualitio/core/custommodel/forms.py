@@ -26,6 +26,12 @@ class CustomizableModelFormMetaclass(forms.models.ModelFormMetaclass):
 class CustomizableModelForm(forms.ModelForm):
     __metaclass__ = CustomizableModelFormMetaclass
 
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance')
+        super(CustomizableModelForm, self).__init__(*args, **kwargs)
+        if instance and hasattr(instance, '_customization_model'):
+            self.initial.update(instance.raw_custom_values())
+
     def _custom_fields_meta(self):
         if not hasattr(self._meta.model, '_customization_model'):
             return []
