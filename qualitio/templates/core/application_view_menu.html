@@ -1,0 +1,17 @@
+{% load application_view_menu %}
+{% load bound_reports_menu %}
+
+<div id="application-view-menu">
+  {% for view in registred_views %}
+
+  {% if current_view == view.name %}
+  <span class="active" >{{ view.name }}</span>
+  {% else %}
+  <a class="{% if not view.perm %}disable{% endif %}"
+     href="#{{ module_name }}/{{ obj.pk }}/{{ view.name }}/">{{ view.name }}</a>
+  {% endif %}
+
+  {% endfor %}
+
+  {% bound_reports_menu obj current_view %}
+</div>

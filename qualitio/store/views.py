@@ -1,22 +1,26 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 
+from qualitio import core
 from qualitio.core.utils import json_response, success, failed
 from qualitio.store.models import TestCaseDirectory, TestCase
 from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, TestCaseStepFormSet, GlossaryWord
 
 from qualitio import history
 
+
 def index(request):
     return direct_to_template(request, 'store/base.html', {})
 
 
+@core.menu_view(TestCaseDirectory, "details")
 def directory_details(request, directory_id):
     return direct_to_template(request, 'store/testcasedirectory_details.html',
                               {'directory': TestCaseDirectory.objects.get(pk=directory_id)})
 
 
-@permission_required('store.change_testcasedirectory', login_url='/permission_required/')
+@core.menu_view(TestCaseDirectory, "edit", 'store.add_testcasedirectory')
+@permission_required('store.add_testcasedirectory', login_url='/permission_required/')
 def directory_edit(request, directory_id):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
@@ -54,12 +58,14 @@ def directory_valid(request, directory_id=0):
                       data=testcase_directory_form.errors_list())
 
 
+@core.menu_view(TestCase, "details")
 def testcase_details(request, testcase_id):
     return direct_to_template(request, 'store/testcase_details.html',
                               {'testcase': TestCase.objects.get(pk=testcase_id)})
 
 
 @permission_required('store.change_testcase', login_url='/permission_required/')
+@core.menu_view(TestCase, "edit", 'store.change_testcase')
 def testcase_edit(request, testcase_id):
     testcase = TestCase.objects.get(pk=testcase_id)
     testcase_form = TestCaseForm(instance=testcase)

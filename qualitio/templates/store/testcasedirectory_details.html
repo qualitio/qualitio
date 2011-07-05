@@ -14,7 +14,7 @@
     <span class="name">description</span>
     <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
-  
+
   <table class="display">
     <thead>
       <tr>
@@ -57,9 +57,9 @@
 </div>
 <div id="application-view-footer" class="application-view-content">
   <div class="right">
-    <a class="button {% if not perms.store.add_testcase %}disable{% endif %}" 
+    <a class="button {% if not perms.store.add_testcase %}disable{% endif %}"
        href="#testcasedirectory/{{ directory.pk }}/newtestcase/" >create test case</a>
-    <a class="button {% if not perms.store.add_testcasedirectory %}disable{% endif %}" 
+    <a class="button {% if not perms.store.add_testcasedirectory %}disable{% endif %}"
        href="#testcasedirectory/{{ directory.pk }}/new/" >create test case directory</a>
   </div>
 </div>

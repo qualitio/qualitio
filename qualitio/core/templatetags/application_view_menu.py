@@ -3,6 +3,7 @@ from django.template import RequestContext
 
 register = template.Library()
 
+
 @register.tag
 def application_view_menu(parser, token):
     obj, view = token.split_contents()[1:]
@@ -10,19 +11,32 @@ def application_view_menu(parser, token):
 
 
 class ApplicationViewMenuNode(template.Node):
-    # TODO: this could be probably better resolved by using some registartion form for views,
-    # to determine which view currently open
-    # TODO: move this to core
     def __init__(self, obj, view):
         self.obj = obj
         self.view = view
 
+    def registred_views(self, obj, user):
+        from qualitio.core.views import registry
+
+        views = []
+        for view in registry.get(obj.__class__, None):
+            if view['perm']:
+                views.append(dict(name=view['name'],
+                                  perm=user.has_perm(view['perm'])))
+            else:
+                views.append(dict(name=view['name'],
+                                  perm=True))
+        return views
+
     def render(self, context):
+
         materialized_obj = self.obj.resolve(context)
         materialized_view = self.view.resolve(context)
-        return template.loader.render_to_string("%s/_%s_menu.html"
-                                                % (materialized_obj._meta.app_label,
-                                                   materialized_obj._meta.module_name),
-                                                {"obj" : materialized_obj,
-                                                 "view" : materialized_view},
+        module_name = materialized_obj._meta.module_name
+
+        return template.loader.render_to_string("core/application_view_menu.html",
+                                                {"obj": materialized_obj,
+                                                 "current_view": materialized_view,
+                                                 "registred_views": self.registred_views(materialized_obj, context['user']),
+                                                 "module_name": module_name},
                                                 context_instance=RequestContext(context['request']))

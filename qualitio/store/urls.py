@@ -55,8 +55,10 @@ urlpatterns = patterns('',
 
 
                        url(r'^ajax/testcase/(?P<object_id>\d+)/history/$',
-                           core.history, {'Model' : TestCase}),
+                           core.menu_view(TestCase, "history")(core.history),
+                           {'Model' : TestCase}),
 
                        url(r'^ajax/testcasedirectory/(?P<object_id>\d+)/history/$',
-                           core.history, {'Model' : TestCaseDirectory}),
+                           core.menu_view(TestCaseDirectory, "history")(core.history),
+                           {'Model' : TestCaseDirectory}),
                        )

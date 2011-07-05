@@ -36,7 +36,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/testrundirectory/(?P<directory_id>\d+)/edit/valid/?$',
                            directory_valid),
                        url(r'^ajax/testrundirectory/(?P<object_id>\d+)/history/$',
-                           core.history, {'Model' : TestRunDirectory}),
+                           core.menu_view(TestRunDirectory, "history")(core.history),
+                           {'Model' : TestRunDirectory}),
 
                        # Test run urls
                        url(r'^ajax/testrundirectory/(?P<directory_id>\d+)/newtestrun/?$',
@@ -56,7 +57,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/testrun/(?P<testrun_id>\d+)/notes/?$',
                            testrun_notes),
                        url(r'^ajax/testrun/(?P<object_id>\d+)/history/?$',
-                           core.history, {'Model' : TestRun}),
+                           core.menu_view(TestRun, "history")(core.history),
+                           {'Model' : TestRun}),
 
                        # Test run execute helpers
                        url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/?$',

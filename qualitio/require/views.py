@@ -2,17 +2,19 @@ from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 
 from qualitio.core.utils import json_response, success, failed
+from qualitio import core
 from qualitio import store
 from qualitio.require.models import Requirement
 from qualitio.require.forms import RequirementForm
-from qualitio.report.models import Report
 
 from qualitio import history
+
 
 def index(request):
     return direct_to_template(request, 'require/base.html')
 
 
+@core.menu_view(Requirement, "details")
 def details(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     testcases = requirement.testcase_set.all()
@@ -20,7 +22,9 @@ def details(request, requirement_id):
                               {'requirement': requirement ,
                                'testcases': testcases })
 
+
 @permission_required('require.change_requirement', login_url='/permission_required/')
+@core.menu_view(Requirement, "edit", perm='require.change_requirement')
 def edit(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
@@ -90,11 +94,3 @@ def testcases_connect(request, requirement_id):
     log.add_objects(created=created, deleted=deleted)
     message = log.save()
     return success(message=message)
-
-def report_details(request, requirement_id, report_id):
-    requirement = Requirement.objects.get(pk=requirement_id)
-    report = Report.objects.get(pk=report_id)
-    report.materialize(requirement.pk)
-    return direct_to_template(request, 'require/report.html',
-                              {'report': report,
-                               'requirement': requirement})

@@ -5,8 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 
+from qualitio import core
 from qualitio.core.utils import json_response, success, failed
-
 from qualitio.report.models import ReportDirectory, Report
 from qualitio.report.forms import ReportDirectoryForm, ReportForm, ContextElementFormset
 from qualitio.report.validators import ReportValidator
@@ -15,9 +15,21 @@ from qualitio.report.validators import ReportValidator
 def index(request):
     return direct_to_template(request, 'report/base.html', {})
 
+
+@core.menu_view(ReportDirectory, "details")
 def directory_details(request, directory_id):
     return direct_to_template(request, 'report/reportdirectory_details.html',
                               {'directory': ReportDirectory.objects.get(pk=directory_id)})
+
+
+@permission_required('report.change_reportdirectory', login_url='/permission_required/')
+@core.menu_view(ReportDirectory, "edit", 'report.change_reportdirectory')
+def directory_edit(request, directory_id):
+    directory = ReportDirectory.objects.get(pk=directory_id)
+    reportdirectory_form = ReportDirectoryForm(instance=directory)
+    return direct_to_template(request, 'report/reportdirectory_edit.html',
+                              {'reportdirectory_form': reportdirectory_form})
+
 
 @permission_required('report.add_reportdirectory', login_url='/permission_required/')
 def directory_new(request, directory_id):
@@ -27,12 +39,6 @@ def directory_new(request, directory_id):
     return direct_to_template(request, 'report/reportdirectory_edit.html',
                               {'reportdirectory_form': reportdirectory_form})
 
-@permission_required('report.change_reportdirectory', login_url='/permission_required/')
-def directory_edit(request, directory_id):
-    directory = ReportDirectory.objects.get(pk=directory_id)
-    reportdirectory_form = ReportDirectoryForm(instance=directory)
-    return direct_to_template(request, 'report/reportdirectory_edit.html',
-                              {'reportdirectory_form': reportdirectory_form})
 
 @json_response
 def directory_valid(request, directory_id=0):
@@ -59,7 +65,7 @@ def directory_valid(request, directory_id=0):
         return failed(message="Validation errors: %s" % reportdirectory_form.error_message(),
                       data=reportdirectory_form.errors_list())
 
-
+@core.menu_view(Report, "details")
 def report_details(request, report_id):
     report = Report.objects.get(pk=report_id)
     if report.is_html() and not report.is_bound():
@@ -85,6 +91,17 @@ def report_details(request, report_id):
                                'styles' : styles})
 
 
+@permission_required('report.change_report', login_url='/permission_required/')
+@core.menu_view(Report, "edit", "report.change_report")
+def report_edit(request, report_id):
+    report = Report.objects.get(pk=report_id)
+    report_form = ReportForm(instance=report)
+    report_contextelement_formset = ContextElementFormset(instance=report)
+    return direct_to_template(request, 'report/report_edit.html',
+                              {'report_form': report_form,
+                               "report_contextelement_formset": report_contextelement_formset})
+
+
 @permission_required('report.add_report', login_url='/permission_required/')
 def report_new(request, directory_id):
     directory = ReportDirectory.objects.get(pk=directory_id)
@@ -94,15 +111,6 @@ def report_new(request, directory_id):
                               {"report_form": report_form,
                                "report_contextelement_formset": report_contextelement_formset})
 
-
-@permission_required('report.change_report', login_url='/permission_required/')
-def report_edit(request, report_id):
-    report = Report.objects.get(pk=report_id)
-    report_form = ReportForm(instance=report)
-    report_contextelement_formset = ContextElementFormset(instance=report)
-    return direct_to_template(request, 'report/report_edit.html',
-                              {'report_form': report_form,
-                               "report_contextelement_formset": report_contextelement_formset})
 
 @json_response
 def report_valid(request, report_id=0):
