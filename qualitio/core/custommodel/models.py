@@ -12,6 +12,21 @@ class CustomizableModel(models.Model):
     def has_customization(cls):
         return hasattr(cls, '_customization_model')
 
+    def raw_custom_values(self):
+        """
+        Return custom fields raw values as dict.
+        Key of each value is field 'name'.
+        Value are exact values (no get_<name>_display things are used).
+        """
+        if not self.has_customization():
+            return {}
+
+        customization = self.customization
+        result = {}
+        for f in self._customization_model._custom_meta.get_custom_fields():
+            result[f.name] = getattr(customization, f.name)
+        return result
+
     def custom_fields(self):
         """
         Return custom fields values dict.
