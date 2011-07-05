@@ -27,7 +27,7 @@ class CustomizableModelForm(forms.ModelForm):
     __metaclass__ = CustomizableModelFormMetaclass
 
     def _custom_fields_meta(self):
-        if not self._meta.model.has_customization():
+        if not hasattr(self._meta.model, '_customization_model'):
             return []
         return self._meta.model._customization_model._custom_meta.get_custom_fields()
 
