@@ -93,10 +93,11 @@ can play with.
   >>> req = Requirement.objects.get(id=1)
   >>> req.customization    # direct path to customization object
   >>>
-  >>> req.custom_fields()  # returns dict with req.customization
-  >>>                      # object values.
-  >>> {'Mark': None }      # It's important that keys are ``verbose_name``'s not just name
+  >>> req.custom_fields()  # returns dict with req.customization object values.
+  >>> {'Mark': None }      # It's important that keys are 'verbose_name's
+  >>>                      # not just name. And values supports 'choices' options
+  >>>                      # (get_<name>_display functions are used).
   >>>
-  >>> req.raw_custom_values()  # returns dict with req.customization
-  >>>                          # object values.
-  >>> {'mark': None}           # This time keys are just field names
+  >>> req.raw_custom_values()  # returns dict with req.customization object values.
+  >>> {'mark': None}           # This time keys are just field names, and values
+  >>>                          # are returned as they are (no 'choices' support)
