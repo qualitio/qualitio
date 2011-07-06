@@ -94,3 +94,4 @@ can play with.
   >>> req.customization    # direct path to customization object
   >>> req.custom_fields()  # returns dict with req.customization
   >>>                      # object values
+  >>> {'mark': None }
