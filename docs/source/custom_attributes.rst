@@ -92,6 +92,11 @@ can play with.
   >>> from require.models import Requirement
   >>> req = Requirement.objects.get(id=1)
   >>> req.customization    # direct path to customization object
+  >>>
   >>> req.custom_fields()  # returns dict with req.customization
-  >>>                      # object values
-  >>> {'mark': None }
+  >>>                      # object values.
+  >>> {'Mark': None }      # It's important that keys are ``verbose_name``'s not just name
+  >>>
+  >>> req.raw_custom_values()  # returns dict with req.customization
+  >>>                          # object values.
+  >>> {'mark': None}           # This time keys are just field names
