@@ -28,7 +28,7 @@ class CustomizableModel(models.Model):
             result[f.name] = getattr(customization, f.name)
         return result
 
-    def custom_fields(self):
+    def custom_values(self):
         """
         Return custom fields values dict.
         For easy template usage.
