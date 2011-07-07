@@ -579,3 +579,20 @@ input[readonly] {
 .glosarry-word.translation {
     color: #006633;
 }
+
+.reports-menu {
+    display: inline-block;
+    position: relative;
+}
+.reports-menu .position {
+    position: absolute;
+    left: -1px;
+    width: 150px;
+    background: #eeeeee;
+    display: none;
+    width: 200px;
+    border-bottom: 1px solid #AAAAAA;
+    border-left: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    z-index: 100000;
+}

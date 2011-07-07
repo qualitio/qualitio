@@ -177,6 +177,18 @@ $(function() {
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
       });
       $.shortcuts.selectTreeNode(this.id, this.type);
+
+      $(function () {
+        $(".reports-menu").live({
+          mouseenter: function(){
+            $(".reports-menu .position").show();
+          },
+          mouseleave: function() {
+            $(".reports-menu .position").hide();
+          }
+        });
+      });
+      
     },
 
     events: {
@@ -251,3 +263,4 @@ $(function() {
     });
   }
 })(jQuery);
+
