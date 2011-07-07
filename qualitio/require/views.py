@@ -63,6 +63,7 @@ def valid(request, requirement_id=0):
 
 
 @permission_required('store.change_testcase', login_url='/permission_required/')
+@core.menu_view(Requirement, "testcases", perm='store.change_testcase')
 def testcases(request, requirement_id):
     requirement = Requirement.objects.get(pk=requirement_id)
     return direct_to_template(request, 'require/test_cases.html',
