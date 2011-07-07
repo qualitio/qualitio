@@ -2440,9 +2440,9 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("3", sel.get_text("link=3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[6]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[4]/a"))
+        try: self.failUnless(sel.is_element_present("css=div.grid_8.clearfix > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollBody > table.display > tbody > tr.odd > td:nth(3) > a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("IVI", sel.get_text("//div[@id='application-view']/div[6]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[4]/a"))
+        try: self.assertEqual("IVI", sel.get_text("css=div.grid_8.clearfix > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollBody > table.display > tbody > tr.odd > td:nth(3) > a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
