@@ -2,8 +2,10 @@ from mptt.models import MPTTModel
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 
+from qualitio.core.custommodel.models import CustomizableModel
 
-class BaseModel(models.Model):
+
+class BaseModel(CustomizableModel):
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 

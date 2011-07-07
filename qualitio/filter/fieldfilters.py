@@ -16,9 +16,11 @@ class FieldFilter(utils.ObjectCounter):
     """
     form_class = fieldforms.FieldFilterForm
 
-    def __init__(self, form_class=None, label=None, name=None, model=None, field=None):
+    def __init__(self, form_class=None, label=None, name=None, model=None, field=None,
+                 field_name=None):
         self.form_class = form_class or self.__class__.form_class
         self.label = label
+        self.field_name = field_name
 
         # those variables below are filled by metaclass:
         self.name = name
@@ -27,7 +29,7 @@ class FieldFilter(utils.ObjectCounter):
 
     def form_class_attrs(self):
         attrs = {
-            'field_name': self.name,
+            'field_name': self.field_name or self.name,
             'field_name_label': self.label or utils.pretty_field_name(self.name),
             }
 
@@ -51,7 +53,19 @@ class TextFieldFilter(FieldFilter):
 
 
 class DateFieldFilter(FieldFilter):
+    form_class = fieldforms.DateFieldFilterForm
+
+
+class DateTimeFieldFilter(FieldFilter):
+    form_class = fieldforms.DateTimeFieldFilterForm
+
+
+class DateRangeFieldFilter(FieldFilter):
     form_class = fieldforms.DateRangeFieldFilterForm
+
+
+class DateTimeRangeFieldFilter(FieldFilter):
+    form_class = fieldforms.DateTimeRangeFieldFilterForm
 
 
 FIELD_FORM_FOR_DBFIELD_DEFAULTS = {
@@ -59,7 +73,7 @@ FIELD_FORM_FOR_DBFIELD_DEFAULTS = {
     models.TextField: TextFieldFilter,
     models.BooleanField: AutoQueryFieldFilter,
     models.DateField: DateFieldFilter,
-    models.DateTimeField: DateFieldFilter,
+    models.DateTimeField: DateTimeFieldFilter,
     models.TimeField: AutoQueryFieldFilter,
     models.OneToOneField: AutoQueryFieldFilter,
     models.ForeignKey: AutoQueryFieldFilter,
@@ -93,5 +107,17 @@ def fieldfilters_for_model(Model, fields=None, exclude=(), fields_overrides=None
         fieldfilter_class = fields_map.get(f.__class__)
         if fieldfilter_class:
             result[f.name] = fieldfilter_class(model=Model, name=f.name, field=f)
+
+        # TODO: this is just little hack here, we need to change it somehow
+        #       in the future. We'll simply add additional fields for date-type
+        #       fields.
+
+        if f.__class__ == models.DateField:
+            field_name = '%s_range' % f.name
+            result[field_name] = DateRangeFieldFilter(model=Model, field_name=f.name, field=f)
+
+        if f.__class__ == models.DateTimeField:
+            field_name = '%s_range' % f.name
+            result[field_name] = DateTimeRangeFieldFilter(model=Model, field_name=f.name, field=f)
 
     return result

@@ -42,7 +42,7 @@ class QueriesCounterMiddleware:
                                                      fg=color))
 
                 if getattr(settings,"QUERIES_COUNTER_VERBOSE", False):
-                    sql_queries = ["%s: %s" % (termcolors.colorize(str(i), fg=color), element["raw_sql"]) for i, element in enumerate(db.connection.queries,1)]
+                    sql_queries = ["%s: %s" % (termcolors.colorize(str(i), fg=color), element.get("raw_sql")) for i, element in enumerate(db.connection.queries,1)]
                     log_lines.append("\n".join(sql_queries))
 
                 sys.stderr.write("\n".join(log_lines))

@@ -63,6 +63,12 @@ class TestRun(core.BasePathModel):
         self.passrate = self.testcases.passrate()
         self.save(force_update=True)
 
+    @property
+    def bugs(self):
+        return Bug.objects.filter(testcaserun__parent=self)\
+            .values("name","alias")\
+            .annotate(count=models.Count("alias"))
+
 
 class TestCaseRunStatus(core.BaseStatusModel):
     default_name = "IDLE"

@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 
 from qualitio import store
 from qualitio.report.models import ReportDirectory, Report, ContextElement
-from qualitio.report.validators import report_query_validator
+from qualitio.report.validators import build_query, ReportValidator
 
 
 class TestContextElementValidation(TestCase):
@@ -55,7 +55,7 @@ class TestReportQueryBuilder(TestCase):
         object_name = "TestCase"
         methods = [("all", {})]
 
-        query = report_query_validator.build_query(object_name, methods)
+        query = build_query(object_name, methods)
 
         self.assertTrue(isinstance(query, QuerySet))
         self.assertTrue(testcase in query)
@@ -73,7 +73,7 @@ class TestReportQueryBuilder(TestCase):
         object_name = "TestCase"
         methods = [("all", {}), ("exclude", {"pk": testcase1.pk})]
 
-        query = report_query_validator.build_query(object_name, methods)
+        query = build_query(object_name, methods)
 
         self.assertTrue(isinstance(query, QuerySet))
         self.assertTrue(testcase2 in query)
@@ -87,7 +87,7 @@ class TestReportQueryBuilder(TestCase):
         object_name = "TestCase"
         methods = [("get", {"pk": testcase.pk})]
 
-        query = report_query_validator.build_query(object_name, methods)
+        query = build_query(object_name, methods)
 
         self.assertEquals(query, testcase)
 
@@ -95,7 +95,7 @@ class TestReportQueryBuilder(TestCase):
         object_name = "TestCase"
         methods = [ ("get", {"pk": 1} )]
 
-        query = report_query_validator.build_query(object_name, methods)
+        query = build_query(object_name, methods)
 
         self.assertEquals(query, None)
 
@@ -126,7 +126,7 @@ class TestContextElementQuerySet(TestCase):
                                                         name="context_element",
                                                         query=query)
         context_element.full_clean()
-        queryset = context_element.query_object()
+        queryset = context_element.build()
 
         self.assertTrue(self.testcase1 in queryset)
         self.assertTrue(self.testcase2 in queryset)
@@ -141,7 +141,7 @@ class TestContextElementQuerySet(TestCase):
                                                         query=query)
 
         context_element.full_clean()
-        queryset = context_element.query_object()
+        queryset = context_element.build()
 
         self.assertTrue(self.testcase1 in queryset)
         self.assertTrue(self.testcase2 not in queryset)
@@ -156,7 +156,7 @@ class TestContextElementQuerySet(TestCase):
                                                         query=query)
 
         context_element.full_clean()
-        queryset = context_element.query_object()
+        queryset = context_element.build()
 
         self.assertTrue(queryset, self.testcase1)
 
@@ -169,7 +169,7 @@ class TestContextElementQuerySet(TestCase):
                                                         query=query)
 
         context_element.full_clean()
-        queryset = context_element.query_object()
+        queryset = context_element.build()
 
         self.assertTrue(self.testcase1 not in queryset)
         self.assertTrue(self.testcase2 in queryset)
@@ -189,7 +189,7 @@ class TestContextElementQuerySet(TestCase):
                                                         query=query)
 
         context_element.full_clean()
-        queryset = context_element.query_object()
+        queryset = context_element.build()
 
         self.assertTrue(testcase4 in queryset)
 
@@ -207,3 +207,16 @@ class TestContextElementQuerySet(TestCase):
 
         self.assertRaises(ValidationError, context_element.full_clean)
 
+
+class ReportValidatorTest(TestCase):
+    def test_able_to_validate_query_strings(self):
+        validator = ReportValidator("{% for e in elements %}<p>{{ e.name }}</p>{% endfor %}", {
+                "elements": "TestCase.all()",
+                })
+        self.assertTrue(validator.is_valid())
+
+    def test_able_to_validate_queryset(self):
+        validator = ReportValidator("{% for e in elements %}<p>{{ e.name }}</p>{% endfor %}", {
+                "elements": store.TestCase.objects.all(),
+                })
+        self.assertTrue(validator.is_valid())

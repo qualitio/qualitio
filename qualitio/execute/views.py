@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.conf import settings
 
 from qualitio.core.utils import json_response, success, failed
+from qualitio import core
 from qualitio import store
 from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, TestCaseRunStatus
 from qualitio.execute import forms
@@ -14,23 +15,25 @@ def index(request):
     return direct_to_template(request, 'execute/base.html', {})
 
 
+@core.menu_view(TestRunDirectory, "details")
 def directory_details(request, directory_id):
     return direct_to_template(request, 'execute/testrundirectory_details.html',
                               {'directory': TestRunDirectory.objects.get(pk=directory_id)})
+
+
+@permission_required('execute.change_testrundirectory', login_url='/permission_required/')
+@core.menu_view(TestRunDirectory, "edit", 'execute.change_testrundirectory')
+def directory_edit(request, directory_id):
+    directory = TestRunDirectory.objects.get(pk=directory_id)
+    testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
+    return direct_to_template(request, 'execute/testrundirectory_edit.html',
+                              {'testrundirectory_form': testrundirectory_form})
 
 
 @permission_required('execute.add_testrundirectory', login_url='/permission_required/')
 def directory_new(request, directory_id):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(initial={'parent': directory})
-    return direct_to_template(request, 'execute/testrundirectory_edit.html',
-                              {'testrundirectory_form': testrundirectory_form})
-
-
-@permission_required('execute.change_testrundirectory', login_url='/permission_required/')
-def directory_edit(request, directory_id):
-    directory = TestRunDirectory.objects.get(pk=directory_id)
-    testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
@@ -60,10 +63,23 @@ def directory_valid(request, directory_id=0):
                       data=testrun_directory_form.errors_list())
 
 
+@core.menu_view(TestRun, "details")
 def testrun_details(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
     return direct_to_template(request, 'execute/testrun_details.html',
                               {'testrun': testrun})
+
+
+@permission_required('execute.change_testrun', login_url='/permission_required/')
+@core.menu_view(TestRun, "edit")
+def testrun_edit(request, testrun_id):
+    testrun = TestRun.objects.get(pk=testrun_id)
+    testrun_form = forms.TestRunForm(instance=testrun)
+
+    return direct_to_template(request, 'execute/testrun_edit.html',
+                              {'testrun_form': testrun_form,
+                               'available_test_cases': store.TestCase.objects.all(),
+                               'connected_test_cases' : testrun.testcases.all()})
 
 
 @permission_required('execute.add_testrun', login_url='/permission_required/')
@@ -74,17 +90,6 @@ def testrun_new(request, directory_id):
     return direct_to_template(request, 'execute/testrun_edit.html',
                               {"testrun_form": testrun_form,
                                'available_test_cases': store.TestCase.objects.all()})
-
-
-@permission_required('execute.change_testrun', login_url='/permission_required/')
-def testrun_edit(request, testrun_id):
-    testrun = TestRun.objects.get(pk=testrun_id)
-    testrun_form = forms.TestRunForm(instance=testrun)
-
-    return direct_to_template(request, 'execute/testrun_edit.html',
-                              {'testrun_form': testrun_form,
-                               'available_test_cases': store.TestCase.objects.all(),
-                               'connected_test_cases' : testrun.testcases.all()})
 
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
@@ -126,6 +131,7 @@ def testrun_valid(request, testrun_id=0):
 
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
+@core.menu_view(TestRun, "execute")
 def testrun_execute(request, testrun_id):
     return direct_to_template(request, 'execute/testrun_execute.html',
                               {'testrun': TestRun.objects.get(pk=testrun_id)})

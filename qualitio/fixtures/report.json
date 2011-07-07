@@ -1,53 +1,51 @@
 [
   {
-    "pk": 1, 
-    "model": "report.reportdirectory", 
+    "pk": 1,
+    "model": "report.reportdirectory",
     "fields": {
-      "rght": 2, 
-      "name": "Test report directory", 
-      "parent": null, 
-      "level": 0, 
-      "modified_time": "2011-05-27 10:50:43", 
-      "lft": 1, 
-      "tree_id": 1, 
-      "created_time": "2011-05-27 10:50:43", 
-      "path": "/", 
+      "rght": 2,
+      "name": "Test report directory",
+      "parent": null,
+      "level": 0,
+      "modified_time": "2011-05-27 10:50:43",
+      "lft": 1,
+      "tree_id": 1,
+      "created_time": "2011-05-27 10:50:43",
+      "path": "/",
       "description": ""
     }
-  }, 
+  },
   {
-    "pk": 1, 
-    "model": "report.report", 
+    "pk": 1,
+    "model": "report.report",
     "fields": {
-      "name": "Test report", 
-      "parent": 1, 
-      "mime": "text/html", 
-      "modified_time": "2011-05-27 10:53:05", 
-      "link": "1/test-report-directory/test-report/2011/05/27", 
-      "template": "{% for testcase in TESTCASES %}\n<div>#{{ forloop.counter }} {{ testcase.name }}</div>\n{% endfor %}", 
-      "created_time": "2011-05-27 10:51:04", 
-      "path": "/Test report directory/", 
+      "name": "Test report",
+      "parent": 1,
+      "mime": "text/html",
+      "modified_time": "2011-05-27 10:53:05",
+      "link": "1/test-report-directory/test-report/2011/05/27",
+      "template": "{% for testcase in TESTCASES %}\n<div>#{{ forloop.counter }} {{ testcase.name }}</div>\n{% endfor %}",
+      "created_time": "2011-05-27 10:51:04",
+      "path": "/Test report directory/",
       "public": false
     }
-  }, 
+  },
   {
-    "pk": 1, 
-    "model": "report.contextelement", 
+    "pk": 1,
+    "model": "report.contextelement",
     "fields": {
-      "report": 1, 
-      "query": "TestCase.all()", 
-      "name": "TESTCASES", 
-      "query_pickled": "(dp0\nS'_iter'\np1\nNsS'_for_write'\np2\nI00\nsS'_sticky_filter'\np3\nI00\nsS'query'\np4\nccopy_reg\n_reconstructor\np5\n(cdjango.db.models.sql.query\nQuery\np6\nc__builtin__\nobject\np7\nNtp8\nRp9\n(dp10\nS'aggregate_select_mask'\np11\nNsS'_aggregate_select_cache'\np12\nNsS'extra'\np13\ng5\n(cdjango.utils.datastructures\nSortedDict\np14\nc__builtin__\ndict\np15\n(dp16\ntp17\nRp18\n(dp19\nS'keyOrder'\np20\n(lp21\nsbsS'join_map'\np22\n(dp23\n(NS'store_testcase'\np24\nNNtp25\n(g24\ntp26\ns(g24\nS'require_requirement'\np27\nS'requirement_id'\np28\nS'id'\np29\ntp30\n(g27\ntp31\ns(g24\nS'store_testcasedirectory'\np32\nS'parent_id'\np33\ng29\ntp34\n(g32\ntp35\nssS'related_select_fields'\np36\n(lp37\nsS'extra_tables'\np38\n(tsS'select'\np39\n(lp40\nsS'quote_cache'\np41\n(dp42\nsS'rev_join_map'\np43\n(dp44\ng32\ng34\nsg27\ng30\nsg24\ng25\nssS'used_aliases'\np45\nc__builtin__\nset\np46\n((lp47\ntp48\nRp49\nsS'order_by'\np50\n(lp51\nsS'distinct'\np52\nI00\nsS'dupe_avoidance'\np53\n(dp54\nsS'group_by'\np55\nNsS'alias_map'\np56\n(dp57\ng32\n(g32\ng32\nS'INNER JOIN'\np58\ng24\ng33\ng29\nI00\ntp59\nsg27\n(g27\ng27\nS'LEFT OUTER JOIN'\np60\ng24\ng28\ng29\nI00\ntp61\nsg24\n(g24\ng24\nNNNNI00\ntp62\nssS'select_related'\np63\n(dp64\nS'requirement'\np65\n(dp66\nsS'parent'\np67\n(dp68\nssS'deferred_loading'\np69\n(g46\n((lp70\ntp71\nRp72\nI01\ntp73\nsS'select_fields'\np74\n(lp75\nsS'_extra_select_cache'\np76\nNsS'max_depth'\np77\nI5\nsS'standard_ordering'\np78\nI01\nsS'extra_order_by'\np79\n(tsS'default_ordering'\np80\nI01\nsS'tables'\np81\n(lp82\ng24\nag27\nag32\nasS'aggregates'\np83\ng5\n(g14\ng15\n(dp84\ntp85\nRp86\n(dp87\ng20\n(lp88\nsbsS'extra_select_mask'\np89\nNsS'low_mark'\np90\nI0\nsS'alias_refcount'\np91\n(dp92\ng32\nI1\nsg27\nI1\nsg24\nI4\nssS'related_select_cols'\np93\n(lp94\nsS'default_cols'\np95\nI01\nsS'ordering_aliases'\np96\n(lp97\nsS'having'\np98\ng5\n(cdjango.db.models.sql.where\nWhereNode\np99\ng7\nNtp100\nRp101\n(dp102\nS'connector'\np103\nS'AND'\np104\nsS'negated'\np105\nI00\nsS'children'\np106\n(lp107\nsS'subtree_parents'\np108\n(lp109\nsbsS'included_inherited_models'\np110\n(dp111\nNg24\nssS'table_map'\np112\n(dp113\ng32\n(lp114\ng32\nasg27\n(lp115\ng27\nasg24\n(lp116\ng24\nassS'where_class'\np117\ng99\nsS'model'\np118\ncqualitio.store.models\nTestCase\np119\nsS'where'\np120\ng5\n(g99\ng7\nNtp121\nRp122\n(dp123\ng103\ng104\nsg105\nI00\nsg106\n(lp124\nsg108\n(lp125\nsbsS'high_mark'\np126\nNsS'filter_is_sticky'\np127\nI00\nsbsS'_db'\np128\nNsg118\ng119\nsS'_result_cache'\np129\nNs."
+      "report": 1,
+      "query": "TestCase.all()",
+      "name": "TESTCASES"
     }
-  }, 
+  },
   {
-    "pk": 2, 
-    "model": "report.contextelement", 
+    "pk": 2,
+    "model": "report.contextelement",
     "fields": {
-      "report": 1, 
-      "query": "TestCase.all()", 
-      "name": "TESTCASES", 
-      "query_pickled": "(dp0\nS'_iter'\np1\nNsS'_for_write'\np2\nI00\nsS'_sticky_filter'\np3\nI00\nsS'query'\np4\nccopy_reg\n_reconstructor\np5\n(cdjango.db.models.sql.query\nQuery\np6\nc__builtin__\nobject\np7\nNtp8\nRp9\n(dp10\nS'aggregate_select_mask'\np11\nNsS'_aggregate_select_cache'\np12\nNsS'extra'\np13\ng5\n(cdjango.utils.datastructures\nSortedDict\np14\nc__builtin__\ndict\np15\n(dp16\ntp17\nRp18\n(dp19\nS'keyOrder'\np20\n(lp21\nsbsS'join_map'\np22\n(dp23\n(NS'store_testcase'\np24\nNNtp25\n(g24\ntp26\ns(g24\nS'require_requirement'\np27\nS'requirement_id'\np28\nS'id'\np29\ntp30\n(g27\ntp31\ns(g24\nS'store_testcasedirectory'\np32\nS'parent_id'\np33\ng29\ntp34\n(g32\ntp35\nssS'related_select_fields'\np36\n(lp37\nsS'extra_tables'\np38\n(tsS'select'\np39\n(lp40\nsS'quote_cache'\np41\n(dp42\nsS'rev_join_map'\np43\n(dp44\ng32\ng34\nsg27\ng30\nsg24\ng25\nssS'used_aliases'\np45\nc__builtin__\nset\np46\n((lp47\ntp48\nRp49\nsS'order_by'\np50\n(lp51\nsS'distinct'\np52\nI00\nsS'dupe_avoidance'\np53\n(dp54\nsS'group_by'\np55\nNsS'alias_map'\np56\n(dp57\ng32\n(g32\ng32\nS'INNER JOIN'\np58\ng24\ng33\ng29\nI00\ntp59\nsg27\n(g27\ng27\nS'LEFT OUTER JOIN'\np60\ng24\ng28\ng29\nI00\ntp61\nsg24\n(g24\ng24\nNNNNI00\ntp62\nssS'select_related'\np63\n(dp64\nS'requirement'\np65\n(dp66\nsS'parent'\np67\n(dp68\nssS'deferred_loading'\np69\n(g46\n((lp70\ntp71\nRp72\nI01\ntp73\nsS'select_fields'\np74\n(lp75\nsS'_extra_select_cache'\np76\nNsS'max_depth'\np77\nI5\nsS'standard_ordering'\np78\nI01\nsS'extra_order_by'\np79\n(tsS'default_ordering'\np80\nI01\nsS'tables'\np81\n(lp82\ng24\nag27\nag32\nasS'aggregates'\np83\ng5\n(g14\ng15\n(dp84\ntp85\nRp86\n(dp87\ng20\n(lp88\nsbsS'extra_select_mask'\np89\nNsS'low_mark'\np90\nI0\nsS'alias_refcount'\np91\n(dp92\ng32\nI1\nsg27\nI1\nsg24\nI4\nssS'related_select_cols'\np93\n(lp94\nsS'default_cols'\np95\nI01\nsS'ordering_aliases'\np96\n(lp97\nsS'having'\np98\ng5\n(cdjango.db.models.sql.where\nWhereNode\np99\ng7\nNtp100\nRp101\n(dp102\nS'connector'\np103\nS'AND'\np104\nsS'negated'\np105\nI00\nsS'children'\np106\n(lp107\nsS'subtree_parents'\np108\n(lp109\nsbsS'included_inherited_models'\np110\n(dp111\nNg24\nssS'table_map'\np112\n(dp113\ng32\n(lp114\ng32\nasg27\n(lp115\ng27\nasg24\n(lp116\ng24\nassS'where_class'\np117\ng99\nsS'model'\np118\ncqualitio.store.models\nTestCase\np119\nsS'where'\np120\ng5\n(g99\ng7\nNtp121\nRp122\n(dp123\ng103\ng104\nsg105\nI00\nsg106\n(lp124\nsg108\n(lp125\nsbsS'high_mark'\np126\nNsS'filter_is_sticky'\np127\nI00\nsbsS'_db'\np128\nNsg118\ng119\nsS'_result_cache'\np129\nNs."
+      "report": 1,
+      "query": "TestCase.all()",
+      "name": "TESTCASES"
     }
   }
 ]

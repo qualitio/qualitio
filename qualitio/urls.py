@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
                        (r'^register/', 'registration.views.register',
                         {'template_name': "registration/registration.html",
+
                          'backend': 'registration.backends.simple.SimpleBackend',
                          'success_url': 'django.contrib.auth.views.login'}),
 
@@ -26,13 +27,14 @@ urlpatterns = patterns('',
                        (r'^report/', include('qualitio.report.urls', app_name="report")),
                        (r'^filter/', include('qualitio.filter.urls')),
                        (r'^glossary/', include('qualitio.glossary.urls')),
+                       (r'^account/', include('qualitio.account.urls', app_name="account")),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
                        (r'', include(api.urls)),
                        )
 
 urlpatterns += patterns('django.views.generic.simple',
-                        ('^$', 'redirect_to', {'url': 'require/'}),
+                        ('^$', 'redirect_to', {'url': settings.LOGIN_REDIRECT_URL }),
                         )
 
 if settings.DEBUG:

@@ -72,6 +72,12 @@
       {{ testcase_form.description }}
     </div>
 
+    {% for formfield in testcase_form.custom_fields %}
+    <div id="{{ formfield.html_name }}_wrapper" class="field-wrapper">
+      {{ formfield.label_tag }}: <span class="error"></span>
+      {{ formfield }}
+    </div>
+    {% endfor %}
   </div>
 
   <div class="application-view-content">

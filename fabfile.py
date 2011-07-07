@@ -233,5 +233,21 @@ def update_production(path="/var/www/qualitio", local_settings=""):
         print("Instsance at %s:%s, updated." % (colors.green(env.host),
                                                 colors.green(env.path)))
 
+def setup_documetation(path="/var/www/qualitiodocs"):
+
+    global run_it
+    global sudo_it
+
+    run_it = lambda command: sudo(command, user="www-data")
+    sudo_it = sudo
+
+    env.path = os.path.dirname(__file__)
+    print "%s/docs" % env.path
+
+    with lcd("%s/docs" % env.path):
+        local("make html")
+        put("build/html/*", path, use_sudo=True)
+
+
 if __name__ == '__main__':
     subprocess.call(['fab', '-f', __file__] + sys.argv[1:])

@@ -1,31 +1,11 @@
-import re
-import pickle
-
 from django.core.exceptions import ValidationError
 from django.template import Context, Template
 from django.db import models
-from django.views import debug
-from django.db.models import query
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
 
 from qualitio import core
-from qualitio.report.validators import report_query_validator
-
-
-class RestrictedManager(models.Manager):
-    # TODO: this class is not used, but should be included
-    # in future as replacment for orginal managers
-    allowed_methods = ("_set_creation_counter", "get_query_set", "model", "_db", "__class__"
-                       "contribute_to_class", "_inherited", "creation_counter",
-                       "^get(\(.*\))?$",
-                       "^filter(\(.*\))?$",
-                       "^all(\(.*\))?$")
-
-    def __getattribute__(self, name):
-        if any(filter(lambda x: re.match(x,name), object.__getattribute__(self, "allowed_methods"))):
-            return object.__getattribute__(self, name)
-
-        raise AttributeError
+from qualitio.report import validators
 
 
 class ReportDirectory(core.BaseDirectoryModel):
@@ -45,16 +25,26 @@ class Report(core.BasePathModel):
                     ('text/plain', 'plain'))
     mime = models.CharField(blank=False, max_length=20, choices=MIME_CHOICES,
                             default="text/html", verbose_name="format")
+    limit_choices_to = {'model__in': ["testcase", "requirement", "testrun"]}
+    bound_type = models.ForeignKey(ContentType, blank=True, null=True,
+                                   limit_choices_to=limit_choices_to)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'ReportDirectory'
         for_parent_unique = True
 
+    def __init__(self, *args, **kwargs):
+        super(Report, self).__init__(*args, **kwargs)
+        self.bound_id = None
+
+    def materialize(self, bound_id):
+        self.bound_id = bound_id
+
     @property
     def context_dict(self):
         context_dict = {}
         for context_element in self.context.all():
-           context_dict[context_element.name] = context_element.query_object()
+           context_dict[context_element.name] = context_element.build(self.bound_id)
         return context_dict
 
     @property
@@ -65,6 +55,15 @@ class Report(core.BasePathModel):
 
     def is_html(self):
         return self.mime == "text/html"
+
+    def is_bound(self):
+        return True if self.bound_type else False
+
+    def bound_link(self):
+        link_elements = self.link.split("/")
+        link_elements.insert(1, str(self.bound_id))
+        link_elements.insert(1, str(self.bound_type_id))
+        return "/".join(link_elements)
 
     def save(self, *args, **kwargs):
         # significant part of this link is only ID, rest is only for information purposes.
@@ -87,18 +86,6 @@ class ContextElement(models.Model):
     report = models.ForeignKey("Report", related_name="context")
     name = models.CharField(max_length=512)
     query = models.TextField()
-    query_pickled = models.TextField(blank=True)
-
-    def save(self, *args, **kwargs):
-        """
-        save method makes ability setup 'query_pickled' field with user own value.
-        Usefull then set of ContextElement objects are created / edited.
-        See qualitio.report.forms.ContextElementFormset.save method.
-        """
-        query_result = kwargs.pop('query_result', None)
-        if query_result:
-            self.query_pickled = self.pickle_query_result(query_result)
-        return super(ContextElement, self).save(*args, **kwargs)
 
     def full_clean(self):
         """
@@ -125,23 +112,12 @@ class ContextElement(models.Model):
 
     def clean_query(self):
         """
-        clean_query does two things
-        1) it validates query string
-        2) it syncronize evaluated query with 'query_pickled' attribute.
+        clean_query validates query string
         """
-        self.query_pickled = self.pickle_query_result(report_query_validator.clean(self.query))
+        validators.clean_query_string(self.query)
 
-    def pickle_query_result(self, result):
-        if isinstance(result, query.QuerySet):
-            result = result.__getstate__()
-            result["_result_cache"] = None
-        return pickle.dumps(result)
-
-    def query_object(self):
-        query_dict = pickle.loads(str(self.query_pickled))
-        if not isinstance(query_dict, dict):
-            return query_dict
-
-        _query = query.QuerySet()
-        _query.__dict__ = query_dict
-        return _query
+    def build(self, bound_id=None):
+        if bound_id:
+            return validators.clean_query_string(self.query, bound_id)
+        else:
+            return validators.clean_query_string(self.query)

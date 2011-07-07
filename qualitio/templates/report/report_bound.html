@@ -1,0 +1,25 @@
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>report: <a href="/report/#report/{{ report.pk }}/details/">{{ report.name }}</a></h1>
+</div>
+
+{% application_view_menu object report.pk %}
+
+<div class="application-view-content clearfix">
+  <div class="text-bullet">
+    <span class="name">link:</span>
+    <span class="value">
+      <a href="/report/external/{{ report.bound_link }}" target="_blank">
+        {% if request.is_secure %}https:{% else %}http:{% endif %}//{{ request.get_host }}/report/external/{{ report.bound_link }}
+      </a>
+    </span>
+  </div>
+  <div class="text-bullet">
+      <span class="name">public:</span>
+      <span class="value">{{ report.public|yesno }}</span>
+    </div>
+</div>
+
+<div class="application-view-content clearfix">
+  {{ report.content }}
+</div>

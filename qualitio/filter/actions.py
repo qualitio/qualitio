@@ -148,14 +148,13 @@ class ChangeParent(Action):
     def run_action(self, data, queryset, form=None):
         from django.db import transaction
 
-        with transaction.commit_on_success():
-            for obj in queryset.all():
-                obj.parent = form.cleaned_data.get('parent')
-                obj.modified_time = datetime.datetime.now()
-
-                try:
+        try:
+            with transaction.commit_on_success():
+                for obj in queryset.all():
+                    obj.parent = form.cleaned_data.get('parent')
+                    obj.modified_time = datetime.datetime.now()
                     obj.save()
-                except Exception, error:
-                    return self.failed(message='"%s" fail: %s' % (obj.name, error.message))
+        except Exception, error:
+            return self.failed(message='"%s" fail: %s' % (obj.name, error.message))
 
         return self.success(message='Action complete!')

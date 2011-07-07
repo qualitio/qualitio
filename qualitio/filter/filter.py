@@ -75,7 +75,7 @@ class FilterGroup(object):
         return '%s-%s-%s' % (self.id, 'control', 'new-criteria')
 
     def _get_add_field_filter_form_choices(self):
-        return [('', 'add new field filter')] + [(i, f.field_name) for i, f in enumerate(self.form_classes)]
+        return [('', 'add new field filter')] + [(i, f.field_name_label) for i, f in enumerate(self.form_classes)]
 
     def get_new_criteria_form(self, data=None):
         return AddFieldFilterForm(
@@ -196,7 +196,7 @@ class Filter(object):
         return '%s-%s' % ('control', 'new-group')
 
     def _get_add_group_form_choices(self):
-        return [('', 'add group')] + [(i, f.field_name) for i, f in enumerate(self.form_classes)]
+        return [('', 'add group')] + [(i, f.field_name_label) for i, f in enumerate(self.form_classes)]
 
     def get_new_group_form(self, data=None):
         return AddFieldGroupForm(

@@ -3,6 +3,7 @@ from django import forms
 
 from qualitio import core
 from qualitio.report import models
+from qualitio.report import validators
 
 
 class ReportDirectoryForm(core.DirectoryModelForm):
@@ -14,14 +15,24 @@ class ReportForm(core.PathModelForm):
 
     class Meta(core.PathModelForm.Meta):
         model = models.Report
-        fields = ("parent", "name", "template", "public", "link", "mime")
+        fields = ("parent", "name", "template", "public", "link", "mime", "bound_type")
         widgets = { "template": forms.HiddenInput(),
                     "link": forms.TextInput(attrs={"readonly":"readonly"})}
 
 
 class ContextElementForm(core.BaseModelForm):
+    """
+    ContextElementForm has special behaviour.
+    If query string is valid it is evaluated
+    and stored in cleaned_data 'evaluated_query' key.
+    """
     class Meta(core.BaseModelForm):
         fields = ("name", "query")
+
+    def clean_query(self):
+        query = self.cleaned_data['query']
+        self.cleaned_data['evaluated_query'] = validators.clean_query_string(query)
+        return query
 
 
 BaseContextElementFormset = inlineformset_factory(models.Report,
@@ -32,21 +43,8 @@ BaseContextElementFormset = inlineformset_factory(models.Report,
 
 
 class ContextElementFormset(BaseContextElementFormset):
-    def get_context(self):
+    def context_queries(self):
         context = {}
-        for cd in filter(lambda cd: 'name' in cd and 'query' in cd, self.cleaned_data):
-            context[cd['name']] = cd['query']
+        for cd in filter(lambda cd: 'name' in cd and 'evaluated_query' in cd, self.cleaned_data):
+            context[cd['name']] = cd['evaluated_query']
         return context
-
-    def save(self, *args, **kwargs):
-        queries = kwargs.pop('queries', {})
-
-        # Before proccesing, make sure it won't commit changes unless
-        # we add query result (commit=False ensures that model's save method
-        # won't be called)
-        kwargs.update(commit=False)
-
-        instances = super(ContextElementFormset, self).save(*args, **kwargs)
-        for instance in instances:
-            instance.save(query_result=queries.get(instance.name))
-        return instances

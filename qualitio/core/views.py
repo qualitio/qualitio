@@ -4,6 +4,7 @@ from reversion.models import Version
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.simple import direct_to_template
 from django.db.models.loading import get_model
+from django.contrib.auth.models import Permission
 
 from qualitio.core.utils import json_response
 
@@ -78,3 +79,20 @@ def history(request, object_id, Model):
 
 def permission_required(request):
     return direct_to_template(request, 'core/permission_required.html')
+
+
+registry = {}
+def menu_view(_object,  view_name, perm="", index=-1):
+    if index < 0:
+        index = len(registry)-index+1 # this is only append
+
+    if registry.has_key(_object):
+        registry[_object].insert(index, dict(name=view_name, perm=perm))
+    else:
+        registry[_object] = [dict(name=view_name, perm=perm)]
+
+    def _menu_view(function):
+        def __menu_view(*args, **kw):
+            return function(*args, **kw)
+        return __menu_view
+    return _menu_view

@@ -12,6 +12,14 @@ def unique_list(*sequences):
                 checked.append(e)
     return checked
 
+def custom_fields_columns(model, columns):
+    if hasattr(model, '_customization_model'):
+        # Support for custom attributes
+        for f in model._customization_model._custom_meta.get_custom_fields():
+            if f.name not in columns:
+                columns[f.name] = tables.Column(name=f.name, data='customization__%s' % f.name)
+    return columns
+
 
 class ModelTable(tables.ModelTable):
     fields_order = []
@@ -19,6 +27,7 @@ class ModelTable(tables.ModelTable):
     def __init__(self, *args, **kwargs):
         self.query_dict = kwargs.pop('query_dict', {})
         self.fields_order = kwargs.pop('fields_order', self.__class__.fields_order)
+        self.base_columns = custom_fields_columns(self._meta.model, self.base_columns)
         self.base_columns.keyOrder = unique_list(
             ['checkbox'],
             self.fields_order,

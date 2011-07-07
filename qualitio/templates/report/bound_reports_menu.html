@@ -1,0 +1,9 @@
+{% for report in reports %}
+
+{% if report.pk == current_view %}
+<span class="active" >{{ report.name }}</span>
+{% else %}
+<a href="#{{ model_name }}/{{ obj.pk }}/{{ report.id }}/">{{ report.name }}</a>
+{% endif %}
+
+{% endfor %}

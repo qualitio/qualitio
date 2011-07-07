@@ -4,6 +4,7 @@ from mptt.forms import MoveNodeForm
 from django import forms
 from django.utils.text import get_text_list
 from django.utils.encoding import force_unicode
+from qualitio.core.custommodel.forms import CustomizableModelForm
 
 
 class FormErrorProcessingMixin(object):
@@ -73,7 +74,7 @@ class BaseForm(forms.Form, FormErrorProcessingMixin):
     pass
 
 
-class BaseModelForm(forms.ModelForm, FormErrorProcessingMixin):
+class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
 
     class Meta:
         pass

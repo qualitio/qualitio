@@ -1,16 +1,18 @@
 from tastypie.resources import ModelResource
-from tastypie.api import Api
 from tastypie import fields
 from tastypie.serializers import Serializer
 from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
 
-api = Api(api_name="api")
-
 from qualitio import require
 from qualitio import store
 from qualitio import execute
 from qualitio import glossary
+
+# customized tastypie classes
+from qualitio.core.custommodel import ModelResource, Api
+
+api = Api(api_name="api")
 
 # Monkey path, we don't really need xml and yaml.
 Serializer.formats = ['json']
@@ -34,6 +36,7 @@ class StateMeta(BaseMeta):
 
 class RequirementResource(ModelResource):
     parent = fields.ForeignKey('self', 'parent', null=True)
+
     class Meta(DirectoryMeta):
         queryset = require.Requirement.objects.all()
         resource_name = 'require/requirement'

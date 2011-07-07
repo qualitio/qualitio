@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 from qualitio import core
+from qualitio import report
 from qualitio.execute.views import *
 from qualitio.execute.models import TestRunDirectory, TestRun
 
@@ -20,6 +21,9 @@ urlpatterns = patterns('',
                        url(r'^ajax/get_antecedents$',
                            core.get_ancestors, {'app': 'execute'}),
 
+                       url(r'^ajax/testrun/(?P<object_id>\d+)/(?P<report_id>\d+)/$',
+                           report.report_bound, {'Model': TestRun}),
+
                        # Test run directory directory urls
                        url(r'^ajax/testrundirectory/(?P<directory_id>\d+)/details/?$',
                            directory_details),
@@ -32,7 +36,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/testrundirectory/(?P<directory_id>\d+)/edit/valid/?$',
                            directory_valid),
                        url(r'^ajax/testrundirectory/(?P<object_id>\d+)/history/$',
-                           core.history, {'Model' : TestRunDirectory}),
+                           core.menu_view(TestRunDirectory, "history")(core.history),
+                           {'Model' : TestRunDirectory}),
 
                        # Test run urls
                        url(r'^ajax/testrundirectory/(?P<directory_id>\d+)/newtestrun/?$',
@@ -52,7 +57,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/testrun/(?P<testrun_id>\d+)/notes/?$',
                            testrun_notes),
                        url(r'^ajax/testrun/(?P<object_id>\d+)/history/?$',
-                           core.history, {'Model' : TestRun}),
+                           core.menu_view(TestRun, "history")(core.history),
+                           {'Model' : TestRun}),
 
                        # Test run execute helpers
                        url(r'^ajax/testcaserun/(?P<testcaserun_id>\d+)/?$',

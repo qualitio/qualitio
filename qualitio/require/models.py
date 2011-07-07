@@ -33,6 +33,7 @@ class Requirement(core.BaseDirectoryModel):
 
     class Meta:
         unique_together = ("parent", "name")
+        ordering = ('name',)  # TODO: this need to be changed, accoring #198
 
     def save(self, clean_dependencies=True, *args, **kwargs):
         """

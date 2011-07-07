@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 from qualitio import core
+from qualitio import report
 from qualitio.store.views import *
 from qualitio.store.models import TestCaseDirectory, TestCase
 from qualitio.filter.views import filter
@@ -12,6 +13,7 @@ urlpatterns = patterns('',
                            {'model': TestCase,
                             'fields_order': ['id', 'path', 'name', 'requirement'],
                             'exclude': ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description', 'parent'],
+                            'app_menu_items': [{'name': 'glossary', 'url': '/glossary/'}],
                             }),
 
                        url(r'^ajax/get_children$', core.get_children,
@@ -19,6 +21,9 @@ urlpatterns = patterns('',
 
                        url(r'^ajax/get_antecedents$',
                            core.get_ancestors, {'app': 'store'}),
+
+                       url(r'^ajax/testcase/(?P<object_id>\d+)/(?P<report_id>\d+)/$',
+                           report.report_bound, {'Model': TestCase}),
 
                        url(r'^ajax/testcasedirectory/(?P<directory_id>\d+)/details/?$',
                            directory_details),
@@ -50,8 +55,10 @@ urlpatterns = patterns('',
 
 
                        url(r'^ajax/testcase/(?P<object_id>\d+)/history/$',
-                           core.history, {'Model' : TestCase}),
+                           core.menu_view(TestCase, "history")(core.history),
+                           {'Model' : TestCase}),
 
                        url(r'^ajax/testcasedirectory/(?P<object_id>\d+)/history/$',
-                           core.history, {'Model' : TestCaseDirectory}),
+                           core.menu_view(TestCaseDirectory, "history")(core.history),
+                           {'Model' : TestCaseDirectory}),
                        )
