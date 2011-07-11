@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $("table.display").dataTable({
-    "sScrollY": "230px",
+    "sScrollY": "330px",
     "bPaginate": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "sWidth": "4px", "aTargets": [0],

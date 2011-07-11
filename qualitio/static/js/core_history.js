@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $("table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "330px",
     "aaSorting": [[ 0, "desc" ]],
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "aoColumnDefs": [ { "sWidth": "130px", "aTargets": [0] },

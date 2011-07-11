@@ -23,7 +23,7 @@
       {% glossary_aware testcaserun.description_br testcaserun.parent.translation %}
     </span>
   </div>
-  {% for name, value in testcaserun.custom_fields.items %}
+  {% for name, value in testcaserun.custom_values.items %}
   <div class="text-bullet" style="text-align:justify">
     <span class="name">{{ name }}:</span>
     <span class="value">{{ value }}</span>

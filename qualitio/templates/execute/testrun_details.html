@@ -22,7 +22,7 @@
       <span class="name">notes:</span>
       <span class="value">{{ directory.description|default:"<i>not set</i>" }}</span>
     </div>
-    {% for name, value in testrun.custom_fields.items %}
+    {% for name, value in testrun.custom_values.items %}
     <div class="text-bullet" style="text-align:justify">
       <span class="name">{{ name }}:</span>
       <span class="value">{{ value }}</span>

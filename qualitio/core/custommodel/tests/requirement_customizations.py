@@ -37,13 +37,13 @@ class CustomizableModelAPI(BaseTestCase):
     def setUp(self):
         self.addTestApps([TESTAPP_MODULE])
 
-    def test_custom_fields_returns_dict_with_fields_values(self):
+    def test_custom_values_returns_dict_with_fields_values(self):
         directory = Directory.objects.create(name="Root")
         directory.customization.special_alias = 12
         directory.customization.testfield = "Test content"
         directory.save()  # directory.customization.save also invoked
 
-        values = directory.custom_fields()
+        values = directory.custom_values()
 
         self.assertTrue(isinstance(values, dict))
         self.assertEquals(len(values), 2)

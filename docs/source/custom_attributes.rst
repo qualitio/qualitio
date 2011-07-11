@@ -91,6 +91,24 @@ can play with.
 
   >>> from require.models import Requirement
   >>> req = Requirement.objects.get(id=1)
-  >>> req.customization    # direct path to customization object
-  >>> req.custom_fields()  # returns dict with req.customization
-  >>>                      # object values
+  >>> req.customization           # direct path to customization object
+  >>> req.customization.mark = 1  # set fields
+  >>> req.save()                  # req.customization.save() invoked automatically
+  >>>
+  >>> req.custom_values()  # returns dict with req.customization object values.
+  >>> {'Mark': "Good" }    # It's important that keys are 'verbose_name's
+  >>>                      # not just name. And values supports 'choices' options
+  >>>                      # (get_<name>_display functions are used).
+  >>>
+  >>> req.raw_custom_values()  # returns dict with req.customization object values.
+  >>> {'mark': 1 }             # This time keys are just field names, and values
+  >>>                          # are returned as they are (no 'choices' support)
+
+
+
+REST Api
+--------
+
+Each model customization is also automatically avaiable in qualitio's REST
+api interface.
+
