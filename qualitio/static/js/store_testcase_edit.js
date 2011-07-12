@@ -44,6 +44,7 @@ $(function() {
     }
   });
 
+  $('input[type=checkbox][name$=DELETE]').die('click');
   $('input[type=checkbox][name$=DELETE]').live('click', function() {
     step = $(this).parents('.step');
     if(step.hasClass('removed')) {

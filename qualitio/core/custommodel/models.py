@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.utils.datastructures import SortedDict
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 
 
@@ -19,25 +20,25 @@ class CustomizableModel(models.Model):
         Value are exact values (no get_<name>_display things are used).
         """
         if not self.has_customization():
-            return {}
+            return SortedDict()
 
         customization = self.customization
-        result = {}
+        result = SortedDict()
         for f in self._customization_model._custom_meta.get_custom_fields():
             result[f.name] = getattr(customization, f.name)
         return result
 
-    def custom_fields(self):
+    def custom_values(self):
         """
         Return custom fields values dict.
         For easy template usage.
         Key of each value is 'verbose_name' NOT 'name'!
         """
         if not self.has_customization():
-            return {}
+            return SortedDict()
 
         customization = self.customization
-        result = {}
+        result = SortedDict()
 
         for f in self._customization_model._custom_meta.get_custom_fields():
             value = getattr(customization, f.name)
