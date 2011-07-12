@@ -1,9 +1,9 @@
 var resize_main_window = function() {
   $('#application-view')
-    .css('height', 
+    .css('height',
          document.body.clientHeight - $('#header').height() - 5 - 2*$('#footer').height());
   $('#application-tree')
-    .css('height', 
+    .css('height',
          document.body.clientHeight - $('#header').height() - 25 - 2*$('#footer').height());
 };
 
@@ -33,10 +33,10 @@ jQuery.shortcuts = {
   showErrors: function(errors) {
     $(errors).each(function(i, element, value) {
       field = element[0]; message = element[1];
-      
+
       $field = $('#id_'+ field);
       $field_errors = $('#id_' +field+ '_error');
-      
+
       if( $field_errors.length ) {
         $field_errors.text(message).fadeIn();
       } else {
@@ -44,18 +44,26 @@ jQuery.shortcuts = {
       }
     });
   },
-  
+
   hideErrors: function() {
     $('.error').hide();
   },
 
-  reloadTree: function(data, directory_type, target_type) {
+  reloadTree: function(data, directory_type, target_type, object_id) {
     if (!target_type) {
       target_type = directory_type;
     }
-    $('#application-tree').jstree('refresh', "#"+data.parent_id+"_"+directory_type, data);
+
+    $('#application-tree').jstree('refresh', -1, data);
+
+    $('#application-tree').bind("refresh.jstree", function (event, data) {
+      $('#application-tree').jstree('deselect_all');
+      $.shortcuts.selectTreeNode(data.args[1].current_id, target_type);
+      document.location.hash = '#' + target_type + '/' + data.args[1].current_id +"/edit/";
+    });
+
   },
-  
+
   _openNode: function(nodes, target) {
     if (node = nodes.shift()) {
       $('#application-tree').jstree("open_node", "#"+node, function() {
@@ -76,9 +84,9 @@ jQuery.shortcuts = {
 }
 
 jQuery.notification = {
-  
+
   element: '#notification',
-  
+
   notice: function(message) {
     $(this.element).jnotifyAddMessage({
       text: message,
@@ -86,7 +94,7 @@ jQuery.notification = {
       disappearTime: 2000
     });
   },
-  
+
   error: function(message) {
     $(this.element).jnotifyAddMessage({
       text: message,
@@ -105,47 +113,47 @@ $(document).ajaxComplete(function() {
 });
 
 $(function() {
-  
+
   ApplicationView = Backbone.View.extend({
     el: $('#application-view'),
-    
+
     initialize: function(application_name) {
       this.application_name = application_name;
     },
-    
+
     render: function(type, id, view) {
       $(this.el).load("/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
         $(this).removeClass('disable');
       }).addClass('disable');
     }
   });
-  
+
   ApplicationTree = Backbone.View.extend({
     el: $('#application-tree'),
-    
+
     initialize: function(options) {
       var self = this;
 
       self.directory_type = options.directory;
       self.file_type = options.file;
-      
+
       self.id = window.location.hash.split("/")[1];
       self.type = window.location.hash.split('/')[0].split("#")[1];
       self.view = window.location.hash.split('/')[2]
-      
+
       var tree_types = {
         "types": {
           "valid_children" : [ self.directory_type ]
         }
       };
-      
+
       tree_types.types[self.directory_type] = {
         "valid_children": "all",
         "icon": {
           "image":  options.directory_icon || "/static/images/tree/directory.png"
         }
       }
-      
+
       if (self.file_type) {
         tree_types.types[self.file_type] = {
           "icon": {
@@ -153,11 +161,11 @@ $(function() {
           }
         }
       }
-      
-      
+
+
       $(this.el).jstree({
         "ui" : {
-	  "select_limit" : 1
+          "select_limit" : 1
         },
         "json_data" : {
           "ajax" : {
@@ -173,7 +181,7 @@ $(function() {
         "types" : tree_types,
         "themes" : {
           "url": MEDIA_URL + "js/themes/default/style.css",
-	},
+        },
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
       });
       $.shortcuts.selectTreeNode(this.id, this.type);
@@ -188,7 +196,7 @@ $(function() {
           }
         });
       });
-      
+
     },
 
     events: {
@@ -197,9 +205,9 @@ $(function() {
 
     open_event: function(e) {
       this.open($(e.target).parents('li:first'));
-      
+
     },
-    
+
     open: function(target) {
       id = target.attr("id").split("_")[0];
       type = target.attr("id").split("_")[1];
@@ -212,7 +220,7 @@ $(function() {
       $.shortcuts.selectTreeNode(id, type);
     }
   });
-  
+
 });
 
 
@@ -254,7 +262,7 @@ $(function() {
       $(this).find('form').change( function() {
       $(this).submit();
       })
-        .ajaxForm({ 
+        .ajaxForm({
           success: function(response) {
             $.notification.notice(response.message);
             Backbone.history.loadUrl();

@@ -23,7 +23,7 @@ $(function() {
     minWidth: 800,
     modal: true,
     position: ['center',100],
-    buttons: { 
+    buttons: {
       Cancel: function() {
         $( this ).dialog( "close" )
       }
@@ -37,7 +37,7 @@ $(function() {
     minWidth: 800,
     modal: true,
     position: ['center',100],
-    buttons: { 
+    buttons: {
       Cancel: function() {
         $( this ).dialog( "close" )
       }
@@ -53,7 +53,7 @@ $(function() {
       step.addClass('removed');
     }
   });
-  
+
   // TODO: again remove double load
   $('.add-step').die('click');
   $('.add-step').live('click', function() {
@@ -61,9 +61,9 @@ $(function() {
     step_count = $('.step:visible').length;
 
     if( $(this).attr("id") == "add-step-0" ) {
-      $(this).after(new_step.removeClass("template")); 
-    } else { 
-      $(this).parents('.step').after(new_step.removeClass("template")); 
+      $(this).after(new_step.removeClass("template"));
+    } else {
+      $(this).parents('.step').after(new_step.removeClass("template"));
     }
 
     $('.step:visible').each( function(i) {
@@ -91,21 +91,14 @@ $(function() {
 
   $('#testcase_form').ajaxForm({
     success: function(response){
-      if ( ! response.success) {
+      if (!response.success) {
         $.notification.error(response.message);
-	$.shortcuts.showErrors(response.data);
+        $.shortcuts.showErrors(response.data);
       } else {
-	$.notification.notice(response.message);
         $("h1").text("test case: " + $('#id_name').val());
-	$('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testcasedirectory", response.data);
-
-	$('#application-tree').bind("refresh.jstree", function (event, data) {
-          $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_testcasedirectory", function() {
-            $("#application-tree").jstree("deselect_node", "#"+data.args[1].parent_id+"_testcasedirectory");
-            $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_testcase")
-            document.location.hash = '#testcase/'+ data.args[1].current_id +"/edit/";
-          });
-	});
+        $.notification.notice(response.message);
+        $.shortcuts.reloadTree(response.data, "testcasedirectory",
+                               "testcase", response.data.current_id);
       }
     },
     beforeSubmit: function(){
