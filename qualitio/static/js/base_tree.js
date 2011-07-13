@@ -3,7 +3,7 @@ var view_ratio = 0;
 
 (function($){
   var onTreeResizeCallbacks = [];
-  
+
   $.onTreeResize = function(func){
     onTreeResizeCallbacks.push(func);
   }
@@ -20,10 +20,10 @@ var view_ratio = 0;
       maxWidth: document.width/2,
       ghost: true,
       stop: function(event, ui) {
-	$('#application-view').parent().width(document.body.clientWidth - $(this).width());
-	tree_ratio = $('#application-tree').parent().width() / $(window).width();
-	view_ratio = $('#application-view').parent().width() / $(window).width();
-	triggerTreeResize();
+        $('#application-view').parent().width(document.body.clientWidth - $(this).width());
+        tree_ratio = $('#application-tree').parent().width() / $(window).width();
+        view_ratio = $('#application-view').parent().width() / $(window).width();
+        triggerTreeResize();
       }
     });
   }
