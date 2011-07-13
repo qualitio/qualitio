@@ -1,35 +1,6 @@
-function show_response(response, statusText, xhr, $form)  { 
-  if(!response.success) {
-    $(response.data).each(function(i, element) {
-      $("#"+element[0]+"_wrapper").addClass("ui-state-error");
-      $("#"+element[0]+"_wrapper .error").append(element[1]);
-    });        
-
-    $.notification.error(response.message);
-  } else {
-    $.notification.notice(response.message);
-    $("h1").text("test run: " + $('#id_name').val());
-
-    $('#application-tree').jstree('refresh', "#"+response.data.parent_id+"_testrundirectory", response.data);
-    
-    $('#application-tree').bind("refresh.jstree", function (event, data) {
-      $("#application-tree").jstree("open_node", "#"+data.args[1].parent_id+"_testrundirectory", function() {
-        $("#application-tree").jstree("select_node", "#"+data.args[1].current_id+"_testrun", true)
-        document.location.hash = '#testrun/'+ data.args[1].current_id +"/edit/";
-      });
-    });
-  }
-}
-
-function clear_errors(arr, $form, options) { 
-  $('.field-wrapper').removeClass('ui-state-error');
-  $('.field-wrapper .error').text("");
-}
-
-
 jQuery.fn.refresh = function () {
   _this = $(this).find("table");
-  
+
   _this.find("tr")
     .removeClass("disable")
     .find("input")
@@ -37,16 +8,16 @@ jQuery.fn.refresh = function () {
 
   $(".connected-testcases table").find("input[name=connected_test_case]").each( function(i, el) {
     origin_tr_element = _this.find("input[name=available_test_case][value="+ $(this).val() +"]").parents("tr");
-    origin_tr_element 
+    origin_tr_element
       .addClass("disable")
       .find("input")
       .attr("disabled", true)
       .attr("checked", false);
   });
-  
+
   $(this).find("input[name=select-all]").attr("checked", false);
 }
-  
+
 var connected_testcases = null;
 $(function() {
 
@@ -61,7 +32,7 @@ $(function() {
     ]
   });
   $("#remove-testcases-button").appendTo($(".connected-testcases .bottom"));
-  
+
   var available_testcases = $(".available-testcases table.display").dataTable({
     "sScrollY": "300px",
     "bPaginate": false,
@@ -74,7 +45,7 @@ $(function() {
   $("#add-testcases-button").appendTo($(".available-testcases .bottom"));
 
   $(".available-testcases").refresh();
-  
+
 
   $("#remove-testcases-button").click(function() {
     $(".connected-testcases input.modify:checked").each( function(i) {
@@ -84,12 +55,12 @@ $(function() {
     $(".connected-testcases input[name=select-all]").attr("checked", false);
     $(".available-testcases").refresh();
   });
-  
+
 
   $("#add-testcases-button").click( function() {
     $(".available-testcases input.modify:checked").each( function() {
       parent_tr = $(this).parents("tr");
-      
+
       control_box = parent_tr.find('.select').clone();
       control_box.find('input[name=available_test_case]').attr("name", "connected_test_case");
 
@@ -101,11 +72,7 @@ $(function() {
     });
     $(".available-testcases").refresh();
   });
-  
-  $('#testrun_form').ajaxForm({ 
-    success: show_response,
-    beforeSubmit: clear_errors,
-  });
+
 
   // items selection
   $(".connected-testcases table.display th.checkbox:first").itemsSelector({
@@ -115,4 +82,20 @@ $(function() {
       selector: ".available-testcases table.display td .modify"
   });
   $(".dataTables_scrollHead").css('overflow', 'visible');
+
+  $('#testrun_form').ajaxForm({
+    success: function(response) {
+      if(!response.success) {
+        $.notification.error(response.message);
+        $.shortcuts.showErrors(response.data)
+      } else {
+        $("h1").text("test run: " + $('#id_name').val());
+        $.notification.notice(response.message);
+        $.shortcuts.reloadTree(response.data, "testrundirectory", "testrun", response.data.current_id);
+      }
+    },
+    beforeSubmit: function() {
+      $.shortcuts.hideErrors();
+    }
+  });
 });
