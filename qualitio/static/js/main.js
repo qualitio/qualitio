@@ -79,10 +79,8 @@ jQuery.shortcuts = {
 
   _openNode: function(nodes, target) {
     if (nodes.length) {
-      console.log(nodes);
       var node = nodes.shift()
       if ( !$.jstree._reference("#application-tree").is_open("#"+node)) {
-        console.log("test");
         $.jstree._reference("#application-tree").open_node("#"+node, function() {
           jQuery.shortcuts._openNode(nodes, target);
         });
