@@ -871,5 +871,32 @@
       "query": "TestCase.all()", 
       "name": "TESTCASES"
     }
+  },
+  {
+    "pk": 1, 
+    "model": "glossary.language", 
+    "fields": {
+      "created_time": "2011-07-15 14:04:16", 
+      "name": "default", 
+      "modified_time": "2011-07-15 14:04:16"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "glossary.language", 
+    "fields": {
+      "created_time": "2011-07-15 14:44:38", 
+      "name": "english", 
+      "modified_time": "2011-07-15 14:44:38"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "glossary.language", 
+    "fields": {
+      "created_time": "2011-07-15 14:44:49", 
+      "name": "german", 
+      "modified_time": "2011-07-15 14:44:49"
+    }
   }
 ]

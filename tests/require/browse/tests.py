@@ -4303,6 +4303,12 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         sel.click("link=MeeGo")
         for i in range(60):
             try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
             except: pass
             time.sleep(1)
@@ -4347,6 +4353,12 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if "edit" == sel.get_text("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("exact:directory:"): break
             except: pass
             time.sleep(1)
@@ -4358,6 +4370,12 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//div[@id='application-view']/div[6]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[4]/a")
+        for i in range(60):
+            try:
+                if "edit" == sel.get_text("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: IVI"): break
