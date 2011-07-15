@@ -4074,6 +4074,14 @@ class Test25Verifylinks(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "history" == sel.get_text("link=history"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_element_present("link=details"): break
@@ -4263,11 +4271,23 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if sel.is_text_present("edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:description:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("//div[@id='application-view']/div[4]/div/div/div[2]/table/tbody/tr/td[3]/a")
+        sel.click("link=3")
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: IVI"): break
@@ -4289,11 +4309,23 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if sel.is_text_present("exact:description:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("full name:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[4]/a")
+        for i in range(60):
+            try:
+                if "full name:" == sel.get_text("css=span.name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: TV"): break
@@ -4310,6 +4342,12 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:directory:"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
