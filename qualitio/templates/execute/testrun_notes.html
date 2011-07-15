@@ -4,15 +4,24 @@
   <h1>test run: {{ testrun.name }}</h1>
 </div>
 
-{% application_view_menu testrun "notes" %}
+{% application_view_menu testrun_form.instance "notes" %}
 
-<div class="application-view-content">
-  <h2>notes</h2>
-  <textarea style="height:320px;">{% lorem 100 w random %}</textarea>
-</div>
+<form id="testrun_form"
+      action="/execute/ajax/testrun/{{ testrun_form.instance.id }}/notes/valid/" method="post">
+  {% csrf_token %}
 
-<div id="application-view-footer" class="application-view-content ">
-  <div class="right">
-    <input type="submit" name="Executed" value="Save" />
+  <div class="application-view-content">
+    <div class="field">
+      {{ testrun_form.notes.label_tag }}:
+      {{ testrun_form.notes }}
+    </div>
   </div>
-</div>
+
+  <div id="application-view-footer" class="application-view-content ">
+    <div class="right">
+      <input type="submit" value="Save" />
+    </div>
+  </div>
+
+</form>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_edit.js{{ STATIC_HASH }}"></script>
