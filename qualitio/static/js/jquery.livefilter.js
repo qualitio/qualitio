@@ -1,4 +1,4 @@
-x(function($) {
+(function($) {
   /** Plugin Main Function */
   $.fn.livefilter = function(action, opts) {
     if (typeof action === "undefined") {
