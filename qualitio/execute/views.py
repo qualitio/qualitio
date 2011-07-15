@@ -93,6 +93,7 @@ def testrun_new(request, directory_id):
 
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
+@core.menu_view(TestRun, "notes")
 def testrun_notes(request, testrun_id):
     return direct_to_template(request, 'execute/testrun_notes.html',
                               {'testrun': TestRun.objects.get(pk=testrun_id)})
