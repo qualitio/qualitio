@@ -13,6 +13,19 @@ $(document).ready(function() {
   });
 
   resize_main_window();
+
+
+  $(function () {
+    $(".reports-menu").live({
+      mouseenter: function(){
+        $(".reports-menu .position").show();
+      },
+      mouseleave: function() {
+        $(".reports-menu .position").hide();
+      }
+    });
+  });
+
 });
 
 $(window).resize(function() {
@@ -65,19 +78,33 @@ jQuery.shortcuts = {
   },
 
   _openNode: function(nodes, target) {
-    if (node = nodes.shift()) {
-      $('#application-tree').jstree("open_node", "#"+node, function() {
+    if (nodes.length) {
+      console.log(nodes);
+      var node = nodes.shift()
+      if ( !$.jstree._reference("#application-tree").is_open("#"+node)) {
+        console.log("test");
+        $.jstree._reference("#application-tree").open_node("#"+node, function() {
+          jQuery.shortcuts._openNode(nodes, target);
+        });
+      } else {
         jQuery.shortcuts._openNode(nodes, target);
-      }, true)
+      }
     } else {
-      $('#application-tree').jstree("select_node", "#"+target, true);
+      $.jstree._reference("#application-tree").select_node("#"+target, true)
     }
   },
 
   selectTreeNode: function(id, type) {
     if ( !$('#application-tree').jstree("is_selected", "#"+id+"_"+type) && id) {
-      jQuery.getJSON('ajax/get_antecedents', {'id': id, 'type': type}, function(data) {
-        jQuery.shortcuts._openNode(data.nodes, data.target);
+      $.ajax({
+        url: 'ajax/get_antecedents',
+        dataType: 'json',
+        data: {'id': id, 'type': type},
+        async:   false,
+        success: function(data) {
+          jQuery.shortcuts._openNode(data.nodes, data.target);
+          $.jstree._reference("#application-tree").select_node("#"+data.target, true)
+        }
       });
     }
   }
@@ -141,6 +168,7 @@ $(function() {
       self.type = window.location.hash.split('/')[0].split("#")[1];
       self.view = window.location.hash.split('/')[2]
 
+
       var tree_types = {
         "types": {
           "valid_children" : [ self.directory_type ]
@@ -162,10 +190,10 @@ $(function() {
         }
       }
 
-
       $(this.el).jstree({
         "ui" : {
-          "select_limit" : 1
+          "select_limit" : 1,
+          "initially_select" : [ self.id +  "_" + self.type ]
         },
         "json_data" : {
           "ajax" : {
@@ -183,20 +211,9 @@ $(function() {
           "url": MEDIA_URL + "js/themes/default/style.css",
         },
         "plugins" : [ "themes", "json_data", "ui", "cookies","types"]
+      }).bind("loaded.jstree", function (event, data) {
+        $.shortcuts.selectTreeNode(self.id, self.type);
       });
-      $.shortcuts.selectTreeNode(this.id, this.type);
-
-      $(function () {
-        $(".reports-menu").live({
-          mouseenter: function(){
-            $(".reports-menu .position").show();
-          },
-          mouseleave: function() {
-            $(".reports-menu .position").hide();
-          }
-        });
-      });
-
     },
 
     events: {
@@ -215,9 +232,9 @@ $(function() {
     },
 
     update: function(type, id, view) {
-      this.type = type;
-      this.id = id;
-      $.shortcuts.selectTreeNode(id, type);
+      self.type = type;
+      self.id = id;
+      $.shortcuts.selectTreeNode(self.id, self.type);
     }
   });
 
