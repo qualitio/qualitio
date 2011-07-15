@@ -1,4 +1,4 @@
-(function($) {
+x(function($) {
   /** Plugin Main Function */
   $.fn.livefilter = function(action, opts) {
     if (typeof action === "undefined") {
@@ -61,7 +61,7 @@
 
   var log=function(){
     if (typeof console!=='undefined' && console.log){
-      console.log(Array.prototype.slice.call(arguments).join(', '));
+      // console.log(Array.prototype.slice.call(arguments).join(', '));
     }
   };
 
