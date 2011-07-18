@@ -17,6 +17,12 @@ class TestRunForm(core.PathModelForm):
         fields = ("parent", "name", "status", "translation")
 
 
+class TestRunNotesForm(core.PathModelForm):
+    class Meta(core.PathModelForm.Meta):
+        model = models.TestRun
+        fields = ("notes",)
+
+
 class TestCaseRunStatus(core.BaseModelForm):
 
     class Meta:

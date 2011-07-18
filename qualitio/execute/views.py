@@ -93,9 +93,31 @@ def testrun_new(request, directory_id):
 
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
+@core.menu_view(TestRun, "notes")
 def testrun_notes(request, testrun_id):
+    testrun = TestRun.objects.get(pk=testrun_id)
+    testrun_form = forms.TestRunNotesForm(instance=testrun)
     return direct_to_template(request, 'execute/testrun_notes.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+                              {'testrun_form': testrun_form })
+
+@json_response
+def testrun_notes_valid(request, testrun_id):
+    testrun = TestRun.objects.get(pk=str(testrun_id))
+    testrun_form = forms.TestRunNotesForm(request.POST, instance=testrun)
+
+    if testrun_form.is_valid():
+        testrun = testrun_form.save()
+
+        log = history.History(request.user, testrun)
+        log.add_form(testrun_form)
+        log.save()
+
+        return success(message='Test run saved',
+                       data={"parent_id": getattr(testrun.parent, "id", 0),
+                             "current_id": testrun.id})
+    else:
+        return failed(message="Validation errors: %s" % testrun_form.error_message(),
+                      data=testrun_form.errors_list())
 
 
 @json_response
