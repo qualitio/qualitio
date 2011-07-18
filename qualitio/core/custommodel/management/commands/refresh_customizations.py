@@ -10,14 +10,25 @@ from qualitio import customizations
 
 
 class BaseCustomizationCommand(NoArgsCommand):
+    option_list = list(NoArgsCommand.option_list) + [
+        make_option('--no-verbose',
+                    action="store_false",
+                    dest="verbose",
+                    default=True,
+                    help="Flag to not print verbose messages. Default's to false."),
+        ]
+
     def customizations_module_path(self):
         return os.path.dirname(os.path.abspath(customizations.__file__))
 
+    def customizations_migrations_dir_path(self):
+        return os.path.join(self.customizations_module_path(), 'migrations')
+
     def migrations_dir_exists(self):
-        return os.path.exists(os.path.join(self.customizations_module_path(), 'migrations'))
+        return os.path.exists(self.customizations_migrations_dir_path())
 
     def initial_migration_exists(self):
-        return os.path.exists(os.path.join(self.customizations_module_path(), 'migrations', '0001_initial.py'))
+        return os.path.exists(os.path.join(self.customizations_migrations_dir_path(), '0001_initial.py'))
 
     def print_verbose_msg(self, msg):
         print ""
@@ -26,13 +37,6 @@ class BaseCustomizationCommand(NoArgsCommand):
 
 
 class Command(BaseCustomizationCommand):
-    option_list = list(NoArgsCommand.option_list) + [
-        make_option('--no-verbose',
-                    action="store_false",
-                    dest="verbose",
-                    default=True,
-                    help="Flag to not print verbose messages. Default's to false."),
-        ]
     help = "The command do the migrations for customizations model"
 
     def run_schemamigration(self, verbose=True):
@@ -42,7 +46,7 @@ class Command(BaseCustomizationCommand):
         try:
             return call(['python', 'manage.py', 'schemamigration', 'customizations', '--auto']) == 0
         except OSError as e:
-            return -1
+            return False
 
     def run_initial_migration(self, verbose=True):
         if verbose:
@@ -51,7 +55,7 @@ class Command(BaseCustomizationCommand):
         try:
             return call(['python', 'manage.py', 'schemamigration', 'customizations', '--initial']) == 0
         except OSError as e:
-            return -1
+            return False
 
     def run_migrate(self, verbose=True):
         if verbose:
