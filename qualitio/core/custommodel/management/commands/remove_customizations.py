@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+import inspect
+from operator import itemgetter, attrgetter
 from subprocess import call
 from optparse import make_option
 
+from django.db import connection, transaction
 from qualitio import customizations
+from qualitio.core.custommodel.models import ModelCustomization
 from qualitio.core.custommodel.management.commands.refresh_customizations import BaseCustomizationCommand
 from south.models import MigrationHistory
 
@@ -12,9 +16,10 @@ from south.models import MigrationHistory
 CONFIRMATION = """
   Are you really sure you want to delete all information about customizations?
   Here is a list of changes:
-    * all customization migrations will be removed (customizations/migrations/ directory)
-    * migration history of customizations module from database will be removed
-  (y/n): """
+    * all customization migrations will be removed (customizations/migrations/ directory),
+    * migration history of customizations module from database will be removed,
+    * tables of all customizations models will be droped.
+  Are you sure you want to run? (y/n): """
 
 
 class Command(BaseCustomizationCommand):
@@ -42,6 +47,27 @@ class Command(BaseCustomizationCommand):
 
         MigrationHistory.objects.filter(app_name='customizations').delete()
 
+    def _filter_customization_models(self):
+
+        def predicate(tuple_info):  # inspect.getmembers returns list of (name, classinfo) tuples
+            name, cls = tuple_info
+            return inspect.isclass(cls) and issubclass(cls, ModelCustomization) and cls is not ModelCustomization
+
+        # here we want only classinfo objects
+        return map(itemgetter(1), filter(predicate, inspect.getmembers(customizations.models)))
+
+    def _get_customization_models_table_names(self):
+        return map(attrgetter('_meta.db_table'), self._filter_customization_models())
+
+    def drop_customizations_tables(self, verbose=True):
+        if verbose:
+            self.print_verbose_msg("Droping tables")
+
+        cursor = connection.cursor()
+        for table in  self._get_customization_models_table_names():
+            cursor.execute('DROP TABLE %s;' % table)
+        transaction.commit_unless_managed()
+
     def handle_noargs(self, **options):
         verbose = options.get('verbose')
 
@@ -56,3 +82,4 @@ class Command(BaseCustomizationCommand):
 
         self.remove_customizations_migrations_directory(verbose=verbose)
         self.remove_history_of_customizations_migrations_from_database(verbose=verbose)
+        self.drop_customizations_tables(verbose=verbose)

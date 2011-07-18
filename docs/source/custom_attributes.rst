@@ -102,3 +102,15 @@ REST Api
 Each model customization is also automatically avaiable in qualitio's REST
 api interface.
 
+
+Removing customizations
+-----------------------
+
+If you're playing  and trying get into custom  attributes you may find
+``remove_customizations`` command  useful. It removes  all information
+about existing customization from ``customizations`` app:
+  - removes customizations/migrations directory
+  - removes history of customization migrations from database
+  - drops customization models tables from database.
+
+Only ``customizations.models`` module remains intact.
