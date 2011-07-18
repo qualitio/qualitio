@@ -124,18 +124,6 @@ class Test01StoreGlossary(BaseSeleniumTestCase):
     def test_01_store_glossary(self):
         self.login()
         sel = self.selenium
-        try: self.failUnless(sel.is_text_present("default"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_default-representation"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("english", sel.get_text("//form[@id='word_form']/div[3]/div[2]/label"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_english-representation"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("german", sel.get_text("//form[@id='word_form']/div[3]/div[3]/label"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_german-representation"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.open("/account/")
         for i in range(60):
             try:
@@ -244,10 +232,43 @@ class Test01StoreGlossary(BaseSeleniumTestCase):
         try: self.assertEqual("kolor", sel.get_text("id_word_1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//div[@id='project-content']/div[2]/div/a/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "word" == sel.get_text("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.type("id_name", "ekran")
+        sel.type("id_default-representation", "ekran")
         sel.type("id_english-representation", "screen")
         sel.type("id_german-representation", "Bildschirm")
+        try: self.failUnless(sel.is_element_present("name=Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("word"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_element_present("id_word_2"): break
@@ -258,7 +279,24 @@ class Test01StoreGlossary(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_word_2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.type("id_default-representation", "ekran")
+        for i in range(60):
+            try:
+                if "ekran" == sel.get_text("id=id_word_2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("default"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_default-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("english", sel.get_text("//form[@id='word_form']/div[3]/div[2]/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_english-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("german", sel.get_text("//form[@id='word_form']/div[3]/div[3]/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_german-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
 
 
 class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
