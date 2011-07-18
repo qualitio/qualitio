@@ -58,25 +58,15 @@ model customizations should live.
 
 Following the  example above, you should put  your customization model
 in  ``qualitio.customizations.models`` module.  Once  you do  this you
-need to type schemamigration & migration commands:
+need to type schemamigration & migration commands, ``qualitio.core.custommodel``
+application has a shortcut for them:
 
 ::
 
-  $ ./manage.py schemamigration --add-model=RequirementCustomization customizations
-  $ ./manage.py migrate
+  $ ./manage.py refresh_customizations
 
 
-Every time  you add  new model customizations  run those  commands for
-each of them.
-
-If  you  already  have  customizations.models.RequirementCustomization
-defined  and you  want to  add new  or remove  existing  field, simply
-add/remove one and then type commands:
-
-::
-
-  $ ./manage.py schemamigration customizations --auto
-  $ ./manage.py migrate
+Every time you add or change model customizations run this command.
 
 
 API
