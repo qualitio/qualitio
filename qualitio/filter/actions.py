@@ -151,7 +151,9 @@ class ChangeParent(Action):
         try:
             with transaction.commit_on_success():
                 for obj in queryset.all():
-                    obj.parent = form.cleaned_data.get('parent')
+                    # NOTE: chaging parent require some extra work by mptt lib so
+                    #       we can not just set: obj.parent = form.cleaned_data.get('parent')
+                    obj.move_to(form.cleaned_data.get('parent'))
                     obj.modified_time = datetime.datetime.now()
                     obj.save()
         except Exception, error:
