@@ -1,3 +1,6 @@
+from copy import deepcopy
+import re
+
 from mptt.models import MPTTModel
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured, ValidationError
@@ -102,6 +105,29 @@ class BasePathModel(AbstractPathModel):
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
+
+    def copy(self):
+        copy_object = deepcopy(self)
+        copy_object.id = None
+
+        copy_exists = self.__class__.objects.filter(name__regex=r'%s \(copy\)$' % re.escape(self.name),
+                                                    parent=self.parent).exists()
+        if copy_exists:
+            other_copies = self.__class__.objects.filter(name__regex=r'%s \(copy\s\d+?\)$' % re.escape(self.name),
+                                                         parent=self.parent).order_by("name")
+
+            copy_object.name = "%s (copy %s)" % (self.name, other_copies.count()+1)
+            for i, copy in enumerate(other_copies,1):
+                match = re.match("(.+)\s(\(copy(\s\d+)?\))", copy.name)
+                copy_part = match.groups()[1]
+                if copy_part != "(copy %s)" % i:
+                    copy_object.name = "%s (copy %s)" % (self.name, i)
+                    break
+        else:
+            copy_object.name = "%s (copy)" % self.name
+
+        copy_object.save()
+        return copy_object
 
 
 class BaseDirectoryModel(MPTTModel, AbstractPathModel):

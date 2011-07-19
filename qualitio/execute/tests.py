@@ -96,3 +96,27 @@ class TestBugshistory(TestCase):
         self.assertTrue(bug_1 in self.test_case_run_2.bugs_history.all())
         self.assertTrue(bug_2 not in self.test_case_run_2.bugs_history.all())
         self.assertTrue(bug_3 not in self.test_case_run_2.bugs_history.all())
+
+
+class TestCopyTestRun(TestCase):
+    def setUp(self):
+        self.test_case_directory = store.TestCaseDirectory.objects.create(parent=None,
+                                                                          name="Root")
+        self.test_case = store.TestCase.objects.create(name="test_case",
+                                                       parent=self.test_case_directory)
+
+        self.test_run_directory = models.TestRunDirectory.objects.create(parent=None,
+                                                                          name="Root")
+
+        self.test_run = models.TestRun.objects.create(name="test_run",
+                                                      parent=self.test_run_directory)
+        self.test_run.run(self.test_case)
+
+    def test_copy(self):
+        self.test_run_copy = self.test_run.copy()
+
+        self.assertTrue(self.test_run_copy.name.startswith(self.test_run.name))
+        self.assertTrue(self.test_run_copy.name.endswith("(copy)"))
+
+        self.assertEqual([(element.origin.pk, element.name) for element in self.test_run.testcases.all()],
+                         [(element.origin.pk, element.name) for element in self.test_run_copy.testcases.all()])

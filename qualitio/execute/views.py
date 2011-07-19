@@ -152,6 +152,15 @@ def testrun_valid(request, testrun_id=0):
                       data=testrun_form.errors_list())
 
 
+@json_response
+def testrun_copy(request, testrun_id):
+    testrun = TestRun.objects.get(pk=str(testrun_id))
+    testrun_copy = testrun.copy()
+    return success(message='Copy created',
+                   data={"parent_id": getattr(testrun_copy.parent, "id", 0),
+                         "current_id": testrun_copy.id})
+
+
 @permission_required('execute.change_testrun', login_url='/permission_required/')
 @core.menu_view(TestRun, "execute")
 def testrun_execute(request, testrun_id):
