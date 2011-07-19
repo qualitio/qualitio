@@ -11,4 +11,12 @@ $(document).ready(function() {
       selector: "table.display.testcaserun-list td .modify"
   });
   $(".dataTables_scrollHead").css('overflow', 'visible');
+
+  $('input[value=Clone]').click(function() {
+    jQuery.get('ajax/testrun/' + $(this).attr('name') + '/copy/', function(response){
+      $.notification.notice(response.message);
+      $.shortcuts.reloadTree(response.data, "testrundirectory", "testrun", response.data.current_id);
+    });
+  });
+
 });
