@@ -1,9 +1,9 @@
-(function($) {
-  function getFormsCount() {
+$(function() {
+  var getFormsCount = function() {
     return parseInt($('#id_steps-TOTAL_FORMS').val(), 10);
   };
 
-  $.addStep = function(container) {
+  var addStep = function(container) {
     /* container is the HTML element where new element should be placed after
      */
     $(container).after($('.step.template').clone().removeClass("template"));
@@ -25,12 +25,9 @@
       });
     });
   }
-})(jQuery);
 
-
-$(function() {
-  last_textarea = null;
-  last_textarea_pointer = null;
+  var last_textarea = null;
+  var last_textarea_pointer = null;
 
   $('textarea').focusout( function() {
     last_textarea = this;
@@ -85,13 +82,12 @@ $(function() {
     }
   });
 
-  // TODO: again remove double load
   $('.add-step').die('click');
   $('.add-step').live('click', function() {
     if ($(this).attr("id") === "add-step-0") {
-      $.addStep($(this));
+      addStep($(this));
     } else {
-      $.addStep($(this).parents('.step'));
+      addStep($(this).parents('.step'));
     }
   });
 

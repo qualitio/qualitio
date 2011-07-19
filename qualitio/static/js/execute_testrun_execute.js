@@ -21,11 +21,33 @@ $(function() {
     function() { $(this).removeClass("hover"); }
   );
 
-  $("#testcaserun-list tbody tr:not(.dataTables_empty_row)").click(function() {
+  // We will toggle checkbox in the first table-td element,
+  // if the element or the checkbox were clicked.
+  var shouldToggleCheckbox = function(clickedElement) {
+    var result = false;
+    $('#testcaserun-list tbody tr').each(function(index, trRow){
+      var firstTd = $('td:first', $(trRow))[0];
+      var checkbox = $('td:first input[type="checkbox"]', $(trRow))[0];
+      if (clickedElement === firstTd || clickedElement === checkbox) {
+	result = true;
+      }
+    });
+    return result;
+  }
+
+  $("#testcaserun-list tbody tr:not(.dataTables_empty_row)").click(function(event) {
+    if (shouldToggleCheckbox(event.target)) {
+      var checkbox = $('td:first input[type="checkbox"]', event.target);
+      checked.attr('checked', ! checkbox.attr('checked'));
+      return false;
+    }
+
+    // remove selection from other selected row
     $("#testcaserun-list tbody tr").removeClass('selected');
+
     $(this).addClass('selected');
-    testcaserun_id = $(this).attr("id").split("_")[1];
-    $("#testcaserun-details").load("/execute/ajax/testcaserun/"+testcaserun_id+"/");
+    var testcaserun_id = $(this).attr("id").split("_")[1];
+    $("#testcaserun-details").load("/execute/ajax/testcaserun/" + testcaserun_id + "/");
   });
 
   // items selection
