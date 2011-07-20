@@ -63,6 +63,14 @@ class TestRun(core.BasePathModel):
         self.passrate = self.testcases.passrate()
         self.save(force_update=True)
 
+    def copy(self):
+        testrun_copy = super(TestRun, self).copy()
+
+        for testcase in store.TestCase.objects.filter(testcaserun__parent=self):
+            testrun_copy.run(testcase)
+
+        return testrun_copy
+
     @property
     def bugs(self):
         return Bug.objects.filter(testcaserun__parent=self)\

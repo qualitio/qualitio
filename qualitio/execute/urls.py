@@ -51,6 +51,8 @@ urlpatterns = patterns('',
                            testrun_edit),
                        url(r'^ajax/testrun/(?P<testrun_id>\d+)/edit/valid/?$',
                            testrun_valid),
+                       url(r'^ajax/testrun/(?P<testrun_id>\d+)/copy/?$',
+                           testrun_copy),
 
                        url(r'^ajax/testrun/(?P<testrun_id>\d+)/execute/?$',
                            testrun_execute),
