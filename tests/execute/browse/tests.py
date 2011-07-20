@@ -125,7 +125,7 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("execute"): break
@@ -275,7 +275,7 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("execute"): break
@@ -541,7 +541,7 @@ class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -691,7 +691,7 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -844,7 +844,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1193,7 +1193,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1536,7 +1536,7 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1631,7 +1631,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1924,7 +1924,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/4/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         sel.click("link=store")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: store", sel.get_title())
@@ -2344,10 +2344,10 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio requirements"): break
+                if sel.is_text_present("qualitio require"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2656,7 +2656,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/9/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -3248,10 +3248,10 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio requirements"): break
+                if sel.is_text_present("qualitio require"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4055,14 +4055,14 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/9/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio requirements"): break
+                if sel.is_text_present("qualitio require"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio requirements"))
+        try: self.failUnless(sel.is_text_present("qualitio require"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -4475,7 +4475,7 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         self.login()        
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -4748,7 +4748,7 @@ class Test45ExecFilterVerify(BaseSeleniumTestCase):
         self.login() 
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -4872,11 +4872,11 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         sel.open("/require/")
         for i in range(60):
             try:
-                if "qualitio: requirements" == sel.get_title(): break
+                if "qualitio: require" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         try: self.failUnless(sel.is_element_present("link=execute"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=execute")
