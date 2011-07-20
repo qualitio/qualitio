@@ -8,7 +8,23 @@ from django.core.exceptions import ImproperlyConfigured, ValidationError
 from qualitio.core.custommodel.models import CustomizableModel
 
 
+class Project(CustomizableModel):
+    default_name = "default"
+
+    name = models.CharField(max_length=255)
+    modified_time = models.DateTimeField(auto_now=True)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    @classmethod
+    def default(cls):
+        try:
+            return cls.objects.all()[0]
+        except IndexError:
+            return cls.objects.create(name=cls.default_name)
+
+
 class BaseModel(CustomizableModel):
+    project = models.ForeignKey('Project', default=Project.default)
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
@@ -19,6 +35,7 @@ class BaseModel(CustomizableModel):
         for name, value in filter(lambda x: not x[0].startswith("_"), self.__dict__.items()):
             if isinstance(value, basestring):
                 setattr(self, name, getattr(self, name).strip())
+
 
 
 class AbstractPathModel(BaseModel):
