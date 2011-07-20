@@ -305,7 +305,7 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: require", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -442,7 +442,7 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: require", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -597,7 +597,7 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: require", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -747,7 +747,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: require", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -965,7 +965,7 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        try: self.assertEqual("qualitio: requirements", sel.get_title())
+        try: self.assertEqual("qualitio: require", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -1148,11 +1148,11 @@ class Test21StoreTreeVerify(BaseSeleniumTestCase):
         sel.open("/require/#requirement/1/details/")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio requirements"): break
+                if sel.is_text_present("qualitio require"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("MeeGo"): break
@@ -1262,11 +1262,11 @@ class Test22StoreTreeVerifyEdit(BaseSeleniumTestCase):
         sel.open("/require/#requirement/1/details/")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio requirements"): break
+                if sel.is_text_present("qualitio require"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("MeeGo"): break
@@ -1434,7 +1434,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "store" == sel.get_text("link=store"): break
@@ -1846,7 +1846,7 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "store" == sel.get_text("link=store"): break
@@ -2165,7 +2165,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -2401,7 +2401,7 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -2725,7 +2725,7 @@ class Test35StoreTestcaseStatus(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if "store" == sel.get_text("link=store"): break
