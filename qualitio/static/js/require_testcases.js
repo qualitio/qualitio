@@ -77,6 +77,7 @@ $(function() {
         permanent: false,
         disappearTime: 2000
       });
+      Backbone.history.loadUrl(document.location.hash);
     },
   });
 
