@@ -211,6 +211,7 @@ def testcaserun_setstatus(request, testcaserun_id):
 
         return success(message=testcaserun.status.name,
                        data=dict(id=testcaserun.pk,
+                                 status_id=testcaserun.status.id,
                                  name=testcaserun.status.name,
                                  color=testcaserun.status.color,
                                  passrate=testcaserun.parent.passrate,
