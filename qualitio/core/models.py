@@ -22,6 +22,9 @@ class Project(CustomizableModel):
         except IndexError:
             return cls.objects.create(name=cls.default_name)
 
+    def __unicode__(self):
+        return self.name
+
 
 class BaseModel(CustomizableModel):
     project = models.ForeignKey('Project', default=Project.default)
