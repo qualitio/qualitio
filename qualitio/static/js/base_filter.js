@@ -71,7 +71,7 @@ $(document).ready(function() {
 	dateFormat: DATE_FORMAT
     });
 
-    $('.remove-button').click(function(){
+    $('.remove-filter-button').click(function(){
 	$('input[type="checkbox"]', $(this)).attr('checked', true);
 	$('.filter-form').submit();
     });
