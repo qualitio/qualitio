@@ -71,14 +71,21 @@ $(function() {
     }
   });
 
-  $('input[type=checkbox][name$=DELETE]').die('click');
-  $('input[type=checkbox][name$=DELETE]').live('click', function() {
+  $('.step .delete-button').die('click');
+  $('.step .delete-button').live('click', function(event) {
     var step = $(this).parents('.step');
     if(step.hasClass('removed')) {
       step.removeClass('removed');
     } else {
       $(this).css('pointer-events', 'auto');
       step.addClass('removed');
+    }
+
+    // Check the button was clicked not the checkbox then
+    // select checkbox. If the checkbox was clicked it's ok.
+    var checkbox = $('input[type=checkbox][name$=DELETE]', $(this));
+    if (checkbox.length > 0 && event.target !== checkbox[0]) {
+      checkbox.attr('checked', ! checkbox.attr('checked'));
     }
   });
 
