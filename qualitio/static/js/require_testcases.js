@@ -20,10 +20,10 @@ jQuery.fn.refresh = function () {
 
 $(function() {
   var connected_testcases = $(".connected-testcases table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "200px",
     "bPaginate": false,
     "bFilter": false,
-    // "sDom": 'rt<"bottom clearfix"lfp><"clear">',
+    "bInfo": false,
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
         "sWidth": "4px", "aTargets": [0]}
@@ -31,8 +31,9 @@ $(function() {
   });
 
   var available_testcases = $(".available-testcases table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "200px",
     "bPaginate": false,
+    "bInfo": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
