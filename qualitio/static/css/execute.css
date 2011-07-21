@@ -49,6 +49,17 @@
 
 .step {
     word-wrap: break-word;
+    padding: 5px;
+
+    border: 1px solid #ffffff;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+}
+
+.step:hover {
+    border: 1px solid #e3e3e3;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
 }
 
 .step h2 {
@@ -56,8 +67,11 @@
 }
 
 .step:nth-child(even) {
-    background: #f6f6f6;
+    background: #f3f3f3;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
 }
+
 .step {
     padding-bottom: 25px;
     text-align: justify;

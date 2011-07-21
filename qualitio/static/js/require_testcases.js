@@ -20,27 +20,26 @@ jQuery.fn.refresh = function () {
 
 $(function() {
   var connected_testcases = $(".connected-testcases table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "200px",
     "bPaginate": false,
     "bFilter": false,
-    "sDom": 'rt<"bottom clearfix"lfp><"clear">',
+    "bInfo": false,
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
         "sWidth": "4px", "aTargets": [0]}
     ]
   });
-  $("#remove-testcases-button").appendTo($(".connected-testcases .bottom"));
 
   var available_testcases = $(".available-testcases table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "200px",
     "bPaginate": false,
+    "bInfo": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
         "sWidth": "4px", "aTargets": [0]}
     ]
   });
-  $("#add-testcases-button").appendTo($(".available-testcases .bottom"));
 
   $(".available-testcases").refresh();
 
@@ -77,6 +76,7 @@ $(function() {
         permanent: false,
         disappearTime: 2000
       });
+      Backbone.history.loadUrl(document.location.hash);
     },
   });
 
