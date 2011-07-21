@@ -34,7 +34,8 @@ $(function() {
       success: function(status) {
         $("#testcaserun_" + status.data.id+" .status").text(status.data.name);
         $("#testcaserun_" + status.data.id).css("background", status.data.color);
-        
+	$('#testcaserun-status-form [name="initial-status"]').val(status.data.status_id);
+
         $(".passrate .element").remove();
         $(".passrate .value").text(status.data.passrate.toFixed(1)+" %");
         $.each(status.data.passrate_ratio, function(i, status) {
