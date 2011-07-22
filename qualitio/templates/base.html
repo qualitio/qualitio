@@ -7,7 +7,7 @@
 
     <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
     <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
-    
+
     {% compress css %}
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection" />
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
@@ -18,8 +18,8 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/table.css{{ STATIC_HASH }}" media="screen, projection" />
     {% block css-include %}{% endblock %}
     {% endcompress %}
-      
-    
+
+
     {% compress js %}
     <script>
       DATE_FORMAT = {{ DATE_FORMAT }};
@@ -42,18 +42,18 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.itemsselector.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.livefilter.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js{{ STATIC_HASH }}"></script>
-    
+
     {% block js-base-include %}{% endblock %}
     {% block js-include %}{% endblock %}
     {% endcompress %}
-    
+
     <title>qualitio: {% block module-title %}{% endblock %}</title>
   </head>
 
   <body>
     <div id="main">
       <div id="notification"></div>
-      
+
       <div id="header" class="container_16 clearfix">
         <div class="grid_6">
           <div class="logo">
