@@ -10,8 +10,8 @@ class History(object):
         self.user = user
         self.forms = map(lambda x: (x, (), False), kwargs.get('forms', ()))
         self.object = object
-
         self.releated_objects = []
+        self.messages = []
 
     def add_form(self, modelform, capture=[], prefix=False):
         self.forms.append((modelform, capture, prefix))
@@ -31,6 +31,9 @@ class History(object):
     def add_objects(self, **objects):
         self.releated_objects.append(objects)
 
+    def add_message(self, msg):
+        self.messages.append(msg)
+
     def save(self):
         message_parts = []
         for form, capture, prefix in self.forms:
@@ -38,6 +41,9 @@ class History(object):
 
         for objects in self.releated_objects:
             message_parts.append(self.log_objects_related(**objects))
+
+        for msg in self.messages:
+            message_parts.append(msg)
 
         message_parts = filter(lambda x:x, message_parts)
         if message_parts:

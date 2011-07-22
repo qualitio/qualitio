@@ -156,6 +156,10 @@ def testrun_valid(request, testrun_id=0):
 def testrun_copy(request, testrun_id):
     testrun = TestRun.objects.get(pk=str(testrun_id))
     testrun_copy = testrun.copy()
+
+    log = history.History(request.user, testrun_copy)
+    log.add_message("Cloned from %s: %s" % (testrun._meta.verbose_name.capitalize(), testrun.pk))
+    log.save()
     return success(message='Copy created',
                    data={"parent_id": getattr(testrun_copy.parent, "id", 0),
                          "current_id": testrun_copy.id})
