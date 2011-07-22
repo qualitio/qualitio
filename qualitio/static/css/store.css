@@ -11,12 +11,6 @@
     -webkit-border-radius: 4px 4px 4px 4px;
 }
 
-.step:hover {
-    border: 1px solid #e3e3e3;
-    -moz-border-radius: 4px 4px 4px 4px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-}
-
 .step:nth-child(even) {
     background: #f3f3f3;
     -moz-border-radius: 4px 4px 4px 4px;
