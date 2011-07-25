@@ -2525,7 +2525,7 @@ class Test10ModreqDepend(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Changed dependencies."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Changed name, changed parent and changed release_target."))
+        try: self.failUnless(sel.is_text_present("Object created."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -3099,7 +3099,7 @@ class Test14TestcasesVerify(BaseSeleniumTestCase):
         sel.click("link=testcases")
         for i in range(60):
             try:
-                if sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]/span"): break
+                if sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th/div"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3109,49 +3109,73 @@ class Test14TestcasesVerify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]"))
+        try: self.failUnless(sel.is_element_present("css=th.sorting"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[3]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[4]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[5]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=a#remove-testcases-button span"))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[6]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=a#add-testcases-button span"))
+        try: self.assertEqual("id", sel.get_text("css=th.sorting"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("path", sel.get_text("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("name", sel.get_text("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[4]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("modified", sel.get_text("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[5]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("created", sel.get_text("//form[@id='testcases_connect_form']/div[2]/div/div/div/div/div/table/thead/tr/th[6]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=span.ui-button-text"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=#add-testcases-button > span.ui-button-text"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("connected testcases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("available testcases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div/span")
+        try: self.assertEqual("id", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("path", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("name", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[4]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("requirement", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[5]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("modified", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[6]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("created", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[7]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th[6]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Search:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=input[type='text']"))
+        try: self.failUnless(sel.is_element_present("css=input[type=text]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=input[value='1']"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("id"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("path"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("name"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("modified"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[3]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[4]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[2]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[3]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[4]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[5]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[2]/table/tbody"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//form[@id='testcases_connect_form']/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]/span")
         for i in range(60):
@@ -3166,18 +3190,18 @@ class Test14TestcasesVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@name='invert']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]")
+        sel.click("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div/span")
         for i in range(60):
             try:
-                if sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[2]/div[1]"): break
+                if "All" == sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[2]/div[1]"))
+        try: self.assertEqual("All", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[2]/div[2]"))
+        try: self.assertEqual("None", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div[2]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testcases_connect_form']/div[3]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[2]/div[3]"))
+        try: self.assertEqual("Invert", sel.get_text("//form[@id='testcases_connect_form']/div[4]/div/div/div/div/div/table/thead/tr/th/div[2]/div[3]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -4403,6 +4427,12 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if "edit" == sel.get_text("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
             except: pass
             time.sleep(1)
@@ -4428,6 +4458,12 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.remove_selection("id_dependencies", "label=3: /MeeGo/IVI")
         sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: MeeGo"): break
