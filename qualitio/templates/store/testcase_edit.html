@@ -82,13 +82,11 @@
 
   <div class="application-view-content">
 
-    <div class="step clearfix">
-      <div id="{{ testcase_form.description.html_name }}_wrapper" class="field-wrapper">
-	{{ testcase_form.precondition.label_tag }}: <span class="error"></span>
-	{{ testcase_form.precondition }}
-      </div>
-      <a id="add-step-0" class="button add-step">add step</a>
+    <div id="{{ testcase_form.description.html_name }}_wrapper" class="field-wrapper">
+      {{ testcase_form.precondition.label_tag }}: <span class="error"></span>
+      {{ testcase_form.precondition }}
     </div>
+    <a id="add-step-0" class="button add-step">add step</a>
 
     {{ testcasesteps_form.management_form }}
     {% for form in testcasesteps_form.forms %}

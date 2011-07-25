@@ -42,11 +42,15 @@
   </div>
 </div>
 <div class="grid_16 alpha omega clearfix">
+  {% if testcaserun.precondition or testcaserun.steps.exists %}
   <div class="application-view-content">
+    {% if testcaserun.precondition %}
     <div class="step clearfix">
       <h2>precondition</h2>
       {% glossary_aware testcaserun.precondition_br testcaserun.parent.translation %}
     </div>
+    {% endif %}
+
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
       <h2>step {{ forloop.counter }}</h2>
@@ -63,6 +67,7 @@
     </div>
     {% endfor %}
   </div>
+  {% endif %}
 </div>
 
 <div class="grid_16 alpha omega">

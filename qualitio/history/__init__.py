@@ -55,7 +55,12 @@ class History(object):
         return ""
 
     def log_from_form(self, form, capture=[], prefix=False):
+        if self._has_new_object(form):
+            return self.log_new_object(form.instance, prefix)
         return self.log_object(form.instance, form.changed_data, capture, prefix)
+
+    def _has_new_object(self, form):
+        return not bool(form.initial.get('id', False))
 
     def log_object(self, obj, fields, capture=[], prefix=False):
         message_parts = []
@@ -73,6 +78,15 @@ class History(object):
                                    obj.pk,
                                    message)
 
+        return message
+
+    def log_new_object(self, obj, prefix=False):
+        message = "Object created"
+
+        if prefix:
+            return "%s: %s: %s" % (obj._meta.verbose_name.capitalize(),
+                                   obj.pk,
+                                   message)
         return message
 
     def log_from_formset(self, formset, **kwargs):

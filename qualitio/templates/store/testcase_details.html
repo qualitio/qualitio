@@ -41,11 +41,15 @@
   </div>
   {% endfor %}
 </div>
+
+{% if testcase.steps.exists or testcase.precondition %}
 <div class="application-view-content">
+  {% if testcase.precondition %}
   <div class="step">
     <h2>precondition</h2>
     {% glossary_aware testcase.precondition_br %}
   </div>
+  {% endif %}
 
   {% for step in testcase.steps.all %}
   <div class="clearfix step">
@@ -63,4 +67,5 @@
   </div>
   {% endfor %}
 </div>
+{% endif %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_details.js{{ STATIC_HASH }}"></script>
