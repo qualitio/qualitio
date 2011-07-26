@@ -7,6 +7,8 @@ from operator import itemgetter
 from django.utils import importlib
 from django import forms
 
+from mptt.models import MPTTModel
+
 from qualitio.core.utils import success, failed
 from qualitio.core.forms import BaseForm
 from qualitio.filter.utils import Property
@@ -152,8 +154,13 @@ class ChangeParent(Action):
             with transaction.commit_on_success():
                 for obj in queryset.all():
                     # NOTE: chaging parent require some extra work by mptt lib so
-                    #       we can not just set: obj.parent = form.cleaned_data.get('parent')
-                    obj.move_to(form.cleaned_data.get('parent'))
+                    #       we can not just set: obj.parent = form.cleaned_data.get('parent').
+                    #       But ofcourse not every model derives from MPTTModel.
+                    if issubclass(obj.__class__, MPTTModel):
+                        obj.move_to(form.cleaned_data.get('parent'))
+                    else:
+                        obj.parent = form.cleaned_data.get('parent')
+
                     obj.modified_time = datetime.datetime.now()
                     obj.save()
         except Exception, error:
