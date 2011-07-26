@@ -48,7 +48,7 @@ def directory_valid(request, directory_id=0):
         testcase_directory = testcase_directory_form.save()
 
         log = history.History(request.user, testcase_directory)
-        log.add_form(testcase_directory_form)
+        log.add_form(testcase_directory_form, is_new=(directory_id == 0))
         log.save()
         return success(message='Directory saved',
                        data={"parent_id": getattr(testcase_directory.parent, "id", 0),
@@ -103,7 +103,7 @@ def testcase_valid(request, testcase_id=0):
         testcasesteps_form.save()
 
         log = history.History(request.user, testcase)
-        log.add_form(testcase_form)
+        log.add_form(testcase_form, is_new=(testcase_id == 0))
         log.add_formset(testcasesteps_form)
         log.save()
         return success(message='TestCase saved',

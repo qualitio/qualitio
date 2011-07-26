@@ -13,8 +13,8 @@ class History(object):
         self.releated_objects = []
         self.messages = []
 
-    def add_form(self, modelform, capture=[], prefix=False):
-        self.forms.append((modelform, capture, prefix))
+    def add_form(self, modelform, capture=[], prefix=False, is_new=False):
+        self.forms.append((modelform, capture, prefix, is_new))
 
     def add_formset(self, formset, **kwargs):
         prefix_object = None
@@ -36,8 +36,8 @@ class History(object):
 
     def save(self):
         message_parts = []
-        for form, capture, prefix in self.forms:
-            message_parts.append(self.log_from_form(form, capture, prefix))
+        for form, capture, prefix, is_new in self.forms:
+            message_parts.append(self.log_from_form(form, capture, prefix, is_new))
 
         for objects in self.releated_objects:
             message_parts.append(self.log_objects_related(**objects))
@@ -60,13 +60,10 @@ class History(object):
             return message
         return ""
 
-    def log_from_form(self, form, capture=[], prefix=False):
-        if self._has_new_object(form):
+    def log_from_form(self, form, capture=[], prefix=False, is_new=False):
+        if is_new:
             return self.log_new_object(form.instance, prefix)
         return self.log_object(form.instance, form.changed_data, capture, prefix)
-
-    def _has_new_object(self, form):
-        return not bool(form.initial.get('id', False))
 
     def log_object(self, obj, fields, capture=[], prefix=False):
         message_parts = []
@@ -80,20 +77,20 @@ class History(object):
         message = get_text_list(message_parts, "and").capitalize()
 
         if prefix:
-            return "%s: %s: %s" % (obj._meta.verbose_name.capitalize(),
-                                   obj.pk,
-                                   message)
-
+            return self._format_message(obj, message)
         return message
 
     def log_new_object(self, obj, prefix=False):
         message = "Object created"
 
         if prefix:
-            return "%s: %s: %s" % (obj._meta.verbose_name.capitalize(),
-                                   obj.pk,
-                                   message)
+            return self._format_message(obj, message)
         return message
+
+    def _format_message(self, obj, message):
+        return "%s: %s: %s" % (obj._meta.verbose_name.capitalize(),
+                               obj.pk,
+                               message)
 
     def log_from_formset(self, formset, **kwargs):
         return self.log_objects_related(formset.instance,

@@ -52,7 +52,7 @@ def directory_valid(request, directory_id=0):
         testrun_directory = testrun_directory_form.save()
 
         log = history.History(request.user, testrun_directory)
-        log.add_form(testrun_directory_form)
+        log.add_form(testrun_directory_form, is_new=(directory_id == 0))
         log.save()
 
         return success(message='testrun directory saved',
@@ -109,7 +109,7 @@ def testrun_notes_valid(request, testrun_id):
         testrun = testrun_form.save()
 
         log = history.History(request.user, testrun)
-        log.add_form(testrun_form)
+        log.add_form(testrun_form, is_new=(testrun_id == 0))
         log.save()
 
         return success(message='Test run saved',
@@ -139,7 +139,7 @@ def testrun_valid(request, testrun_id=0):
         testrun.update_passrate()
 
         log = history.History(request.user, testrun)
-        log.add_form(testrun_form)
+        log.add_form(testrun_form, is_new=(testrun_id == 0))
         log.add_objects(created=created_testcases, deleted=deleted_testcases)
         log.save()
 
