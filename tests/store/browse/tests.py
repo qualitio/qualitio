@@ -511,8 +511,6 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("precondition"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
         for i in range(60):
             try:
@@ -737,7 +735,7 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Changed name, changed parent and changed description."))
+        try: self.failUnless(sel.is_text_present("Object created."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -905,6 +903,18 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo Handset bat/test case 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo Handset bat/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("full name: /MeeGo Handset bat/test case 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("parent: /MeeGo Handset bat/"))
@@ -955,7 +965,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"1\" and added step \"2\"."))
+        try: self.failUnless(sel.is_text_present("Object created. Added step \"1\" and added step \"2\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -1161,6 +1171,18 @@ class Test21StoreTreeVerify(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=store")
         sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=header"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: store" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_text_present("qualitio store"): break
@@ -1472,8 +1494,18 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id=id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.type("id_name", "test case directory 2")
+        try: self.failUnless(sel.is_element_present("id=id_description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_description", "direcory2\ndirectory2")
+        try: self.failUnless(sel.is_element_present("name=Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
             try:
@@ -2123,11 +2155,19 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("modify step1 description", sel.get_text("//div[@id='application-view']/div[4]/div[2]/div[1]/div"))
+        for i in range(60):
+            try:
+                if sel.is_text_present("step 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("step 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("step 3 decription", sel.get_text("//div[@id='application-view']/div[4]/div[3]/div[1]/div"))
+        try: self.assertEqual("modify step1 description", sel.get_text("css=div.description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("step 4 description", sel.get_text("//div[@id='application-view']/div[4]/div[4]/div[1]/div"))
+        try: self.assertEqual("step 3 decription", sel.get_text("//div[@id='application-view']/div[4]/div[3]/div/div"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("step 4 description", sel.get_text("//div[@id='application-view']/div[4]/div[4]/div/div"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=history"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -2154,7 +2194,7 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Added step \"4\" and deleted step \"2\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Changed name, changed requirement, changed description, changed precondition and changed parent. Added step \"1\"."))
+        try: self.failUnless(sel.is_text_present("Object created. Added step \"1\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -2616,12 +2656,6 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         for i in range(60):
             try:
                 if sel.is_text_present("details"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("precondition"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
