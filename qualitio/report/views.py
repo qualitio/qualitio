@@ -54,10 +54,6 @@ def directory_valid(request, directory_id=0):
     if reportdirectory_form.is_valid():
         reportdirectory = reportdirectory_form.save()
 
-        # log = history.History(request.user, report_directory)
-        # log.add_form(report_directory_form)
-        # log.save()
-
         return success(message='report directory saved',
                        data={"parent_id": getattr(reportdirectory.parent, "id", 0),
                              "current_id": reportdirectory.id})
