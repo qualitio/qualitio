@@ -969,6 +969,20 @@ class Test3Newreq(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id=id_name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "new requirement 1")
         sel.click("id_release_target")
         for i in range(60):
@@ -986,6 +1000,12 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("Executed")
+        for i in range(60):
+            try:
+                if "details" == sel.get_text("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1013,6 +1033,12 @@ class Test3Newreq(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=TV")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: TV"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         sel.click("css=li#4_requirement ins")
         for i in range(60):
             try:
@@ -1062,6 +1088,18 @@ class Test3Newreq(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:requirement: new requirement 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo/TV/new requirement 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("/MeeGo/TV/new requirement 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("exact:requirement: new requirement 1"))
@@ -1087,7 +1125,7 @@ class Test3Newreq(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Changed name, changed parent and changed release_target."))
+        try: self.failUnless(sel.is_text_present("Object created."))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
@@ -3490,6 +3528,14 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
                 if "" == sel.get_text("css=#32_requirement > ins.jstree-icon"): break
             except: pass
             time.sleep(1)
@@ -4418,7 +4464,7 @@ class Test25Verifylinks(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[4]/a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//div[@id='application-view']/div[6]/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[4]/a")
+        sel.click("//div[@id='application-view']/div[6]/div/div[2]/div/div/div[2]/table/tbody[2]/tr/td[4]/a")
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo"): break
