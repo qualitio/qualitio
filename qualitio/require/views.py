@@ -52,7 +52,7 @@ def valid(request, requirement_id=0):
         requirement = requirement_form.save()
 
         log = history.History(request.user, requirement)
-        log.add_form(requirement_form)
+        log.add_form(requirement_form, is_new=(requirement_id == 0))
         log.save()
         return success(message='Requirement saved',
                        data={"parent_id": getattr(requirement.parent,"id", 0),

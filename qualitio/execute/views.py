@@ -52,7 +52,7 @@ def directory_valid(request, directory_id=0):
         testrun_directory = testrun_directory_form.save()
 
         log = history.History(request.user, testrun_directory)
-        log.add_form(testrun_directory_form)
+        log.add_form(testrun_directory_form, is_new=(directory_id == 0))
         log.save()
 
         return success(message='testrun directory saved',
@@ -109,7 +109,7 @@ def testrun_notes_valid(request, testrun_id):
         testrun = testrun_form.save()
 
         log = history.History(request.user, testrun)
-        log.add_form(testrun_form)
+        log.add_form(testrun_form, is_new=(testrun_id == 0))
         log.save()
 
         return success(message='Test run saved',
@@ -139,7 +139,7 @@ def testrun_valid(request, testrun_id=0):
         testrun.update_passrate()
 
         log = history.History(request.user, testrun)
-        log.add_form(testrun_form)
+        log.add_form(testrun_form, is_new=(testrun_id == 0))
         log.add_objects(created=created_testcases, deleted=deleted_testcases)
         log.save()
 
@@ -156,6 +156,10 @@ def testrun_valid(request, testrun_id=0):
 def testrun_copy(request, testrun_id):
     testrun = TestRun.objects.get(pk=str(testrun_id))
     testrun_copy = testrun.copy()
+
+    log = history.History(request.user, testrun_copy)
+    log.add_message("Cloned from %s: %s" % (testrun._meta.verbose_name.capitalize(), testrun.pk))
+    log.save()
     return success(message='Copy created',
                    data={"parent_id": getattr(testrun_copy.parent, "id", 0),
                          "current_id": testrun_copy.id})
