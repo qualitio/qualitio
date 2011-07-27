@@ -2735,7 +2735,9 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=Close navigation"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
+        try: self.failUnless(sel.is_element_present("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollBody > table.display > tbody"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Close navigation", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
@@ -2813,7 +2815,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("precondition"): break
+                if sel.is_text_present("description"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3309,17 +3311,18 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input"): break
+                if sel.is_element_present("css=div.dataTables_filter > input[type=text]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "close navi")
+        sel.type("css=div.dataTables_filter > input[type=text]", "close navi")
         for i in range(60):
             try:
                 if sel.is_element_present("link=Close navigation"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.type("css=div.dataTables_filter > input[type=text]", "")
         sel.click("//input[@value='1' and @type='checkbox']")
         for i in range(60):
             try:
@@ -3344,7 +3347,9 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=Close navigation"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
+        try: self.assertEqual("Close navigation", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
@@ -3582,7 +3587,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.type_keys("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[2]/div/input", "close navigation")
+        sel.type_keys("css=div.dataTables_filter > input[type=text]", "close navigation")
         for i in range(60):
             try:
                 if sel.is_element_present("//input[@value='1']"): break
@@ -3601,13 +3606,13 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]/span"))
+        try: self.failUnless(sel.is_element_present("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div.dataTables_scrollHeadInner > table.display > thead > tr > th.checkbox.sorting_disabled > div.select-btn.ui-state-default > span.ui-icon.ui-icon-triangle-1-s"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[1]/span")
-        sel.click("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[1]/div/table/thead/tr/th[1]/div[2]/div[1]")
+        sel.click("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div.dataTables_scrollHeadInner > table.display > thead > tr > th.checkbox.sorting_disabled > div.select-btn.ui-state-default > span.ui-icon.ui-icon-triangle-1-s")
+        sel.click("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div.dataTables_scrollHeadInner > table.display > thead > tr > th.checkbox.sorting_disabled > div.menu > div[name=all]")
         for i in range(60):
             try:
-                if sel.is_element_present("//input[@value='1']"): break
+                if "on" == sel.get_value("css=input.modify"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3626,7 +3631,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=Close navigation"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("//form[@id='testrun_form']/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody"))
+        try: self.assertEqual("Close navigation", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
         for i in range(60):
