@@ -125,7 +125,7 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -254,7 +254,7 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/require/")
-        self.assertEqual("qualitio: requirements", sel.get_title())
+        self.assertEqual("qualitio: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
