@@ -67,6 +67,14 @@ class TestCase(TestCaseBase):
     class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
 
+    def copy(self):
+        copy = super(TestCase, self).copy()
+        for step in self.steps.all():
+            copy.steps.create(description=step.description,
+                              expected=step.expected,
+                              sequence=step.sequence)
+        return copy
+
 
 class TestCaseStep(TestCaseStepBase):
     testcase = models.ForeignKey('TestCase', related_name="steps")

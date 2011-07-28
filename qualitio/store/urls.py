@@ -53,6 +53,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/testcase/(?P<testcase_id>\d+)/details/?$',
                            testcase_details),
 
+                       url(r'^ajax/testcase/(?P<testcase_id>\d+)/copy/?$',
+                           testcase_copy),
 
                        url(r'^ajax/testcase/(?P<object_id>\d+)/history/$',
                            core.menu_view(TestCase, "history")(core.history),

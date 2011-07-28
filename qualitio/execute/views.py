@@ -98,7 +98,7 @@ def testrun_notes(request, testrun_id):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunNotesForm(instance=testrun)
     return direct_to_template(request, 'execute/testrun_notes.html',
-                              {'testrun_form': testrun_form })
+                              {'testrun_form': testrun_form})
 
 @json_response
 def testrun_notes_valid(request, testrun_id):
@@ -112,7 +112,7 @@ def testrun_notes_valid(request, testrun_id):
         log.add_form(testrun_form, is_new=(testrun_id == 0))
         log.save()
 
-        return success(message='Test run saved',
+        return success(message='Test run notes saved',
                        data={"parent_id": getattr(testrun.parent, "id", 0),
                              "current_id": testrun.id})
     else:
