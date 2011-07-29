@@ -18,6 +18,16 @@
     </span>
   </div>
   <div class="text-bullet">
+    <span class="name">requirement:</span>
+    <span class="value">
+      {% if testcaserun.origin.requirement %}
+      <a href="/require/#requirement/{{ testcaserun.origin.requirement.id }}/details/">
+        {{ testcaserun.origin.requirement.path }}{{ testcaserun.origin.requirement.name }}
+      </a>
+      {% endif %}
+    </span>
+  </div>
+  <div class="text-bullet">
     <span class="name">description</span>
     <span class="value-block">
       {% glossary_aware testcaserun.description_br testcaserun.parent.translation %}
