@@ -434,5 +434,226 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
+
+class Test45ReportModPublic(BaseSeleniumTestCase):
+    
+    def test_45_report_mod_public(self):
+        self.login()
+        sel = self.selenium
+        sel.open("/require/")
+        self.assertEqual("qualitio: require", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=report"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=report"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=report")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio report"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "qualitio: report" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("qualitio: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("qualitio report"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=BigProject"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=BigProject")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report directory: BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("Report, html", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Report, json", sel.get_table("css=div.dataTables_scrollBody > table.display.2.3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("report testcases", sel.get_table("css=div.dataTables_scrollBody > table.display.3.3"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=Report, html")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:report: Report, html"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/BigProject/"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("report: Report, html", sel.get_text("css=h1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=exact:http://127.0.0.1:8000/report/external/2/bigproject/report-html/2011/04/22"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("public: no"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report : Report, html"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id=id_parent"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Public"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id=id_public"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id=id_public")
+        for i in range(60):
+            try:
+                if "on" == sel.get_value("id=id_public"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//input[@value='Save']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_mime"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:report: Report, html"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "details" == sel.get_text("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id=id_parent"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:report: Report, html"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:link:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "edit" == sel.get_text("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "path:" == sel.get_text("css=span.name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:public:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("public: yes"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test46ReportCheckPublic(BaseSeleniumTestCase):
+    
+    def test_46_report_check_public(self):
+        sel = self.selenium
+        sel.open("/report/external/1/bigproject/report-json/2011/04/20")
+        for i in range(60):
+            try:
+                if sel.is_text_present("qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id=id_username"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id=id_password"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("", sel.get_text("id=id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("", sel.get_text("id=id_password"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        self.assertEqual("qualitio: login", sel.get_title())
+        sel.open("/report/external/2/bigproject/report-html/2011/04/22")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Report, html"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Report, html" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("Report, html", sel.get_title())
+        try: self.failUnless(sel.is_text_present("Report, html"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Testcases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("name: Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("path: /MeeGo Netbook/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("requirement: MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
 if __name__ == "__main__":
     unittest.main()
