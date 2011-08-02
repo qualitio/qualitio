@@ -155,6 +155,7 @@ $(document).ready(function() {
 			    text: 'Action done!',
 			    type: 'success'
 			});
+			$.onrefresh.reset();
 			window.location = window.location;
 		    } else {
 			$('#notification').jnotifyAddMessage({
@@ -172,5 +173,9 @@ $(document).ready(function() {
 
     $('table.display th[name="checkbox"]').itemsSelector({
 	selector: '.table-item'
+    });
+
+    $.onrefresh.bind(function() {
+	$('.actions-form #id_action').val("");
     });
 });
