@@ -155,12 +155,15 @@ $(document).ready(function() {
 			    text: 'Action done!',
 			    type: 'success'
 			});
+			$.onrefresh.reset();
 			window.location = window.location;
 		    } else {
-			$('#notification').jnotifyAddMessage({
-			    text: data.message,
-			    type: 'error'
-			});
+			$.shortcuts.hideErrors();
+			if (data.message)
+			    $('#notification').jnotifyAddMessage({
+				text: data.message,
+				type: 'error'
+			    });
 			$.shortcuts.showErrors(data.data);
 		    }
 		}
@@ -172,5 +175,9 @@ $(document).ready(function() {
 
     $('table.display th[name="checkbox"]').itemsSelector({
 	selector: '.table-item'
+    });
+
+    $.onrefresh.bind(function() {
+	$('.actions-form #id_action').val("");
     });
 });
