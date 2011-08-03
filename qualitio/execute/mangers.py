@@ -1,7 +1,7 @@
 from qualitio import core
 
-class TestCaseRunManager(core.BaseManager):
-    select_related_fields = core.BaseManager.select_related_fields + ['status',
+class TestCaseRunManager(core.BasePathManager):
+    select_related_fields = core.BasePathManager.select_related_fields + ['status',
                                                                       'requirement',
                                                                       'origin']
 
@@ -11,6 +11,6 @@ class TestCaseRunManager(core.BaseManager):
 
         if not total:
             return 0
-        
+
         return round(float(passed)/float(total) * 100,2)
 

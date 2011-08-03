@@ -4,6 +4,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 from qualitio import api
+from qualitio import projects
+
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
@@ -20,22 +22,29 @@ urlpatterns = patterns('',
 
                        (r'^permission_required/$', 'qualitio.core.permission_required'),
 
-                       (r'^require/', include('qualitio.require.urls', app_name="require")),
-                       (r'^settings/', include('qualitio.projects.urls')),
-                       (r'^execute/', include('qualitio.execute.urls', app_name="execute")),
-                       (r'^store/', include('qualitio.store.urls', app_name="store")),
-                       (r'^report/', include('qualitio.report.urls', app_name="report")),
-                       (r'^filter/', include('qualitio.filter.urls')),
-                       (r'^glossary/', include('qualitio.glossary.urls')),
+                       url(r'^$', projects.ProjectList.as_view(), name="dashboard"),
+                       url(r'^project/new/$', projects.ProjectNew.as_view(), name="project_new"),
+                       url(r'^project/(?P<slug>[\w-]+)/$', projects.ProjectDetails.as_view(), name="project_details"),
+                       url(r'^project/(?P<slug>[\w-]+)/edit/$', projects.ProjectEdit.as_view(), name="project_edit"),
+
+                       (r'^project/(?P<project>[\w-]+)/require/',
+                        include('qualitio.require.urls', app_name="require")),
+                       (r'^project/(?P<project>[\w-]+)/execute/',
+                        include('qualitio.execute.urls', app_name="execute")),
+                       (r'^project/(?P<project>[\w-]+)/store/',
+                        include('qualitio.store.urls', app_name="store")),
+                       (r'^project/(?P<project>[\w-]+)/report/',
+                        include('qualitio.report.urls', app_name="report")),
+                       (r'^project/(?P<project>[\w-]+)/filter/',
+                        include('qualitio.filter.urls')),
+                       (r'^project/(?P<project>[\w-]+)/glossary/',
+                        include('qualitio.glossary.urls')),
                        (r'^account/', include('qualitio.account.urls', app_name="account")),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
                        (r'', include(api.urls)),
                        )
 
-urlpatterns += patterns('django.views.generic.simple',
-                        ('^$', 'redirect_to', {'url': settings.LOGIN_REDIRECT_URL }),
-                        )
 
 if settings.DEBUG:
     urlpatterns += patterns('',

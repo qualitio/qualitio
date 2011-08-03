@@ -6,35 +6,28 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-    # depends_on = (
-    #     ("core", "0002_data_after_0001"),
-    # )
-
     def forwards(self, orm):
-
-        # Adding field 'Requirement.project'
-        db.add_column('require_requirement', 'project', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['core.Project']), keep_default=False)
-
-        # Adding unique constraint on 'Requirement', fields ['name', 'parent']
-        db.create_unique('require_requirement', ['name', 'parent_id'])
+        
+        # Changing field 'Requirement.project'
+        db.alter_column('require_requirement', 'project_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['projects.Project']))
 
 
     def backwards(self, orm):
-
-        # Removing unique constraint on 'Requirement', fields ['name', 'parent']
-        db.delete_unique('require_requirement', ['name', 'parent_id'])
-
-        # Deleting field 'Requirement.project'
-        db.delete_column('require_requirement', 'project_id')
+        
+        # Changing field 'Requirement.project'
+        db.alter_column('require_requirement', 'project_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Project']))
 
 
     models = {
-        'core.project': {
+        'projects.project': {
             'Meta': {'object_name': 'Project'},
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'homepage': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '50', 'blank': 'True'})
         },
         'require.requirement': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('parent', 'name'),)", 'object_name': 'Requirement'},
@@ -49,7 +42,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': "orm['require.Requirement']"}),
             'path': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'blank': 'True'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Project']"}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['projects.Project']"}),
             'release_target': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})

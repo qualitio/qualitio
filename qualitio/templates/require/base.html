@@ -1,12 +1,10 @@
 {% extends 'base_tree.html' %}
 
-{% block module-name %}{% block module-title%}require{% endblock %}{% endblock %}
-
-{% block js-include %}
+{% block js-include %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/require.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 
 {% block application-menu %}
 <li class="active">browse</li>
-<li><a href="/require/filter/">filter</a></li>
+<li><a href="{{ SELF.get_absolute_url }}filter/">filter</a></li>
 {% endblock %}

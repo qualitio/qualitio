@@ -12,19 +12,19 @@ from qualitio.report.forms import ReportDirectoryForm, ReportForm, ContextElemen
 from qualitio.report.validators import ReportValidator
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'report/base.html', {})
 
 
 @core.menu_view(ReportDirectory, "details")
-def directory_details(request, directory_id):
+def directory_details(request, directory_id, **kwargs):
     return direct_to_template(request, 'report/reportdirectory_details.html',
                               {'directory': ReportDirectory.objects.get(pk=directory_id)})
 
 
 @permission_required('report.change_reportdirectory', login_url='/permission_required/')
 @core.menu_view(ReportDirectory, "edit", 'report.change_reportdirectory')
-def directory_edit(request, directory_id):
+def directory_edit(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
     reportdirectory_form = ReportDirectoryForm(instance=directory)
     return direct_to_template(request, 'report/reportdirectory_edit.html',
@@ -32,7 +32,7 @@ def directory_edit(request, directory_id):
 
 
 @permission_required('report.add_reportdirectory', login_url='/permission_required/')
-def directory_new(request, directory_id):
+def directory_new(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
     reportdirectory_form = ReportDirectoryForm(initial={'parent': directory})
 
@@ -41,7 +41,7 @@ def directory_new(request, directory_id):
 
 
 @json_response
-def directory_valid(request, directory_id=0):
+def directory_valid(request, directory_id=0, **kwargs):
     # TODO: should we think about permissions for valid views?
     if directory_id:
         reportdirectory = ReportDirectory.objects.get(pk=directory_id)
@@ -66,7 +66,7 @@ def directory_valid(request, directory_id=0):
                       data=reportdirectory_form.errors_list())
 
 @core.menu_view(Report, "details")
-def report_details(request, report_id):
+def report_details(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
     if report.is_html() and not report.is_bound():
         content = report.content
@@ -93,7 +93,7 @@ def report_details(request, report_id):
 
 @permission_required('report.change_report', login_url='/permission_required/')
 @core.menu_view(Report, "edit", "report.change_report")
-def report_edit(request, report_id):
+def report_edit(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
     report_form = ReportForm(instance=report)
     report_contextelement_formset = ContextElementFormset(instance=report)
@@ -103,7 +103,7 @@ def report_edit(request, report_id):
 
 
 @permission_required('report.add_report', login_url='/permission_required/')
-def report_new(request, directory_id):
+def report_new(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
     report_form = ReportForm(initial={'parent': directory})
     report_contextelement_formset = ContextElementFormset()
@@ -113,7 +113,7 @@ def report_new(request, directory_id):
 
 
 @json_response
-def report_valid(request, report_id=0):
+def report_valid(request, report_id=0, **kwargs):
     if report_id:
         report = Report.objects.get(pk=str(report_id))
         report_form = ReportForm(request.POST, instance=report)
@@ -145,7 +145,7 @@ def report_valid(request, report_id=0):
                   data=errors)
 
 
-def report_external(request, report_id, object_type_id=None, object_id=None):
+def report_external(request, report_id, object_type_id=None, object_id=None, **kwargs):
     report = get_object_or_404(Report, pk=report_id)
     if object_type_id:
         object_type = ContentType.objects.get(pk=object_type_id)
@@ -164,7 +164,7 @@ def report_external(request, report_id, object_type_id=None, object_id=None):
     return HttpResponse(report.content,
                         content_type=report.mime)
 
-def report_bound(request, Model, object_id, report_id):
+def report_bound(request, Model, object_id, report_id, **kwargs):
     _object = Model.objects.get(pk=object_id)
     report = Report.objects.get(pk=report_id)
     report.materialize(_object.pk)

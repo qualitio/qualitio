@@ -16,7 +16,8 @@ class TestCaseForm(core.PathModelForm):
 
 class TestCaseStepForm(core.BaseModelForm):
     sequence = forms.IntegerField(widget=forms.HiddenInput)
-    class Meta:
+
+    class Meta(core.BaseModelForm.Meta):
         model = models.TestCaseStep
 
 TestCaseStepFormSet = inlineformset_factory(models.TestCase, models.TestCaseStep,

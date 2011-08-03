@@ -1,82 +1,13 @@
 {% extends 'base.html' %}
 
-{% block application %}
-<div class="container_16" >
-  <div class="grid_16">
-    <div id="application-menu" >
-	 <a href="/settings">settings</a>
-	 <a href="/settings/teams">teams</a>
-    </div>
-  </div>
-</div>
+{% block css-include %}{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/projects.css{{ STATIC_HASH }}"></link>
+{% endblock %}
 
-<div class="container_16">
+{% block js-include %}{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/projects.js{{ STATIC_HASH }}"></script>
+{% endblock %}
 
-  <div class="grid_12">
-    <div class="grid_16 alpha">
-      <div id="application-view-menu">
-	<a class="details" href="#requirement/{{ requirement.pk }}/details/">details</a> |
-	<a class="edit" href="#requirement/{{ requirement.pk }}/edit/">edit</a> |
-      </div>
-    </div>
-
-    <!-- Just a place holder for dynamic input -->
-    <div id="application-view">
-      <div class="grid_16 ui-corner-all">
-	<div class="content" style="text-align:left">
-	  <h1>Personal settings</h1>
-	  <div class="text-bullet">login: {{ user.username }}</div>
-	  <div class="text-bullet">first name: {{ user.first_name|default:"<i>not set</i>" }}</div>
-	  <div class="text-bullet">last name: {{ user.last_name|default:"<i>not set</i>" }}</div>
-	  <div class="text-bullet">email: {{ user.email|default:"<i>not set</i>" }}</div>
-	  <!-- <input class="ui-button ui-widget ui-state-default -->
-      	  <!-- 		ui-corner-all ui-button-text-only" -->
-      	  <!-- 	 type="submit" value="New Requirement" /> -->
-	  <h1>Profile settings</h1>
-	  <div class="text-bullet">alias: <i>not set</i></div>
-	  <div class="text-bullet">contact phone: <i>not set</i></div>
-	  <div class="text-bullet">company: <i>not set</i></div>
-	  <div class="text-bullet">location: <i>not set</i></div>
-	  <h1>User Teams</h1>
-	  <div>
-	    <table class="pretty" style="margin-bottom:20px">
-	      <div class="text-bullet">default team: <i>not set</i></div>
-	      <tr>
-		<th style="width: 30%">name</th>
-		<th>role</th>
-		<th>leader</th>
-	      </tr>
-	      <tr>
-		{% for team in user.team_set.all %}
-		<td><a href="#">{{ team.name }}</a></td>
-		<td>leader</td>
-		<td>{{ team.leader }}</td>
-		{% endfor %}
-	      </tr>
-	    </table>
-	  </div>
-	</div>
-      </div>
-
-      <div class="grid_16 button-bar ui-corner-all">
-	<div class="content" style="text-align:left">
-	  asd
-	</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- <div class="grid_4 pull_12"> -->
-  <!--   <div id="application-list" class="ui-widget-content"> -->
-  <!--     <a class="element" href="/settings/personal_settings">Personal Settings</a> -->
-  <!--     <a class="element" href="/settings/personal_settings">User Teams</a> -->
-  <!--   </div> -->
-  <!-- </div> -->
-
-</div>
-
-
-
-
+{% block base %}
+{% block projects-base %}{% endblock %}
 {% endblock %}

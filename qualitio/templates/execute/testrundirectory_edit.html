@@ -15,9 +15,9 @@
 
 <form id="testrundirectory_form"
       action="{% if testrundirectory_form.instance.id %}
-              /execute/ajax/testrundirectory/{{ testrundirectory_form.instance.id }}/edit/valid/
+              {{ SELF.get_absolute_url }}ajax/testrundirectory/{{ testrundirectory_form.instance.id }}/edit/valid/
               {% else %}
-              /execute/ajax/testrundirectory/new/valid/
+              {{ SELF.get_absolute_url }}ajax/testrundirectory/new/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 
@@ -29,7 +29,7 @@
     </div>
     {% endfor %}
   </div>
-  
+
   <div id="application-view-footer" class="application-view-content clearfix">
     <div class="grid_16 right clearfix">
       <input type="submit" name="Executed" value="Save" />

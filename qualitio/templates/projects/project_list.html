@@ -1,24 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'projects/base.html' %}
 
-{% block css-include %}
-<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/account.css{{ STATIC_HASH }}"></link>
-{% endblock %}
-
-
-{% block js-include %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/account.js{{ STATIC_HASH }}"></script>
-{% endblock %}
-
-{% block application %}
-<div class="grid_16">
-  <div id="application-menu" >
-    <ul>
-      <li class="active">home</li>
-    </ul>
-  </div>
-</div>
-
-<div id="account">
+{% block projects-base %}
+<div id="projects">
   <div class="container_16">
     <div class="grid_8">
       <div class="application-view-content panel" style="border: 1px solid grey">
@@ -41,10 +24,13 @@
     </div>
     <div class="grid_8">
       <div class="application-view-content panel" style="border: 1px solid grey">
-        <h1>Projects</h1>
-        {% for project in projects %}
-        <div><a href="{{ project.get_absoulte_url }}">{{ project.name }}</a></div>
+        <h1>Your Projects</h1>
+        {% for project in project_list %}
+        <div class="project">
+          <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+        </div>
         {% endfor %}
+        <a class="project-add-button" href="{% url project_new %}"></a>
       </div>
     </div>
   </div>

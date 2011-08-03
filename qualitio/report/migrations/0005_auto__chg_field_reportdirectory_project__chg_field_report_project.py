@@ -6,32 +6,22 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-    depends_on = (
-        ("projects", "0001_initial"),
-        )
-
     def forwards(self, orm):
+        
+        # Changing field 'ReportDirectory.project'
+        db.alter_column('report_reportdirectory', 'project_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['projects.Project']))
 
-        # Adding field 'ReportDirectory.project'
-        db.add_column('report_reportdirectory', 'project', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['core.Project']), keep_default=False)
-
-        # Adding field 'Report.project'
-        db.add_column('report_report', 'project', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['core.Project']), keep_default=False)
-
-        # Adding field 'Report.bound_type'
-        db.add_column('report_report', 'bound_type', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['contenttypes.ContentType'], null=True, blank=True), keep_default=False)
+        # Changing field 'Report.project'
+        db.alter_column('report_report', 'project_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['projects.Project']))
 
 
     def backwards(self, orm):
+        
+        # Changing field 'ReportDirectory.project'
+        db.alter_column('report_reportdirectory', 'project_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Project']))
 
-        # Deleting field 'ReportDirectory.project'
-        db.delete_column('report_reportdirectory', 'project_id')
-
-        # Deleting field 'Report.project'
-        db.delete_column('report_report', 'project_id')
-
-        # Deleting field 'Report.bound_type'
-        db.delete_column('report_report', 'bound_type_id')
+        # Changing field 'Report.project'
+        db.alter_column('report_report', 'project_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Project']))
 
 
     models = {
@@ -42,12 +32,15 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'core.project': {
+        'projects.project': {
             'Meta': {'object_name': 'Project'},
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'homepage': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '50', 'blank': 'True'})
         },
         'report.contextelement': {
             'Meta': {'object_name': 'ContextElement'},
@@ -67,7 +60,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'subchildren'", 'to': "orm['report.ReportDirectory']"}),
             'path': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'blank': 'True'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Project']"}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['projects.Project']"}),
             'public': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'template': ('django.db.models.fields.TextField', [], {'blank': 'True'})
         },
@@ -82,7 +75,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': "orm['report.ReportDirectory']"}),
             'path': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'blank': 'True'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Project']"}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['projects.Project']"}),
             'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         }

@@ -1,0 +1,45 @@
+{% extends 'projects/base.html' %}
+
+{% block projects-base %}
+<div id="projects">
+  <div class="header clearfix">
+    <div class="grid_8">
+      <div class="name">
+        <a href="{{ project.get_absolute_url }}">{{ request.project.name }} / {{ CURRENT_MODULE }}</a>
+      </div>
+    </div>
+    <div class="grid_8">
+      <div class="menu">
+        <div>
+          <a class="{% if CURRENT_MODULE == 'require' %}active{% endif %}"
+             href="{{ REQUIRE.get_absolute_url }}">require</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'store' %}active{% endif %}"
+             href="{{ STORE.get_absolute_url }}">store</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'execute' %}active{% endif %}"
+             href="{{ EXECUTE.get_absolute_url }}">execute</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'report' %}active{% endif %}"
+             href="{{ REPORT.get_absolute_url }}">report</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block project_detail %}
+  <div class="application-view-content panel">
+    <h1>Project '{{ project.name }}' activity</h1>
+    <div class="message">
+      <span class="object">{% for version in revision.version_set.all %}
+        {% if forloop.last %}{{ version.content_type|capfirst}}{% endif %}{% endfor %}</span>
+      {{ revision.comment }}
+    </div>
+  </div>
+  {% endblock %}
+
+</div>
+{% endblock %}

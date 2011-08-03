@@ -5,7 +5,7 @@ from dbtemplates.models import Template
 def json_response(func):
     def _jsonize(*args,**kwargs):
         return HttpResponse(json.dumps(func(*args,**kwargs), sort_keys=True, indent=2),
-                        content_type='application/json; charset=UTF-8')
+                            content_type='application/json; charset=UTF-8')
     return _jsonize
 
 def success(**kwargs):

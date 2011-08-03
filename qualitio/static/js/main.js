@@ -1,10 +1,10 @@
 var resize_main_window = function() {
   $('#application-view')
     .css('height',
-         document.body.clientHeight - $('#header').height() - 5 - 2*$('#footer').height());
+         document.body.clientHeight - $('#header').height() - 69);
   $('#application-tree')
     .css('height',
-         document.body.clientHeight - $('#header').height() - 25 - 2*$('#footer').height());
+         document.body.clientHeight - $('#header').height() - 90);
 };
 
 $(document).ready(function() {
@@ -147,7 +147,7 @@ $(function() {
     },
 
     render: function(type, id, view) {
-      $(this.el).load("/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
+      $(this.el).load("/project/"+PROJECT_SLUG+"/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
         $(this).removeClass('disable');
       }).addClass('disable');
     }

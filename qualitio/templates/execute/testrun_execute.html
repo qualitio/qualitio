@@ -10,9 +10,9 @@
 
 <div class="grid_16">
   <div id="testcaserun-list" class="application-view-content">
-    
+
     {% passrate testrun %}
-    
+
     <table class="display">
       <thead>
         <tr>
@@ -28,7 +28,8 @@
       <tbody>
       {% for testcaserun in testrun.testcases.all %}
       <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}"
-          style="background: {{ testcaserun.status.color }}">
+          style="background: {{ testcaserun.status.color }}"
+          href="{{ SELF.get_absolute_url }}ajax/testcaserun/{{ testcaserun.id }}/">
         <td class="select">
           <input type="checkbox" class="modify" />
         </td>
@@ -44,17 +45,17 @@
     </table>
     <div style="text-align: right;">
       <select class="action-list" style="font-size: 1.2em">
-	<option><i>-- action on selected --</i></option>
-	<option value="clone">set status</option>
-	<option value="remove">add bug</option>
-	<option value="change_status">remove bug</option>
+        <option><i>-- action on selected --</i></option>
+        <option value="clone">set status</option>
+        <option value="remove">add bug</option>
+        <option value="change_status">remove bug</option>
       </select>
     </div>
   </div>
 </div>
 
-<div class="grid_16"> 
-  <div id="testcaserun-details"> 
+<div class="grid_16">
+  <div id="testcaserun-details">
   </div>
 </div>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_execute.js{{ STATIC_HASH }}"></script>

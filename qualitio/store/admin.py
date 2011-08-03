@@ -28,6 +28,6 @@ class TestCaseAdmin(core.PathModelAdmin):
 admin.site.register(models.TestCase, VersionAdmin)
 
 
-class TestCaseStatus(admin.ModelAdmin):
-    list_display = ("id", "name", 'modified_time', "created_time")
+class TestCaseStatus(core.BaseModelAdmin):
+    list_display = ["id", "project", "name", "modified_time", "created_time"]
 admin.site.register(models.TestCaseStatus, TestCaseStatus)

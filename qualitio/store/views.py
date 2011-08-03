@@ -9,19 +9,19 @@ from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, TestCaseSt
 from qualitio import history
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'store/base.html', {})
 
 
 @core.menu_view(TestCaseDirectory, "details")
-def directory_details(request, directory_id):
+def directory_details(request, directory_id, **kwargs):
     return direct_to_template(request, 'store/testcasedirectory_details.html',
                               {'directory': TestCaseDirectory.objects.get(pk=directory_id)})
 
 
 @core.menu_view(TestCaseDirectory, "edit", 'store.add_testcasedirectory')
 @permission_required('store.add_testcasedirectory', login_url='/permission_required/')
-def directory_edit(request, directory_id):
+def directory_edit(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
@@ -29,7 +29,7 @@ def directory_edit(request, directory_id):
 
 
 @permission_required('store.add_testcasedirectory', login_url='/permission_required/')
-def directory_new(request, directory_id):
+def directory_new(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(initial={'parent': directory})
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
@@ -37,7 +37,7 @@ def directory_new(request, directory_id):
 
 
 @json_response
-def directory_valid(request, directory_id=0):
+def directory_valid(request, directory_id=0, **kwargs):
     if directory_id:
         testcase_directory = TestCaseDirectory.objects.get(pk=directory_id)
         testcase_directory_form = TestCaseDirectoryForm(request.POST, instance=testcase_directory)
@@ -59,14 +59,14 @@ def directory_valid(request, directory_id=0):
 
 
 @core.menu_view(TestCase, "details")
-def testcase_details(request, testcase_id):
+def testcase_details(request, testcase_id, **kwargs):
     return direct_to_template(request, 'store/testcase_details.html',
                               {'testcase': TestCase.objects.get(pk=testcase_id)})
 
 
 @permission_required('store.change_testcase', login_url='/permission_required/')
 @core.menu_view(TestCase, "edit", 'store.change_testcase')
-def testcase_edit(request, testcase_id):
+def testcase_edit(request, testcase_id, **kwargs):
     testcase = TestCase.objects.get(pk=testcase_id)
     testcase_form = TestCaseForm(instance=testcase)
     testcasesteps_form = TestCaseStepFormSet(instance=testcase)
@@ -78,7 +78,7 @@ def testcase_edit(request, testcase_id):
 
 
 @permission_required('store.add_testcase', login_url='/permission_required/')
-def testcase_new(request, directory_id):
+def testcase_new(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcase_form = TestCaseForm(initial={'parent': directory})
     testcasesteps_form = TestCaseStepFormSet()
@@ -88,7 +88,7 @@ def testcase_new(request, directory_id):
 
 
 @json_response
-def testcase_valid(request, testcase_id=0):
+def testcase_valid(request, testcase_id=0, **kwargs):
     if testcase_id:
         testcase = TestCase.objects.get(pk=str(testcase_id))
         testcase_form = TestCaseForm(request.POST, instance=testcase)
@@ -102,10 +102,10 @@ def testcase_valid(request, testcase_id=0):
         testcasesteps_form.instance = testcase
         testcasesteps_form.save()
 
-        log = history.History(request.user, testcase)
-        log.add_form(testcase_form)
-        log.add_formset(testcasesteps_form)
-        log.save()
+        # log = history.History(request.user, testcase)
+        # log.add_form(testcase_form)
+        # log.add_formset(testcasesteps_form)
+        # log.save()
         return success(message='TestCase saved',
                        data={"parent_id": getattr(testcase.parent, "id", 0),
                               "current_id": testcase.id})

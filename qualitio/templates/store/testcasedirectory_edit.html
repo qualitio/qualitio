@@ -15,9 +15,9 @@
 {% endif %}
 <form id="testcasedirectory_form" 
       action="{% if testcasedirectory_form.instance.id %}
-              {% url qualitio.store.views.directory_valid testcasedirectory_form.instance.id %}
+              {{ SELF.get_absolute_url }}ajax/testcasedirectory/{{ testcasedirectory_form.instance.id }}/edit/valid/
               {% else %}
-              {% url qualitio.store.views.directory_valid %}
+              {{ SELF.get_absolute_url }}ajax/testcasedirectory/new/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 

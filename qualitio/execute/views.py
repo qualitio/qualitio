@@ -11,19 +11,19 @@ from qualitio.execute import forms
 from qualitio import history
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'execute/base.html', {})
 
 
 @core.menu_view(TestRunDirectory, "details")
-def directory_details(request, directory_id):
+def directory_details(request, directory_id, **kwargs):
     return direct_to_template(request, 'execute/testrundirectory_details.html',
                               {'directory': TestRunDirectory.objects.get(pk=directory_id)})
 
 
 @permission_required('execute.change_testrundirectory', login_url='/permission_required/')
 @core.menu_view(TestRunDirectory, "edit", 'execute.change_testrundirectory')
-def directory_edit(request, directory_id):
+def directory_edit(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
@@ -31,7 +31,7 @@ def directory_edit(request, directory_id):
 
 
 @permission_required('execute.add_testrundirectory', login_url='/permission_required/')
-def directory_new(request, directory_id):
+def directory_new(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(initial={'parent': directory})
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
@@ -39,7 +39,7 @@ def directory_new(request, directory_id):
 
 
 @json_response
-def directory_valid(request, directory_id=0):
+def directory_valid(request, directory_id=0, **kwargs):
     # TODO: should we think about permissions for valid views?
     if directory_id:
         testrun_directory = TestRunDirectory.objects.get(pk=str(directory_id))
@@ -64,7 +64,7 @@ def directory_valid(request, directory_id=0):
 
 
 @core.menu_view(TestRun, "details")
-def testrun_details(request, testrun_id):
+def testrun_details(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     return direct_to_template(request, 'execute/testrun_details.html',
                               {'testrun': testrun})
@@ -72,7 +72,7 @@ def testrun_details(request, testrun_id):
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
 @core.menu_view(TestRun, "edit")
-def testrun_edit(request, testrun_id):
+def testrun_edit(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunForm(instance=testrun)
 
@@ -83,7 +83,7 @@ def testrun_edit(request, testrun_id):
 
 
 @permission_required('execute.add_testrun', login_url='/permission_required/')
-def testrun_new(request, directory_id):
+def testrun_new(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = forms.TestRunForm(initial={'parent': directory})
 
@@ -94,14 +94,14 @@ def testrun_new(request, directory_id):
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
 @core.menu_view(TestRun, "notes")
-def testrun_notes(request, testrun_id):
+def testrun_notes(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunNotesForm(instance=testrun)
     return direct_to_template(request, 'execute/testrun_notes.html',
                               {'testrun_form': testrun_form })
 
 @json_response
-def testrun_notes_valid(request, testrun_id):
+def testrun_notes_valid(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=str(testrun_id))
     testrun_form = forms.TestRunNotesForm(request.POST, instance=testrun)
 
@@ -121,7 +121,7 @@ def testrun_notes_valid(request, testrun_id):
 
 
 @json_response
-def testrun_valid(request, testrun_id=0):
+def testrun_valid(request, testrun_id=0, **kwargs):
     if testrun_id:
         testrun = TestRun.objects.get(pk=str(testrun_id))
         testrun_form = forms.TestRunForm(request.POST, instance=testrun)
@@ -153,7 +153,7 @@ def testrun_valid(request, testrun_id=0):
 
 
 @json_response
-def testrun_copy(request, testrun_id):
+def testrun_copy(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=str(testrun_id))
     testrun_copy = testrun.copy()
     return success(message='Copy created',
@@ -163,12 +163,12 @@ def testrun_copy(request, testrun_id):
 
 @permission_required('execute.change_testrun', login_url='/permission_required/')
 @core.menu_view(TestRun, "execute")
-def testrun_execute(request, testrun_id):
+def testrun_execute(request, testrun_id, **kwargs):
     return direct_to_template(request, 'execute/testrun_execute.html',
                               {'testrun': TestRun.objects.get(pk=testrun_id)})
 
 
-def testcaserun(request, testcaserun_id):
+def testcaserun(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     testcaserun_status_form = forms.TestCaseRunStatus(instance=testcaserun)
 
@@ -181,7 +181,7 @@ def testcaserun(request, testcaserun_id):
                                })
 
 
-def testcaserun_bugs(request, testcaserun_id):
+def testcaserun_bugs(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     if request.method == "POST":
         bugs_formset = forms.BugFormSet(request.POST, instance=testcaserun)
@@ -196,7 +196,7 @@ def testcaserun_bugs(request, testcaserun_id):
 
 
 @json_response
-def testcaserun_setstatus(request, testcaserun_id):
+def testcaserun_setstatus(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     testcaserun_status_form = forms.TestCaseRunStatus(request.POST, instance=testcaserun)
     if testcaserun_status_form.is_valid():
@@ -230,7 +230,7 @@ def testcaserun_setstatus(request, testcaserun_id):
 
 
 @json_response
-def testcaserun_addbug(request, testcaserun_id):
+def testcaserun_addbug(request, testcaserun_id, **kwargs):
 
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     add_bug_form = forms.AddBugForm(request.POST)
@@ -266,7 +266,7 @@ def testcaserun_addbug(request, testcaserun_id):
 
 
 @json_response
-def testcaserun_removebug(request, testcaserun_id):
+def testcaserun_removebug(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     bugs_formset = forms.BugFormSet(request.POST, instance=testcaserun)
 

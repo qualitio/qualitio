@@ -4,9 +4,8 @@
 </div>
 
 {% application_view_menu requirement "testcases" %}
- 
 <form id="testcases_connect_form" method="post"
-      action="{% url qualitio.require.views.testcases_connect requirement.id %}">
+      action="{{ SELF.get_absolute_url }}ajax/requirement/{{ requirement.id }}/testcases/connect/">
   {% csrf_token %}
   <div class="grid_8">
     <div class="connected-testcases application-view-content clearfix">
@@ -15,9 +14,9 @@
         <thead>
           <tr>
             <th class="checkbox"></th>
-	    <th>id</th>
+            <th>id</th>
             <th>path</th>
-	    <th>name</th>
+            <th>name</th>
             <th>modified</th>
             <th>created</th>
           </tr>
@@ -29,20 +28,20 @@
               <input type="checkbox" class="modify" value="{{ testcase.id }}"/>
               <input type="hidden" name="connected_test_case" value="{{ testcase.id }}"/>
             </td>
-	    <td class="id">
+            <td class="id">
               {{ testcase.id }}
-            </td> 
+            </td>
             <td class="path">
-              <a href="/store/#testcasedirectory/{{ testcase.parent.pk }}/details/">
+              <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ testcase.parent.pk }}/details/">
                 {{ testcase.path }}
               </a>
             </td>
             <td class="name">
-              <a href="/store/#testcase/{{ testcase.pk }}/details/">
+              <a href="{{ STORE.get_absolute_url }}#testcase/{{ testcase.pk }}/details/">
                 {{ testcase.name }}
               </a>
             </td>
-	    <td class="modified_time">
+            <td class="modified_time">
               {{ testcase.modified_time }}
             </td>
             <td class="created_time">
@@ -55,7 +54,7 @@
       <a id="remove-testcases-button" class="button">remove</a>
     </div>
   </div>
-  
+
   <div class="grid_8">
     <div class="available-testcases application-view-content clearfix">
       <h2>available testcases</h2>
@@ -63,9 +62,9 @@
         <thead>
           <tr>
             <th class="checkbox"></th>
-	    <th>id</th>
+            <th>id</th>
             <th>path</th>
-	    <th>name</th>
+            <th>name</th>
             <th>requirement</th>
             <th>modified</th>
             <th>created</th>
@@ -78,9 +77,9 @@
               <input type="checkbox" class="modify" value="{{ testcase.id }}"/>
               <input type="hidden" name="available_test_case" value="{{ testcase.id }}"/>
             </td>
-	    <td class="id">
+            <td class="id">
               {{ testcase.id }}
-            </td> 
+            </td>
             <td class="path">
               <a href="/store/#testcasedirectory/{{ testcase.parent.pk }}/details/">
                 {{ testcase.path }}
@@ -91,13 +90,13 @@
                 {{ testcase.name }}
               </a>
             </td>
-	    <td class="requirement">
+            <td class="requirement">
               <a href="/require/#requirement/{{ testcase.requirement.pk }}/details/">
                 {{ testcase.requirement }}
               </a>
             </td>
-            
-	    <td class="modified_time">
+
+            <td class="modified_time">
               {{ testcase.modified_time }}
             </td>
             <td class="created_time">

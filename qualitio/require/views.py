@@ -10,12 +10,12 @@ from qualitio.require.forms import RequirementForm
 from qualitio import history
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'require/base.html')
 
 
 @core.menu_view(Requirement, "details")
-def details(request, requirement_id):
+def details(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     testcases = requirement.testcase_set.all()
     return direct_to_template(request, 'require/details.html',
@@ -25,7 +25,7 @@ def details(request, requirement_id):
 
 @permission_required('require.change_requirement', login_url='/permission_required/')
 @core.menu_view(Requirement, "edit", perm='require.change_requirement')
-def edit(request, requirement_id):
+def edit(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
     return direct_to_template(request, 'require/edit.html',
@@ -33,7 +33,7 @@ def edit(request, requirement_id):
 
 
 @permission_required('require.add_requirement', login_url='/permission_required/')
-def new(request, requirement_id):
+def new(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(id=requirement_id)
     requirement_form = RequirementForm(initial={'parent': requirement})
     return direct_to_template(request, 'require/edit.html',
@@ -41,7 +41,7 @@ def new(request, requirement_id):
 
 
 @json_response
-def valid(request, requirement_id=0):
+def valid(request, requirement_id=0, **kwargs):
     if requirement_id:
         requirement = Requirement.objects.get(pk=requirement_id)
         requirement_form = RequirementForm(request.POST, instance=requirement)
@@ -64,7 +64,7 @@ def valid(request, requirement_id=0):
 
 @permission_required('store.change_testcase', login_url='/permission_required/')
 @core.menu_view(Requirement, "testcases", perm='store.change_testcase')
-def testcases(request, requirement_id):
+def testcases(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     return direct_to_template(request, 'require/test_cases.html',
                               {'requirement': requirement,
@@ -73,7 +73,7 @@ def testcases(request, requirement_id):
 
 
 @json_response
-def testcases_connect(request, requirement_id):
+def testcases_connect(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
 
     previously_connected = set(requirement.testcase_set.all()) # freeze

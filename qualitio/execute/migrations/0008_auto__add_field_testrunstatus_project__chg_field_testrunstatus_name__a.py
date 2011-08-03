@@ -7,9 +7,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     depends_on = (
-        ("store", "0005_auto__add_field_attachment_project__add_field_testcasestep_project__ad"),
-        )
-
+        ("projects", "0001_initial"),
+    )
 
     def forwards(self, orm):
 

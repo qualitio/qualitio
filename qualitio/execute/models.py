@@ -22,8 +22,8 @@ class TestRunStatus(core.BaseStatusModel):
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
     passrate = models.FloatField(default=0)
-    translation = models.ForeignKey("glossary.Language", default=0 ) #glossary.Language.default)
-    status = models.ForeignKey("TestRunStatus", default=0) #TestRunStatus.default)
+    translation = models.ForeignKey("glossary.Language", default=glossary.Language.default)
+    status = models.ForeignKey("TestRunStatus", default=TestRunStatus.default)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
@@ -105,7 +105,7 @@ class TestCaseRunStatus(core.BaseStatusModel):
 
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
-    status = models.ForeignKey("TestCaseRunStatus", default=0) #TestCaseRunStatus.default)
+    status = models.ForeignKey("TestCaseRunStatus", default=TestCaseRunStatus.default)
 
     objects = mangers.TestCaseRunManager()
 

@@ -11,7 +11,6 @@ class Migration(SchemaMigration):
         # Adding model 'Word'
         db.create_table('glossary_word', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Project'])),
             ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
@@ -21,17 +20,15 @@ class Migration(SchemaMigration):
         # Adding model 'Language'
         db.create_table('glossary_language', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Project'])),
             ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
         ))
         db.send_create_signal('glossary', ['Language'])
 
         # Adding model 'Representation'
         db.create_table('glossary_representation', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Project'])),
             ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('word', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['glossary.Word'])),
@@ -60,20 +57,12 @@ class Migration(SchemaMigration):
 
 
     models = {
-        'core.project': {
-            'Meta': {'object_name': 'Project'},
-            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        },
         'glossary.language': {
             'Meta': {'object_name': 'Language'},
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Project']"})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'glossary.representation': {
             'Meta': {'unique_together': "(('word', 'language'),)", 'object_name': 'Representation'},
@@ -81,7 +70,6 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'language': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['glossary.Language']"}),
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Project']"}),
             'representation': ('django.db.models.fields.CharField', [], {'max_length': '512', 'blank': 'True'}),
             'word': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['glossary.Word']"})
         },
@@ -90,8 +78,7 @@ class Migration(SchemaMigration):
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Project']"})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'})
         }
     }
 

@@ -12,8 +12,10 @@
 {% endif %}
 
 <form id="requirement_form" 
-      action="{% if requirement_form.instance.id %}/require/ajax/requirement/{{ requirement_form.instance.id }}/edit/valid/
-              {% else %}/require/ajax/requirement/new/valid/{% endif %}"
+      action="{% if requirement_form.instance.id %}
+              {{ SELF.get_absolute_url }}ajax/requirement/{{ requirement_form.instance.id }}/edit/valid/
+              {% else %}
+              {{ SELF.get_absolute_url }}ajax/requirement/new/valid/{% endif %}"
       method="post">
   <div class="application-view-content">{% csrf_token %}
     {% for field in requirement_form %}
