@@ -164,6 +164,9 @@ class ChangeParent(Action):
                     obj.modified_time = datetime.datetime.now()
                     obj.save()
         except Exception, error:
-            return self.failed(message='"%s" fail: %s' % (obj.name, error.message))
+            reason = u'; '.join(map(unicode, getattr(error, 'messages', [])))
+            if not reason:
+                reason = u'%s' % unicode(error)
+            return self.failed(message='"%s" fail: %s' % (obj.name, reason))
 
         return self.success(message='Action complete!')
