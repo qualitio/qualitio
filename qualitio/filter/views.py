@@ -65,7 +65,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 def actions(request, app_label=None, action_name=None):
     allactions = filterapp.find_actions('qualitio.%s' % app_label)
     for action_class in allactions:
-        action = action_class(data=request.POST)
+        action = action_class(data=request.POST, request=request)
         if action.name == action_name:
             return action.execute()
     return failed(message="Wrong request")
