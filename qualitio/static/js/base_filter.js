@@ -158,10 +158,12 @@ $(document).ready(function() {
 			$.onrefresh.reset();
 			window.location = window.location;
 		    } else {
-			$('#notification').jnotifyAddMessage({
-			    text: data.message,
-			    type: 'error'
-			});
+			$.shortcuts.hideErrors();
+			if (data.message)
+			    $('#notification').jnotifyAddMessage({
+				text: data.message,
+				type: 'error'
+			    });
 			$.shortcuts.showErrors(data.data);
 		    }
 		}
