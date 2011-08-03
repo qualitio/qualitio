@@ -509,8 +509,6 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.assertEqual("report: Report, html", sel.get_text("css=h1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("link=exact:http://127.0.0.1:8000/report/external/2/bigproject/report-html/2011/04/22"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("public: no"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=edit"))
