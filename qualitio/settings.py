@@ -82,7 +82,7 @@ PROJECT_EXEMPT_URLS = (
     r'^complete/*',
     r'^__debug__/.*',
     r'^api/.*',
-    r'^project/new/',
+    r'^project/new/.*',
     )
 
 

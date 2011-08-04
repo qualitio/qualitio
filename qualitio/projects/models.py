@@ -1,7 +1,8 @@
 from django.db import models
-# from django.contrib.auth.models import User
+
 from django.template.defaultfilters import slugify
 from qualitio.core.custommodel.models import CustomizableModel
+from django.core.exceptions import ImproperlyConfigured
 
 
 class Project(CustomizableModel):
@@ -19,7 +20,7 @@ class Project(CustomizableModel):
         try:
             return cls.objects.all()[0]
         except IndexError:
-            return cls.objects.create(name=cls.default_name)
+            raise ImproperlyConfigured("There is no default project, create one")
 
     def get_absolute_url(self):
         return '/project/%s/' % self.slug

@@ -115,7 +115,7 @@ def testcase_valid(request, testcase_id=0, **kwargs):
 
 
 @json_response
-def testcase_copy(request, testcase_id):
+def testcase_copy(request, testcase_id, **kwargs):
     testcase = TestCase.objects.get(pk=str(testcase_id))
     testcase_copy = testcase.copy()
 
