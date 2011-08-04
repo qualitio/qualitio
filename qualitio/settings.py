@@ -50,13 +50,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'qualitio.core.middleware.ProjectMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.QueriesCounterMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 )
 
 ROOT_URLCONF = 'qualitio.urls'
 
-LOGIN_REDIRECT_URL = "/account/"
+LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
@@ -69,6 +71,20 @@ LOGIN_EXEMPT_URLS = (
     r'^__debug__/.*',
     r'^api/.*',
     )
+
+PROJECT_EXEMPT_URLS = (
+    r'^static/.*',
+    r'^account/.*',
+    r'^admin/.*',
+    r'^login/.*',
+    r'^register/.*',
+    r'^associate/*',
+    r'^complete/*',
+    r'^__debug__/.*',
+    r'^api/.*',
+    r'^project/new/',
+    )
+
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates'),
@@ -101,6 +117,7 @@ INSTALLED_APPS = (
 
     'qualitio.core',
     'qualitio.core.custommodel',  # iternal core django application
+    'qualitio.projects',
     'qualitio.require',
     'qualitio.report',
     'qualitio.projects',
@@ -120,7 +137,8 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.contrib.messages.context_processors.messages",
                                "qualitio.core.context_processors.settings",
                                "qualitio.core.context_processors.development",
-                               "qualitio.core.context_processors.core")
+                               "qualitio.core.context_processors.core",
+                               "qualitio.core.context_processors.module")
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
 

@@ -6,6 +6,10 @@ from django.db import models
 
 class Migration(DataMigration):
 
+    depends_on = (
+        ("glossary", "0001_initial"),
+    )
+
     def forwards(self, orm):
         status = orm.TestRunStatus.objects.all()[0]
         language = orm['glossary.Language'].objects.get_or_create(name="default")[0]

@@ -1,0 +1,26 @@
+{% extends 'projects/base.html' %}
+
+{% block projects-base %}
+<div id="projects">
+  <form id="project_form" method="post">
+    <div class="application-view-content">{% csrf_token %}
+      {% for field in form %}
+      <div class="field">
+        {{ field.label_tag }}
+        {{ field }}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="grid_16 clearfix">
+      <div id="application-view-footer" class="application-view-content">
+        <div class="right">
+          <input type="submit" name="Executed" value="Create"/>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/require_edit.js{{ STATIC_HASH }}"></script>
+{% endblock %}

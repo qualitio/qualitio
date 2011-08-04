@@ -7,25 +7,27 @@
 
     <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Bevan:regular" rel="stylesheet" type="text/css" />
     <link href="{{ HTTP_PROTOCOL }}://fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,bold,bolditalic" rel="stylesheet" type="text/css" />
-    
+
     {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" media="screen, projection" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection" />
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/table.css{{ STATIC_HASH }}" media="screen, projection" />
-    {% block css-include %}{% endblock %}
+    {% block css-include %}
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/reset.css" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/107214.css" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/smoothness/jquery-ui-1.8.4.custom.css" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/formalize.css" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/table.css{{ STATIC_HASH }}" media="screen, projection"/>
+    {% endblock %}
     {% endcompress %}
-      
-    
+
     {% compress js %}
     <script>
       DATE_FORMAT = {{ DATE_FORMAT }};
-      MEDIA_URL = {{ MEDIA_URL }};
+      MEDIA_URL = '{{ MEDIA_URL }}';
+      PROJECT_SLUG = '{{ request.project.slug }}';
     </script>
 
+    {% block js-include %}
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.4.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min-1.1.4.js"></script>
@@ -42,60 +44,40 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.itemsselector.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.livefilter.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js{{ STATIC_HASH }}"></script>
-    
-    {% block js-base-include %}{% endblock %}
-    {% block js-include %}{% endblock %}
+    {% endblock %}
     {% endcompress %}
-    
-    <title>qualitio: {% block module-title %}{% endblock %}</title>
+
+    <title>qualitio</title>
   </head>
 
   <body>
     <div id="main">
       <div id="notification"></div>
-      
+
       <div id="header" class="container_16 clearfix">
         <div class="grid_6">
           <div class="logo">
-            qualitio<span style="font-size:12px; font-weight: bold"> {% block module-name %}{% endblock %}</span>
+            <a href="/">qualitio</a>
           </div>
         </div>
 
-        <div id="project-menu" class="grid_10 clearfix">
+        <div id="menu" class="grid_10 clearfix">
+          <div>
+            <a href="{% url django.contrib.auth.views.logout %}">logout</a>
+          </div>
           <div>
             <a href="/admin/">admin</a>
           </div>
           <div>
-            <a class="{% if CURRENT_MODULE == 'report' %}active{% endif %}" href="/report/">report</a>
+            <a href="#">Welcome, <b>{{ user.username }}</b></a>
           </div>
-          <div>
-            <a class="{% if CURRENT_MODULE == 'execute' %}active{% endif %}" href="/execute/">execute</a>
-          </div>
-          <div>
-            <a class="{% if CURRENT_MODULE == 'store' %}active{% endif %}" href="/store/">store</a>
-          </div>
-          <div>
-            <a class="{% if CURRENT_MODULE == 'require' %}active{% endif %}" href="/require/">require</a>
-          </div>
-          <div>
-            <a class="{% if CURRENT_MODULE == 'account' %}active{% endif %}" href="/account/">account</a>
-          </div>
-        </div>
-        <div class="user-panel">
-          Welcome, <b>{{ user.username }}</b>. <a href="{% url django.contrib.auth.views.logout %}">Log out</a>
         </div>
       </div>
 
-      <div id="project-content" class="container_16 clearfix">
-        {% block application %}{% endblock %}
+      <div id="base" class="container_16 clearfix">
+        {% block base %}{% endblock %}
       </div>
 
-      <div id="footer" class="container_16 clearfix">
-        <div class="grid_16">
-          <div class="content">
-          </div>
-        </div>
-      </div>
     </div>
   </body>
 </html>

@@ -41,19 +41,10 @@
     </div>
     <div class="grid_8">
       <div class="application-view-content panel" style="border: 1px solid grey">
-        <h1>News</h1>
-        <div class="blog">
-          {% for article in articles %}
-          <div class="article">
-            <div class="title">{{ article.title }}</div>
-            <div class="content">{{ article.rendered_content|safe|linebreaksbr }}</div>
-            <div class="footer clearfix">
-              <div class="date">{{ article.publish_date }}</div>
-              <div class="author">by {{ article.author }}</div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
+        <h1>Projects</h1>
+        {% for project in projects %}
+        <div><a href="{{ project.get_absoulte_url }}">{{ project.name }}</a></div>
+        {% endfor %}
       </div>
     </div>
   </div>

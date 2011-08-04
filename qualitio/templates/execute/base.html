@@ -1,12 +1,10 @@
 {% extends 'base_tree.html' %}
 
-{% block module-name %}{% block module-title%}execute{% endblock %}{% endblock %}
-
-{% block js-include %}
+{% block js-include %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute.js"></script>
 {% endblock %}
 
-{% block css-include %}
+{% block css-include %}{{ block.super }}
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/execute.css" />
 {% endblock %}
 

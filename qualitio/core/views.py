@@ -26,7 +26,7 @@ def to_tree_element(object, type):
 
 
 @json_response
-def get_children(request, directory):
+def get_children(request, directory, *args, **kwargs):
     data = []
 
     try:
@@ -52,7 +52,7 @@ def get_children(request, directory):
 
 
 @json_response
-def get_ancestors(request, app):
+def get_ancestors(request, app, *args, **kwargs):
 
     Model = get_model(app, request.GET['type'])
     object = Model.objects.get(pk=request.GET['id'])
@@ -68,7 +68,7 @@ def get_ancestors(request, app):
             "target": "%s_%s" % (object.pk, object._meta.module_name)}
 
 
-def history(request, object_id, Model):
+def history(request, object_id, Model, *args, **kwargs):
     object = Model.objects.get(pk=object_id)
     versions = Version.objects.get_for_object(object)
     return direct_to_template(request, 'core/history.html',
@@ -77,12 +77,12 @@ def history(request, object_id, Model):
                                'versions' : versions})
 
 
-def permission_required(request):
+def permission_required(request, *args, **kwargs):
     return direct_to_template(request, 'core/permission_required.html')
 
 
 registry = {}
-def menu_view(_object,  view_name, perm="", index=-1):
+def menu_view(_object,  view_name, perm="", index=-1, *args, **kwargs):
     if index < 0:
         index = len(registry)-index+1 # this is only append
 

@@ -71,13 +71,14 @@ class Report(core.BasePathModel):
         if not self.pk:
             super(Report, self).save(*args, **kwargs)
 
-        link_elements = filter(lambda x:x, [str(self.pk),
+        link_elements = filter(lambda x:x, ['report/external',
+                                            str(self.pk),
                                             slugify(self.parent.path),
                                             slugify(self.parent.name),
                                             slugify(self.name),
                                             self.created_time.strftime("%Y/%m/%d")])
 
-        self.link = "/".join(link_elements)
+        self.link = "%s%s" % (self.project.get_absolute_url(), "/".join(link_elements))
         kwargs['force_insert'] = False
         super(Report, self).save(*args, **kwargs)
 

@@ -33,7 +33,7 @@ $(function() {
       var firstTd = $('td:first', $(trRow))[0];
       var checkbox = $('td:first input[type="checkbox"]', $(trRow))[0];
       if (clickedElement === firstTd || clickedElement === checkbox) {
-	result = true;
+        result = true;
       }
     });
     return result;
@@ -51,7 +51,7 @@ $(function() {
 
     $(this).addClass('selected');
     var testcaserun_id = $(this).attr("id").split("_")[1];
-    $("#testcaserun-details").load("/execute/ajax/testcaserun/" + testcaserun_id + "/");
+    $("#testcaserun-details").load( $(this).attr("href") );
   });
 
   // items selection

@@ -2,15 +2,31 @@ from copy import deepcopy
 import re
 
 from mptt.models import MPTTModel
+from mptt.managers import TreeManager
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 
 from qualitio.core.custommodel.models import CustomizableModel
+from qualitio.projects.models import Project
+from qualitio.core.middleware import THREAD
+
+
+class BaseManager(models.Manager):
+    def get_query_set(self):
+        project = getattr(THREAD, "project", None)
+
+        if project:
+            return super(BaseManager, self).get_query_set().filter(project=project).select_related("project")
+
+        return super(BaseManager, self).get_query_set()
 
 
 class BaseModel(CustomizableModel):
+    project = models.ForeignKey('projects.Project', default=Project.default) #ToDo: default == risky stuff
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
+
+    objects = BaseManager()
 
     class Meta:
         abstract = True
@@ -19,6 +35,14 @@ class BaseModel(CustomizableModel):
         for name, value in filter(lambda x: not x[0].startswith("_"), self.__dict__.items()):
             if isinstance(value, basestring):
                 setattr(self, name, getattr(self, name).strip())
+
+    def save(self, *args, **kwargs):
+        if not self.project:
+            try:
+                self.project = THREAD.project
+            except AttributeError:
+                raise ImproperlyConfigured("Project attribute unavialible but required")
+        super(BaseModel, self).save(*args, **kwargs)
 
 
 class AbstractPathModel(BaseModel):
@@ -91,17 +115,17 @@ class BasePathModelMetaclass(models.base.ModelBase):
         return super(BasePathModelMetaclass, cls).__new__(cls, class_name, bases, attrs)
 
 
-class BaseManager(models.Manager):
+class BasePathManager(BaseManager):
     select_related_fields = ['parent']
 
     def get_query_set(self):
-        return super(BaseManager, self).get_query_set().select_related(*self.select_related_fields)
+        return super(BasePathManager, self).get_query_set().select_related(*self.select_related_fields)
 
 
 class BasePathModel(AbstractPathModel):
     __metaclass__ = BasePathModelMetaclass
 
-    objects = BaseManager()
+    objects = BasePathManager()
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
@@ -130,10 +154,21 @@ class BasePathModel(AbstractPathModel):
         return copy_object
 
 
+class BaseDirectoryTreeManager(TreeManager):
+    def get_query_set(self):
+        project = getattr(THREAD, "project", None)
+
+        if project:
+            return super(BaseDirectoryTreeManager, self).get_query_set().filter(project=project)
+
+        return super(BaseDirectoryTreeManager, self).get_query_set()
+
+
 class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
 
-    objects = BaseManager()
+    objects = BasePathManager()
+    tree = BaseDirectoryTreeManager()
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
@@ -151,17 +186,22 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
 class BaseStatusModel(BaseModel):
     default_name = "default"
 
-    name = models.CharField(unique=True, max_length=255)
+    name = models.CharField(max_length=255)
 
     class Meta(BaseModel.Meta):
         abstract = True
+        unique_together = ("project", "name")
 
     @classmethod
     def default(cls):
+        project = getattr(THREAD, "project", None)
+        if not project:
+            project = Project.default()
+
         try:
-            return cls.objects.all()[0]
+            return cls.objects.filter(project=project)[0]
         except IndexError:
-            return cls.objects.create(name=cls.default_name)
+            return cls.objects.create(name=cls.default_name, project=project)
 
     def __unicode__(self):
         return self.name

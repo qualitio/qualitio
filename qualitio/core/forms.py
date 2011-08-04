@@ -77,7 +77,7 @@ class BaseForm(forms.Form, FormErrorProcessingMixin):
 class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
 
     class Meta:
-        pass
+        exclude = ('project',)
 
     def changelog(self):
         change_message = []
@@ -108,8 +108,8 @@ class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
 
 
 class PathModelForm(BaseModelForm):
-    class Meta:
-        exclude = ("path",)
+    class Meta(BaseModelForm.Meta):
+        exclude = ("path",) + BaseModelForm.Meta.exclude
 
     def save(self, validate_path_unique=False, *args, **kwargs):
         kwargs['model_save_kwargs'] = {'validate_path_unique': validate_path_unique}

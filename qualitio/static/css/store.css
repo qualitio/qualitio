@@ -36,8 +36,8 @@
     margin-left: 10px;
 }
 
-#id_description, 
-#id_precondition, 
+#id_description,
+#id_precondition,
 .step textarea {
     height: 70px;
 }

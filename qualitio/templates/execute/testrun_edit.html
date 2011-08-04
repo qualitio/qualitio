@@ -15,9 +15,9 @@
 
 <form id="testrun_form"
       action="{% if testrun_form.instance.id %}
-              /execute/ajax/testrun/{{ testrun_form.instance.id }}/edit/valid/
+              {{ SELF.get_absolute_url }}ajax/testrun/{{ testrun_form.instance.id }}/edit/valid/
               {% else %}
-              /execute/ajax/testrundirectory/newtestrun/valid/
+              {{ SELF.get_absolute_url }}ajax/testrundirectory/newtestrun/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 

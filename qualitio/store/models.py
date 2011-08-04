@@ -3,9 +3,9 @@ from django.template.defaultfilters import linebreaksbr
 from qualitio import core
 
 
-class TestCaseBaseManager(core.BaseManager):
-    select_related_fields = core.BaseManager.select_related_fields + ['requirement',
-                                                                      'status']
+class TestCaseBaseManager(core.BasePathManager):
+    select_related_fields = core.BasePathManager.select_related_fields + ['requirement',
+                                                                          'status']
 
 
 class TestCaseBase(core.BasePathModel):

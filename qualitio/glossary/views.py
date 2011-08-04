@@ -6,22 +6,22 @@ from qualitio.glossary.models import Word
 from qualitio.glossary.forms import WordForm, RepresentationFormsSet, LanguageSwitchForm
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'glossary/base.html')
 
 
-def list(request):
+def list(request, **kwargs):
     return direct_to_template(request, 'glossary/list.html', {"words_list": Word.objects.all()})
 
 
-def new(request):
+def new(request, **kwargs):
     word_form = WordForm()
     return direct_to_template(request, 'glossary/edit.html',
                               {"word_form": word_form,
                                "representation_form_list": RepresentationFormsSet()})
 
 
-def edit(request, word_id=0):
+def edit(request, word_id=0, **kwargs):
     word = Word.objects.get(pk=word_id)
     word_form = WordForm(instance=word)
     return direct_to_template(request, 'glossary/edit.html',
@@ -29,7 +29,7 @@ def edit(request, word_id=0):
                                "representation_form_list": RepresentationFormsSet(word=word)})
 
 @json_response
-def edit_valid(request, word_id=0):
+def edit_valid(request, word_id=0, **kwargs):
     if word_id:
         word = Word.objects.get(pk=word_id)
         word_form = WordForm(request.POST, instance=word)
@@ -56,12 +56,12 @@ def edit_valid(request, word_id=0):
                       data=word_form.errors_list())
 
 
-def language_switch(request):
+def language_switch(request, **kwargs):
     return direct_to_template(request, 'glossary/language_switch.html',
                               {"form": LanguageSwitchForm(initial={"language": request.session.get('glossary_language', None)})})
 
 @json_response
-def language_switch_valid(request):
+def language_switch_valid(request, **kwargs):
     form = LanguageSwitchForm(request.POST)
     if form.is_valid():
         request.session['glossary_language'] = form.cleaned_data['language']

@@ -1,21 +1,21 @@
 <div id="addbugpanel" class="grid_16 clearfix">
   <form id="testcaserun-add-bug-form" method="post"
-        action="/execute/ajax/testcaserun/{{ bugs_formset.instance.id }}/addbug/">
+        action="{{ SELF.get_absolute_url }}ajax/testcaserun/{{ bugs_formset.instance.id }}/addbug/">
     {% csrf_token %}
     <div class="left">{{ testcaserun_add_bug_form.bugs.label_tag }}</div>
     <div class="right"><input type="submit" value="add" /></div>
-    
+
     <div class="center">
       <div id="{{ testcaserun_add_bug_form.bugs.html_name }}_wrapper" class="field-wrapper">
         {{ testcaserun_add_bug_form.bugs }} <span class="error"></span>
       </div>
     </div>
-    
+
   </form>
-  
+
   <div class="grid_16">
-    <form id="testcaserun-remove-bug-form" method="post" 
-          action="/execute/ajax/testcaserun/{{ bugs_formset.instance.id }}/removebug/">
+    <form id="testcaserun-remove-bug-form" method="post"
+          action="{{ SELF.get_absolute_url }}ajax/testcaserun/{{ bugs_formset.instance.id }}/removebug/">
       {% csrf_token %}
       {{ bugs_formset.management_form }}
       <table class="display testcaserun-bugs-list">

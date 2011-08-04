@@ -11,7 +11,7 @@ from qualitio.filter import forms
 
 def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
            model_filter_class=None, model_table_class=None, fields_order=(),
-           app_menu_items=()):
+           app_menu_items=(), **kwargs):
 
     if not model and not model_filter_class:
         raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
@@ -62,7 +62,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
             }, context_instance=RequestContext(request))
 
 @json_response
-def actions(request, app_label=None, action_name=None):
+def actions(request, app_label=None, action_name=None, **kwargs):
     allactions = filterapp.find_actions('qualitio.%s' % app_label)
     for action_class in allactions:
         action = action_class(data=request.POST, request=request)
