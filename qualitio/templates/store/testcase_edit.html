@@ -30,7 +30,7 @@
       <div class="field-wrapper" style="text-align:right">
         {{ testcasesteps_form.empty_form.expected.label_tag}} <span class="error"></span>
         {{ testcasesteps_form.empty_form.expected }}
-        delete: {{ testcasesteps_form.empty_form.DELETE }}
+        <div class="button delete-button">Delete {{ testcasesteps_form.empty_form.DELETE }}</div>
       </div>
     </div>
   </div>
@@ -82,15 +82,13 @@
 
   <div class="application-view-content">
 
-
     <div id="{{ testcase_form.description.html_name }}_wrapper" class="field-wrapper">
       {{ testcase_form.precondition.label_tag }}: <span class="error"></span>
       {{ testcase_form.precondition }}
     </div>
-
-    {{ testcasesteps_form.management_form }}
     <a id="add-step-0" class="button add-step">add step</a>
 
+    {{ testcasesteps_form.management_form }}
     {% for form in testcasesteps_form.forms %}
     <div class="step clearfix">
       {{ form.id }}
@@ -110,7 +108,7 @@
           <div id="{{ form.expected.html_name }}_wrapper" class="field-wrapper" style="text-align:right">
             {{ form.expected.label_tag}} <span class="error"></span>
             {{ form.expected }}
-            delete: {{ form.DELETE }}
+            <div class="button delete-button">Delete {{ form.DELETE }}</div>
           </div>
         </div>
       </div>

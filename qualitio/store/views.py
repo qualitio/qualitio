@@ -48,7 +48,7 @@ def directory_valid(request, directory_id=0, **kwargs):
         testcase_directory = testcase_directory_form.save()
 
         log = history.History(request.user, testcase_directory)
-        log.add_form(testcase_directory_form)
+        log.add_form(testcase_directory_form, is_new=(directory_id == 0))
         log.save()
         return success(message='Directory saved',
                        data={"parent_id": getattr(testcase_directory.parent, "id", 0),
@@ -102,10 +102,10 @@ def testcase_valid(request, testcase_id=0, **kwargs):
         testcasesteps_form.instance = testcase
         testcasesteps_form.save()
 
-        # log = history.History(request.user, testcase)
-        # log.add_form(testcase_form)
-        # log.add_formset(testcasesteps_form)
-        # log.save()
+        log = history.History(request.user, testcase)
+        log.add_form(testcase_form, is_new=(testcase_id == 0))
+        log.add_formset(testcasesteps_form)
+        log.save()
         return success(message='TestCase saved',
                        data={"parent_id": getattr(testcase.parent, "id", 0),
                               "current_id": testcase.id})
@@ -113,3 +113,15 @@ def testcase_valid(request, testcase_id=0, **kwargs):
         return failed(message="Validation errors: %s" % testcase_form.error_message(),
                       data=testcase_form.errors_list() + testcasesteps_form._errors_list())
 
+
+@json_response
+def testcase_copy(request, testcase_id):
+    testcase = TestCase.objects.get(pk=str(testcase_id))
+    testcase_copy = testcase.copy()
+
+    log = history.History(request.user, testcase_copy)
+    log.add_message("Cloned from %s: %s" % (testcase._meta.verbose_name.capitalize(), testcase.pk))
+    log.save()
+    return success(message='Copy created',
+                   data={"parent_id": getattr(testcase_copy.parent, "id", 0),
+                         "current_id": testcase_copy.id})

@@ -41,6 +41,12 @@
     width: 40px;
 }
 
+/* Qualitio customization */
+.dataTables_wrapper .dataTables_filter input[type=text] {
+    width: 80% !important;
+}
+/* End of Qualitio customization */
+
 .dataTables_wrapper input[type=text] {
     width: 50% !important;
 }

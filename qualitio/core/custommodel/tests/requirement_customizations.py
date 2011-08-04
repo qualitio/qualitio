@@ -125,3 +125,19 @@ class CreatingCustomizableModelWithForm(BaseTestCase):
 
         self.assertEquals(directory.customization.special_alias, 10)
         self.assertEquals(directory.customization.testfield, 'Test field content 3')
+
+    def test_customizable_model_form_is_validated_by_customization_model(self):
+        form_class = self.form_class(Directory)
+
+        # let's edit the object
+        form = form_class({
+                # editing directory
+                'name': 'New root',
+                'parent': None,
+
+                # editing directory.customization
+                'special_alias': '1111',  # more then 100!
+                'testfield': 'Test field content 4',
+                })
+
+        assert not form.is_valid(), "Somethings wrong - this form should be INVALID! %s" % form.errors

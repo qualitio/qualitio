@@ -3,9 +3,13 @@ $(function() {
     "sScrollY": "200px",
     "bPaginate": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
+    "aaSorting": [
+      [1, 'asc']
+    ],
     "aoColumnDefs": [
-      { "bSortable": false, "aTargets": [0],
-        "sWidth": "4px", "aTargets": [0,1]}
+      {"bSortable": false, "aTargets": [0] },
+      {"sWidth": "4px", "aTargets": [0,1] },
+      {"sWidth": "33px", "aTargets": [2] }
     ]
   });
 
@@ -55,6 +59,4 @@ $(function() {
       selector: "table.display td .modify"
   });
   $(".dataTables_scrollHead").css('overflow', 'visible');
-
-  $(".glossary-language-switch").languageSwitcher();
 });

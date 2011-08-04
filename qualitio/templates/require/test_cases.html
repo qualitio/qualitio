@@ -7,7 +7,7 @@
 <form id="testcases_connect_form" method="post"
       action="{{ SELF.get_absolute_url }}ajax/requirement/{{ requirement.id }}/testcases/connect/">
   {% csrf_token %}
-  <div class="grid_8">
+  <div class="grid_16">
     <div class="connected-testcases application-view-content clearfix">
       <h2>connected testcases</h2>
       <table class="display">
@@ -51,11 +51,24 @@
           {% endfor %}
         </tbody>
       </table>
-      <a id="remove-testcases-button" class="button">remove</a>
     </div>
   </div>
 
-  <div class="grid_8">
+  <div class="grid_16">
+    <div class="application-view-content clearfix">
+        <a id="remove-testcases-button" class="button remove-button">
+          <span class="ui-icon ui-icon-circle-arrow-s"></span>
+          remove
+        </a>
+        <a id="add-testcases-button" class="button add-button">
+          add
+          <span class="ui-icon ui-icon-circle-arrow-n"></span>
+        </a>
+        <div style="clear:both;"></div>
+    </div>
+  </div>
+
+  <div class="grid_16">
     <div class="available-testcases application-view-content clearfix">
       <h2>available testcases</h2>
       <table class="display">
@@ -106,7 +119,6 @@
           {% endfor %}
         </tbody>
       </table>
-      <a id="add-testcases-button" class="button">add</a>
     </div>
   </div>
 

@@ -14,6 +14,12 @@
     <span class="name">description</span>
     <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
+  {% for name, value in directory.custom_values.items %}
+  <div class="text-bullet" style="text-align:justify">
+    <span class="name">{{ name }}:</span>
+    <span class="value">{{ value }}</span>
+  </div>
+  {% endfor %}
 
   <table class="display">
     <thead>

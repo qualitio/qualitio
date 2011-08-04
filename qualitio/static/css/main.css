@@ -601,3 +601,21 @@ input[readonly] {
     border-right: 1px solid #AAAAAA;
     z-index: 100000;
 }
+
+.remove-button {
+    float: left;
+    width: 49%;
+}
+
+.remove-button .ui-icon {
+    float:left;
+}
+
+.add-button {
+    float: right;
+    width: 49%;
+}
+
+.add-button .ui-icon {
+    float:right;
+}

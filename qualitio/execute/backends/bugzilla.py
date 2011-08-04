@@ -1,8 +1,8 @@
 import httplib2
-from xml.dom import pulldom
+from xml.dom import minidom
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.db import models
+
 
 class IssueError(Exception):
     pass
@@ -12,7 +12,7 @@ class IssueServerError(Exception):
     pass
 
 
-class Backend(httplib2.Http):
+class Backend(object):
     resource = None
     url = ""
 
@@ -47,20 +47,18 @@ class Backend(httplib2.Http):
 
     @classmethod
     def _parse_response(self, content):
-        bugs = {}
-        stream = pulldom.parseString(content)
-        for (event, node) in stream:
-            if event == "START_ELEMENT" and node.tagName == "bug":
-                stream.expandNode(node)
-                error = node.getAttribute("error")
-                if error:
-                    raise IssueError(error)
+        node = minidom.parseString(content)
 
-                bugs['alias'] = node.getElementsByTagName("bug_id")[0].firstChild.data
-                bugs['name'] = node.getElementsByTagName("short_desc")[0].firstChild.data
-                bugs['status'] = node.getElementsByTagName("bug_status")[0].firstChild.data
-                bugs['resolution'] = node.getElementsByTagName("resolution") or ""
-                if bugs['resolution']:
-                    bugs['resolution'] = bugs['resolution'][0].firstChild.data
+        error = node.getElementsByTagName("bug")[0].getAttribute("error")
+        if error:
+            raise IssueError(error)
 
-        return bugs
+        bug = {}
+        bug['alias'] = node.getElementsByTagName("bug_id")[0].firstChild.data
+        bug['name'] = node.getElementsByTagName("short_desc")[0].firstChild.data
+        bug['status'] = node.getElementsByTagName("bug_status")[0].firstChild.data
+        bug['resolution'] = node.getElementsByTagName("resolution") or ""
+        if bug['resolution']:
+            bug['resolution'] = bug['resolution'][0].firstChild.data
+
+        return bug

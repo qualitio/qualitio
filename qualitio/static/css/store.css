@@ -3,12 +3,18 @@
 }
 
 .step {
-    margin-bottom: 5px;
     word-wrap: break-word;
+    padding: 5px;
+
+    border: 1px solid #ffffff;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
 }
 
 .step:nth-child(even) {
-    background: #F6F6F6;
+    background: #f3f3f3;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
 }
 
 .step.removed {
@@ -34,4 +40,8 @@
 #id_precondition,
 .step textarea {
     height: 70px;
+}
+
+.step .delete-button {
+    margin-top:5px;
 }

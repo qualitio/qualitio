@@ -41,11 +41,15 @@
   </div>
   {% endfor %}
 </div>
+
+{% if testcase.steps.exists or testcase.precondition %}
 <div class="application-view-content">
+  {% if testcase.precondition %}
   <div class="step">
     <h2>precondition</h2>
     {% glossary_aware testcase.precondition_br %}
   </div>
+  {% endif %}
 
   {% for step in testcase.steps.all %}
   <div class="clearfix step">
@@ -62,5 +66,13 @@
     </div>
   </div>
   {% endfor %}
+</div>
+{% endif %}
+<div class="grid_16 clearfix">
+  <div id="application-view-footer" class="application-view-content">
+    <div class="right">
+      <input name="{{ testcase.pk }}" type="submit" value="Clone"/>
+    </div>
+  </div>
 </div>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_details.js{{ STATIC_HASH }}"></script>

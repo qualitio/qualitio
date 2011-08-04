@@ -22,19 +22,18 @@ var connected_testcases = null;
 $(function() {
 
   connected_testcases = $(".connected-testcases table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "200px",
     "bPaginate": false,
     "bFilter": false,
-    "sDom": 'rt<"bottom clearfix"lfp><"clear">',
+    "bInfo": false,
     "aoColumnDefs": [
       { "bSortable": false, "aTargets": [0],
         "sWidth": "4px", "aTargets": [0, 1]}
     ]
   });
-  $("#remove-testcases-button").appendTo($(".connected-testcases .bottom"));
 
   var available_testcases = $(".available-testcases table.display").dataTable({
-    "sScrollY": "300px",
+    "sScrollY": "200px",
     "bPaginate": false,
     "sDom": 'rt<"bottom clearfix"lfp><"clear">',
     "aoColumnDefs": [
@@ -42,7 +41,6 @@ $(function() {
         "sWidth": "4px", "aTargets": [0, 1]}
     ]
   });
-  $("#add-testcases-button").appendTo($(".available-testcases .bottom"));
 
   $(".available-testcases").refresh();
 

@@ -6,8 +6,6 @@
 
 {% application_view_menu testrun "execute" %}
 
-<div class="glossary-language-switch"></div>
-
 <div class="grid_16">
   <div id="testcaserun-list" class="application-view-content">
 
@@ -18,11 +16,12 @@
         <tr>
           <th class="checkbox"></th>
           <th>id</th>
+          <th>origin id</th>
           <th>path</th>
           <th>name</th>
           <th>status</th>
           <th>bugs</th>
-          <th>created</th>
+          <th>requirement</th>
         </tr>
       </thead>
       <tbody>
@@ -33,12 +32,19 @@
         <td class="select">
           <input type="checkbox" class="modify" />
         </td>
+        <td>{{ testcaserun.id }}</td>
         <td>{{ testcaserun.origin.id }}</td>
         <td>{{ testcaserun.origin.path }}</td>
         <td class="name">{{ testcaserun.name }}</td>
         <td class="status">{{ testcaserun.status.name }}</td>
         <td class="bugs">{% for bug in testcaserun.bugs.all %}#{{ bug.alias }} {% endfor %}</td>
-        <td>{{ testcaserun.status.created_time }}</td>
+        <td>
+	  {% if testcaserun.origin.requirement %}
+	  <a href="/require/#requirement/{{ testcaserun.origin.requirement.id }}/details/">
+            {{ testcaserun.origin.requirement.path }}{{ testcaserun.origin.requirement.name }}
+	  </a>
+	  {% endif %}
+	</td>
       </tr>
       {% endfor %}
       </tbody>

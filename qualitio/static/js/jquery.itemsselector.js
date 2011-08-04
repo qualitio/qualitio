@@ -97,6 +97,8 @@
                 function(){$(this).attr('style', opts.menuItemHoverStyle);},
                 function(){$(this).attr('style', opts.menuItemStyle);}
             );
+
+	    menu.mouseleave(onDeactivate);
         });
     };
 })(jQuery);

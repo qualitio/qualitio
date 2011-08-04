@@ -1,7 +1,7 @@
 {% load application_view_menu %}
 {% load webdesign %}
 <div id="application-view-header">
-  <h1>test run: {{ testrun.name }}</h1>
+  <h1>test run: {{ testrun_form.instance.name }}</h1>
 </div>
 
 {% application_view_menu testrun_form.instance "notes" %}
@@ -24,4 +24,4 @@
   </div>
 
 </form>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_edit.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_notes.js{{ STATIC_HASH }}"></script>
