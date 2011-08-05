@@ -144,7 +144,7 @@ class ChangeParent(Action):
     def _form_for_model(self):
         model = self.model._meta.get_field('parent').rel.to
         class ParentForm(ActionForm):
-            parent = forms.ModelChoiceField(queryset=model.objects.all())
+            parent = forms.ModelChoiceField(queryset=model.objects.all(), required=False)
         return ParentForm
 
     form_class = Property(target='_form_class', default=_form_for_model)
