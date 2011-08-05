@@ -64,7 +64,7 @@ class ProjectMiddleware(object):
     def process_request(self, request):
         path = request.path_info.lstrip('/')
 
-        if path == "project/new/":
+        if path.startswith("project/new/"):
             return None
 
         match = re.match(r'^project/(?P<slug>[\w-]+)', path)

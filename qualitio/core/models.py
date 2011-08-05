@@ -37,11 +37,8 @@ class BaseModel(CustomizableModel):
                 setattr(self, name, getattr(self, name).strip())
 
     def save(self, *args, **kwargs):
-        if not self.project:
-            try:
-                self.project = THREAD.project
-            except AttributeError:
-                raise ImproperlyConfigured("Project attribute unavialible but required")
+        if not self.pk and THREAD.project:
+            self.project = THREAD.project
         super(BaseModel, self).save(*args, **kwargs)
 
 
