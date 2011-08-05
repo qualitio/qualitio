@@ -4,10 +4,10 @@
 {% block module-name %}{% block module-title%}{{ app_label }}{% endblock %}{% endblock %}
 
 {% block application-menu %}
-<li><a href="/{{ app_label }}/">browse</a></li>
+<li><a href="{{ SELF.get_absolute_url }}">browse</a></li>
 <li class="active">filter</li>
 {% for menu_item in app_menu_items %}
-<li><a href="{{ menu_item.url }}">{{ menu_item.name }}</a></li>
+<li><a href="{{ SELF.get_absolute_url }}{{ menu_item.url }}">{{ menu_item.name }}</a></li>
 {% endfor %}
 {% endblock %}
 
