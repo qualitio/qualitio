@@ -32,7 +32,7 @@
 
   {% block project_detail %}
   <div class="application-view-content panel">
-    <h1>Project '{{ project.name }}' activity</h1>
+    <h1>Project '{{ request.project.name }}' activity</h1>
     <div class="message">
       <span class="object">{% for version in revision.version_set.all %}
         {% if forloop.last %}{{ version.content_type|capfirst}}{% endif %}{% endfor %}</span>

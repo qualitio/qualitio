@@ -7,10 +7,20 @@ from qualitio.store.models import TestCaseDirectory, TestCase
 from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, TestCaseStepFormSet, GlossaryWord
 
 from qualitio import history
+from qualitio.filter.views import filter as filter_view
 
 
 def index(request, **kwargs):
     return direct_to_template(request, 'store/base.html', {})
+
+
+def store_filter(request, **kwargs):
+    return filter_view(request, **{
+            'model': TestCase,
+            'fields_order': ['id', 'path', 'name', 'requirement'],
+            'exclude': ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description', 'parent'],
+            'app_menu_items': [{'name': 'glossary', 'url': '/project/%s/glossary/' % request.project.slug}],
+            })
 
 
 @core.menu_view(TestCaseDirectory, "details")
