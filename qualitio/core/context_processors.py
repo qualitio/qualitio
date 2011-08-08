@@ -33,7 +33,8 @@ def module(request):
     app_modules = {"REQUIRE": qualitio.require,
                    "STORE": qualitio.store,
                    "EXECUTE": qualitio.execute,
-                   "REPORT": qualitio.report}
+                   "REPORT": qualitio.report,
+                   "GLOSSARY": qualitio.glossary}
 
     current_app_module = getattr(resolve(request.path),"app_name")
     if current_app_module:
