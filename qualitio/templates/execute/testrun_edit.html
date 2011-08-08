@@ -63,12 +63,12 @@
                 {{ test_case.origin.id }}
               </td>
               <td class="path">
-                <a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
+                <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ test_case.parent.pk }}/details/">
                   {{ test_case.origin.path }}
                 </a>
               </td>
               <td class="name">
-                <a href="/store/#testcase/{{ test_case.origin.pk }}/details/">
+                <a href="{{ STORE.get_absolute_url }}#testcase/{{ test_case.origin.pk }}/details/">
                   {{ test_case.name }}
                 </a>
               </td>
@@ -116,10 +116,10 @@
                 <input type="hidden" name="available_test_case" value="{{ test_case.id }}" />
               </td>
               <td class="id">{{ test_case.id }}</td>
-              <td class="path"><a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
+              <td class="path"><a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ test_case.parent.pk }}/details/">
                   {{ test_case.path }}
               </a></td>
-              <td class="name"><a href="/store/#testcase/{{ test_case.pk }}/details/">
+              <td class="name"><a href="{{ STORE.get_absolute_url }}#testcase/{{ test_case.pk }}/details/">
                   {{ test_case.name }}
               </a></td>
             </tr>

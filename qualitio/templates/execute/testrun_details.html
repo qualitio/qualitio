@@ -45,8 +45,8 @@
         <tr class="{% cycle 'odd' 'even' %}" style="background: {{ child.status.color }}">
           <td class="id">{{ child.id }}</td>
           <td class="origin-id">{{ child.origin.id }}</td>
-          <td class="path"><a href="/store/#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
-          <td class="name"><a href="/store/#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
+          <td class="path"><a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
+          <td class="name"><a href="{{ STORE.get_absolute_url }}#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
           <td class="path">{{ child.status }}</td>
           <td class="path">{{ child.modified_time }}</td>
           <td class="path">{{ child.created_time }}</td>

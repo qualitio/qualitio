@@ -52,7 +52,7 @@
         <td class="path"><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
         <td class="name"><a href="#testcase/{{ child.pk }}/details/">{{ child.name }}</a></td>
         <td class="requirement">
-          <a href="/require/#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a>
+          <a href="{{ REQUIRE.get_absolute_url }}#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a>
         </td>
         <td>{{ child.modified_time }}</td>
         <td>{{ child.created_time }}</td>
