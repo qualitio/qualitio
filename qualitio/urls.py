@@ -4,11 +4,12 @@ from django.contrib import admin
 admin.autodiscover()
 
 from qualitio import api
-from qualitio import projects
 
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
+                       (r'', include('qualitio.projects.urls')),
+
                        (r'^logout/$', 'django.contrib.auth.views.logout',
                         {'next_page' : '/'}),
                        (r'^login/', 'django.contrib.auth.views.login',
@@ -21,11 +22,6 @@ urlpatterns = patterns('',
                          'success_url': 'django.contrib.auth.views.login'}),
 
                        (r'^permission_required/$', 'qualitio.core.permission_required'),
-
-                       url(r'^$', projects.ProjectList.as_view(), name="dashboard"),
-                       url(r'^project/new/$', projects.ProjectNew.as_view(), name="project_new"),
-                       url(r'^project/(?P<slug>[\w-]+)/$', projects.ProjectDetails.as_view(), name="project_details"),
-                       url(r'^project/(?P<slug>[\w-]+)/edit/$', projects.ProjectEdit.as_view(), name="project_edit"),
 
                        (r'^project/(?P<project>[\w-]+)/require/',
                         include('qualitio.require.urls', app_name="require")),
