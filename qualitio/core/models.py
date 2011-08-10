@@ -3,7 +3,7 @@ import re
 
 from mptt.models import MPTTModel
 from mptt.managers import TreeManager
-from django.db import models
+from django.db import models, IntegrityError
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 
 from qualitio.core.custommodel.models import CustomizableModel
@@ -37,6 +37,7 @@ class BaseModel(CustomizableModel):
                 setattr(self, name, getattr(self, name).strip())
 
     def save(self, *args, **kwargs):
+        kwargs.pop("validate_path_unique", False)
         if not self.pk and THREAD.project:
             self.project = THREAD.project
         super(BaseModel, self).save(*args, **kwargs)
@@ -170,7 +171,51 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     class Meta(AbstractPathModel.Meta):
         abstract = True
 
+    def __init__(self, *args, **kwargs):
+        super(BaseDirectoryModel, self).__init__(*args, **kwargs)
+        self._originals = {
+            "parent": self.parent,
+            "name": self.name,
+            }
+
+    def _parent_and_name_changed(self):
+        return self.parent != self._originals.get("parent") and self.name != self._originals.get("name")
+
+    def _mptt_model_save(self, *args, **kwargs):
+        super(BaseDirectoryModel, self).save(*args, **kwargs)
+
+    def _path_model_save(self, *args, **kwargs):
+        super(AbstractPathModel, self).save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
+        # TODO: this implementation of save method should be change asap.
+        #       It's a quick fix for bug #243. The implementation is caused
+        #       by legacy MPTTModel.save method which does not separate
+        #       required operations and base save method.
+        validate_path_unique = kwargs.pop("validate_path_unique", False)
+
+        def first_save_PARENT(*args, **kwargs):
+            current_name, self.name = self.name, self._originals.get("name")
+            self._mptt_model_save(*args, **kwargs)
+            self.name = current_name
+            self._path_model_save(validate_path_unique=validate_path_unique, *args, **kwargs)
+
+        def first_save_NAME(*args, **kwargs):
+            current_parent, self.parent = self.parent, self._originals.get("parent")
+            self._path_model_save(validate_path_unique=validate_path_unique, *args, **kwargs)
+            self.parent = current_parent
+            self._mptt_model_save(*args, **kwargs)
+
+        if self.pk and self._parent_and_name_changed():
+            current_name, current_parent = self.name, self.parent
+            try:
+                first_save_NAME(*args, **kwargs)
+            except IntegrityError, error:
+                self.name, self.parent = current_name, current_parent
+                first_save_PARENT(*args, **kwargs)
+        else:
+            self._mptt_model_save(*args, **kwargs)
+
         super(BaseDirectoryModel, self).save(*args, **kwargs)
         for child in self.children.all():
             child.save()
