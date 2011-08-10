@@ -16,7 +16,7 @@
     </div>
     <div class="text-bullet">
       <span class="name">status:</span>
-      <span class="value"><i>not set</i></span>
+      <span class="value">{{ testrun.status }}</span>
     </div>
     {% for name, value in testrun.custom_values.items %}
     <div class="text-bullet" style="text-align:justify">
