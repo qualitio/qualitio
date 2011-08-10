@@ -54,7 +54,7 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 
 class TestCaseStatus(core.BaseStatusModel):
-    default_name = "Proposed"
+    default_name = "Open"
 
     class Meta:
         verbose_name_plural = 'Test case statuses'
