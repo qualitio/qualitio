@@ -1,17 +1,19 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
+from qualitio.core.utils import FieldList
+
 
 class BaseModelAdmin(admin.ModelAdmin):
-    search_fields = ["id", "project"]
-    list_display = ["id", "project", "modified_time", "created_time"]
-    list_display_links = ["id"]
+    search_fields = FieldList(["id", "project"])
+    list_display = FieldList(["id", "project", "modified_time", "created_time"])
+    list_display_links = FieldList(["id"])
 
 
 class PathModelAdmin(BaseModelAdmin):
-    search_fields = BaseModelAdmin.search_fields + ["path", "name"]
-    list_display = ["id", "project", "path", "name", "modified_time", "created_time"]
-    list_display_links = BaseModelAdmin.list_display_links + ["name"]
+    search_fields = BaseModelAdmin.search_fields.extend(["path", "name"])
+    list_display = BaseModelAdmin.list_display.insert(2, "path", "name")
+    list_display_links = BaseModelAdmin.list_display_links.append("name")
     readonly_fields = ["path"]
 
 

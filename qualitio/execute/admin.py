@@ -28,16 +28,16 @@ class TestCaseStepRunInline(admin.TabularInline):
 
 
 class TestCaseRunAdmin(core.PathModelAdmin):
-    list_display = core.PathModelAdmin.list_display + ["status"]
+    list_display = core.PathModelAdmin.list_display.append("status")
     inlines = [ TestCaseStepRunInline ]
 admin.site.register(models.TestCaseRun, TestCaseRunAdmin)
 
 
 class TestCaseRunStatusAdmin(core.BaseModelAdmin):
-    list_display = ["id", "project", "name", "color", "total", "passed", "project"]
+    list_display = core.BaseModelAdmin.list_display.insert(2, "name", "color", "total", "passed")
 admin.site.register(models.TestCaseRunStatus, TestCaseRunStatusAdmin)
 
 
-class BugAdmin(admin.ModelAdmin):
-    list_display = ["id", "alias", "name", "status", "resolution", "url"]
+class BugAdmin(core.BaseModelAdmin):
+    list_display = core.BaseModelAdmin.list_display.insert(2, "name", "alias", "status", "resolution", "url")
 admin.site.register(models.Bug, BugAdmin)
