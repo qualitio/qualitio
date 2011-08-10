@@ -26,7 +26,7 @@
 
     <div class="application-view-content">
       <input type="submit" value="Search" /> |
-      <a href="/{{ app_label }}/filter/" class="button">Reset query</a>
+      <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
       {% if not filter.has_groups %}
       <div class="add-new-group-label">Select one group to start the search</div>
