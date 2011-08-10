@@ -22,7 +22,7 @@ class BaseManager(models.Manager):
 
 
 class BaseModel(CustomizableModel):
-    project = models.ForeignKey('projects.Project', default=Project.default) #ToDo: default == risky stuff
+    project = models.ForeignKey('projects.Project') #ToDo: default == risky stuff
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
@@ -37,8 +37,12 @@ class BaseModel(CustomizableModel):
                 setattr(self, name, getattr(self, name).strip())
 
     def save(self, *args, **kwargs):
-        if not self.pk and THREAD.project:
-            self.project = THREAD.project
+        if not (self.pk or self.project):
+            try:
+                self.project = THREAD.project
+            except AttributeError:
+                ImproperlyConfigured("Project required but not found")
+
         super(BaseModel, self).save(*args, **kwargs)
 
 

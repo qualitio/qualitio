@@ -51,7 +51,7 @@ class QueriesCounterMiddleware:
 
 
 from threading import local
-from qualitio.core.models import Project
+from qualitio.projects.models import Project
 
 PROJECT_MATCH = r'^project/(?P<project>[\w-]+).*'
 PROJECT_EXEMPT_URLS = [re.compile(PROJECT_MATCH)]

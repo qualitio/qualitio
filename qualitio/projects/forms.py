@@ -1,9 +1,10 @@
-from qualitio.core import forms
+from qualitio.core.forms import BaseModelForm
 from qualitio.projects.models import Project
 
 
-class ProjectForm(forms.BaseModelForm):
-    class Meta:
+class ProjectForm(BaseModelForm):
+
+    class Meta(BaseModelForm.Meta):
         model = Project
-        fields = ("name", "homepage", "description")
+        fields = ("name", "homepage", "description", "team")
 

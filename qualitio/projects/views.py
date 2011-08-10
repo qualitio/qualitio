@@ -1,15 +1,13 @@
-from django.views.generic import DetailView, TemplateView, CreateView, UpdateView, ListView # , ProcessFormView
-from django.db.models import get_model
+from django.views.generic import DetailView, TemplateView, CreateView, UpdateView, ListView
 
 from reversion.models import Revision
 from articles.models import Article
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio import store
-from qualitio.projects.models import Project
-from qualitio.projects.forms import ProjectForm
-from qualitio.store.forms import TestCaseStatusFormSet
 from qualitio.execute.forms import TestRunStatusFormSet, TestCaseRunStatusFormSet
+from qualitio.projects.forms import ProjectForm
+from qualitio.projects.models import Project
+from qualitio.store.forms import TestCaseStatusFormSet
 
 
 class ProjectList(ListView):
@@ -62,18 +60,10 @@ class ProjectNew(CreateView):
 
     @json_response
     def form_valid(self, form):
-        self.object = form.save()
-
-        #ToDo: maybe move it to project.save
-        from qualitio.require import Requirement
-        from qualitio.store import TestCaseDirectory
-        from qualitio.execute import TestRunDirectory
-        from qualitio.report import ReportDirectory
-
-        Requirement.objects.create(name=self.object.name, project=self.object)
-        TestCaseDirectory.objects.create(name=self.object.name, project=self.object)
-        TestRunDirectory.objects.create(name=self.object.name, project=self.object)
-        ReportDirectory.objects.create(name=self.object.name, project=self.object)
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        self.object.setup()
 
         return success(message='project created',
                        data={"url": self.object.get_absolute_url() })

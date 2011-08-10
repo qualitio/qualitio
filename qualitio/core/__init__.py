@@ -1,4 +1,6 @@
-from qualitio.core.models import *
+from qualitio.core.models import (BaseManager, BaseModel, BasePathManager,
+                                  BasePathModel, BaseDirectoryTreeManager,
+                                  BaseDirectoryModel, BaseStatusModel)
 from qualitio.core.forms import *
 from qualitio.core.admin import *
 from qualitio.core.widgets import *
