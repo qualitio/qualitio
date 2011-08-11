@@ -45,15 +45,9 @@
     <div class="application-view-content panel tabs">
     <div id="tabs">
       <ul>
-        <li><a href="#tabs-1">Users</a></li>
+        <li><a href="{{ project.get_absolute_url }}users/">Users</a></li>
         <li><a href="{{ project.get_absolute_url }}settings/">Settings</a></li>
-        <li><a href="#tabs-3">Aenean lacinia</a></li>
       </ul>
-      <div id="tabs-1">
-      </div>
-      <div id="tabs-3">
-        <p>Proin</p>
-      </div>
     </div>
   </div>
   {% endblock %}

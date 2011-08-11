@@ -14,4 +14,8 @@ urlpatterns = patterns('',
                            views.ProjectEdit.as_view(), name="project_edit"),
                        url(r'^project/(?P<slug>[\w-]+)/settings/$',
                            views.ProjectSettingsEdit.as_view(), name="project_settings"),
+                       url(r'^project/(?P<slug>[\w-]+)/users/$',
+                           views.ProjectUsersEdit.as_view(), name="project_users"),
+                       url(r'^project/(?P<slug>[\w-]+)/users/(?P<username>[\w-]+)/remove/$',
+                           views.ProjectUserRemove.as_view(), name="project_user_remove"),
                        )

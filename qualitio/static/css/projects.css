@@ -126,3 +126,47 @@
     right: -40px;
     top: -10px;
 }
+
+#projects ul.users {
+    margin: 0;
+    position: relative;
+    list-style: none;
+}
+
+#projects ul.users li  {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 24px;
+    margin: 5px 0;
+    min-height: 24px;
+    padding: 8px 5px;
+    position: relative;
+}
+
+#projects ul.users li:hover {
+    border: 1px solid #aaaaaa;
+}
+
+#projects ul.users li .delete {
+    margin-top: -16px;
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+    top: 50%;
+}
+
+#projects ul.users li.add-user {
+    padding: 8px 90px 8px 5px;
+}
+
+#projects ul.users li.add-user input[type=submit] {
+    margin-top: -12px;
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+    top: 50%;
+}
