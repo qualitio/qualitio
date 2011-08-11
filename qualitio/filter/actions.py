@@ -5,6 +5,7 @@ import datetime
 from operator import itemgetter
 
 from django.utils import importlib
+from django.core.urlresolvers import reverse
 from django import forms
 
 from mptt.models import MPTTModel
@@ -67,7 +68,11 @@ class Action(object):
         return self.form_class(self.data or None) if self.form_class else ''
 
     def url(self):
-        return '/filter/action/execute/%s/%s/' % (self.app_label, self.name)
+        return reverse('qualitio-filter-actions', kwargs={
+                'project': self.request.project.name,
+                'app_label': self.app_label,
+                'action_name': self.name,
+                })
 
     def success(self, *args, **kwargs):
         return success(*args, **kwargs)
@@ -90,7 +95,7 @@ class Action(object):
             if not form.is_valid():
                 return False, form
         return True, form
-
+    
     def validate_queryset(self):
         queryset = self.queryset()
         if not queryset.exists():

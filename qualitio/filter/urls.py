@@ -5,6 +5,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       (r'^action/execute/(?P<app_label>require|store|execute)/(?P<action_name>\w+)/$',
-                        'qualitio.filter.views.actions'),
+                       url(r'^action/execute/(?P<app_label>require|store|execute)/(?P<action_name>\w+)/$',
+                           'qualitio.filter.views.actions', name="qualitio-filter-actions"),
                        )
