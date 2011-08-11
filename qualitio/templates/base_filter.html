@@ -1,15 +1,18 @@
-{% extends 'base.html' %}
+{% extends "projects/project_detail.html" %}
 
 {% block js-include %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 
 {% block css-include %}
+{{ block.super }}
 <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/filter.css{{ STATIC_HASH }}"></link>
 {% endblock %}
 
 
-{% block application %}
+{% block project_detail %}
 <div class="grid_16">
   <div id="application-menu" >
     <ul>

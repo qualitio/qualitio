@@ -7,7 +7,7 @@ $(function() {
       } else {
         $.notification.notice(response.message);
         $("h1").text("word: "+response.data.name);
-        $('#application-tree').load("/glossary/ajax/word/list/", function() {
+        $('#application-tree').load("/project/" + PROJECT_SLUG + "/glossary/ajax/word/list/", function() {
 	  $(".word-search input").livefilter({selector:'#application-tree a'});
 	});
         document.location.href = "#word/"+response.data.id+"/edit/";

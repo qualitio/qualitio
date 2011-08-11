@@ -4,7 +4,7 @@ from qualitio.glossary import models
 
 
 class WordAdmin(core.BaseModelAdmin):
-    pass
+    list_display = core.BaseModelAdmin.list_display.insert(2, 'name')
 admin.site.register(models.Word, WordAdmin)
 
 

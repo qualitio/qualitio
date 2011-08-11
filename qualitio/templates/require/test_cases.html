@@ -94,17 +94,17 @@
               {{ testcase.id }}
             </td>
             <td class="path">
-              <a href="/store/#testcasedirectory/{{ testcase.parent.pk }}/details/">
+              <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ testcase.parent.pk }}/details/">
                 {{ testcase.path }}
               </a>
             </td>
             <td class="name">
-              <a href="/store/#testcase/{{ testcase.pk }}/details/">
+              <a href="{{ STORE.get_absolute_url }}#testcase/{{ testcase.pk }}/details/">
                 {{ testcase.name }}
               </a>
             </td>
             <td class="requirement">
-              <a href="/require/#requirement/{{ testcase.requirement.pk }}/details/">
+              <a href="{{ REQUIRE.get_absolute_url }}#requirement/{{ testcase.requirement.pk }}/details/">
                 {{ testcase.requirement }}
               </a>
             </td>

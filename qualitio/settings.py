@@ -67,7 +67,7 @@ LOGIN_EXEMPT_URLS = (
     r'^register/.*',
     r'^associate/*',
     r'^complete/*',
-    r'^report/external/*',
+    r'^project/(?P<slug>[\w-]+)/report/external/*',
     r'^__debug__/.*',
     r'^api/.*',
     )

@@ -20,7 +20,7 @@ $(function() {
     },
 
     initialize: function() {
-      $(this.list_el).load("/glossary/ajax/word/list/", function() {
+      $(this.list_el).load("/project/" + PROJECT_SLUG + "/glossary/ajax/word/list/", function() {
         $(".word-search input")
           .focus()
           .livefilter({selector:'#application-tree a'});
@@ -28,13 +28,13 @@ $(function() {
     },
 
     edit: function(id) {
-      $(this.view_el).load("/glossary/ajax/word/"+id+"/edit/", function() {
+      $(this.view_el).load("/project/" + PROJECT_SLUG + "/glossary/ajax/word/"+id+"/edit/", function() {
         $(this).removeClass('disable');
       }).addClass('disable');
     },
 
     new: function() {
-      $(this.view_el).load("/glossary/ajax/word/new/", function() {
+      $(this.view_el).load("/project/" + PROJECT_SLUG + "/glossary/ajax/word/new/", function() {
         $(this).removeClass('disable');
       }).addClass('disable');
     }

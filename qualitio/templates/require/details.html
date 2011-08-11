@@ -14,6 +14,14 @@
     <span class="name">directory:</span>
     <span class="value"> {{ requirement.path }}</span>
   </div>
+  <div class="text-bullet">
+    <span class="name">release target:</span>
+    <span class="value"> {{ requirement.release_target }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">alias:</span>
+    <span class="value"> {{ requirement.alias }}</span>
+  </div>
   <div class="text-bullet" style="text-align:justify">
     <span class="name">description:</span>
     <span class="value-block">{{ requirement.description|default:"<i>not set</i>"|linebreaksbr }}</span>

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from qualitio.store import models
 from qualitio import core
-from reversion.admin import VersionAdmin
+
 
 class TestCaseInline(core.PathModelInline):
     model = models.TestCase
@@ -25,9 +25,9 @@ class AttachmentInline(admin.TabularInline):
 class TestCaseAdmin(core.PathModelAdmin):
     inlines = [ TestCaseStepInline,
                 AttachmentInline ]
-admin.site.register(models.TestCase, VersionAdmin)
+admin.site.register(models.TestCase, TestCaseAdmin)
 
 
 class TestCaseStatus(core.BaseModelAdmin):
-    list_display = ["id", "project", "name", "modified_time", "created_time"]
+    list_display = core.BaseModelAdmin.list_display.insert(2, "name")
 admin.site.register(models.TestCaseStatus, TestCaseStatus)

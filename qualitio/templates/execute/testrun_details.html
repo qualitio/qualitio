@@ -16,7 +16,7 @@
     </div>
     <div class="text-bullet">
       <span class="name">status:</span>
-      <span class="value"><i>not set</i></span>
+      <span class="value">{{ testrun.status }}</span>
     </div>
     {% for name, value in testrun.custom_values.items %}
     <div class="text-bullet" style="text-align:justify">
@@ -45,8 +45,8 @@
         <tr class="{% cycle 'odd' 'even' %}" style="background: {{ child.status.color }}">
           <td class="id">{{ child.id }}</td>
           <td class="origin-id">{{ child.origin.id }}</td>
-          <td class="path"><a href="/store/#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
-          <td class="name"><a href="/store/#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
+          <td class="path"><a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
+          <td class="name"><a href="{{ STORE.get_absolute_url }}#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
           <td class="path">{{ child.status }}</td>
           <td class="path">{{ child.modified_time }}</td>
           <td class="path">{{ child.created_time }}</td>

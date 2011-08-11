@@ -4,7 +4,7 @@
 {% block module-name %}{% block module-title%}{{ app_label }}{% endblock %}{% endblock %}
 
 {% block application-menu %}
-<li><a href="/{{ app_label }}/">browse</a></li>
+<li><a href="{{ SELF.get_absolute_url }}">browse</a></li>
 <li class="active">filter</li>
 {% for menu_item in app_menu_items %}
 <li><a href="{{ menu_item.url }}">{{ menu_item.name }}</a></li>
@@ -26,7 +26,7 @@
 
     <div class="application-view-content">
       <input type="submit" value="Search" /> |
-      <a href="/{{ app_label }}/filter/" class="button">Reset query</a>
+      <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
       {% if not filter.has_groups %}
       <div class="add-new-group-label">Select one group to start the search</div>

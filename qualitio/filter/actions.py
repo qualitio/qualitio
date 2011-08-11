@@ -12,6 +12,7 @@ from mptt.models import MPTTModel
 from qualitio.core.utils import success, failed
 from qualitio.core.forms import BaseForm
 from qualitio.filter.utils import Property
+from qualitio import history
 
 
 class ActionForm(BaseForm):
@@ -55,8 +56,9 @@ class Action(object):
     # non-obligatory option - you add form if the action needs it
     form_class = None
 
-    def __init__(self, data=None):
+    def __init__(self, data=None, request=None):
         self.data = data
+        self.request = request
 
     def has_form(self):
         return self.form_class
@@ -142,7 +144,7 @@ class ChangeParent(Action):
     def _form_for_model(self):
         model = self.model._meta.get_field('parent').rel.to
         class ParentForm(ActionForm):
-            parent = forms.ModelChoiceField(queryset=model.objects.all())
+            parent = forms.ModelChoiceField(queryset=model.objects.all(), required=False)
         return ParentForm
 
     form_class = Property(target='_form_class', default=_form_for_model)
@@ -163,7 +165,15 @@ class ChangeParent(Action):
 
                     obj.modified_time = datetime.datetime.now()
                     obj.save()
+
+                    log = history.History(self.request.user, obj)
+                    log.add_message(u"Changed parent")
+                    log.save()
+
         except Exception, error:
-            return self.failed(message='"%s" fail: %s' % (obj.name, error.message))
+            reason = u'; '.join(map(unicode, getattr(error, 'messages', [])))
+            if not reason:
+                reason = u'%s' % unicode(error)
+            return self.failed(message='"%s" fail: %s' % (obj.name, reason))
 
         return self.success(message='Action complete!')
