@@ -5,7 +5,7 @@
   <div class="header clearfix">
     <div class="grid_8">
       <div class="name">
-        <a href="{{ project.get_absolute_url }}">{{ request.project.name }} / {{ CURRENT_MODULE }}</a>
+        <a href="{{ project.get_absolute_url }}">{{ request.project.name }} / {{ CURRENT_MODULE|default:"" }}</a>
       </div>
     </div>
     <div class="grid_8">
@@ -31,15 +31,27 @@
   </div>
 
   {% block project_detail %}
-  <div class="application-view-content panel">
-    <h1>Project '{{ request.project.name }}' activity</h1>
-    <div class="message">
-      <span class="object">{% for version in revision.version_set.all %}
-        {% if forloop.last %}{{ version.content_type|capfirst}}{% endif %}{% endfor %}</span>
-      {{ revision.comment }}
+  <div class="grid_8">
+    <div class="application-view-content panel">
+      <h1>Project '{{ project.name }}' activity</h1>
+      <div class="message">
+        <span class="object">{% for version in revision.version_set.all %}
+          {% if forloop.last %}{{ version.content_type|capfirst}}{% endif %}{% endfor %}</span>
+        {{ revision.comment }}
+      </div>
+    </div>
+  </div>
+  <div class="grid_8">
+    <div class="application-view-content panel tabs">
+    <div id="tabs">
+      <ul>
+        <li><a href="{{ project.get_absolute_url }}users/">Users</a></li>
+        <li><a href="{{ project.get_absolute_url }}settings/">Settings</a></li>
+      </ul>
     </div>
   </div>
   {% endblock %}
 
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/projects_project_detail.js{{ STATIC_HASH }}"></script>
 {% endblock %}

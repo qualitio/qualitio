@@ -1,6 +1,6 @@
 import reversion
 from qualitio.core.middleware import THREAD
-from models import TestRunDirectory, TestRun, TestCaseRun, Bug, TestRunStatus
+from qualitio.execute.models import TestRunDirectory, TestRun, TestRunStatus, TestCaseRun, Bug, TestCaseRunStatus
 
 
 if not reversion.is_registered(TestRun):
@@ -18,3 +18,5 @@ def get_absolute_url():
         return "%s%s/" % (THREAD.project.get_absolute_url(),
                            "execute")
     return "/execute/"
+
+verbose_name = "execute"

@@ -513,6 +513,16 @@ table.filter td.add {
     min-width: 70px;
 }
 
+.ui-button-icon-only {
+    padding: 0.2em;
+    min-width: 0px;
+}
+
+.ui-button-icon-primary {
+    margin-left: -11px;
+    margin-top: -10px;
+}
+
 .qtip .qtip-content{
    padding: 10px;
    overflow: hidden;
