@@ -48,7 +48,7 @@ def filter(request, model=None, exclude=('lft', 'rght', 'tree_id', 'level'),
 
     # actions
     action_classes = filterapp.find_actions('qualitio.%s' % model._meta.app_label, model=model)
-    actions = [ActionClass(None) for ActionClass in action_classes]
+    actions = [ActionClass(None, request=request) for ActionClass in action_classes]
 
     return render_to_response('filter/filter.html', {
             'app_label': model._meta.app_label,
