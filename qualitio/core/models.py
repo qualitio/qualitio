@@ -37,15 +37,14 @@ class BaseModel(CustomizableModel):
                 setattr(self, name, getattr(self, name).strip())
 
     def save(self, *args, **kwargs):
-        if not (self.pk or self.project):
+
+        if not (self.pk or self.project_id):
             try:
                 self.project = THREAD.project
             except AttributeError:
-                ImproperlyConfigured("Project required but not found")
+                raise ImproperlyConfigured("Project required but not found")
 
         kwargs.pop("validate_path_unique", False)
-        if not self.pk and THREAD.project:
-            self.project = THREAD.project
 
         super(BaseModel, self).save(*args, **kwargs)
 
@@ -223,7 +222,6 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
         else:
             self._mptt_model_save(*args, **kwargs)
 
-        super(BaseDirectoryModel, self).save(*args, **kwargs)
         for child in self.children.all():
             child.save()
         # Children 2nd category ;)

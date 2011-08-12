@@ -1,10 +1,3 @@
-#projects .name {
-    font-family: 'Bevan',serif;
-    color: #777777;
-    margin: 7px 0 0 10px;
-    line-height: 121%;
-}
-
 #projects .name a {
     color: #777777;
     text-decoration: none;
@@ -90,8 +83,35 @@
 }
 
 #projects .project {
-    padding: 10px 0;
-    border-bottom: 1px solid #F0F0F0;
+    padding: 10px 5px 20px;
+    border: 1px solid #F0F0F0;
+    border-radius: 5px;
+    margin-top: 5px;
+    position: relative;
+}
+
+#projects .project .name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#projects .description {
+    text-align: justify;
+    padding: 5px 0;
+}
+
+#projects .project .owner {
+    position: absolute;
+    left: 5px;
+    bottom: 0;
+    color: #999999;
+}
+
+#projects .project .created_time {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+    color: #999999;
 }
 
 #projects .project-add-button {
@@ -127,13 +147,13 @@
     top: -10px;
 }
 
-#projects ul.users {
+#projects ul.fieldpills {
     margin: 0;
     position: relative;
     list-style: none;
 }
 
-#projects ul.users li  {
+#projects ul.fieldpills li  {
     background: none repeat scroll 0 0 #EEEEEE;
     border: 1px solid #DDDDDD;
     border-radius: 3px 3px 3px 3px;
@@ -147,26 +167,34 @@
     position: relative;
 }
 
-#projects ul.users li:hover {
-    border: 1px solid #aaaaaa;
-}
+/* #projects ul.fieldpills li:hover { */
+/*     border: 1px solid #aaaaaa; */
+/* } */
 
-#projects ul.users li .delete {
+#projects ul.fieldpills li .delete {
     margin-top: -16px;
     position: absolute;
-    right: 10px;
+    right: 5px;
     text-decoration: none;
     top: 50%;
 }
 
-#projects ul.users li.add-user {
+#projects ul.fieldpills li.add-user {
     padding: 8px 90px 8px 5px;
 }
 
-#projects ul.users li.add-user input[type=submit] {
+#projects ul.fieldpills li.add-user input[type=submit] {
     margin-top: -12px;
     position: absolute;
     right: 10px;
     text-decoration: none;
     top: 50%;
+}
+
+#projects ul.fieldpills .formset-field {
+    margin-right: 40px;
+}
+
+#projects #tabs {
+    border: 0;
 }

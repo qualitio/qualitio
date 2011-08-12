@@ -508,6 +508,10 @@ table.filter td.add {
 }
 
 /* jQuery-ui fixes */
+.ui-widget {
+    font-size: 1.0em;
+}
+
 .ui-button {
     font-size:0.9em;
     min-width: 70px;

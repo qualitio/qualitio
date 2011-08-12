@@ -4,6 +4,7 @@ from django.views.generic import (View, DetailView, CreateView,
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth import models as auth
+from django.db.models import Q
 
 from reversion.models import Revision
 from articles.models import Article
@@ -26,6 +27,10 @@ class ProjectList(ListView):
         context['articles'] = Article.objects.filter(status__name="Finished")
         return context
 
+    def get_queryset(self):
+        return self.model._default_manager.filter(
+            Q(owner=self.request.user) | Q(team=self.request.user)
+        )
 
 class ProjectDetails(DetailView):
     model = Project

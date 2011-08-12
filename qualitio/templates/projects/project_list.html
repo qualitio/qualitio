@@ -27,7 +27,19 @@
         <h1>Your Projects</h1>
         {% for project in project_list %}
         <div class="project">
-          <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+          <a class="name" href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+          {% if project.homepage %}
+          (<a href="{{ project.homepage }}">{{ project.homepage }})</a>
+          {% endif %}
+          {% if project.description %}
+          <div class="description"> {{ project.description }}</div>
+          {% endif %}
+          <div class="owner">owner {{ project.owner.username }}
+            {% if project.team.count %}
+            + ({{ project.team.count }} other user{{ project.team.count|pluralize }})
+            {% endif %}
+            </div>
+          <div class="created_time">created at {{ project.created_time }}</div>
         </div>
         {% endfor %}
         <a class="project-add-button" href="{% url project_new %}"></a>

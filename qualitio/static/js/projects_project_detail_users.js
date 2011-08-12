@@ -1,5 +1,5 @@
 $(function() {
-  $('.users a.delete').button({
+  $('.fieldpills a.delete').button({
     icons: {
       primary: "ui-icon-circle-close"
     },

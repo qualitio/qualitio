@@ -68,13 +68,19 @@ class ProjectMiddleware(object):
             return None
 
         match = re.match(r'^project/(?P<slug>[\w-]+)', path)
-        if match:
-            project = Project.objects.get(slug=match.groupdict()['slug'])
-            THREAD.project = project
-            request.project = project
+        if not match:
             return None
 
+        project = Project.objects.get(slug=match.groupdict()['slug'])
+
+        if not project.owner == request.user and \
+                not project.team.filter(pk=request.user.pk):
+            raise Http404()
+
+        THREAD.project = project
+        request.project = project
         return None
+
 
     def process_response(self, request, response):
         THREAD.project = None

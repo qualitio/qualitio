@@ -1,55 +1,49 @@
 <form id="project_settings" action="{% url project_settings project.slug %}" method="post">{% csrf_token %}
+  <h1>Project settings</h1>
   <h2>{{ STORE.verbose_name }}</h2>
   <h3>Test case - status</h3>
 
   {{ testcase_status_formset.management_form }}
-  {% for status in testcase_status_formset.forms %}
-  <div class="status_name">
-    {{ status.id }}
-    {{ status.name }}
-    {% if not forloop.last %}
-    <div class="status_delete">
-      {{ status.DELETE.label_tag }}
-      {{ status.DELETE }}
-    </div>
-    {% endif %}
-  </div>
+  <ul class="fieldpills">
+    {% for status in testcase_status_formset.forms %}
+    <li>
+      <div class="formset-field">{{ status.id }} {{ status.name }}</div>
+      {% if status.instance.name %}
+      <div class="delete">{{ status.DELETE }}</div>
+      {% endif %}
+    </li>
   {% endfor %}
+  </ul>
 
   <h2>{{ EXECUTE.verbose_name }}</h2>
   <h3>Test run - status</h3>
 
   {{ testrun_status_formset.management_form }}
-  {% for status in testrun_status_formset.forms %}
-  <div class="status_name">
-    {{ status.id }}
-    {{ status.name }}
-    {% if not forloop.last %}
-    <div class="status_delete">
-      {{ status.DELETE.label_tag }}
-      {{ status.DELETE }}
-    </div>
-    {% endif %}
-  </div>
+  <ul class="fieldpills">
+    {% for status in testrun_status_formset.forms %}
+    <li>
+      <div class="formset-field">{{ status.id }} {{ status.name }}</div>
+      {% if status.instance.name %}
+      <div class="delete">{{ status.DELETE }}</div>
+      {% endif %}
+    </li>
   {% endfor %}
+  </ul>
 
   <h3>Test case - status</h3>
-
   {{ testcaserun_status_formset.management_form }}
-  {% for status in testcaserun_status_formset.forms %}
-  <div class="status_name">
-    {{ status.id }}
-    {{ status.name }}
-    {{ status.color }}
-    {% if not forloop.last %}
-    <div class="status_delete">
-      {{ status.DELETE.label_tag }}
-      {{ status.DELETE }}
-    </div>
-    {% endif %}
-  </div>
-  {% endfor %}
+  <ul class="fieldpills">
+    {% for status in testcaserun_status_formset.forms %}
+    <li>
+      <div class="formset-field">{{ status.id }} {{ status.name }}</div>
+      <div class="formset-field">{{ status.color }}</div>
 
+      {% if status.instance.name %}
+      <div class="delete">{{ status.DELETE }}</div>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
 
   <div class="application-view-content">
     <div class="right">

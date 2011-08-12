@@ -10,7 +10,7 @@ class ProjectForm(BaseModelForm):
 
     class Meta(BaseModelForm.Meta):
         model = Project
-        fields = ("name", "homepage", "description", "team")
+        fields = ("name", "homepage", "description")
 
 
 class ProjectUserForm(core.BaseForm):
