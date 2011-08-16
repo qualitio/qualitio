@@ -30,7 +30,7 @@ class ProjectList(ListView):
     def get_queryset(self):
         return self.model._default_manager.filter(
             Q(owner=self.request.user) | Q(team=self.request.user)
-        )
+        ).distinct()
 
 class ProjectDetails(DetailView):
     model = Project
