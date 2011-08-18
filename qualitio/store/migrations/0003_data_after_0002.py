@@ -8,12 +8,11 @@ class Migration(DataMigration):
 
     def forwards(self, orm):
         "Write your forwards methods here."
-        orm.TestCaseStatus.objects.get_or_create(name="Proposed")
-        
+        # orm.TestCaseStatus.objects.get_or_create(name="Proposed")
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
+        # orm.TestCaseStatus.objects.delete(name="Proposed")
 
     models = {
         'require.requirement': {

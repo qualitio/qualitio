@@ -6,5 +6,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^action/execute/(?P<app_label>require|store|execute)/(?P<action_name>\w+)/$',
-                           'qualitio.filter.views.actions', name="qualitio-filter-actions"),
+                           'qualitio.actions.views.actions', name="qualitio-actions"),
                        )

@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
+    'qualitio.actions',
     'qualitio.glossary',
 
     'qualitio.customizations',
