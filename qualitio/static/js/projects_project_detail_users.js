@@ -7,11 +7,11 @@ $(function() {
   });
   $('#project_users input[type=submit]').button();
 
-  $('.users .delete').click(function() {
+  $('.fieldpills .delete').click(function() {
     $.post($(this).attr('href'), function(data) {
       $("#tabs").tabs("load", 0);
     });
-     return false;
+    return false;
   });
 
   $('#project_users').ajaxForm({
