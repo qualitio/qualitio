@@ -21,6 +21,13 @@
     padding: 5px 30px;
 }
 
+#projects .menu div a.active{
+    display: block;
+    padding: 5px 30px;
+    font-weight: bold;
+    background: #DEDEDE;
+}
+
 #projects .panel {
     border-radius: 6px;
     overflow-y: auto;
