@@ -44,7 +44,9 @@ BaseContextElementFormset = inlineformset_factory(models.Report,
 
 class ContextElementFormset(BaseContextElementFormset):
     def context_queries(self):
+        # in case of errors there's no cleaned_data
+        cleaned_data = getattr(self, 'cleaned_data', {})
         context = {}
-        for cd in filter(lambda cd: 'name' in cd and 'evaluated_query' in cd, self.cleaned_data):
+        for cd in filter(lambda cd: 'name' in cd and 'evaluated_query' in cd, cleaned_data):
             context[cd['name']] = cd['evaluated_query']
         return context
