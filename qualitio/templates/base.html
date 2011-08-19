@@ -66,9 +66,11 @@
           <div>
             <a href="{% url django.contrib.auth.views.logout %}">logout</a>
           </div>
+	  {% if user.is_superuser %}
           <div>
             <a href="/admin/">admin</a>
           </div>
+	  {% endif %}
           <div>
             <a href="#">Welcome, <b>{{ user.username }}</b></a>
           </div>
