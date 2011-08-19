@@ -50,8 +50,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'qualitio.core.middleware.ProjectMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.ProjectMiddleware',
     'qualitio.core.middleware.QueriesCounterMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 )
