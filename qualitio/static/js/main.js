@@ -287,3 +287,21 @@ $(function() {
   }
 })(jQuery);
 
+
+/* This little snipplet below make sure that "chose"
+ * plugin for select box behaviours as expected
+ */
+(function($){
+  function onResize() {
+    $('.chzn-container').css('width', '100%');
+  }
+
+  $.fn.originChosen = $.fn.chosen;
+  $.fn.chosen = function(settings) {
+    var toReturn = $(this).originChosen(settings);
+    $(window).unbind('resize', onResize);
+    $(window).resize(onResize);
+    onResize();
+    return toReturn;
+  }
+})(jQuery);

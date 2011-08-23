@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  $('select[name="parent"]').chosen();
+
   $('#requirement_form').ajaxForm({
     success: function(response) {
       if(!response.success) {
