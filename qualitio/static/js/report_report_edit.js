@@ -24,9 +24,11 @@ setupLink = function(link) {
 }
 
 $(function() {
-
   setupEditor();
   setupLink($("#id_link").val());
+
+  // make sure the editor will be refreshed on tree / window size changes
+  $(window).resize(setupEditor);
 
   $(".context-element .delete-button").die();
   $(".context-element .delete-button").live("click", function(event){
