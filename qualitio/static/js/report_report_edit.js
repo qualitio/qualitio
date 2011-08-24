@@ -64,6 +64,7 @@ $(function() {
         $("h1").text("report: " + $('#id_name').val());
         $.notification.notice(response.message);
         $.shortcuts.reloadTree(response.data, "reportdirectory", "report", response.data.current_id);
+	Backbone.history.loadUrl(document.location.hash);
       }
     },
     beforeSubmit: function() {
