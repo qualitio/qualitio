@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('select[name="parent"]').chosen();
+  $('select[name="dependencies"]').chosen();
 
   $('#requirement_form').ajaxForm({
     success: function(response) {

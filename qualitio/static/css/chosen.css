@@ -181,6 +181,7 @@
   padding: 3px 19px 3px 6px;
   margin: 3px 0 3px 5px;
   position: relative;
+  width: 97%;
 }
 .chzn-container-multi .chzn-choices .search-choice span {
   cursor: default;
