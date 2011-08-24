@@ -275,7 +275,7 @@ $(function() {
 
 (function($){
   $.fn.languageSwitcher = function() {
-    $(this).load("/glossary/ajax/language_switch/", function() {
+    $(this).load("/project/" + PROJECT_SLUG + "/glossary/ajax/language_switch/", function() {
       $(this).appendTo("#application-view-menu");
       $(this).find('form').change( function() {
       $(this).submit();
