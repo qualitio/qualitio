@@ -29,6 +29,7 @@ $(function() {
 
   // make sure the editor will be refreshed on tree / window size changes
   $(window).resize(setupEditor);
+  $.onTreeResize(setupEditor);
 
   $(".context-element .delete-button").die();
   $(".context-element .delete-button").live("click", function(event){
