@@ -35,8 +35,7 @@
 </div>
 
 <div class="application-view-content clearfix">
-  <h2>requirements:</h2>
-  <table class="display">
+  <table class="display directory-content">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
@@ -61,13 +60,12 @@
 </div>
 
 <div class="application-view-content clearfix">
-  <h2>testcases</h2>
+  <h2>connected testcases</h2>
   <table class="display">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
         <th class="id">id</th>
-        <th>path</th>
         <th>name</th>
         <th>modified</th>
         <th>created</th>
@@ -78,7 +76,6 @@
       <tr>
         <td><span class="ui-icon ui-icon-document"></span></td>
         <td><a href="/store/#testcase/{{ testcase.id }}/details/">{{ testcase.id }}</a></td>
-        <td><a href="/store/#testcasedirectory/{{ testcase.parent.id}}/details/">{{ testcase.path }}</a></td>
         <td><a href="/store/#testcase/{{ testcase.id }}/details/">{{ testcase.name }}</a></td>
         <td class="path">{{ requirement.modified_time }}</td>
         <td class="path">{{ requirement.created_time }}</td>
@@ -97,7 +94,6 @@
           <tr>
             <th class="icon">&nbsp;</th>
             <th class="id">id</th>
-            <th>path</th>
             <th>name</th>
             <th>modified</th>
             <th>created</th>
@@ -107,7 +103,6 @@
         <tr>
           <td><img src="{{ MEDIA_URL }}images/tree/requirement.png"></td>
           <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
           <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
           <td class="path">{{ requirement.modified_time }}</td>
           <td class="path">{{ requirement.created_time }}</td>
@@ -122,7 +117,6 @@
           <tr>
             <th class="icon">&nbsp;</th>
             <th class="id">id</th>
-            <th>path</th>
             <th>name</th>
             <th>modified</th>
             <th>created</th>
@@ -133,7 +127,6 @@
           <tr>
             <td><img src="{{ MEDIA_URL }}images/tree/requirement.png"></td>
             <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
             <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
             <td class="path">{{ requirement.modified_time }}</td>
             <td class="path">{{ requirement.created_time }}</td>
