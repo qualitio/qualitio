@@ -3,7 +3,9 @@ $(document).ready(function() {
     "sScrollY": "160px",
     "bPaginate": false,
     "bFilter": false,
-    "sWidth": "4px", "aTargets": [0],
-    "aoColumnDefs": [ { "sWidth": "4px", "aTargets": [0,1] } ]
+    "aoColumnDefs": [
+      { "bSortable": false, "aTargets": [0] },
+      { "sWidth": "4px", "aTargets": [0,1] }
+    ]
   });
 });
