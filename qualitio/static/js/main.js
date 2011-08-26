@@ -252,9 +252,13 @@ $(function() {
 
   $.fn.dataTable = function(setting){
     var tables = [];
+    var defaults = {
+      "sDom": 'rt<"bottom clearfix"ilfp><"clear">'
+    };
+    var opts = $.extend(defaults, setting);
 
     this.each(function(){
-      tables.push($(this).originDataTable(setting));
+      tables.push($(this).originDataTable(opts));
     });
 
     var onResize = function(){
