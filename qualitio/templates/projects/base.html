@@ -8,6 +8,8 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}js/projects.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 
+{% block logo %}{{ request.organization.name }}@Qualitio{% endblock %}
+
 {% block base %}
 {% block projects-base %}{% endblock %}
 {% endblock %}

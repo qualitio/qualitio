@@ -1,21 +1,55 @@
 from django.db import models
-
 from django.core.exceptions import ImproperlyConfigured
 from django.template.defaultfilters import slugify
 
 from qualitio.core.custommodel.models import CustomizableModel
 
 
+class Organization(CustomizableModel):
+    name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(blank=True)
+    homepage = models.URLField(verify_exists=False, blank=True)
+    description = models.TextField(blank=True)
+
+    googleapps_domain = models.CharField(max_length=255, blank=True)
+
+    modified_time = models.DateTimeField(auto_now=True)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    def setup(self, owner):
+        pass
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Organization, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.name
+
+
+class OrganizationMember(CustomizableModel):
+    organization = models.ForeignKey('Organization', related_name='members')
+    user = models.ForeignKey('auth.User', related_name='organization')
+
+    ROLE_CHOICES = (
+        (u'admin', u'Admin'),
+        (u'edit', u'User'),
+        (u'read', u'User - read only'),
+    )
+    role = models.CharField(max_length=12, choices=ROLE_CHOICES, default="read")
+
+
 class Project(CustomizableModel):
     default_name = "default"
 
-    owner = models.ForeignKey('auth.User')
+    organization = models.ForeignKey('Organization')
     team = models.ManyToManyField('auth.User', related_name="projects", blank=True)
 
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(blank=True)
-    description = models.TextField(blank=True)
     homepage = models.URLField(verify_exists=False, blank=True)
+    description = models.TextField(blank=True)
+
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 

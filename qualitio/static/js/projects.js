@@ -5,14 +5,7 @@ $(window).resize(function() {
 
 $(function() {
   $(window).resize();
-
-  $(".project-add-button")
-    .button({
-      icons: {
-        primary: "ui-icon-circle-plus"
-      },
-      text: false
-    });
+  $('.button').button();
 
   $('#project_form').ajaxForm({
     success: function(response) {

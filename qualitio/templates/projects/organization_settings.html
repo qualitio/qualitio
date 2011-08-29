@@ -1,0 +1,22 @@
+{% extends 'projects/base.html' %}
+
+{% block js-include %}{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/projects_organization_settings.js{{ STATIC_HASH }}"></script>
+{% endblock %}
+
+{% block projects-base %}
+<div id="projects">
+  <div class="container_16">
+    <div class="grid_16">
+      <div class="application-view-content panel">
+        <div id="tabs">
+          <ul>
+            <li><a href="profile/">Profile</a></li>
+            <li><a href="users/">Users</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

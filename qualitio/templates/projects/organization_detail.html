@@ -1,0 +1,43 @@
+{% extends 'projects/base.html' %}
+
+
+{% block projects-base %}
+<div id="projects">
+  <div class="container_16">
+    <div class="grid_16">
+      <div class="application-view-content panel" style="border: 1px solid grey">
+
+        <h1>{{ organization }}
+          {% if organization.homepage %}
+          (<a href="organization.homepage">{{ organization.homepage }}</a>)
+          {% endif%}
+        </h1>
+
+        {% if organization.description %}
+        <div>{{ organization.description|linebreaksbr }}</div>
+        {% endif %}
+
+        {% for project in organization.project_set.all %}
+        <div class="project">
+          <a class="name" href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+          {% if project.homepage %}
+          (<a href="{{ project.homepage }}">{{ project.homepage }})</a>
+          {% endif %}
+          {% if project.description %}
+          <div class="description"> {{ project.description }}</div>
+          {% endif %}
+          <div class="owner">owner {{ project.owner.username }}
+            {% if project.team.count %}
+            + ({{ project.team.count }} other user{{ project.team.count|pluralize }})
+            {% endif %}
+          </div>
+          <div class="created_time">created at {{ project.created_time }}</div>
+        </div>
+        {% endfor %}
+        <a class="button" href="{% url project_new %}">New Project</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

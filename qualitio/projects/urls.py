@@ -5,7 +5,21 @@ from qualitio.projects import views
 
 urlpatterns = patterns('',
                        url(r'^$',
-                           views.ProjectList.as_view(), name="dashboard"),
+                           views.OrganizationDetails.as_view(),
+                           name="organization_details"),
+
+                       url(r'^settings/$',
+                           views.OrganizationSettings.as_view(),
+                           name="organization_settings"),
+
+                       url(r'^settings/profile/$',
+                           views.OrganizationSettings.Profile.as_view(),
+                           name="organization_settings_profile"),
+
+                       url(r'^settings/users/$',
+                           views.OrganizationSettings.Users.as_view(),
+                           name="organization_settings_users"),
+
                        url(r'^project/new/$',
                            views.ProjectNew.as_view(), name="project_new"),
                        url(r'^project/(?P<slug>[\w-]+)/$',

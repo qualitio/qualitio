@@ -1,0 +1,58 @@
+{% extends 'registration/base.html' %}
+
+{% block form %}
+<script>
+  $(function() {
+    $("#organization-none form").submit(function(e) {
+      e.preventDefault();
+      organization = $(this).find("input[name=organization]").val();
+      if (organization) {
+        window.location = window.location.protocol + "//" + organization + "." + window.location.host
+      }
+    });
+  });
+</script>
+<style>
+
+#organization-none fieldset input {
+    border: 1px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    font-size: 33px;
+    height: 37px;
+    margin: 4px 0;
+    padding-right: 10px;
+    width: 270px;
+    text-align: right;
+}
+
+#organization-none fieldset input.submit {
+    font-size: 14px;
+    height: 34px;
+    padding-top: 3px;
+    width: 110px;
+    text-align: center;
+    margin-left: 105px;
+}
+
+#organization-none fieldset .domain {
+    color: #777777;
+    font-family: 'Bevan',serif;
+    font-size: 3em;
+    height: 47px;
+    vertical-align: middle;
+    margin-top: -3px;
+    padding: 2px 0 0 10px;
+    text-rendering: optimizelegibility;
+
+
+}
+</style>
+<div id="organization-none">
+  <h1>Please, use your company link to login</h1>
+  <form>
+  <fieldset>
+    <input name="organization"/><span class="domain">.qualitio.com</span> <input class="submit" type="submit" value="go">
+  </fieldset>
+  <form
+</div>
+{% endblock %}

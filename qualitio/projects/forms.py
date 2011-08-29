@@ -1,19 +1,42 @@
 from django import forms
 from django.contrib.auth import models as auth
+from django.forms.models import modelformset_factory
 
+from qualitio.projects import models
+from qualitio.core.forms import BaseModelForm, BaseModelFormSet, BaseForm
 from qualitio.core.middleware import THREAD
-from qualitio.core.forms import BaseModelForm
-from qualitio.projects.models import Project
-from qualitio import core
+
+
+class OrganizationProfileForm(BaseModelForm):
+
+    class Meta(BaseModelForm.Meta):
+        model = models.Organization
+        fields = ("name", "slug", "homepage", "description", "googleapps_domain")
+        widgets = {
+            'name': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'slug': forms.TextInput(attrs={'readonly': 'readonly'})
+        }
+
+
+class OrganizationMemberForm(BaseModelForm):
+
+    class Meta(BaseModelForm.Meta):
+        model = models.OrganizationMember
+        fields = ("role",)
+
+OrganizationUsersForm = modelformset_factory(models.OrganizationMember,
+                                             form=OrganizationMemberForm,
+                                             formset=BaseModelFormSet,
+                                             extra=0, can_delete=True)
 
 class ProjectForm(BaseModelForm):
 
     class Meta(BaseModelForm.Meta):
-        model = Project
+        model = models.Project
         fields = ("name", "homepage", "description")
 
 
-class ProjectUserForm(core.BaseForm):
+class ProjectUserForm(BaseForm):
     username = forms.CharField()
 
     def clean_username(self):
@@ -24,8 +47,8 @@ class ProjectUserForm(core.BaseForm):
         except auth.User.DoesNotExist:
             raise forms.ValidationError("User does not exist.")
 
-        if THREAD.project.owner == user:
-            raise forms.ValidationError("You can't add creator of project to users.")
+        # if THREAD.project.owner == user:
+        #     raise forms.ValidationError("You can't add creator of project to users.")
 
         if THREAD.project.team.filter(username=data).exists():
             raise forms.ValidationError("This users is already added to project.")

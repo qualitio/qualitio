@@ -5,6 +5,7 @@ from django import db
 from django.conf import settings
 from django.utils import termcolors
 from django.http import HttpResponseRedirect, Http404
+from django.core.exceptions import ImproperlyConfigured
 
 
 EXEMPT_URLS = [re.compile(settings.LOGIN_URL.lstrip('/'))]
@@ -51,7 +52,7 @@ class QueriesCounterMiddleware:
 
 
 from threading import local
-from qualitio.projects.models import Project
+from qualitio.projects.models import Project, Organization
 
 PROJECT_MATCH = r'^project/(?P<project>[\w-]+).*'
 PROJECT_EXEMPT_URLS = [re.compile(PROJECT_MATCH)]
@@ -59,6 +60,36 @@ if hasattr(settings, 'PROJECT_EXEMPT_URLS'):
     PROJECT_EXEMPT_URLS += [re.compile(expr) for expr in settings.PROJECT_EXEMPT_URLS]
 
 THREAD = local()
+
+
+
+class OrganizationMiddleware(object):
+    def process_request(self, request):
+        match = re.match('^(?P<host>[\w\.\-]+)(:(?P<port>\d+))?', request.get_host())
+        if not match:
+            raise ImproperlyConfigured("OrganizationMiddleware is running")
+
+        host_name = match.groupdict()['host']
+
+        host_name_parts = host_name.split(".")
+        if len(host_name_parts) < 2:
+            raise ImproperlyConfigured("OrganizationMiddleware is running")
+
+        elif len(host_name_parts) == 2:
+            THREAD.organization = None
+            request.organization = None
+
+        elif len(host_name_parts) == 3:
+            try:
+                organization = Organization.objects.get(slug=host_name_parts[0])
+
+                THREAD.organization = organization
+                request.organization = organization
+            except Organization.DoesNotExist:
+                raise Http404
+
+        return None
+
 
 class ProjectMiddleware(object):
     def process_request(self, request):
@@ -72,10 +103,6 @@ class ProjectMiddleware(object):
             return None
 
         project = Project.objects.get(slug=match.groupdict()['slug'])
-
-        if not project.owner == request.user and \
-                not project.team.filter(pk=request.user.pk):
-            raise Http404()
 
         THREAD.project = project
         request.project = project

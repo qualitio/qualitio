@@ -1,23 +1,71 @@
+from django.contrib.auth import models as auth
+from django.http import Http404
+from django.template.response import TemplateResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (View, DetailView, CreateView,
                                   UpdateView, ListView, TemplateView, FormView)
-
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.contrib.auth import models as auth
-from django.db.models import Q
 
 from reversion.models import Revision
 from articles.models import Article
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.execute.forms import TestRunStatusFormSet, TestCaseRunStatusFormSet
-from qualitio.projects.forms import ProjectForm, ProjectUserForm
-from qualitio.projects.models import Project
 from qualitio.store.forms import TestCaseStatusFormSet
+from qualitio.execute.forms import TestRunStatusFormSet, TestCaseRunStatusFormSet
+from qualitio import projects
+
+
+class OrganizationObjectMixin(object):
+
+    def get_object(self):
+        slug = self.request.organization.name
+        try:
+            return projects.Organization.objects.get(slug=slug)
+        except projects.Organization.DoesNotExist:
+            raise Http404(u"No %(verbose_name)s found matching the query" %
+                          {'verbose_name': projects.Organization._meta.verbose_name})
+
+
+class OrganizationDetails(View, OrganizationObjectMixin):
+    def get(self, request, *args, **kwargs):
+        if request.organization:
+            return TemplateResponse(request, "projects/organization_detail.html",
+                                    {"organization": request.organization})
+        else:
+            return TemplateResponse(request, "projects/organization_none.html")
+
+
+class OrganizationSettings(TemplateView):
+    template_name = "projects/organization_settings.html"
+
+    class Profile(OrganizationObjectMixin, UpdateView):
+        success_url = "/"
+        form_class = projects.OrganizationProfileForm
+
+    class Users(TemplateView):
+        template_name = "projects/organization_users_form.html"
+
+        def get_context_data(self, **kwargs):
+            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
+            context['formset'] = projects.OrganizationUsersForm()
+            return context
+
+        def get(self, request, *args, **kwargs):
+            return self.render_to_response(self.get_context_data(**kwargs))
+
+        @json_response
+        def post(self, request, *args, **kwargs):
+            formset = projects.OrganizationUsersForm(request.POST)
+            if formset.is_valid():
+                formset.save()
+                return success(message='Changes saved.')
+
+            return failed(message="Validation errors",
+                          data=formset._errors_list())
 
 
 class ProjectList(ListView):
-    model = Project
+    model = projects.Project
     context_object_name = "project_list"
 
     def get_context_data(self, **kwargs):
@@ -28,22 +76,21 @@ class ProjectList(ListView):
         return context
 
     def get_queryset(self):
-        return self.model._default_manager.filter(
-            Q(owner=self.request.user) | Q(team=self.request.user)
-        ).distinct()
+        return self.model._default_manager.all()
+
 
 class ProjectDetails(DetailView):
-    model = Project
+    model = projects.Project
 
 
 class ProjectNew(CreateView):
-    model = Project
-    form_class = ProjectForm
+    model = projects.Project
+    form_class = projects.ProjectForm
 
     @json_response
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.owner = self.request.user
+        self.object.organization = self.request.organization
         self.object.save()
         self.object.setup()
 
@@ -57,8 +104,8 @@ class ProjectNew(CreateView):
 
 
 class ProjectEdit(UpdateView):
-    model = Project
-    form_class = ProjectForm
+    model = projects.Project
+    form_class = projects.ProjectForm
 
     @json_response
     def form_valid(self, form):
@@ -80,7 +127,7 @@ class ProjectSettingsEdit(TemplateView):
         context['testcase_status_formset'] = TestCaseStatusFormSet(prefix="testcase")
         context['testrun_status_formset'] = TestRunStatusFormSet(prefix="testrun")
         context['testcaserun_status_formset'] = TestCaseRunStatusFormSet(prefix="testcaserun")
-        context['project'] = Project.objects.get(slug=kwargs['slug'])
+        context['project'] = projects.Project.objects.get(slug=kwargs['slug'])
         return context
 
     def get(self, request, *args, **kwargs):
@@ -105,8 +152,8 @@ class ProjectUsersEdit(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectUsersEdit, self).get_context_data(**kwargs)
-        context['form'] = ProjectUserForm()
-        context['project'] = Project.objects.get(slug=kwargs['slug'])
+        context['form'] = projects.ProjectUserForm()
+        context['project'] = projects.Project.objects.get(slug=kwargs['slug'])
         return context
 
     def get(self, request, *args, **kwargs):
@@ -115,11 +162,11 @@ class ProjectUsersEdit(FormView):
     @json_response
     def post(self, request, *args, **kwargs):
 
-        form = ProjectUserForm(request.POST)
+        form = projects.ProjectUserForm(request.POST)
         if form.is_valid():
             user = auth.User.objects.get(username=form.cleaned_data['username'])
 
-            project = Project.objects.get(slug=kwargs['slug'])
+            project = projects.Project.objects.get(slug=kwargs['slug'])
             project.team.add(user)
             return success(message='User added to project')
 
@@ -132,7 +179,7 @@ class ProjectUserRemove(View):
     @json_response
     def post(self, request, *args, **kwargs):
         user = auth.User.objects.get(username=kwargs['username'])
-        project = Project.objects.get(slug=kwargs['slug'])
+        project = projects.Project.objects.get(slug=kwargs['slug'])
         project.team.remove(user)
         return success(message='User removed')
 

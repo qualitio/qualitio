@@ -19,7 +19,6 @@ $(function() {
       if(response.success) {
         $("#tabs").tabs("load", 0);
       } else {
-        console.log( response.data[0][1] );
         $('#project_users .error').show()
           .html(response.data[0][1]);
       }

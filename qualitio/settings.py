@@ -48,8 +48,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'qualitio.core.middleware.OrganizationMiddleware',
     'qualitio.core.middleware.ProjectMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
     'qualitio.core.middleware.QueriesCounterMiddleware',
@@ -63,7 +63,8 @@ LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
     r'^static/',
-    r'^login/.*',
+    r'^login/',
+    r'^admin/',
     r'^register/.*',
     r'^associate/*',
     r'^complete/*',
@@ -85,6 +86,10 @@ PROJECT_EXEMPT_URLS = (
     r'^project/new/.*',
     )
 
+ORGANIZATION_EXEMPT_URLS = (
+    r'^static/',
+    r'^admin/',
+)
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates'),
@@ -142,12 +147,14 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 
 AUTH_PROFILE_MODULE = 'projects.UserProfile'
 
+SOCIAL_AUTH_IMPORT_BACKENDS = (
+    'qualitio.googleapps.backends',
+)
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.yahoo.YahooBackend',
-    'django.contrib.auth.backends.ModelBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
+    'qualitio.projects.auth.backends.OrganizationModelBackend'
 )
 
 
