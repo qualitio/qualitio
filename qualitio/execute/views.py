@@ -8,7 +8,7 @@ from qualitio import core
 from qualitio import store
 from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, TestCaseRunStatus
 from qualitio.execute import forms
-from qualitio import history
+from qualitio import history, actions as actionsapp
 
 
 def index(request, **kwargs):
@@ -168,8 +168,11 @@ def testrun_copy(request, testrun_id, **kwargs):
 @permission_required('execute.change_testrun', login_url='/permission_required/')
 @core.menu_view(TestRun, "execute")
 def testrun_execute(request, testrun_id, **kwargs):
+    actions = actionsapp.create_actions(request, 'qualitio.execute', model=TestCaseRun)
     return direct_to_template(request, 'execute/testrun_execute.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+                              {'testrun': TestRun.objects.get(pk=testrun_id),
+                               'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
+                               })
 
 
 def testcaserun(request, testcaserun_id, **kwargs):

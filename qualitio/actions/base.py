@@ -12,8 +12,9 @@ from mptt.models import MPTTModel
 
 from qualitio.core.utils import success, failed
 from qualitio.core.forms import BaseForm
-from qualitio.filter.utils import Property
 from qualitio import history
+
+from qualitio.actions.utils import Property
 
 
 class ActionForm(BaseForm):
@@ -68,7 +69,7 @@ class Action(object):
         return self.form_class(self.data or None) if self.form_class else ''
 
     def url(self):
-        return reverse('qualitio-filter-actions', kwargs={
+        return reverse('qualitio-actions', kwargs={
                 'project': self.request.project.name,
                 'app_label': self.app_label,
                 'action_name': self.name,
@@ -95,7 +96,7 @@ class Action(object):
             if not form.is_valid():
                 return False, form
         return True, form
-    
+
     def validate_queryset(self):
         queryset = self.queryset()
         if not queryset.exists():
@@ -125,6 +126,11 @@ def find_actions(app_label, module_name='actions', model=None):
     if model is not None:
         classes = filter(lambda class_: hasattr(class_, 'model') and class_.model == model, classes)
     return classes
+
+
+def create_actions(request, app_label, module_name='actions', model=None):
+    action_classes = find_actions(app_label, module_name=module_name, model=model)
+    return [ActionClass(None, request=request) for ActionClass in action_classes]
 
 
 class ActionChoiceForm(forms.Form):

@@ -1,6 +1,17 @@
-#projects .name a {
-    color: #777777;
-    text-decoration: none;
+#projects .name div {
+    display: inline-block;
+}
+
+#projects .name div a {
+    display: block;
+    padding: 5px 10px;
+}
+
+#projects .name div a.active {
+    display: block;
+    padding: 5px 10px;
+    font-weight: bold;
+    background: #DEDEDE;
 }
 
 #projects .header {
@@ -19,6 +30,13 @@
 #projects .menu div a {
     display: block;
     padding: 5px 30px;
+}
+
+#projects .menu div a.active{
+    display: block;
+    padding: 5px 30px;
+    font-weight: bold;
+    background: #DEDEDE;
 }
 
 #projects .panel {

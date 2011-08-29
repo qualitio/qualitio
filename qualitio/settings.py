@@ -52,6 +52,7 @@ MIDDLEWARE_CLASSES = (
     'qualitio.core.middleware.OrganizationMiddleware',
     'qualitio.core.middleware.ProjectMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.ProjectMiddleware',
     'qualitio.core.middleware.QueriesCounterMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 )
@@ -129,6 +130,7 @@ INSTALLED_APPS = (
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
+    'qualitio.actions',
     'qualitio.glossary',
 
     'qualitio.customizations',

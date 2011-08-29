@@ -1,9 +1,20 @@
 $(document).ready(function() {
-  $("table.display").dataTable({
+  $("table.display.directory-content").dataTable({
+    "sScrollY": "160px",
+    "bPaginate": false,
+    "aoColumnDefs": [
+      { "bSortable": false, "aTargets": [0] },
+      { "sWidth": "4px", "aTargets": [0,1] }
+    ]
+  });
+
+  $("table.display:not(.directory-content)").dataTable({
     "sScrollY": "160px",
     "bPaginate": false,
     "bFilter": false,
-    "sWidth": "4px", "aTargets": [0],
-    "aoColumnDefs": [ { "sWidth": "4px", "aTargets": [0,1] } ]
+    "aoColumnDefs": [
+      { "bSortable": false, "aTargets": [0] },
+      { "sWidth": "4px", "aTargets": [0,1] }
+    ]
   });
 });

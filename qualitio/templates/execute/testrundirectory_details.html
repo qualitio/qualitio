@@ -20,17 +20,14 @@
     <span class="value">{{ value }}</span>
   </div>
   {% endfor %}
+</div>
 
-  <div class="text-bullet">
-    <span class="name">children:</span>
-  </div>
-  
+<div class="application-view-content clearfix">
   <table class="display">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
         <th class="id">id</th>
-        <th>path</th>
         <th>name</th>
         <th>pass rate</th>
         <th>modified</th>
@@ -44,7 +41,6 @@
         <span class="ui-icon ui-icon-folder-collapsed"></span>
       </td>
       <td>{{ child.pk }}</td>
-      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>&nbsp;</td>
       <td>{{ child.modified_time }}</td>
@@ -57,7 +53,6 @@
         <span class="ui-icon ui-icon-document"></span>
       </td>
       <td>{{ child.pk }}</td>
-      <td><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrun/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>{{ child.passrate }}</td>
       <td>{{ child.modified_time }}</td>
@@ -66,7 +61,6 @@
     {% endfor %}
     </tbody>
   </table>
-
 </div>
 
 <div id="application-view-footer" class="application-view-content">

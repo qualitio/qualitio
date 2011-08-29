@@ -45,17 +45,6 @@ body {
     height: 65px;
 }
 
-.context-element .delete {
-    background: url("../images/close-icon.png") no-repeat scroll 0 0 transparent;
-    position: absolute;
-    right: -9px;
-    top: -10px;
-    width: 22px;
-    height: 22px;
-    background-size: 23px auto;
-    cursor: pointer;
-}
-
 .content ul,
 .external ul{
 
@@ -88,3 +77,26 @@ body {
     margin-bottom: 10px;
 }
 
+.context-var-name {
+    width: 100%;
+    padding-bottom: 0.1em;
+}
+
+#context input[type="text"] {
+    width: 80%;
+}
+
+.context-var-name .button {
+    float: right;
+    width: 19%;
+}
+
+.removed .context-var-name .button {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.context-var-name .ui-button-text-only .ui-button-text {
+    padding: 0.2em 1em;
+}

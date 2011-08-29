@@ -24,20 +24,26 @@ setupLink = function(link) {
 }
 
 $(function() {
-
   setupEditor();
   setupLink($("#id_link").val());
 
-  $(".context-element .delete").die();
-  $(".context-element .delete").live("click", function(){
-    context_element = $(this).parents('.context-element')
-    delete_checkbox = context_element.find("input[name$=DELETE]")
-    if ( delete_checkbox.is(":checked") ) {
-      delete_checkbox.removeAttr("checked");
-      context_element.removeClass("removed");
+  // make sure the editor will be refreshed on tree / window size changes
+  $(window).resize(setupEditor);
+  $.onTreeResize(setupEditor);
+
+  $(".context-element .delete-button").die();
+  $(".context-element .delete-button").live("click", function(event){
+    var context_element = $(this).parents('.context-element');
+    if (context_element.hasClass('removed')) {
+      context_element.removeClass('removed');
     } else {
-      delete_checkbox.attr("checked", true);
-      context_element.addClass("removed");
+      $(this).css('pointer-events', 'auto');
+      context_element.addClass('removed');
+    }
+
+    var checkbox = context_element.find("input[name$=DELETE]")
+    if (checkbox.length > 0 && event.target !== checkbox[0]) {
+      checkbox.attr('checked', ! checkbox.is(":checked"));
     }
   });
 
@@ -61,6 +67,7 @@ $(function() {
         $("h1").text("report: " + $('#id_name').val());
         $.notification.notice(response.message);
         $.shortcuts.reloadTree(response.data, "reportdirectory", "report", response.data.current_id);
+	Backbone.history.loadUrl(document.location.hash);
       }
     },
     beforeSubmit: function() {

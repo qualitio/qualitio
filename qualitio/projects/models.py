@@ -53,13 +53,6 @@ class Project(CustomizableModel):
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
-    @classmethod
-    def default(cls):
-        try:
-            return cls.objects.all()[0]
-        except IndexError:
-            raise ImproperlyConfigured("There is no default project, create one")
-
     def get_absolute_url(self):
         return '/project/%s/' % self.slug
 
@@ -78,19 +71,19 @@ class Project(CustomizableModel):
         Requirement.objects.create(name=self.name, project=self)
 
         # store
-        TestCaseDirectory.objects.create(name=self.name, project=self)
         TestCaseStatus.objects.create(name=TestCaseStatus.default_name, project=self)
-
-        # execute
-        TestRunDirectory.objects.create(name=self.name, project=self)
-        TestRunStatus.objects.create(name=TestRunStatus.default_name, project=self)
-        TestCaseRunStatus.objects.create(name=TestCaseRunStatus.default_name, project=self)
-
-        # report
-        ReportDirectory.objects.create(name=self.name, project=self)
+        TestCaseDirectory.objects.create(name=self.name, project=self)
 
         # glossary
         Language.objects.create(name=Language.default_name, project=self)
+
+        # execute
+        TestRunStatus.objects.create(name=TestRunStatus.default_name, project=self)
+        TestCaseRunStatus.objects.create(name=TestCaseRunStatus.default_name, project=self)
+        TestRunDirectory.objects.create(name=self.name, project=self)
+
+        # report
+        ReportDirectory.objects.create(name=self.name, project=self)
 
     def __unicode__(self):
         return self.name

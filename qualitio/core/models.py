@@ -241,14 +241,7 @@ class BaseStatusModel(BaseModel):
 
     @classmethod
     def default(cls):
-        project = getattr(THREAD, "project", None)
-        if not project:
-            project = Project.default()
-
-        try:
-            return cls.objects.filter(project=project)[0]
-        except IndexError:
-            return cls.objects.create(name=cls.default_name, project=project)
+        return cls.objects.all()[0]
 
     def __unicode__(self):
         return self.name

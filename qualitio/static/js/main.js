@@ -45,15 +45,18 @@ $(window).resize(function() {
 jQuery.shortcuts = {
   showErrors: function(errors) {
     $(errors).each(function(i, element, value) {
-      field = element[0]; message = element[1];
+      var field = element[0], message = element[1];
 
-      $field = $('#id_'+ field);
-      $field_errors = $('#id_' +field+ '_error');
+      var $field = $('#id_'+ field);
+      var $field_errors = $('#id_' +field+ '_error');
+      var parentIsRemoved = $field.parents('.removed').length > 0;
 
-      if( $field_errors.length ) {
-        $field_errors.text(message).fadeIn();
-      } else {
-        $field.before($('<div style="display:block" class="error">'+message+'</div>').fadeIn());
+      if (! parentIsRemoved) {  // we don't want to validate removed / deleted items
+	if( $field_errors.length ) {
+          $field_errors.text(message).fadeIn();
+	} else {
+          $field.before($('<div style="display:block" class="error">'+message+'</div>').fadeIn());
+	}
       }
     });
   },
@@ -249,9 +252,13 @@ $(function() {
 
   $.fn.dataTable = function(setting){
     var tables = [];
+    var defaults = {
+      "sDom": 'rt<"bottom clearfix"ilfp><"clear">'
+    };
+    var opts = $.extend(defaults, setting);
 
     this.each(function(){
-      tables.push($(this).originDataTable(setting));
+      tables.push($(this).originDataTable(opts));
     });
 
     var onResize = function(){
@@ -272,7 +279,7 @@ $(function() {
 
 (function($){
   $.fn.languageSwitcher = function() {
-    $(this).load("/glossary/ajax/language_switch/", function() {
+    $(this).load("/project/" + PROJECT_SLUG + "/glossary/ajax/language_switch/", function() {
       $(this).appendTo("#application-view-menu");
       $(this).find('form').change( function() {
       $(this).submit();
@@ -287,3 +294,21 @@ $(function() {
   }
 })(jQuery);
 
+
+/* This little snipplet below make sure that "chose"
+ * plugin for select box behaviours as expected
+ */
+(function($){
+  function onResize() {
+    $('.chzn-container').css('width', '100%');
+  }
+
+  $.fn.originChosen = $.fn.chosen;
+  $.fn.chosen = function(settings) {
+    var toReturn = $(this).originChosen(settings);
+    $(window).unbind('resize', onResize);
+    $(window).resize(onResize);
+    onResize();
+    return toReturn;
+  }
+})(jQuery);

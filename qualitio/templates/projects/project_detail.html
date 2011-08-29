@@ -5,7 +5,10 @@
   <div class="header clearfix">
     <div class="grid_8">
       <div class="name">
-        <a href="{{ project.get_absolute_url }}">{{ request.project.name }} / {{ CURRENT_MODULE|default:"" }}</a>
+	<div>
+          <a class="{% if not CURRENT_MODULE %}active{% endif %}"
+	     href="{{ request.project.get_absolute_url }}">{{ request.project.name }}</a>
+	</div>
       </div>
     </div>
     <div class="grid_8">

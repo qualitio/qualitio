@@ -1,0 +1,8 @@
+.depends-table-container .dataTables_wrapper {
+    width:99.6%;
+}
+
+.blocks-table-container .dataTables_wrapper {
+    width:99.6%;
+    float:right;
+}

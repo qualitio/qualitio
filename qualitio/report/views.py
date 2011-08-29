@@ -65,7 +65,7 @@ def directory_valid(request, directory_id=0, **kwargs):
 def report_details(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
     if report.is_html() and not report.is_bound():
-        content = report.content
+        content = report.content(request=request)
         styles = None
     else:
         from pygments import highlight, lexers
@@ -78,7 +78,7 @@ def report_details(request, report_id, **kwargs):
                   "text/html": lexers.HtmlDjangoLexer()}
 
         formatter = HtmlFormatter(linenos=True)
-        content = mark_safe(highlight(report.content, lexers[report.mime], formatter))
+        content = mark_safe(highlight(report.content(request=request), lexers[report.mime], formatter))
         styles = formatter.get_style_defs('.highlight')
 
     return direct_to_template(request, 'report/report_details.html',
@@ -157,7 +157,7 @@ def report_external(request, report_id, object_type_id=None, object_id=None, **k
         return direct_to_template(request, 'report/report_external.html',
                                   {'report': report})
 
-    return HttpResponse(report.content,
+    return HttpResponse(report.content(request=request),
                         content_type=report.mime)
 
 def report_bound(request, Model, object_id, report_id, **kwargs):
