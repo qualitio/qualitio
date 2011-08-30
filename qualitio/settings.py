@@ -76,7 +76,6 @@ LOGIN_EXEMPT_URLS = (
 
 PROJECT_EXEMPT_URLS = (
     r'^static/.*',
-    r'^account/.*',
     r'^admin/.*',
     r'^login/.*',
     r'^register/.*',

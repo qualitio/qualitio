@@ -4,7 +4,6 @@ from reversion.models import Version
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.simple import direct_to_template
 from django.db.models.loading import get_model
-from django.contrib.auth.models import Permission
 
 from qualitio.core.utils import json_response
 

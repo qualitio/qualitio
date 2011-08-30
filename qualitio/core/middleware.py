@@ -52,7 +52,7 @@ class QueriesCounterMiddleware:
 
 
 from threading import local
-from qualitio.projects.models import Project, Organization
+
 
 PROJECT_MATCH = r'^project/(?P<project>[\w-]+).*'
 PROJECT_EXEMPT_URLS = [re.compile(PROJECT_MATCH)]
@@ -62,9 +62,9 @@ if hasattr(settings, 'PROJECT_EXEMPT_URLS'):
 THREAD = local()
 
 
-
 class OrganizationMiddleware(object):
     def process_request(self, request):
+        from qualitio.projects.models import Organization
         match = re.match('^(?P<host>[\w\.\-]+)(:(?P<port>\d+))?', request.get_host())
         if not match:
             raise ImproperlyConfigured("OrganizationMiddleware is running")
@@ -93,6 +93,7 @@ class OrganizationMiddleware(object):
 
 class ProjectMiddleware(object):
     def process_request(self, request):
+        from qualitio.projects.models import Project
         path = request.path_info.lstrip('/')
 
         if path.startswith("project/new/"):
