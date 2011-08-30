@@ -25,6 +25,7 @@ class ModelTable(tables.ModelTable):
     fields_order = []
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')  # can raise exception
         self.query_dict = kwargs.pop('query_dict', {})
         self.fields_order = kwargs.pop('fields_order', self.__class__.fields_order)
         self.base_columns = custom_fields_columns(self._meta.model, self.base_columns)
@@ -42,29 +43,30 @@ class ModelTable(tables.ModelTable):
         widget = widget % (instance.id, 'checked' if is_checked else '')
         return mark_safe(widget)
 
-    def get_absolute_url(self, objid):
-        return u'/%(app_name)s/#%(model_name)s/%(id)s/details/' % {
+    def get_absolute_url(self, objid, model_name):
+        return u'/project/%(project_name)s/%(app_name)s/#%(model_name)s/%(id)s/details/' % {
             'id': objid,
             'app_name': self._meta.model._meta.app_label,
-            'model_name': self._meta.model.__name__.lower(),
+            'model_name': model_name,
+            'project_name': self.request.project.name,
             }
 
-    def link(self, id, label):
+    def link(self, id, label, model_name):
         return mark_safe(u'<a href="%(href)s">%(label)s</a>' % {
-            'href': self.get_absolute_url(id),
+            'href': self.get_absolute_url(id, model_name),
             'label': label,
             })
 
     def render_id(self, obj):
-        return self.link(obj.id, obj.id)
+        return self.link(obj.id, obj.id, self._meta.model.__name__.lower())
 
     def render_path(self, obj):
         if not obj.parent:
             return obj.path
-        return self.link(obj.parent.id, obj.path)
+        return self.link(obj.parent.id, obj.path, obj.parent.__class__.__name__.lower())
 
     def render_name(self, obj):
-        return self.link(obj.id, obj.name)
+        return self.link(obj.id, obj.name, self._meta.model.__name__.lower())
 
     def __unicode__(self):
         return u''
