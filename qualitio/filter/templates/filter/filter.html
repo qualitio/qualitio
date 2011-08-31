@@ -25,11 +25,15 @@
     {% include "filter/_filter_groups.html" %}
 
     <div class="application-view-content">
-      <input type="submit" value="Search" /> |
+      <input type="submit" value="Search" class="search-button" />
+      {% if filter.has_groups %}
       <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
+      {% endif %}
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
       {% if not filter.has_groups %}
-      <div class="add-new-group-label">Select one group to start the search</div>
+      <div class="add-new-group-label">
+	Select one group to start the search
+      </div>
       {% endif %}
     </div>
   </div>

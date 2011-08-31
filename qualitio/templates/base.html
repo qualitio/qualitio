@@ -74,7 +74,15 @@
           </div>
 	  {% endif %}
           <div>
-            <a href="#">Welcome, <b>{{ user.username }}</b></a>
+            <a href="#">Welcome
+	      <b>
+		{% if user.social_auth.exists %}
+		{{ user.email }}
+		{% else %}
+		{{ user.username }}
+		{% endif %}
+	      </b>
+	    </a>
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ def store_filter(request, **kwargs):
     return filter_view(request, **{
             'model': TestCase,
             'fields_order': ['id', 'path', 'name', 'requirement'],
-            'exclude': ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description', 'parent'],
+            'exclude': ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description', 'parent', 'project'],
             'app_menu_items': [{'name': 'glossary', 'url': '/project/%s/glossary/' % request.project.slug}],
             })
 
