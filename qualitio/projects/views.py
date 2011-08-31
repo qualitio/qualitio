@@ -64,11 +64,11 @@ class OrganizationSettings(TemplateView):
             return failed(message="Validation errors",
                           data=formset._errors_list())
 
-    class Porjects(TemplateView):
+    class Projects(TemplateView):
         template_name = "projects/organization_settings_projects_form.html"
 
         def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Porjects, self).get_context_data(**kwargs)
+            context = super(OrganizationSettings.Projects, self).get_context_data(**kwargs)
 
             settings_form = []
             for project in models.Project.objects.all():
