@@ -13,12 +13,18 @@ from qualitio.core.middleware import THREAD
 
 class BaseManager(models.Manager):
     def get_query_set(self):
-        project = getattr(THREAD, "project", None)
+        organization = getattr(THREAD, 'organization', None)
+        project = getattr(THREAD, 'project', None)
+
+        qs = super(BaseManager, self).get_query_set()
+
+        if organization:
+            qs = qs.filter(project__organization=organization)
 
         if project:
-            return super(BaseManager, self).get_query_set().filter(project=project).select_related("project")
+            return qs.filter(project=project).select_related("project")
 
-        return super(BaseManager, self).get_query_set()
+        return qs
 
 
 class BaseModel(CustomizableModel):
