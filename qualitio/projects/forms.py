@@ -1,15 +1,17 @@
 from django import forms
 from django.contrib.auth import models as auth
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, inlineformset_factory
 
 from qualitio.projects import models
-from qualitio.core.forms import BaseModelForm, BaseModelFormSet, BaseForm
-from qualitio.core.middleware import THREAD
+from qualitio import store
+from qualitio import execute
+from qualitio import glossary
+from qualitio.core import forms as core
 
 
-class OrganizationProfileForm(BaseModelForm):
+class OrganizationProfileForm(core.BaseModelForm):
 
-    class Meta(BaseModelForm.Meta):
+    class Meta(core.BaseModelForm.Meta):
         model = models.Organization
         fields = ("name", "slug", "homepage", "description", "googleapps_domain")
         widgets = {
@@ -18,25 +20,21 @@ class OrganizationProfileForm(BaseModelForm):
         }
 
 
-class OrganizationMemberForm(BaseModelForm):
+class OrganizationMemberForm(core.BaseModelForm):
 
-    class Meta(BaseModelForm.Meta):
+    class Meta(core.BaseModelForm.Meta):
         model = models.OrganizationMember
         fields = ("role",)
 
-OrganizationUsersForm = modelformset_factory(models.OrganizationMember,
-                                             form=OrganizationMemberForm,
-                                             formset=BaseModelFormSet,
-                                             extra=0, can_delete=True)
 
-class ProjectForm(BaseModelForm):
+class ProjectForm(core.BaseModelForm):
 
-    class Meta(BaseModelForm.Meta):
+    class Meta(core.BaseModelForm.Meta):
         model = models.Project
         fields = ("name", "homepage", "description")
 
 
-class ProjectUserForm(BaseForm):
+class ProjectUserForm(core.BaseForm):
     username = forms.CharField()
 
     def clean_username(self):
@@ -47,10 +45,35 @@ class ProjectUserForm(BaseForm):
         except auth.User.DoesNotExist:
             raise forms.ValidationError("User does not exist.")
 
-        # if THREAD.project.owner == user:
-        #     raise forms.ValidationError("You can't add creator of project to users.")
-
-        if THREAD.project.team.filter(username=data).exists():
-            raise forms.ValidationError("This users is already added to project.")
-
         return data
+
+
+OrganizationUsersForm = modelformset_factory(models.OrganizationMember,
+                                             form=OrganizationMemberForm,
+                                             formset=core.BaseModelFormSet,
+                                             extra=0, can_delete=True)
+
+OrganizationProjectsForm = modelformset_factory(models.Project,
+                                                form=ProjectForm,
+                                                formset=core.BaseModelFormSet,
+                                                extra=0, can_delete=False)
+
+ProjectTestCaseStatusFormSet = inlineformset_factory(models.Project,
+                                                     store.TestCaseStatus,
+                                                     formset=core.BaseInlineFormSet,
+                                                     extra=0)
+
+ProjectTestRunStatusFormSet = inlineformset_factory(models.Project,
+                                                    execute.TestRunStatus,
+                                                    formset=core.BaseInlineFormSet,
+                                                    extra=0)
+
+ProjectTestCaseRunStatusFormSet = inlineformset_factory(models.Project,
+                                                        execute.TestCaseRunStatus,
+                                                        formset=core.BaseInlineFormSet,
+                                                        extra=0)
+
+ProjectGlossaryLanguageFormSet = inlineformset_factory(models.Project,
+                                                       glossary.Language,
+                                                       formset=core.BaseInlineFormSet,
+                                                       extra=0)

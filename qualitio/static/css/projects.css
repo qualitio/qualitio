@@ -213,6 +213,26 @@
     margin-right: 40px;
 }
 
+#projects .module-settings {
+    margin: 0 0 5px 0;
+}
+
+#projects .module-settings h1 {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #222222;
+}
+
+#projects .module-settings .footer {
+    text-align: right;
+    padding: 10px 0;
+    /* border-bottom: 1px solid #222222; */
+}
+
 #projects #tabs {
     border: 0;
 }
+
+#projects .ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+

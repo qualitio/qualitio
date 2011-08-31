@@ -10,9 +10,10 @@ from reversion.models import Revision
 from articles.models import Article
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.store.forms import TestCaseStatusFormSet
 from qualitio.execute.forms import TestRunStatusFormSet, TestCaseRunStatusFormSet
-from qualitio import projects
+
+import models
+import forms
 
 
 class OrganizationObjectMixin(object):
@@ -20,10 +21,10 @@ class OrganizationObjectMixin(object):
     def get_object(self):
         slug = self.request.organization.name
         try:
-            return projects.Organization.objects.get(slug=slug)
-        except projects.Organization.DoesNotExist:
+            return models.Organization.objects.get(slug=slug)
+        except models.Organization.DoesNotExist:
             raise Http404(u"No %(verbose_name)s found matching the query" %
-                          {'verbose_name': projects.Organization._meta.verbose_name})
+                          {'verbose_name': models.Organization._meta.verbose_name})
 
 
 class OrganizationDetails(View, OrganizationObjectMixin):
@@ -40,14 +41,14 @@ class OrganizationSettings(TemplateView):
 
     class Profile(OrganizationObjectMixin, UpdateView):
         success_url = "/"
-        form_class = projects.OrganizationProfileForm
+        form_class = forms.OrganizationProfileForm
 
     class Users(TemplateView):
         template_name = "projects/organization_users_form.html"
 
         def get_context_data(self, **kwargs):
             context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['formset'] = projects.OrganizationUsersForm()
+            context['formset'] = forms.OrganizationUsersForm()
             return context
 
         def get(self, request, *args, **kwargs):
@@ -55,7 +56,7 @@ class OrganizationSettings(TemplateView):
 
         @json_response
         def post(self, request, *args, **kwargs):
-            formset = projects.OrganizationUsersForm(request.POST)
+            formset = forms.OrganizationUsersForm(request.POST)
             if formset.is_valid():
                 formset.save()
                 return success(message='Changes saved.')
@@ -63,9 +64,81 @@ class OrganizationSettings(TemplateView):
             return failed(message="Validation errors",
                           data=formset._errors_list())
 
+    class Porjects(TemplateView):
+        template_name = "projects/organization_settings_projects_form.html"
+
+        def get_context_data(self, **kwargs):
+            context = super(OrganizationSettings.Porjects, self).get_context_data(**kwargs)
+
+            settings_form = []
+            for project in models.Project.objects.all():
+                settings_form.append({
+                        'form': forms.ProjectForm(instance=project, prefix='general'),
+                        'project': project,
+                        'testcase_statuses': forms.ProjectTestCaseStatusFormSet(instance=project,
+                                                                                prefix='store_testcase_status'),
+                        'testrun_statuses': forms.ProjectTestRunStatusFormSet(instance=project,
+                                                                              prefix='execute_testrun_status'),
+                        'testcaserun_statuses': forms.ProjectTestCaseRunStatusFormSet(instance=project,
+                                                                                      prefix='execute_testcaserun_status'),
+                        'glossary_languages': forms.ProjectGlossaryLanguageFormSet(instance=project,
+                                                                                   prefix='glossary_language')
+                        })
+
+
+
+            context['project_settings_forms'] = settings_form
+            return context
+
+        def get(self, request, *args, **kwargs):
+            return self.render_to_response(self.get_context_data(**kwargs))
+
+        @json_response
+        def post(self, request, *args, **kwargs):
+            project = models.Project.objects.get(pk=kwargs['pk'])
+            form = forms.ProjectForm(request.POST,
+                                     instance=project,
+                                     prefix='general')
+
+            store_testcase = forms.ProjectTestCaseStatusFormSet(request.POST,
+                                                                instance=project,
+                                                                prefix='store_testcase_status')
+
+            execute_testrun = forms.ProjectTestRunStatusFormSet(request.POST,
+                                                                instance=project,
+                                                                prefix='execute_testrun_status')
+
+            execute_testcaserun = forms.ProjectTestCaseRunStatusFormSet(request.POST,
+                                                                        instance=project,
+                                                                        prefix='execute_testcaserun_status')
+
+            glossary_language = forms.ProjectGlossaryLanguageFormSet(request.POST,
+                                                                     instance=project,
+                                                                     prefix='glossary_language')
+
+
+            if form.is_valid() and\
+                    store_testcase.is_valid() and\
+                    execute_testrun.is_valid() and\
+                    execute_testcaserun.is_valid() and\
+                    glossary_language.is_valid():
+
+                form.save()
+                store_testcase.save()
+                execute_testrun.save()
+                execute_testcaserun.save()
+                glossary_language.save()
+                return success(message='Changes saved.')
+
+            return failed(message="Validation errors: %s" % form.error_message(),
+                          data=store_testcase._errors_list() +\
+                              execute_testrun._errors_list() +\
+                              execute_testcaserun._errors_list() +\
+                              glossary_language._errors_list())
+
 
 class ProjectList(ListView):
-    model = projects.Project
+    model = models.Project
     context_object_name = "project_list"
 
     def get_context_data(self, **kwargs):
@@ -80,12 +153,12 @@ class ProjectList(ListView):
 
 
 class ProjectDetails(DetailView):
-    model = projects.Project
+    model = models.Project
 
 
 class ProjectNew(CreateView):
-    model = projects.Project
-    form_class = projects.ProjectForm
+    model = models.Project
+    form_class = forms.ProjectForm
 
     @json_response
     def form_valid(self, form):
@@ -104,8 +177,8 @@ class ProjectNew(CreateView):
 
 
 class ProjectEdit(UpdateView):
-    model = projects.Project
-    form_class = projects.ProjectForm
+    model = models.Project
+    form_class = forms.ProjectForm
 
     @json_response
     def form_valid(self, form):
@@ -127,7 +200,7 @@ class ProjectSettingsEdit(TemplateView):
         context['testcase_status_formset'] = TestCaseStatusFormSet(prefix="testcase")
         context['testrun_status_formset'] = TestRunStatusFormSet(prefix="testrun")
         context['testcaserun_status_formset'] = TestCaseRunStatusFormSet(prefix="testcaserun")
-        context['project'] = projects.Project.objects.get(slug=kwargs['slug'])
+        context['project'] = models.Project.objects.get(slug=kwargs['slug'])
         return context
 
     def get(self, request, *args, **kwargs):
@@ -152,8 +225,8 @@ class ProjectUsersEdit(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectUsersEdit, self).get_context_data(**kwargs)
-        context['form'] = projects.ProjectUserForm()
-        context['project'] = projects.Project.objects.get(slug=kwargs['slug'])
+        context['form'] = models.ProjectUserForm()
+        context['project'] = models.Project.objects.get(slug=kwargs['slug'])
         return context
 
     def get(self, request, *args, **kwargs):
@@ -162,11 +235,11 @@ class ProjectUsersEdit(FormView):
     @json_response
     def post(self, request, *args, **kwargs):
 
-        form = projects.ProjectUserForm(request.POST)
+        form = models.ProjectUserForm(request.POST)
         if form.is_valid():
             user = auth.User.objects.get(username=form.cleaned_data['username'])
 
-            project = projects.Project.objects.get(slug=kwargs['slug'])
+            project = models.Project.objects.get(slug=kwargs['slug'])
             project.team.add(user)
             return success(message='User added to project')
 
@@ -179,7 +252,7 @@ class ProjectUserRemove(View):
     @json_response
     def post(self, request, *args, **kwargs):
         user = auth.User.objects.get(username=kwargs['username'])
-        project = projects.Project.objects.get(slug=kwargs['slug'])
+        project = models.Project.objects.get(slug=kwargs['slug'])
         project.team.remove(user)
         return success(message='User removed')
 

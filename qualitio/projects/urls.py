@@ -20,6 +20,11 @@ urlpatterns = patterns('',
                            views.OrganizationSettings.Users.as_view(),
                            name="organization_settings_users"),
 
+                       url(r'^settings/projects/((?P<pk>\d+)/)?$',
+                           views.OrganizationSettings.Porjects.as_view(),
+                           name="organization_settings_users"),
+
+
                        url(r'^project/new/$',
                            views.ProjectNew.as_view(), name="project_new"),
                        url(r'^project/(?P<slug>[\w-]+)/$',

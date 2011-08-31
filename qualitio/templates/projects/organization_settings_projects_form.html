@@ -1,0 +1,176 @@
+<div id="projects_list">
+  {% for project_settings in project_settings_forms %}
+
+  <h3>
+    <a href="#">{{ project_settings.project.name }}
+      {% if project_settings.project.homepage %}
+      ({{ project_settings.project.homepage }})
+      {% endif %}
+    </a>
+  </h3>
+
+  <div>
+    <form id="organization_projects_form" method="post" action="/settings/projects/{{ project_settings.project.pk }}/">
+
+      <div class="module-settings">
+        <h1>general settings</h1>
+        {{ project_settings.form }}
+        <div class="footer">
+          <input type="submit" class="button" value="Save"/>
+        </div>
+      </div>
+
+      <div id="store-settings" class="module-settings">
+        <h1>{{ STORE.verbose_name }} settings</h1>
+
+        <div class="settings-block" >
+          <h2>test case - status</h2>
+          <div class="formset">
+            {% csrf_token %}
+
+            <div class="empty-form hidden">
+              {{ project_settings.testcase_statuses.empty_form }}
+            </div>
+
+            {{ project_settings.testcase_statuses.management_form }}
+            {% for form in project_settings.testcase_statuses.forms %}
+            {{ form.id }}
+            <div class="field-settings">
+              {{ form.name.label_tag }}{{ form.name }}
+              {% if not forloop.first %}
+              {{ form.DELETE.label_tag }}{{ form.DELETE }}
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div>
+            <a class="add button" href="#">add status</a>
+          </div>
+          <div class="footer">
+            <input type="submit" class="button" value="Save"/>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="execute-settings" class="module-settings">
+        <h1>{{ EXECUTE.verbose_name }} settings</h1>
+
+        <div class="settings-block" >
+          <h2>test run - status</h2>
+          <div class="formset">
+            <div class="empty-form hidden">
+              {{ project_settings.testrun_statuses.empty_form }}
+            </div>
+
+            {{ project_settings.testrun_statuses.management_form }}
+            {% for form in project_settings.testrun_statuses.forms %}
+            {{ form.id }}
+            <div class="field-settings">
+              {{ form.name.label_tag }}{{ form.name }}
+              {% if not forloop.first %}
+              {{ form.DELETE.label_tag }}{{ form.DELETE }}
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div>
+            <a class="add button" href="#">add status</a>
+          </div>
+        </div>
+
+        <div class="settings-block" >
+          <h2>test case - status</h2>
+          <div class="formset">
+
+            <div class="empty-form hidden">
+              <div class="grid_10">
+                {{ project_settings.testcaserun_statuses.empty_form.name.label_tag }}
+                {{ project_settings.testcaserun_statuses.empty_form.name }}
+              </div>
+              <div class="grid_6">
+                {{ project_settings.testcaserun_statuses.empty_form.color.label_tag }}
+                {{ project_settings.testcaserun_statuses.empty_form.color }}
+              </div>
+              <div class="grid_16">
+                {{ project_settings.testcaserun_statuses.empty_form.passed.help_text }}
+                {{ project_settings.testcaserun_statuses.empty_form.passed }}
+              </div>
+              <div class="grid_16">
+                {{ project_settings.testcaserun_statuses.empty_form.total.help_text }}
+                {{ project_settings.testcaserun_statuses.empty_form.total }}
+              </div>
+              <div class="grid_16">
+                {{ project_settings.testcaserun_statuses.empty_form.DELETE.label_tag }}
+                {{ project_settings.testcaserun_statuses.empty_form.DELETE }}
+              </div>
+            </div>
+
+            {{ project_settings.testcaserun_statuses.management_form }}
+            {% for form in project_settings.testcaserun_statuses.forms %}
+            {{ form.id }}
+            <div class="field-settings">
+              <div class="grid_10">
+                {{ form.name.label_tag }}{{ form.name }}
+              </div>
+              <div class="grid_6">
+                {{ form.color.label_tag }}{{ form.color }}
+              </div>
+              <div class="grid_16">
+                {{ form.passed.help_text }}{{ form.passed }}
+              </div>
+              <div class="grid_16">
+              {{ form.total.help_text }}{{ form.total }}
+              </div>
+              {% if not forloop.first %}
+              {{ form.DELETE.label_tag }}{{ form.DELETE }}
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div>
+            <a class="add button" href="#">add status</a>
+          </div>
+        </div>
+
+        <div class="footer">
+          <input type="submit" class="button" value="Save"/>
+        </div>
+      </div>
+
+      <div id="glossary-settings" class="module-settings">
+        <h1>glossary settings</h1>
+
+        <div class="settings-block" >
+          <h2>languages</h2>
+          <div class="formset">
+
+            <div class="empty-form hidden">
+              {{ project_settings.glossary_languages.empty_form }}
+            </div>
+
+            {{ project_settings.glossary_languages.management_form }}
+            {% for form in project_settings.glossary_languages.forms %}
+            {{ form.id }}
+            <div class="field-settings">
+              {{ form.name.label_tag }}{{ form.name }}
+              {% if not forloop.first %}
+              {{ form.DELETE.label_tag }}{{ form.DELETE }}
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div>
+            <a class="add button" href="#">add language</a>
+          </div>
+          <div class="footer">
+            <input type="submit" class="button" value="Save"/>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  {% endfor %}
+</div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/projects_organization_settings_projects.js{{ STATIC_HASH }}"></script>

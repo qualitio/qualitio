@@ -1,6 +1,7 @@
 import reversion
 from qualitio.core.middleware import THREAD
-from qualitio.store.models import TestCaseBase, TestCaseStepBase, TestCase, TestCaseStep, TestCaseDirectory, TestCaseStatus
+from qualitio.store.models import (TestCaseBase, TestCaseStepBase, TestCase,
+                                   TestCaseStep, TestCaseDirectory, TestCaseStatus)
 
 
 if not reversion.is_registered(TestCase):
