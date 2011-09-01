@@ -37,7 +37,7 @@ urlpatterns = patterns('',
                         include('qualitio.glossary.urls', app_name="glossary")),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
-                       (r'', include(api.urls)),
+                       (r'^project/[\w-]+/', include(api.urls)),
                        )
 
 
