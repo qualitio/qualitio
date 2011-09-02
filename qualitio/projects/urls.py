@@ -22,19 +22,14 @@ urlpatterns = patterns('',
 
                        url(r'^settings/projects/((?P<pk>\d+)/)?$',
                            views.OrganizationSettings.Porjects.as_view(),
-                           name="organization_settings_users"),
-
+                           name="organization_settings_projects"),
 
                        url(r'^project/new/$',
-                           views.ProjectNew.as_view(), name="project_new"),
+                           views.ProjectNew.as_view(),
+                           name="project_new"),
+
                        url(r'^project/(?P<slug>[\w-]+)/$',
-                           views.ProjectDetails.as_view(), name="project_details"),
-                       url(r'^project/(?P<slug>[\w-]+)/edit/$',
-                           views.ProjectEdit.as_view(), name="project_edit"),
-                       url(r'^project/(?P<slug>[\w-]+)/settings/$',
-                           views.ProjectSettingsEdit.as_view(), name="project_settings"),
-                       url(r'^project/(?P<slug>[\w-]+)/users/$',
-                           views.ProjectUsersEdit.as_view(), name="project_users"),
-                       url(r'^project/(?P<slug>[\w-]+)/users/(?P<username>[\w-]+)/remove/$',
-                           views.ProjectUserRemove.as_view(), name="project_user_remove"),
+                           views.ProjectDetails.as_view(),
+                           name="project_details"),
                        )
+
