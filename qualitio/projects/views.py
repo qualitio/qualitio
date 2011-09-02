@@ -59,7 +59,7 @@ class OrganizationSettings(TemplateView):
         def post(self, request, *args, **kwargs):
             formset = forms.OrganizationUsersForm(request.POST)
             if formset.is_valid():
-                formset.save()
+                formset.save(delete_users=True)
                 return success(message='Changes saved.')
             return failed(message="Validation errors",
                           data=formset._errors_list())

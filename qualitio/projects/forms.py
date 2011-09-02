@@ -73,9 +73,24 @@ class ProjectUserForm(core.BaseForm):
         return data
 
 
+class BaseOrganizationUsersFormSet(core.BaseModelFormSet):
+    def get_deleted_members_users_ids(self):
+        ids = []
+        for form in self.deleted_forms:
+            ids.append(form.instance.user.id)
+        return ids
+
+    def save(self, commit=True, delete_users=False):
+        user_ids_to_delete = user_ids_to_delete = self.get_deleted_members_users_ids()
+        to_return = super(BaseOrganizationUsersFormSet, self).save(commit=commit)
+        if delete_users and commit and user_ids_to_delete:
+            auth.User.objects.filter(pk__in=user_ids_to_delete).delete()
+        return to_return
+
+
 OrganizationUsersForm = modelformset_factory(models.OrganizationMember,
                                              form=OrganizationMemberForm,
-                                             formset=core.BaseModelFormSet,
+                                             formset=BaseOrganizationUsersFormSet,
                                              extra=0, can_delete=True)
 
 OrganizationProjectsForm = modelformset_factory(models.Project,
