@@ -30,7 +30,7 @@ class Organization(CustomizableModel):
 
 class OrganizationMember(CustomizableModel):
     organization = models.ForeignKey('Organization', related_name='members')
-    user = models.ForeignKey('auth.User', related_name='organization')
+    user = models.OneToOneField('auth.User', related_name='organization_member')
 
     ROLE_CHOICES = (
         (u'admin', u'Admin'),
