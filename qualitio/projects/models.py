@@ -3,6 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template.defaultfilters import slugify
 
 from qualitio.core.custommodel.models import CustomizableModel
+from qualitio.core.middleware import THREAD
 
 
 class Organization(CustomizableModel):
@@ -39,6 +40,17 @@ class OrganizationMember(CustomizableModel):
     role = models.CharField(max_length=12, choices=ROLE_CHOICES, default="read")
 
 
+class ProjectManager(models.Manager):
+    def get_query_set(self):
+        organization = getattr(THREAD, 'organization', None)
+
+        qs = super(ProjectManager, self).get_query_set()
+        if organization:
+            qs = qs.filter(organization=organization)
+
+        return qs
+
+
 class Project(CustomizableModel):
     default_name = "default"
 
@@ -52,6 +64,8 @@ class Project(CustomizableModel):
 
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
+
+    objects = ProjectManager()
 
     def get_absolute_url(self):
         return '/project/%s/' % self.slug
