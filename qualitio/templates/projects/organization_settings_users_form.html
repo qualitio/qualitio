@@ -1,28 +1,53 @@
-<form id="organization_users_form" method="post" action="/settings/users/">
-  {% csrf_token %}
-  {{ formset.management_form }}
-  <table class="display">
-    <thead>
-      <tr>
-        <th>username</th>
-        <th>full name</th>
-        <th>email</th>
-        <th>role</th>
-        <th>delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for form in formset.forms %}
-      <tr>
-        <td>{{ form.id }}{{ form.instance.user }}</td>
-        <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
-        <td>{{ form.instance.user.email }}</td>
-        <td>{{ form.role }}</td>
-        <td>{{ form.DELETE }}</td>
-      </tr>
+<div class="user-management">
+  <form id="organization_users_form" method="post" action="/settings/users/">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table class="display">
+      <thead>
+	<tr>
+          <th>username</th>
+          <th>full name</th>
+          <th>email</th>
+          <th>role</th>
+          <th>delete</th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for form in formset.forms %}
+	<tr>
+          <td>{{ form.id }}{{ form.instance.user }}</td>
+          <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
+          <td>{{ form.instance.user.email }}</td>
+          <td>{{ form.role }}</td>
+          <td>{{ form.DELETE }}</td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+
+    <div class="footer clearfix">
+      <input type="submit" class="button control-button" value="Save"/>
+    </div>
+  </form>
+
+  <form id="organization_new_member_form" method="post" action="/settings/users/new/member/">{% csrf_token %}
+    <h1>New member</h1>
+
+    <div class="new-user-form">
+      {% for field in new_user_form %}
+      <div class="field-settings clearfix">
+	<div class="grid_2">
+	  {{ field.label_tag }}
+	</div>
+	<div class="grid_14">
+	  {{ field }}
+	</div>
+      </div>
       {% endfor %}
-    </tbody>
-  </table>
-  <input type="submit" class="button" value="Save"/>
-</form>
+    </div>
+    <div class="footer clearfix">
+      <input type="submit" class="button control-button" value="Save"/>
+    </div>
+  </form>
+</div>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/projects_organization_users.js{{ STATIC_HASH }}"></script>

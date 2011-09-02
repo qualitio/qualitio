@@ -223,9 +223,17 @@
 }
 
 #projects .module-settings .footer {
-    text-align: right;
+    /* text-align: right; */
     padding: 10px 0;
     /* border-bottom: 1px solid #222222; */
+}
+
+#projects .module-settings .footer .add {
+    float: left;
+}
+
+#projects .module-settings .footer .save-button {
+    float: right;
 }
 
 #projects #tabs {
@@ -236,3 +244,53 @@
     padding: 0;
 }
 
+
+/* settings */
+.field-settings {
+    padding-top: 2px;
+    margin-top: 10px;
+}
+
+.field-settings.removed {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.field-settings .delete-button {
+    margin-left: 2px;
+    width:100%;
+}
+
+.field-settings .color-picker {
+   -moz-box-shadow: 0 0 1px #000000;
+   -webkit-box-shadow: 0 0 1px #000000;
+   box-shadow: 0 0 1px #000000;
+}
+
+.field-settings input[type="text"], .field-settings .label-container {
+    margin: 3px 0px 3px 0px;
+}
+
+.field-settings .label-container label{
+    margin-right: 5px;
+}
+
+.field-settings .delete-button.ui-button-text-only .ui-button-text {
+    /* padding: 0.15em 1em; */
+}
+
+.user-management .input-height.ui-button-text-only .ui-button-text {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+.user-management .control-button {
+    float: right;
+    width: 13em;
+}
+
+.user-management .footer {
+    padding-top: 1em;
+    margin-bottom: 1em;
+}

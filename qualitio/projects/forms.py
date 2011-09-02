@@ -27,6 +27,31 @@ class OrganizationMemberForm(core.BaseModelForm):
         fields = ("role",)
 
 
+class NewUserForm(core.BaseModelForm):
+    class Meta(core.BaseModelForm.Meta):
+        model = auth.User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password')
+        widgets = {
+            'password': forms.PasswordInput,
+            }
+
+    email = forms.EmailField(required=True)
+    password2 = forms.CharField(label='Retype password', widget=forms.PasswordInput)
+
+    def clean_password2(self):
+        password2 = self.cleaned_data.get('password2')
+        password = self.cleaned_data.get('password')
+        if password and password2 and password != password2:
+            raise forms.ValidationError('Passwords need to be the same.')
+        return password2
+
+    def save(self, *args, **kwargs):
+        password2 = self.cleaned_data.pop('password2')
+        instance = super(NewUserForm, self).save(*args, **kwargs)
+        instance.set_password(password2)
+        instance.save()
+        return instance
+
 class ProjectForm(core.BaseModelForm):
 
     class Meta(core.BaseModelForm.Meta):
@@ -48,9 +73,24 @@ class ProjectUserForm(core.BaseForm):
         return data
 
 
+class BaseOrganizationUsersFormSet(core.BaseModelFormSet):
+    def get_deleted_members_users_ids(self):
+        ids = []
+        for form in self.deleted_forms:
+            ids.append(form.instance.user.id)
+        return ids
+
+    def save(self, commit=True, delete_users=False):
+        user_ids_to_delete = user_ids_to_delete = self.get_deleted_members_users_ids()
+        to_return = super(BaseOrganizationUsersFormSet, self).save(commit=commit)
+        if delete_users and commit and user_ids_to_delete:
+            auth.User.objects.filter(pk__in=user_ids_to_delete).delete()
+        return to_return
+
+
 OrganizationUsersForm = modelformset_factory(models.OrganizationMember,
                                              form=OrganizationMemberForm,
-                                             formset=core.BaseModelFormSet,
+                                             formset=BaseOrganizationUsersFormSet,
                                              extra=0, can_delete=True)
 
 OrganizationProjectsForm = modelformset_factory(models.Project,

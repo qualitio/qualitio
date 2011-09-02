@@ -129,6 +129,10 @@ jQuery.notification = {
       permanent: true,
       type: "error"
     });
+  },
+
+  hide: function() {
+    $('.jnotify-item-wrapper').remove()
   }
 }
 

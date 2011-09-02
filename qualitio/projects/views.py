@@ -49,6 +49,7 @@ class OrganizationSettings(TemplateView):
         def get_context_data(self, **kwargs):
             context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
             context['formset'] = forms.OrganizationUsersForm()
+            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
             return context
 
         def get(self, request, *args, **kwargs):
@@ -58,17 +59,34 @@ class OrganizationSettings(TemplateView):
         def post(self, request, *args, **kwargs):
             formset = forms.OrganizationUsersForm(request.POST)
             if formset.is_valid():
-                formset.save()
+                formset.save(delete_users=True)
                 return success(message='Changes saved.')
-
             return failed(message="Validation errors",
                           data=formset._errors_list())
 
-    class Porjects(TemplateView):
+
+    class NewMember(OrganizationObjectMixin, TemplateView):
+        def get_context_data(self, **kwargs):
+            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
+            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
+            return context
+
+        @json_response
+        def post(self, request, *args, **kwargs):
+            new_user_form = forms.NewUserForm(request.POST, prefix='newuserform')
+            if new_user_form.is_valid():
+                user = new_user_form.save()
+                organization_member = models.OrganizationMember.objects.create(
+                    user=user, organization=self.get_object())
+                return success(message='New member saved.')
+            return failed(message="Validation errors", data=new_user_form.errors_list())
+
+
+    class Projects(TemplateView):
         template_name = "projects/organization_settings_projects_form.html"
 
         def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Porjects, self).get_context_data(**kwargs)
+            context = super(OrganizationSettings.Projects, self).get_context_data(**kwargs)
 
             settings_form = []
             for project in models.Project.objects.all():
@@ -131,7 +149,8 @@ class OrganizationSettings(TemplateView):
                 return success(message='Changes saved.')
 
             return failed(message="Validation errors: %s" % form.error_message(),
-                          data=store_testcase._errors_list() +\
+                          data=form.errors_list() +\
+                              store_testcase._errors_list() +\
                               execute_testrun._errors_list() +\
                               execute_testcaserun._errors_list() +\
                               glossary_language._errors_list())
