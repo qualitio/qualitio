@@ -79,6 +79,15 @@ class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
     class Meta:
         exclude = ('project',)
 
+    def __init__(self, *args, **kwargs):
+        super(BaseModelForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if hasattr(field,"queryset"):
+                #TODO: nasty reload for projects form, we should think about redesing of
+                # metaclass for forms
+                field.queryset = field.queryset.model.objects.all()
+
+
     def changelog(self):
         change_message = []
         if self.changed_data:
