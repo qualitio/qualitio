@@ -49,6 +49,7 @@ class OrganizationSettings(TemplateView):
         def get_context_data(self, **kwargs):
             context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
             context['formset'] = forms.OrganizationUsersForm()
+            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
             return context
 
         def get(self, request, *args, **kwargs):
@@ -60,9 +61,26 @@ class OrganizationSettings(TemplateView):
             if formset.is_valid():
                 formset.save()
                 return success(message='Changes saved.')
-
             return failed(message="Validation errors",
                           data=formset._errors_list())
+
+
+    class NewMember(OrganizationObjectMixin, TemplateView):
+        def get_context_data(self, **kwargs):
+            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
+            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
+            return context
+
+        @json_response
+        def post(self, request, *args, **kwargs):
+            new_user_form = forms.NewUserForm(request.POST, prefix='newuserform')
+            if new_user_form.is_valid():
+                user = new_user_form.save()
+                organization_member = models.OrganizationMember.objects.create(
+                    user=user, organization=self.get_object())
+                return success(message='New member saved.')
+            return failed(message="Validation errors", data=new_user_form.errors_list())
+
 
     class Projects(TemplateView):
         template_name = "projects/organization_settings_projects_form.html"

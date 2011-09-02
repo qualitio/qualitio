@@ -279,3 +279,18 @@
 .field-settings .delete-button.ui-button-text-only .ui-button-text {
     /* padding: 0.15em 1em; */
 }
+
+.user-management .input-height.ui-button-text-only .ui-button-text {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+.user-management .control-button {
+    float: right;
+    width: 13em;
+}
+
+.user-management .footer {
+    padding-top: 1em;
+    margin-bottom: 1em;
+}

@@ -27,6 +27,31 @@ class OrganizationMemberForm(core.BaseModelForm):
         fields = ("role",)
 
 
+class NewUserForm(core.BaseModelForm):
+    class Meta(core.BaseModelForm.Meta):
+        model = auth.User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password')
+        widgets = {
+            'password': forms.PasswordInput,
+            }
+
+    email = forms.EmailField(required=True)
+    password2 = forms.CharField(label='Retype password', widget=forms.PasswordInput)
+
+    def clean_password2(self):
+        password2 = self.cleaned_data.get('password2')
+        password = self.cleaned_data.get('password')
+        if password and password2 and password != password2:
+            raise forms.ValidationError('Passwords need to be the same.')
+        return password2
+
+    def save(self, *args, **kwargs):
+        password2 = self.cleaned_data.pop('password2')
+        instance = super(NewUserForm, self).save(*args, **kwargs)
+        instance.set_password(password2)
+        instance.save()
+        return instance
+
 class ProjectForm(core.BaseModelForm):
 
     class Meta(core.BaseModelForm.Meta):
