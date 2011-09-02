@@ -14,7 +14,7 @@ class FormErrorProcessingMixin(object):
         Errors can be extended with 'additional' error list.
         """
         additional_errors = additional or ()
-        errors = [(fname, errors[0]) for fname, errors in self.errors.items()]
+        errors = [("%s-%s" % (self.prefix, fname), errors[0]) for fname, errors in self.errors.items()]
         errors += list(additional_errors)
         return errors
 

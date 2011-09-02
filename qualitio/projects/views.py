@@ -131,7 +131,8 @@ class OrganizationSettings(TemplateView):
                 return success(message='Changes saved.')
 
             return failed(message="Validation errors: %s" % form.error_message(),
-                          data=store_testcase._errors_list() +\
+                          data=form.errors_list() +\
+                              store_testcase._errors_list() +\
                               execute_testrun._errors_list() +\
                               execute_testcaserun._errors_list() +\
                               glossary_language._errors_list())
