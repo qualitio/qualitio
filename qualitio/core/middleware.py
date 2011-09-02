@@ -64,6 +64,9 @@ THREAD = local()
 
 class OrganizationMiddleware(object):
     def process_request(self, request):
+        THREAD.organization = None
+        request.organization = None
+
         from qualitio.projects.models import Organization
         match = re.match('^(?P<host>[\w\.\-]+)(:(?P<port>\d+))?', request.get_host())
         if not match:
@@ -90,9 +93,17 @@ class OrganizationMiddleware(object):
 
         return None
 
+    def process_response(self, request, response):
+        THREAD.organization = None
+        request.organization = None
+        return response
+
 
 class ProjectMiddleware(object):
     def process_request(self, request):
+        THREAD.project = None
+        request.project = None
+
         from qualitio.projects.models import Project
         path = request.path_info.lstrip('/')
 
