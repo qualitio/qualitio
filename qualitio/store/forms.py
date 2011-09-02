@@ -9,14 +9,6 @@ class TestCaseDirectoryForm(core.DirectoryModelForm):
     class Meta(core.PathModelForm.Meta):
         model = models.TestCaseDirectory
 
-    def __init__(self, *args, **kwargs):
-        super(TestCaseDirectoryForm, self).__init__(*args, **kwargs)
-        for name, field in self.fields.items():
-            if hasattr(field,"queryset"):
-                #TODO: nasty reload for projects form, we should think about redesing of
-                # metaclass for forms
-                field.queryset = field.queryset.model.objects.all()
-
 
 class TestCaseForm(core.PathModelForm):
     class Meta(core.PathModelForm.Meta):
