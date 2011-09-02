@@ -2,10 +2,12 @@
 
 {% block css-include %}{{ block.super }}
 <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/projects.css{{ STATIC_HASH }}"></link>
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}lib/colorpicker/css/colorpicker.css{{ STATIC_HASH }}"></link>
 {% endblock %}
 
 {% block js-include %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/projects.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}lib/colorpicker/js/colorpicker.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 
 {% block logo %}{{ request.organization.name }}@Qualitio{% endblock %}
