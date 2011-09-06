@@ -24,7 +24,7 @@ def directory_details(request, directory_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(ReportDirectory, "edit", 'report.change_reportdirectory')
+@core.menu_view(ReportDirectory, "edit", role='USER')
 def directory_edit(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
     reportdirectory_form = ReportDirectoryForm(instance=directory)
@@ -63,7 +63,8 @@ def directory_valid(request, directory_id=0, **kwargs):
         return failed(message="Validation errors: %s" % reportdirectory_form.error_message(),
                       data=reportdirectory_form.errors_list())
 
-@permission_required('USER')
+
+@permission_required('USER_READONLY')
 @core.menu_view(Report, "details")
 def report_details(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
@@ -91,7 +92,7 @@ def report_details(request, report_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(Report, "edit", "report.change_report")
+@core.menu_view(Report, "edit", role='USER')
 def report_edit(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
     report_form = ReportForm(instance=report)

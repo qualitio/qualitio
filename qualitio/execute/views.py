@@ -23,7 +23,7 @@ def directory_details(request, directory_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(TestRunDirectory, "edit", 'execute.change_testrundirectory')
+@core.menu_view(TestRunDirectory, "edit", role='USER')
 def directory_edit(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
@@ -74,7 +74,7 @@ def testrun_details(request, testrun_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(TestRun, "edit")
+@core.menu_view(TestRun, "edit", role='USER')
 def testrun_edit(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunForm(instance=testrun)
@@ -96,7 +96,7 @@ def testrun_new(request, directory_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(TestRun, "notes")
+@core.menu_view(TestRun, "notes", role='USER')
 def testrun_notes(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunNotesForm(instance=testrun)

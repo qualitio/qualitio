@@ -31,7 +31,7 @@ def directory_details(request, directory_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(TestCaseDirectory, "edit", 'store.add_testcasedirectory')
+@core.menu_view(TestCaseDirectory, "edit", role='USER')
 def directory_edit(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
@@ -78,7 +78,7 @@ def testcase_details(request, testcase_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(TestCase, "edit", 'store.change_testcase')
+@core.menu_view(TestCase, "edit", role='USER')
 def testcase_edit(request, testcase_id, **kwargs):
     testcase = TestCase.objects.get(pk=testcase_id)
     testcase_form = TestCaseForm(instance=testcase)

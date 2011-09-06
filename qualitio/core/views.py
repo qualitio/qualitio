@@ -81,14 +81,14 @@ def permission_required(request, *args, **kwargs):
 
 
 registry = {}
-def menu_view(_object,  view_name, perm="", index=-1, *args, **kwargs):
+def menu_view(_object,  view_name, role="", index=-1, *args, **kwargs):
     if index < 0:
         index = len(registry)-index+1 # this is only append
 
     if registry.has_key(_object):
-        registry[_object].insert(index, dict(name=view_name, perm=perm))
+        registry[_object].insert(index, dict(name=view_name, role=role))
     else:
-        registry[_object] = [dict(name=view_name, perm=perm)]
+        registry[_object] = [dict(name=view_name, role=role)]
 
     def _menu_view(function):
         def __menu_view(*args, **kw):

@@ -16,7 +16,7 @@ def index(request, **kwargs):
 
 
 @permission_required('USER_READONLY')
-@core.menu_view(Requirement, "details")
+@core.menu_view(Requirement, "details", role='USER_READONLY')
 def details(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     testcases = requirement.testcase_set.all()
@@ -25,7 +25,7 @@ def details(request, requirement_id, **kwargs):
                                'testcases': testcases })
 
 @permission_required('USER')
-@core.menu_view(Requirement, "edit", perm='require.change_requirement')
+@core.menu_view(Requirement, "edit", role='USER')
 def edit(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     requirement_form = RequirementForm(instance=requirement)
@@ -65,7 +65,7 @@ def valid(request, requirement_id=0, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(Requirement, "testcases", perm='store.change_testcase')
+@core.menu_view(Requirement, "testcases", role='USER')
 def testcases(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     return direct_to_template(request, 'require/test_cases.html',

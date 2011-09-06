@@ -15,14 +15,18 @@ class ApplicationViewMenuNode(template.Node):
         self.obj = obj
         self.view = view
 
-    def registred_views(self, obj, user):
+    def registred_views(self, obj, user, organization):
         from qualitio.core.views import registry
 
         views = []
         for view in registry.get(obj.__class__, None):
-            if view['perm']:
+            from qualitio.projects.models import OrganizationMember
+
+            if view['role']:
+                role = getattr(OrganizationMember, view['role'], 999999)
+                perm=organization.members.filter(user=user, role__lte=role).exists()
                 views.append(dict(name=view['name'],
-                                  perm=user.has_perm(view['perm'])))
+                                  perm=perm))
             else:
                 views.append(dict(name=view['name'],
                                   perm=True))
@@ -37,6 +41,8 @@ class ApplicationViewMenuNode(template.Node):
         return template.loader.render_to_string("core/application_view_menu.html",
                                                 {"obj": materialized_obj,
                                                  "current_view": materialized_view,
-                                                 "registred_views": self.registred_views(materialized_obj, context['user']),
+                                                 "registred_views": self.registred_views(materialized_obj,
+                                                                                         context['user'],
+                                                                                         context['request'].organization),
                                                  "module_name": module_name},
                                                 context_instance=RequestContext(context['request']))
