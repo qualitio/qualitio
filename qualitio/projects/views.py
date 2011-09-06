@@ -1,16 +1,12 @@
-from django.contrib.auth import models as auth
 from django.http import Http404
 from django.template.response import TemplateResponse
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import (View, DetailView, CreateView, RedirectView,
-                                  UpdateView, ListView, TemplateView, FormView)
+from django.views.generic import (View, CreateView, RedirectView,
+                                  UpdateView, ListView, TemplateView)
 
 from reversion.models import Revision
 from articles.models import Article
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.execute.forms import TestRunStatusFormSet, TestCaseRunStatusFormSet
 
 import models
 import forms

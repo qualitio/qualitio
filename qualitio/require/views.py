@@ -1,7 +1,8 @@
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import permission_required
+# from django.contrib.auth.decorators import permission_required
 
 from qualitio.core.utils import json_response, success, failed
+from qualitio.projects.auth.decorators import permission_required
 from qualitio import core
 from qualitio import store
 from qualitio.require.models import Requirement
@@ -14,6 +15,7 @@ def index(request, **kwargs):
     return direct_to_template(request, 'require/base.html')
 
 
+@permission_required('USER_READONLY')
 @core.menu_view(Requirement, "details")
 def details(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
@@ -22,8 +24,7 @@ def details(request, requirement_id, **kwargs):
                               {'requirement': requirement ,
                                'testcases': testcases })
 
-
-@permission_required('require.change_requirement', login_url='/permission_required/')
+@permission_required('USER')
 @core.menu_view(Requirement, "edit", perm='require.change_requirement')
 def edit(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
@@ -32,7 +33,7 @@ def edit(request, requirement_id, **kwargs):
                               {'requirement_form': requirement_form})
 
 
-@permission_required('require.add_requirement', login_url='/permission_required/')
+@permission_required('USER')
 def new(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(id=requirement_id)
     requirement_form = RequirementForm(initial={'parent': requirement})
@@ -40,6 +41,7 @@ def new(request, requirement_id, **kwargs):
                               {'requirement_form': requirement_form})
 
 
+@permission_required('USER')
 @json_response
 def valid(request, requirement_id=0, **kwargs):
     if requirement_id:
@@ -62,7 +64,7 @@ def valid(request, requirement_id=0, **kwargs):
                   data=requirement_form.errors_list())
 
 
-@permission_required('store.change_testcase', login_url='/permission_required/')
+@permission_required('USER')
 @core.menu_view(Requirement, "testcases", perm='store.change_testcase')
 def testcases(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
@@ -72,6 +74,7 @@ def testcases(request, requirement_id, **kwargs):
                                'available_testcases': store.TestCase.objects.all()})
 
 
+@permission_required('USER')
 @json_response
 def testcases_connect(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)

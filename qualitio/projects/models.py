@@ -32,12 +32,16 @@ class OrganizationMember(CustomizableModel):
     organization = models.ForeignKey('Organization', related_name='members')
     user = models.OneToOneField('auth.User', related_name='organization_member')
 
+    ADMIN = 0
+    USER = 10
+    USER_READONLY = 20
+
     ROLE_CHOICES = (
-        (u'admin', u'Admin'),
-        (u'edit', u'User'),
-        (u'read', u'User - read only'),
+        (ADMIN, u'Admin'),
+        (USER, u'User'),
+        (USER_READONLY, u'User - read only'),
     )
-    role = models.CharField(max_length=12, choices=ROLE_CHOICES, default="read")
+    role = models.IntegerField(choices=ROLE_CHOICES, default=2)
 
 
 class ProjectManager(models.Manager):
