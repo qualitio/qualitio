@@ -1,5 +1,4 @@
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
@@ -7,6 +6,7 @@ from django.core.urlresolvers import reverse
 
 from qualitio import core
 from qualitio.core.utils import json_response, success, failed
+from qualitio.projects.auth.decorators import permission_required
 from qualitio.report.models import ReportDirectory, Report
 from qualitio.report.forms import ReportDirectoryForm, ReportForm, ContextElementFormset
 from qualitio.report.validators import ReportValidator
@@ -16,13 +16,14 @@ def index(request, **kwargs):
     return direct_to_template(request, 'report/base.html', {})
 
 
+@permission_required('USER_READONLY')
 @core.menu_view(ReportDirectory, "details")
 def directory_details(request, directory_id, **kwargs):
     return direct_to_template(request, 'report/reportdirectory_details.html',
                               {'directory': ReportDirectory.objects.get(pk=directory_id)})
 
 
-@permission_required('report.change_reportdirectory', login_url='/permission_required/')
+@permission_required('USER')
 @core.menu_view(ReportDirectory, "edit", 'report.change_reportdirectory')
 def directory_edit(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
@@ -31,7 +32,7 @@ def directory_edit(request, directory_id, **kwargs):
                               {'reportdirectory_form': reportdirectory_form})
 
 
-@permission_required('report.add_reportdirectory', login_url='/permission_required/')
+@permission_required('USER')
 def directory_new(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
     reportdirectory_form = ReportDirectoryForm(initial={'parent': directory})
@@ -40,6 +41,7 @@ def directory_new(request, directory_id, **kwargs):
                               {'reportdirectory_form': reportdirectory_form})
 
 
+@permission_required('USER')
 @json_response
 def directory_valid(request, directory_id=0, **kwargs):
     # TODO: should we think about permissions for valid views?
@@ -61,6 +63,7 @@ def directory_valid(request, directory_id=0, **kwargs):
         return failed(message="Validation errors: %s" % reportdirectory_form.error_message(),
                       data=reportdirectory_form.errors_list())
 
+@permission_required('USER')
 @core.menu_view(Report, "details")
 def report_details(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
@@ -87,7 +90,7 @@ def report_details(request, report_id, **kwargs):
                                'styles' : styles})
 
 
-@permission_required('report.change_report', login_url='/permission_required/')
+@permission_required('USER')
 @core.menu_view(Report, "edit", "report.change_report")
 def report_edit(request, report_id, **kwargs):
     report = Report.objects.get(pk=report_id)
@@ -98,7 +101,7 @@ def report_edit(request, report_id, **kwargs):
                                "report_contextelement_formset": report_contextelement_formset})
 
 
-@permission_required('report.add_report', login_url='/permission_required/')
+@permission_required('USER')
 def report_new(request, directory_id, **kwargs):
     directory = ReportDirectory.objects.get(pk=directory_id)
     report_form = ReportForm(initial={'parent': directory})
@@ -108,6 +111,7 @@ def report_new(request, directory_id, **kwargs):
                                "report_contextelement_formset": report_contextelement_formset})
 
 
+@permission_required('USER')
 @json_response
 def report_valid(request, report_id=0, **kwargs):
     if report_id:
