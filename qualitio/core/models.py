@@ -127,8 +127,16 @@ class BasePathModelMetaclass(models.base.ModelBase):
 class BasePathManager(BaseManager):
     select_related_fields = ['parent']
 
-    def get_query_set(self):
-        return super(BasePathManager, self).get_query_set().select_related(*self.select_related_fields)
+    def get_query_set(self, select_related_fields=None):
+        queryset = super(BasePathManager, self).get_query_set()
+
+        if select_related_fields is None:
+            select_related_fields = self.select_related_fields
+
+        if select_related_fields:
+            return queryset.select_related(*select_related_fields)
+
+        return queryset
 
 
 class BasePathModel(AbstractPathModel):
