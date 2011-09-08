@@ -3,9 +3,17 @@
   <h1>requirement: {{ requirement.name }}</h1>
 </div>
 
+<script type="text/javascript">
+  var URLS = {
+     connected_testcases: '{{ connected_testcases_url|safe }}',
+     available_testcases: '{{ available_testcases_url|safe }}',
+     connect_testcases: '{{ connect_testcases_url|safe }}',
+     disconnect_testcases: '{{ disconnect_testcases_url|safe }}'
+  };
+</script>
+
 {% application_view_menu requirement "testcases" %}
-<form id="testcases_connect_form" method="post"
-      action="{{ SELF.get_absolute_url }}ajax/requirement/{{ requirement.id }}/testcases/connect/">
+<form id="testcases_connect_form" method="post">
   {% csrf_token %}
   <div class="grid_16">
     <div class="connected-testcases application-view-content clearfix">
@@ -22,33 +30,6 @@
           </tr>
         </thead>
         <tbody>
-          {% for testcase in connected_testcases %}
-          <tr class="{% cycle 'odd' 'even' %}" >
-            <td class="select">
-              <input type="checkbox" class="modify" value="{{ testcase.id }}"/>
-              <input type="hidden" name="connected_test_case" value="{{ testcase.id }}"/>
-            </td>
-            <td class="id">
-              {{ testcase.id }}
-            </td>
-            <td class="path">
-              <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ testcase.parent.pk }}/details/">
-                {{ testcase.path }}
-              </a>
-            </td>
-            <td class="name">
-              <a href="{{ STORE.get_absolute_url }}#testcase/{{ testcase.pk }}/details/">
-                {{ testcase.name }}
-              </a>
-            </td>
-            <td class="modified_time">
-              {{ testcase.modified_time }}
-            </td>
-            <td class="created_time">
-              {{ testcase.created_time }}
-            </td>
-          </tr>
-          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -69,7 +50,7 @@
   </div>
 
   <div class="grid_16">
-    <div class="available-testcases application-view-content clearfix">
+    <div id="application-view-footer" class="available-testcases application-view-content clearfix">
       <h2>available testcases</h2>
       <table class="display">
         <thead>
@@ -78,55 +59,13 @@
             <th>id</th>
             <th>path</th>
             <th>name</th>
-            <th>requirement</th>
             <th>modified</th>
             <th>created</th>
           </tr>
         </thead>
         <tbody>
-          {% for testcase in available_testcases %}
-          <tr class="{% cycle 'odd' 'even' %}" style="background: {{ testcase.status.color }}">
-            <td class="select">
-              <input type="checkbox" class="modify" value="{{ testcase.id }}"/>
-              <input type="hidden" name="available_test_case" value="{{ testcase.id }}"/>
-            </td>
-            <td class="id">
-              {{ testcase.id }}
-            </td>
-            <td class="path">
-              <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ testcase.parent.pk }}/details/">
-                {{ testcase.path }}
-              </a>
-            </td>
-            <td class="name">
-              <a href="{{ STORE.get_absolute_url }}#testcase/{{ testcase.pk }}/details/">
-                {{ testcase.name }}
-              </a>
-            </td>
-            <td class="requirement">
-              <a href="{{ REQUIRE.get_absolute_url }}#requirement/{{ testcase.requirement.pk }}/details/">
-                {{ testcase.requirement }}
-              </a>
-            </td>
-
-            <td class="modified_time">
-              {{ testcase.modified_time }}
-            </td>
-            <td class="created_time">
-              {{ testcase.created_time }}
-            </td>
-          </tr>
-          {% endfor %}
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="grid_16 clearfix">
-    <div id="application-view-footer" class="application-view-content">
-      <div class="right">
-        <input type="submit" name="Executed" value="Save"/>
-      </div>
     </div>
   </div>
 </form>

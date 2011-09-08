@@ -619,6 +619,14 @@ input[readonly] {
 .remove-button {
     float: left;
     width: 49%;
+    font-weight: bold;
+    color: red;
+    border: 1px solid #FF9966;
+}
+
+.remove-button:hover {
+    color: red;
+    border: 1px solid red;
 }
 
 .remove-button .ui-icon {
@@ -628,6 +636,14 @@ input[readonly] {
 .add-button {
     float: right;
     width: 49%;
+    font-weight: bold;
+    color: green;
+    border: 1px solid #A0C544;
+}
+
+.add-button:hover {
+    color: green;
+    border: 1px solid green;
 }
 
 .add-button .ui-icon {

@@ -66,32 +66,74 @@ def valid(request, requirement_id=0, **kwargs):
 @core.menu_view(Requirement, "testcases", perm='store.change_testcase')
 def testcases(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
+    url = '/project/%(slug)s/require/ajax/requirement/%(id)s/' % {
+        'slug': request.project.slug,
+        'id': requirement_id,
+        }
     return direct_to_template(request, 'require/test_cases.html',
                               {'requirement': requirement,
-                               'connected_testcases': requirement.testcase_set.all(),
-                               'available_testcases': store.TestCase.objects.all()})
+                               'connected_testcases_url': url + 'connected_testcases/',
+                               'available_testcases_url': url + 'available_testcases/',
+                               'connect_testcases_url': url + 'testcases/connect/',
+                               'disconnect_testcases_url': url + 'testcases/disconnect/',
+                               })
+
+
+@json_response
+def connected_testcases(request, requirement_id, **kwargs):
+    datatable = core.DataTable(
+        columns=["checkbox", "id", "path", "name", "modified_time", "created_time"],
+        params=request.GET,
+        queryset=store.TestCase.objects.filter(requirement__id=requirement_id))
+    return datatable.response_dict(mapitem=lambda item: [
+            '<input type="checkbox" id="testcase-%s" name="connected_testcase" />' % item.id,
+            item.id,
+            item.path,
+            item.name,
+            item.modified_time.strftime("%d-%m-%Y"),
+            item.created_time.strftime("%d-%m-%Y"),
+            ])
+
+
+@json_response
+def available_testcases(request, requirement_id, **kwargs):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    datatable = core.DataTable(
+        columns=["checkbox", "id", "path", "name", "modified_time", "created_time"],
+        params=request.GET,
+        queryset=store.TestCase.objects.get_query_set(select_related_fields=[]).exclude(
+            id__in=requirement.testcase_set.values_list('id', flat=True)))
+    return datatable.response_dict(mapitem=lambda item: [
+            '<input type="checkbox" id="testcase-%s" name="available_testcase" />' % item.id,
+            item.id,
+            item.path,
+            item.name,
+            item.modified_time.strftime("%d-%m-%Y"),
+            item.created_time.strftime("%d-%m-%Y"),
+            ])
 
 
 @json_response
 def testcases_connect(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
-
-    previously_connected = set(requirement.testcase_set.all()) # freeze
-
-    requirement.testcase_set.clear()
-
-    testcases =\
-        store.TestCase.objects.filter(pk__in=request.POST.getlist("connected_test_case"))
-
-    for testcase in testcases:
-        requirement.testcase_set.add(testcase)
-
-    currently_connected = set(requirement.testcase_set.all()) # freeze
-
-    created = list(currently_connected - previously_connected)
-    deleted = list(previously_connected - currently_connected)
+    testcases = store.TestCase.objects.filter(pk__in=request.POST.getlist("testcases[]"))
+    testcases.update(requirement=requirement)
 
     log = history.History(request.user, requirement)
-    log.add_objects(created=created, deleted=deleted)
+    log.add_objects(created=testcases)
     message = log.save()
+
+    return success(message=message)
+
+
+@json_response
+def testcases_disconnect(request, requirement_id, **kwargs):
+    requirement = Requirement.objects.get(pk=requirement_id)
+    testcases = store.TestCase.objects.filter(pk__in=request.POST.getlist("testcases[]"))
+    testcases.update(requirement=None)
+
+    log = history.History(request.user, requirement)
+    log.add_objects(deleted=testcases)
+    message = log.save()
+
     return success(message=message)
