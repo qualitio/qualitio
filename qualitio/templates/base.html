@@ -61,7 +61,7 @@
       <div id="header" class="container_16 clearfix">
         <div class="grid_6">
           <div class="logo">
-            <a href="/">qualitio</a>
+            <a href="/">{% block logo %}qualitio{% endblock %}</a>
           </div>
         </div>
 
@@ -72,6 +72,11 @@
 	  {% if user.is_superuser %}
           <div>
             <a href="/admin/">admin</a>
+          </div>
+	  {% endif %}
+	  {% if user.organization_member.role == "admin" %}
+          <div>
+            <a href="/settings/">settings</a>
           </div>
 	  {% endif %}
           <div>
