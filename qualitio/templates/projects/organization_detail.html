@@ -19,7 +19,7 @@
 
         {% for project in organization.project_set.all %}
         <div class="project">
-          <a class="name" href="{{ project.get_absolute_url }}">{{ project.name }}</a>
+          <a class="name" href="{{ project.get_absolute_url }}require/">{{ project.name }}</a>
           {% if project.homepage %}
           (<a href="{{ project.homepage }}">{{ project.homepage }})</a>
           {% endif %}
