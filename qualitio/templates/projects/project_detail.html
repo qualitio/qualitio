@@ -5,9 +5,8 @@
   <div class="header clearfix">
     <div class="grid_8">
       <div class="name">
-	<div>
-          <a class="{% if not CURRENT_MODULE %}active{% endif %}"
-	     href="{{ request.project.get_absolute_url }}">{{ request.project.name }}</a>
+	<div class="project-name">
+	  {{ request.organization.name }} :: {{ request.project.name }}
 	</div>
       </div>
     </div>
