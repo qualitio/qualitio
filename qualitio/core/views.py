@@ -225,7 +225,10 @@ class DataTable(object):
     def __init__(self, columns=None, params=None, model=None, queryset=None):
         self._count = None  # cache count field
         self._meta = DataTableOptions(model or self.__class__.model or queryset.model, columns, params)
-        self._queryset = queryset or self._meta.model.objects
+        if queryset is not None:
+            self._queryset = queryset
+        else:
+            self._queryset = self._meta.model.objects
 
     def construct_Q(self):
         return reduce(operator.or_, [col.construct_Q() for col in self._meta.columns])
