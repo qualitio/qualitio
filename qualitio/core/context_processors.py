@@ -41,3 +41,12 @@ def module(request):
         app_modules['SELF'] = app_modules.get(current_app_module.upper(), None)
 
     return app_modules
+
+
+def organization_roles(request):
+    from qualitio.projects.models import OrganizationMember
+    return dict(ROLE={
+            'ADMIN': OrganizationMember.ADMIN,
+            'USER': OrganizationMember.USER,
+            'USER_READONLY': OrganizationMember.USER_READONLY,
+            })
