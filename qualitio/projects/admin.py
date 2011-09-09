@@ -11,6 +11,7 @@ admin.site.register(Project, ProjectAdmin)
 
 class OrganizationAdminInline(admin.TabularInline):
     model = OrganizationMember
+    extra = 0
 
 
 class OrganizationAdmin(admin.ModelAdmin):
