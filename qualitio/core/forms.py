@@ -8,13 +8,18 @@ from qualitio.core.custommodel.forms import CustomizableModelForm
 
 
 class FormErrorProcessingMixin(object):
+    def _get_prefix(self):
+        if self.prefix:
+            return "%s-" % self.prefix
+        return ""
+
     def errors_list(self, additional=()):
         """
         Returns all errors as list of tuples: (field_name, first_of_field_errors).
         Errors can be extended with 'additional' error list.
         """
         additional_errors = additional or ()
-        errors = [("%s-%s" % (self.prefix, fname), errors[0]) for fname, errors in self.errors.items()]
+        errors = [("%s%s" % (self._get_prefix(), fname), errors[0]) for fname, errors in self.errors.items()]
         errors += list(additional_errors)
         return errors
 
@@ -23,7 +28,7 @@ class FormErrorProcessingMixin(object):
         Creates short, user readable message about what is wrong with the form.
         The message is created from a list of non_field_errors.
         """
-        return ' '.join([e for e in self.non_field_errors()])
+        return ' '.join([e for e in self.non_field_errors()]) or "Validation errors"
 
 
 class FormsetErrorProcessingMixin(object):
