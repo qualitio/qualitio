@@ -36,8 +36,17 @@ class OrganizationSettings(TemplateView):
     template_name = "projects/organization_settings.html"
 
     class Profile(OrganizationObjectMixin, UpdateView):
-        success_url = "/"
         form_class = forms.OrganizationProfileForm
+
+        @json_response
+        def form_valid(self, form):
+            return success(message="Organization profile successfully updated.")
+
+        @json_response
+        def form_invalid(self, form):
+            return failed(message=form.error_message(),
+                          data=form.errors_list())
+
 
     class Users(TemplateView):
         template_name = "projects/organization_settings_users_form.html"
