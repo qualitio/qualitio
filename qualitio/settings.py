@@ -119,8 +119,9 @@ INSTALLED_APPS = (
     'articles',
     'django_extensions',
 
-    'qualitio.core',
     'qualitio.core.custommodel',  # iternal core django application
+    'qualitio.core.base',
+    'qualitio.core',
     'qualitio.projects',
     'qualitio.require',
     'qualitio.report',
