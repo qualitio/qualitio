@@ -5,7 +5,7 @@ from qualitio import core
 from qualitio import store
 from qualitio import glossary
 
-import mangers
+import managers
 
 
 class TestRunDirectory(core.BaseDirectoryModel):
@@ -107,7 +107,7 @@ class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
     status = models.ForeignKey("TestCaseRunStatus", default=TestCaseRunStatus.default)
 
-    objects = mangers.TestCaseRunManager()
+    objects = managers.TestCaseRunManager()
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
