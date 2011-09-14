@@ -6,7 +6,7 @@ from qualitio.projects import models
 from qualitio import store
 from qualitio import execute
 from qualitio import glossary
-from qualitio.core import forms as core
+from qualitio import core
 
 
 class OrganizationProfileForm(core.BaseModelForm):

@@ -11,7 +11,7 @@ from django import forms
 from mptt.models import MPTTModel
 
 from qualitio.core.utils import success, failed
-from qualitio.core.forms import BaseForm
+from qualitio.core import BaseForm
 from qualitio import history
 
 from qualitio.actions.utils import Property
