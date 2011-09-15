@@ -307,6 +307,7 @@ $(function() {
     $('.chzn-container').css('width', '100%');
     $('.chzn-drop').css('width', '100%');
     $('.chzn-drop').width($('.chzn-drop').width() - 2);
+    $('.chzn-search input').css('width', '100%');
   }
 
   $.fn.originChosen = $.fn.chosen;
@@ -314,6 +315,7 @@ $(function() {
     var toReturn = $(this).originChosen(settings);
     $(window).unbind('resize', onResize);
     $(window).resize(onResize);
+    $.onTreeResize(onResize);
     onResize();
     return toReturn;
   }
