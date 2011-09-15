@@ -101,7 +101,7 @@ def connected_testcases(request, requirement_id, **kwargs):
 def available_testcases(request, requirement_id, **kwargs):
     requirement = Requirement.objects.get(pk=requirement_id)
     datatable = core.DataTable(
-        columns=["checkbox", "id", "path", "name", "modified_time", "created_time"],
+        columns=["checkbox", "id", "path", "name", "requirement", "modified_time", "created_time"],
         params=request.GET,
         queryset=store.TestCase.objects.get_query_set(select_related_fields=[]).exclude(
             id__in=requirement.testcase_set.values_list('id', flat=True)))
@@ -110,6 +110,7 @@ def available_testcases(request, requirement_id, **kwargs):
             item.id,
             item.path,
             item.name,
+            getattr(item.requirement, 'name', '<i>not set</i>'),
             item.modified_time.strftime("%d-%m-%Y"),
             item.created_time.strftime("%d-%m-%Y"),
             ])
