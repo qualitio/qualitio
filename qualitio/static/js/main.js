@@ -305,6 +305,8 @@ $(function() {
 (function($){
   function onResize() {
     $('.chzn-container').css('width', '100%');
+    $('.chzn-drop').css('width', '100%');
+    $('.chzn-drop').width($('.chzn-drop').width() - 2);
   }
 
   $.fn.originChosen = $.fn.chosen;

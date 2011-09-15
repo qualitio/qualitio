@@ -649,3 +649,14 @@ input[readonly] {
 .add-button .ui-icon {
     float:right;
 }
+
+
+/* chosen plugin css override */
+.chzn-container-single .chzn-single {
+    border-radius: 0px;
+}
+
+.chzn-container-multi .chzn-choices .search-choice {
+    width: 97%;
+}
+/* END chosen plugin css override */
