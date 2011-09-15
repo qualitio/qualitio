@@ -1,7 +1,7 @@
 // Chosen, a Select Box Enhancer for jQuery and Protoype
 // by Patrick Filler for Harvest, http://getharvest.com
 // 
-// Version 0.9.1
+// Version 0.9
 // Full source at https://github.com/harvesthq/chosen
 // Copyright (c) 2011 Harvest http://getharvest.com
 
@@ -17,9 +17,6 @@
   $ = jQuery;
   $.fn.extend({
     chosen: function(data, options) {
-      if ($.browser === "msie" && ($.browser.version === "6.0" || $.browser.version === "7.0")) {
-        return this;
-      }
       return $(this).each(function(input_field) {
         if (!($(this)).hasClass("chzn-done")) {
           return new Chosen(this, data, options);
@@ -58,7 +55,7 @@
       this.default_text = this.form_field_jq.data('placeholder') ? this.form_field_jq.data('placeholder') : this.default_text_default;
       container_div = $("<div />", {
         id: this.container_id,
-        "class": "chzn-container " + (this.is_rtl ? 'chzn-rtl' : ''),
+        "class": "chzn-container " + (this.is_rtl ? ' chzn-rtl' : void 0),
         style: 'width: ' + this.f_width + 'px;'
       });
       if (this.is_multiple) {
@@ -95,8 +92,8 @@
       return this.set_tab_index();
     };
     Chosen.prototype.register_observers = function() {
-      this.container.mousedown(__bind(function(evt) {
-        return this.container_mousedown(evt);
+      this.container.click(__bind(function(evt) {
+        return this.container_click(evt);
       }, this));
       this.container.mouseenter(__bind(function(evt) {
         return this.mouse_enter(evt);
@@ -104,8 +101,8 @@
       this.container.mouseleave(__bind(function(evt) {
         return this.mouse_leave(evt);
       }, this));
-      this.search_results.mouseup(__bind(function(evt) {
-        return this.search_results_mouseup(evt);
+      this.search_results.click(__bind(function(evt) {
+        return this.search_results_click(evt);
       }, this));
       this.search_results.mouseover(__bind(function(evt) {
         return this.search_results_mouseover(evt);
@@ -138,8 +135,8 @@
         }, this));
       }
     };
-    Chosen.prototype.container_mousedown = function(evt) {
-      if (evt && evt.type === "mousedown") {
+    Chosen.prototype.container_click = function(evt) {
+      if (evt && evt.type === "click") {
         evt.stopPropagation();
       }
       if (!this.pending_destroy_click) {
@@ -167,7 +164,7 @@
     Chosen.prototype.input_focus = function(evt) {
       if (!this.active_field) {
         return setTimeout((__bind(function() {
-          return this.container_mousedown();
+          return this.container_click();
         }, this)), 50);
       }
     };
@@ -356,12 +353,12 @@
         return this.search_field.removeClass("default");
       }
     };
-    Chosen.prototype.search_results_mouseup = function(evt) {
+    Chosen.prototype.search_results_click = function(evt) {
       var target;
       target = $(evt.target).hasClass("active-result") ? $(evt.target) : $(evt.target).parents(".active-result").first();
       if (target.length) {
         this.result_highlight = target;
-        return this.result_select(evt);
+        return this.result_select();
       }
     };
     Chosen.prototype.search_results_mouseover = function(evt) {
@@ -406,7 +403,7 @@
       this.result_deselect(link.attr("rel"));
       return link.parents('li').first().remove();
     };
-    Chosen.prototype.result_select = function(evt) {
+    Chosen.prototype.result_select = function() {
       var high, high_id, item, position;
       if (this.result_highlight) {
         high = this.result_highlight;
@@ -427,9 +424,7 @@
         } else {
           this.selected_item.find("span").first().text(item.text);
         }
-        if (!(evt.metaKey && this.is_multiple)) {
-          this.results_hide();
-        }
+        this.results_hide();
         this.search_field.val("");
         this.form_field_jq.trigger("change");
         return this.search_field_scale();
@@ -535,11 +530,10 @@
       return _results;
     };
     Chosen.prototype.winnow_results_set_highlight = function() {
-      var do_high, selected_results;
+      var do_high;
       if (!this.result_highlight) {
-        selected_results = !this.is_multiple ? this.search_results.find(".result-selected") : [];
-        do_high = selected_results.length ? selected_results.first() : this.search_results.find(".active-result").first();
-        if (do_high != null) {
+        do_high = this.search_results.find(".active-result").first();
+        if (do_high) {
           return this.result_do_highlight(do_high);
         }
       }
@@ -617,7 +611,7 @@
         case 13:
           evt.preventDefault();
           if (this.results_showing) {
-            return this.result_select(evt);
+            return this.result_select();
           }
           break;
         case 27:
@@ -629,8 +623,6 @@
         case 38:
         case 40:
         case 16:
-        case 91:
-        case 17:
           break;
         default:
           return this.results_search();
