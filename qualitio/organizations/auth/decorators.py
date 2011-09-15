@@ -6,7 +6,7 @@ def permission_required(mode):
     def decorator(func):
         @wraps(func)
         def wrapper(request, *args, **kwargs):
-            from qualitio.projects.models import OrganizationMember
+            from qualitio.organizations.models import OrganizationMember
 
             role = getattr(OrganizationMember, mode, 999999)
 

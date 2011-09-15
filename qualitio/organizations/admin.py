@@ -1,6 +1,7 @@
 from django.contrib import admin
-from qualitio.projects.models import Project, Organization, OrganizationMember
 from qualitio.core.utils import FieldList
+
+from qualitio.organizations.models import Project, Organization, OrganizationMember
 
 
 class ProjectAdmin(admin.ModelAdmin):

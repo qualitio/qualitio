@@ -1,4 +1,4 @@
-{% extends 'projects/base.html' %}
+{% extends "base.html" %}
 
 {% block projects-base %}
 <div id="projects">
@@ -33,7 +33,5 @@
   </div>
 
   {% block project_detail %}{% endblock %}
-
 </div>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/projects_project_detail.js{{ STATIC_HASH }}"></script>
 {% endblock %}

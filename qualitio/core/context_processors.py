@@ -44,7 +44,7 @@ def module(request):
 
 
 def organization_roles(request):
-    from qualitio.projects.models import OrganizationMember
+    from qualitio.organizations import OrganizationMember
     return dict(ROLE={
             'ADMIN': OrganizationMember.ADMIN,
             'USER': OrganizationMember.USER,

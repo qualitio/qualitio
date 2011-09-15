@@ -67,7 +67,7 @@ class OrganizationMiddleware(object):
         THREAD.organization = None
         request.organization = None
 
-        from qualitio.projects.models import Organization
+        from qualitio.organizations import Organization
         match = re.match('^(?P<host>[\w\.\-]+)(:(?P<port>\d+))?', request.get_host())
         if not match:
             raise ImproperlyConfigured("OrganizationMiddleware is running")
@@ -104,7 +104,7 @@ class ProjectMiddleware(object):
         THREAD.project = None
         request.project = None
 
-        from qualitio.projects.models import Project
+        from qualitio.organizations import Project
         path = request.path_info.lstrip('/')
 
         if path.startswith("project/new/"):

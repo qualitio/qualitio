@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/jquery.jnotify.css" media="screen, projection"/>
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/main.css{{ STATIC_HASH }}" media="screen, projection"/>
     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/table.css{{ STATIC_HASH }}" media="screen, projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/organizations.css{{ STATIC_HASH }}"></link>
     {% endblock %}
     {% endcompress %}
 
@@ -48,6 +49,7 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.chosen.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.checkboxbutton.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js{{ STATIC_HASH }}"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/organizations.js{{ STATIC_HASH }}"></script>
     {% endblock %}
     {% endcompress %}
 
@@ -61,7 +63,11 @@
       <div id="header" class="container_16 clearfix">
         <div class="grid_6">
           <div class="logo">
-            <a href="/">{% block logo %}qualitio{% endblock %}</a>
+            <a href="/">
+	      {% block logo %}
+	      {% if request.organization %}{{ request.organization.name }}@{% endif %}Qualitio
+	      {% endblock %}
+	    </a>
           </div>
         </div>
 
@@ -94,7 +100,9 @@
       </div>
 
       <div id="base" class="container_16 clearfix">
-        {% block base %}{% endblock %}
+        {% block base %}
+	{% block projects-base %}{% endblock %}
+	{% endblock %}
       </div>
 
     </div>

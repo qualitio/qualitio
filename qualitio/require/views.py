@@ -1,8 +1,7 @@
 from django.views.generic.simple import direct_to_template
-# from django.contrib.auth.decorators import permission_required
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.projects.auth.decorators import permission_required
+from qualitio.organizations import permission_required
 from qualitio import core
 from qualitio import store
 from qualitio.require.models import Requirement

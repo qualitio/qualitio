@@ -27,7 +27,7 @@ class BaseManager(models.Manager):
 
 
 class BaseModel(CustomizableModel):
-    project = models.ForeignKey('projects.Project') #ToDo: default == risky stuff
+    project = models.ForeignKey('organizations.Project') #ToDo: default == risky stuff
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 

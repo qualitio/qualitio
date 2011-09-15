@@ -122,10 +122,9 @@ INSTALLED_APPS = (
     'qualitio.core.custommodel',  # iternal core django application
     'qualitio.core.base',
     'qualitio.core',
-    'qualitio.projects',
+    'qualitio.organizations',
     'qualitio.require',
     'qualitio.report',
-    'qualitio.projects',
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
@@ -147,7 +146,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "qualitio.core.context_processors.module",
                                "qualitio.core.context_processors.organization_roles")
 
-AUTH_PROFILE_MODULE = 'projects.UserProfile'
+AUTH_PROFILE_MODULE = 'organizations.UserProfile'
 
 SOCIAL_AUTH_IMPORT_BACKENDS = (
     'qualitio.googleapps.backends',
@@ -156,7 +155,7 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.yahoo.YahooBackend',
-    'qualitio.projects.auth.backends.OrganizationModelBackend'
+    'qualitio.organizations.auth.backends.OrganizationModelBackend'
 )
 
 

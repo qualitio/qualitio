@@ -2,11 +2,12 @@ from django import forms
 from django.contrib.auth import models as auth
 from django.forms.models import modelformset_factory, inlineformset_factory
 
-from qualitio.projects import models
 from qualitio import store
 from qualitio import execute
 from qualitio import glossary
 from qualitio import core
+
+from qualitio.organizations import models
 
 
 class OrganizationProfileForm(core.BaseModelForm):

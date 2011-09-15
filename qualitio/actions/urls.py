@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-from qualitio.projects.auth.decorators import permission_required
+from qualitio.organizations import permission_required
 from qualitio.actions.views import actions
 
 urlpatterns = patterns('',
