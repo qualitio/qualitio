@@ -1,5 +1,5 @@
 import reversion
-from qualitio.core.middleware import THREAD
+from qualitio import THREAD
 from qualitio.store.models import (TestCaseBase, TestCaseStepBase, TestCase,
                                    TestCaseStep, TestCaseDirectory, TestCaseStatus)
 

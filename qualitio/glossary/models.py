@@ -17,7 +17,7 @@ class Language(core.BaseStatusModel):
         else:
             super(Language, self).save(*kwargs, **args)
             for word in Word.objects.all():
-                Representation.objects.get_or_create(language=self, word=word)
+                Representation.objects.get_or_create(language=self, word=word, project=self.project)
 
 
 class Representation(core.BaseModel):

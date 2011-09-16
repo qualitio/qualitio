@@ -1,5 +1,5 @@
 import reversion
-from qualitio.core.middleware import THREAD
+from qualitio import THREAD
 from qualitio.require.models import Requirement
 
 if not reversion.is_registered(Requirement):

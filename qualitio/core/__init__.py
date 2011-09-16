@@ -11,5 +11,3 @@ from qualitio.core.widgets import RawRadioSelectRenderer
 from qualitio.core.views import *
 from qualitio.core.custommodel.models import ModelCustomization, CustomizableModel
 from qualitio.core.custommodel.forms import CustomizableModelForm
-
-from qualitio.core.middleware import THREAD

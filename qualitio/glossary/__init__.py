@@ -1,4 +1,4 @@
-from qualitio.core.middleware import THREAD
+from qualitio import THREAD
 from models import Word, Language, Representation
 
 def get_absolute_url():

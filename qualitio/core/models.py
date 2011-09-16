@@ -7,7 +7,7 @@ from django.db import models, IntegrityError
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 
 from qualitio.core.custommodel.models import CustomizableModel
-from qualitio.core.middleware import THREAD
+from qualitio import THREAD
 
 
 class BaseManager(models.Manager):

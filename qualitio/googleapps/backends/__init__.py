@@ -1,7 +1,7 @@
 from social_auth.backends import OpenIdAuth
 from social_auth.backends.google import GoogleBackend
 
-from qualitio.core import THREAD
+from qualitio import THREAD
 
 
 class GoogleAuth(OpenIdAuth):
