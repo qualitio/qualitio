@@ -1,9 +1,4 @@
-from qualitio import THREAD
 from models import Word, Language, Representation
+from qualitio import module_absolute_url
 
-def get_absolute_url():
-    project = getattr(THREAD, "project", None)
-    if project:
-        return "%s%s/" % (THREAD.project.get_absolute_url(),
-                          "glossary")
-    return "/glossary/"
+get_absolute_url = module_absolute_url(module_name="glossary")

@@ -1,9 +1,4 @@
-from qualitio import THREAD
 from qualitio.report.views import report_external, report_bound
+from qualitio import module_absolute_url
 
-def get_absolute_url():
-    project = getattr(THREAD, "project", None)
-    if project:
-        return "%s%s/" % (THREAD.project.get_absolute_url(),
-                           "report")
-    return "/report/"
+get_absolute_url = module_absolute_url(module_name="report")
