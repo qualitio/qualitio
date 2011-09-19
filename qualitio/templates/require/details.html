@@ -75,8 +75,8 @@
       {% for testcase in testcases %}
       <tr>
         <td><span class="ui-icon ui-icon-document"></span></td>
-        <td><a href="/store/#testcase/{{ testcase.id }}/details/">{{ testcase.id }}</a></td>
-        <td><a href="/store/#testcase/{{ testcase.id }}/details/">{{ testcase.name }}</a></td>
+        <td><a href="/project/{{ request.project.slug }}/store/#testcase/{{ testcase.id }}/details/">{{ testcase.id }}</a></td>
+        <td><a href="/project/{{ request.project.slug }}/store/#testcase/{{ testcase.id }}/details/">{{ testcase.name }}</a></td>
         <td class="path">{{ requirement.modified_time }}</td>
         <td class="path">{{ requirement.created_time }}</td>
       </tr>

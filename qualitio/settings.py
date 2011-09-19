@@ -44,8 +44,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'qualitio.core.middleware.ProjectMiddleware',
-    'qualitio.core.middleware.OrganizationMiddleware',
+    'qualitio.organizations.middleware.ProjectMiddleware',
+    'qualitio.organizations.middleware.OrganizationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -119,12 +119,11 @@ INSTALLED_APPS = (
     'articles',
     'django_extensions',
 
-    'qualitio.core',
     'qualitio.core.custommodel',  # iternal core django application
-    'qualitio.projects',
+    'qualitio.core',
+    'qualitio.organizations',
     'qualitio.require',
     'qualitio.report',
-    'qualitio.projects',
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
@@ -143,9 +142,10 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "qualitio.core.context_processors.settings",
                                "qualitio.core.context_processors.development",
                                "qualitio.core.context_processors.core",
-                               "qualitio.core.context_processors.module")
+                               "qualitio.core.context_processors.module",
+                               "qualitio.organizations.context_processors.organization_roles")
 
-AUTH_PROFILE_MODULE = 'projects.UserProfile'
+AUTH_PROFILE_MODULE = 'organizations.UserProfile'
 
 SOCIAL_AUTH_IMPORT_BACKENDS = (
     'qualitio.googleapps.backends',
@@ -154,7 +154,7 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.yahoo.YahooBackend',
-    'qualitio.projects.auth.backends.OrganizationModelBackend'
+    'qualitio.organizations.auth.backends.OrganizationModelBackend'
 )
 
 

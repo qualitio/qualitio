@@ -1,7 +1,7 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
-from qualitio.projects.models import OrganizationMember
-from qualitio.core import THREAD
+from qualitio.organizations.models import OrganizationMember
+from qualitio import THREAD
 
 
 class OrganizationModelBackend(ModelBackend):

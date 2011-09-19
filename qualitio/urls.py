@@ -8,7 +8,7 @@ from qualitio import api
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
-                       (r'', include('qualitio.projects.urls')),
+                       (r'', include('qualitio.organizations.urls')),
 
                        (r'^logout/$', 'django.contrib.auth.views.logout',
                         {'next_page' : '/'}),

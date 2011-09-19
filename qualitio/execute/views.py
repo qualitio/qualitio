@@ -3,7 +3,7 @@ from django.db.models import Count
 from django.conf import settings
 
 from qualitio.core.utils import json_response, success, failed
-from qualitio.projects.auth.decorators import permission_required
+from qualitio.organizations import permission_required
 from qualitio import core
 from qualitio import store
 from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, TestCaseRunStatus

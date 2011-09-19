@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 from qualitio import core
 from qualitio.core.utils import json_response, success, failed
-from qualitio.projects.auth.decorators import permission_required
+from qualitio.organizations import permission_required
 from qualitio.report.models import ReportDirectory, Report
 from qualitio.report.forms import ReportDirectoryForm, ReportForm, ContextElementFormset
 from qualitio.report.validators import ReportValidator

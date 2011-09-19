@@ -3,7 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template.defaultfilters import slugify
 
 from qualitio.core.custommodel.models import CustomizableModel
-from qualitio.core.middleware import THREAD
+from qualitio import THREAD
 
 
 class Organization(CustomizableModel):

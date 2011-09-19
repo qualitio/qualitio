@@ -77,6 +77,10 @@
 	float: left;
 }
 
+.dataTables_length select {
+    min-width: 50px;
+}
+
 .dataTables_filter {
 	width: 50%;
 	float: right;

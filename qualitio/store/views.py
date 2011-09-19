@@ -3,7 +3,7 @@ from django.views.generic.simple import direct_to_template
 from qualitio import core
 from qualitio.core.utils import json_response, success, failed
 from qualitio.store.models import TestCaseDirectory, TestCase
-from qualitio.projects.auth.decorators import permission_required
+from qualitio.organizations import permission_required
 from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, TestCaseStepFormSet, GlossaryWord
 
 from qualitio import history

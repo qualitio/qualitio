@@ -71,6 +71,7 @@
   </div>
 </form>
 
+{% if user.organization_member.role == ROLE.USER or user.organization_member.role == ROLE.ADMIN %}
 <div class="application-view-content">
   <div class="actions-form">
     <div class="left action-choice-form">
@@ -87,4 +88,5 @@
     {% endfor %}
   </div>
 </div>
+{% endif %}
 {% endblock %}

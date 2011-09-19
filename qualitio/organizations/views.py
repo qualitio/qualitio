@@ -7,9 +7,8 @@ from reversion.models import Revision
 from articles.models import Article
 
 from qualitio.core.utils import json_response, success, failed
-
-import models
-import forms
+from qualitio.organizations import models
+from qualitio.organizations import forms
 
 
 class OrganizationObjectMixin(object):
@@ -26,21 +25,30 @@ class OrganizationObjectMixin(object):
 class OrganizationDetails(View, OrganizationObjectMixin):
     def get(self, request, *args, **kwargs):
         if request.organization:
-            return TemplateResponse(request, "projects/organization_detail.html",
+            return TemplateResponse(request, "organizations/organization_detail.html",
                                     {"organization": request.organization})
         else:
-            return TemplateResponse(request, "projects/organization_none.html")
+            return TemplateResponse(request, "organizations/organization_none.html")
 
 
 class OrganizationSettings(TemplateView):
-    template_name = "projects/organization_settings.html"
+    template_name = "organizations/organization_settings.html"
 
     class Profile(OrganizationObjectMixin, UpdateView):
-        success_url = "/"
         form_class = forms.OrganizationProfileForm
 
+        @json_response
+        def form_valid(self, form):
+            return success(message="Organization profile successfully updated.")
+
+        @json_response
+        def form_invalid(self, form):
+            return failed(message=form.error_message(),
+                          data=form.errors_list())
+
+
     class Users(TemplateView):
-        template_name = "projects/organization_settings_users_form.html"
+        template_name = "organizations/organization_settings_users_form.html"
 
         def get_context_data(self, **kwargs):
             context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
@@ -79,7 +87,7 @@ class OrganizationSettings(TemplateView):
 
 
     class Projects(TemplateView):
-        template_name = "projects/organization_settings_projects_form.html"
+        template_name = "organizations/organization_settings_projects_form.html"
 
         def get_context_data(self, **kwargs):
             context = super(OrganizationSettings.Projects, self).get_context_data(**kwargs)

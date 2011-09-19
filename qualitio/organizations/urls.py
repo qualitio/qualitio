@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
-from qualitio.projects.auth.decorators import permission_required
-from qualitio.projects import views
+
+from qualitio.organizations.auth.decorators import permission_required
+from qualitio.organizations import views
 
 
 urlpatterns = patterns('',
