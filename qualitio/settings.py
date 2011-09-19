@@ -6,7 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Admin Qualitio', 'admin@qualitio.com'),
 )
 
 MANAGERS = ADMINS
