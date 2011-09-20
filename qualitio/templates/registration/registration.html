@@ -3,6 +3,7 @@
 {% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
 
 {% block form %}
+<h1>Registration</h1>
 <form method="post" action="{% url registration.views.register %}">
   <fieldset>
     {% csrf_token %}
