@@ -77,18 +77,15 @@
 #openid {
     padding: 20px 0 0 0;
     border-top: 1px solid #AAAAAA;
+    color: #777777;
+    font-weight: bold;
 }
 
-#openid .logo {
-    width: 60px;
-    height: 60px;
-    float:left;
-    background: url("../images/openid.png") no-repeat;
-}
+#openid .text {
+    color: #777777;
+    font-weight: bold;
+    margin-bottom: 10px;
 
-#openid .button-set {
-    padding: 14px 100px;
-    font-size: 14px;
 }
 
 #openid .button {
@@ -98,10 +95,6 @@
 
 #openid .button.google {
     background: url("../images/google_openid.jpg") no-repeat scroll center -3px transparent;
-
-}
-#openid .button.yahoo {
-    background: url("../images/yahoo_openid.png") no-repeat scroll center -1px transparent;
 }
 
 #submit-panel .button .ui-button-text {

@@ -7,7 +7,7 @@
 <script>
   $(function() {
     creditinals_blocks = '{{ AUTH_AUTO_LOGIN }}'.split(":");
-    
+
     if (creditinals_blocks.length == 2) {
       $("#id_username").val(creditinals_blocks[0]);
       $("label[for=id_username]").hide();
@@ -18,13 +18,11 @@
   })
 
 </script>
-
 <form method="post" action="{% url django.contrib.auth.views.login %}">
   <fieldset>
     {% csrf_token %}
     {{ form.username }}{{ form.username.label_tag|lower }}
     {{ form.password }}{{ form.password.label_tag|lower }}
-
   </fieldset>
   <div class="submit-panel">
     <div class="right">
@@ -34,13 +32,13 @@
     </div>
   </div>
 </form>
-
+{% if request.organization.googleapps_domain %}
 <div id="openid" class="clearfix">
-  <div class="logo clearfix"></div>
-  <div class="button-set">
-    <a class="google button" href="/login/google/">&nbsp;</a>
-    <a class="yahoo button" href="/login/yahoo/">&nbsp;</a>
-  </div>
+  <div class="text">or try Google Login (if you have an account inside
+    <b style="color: black">{{ request.organization.googleapps_domain }}</b>
+    domain)</div>
+  <a class="google button" href="/login/google/">&nbsp;</a>
 </div>
+{% endif %}
 
 {% endblock %}
