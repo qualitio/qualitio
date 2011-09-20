@@ -6,18 +6,27 @@ from django.conf import settings
 from django.utils import termcolors
 from django.http import HttpResponseRedirect
 
-
-EXEMPT_URLS = [re.compile(settings.LOGIN_URL.lstrip('/'))]
+EXEMPT_URLS = []
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
-    EXEMPT_URLS += [re.compile(expr) for expr in settings.LOGIN_EXEMPT_URLS]
+    for pattern in settings.LOGIN_EXEMPT_URLS:
+        if isinstance(pattern, list) or isinstance(pattern, tuple):
+            expr = re.compile(pattern[0]), pattern[1]
+        else:
+            expr = re.compile(pattern), lambda request:True
+
+        EXEMPT_URLS.append(expr)
 
 
 class LoginRequiredMiddleware(object):
     def process_request(self, request):
         if not request.user.is_authenticated():
             path = request.path_info.lstrip('/')
-            if not any(m.match(path) for m in EXEMPT_URLS):
-                return HttpResponseRedirect('%s?next=%s' % (settings.LOGIN_URL, request.path_info) )
+            for pattern, condition in EXEMPT_URLS:
+
+                if pattern.match(path) and condition(request):
+                    return None
+
+            return HttpResponseRedirect('%s?next=%s' % (settings.LOGIN_URL, request.path_info) )
 
 
 class QueriesCounterMiddleware:

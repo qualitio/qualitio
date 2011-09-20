@@ -5,6 +5,10 @@ from qualitio.organizations import views
 
 
 urlpatterns = patterns('',
+                       url(r'^none/$',
+                           views.OrganizationNone.as_view(),
+                           name="organization_none"),
+
                        url(r'^$',
                            views.OrganizationDetails.as_view(),
                            name="organization_details"),

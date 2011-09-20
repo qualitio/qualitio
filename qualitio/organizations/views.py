@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.template.response import TemplateResponse
+from django.shortcuts import redirect
 from django.views.generic import (View, CreateView, RedirectView,
                                   UpdateView, ListView, TemplateView)
 
@@ -28,7 +29,11 @@ class OrganizationDetails(View, OrganizationObjectMixin):
             return TemplateResponse(request, "organizations/organization_detail.html",
                                     {"organization": request.organization})
         else:
-            return TemplateResponse(request, "organizations/organization_none.html")
+            return redirect("organization_none")
+
+
+class OrganizationNone(TemplateView):
+    template_name = "organizations/organization_none.html"
 
 
 class OrganizationSettings(TemplateView):

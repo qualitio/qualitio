@@ -62,6 +62,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
+    (r'^$', lambda request: request.organization is None),
+    r'^none/$',
     r'^static/',
     r'^login/',
     r'^admin/',
