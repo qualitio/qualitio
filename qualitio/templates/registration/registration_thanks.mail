@@ -1,0 +1,8 @@
+Hi {{ username }},
+
+Thank you for creating account!
+
+Your account has been successfully created in {{ organization }} organization. Unfortunately you have to wait till user with admin privileges will enable your account (we sent already email to them about this). After this will happened you should receive an email with notification about this fact.
+
+Regards
+Qualitio Team

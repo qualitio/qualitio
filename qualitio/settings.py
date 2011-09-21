@@ -177,6 +177,12 @@ COMPRESS = False
 
 DBTEMPLATES_CACHE_BACKEND = 'dummy://127.0.0.1/'
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'notifications@qualitio.com'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = "Qualitio Notifications <notifications@qualitio.com>"
+
 try:
     from local_settings import *
 except ImportError:
