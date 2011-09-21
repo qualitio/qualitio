@@ -35,7 +35,6 @@ class RegisterUser(CreateView):
                                 organization_member__role=OrganizationMember.ADMIN)\
                                 .values_list("email", flat=True)
 
-        import ipdb; ipdb.set_trace()
         send_mail('Your organization has new candidate',
                   render_to_string('registration/registration_new_candidate.mail',
                                    {"organization": self.request.organization,
