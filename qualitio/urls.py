@@ -4,22 +4,19 @@ from django.contrib import admin
 admin.autodiscover()
 
 from qualitio import api
+from qualitio.organizations.auth.registration.views import RegisterUser, RegisterUserThanks
 
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
                        (r'', include('qualitio.organizations.urls')),
 
-                       (r'^logout/$', 'django.contrib.auth.views.logout',
-                        {'next_page' : '/'}),
-                       (r'^login/', 'django.contrib.auth.views.login',
-                        {'template_name': "registration/login.html"}),
-
-                       (r'^register/', 'registration.views.register',
-                        {'template_name': "registration/registration.html",
-
-                         'backend': 'registration.backends.simple.SimpleBackend',
-                         'success_url': 'django.contrib.auth.views.login'}),
+                       url(r'^register/$', RegisterUser.as_view(), name="registration"),
+                       url(r'^register/thanks/$', RegisterUserThanks.as_view(), name="registration_thanks"),
+                       url(r'^logout/$', 'django.contrib.auth.views.logout',
+                           {'next_page' : '/'}, name="logout"),
+                       url(r'^login/', 'django.contrib.auth.views.login',
+                           {'template_name': "registration/login.html"}, name="login"),
 
                        (r'^permission_required/$', 'qualitio.core.permission_required'),
 

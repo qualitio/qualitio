@@ -1,0 +1,15 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
+
+{% block form %}
+<h1>Thank you for creating account!</h1>
+<p>
+  <br/>
+  Your account has been successfully created in <b>{{ request.organization.name }}</b> organization. Unfortunately you have to wait till user with admin privileges will enable your account (email has been sent). After this will happened you should receive an email with notification about this fact.
+  <br/>
+  <br/>
+
+  <a href="{% url login %}">Back to login page</a>
+</p>
+{% endblock %}

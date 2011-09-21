@@ -112,7 +112,6 @@ INSTALLED_APPS = (
     'social_auth',
     'django_nose',
     'reversion',
-    'registration',
     'south',
     'pagination',
     'compressor',

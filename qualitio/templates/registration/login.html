@@ -27,7 +27,9 @@
   </fieldset>
   <div class="submit-panel">
     <div class="right">
-      <a class="registartion-link" href="/register/">Register new Qualitio account.</a>
+      <a class="registartion-link" href="/register/">
+        Create new account in <b>{{ request.organization.name }}</b> organization.
+      </a>
       <input type="submit" value="login" />
       <input type="hidden" name="next" value="{{ next }}" />
     </div>

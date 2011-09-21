@@ -35,13 +35,16 @@ class OrganizationMember(CustomizableModel):
     ADMIN = 0
     USER = 10
     USER_READONLY = 20
+    INACTIVE = 999
 
     ROLE_CHOICES = (
         (ADMIN, u'Admin'),
         (USER, u'User'),
         (USER_READONLY, u'User - read only'),
-    )
-    role = models.IntegerField(choices=ROLE_CHOICES, default=2)
+        (INACTIVE, u'Inactive')
+        )
+
+    role = models.IntegerField(choices=ROLE_CHOICES, default=INACTIVE)
 
 
 class ProjectManager(models.Manager):

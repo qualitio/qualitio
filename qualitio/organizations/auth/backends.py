@@ -11,7 +11,8 @@ class OrganizationModelBackend(ModelBackend):
         if THREAD.organization:
             try:
                 organization_member = OrganizationMember.objects.get(user__username=username,
-                                                                 organization=THREAD.organization)
+                                                                     organization=THREAD.organization,
+                                                                     role__lt=OrganizationMember.INACTIVE)
 
                 user = organization_member.user
                 if user.check_password(password):
