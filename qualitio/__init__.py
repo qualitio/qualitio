@@ -28,3 +28,15 @@ class module_absolute_url(object):
             return "%s%s/" % (THREAD.project.get_absolute_url(), self.module_name)
         return "/%s/" % self.module_name
 
+
+
+from social_auth.signals import socialauth_registered
+from qualitio.organizations.models import OrganizationMember
+
+
+def new_users_handler(sender, user, response, details, **kwargs):
+    OrganizationMember.objects.create(user=user,
+                                      organization=THREAD.organization,
+                                      role=OrganizationMember.USER)
+
+socialauth_registered.connect(new_users_handler, sender=None)
