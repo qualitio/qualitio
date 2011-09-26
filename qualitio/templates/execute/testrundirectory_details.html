@@ -1,4 +1,4 @@
-{% load application_view_menu %}
+{% load application_view_menu authorization %}
 <div id="application-view-header">
   <h1>test run directory: {{ directory.name }}</h1>
 </div>
@@ -65,9 +65,9 @@
 
 <div id="application-view-footer" class="application-view-content">
   <div class="right">
-    <a class="button {% if not perms.execute.add_testrun %}disable{% endif %}" 
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#testrundirectory/{{ directory.pk }}/newtestrun/" >create test run</a>
-    <a class="button {% if not perms.execute.add_testrundirectory %}disable{% endif %}" 
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#testrundirectory/{{ directory.pk }}/new/" >create test run directory</a>
   </div>
 </div>
