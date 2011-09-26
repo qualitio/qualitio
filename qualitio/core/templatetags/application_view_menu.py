@@ -20,7 +20,7 @@ class ApplicationViewMenuNode(template.Node):
 
         views = []
         for view in registry.get(obj.__class__, None):
-            from qualitio.projects.models import OrganizationMember
+            from qualitio.organizations.models import OrganizationMember
 
             if view['role']:
                 role = getattr(OrganizationMember, view['role'], 999999)
