@@ -172,7 +172,7 @@ def testrun_copy(request, testrun_id, **kwargs):
 
 
 @permission_required('USER')
-@core.menu_view(TestRun, "execute")
+@core.menu_view(TestRun, "execute", role="USER")
 def testrun_execute(request, testrun_id, **kwargs):
     actions = actionsapp.create_actions(request, 'qualitio.execute', model=TestCaseRun)
     return direct_to_template(request, 'execute/testrun_execute.html',
