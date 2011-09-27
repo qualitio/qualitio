@@ -1,3 +1,8 @@
+{% extends "organizations/organization_settings.html" %}
+
+{% block settings-active-menu %}menu-item-users{% endblock %}
+
+{% block project_detail %}
 <div class="user-management">
   <form id="organization_users_form" method="post" action="/settings/users/">
     {% csrf_token %}
@@ -5,21 +10,21 @@
     <table class="display">
       <thead>
 	<tr>
-          <th>username</th>
-          <th>full name</th>
-          <th>email</th>
-          <th>role</th>
-          <th>delete</th>
+	  <th>username</th>
+	  <th>full name</th>
+	  <th>email</th>
+	  <th>role</th>
+	  <th>delete</th>
 	</tr>
       </thead>
       <tbody>
 	{% for form in formset.forms %}
 	<tr>
-          <td>{{ form.id }}{{ form.instance.user }}</td>
-          <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
-          <td>{{ form.instance.user.email }}</td>
-          <td>{{ form.role }}</td>
-          <td>{{ form.DELETE }}</td>
+	  <td>{{ form.id }}{{ form.instance.user }}</td>
+	  <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
+	  <td>{{ form.instance.user.email }}</td>
+	  <td>{{ form.role }}</td>
+	  <td>{{ form.DELETE }}</td>
 	</tr>
 	{% endfor %}
       </tbody>
@@ -50,4 +55,6 @@
     </div>
   </form>
 </div>
+
 <script type="text/javascript" src="{{ MEDIA_URL }}js/organizations_settings_users.js{{ STATIC_HASH }}"></script>
+{% endblock %}

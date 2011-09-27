@@ -36,8 +36,8 @@ class OrganizationNone(TemplateView):
     template_name = "organizations/organization_none.html"
 
 
-class OrganizationSettings(TemplateView):
-    template_name = "organizations/organization_settings.html"
+class OrganizationSettings(RedirectView):
+    url = '/settings/profile/'
 
     class Profile(OrganizationObjectMixin, UpdateView):
         form_class = forms.OrganizationProfileForm

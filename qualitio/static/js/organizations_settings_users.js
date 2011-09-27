@@ -6,8 +6,7 @@ $(function() {
 	$.shortcuts.showErrors(response.data)
       } else {
 	$.notification.notice(response.message);
-	var users_tab_id = 1;
-	$('#tabs').tabs('load', users_tab_id);
+	document.location.reload();
       }
     },
     beforeSubmit: function() {
