@@ -24,7 +24,9 @@
 	  <td>{{ form.id }}{{ form.instance.user }}</td>
 	  <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
 	  <td>{{ form.instance.user.email }}</td>
-	  <td>{{ form.role }}</td>
+	  <td class="{% if request.user == form.instance.user %}disable{% endif %}">
+	    {{ form.role }}
+	  </td>
 	  <td>
 	    {% if not form.instance.user|has_permission:"ADMIN" %}
 	    <div class="button delete-button">Delete {{ form.DELETE }}</div>
