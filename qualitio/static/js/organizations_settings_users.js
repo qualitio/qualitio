@@ -1,4 +1,6 @@
 $(function() {
+  $('.delete-button').checkboxButton();
+
   $('#organization_users_form, #organization_new_member_form').ajaxForm({
     success: function(response){
       if (! response.success) {

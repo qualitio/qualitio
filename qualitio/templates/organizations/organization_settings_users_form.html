@@ -24,7 +24,7 @@
 	  <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
 	  <td>{{ form.instance.user.email }}</td>
 	  <td>{{ form.role }}</td>
-	  <td>{{ form.DELETE }}</td>
+	  <td><div class="button delete-button">Delete {{ form.DELETE }}</div></td>
 	</tr>
 	{% endfor %}
       </tbody>
