@@ -48,7 +48,7 @@ class ModelTable(tables.ModelTable):
             'id': objid,
             'app_name': self._meta.model._meta.app_label,
             'model_name': model_name,
-            'project_name': self.request.project.name,
+            'project_name': self.request.project.slug,
             }
 
     def link(self, id, label, model_name):

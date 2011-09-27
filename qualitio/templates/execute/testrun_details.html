@@ -1,5 +1,6 @@
 {% load application_view_menu %}
 {% load execute %}
+{% load authorization %}
 <div id="application-view-header">
   <h1>test run: {{ testrun.name }}</h1>
 </div>
@@ -59,7 +60,8 @@
 <div class="grid_16 clearfix">
   <div id="application-view-footer" class="application-view-content">
     <div class="right">
-      <input name="{{ testrun.pk }}" type="submit" value="Clone"/>
+      <input class="{% if not user|has_permission:"USER" %}disable{% endif %}"
+	     name="{{ testrun.pk }}" type="submit" value="Clone"/>
     </div>
   </div>
 </div>

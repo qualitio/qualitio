@@ -15,9 +15,9 @@
 
 <form id="reportdirectory_form"
       action="{% if reportdirectory_form.instance.id %}
-              /report/ajax/reportdirectory/{{ reportdirectory_form.instance.id }}/edit/valid/
+              {{ SELF.get_absolute_url }}ajax/reportdirectory/{{ reportdirectory_form.instance.id }}/edit/valid/
               {% else %}
-              /report/ajax/reportdirectory/new/valid/
+              {{ SELF.get_absolute_url }}ajax/reportdirectory/new/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 
@@ -29,7 +29,7 @@
     </div>
     {% endfor %}
   </div>
-  
+
   <div id="application-view-footer" class="application-view-content clearfix">
     <div class="grid_16 right clearfix">
       <input type="submit" name="Reportd" value="Save" />

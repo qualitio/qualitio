@@ -70,7 +70,7 @@ class Action(object):
 
     def url(self):
         return reverse('qualitio-actions', kwargs={
-                'project': self.request.project.name,
+                'project': self.request.project.slug,
                 'app_label': self.app_label,
                 'action_name': self.name,
                 })

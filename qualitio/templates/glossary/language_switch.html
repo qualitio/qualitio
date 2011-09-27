@@ -1,4 +1,4 @@
-<form action="/glossary/ajax/language_switch_valid/" method="post">
+<form action="/project/{{ request.project.slug }}/glossary/ajax/language_switch_valid/" method="post">
   {% csrf_token %}
   {{form.as_p}}
 </form>

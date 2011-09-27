@@ -44,6 +44,7 @@ class OrganizationSettings(TemplateView):
 
         @json_response
         def form_valid(self, form):
+            self.object = form.save()
             return success(message="Organization profile successfully updated.")
 
         @json_response

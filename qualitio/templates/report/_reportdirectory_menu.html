@@ -1,3 +1,4 @@
+{% load authorization %}
 <div id="application-view-menu">
   {% if view == "details" %}
   <span class="active" >details</span>
@@ -8,7 +9,7 @@
   {% if view == "edit" %}
   <span class="active" >edit</span>
   {% else %}
-  <a class="{% if not perms.report.change_reportdirectory %}disable{% endif %}" 
+  <a class="{% if not user|has_permission:"USER" %}disable{% endif %}"
      href="#reportdirectory/{{ obj.pk }}/edit/">edit</a>
   {% endif %}
 
