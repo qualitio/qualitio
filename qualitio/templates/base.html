@@ -53,7 +53,12 @@
     {% endblock %}
     {% endcompress %}
 
-    <title>qualitio</title>
+    <title>
+      {{ request.organization.name }}@qualitio
+      {% block title %}
+      {% if SELF %} :: {{ SELF.verbose_name }}{% endif %}
+      {% endblock %}
+    </title>
   </head>
 
   <body>

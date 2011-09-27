@@ -8,3 +8,4 @@ if not reversion.is_registered(Requirement):
 
 
 get_absolute_url = module_absolute_url(module_name="require")
+verbose_name = "require"
