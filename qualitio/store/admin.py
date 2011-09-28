@@ -17,14 +17,9 @@ class TestCaseStepInline(admin.TabularInline):
     extra = 1
 
 
-class AttachmentInline(admin.TabularInline):
-    model = models.Attachment
-    extra = 1
-
 
 class TestCaseAdmin(core.PathModelAdmin):
-    inlines = [ TestCaseStepInline,
-                AttachmentInline ]
+    inlines = [ TestCaseStepInline ]
 admin.site.register(models.TestCase, TestCaseAdmin)
 
 

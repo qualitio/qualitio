@@ -83,8 +83,4 @@ class TestCaseStep(TestCaseStepBase):
         return "%s" % (int(self.sequence) + 1)
 
 
-class Attachment(core.BaseModel):
-    testcase = models.ForeignKey('TestCase')
-    name = models.CharField(max_length=512)
-    attachment = models.FileField(upload_to="attachments")
 
