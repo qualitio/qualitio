@@ -62,7 +62,7 @@ class TestCaseStatus(core.BaseStatusModel):
 
 
 class TestCase(TestCaseBase):
-    status = models.ForeignKey('TestCaseStatus', default=TestCaseStatus.default)
+    status = models.ForeignKey('TestCaseStatus', default=1)
 
     class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
