@@ -36,21 +36,22 @@
 
 
 $(function() {
-  $('.organization_projects_form').ajaxForm({
-    success: function(response) {
-      if(!response.success) {
-        $.notification.error(response.message);
-        $.shortcuts.showErrors(response.data)
-      } else {
-        $.notification.notice(response.message);
-
-	var projects_tab_id = 2
-	$('#tabs').tabs('load', projects_tab_id);
+  $('.organization_projects_form').each(function() {
+    var self = $(this);
+    self.ajaxForm({
+      success: function(response) {
+	if(!response.success) {
+          $.notification.error(response.message);
+          $.shortcuts.showErrors(response.data, 'form[action="' + self.attr('action') + '"]');
+	} else {
+          $.notification.notice(response.message);
+	  document.location.reload();
+	}
+      },
+      beforeSubmit: function() {
+	$.shortcuts.hideErrors();
       }
-    },
-    beforeSubmit: function() {
-      $.shortcuts.hideErrors();
-    }
+    });
   });
 
   var deleteClickCallback = function($this, event) {

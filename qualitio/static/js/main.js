@@ -43,12 +43,13 @@ $(window).resize(function() {
 })( jQuery );
 
 jQuery.shortcuts = {
-  showErrors: function(errors) {
+  showErrors: function(errors, selectorPrefix) {
     $(errors).each(function(i, element, value) {
       var field = element[0], message = element[1];
+      var prefix = selectorPrefix ? selectorPrefix + " " : selectorPrefix || "";
 
-      var $field = $('#id_'+ field);
-      var $field_errors = $('#id_' +field+ '_error');
+      var $field = $(prefix + '#id_'+ field);
+      var $field_errors = $(prefix + '#id_' +field+ '_error');
       var parentIsRemoved = $field.parents('.removed').length > 0;
 
       if (! parentIsRemoved) {  // we don't want to validate removed / deleted items

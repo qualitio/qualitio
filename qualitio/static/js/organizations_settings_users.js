@@ -1,4 +1,6 @@
 $(function() {
+  $('.delete-button').checkboxButton();
+
   $('#organization_users_form, #organization_new_member_form').ajaxForm({
     success: function(response){
       if (! response.success) {
@@ -6,8 +8,7 @@ $(function() {
 	$.shortcuts.showErrors(response.data)
       } else {
 	$.notification.notice(response.message);
-	var users_tab_id = 1;
-	$('#tabs').tabs('load', users_tab_id);
+	document.location.reload();
       }
     },
     beforeSubmit: function() {

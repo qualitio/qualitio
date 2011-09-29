@@ -15,7 +15,7 @@ from qualitio.organizations import forms
 class OrganizationObjectMixin(object):
 
     def get_object(self):
-        slug = self.request.organization.name
+        slug = self.request.organization.slug
         try:
             return models.Organization.objects.get(slug=slug)
         except models.Organization.DoesNotExist:
@@ -36,8 +36,8 @@ class OrganizationNone(TemplateView):
     template_name = "organizations/organization_none.html"
 
 
-class OrganizationSettings(TemplateView):
-    template_name = "organizations/organization_settings.html"
+class OrganizationSettings(RedirectView):
+    url = '/settings/profile/'
 
     class Profile(OrganizationObjectMixin, UpdateView):
         form_class = forms.OrganizationProfileForm

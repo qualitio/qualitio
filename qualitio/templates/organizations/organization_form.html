@@ -1,3 +1,8 @@
+{% extends "organizations/organization_settings.html" %}
+
+{% block settings-active-menu %}menu-item-profile{% endblock %}
+
+{% block project_detail %}
 <form id="organization_form" method="post" action="/settings/profile/">
   {% csrf_token %}
   {% for field in form %}
@@ -9,3 +14,4 @@
   <input type="submit" class="button" value="Save"/>
 </form>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/organizations_organization_edit.js{{ STATIC_HASH }}"></script>
+{% endblock %}
