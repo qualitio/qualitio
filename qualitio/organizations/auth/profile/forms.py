@@ -3,15 +3,17 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 
+from qualitio import core
 
-class OrganizationMemberProfileForm(forms.ModelForm):
+
+class OrganizationMemberProfileForm(core.BaseModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")
 
-    old_password = forms.CharField(label=_("Old password"), widget=forms.PasswordInput)
-    new_password1 = forms.CharField(label=_("New password"), widget=forms.PasswordInput)
-    new_password2 = forms.CharField(label=_("New password confirmation"), widget=forms.PasswordInput)
+    old_password = forms.CharField(label=_("Old password"), widget=forms.PasswordInput, required=False)
+    new_password1 = forms.CharField(label=_("New password"), widget=forms.PasswordInput, required=False)
+    new_password2 = forms.CharField(label=_("New password confirmation"), widget=forms.PasswordInput, required=False)
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.get('instance')
@@ -26,9 +28,14 @@ class OrganizationMemberProfileForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        self.user.set_password(self.cleaned_data['new_password1'])
+        new_password = self.cleaned_data.get('new_password1')
+
+        if new_password:
+            self.user.set_password(new_password)
+
         if commit:
             self.user.save()
+
         return self.user
 
     def clean_old_password(self):
@@ -36,7 +43,7 @@ class OrganizationMemberProfileForm(forms.ModelForm):
         Validates that the old_password field is correct.
         """
         old_password = self.cleaned_data["old_password"]
-        if not self.user.check_password(old_password):
+        if old_password and not self.user.check_password(old_password):
             raise forms.ValidationError(_("Your old password was entered incorrectly. Please enter it again."))
         return old_password
 
