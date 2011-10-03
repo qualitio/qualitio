@@ -28,8 +28,8 @@ TestCaseStepFormSet = inlineformset_factory(models.TestCase, models.TestCaseStep
 TestCaseStepFormSet.empty_form = property(TestCaseStepFormSet._get_empty_form)
 
 
-AttachmentFormSet = inlineformset_factory(models.TestCase, models.Attachment,
-                                          extra=1, can_delete=True)
+# AttachmentFormSet = inlineformset_factory(models.TestCase, models.Attachment,
+#                                           extra=1, can_delete=True)
 
 
 TestCaseStatusFormSet = modelformset_factory(models.TestCaseStatus,

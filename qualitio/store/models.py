@@ -62,7 +62,7 @@ class TestCaseStatus(core.BaseStatusModel):
 
 
 class TestCase(TestCaseBase):
-    status = models.ForeignKey('TestCaseStatus', default=TestCaseStatus.default)
+    status = models.ForeignKey('TestCaseStatus', default=1)
 
     class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
@@ -83,8 +83,4 @@ class TestCaseStep(TestCaseStepBase):
         return "%s" % (int(self.sequence) + 1)
 
 
-class Attachment(core.BaseModel):
-    testcase = models.ForeignKey('TestCase')
-    name = models.CharField(max_length=512)
-    attachment = models.FileField(upload_to="attachments")
 
