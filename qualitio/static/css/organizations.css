@@ -307,3 +307,8 @@
     padding-top: 1em;
     margin-bottom: 1em;
 }
+
+
+.account-profile-form .footer .button {
+    float: right;
+}

@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 
+from qualitio.organizations.auth.profile.views import OrganizationMemberProfile
 from qualitio.organizations.auth.decorators import permission_required
 from qualitio.organizations import views
 
@@ -12,6 +13,9 @@ urlpatterns = patterns('',
                        url(r'^$',
                            views.OrganizationDetails.as_view(),
                            name="organization_details"),
+
+                       url(r'^account/profile/$', OrganizationMemberProfile.as_view(),
+                           name="account_profile"),
 
                        url(r'^settings/$',
                            permission_required('ADMIN')(views.OrganizationSettings.as_view()),

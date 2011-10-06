@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block projects-base %}
+<div id="projects">
+  <div class="container_16">
+    <div class="grid_16">
+      <div class="application-view-content panel" style="border: 1px solid grey">
+	<form id="organization_member_profile_form" class="account-profile-form" method="post">{% csrf_token %}
+
+	  <div>
+	    {% for field in form %}
+	    <div class="field clearfix">
+	      <div class="grid_2">
+		{{ field.label_tag }}
+	      </div>
+	      <div class="grid_14">
+		{{ field }}
+	      </div>
+	    </div>
+	    {% endfor %}
+	  </div>
+
+	  <div class="footer clearfix">
+	    <input type="submit" class="button" value="Save"/>
+	  </div>
+
+	</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/organizations_member_profile.js"></script>
+{% endblock %}
