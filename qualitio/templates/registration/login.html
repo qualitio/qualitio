@@ -18,30 +18,48 @@
   })
 
 </script>
-<h1>Login</h1>
-<form method="post" action="{% url django.contrib.auth.views.login %}">
-  <fieldset>
-    {% csrf_token %}
-    {{ form.username }}{{ form.username.label_tag|lower }}
-    {{ form.password }}{{ form.password.label_tag|lower }}
-  </fieldset>
-  <div class="submit-panel">
-    <div class="right">
-      <a class="registartion-link" href="/register/">
-        Create new account in <b>{{ request.organization.name }}</b> organization.
-      </a>
-      <input type="submit" value="login" />
-      <input type="hidden" name="next" value="{{ next }}" />
-    </div>
+
+<div class="login-option clearfix" style="border-top: 0px;">
+  <h1>Login</h1>
+  <div class="text">
+    Regular authentication process. To gain access to application provide your credentials in this case your user name and password. If you don't have an user account in <b style="color: black">{{ request.organization.googleapps_domain }}</b> domain, you can create on at registration page or process your authentication with option bellow login form.
   </div>
-</form>
+  <form method="post" action="{% url django.contrib.auth.views.login %}">
+    <fieldset>
+      {% csrf_token %}
+      {{ form.username }}{{ form.username.label_tag|lower }}
+      {{ form.password }}{{ form.password.label_tag|lower }}
+    </fieldset>
+    <div class="submit-panel">
+      <div class="right">
+        <a class="registartion-link" href="/register/">
+          Create new account in <b>{{ request.organization.name }}</b> organization.
+        </a>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </div>
+    </div>
+  </form>
+</div>
+
 {% if request.organization.googleapps_domain %}
-<div id="openid" class="clearfix">
-  <div class="text">or try Google Login (if you have an account inside
-    <b style="color: black">{{ request.organization.googleapps_domain }}</b>
-    domain)</div>
-  <a class="google button" href="/login/google/">&nbsp;</a>
+<div class="login-option clearfix">
+  <div class="or">OR</div>
+  <h1>Google Apps Login</h1>
+  <div class="text">
+    This domain is also connected with google apps domain <b style="color: black">{{ request.organization.googleapps_domain }}</b>. If you have account in this organization you can login straight in using <b style="color: black">Googgle Apps OpenID</b> mechanism. No further activation or verification process is needed. 
+  </div>
+  <a class="google button" href="/login/googleapps/">&nbsp;</a>
 </div>
 {% endif %}
 
+<div class="login-option clearfix">
+  <div class="or">OR</div>
+  <h1>OpendID</h1>
+  <div class="text">
+    You have also an option to log in with use of regular <b style="color: black">OpenID</b>, but in this case you have to wait till one of the users with administration privileges will accept your membership.
+  </div>
+  <a class="google button" href="/login/google/">&nbsp;</a>
+  <a class="google button" href="/login/yahoo/">&nbsp;</a>
+</div>
 {% endblock %}

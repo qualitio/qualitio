@@ -6,16 +6,20 @@ admin.autodiscover()
 from qualitio import api
 from qualitio.organizations.auth.registration.views import RegisterUser, RegisterUserThanks
 
+from qualitio.organizations import views as organization_views
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
                        (r'', include('qualitio.organizations.urls')),
 
                        url(r'^register/$', RegisterUser.as_view(), name="registration"),
-                       url(r'^register/thanks/$', RegisterUserThanks.as_view(), name="registration_thanks"),
+                       url(r'^register/thanks/$',
+                           RegisterUserThanks.as_view(), name="registration_thanks"),
+                       url(r'^inactive/',
+                           organization_views.UserInactive.as_view(), name="inactive"),
                        url(r'^logout/$', 'django.contrib.auth.views.logout',
                            {'next_page' : '/'}, name="logout"),
-                       url(r'^login/', 'django.contrib.auth.views.login',
+                       url(r'^login/$', 'django.contrib.auth.views.login',
                            {'template_name': "registration/login.html"}, name="login"),
 
                        (r'^permission_required/$', 'qualitio.core.permission_required'),

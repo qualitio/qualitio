@@ -1,3 +1,7 @@
+body {
+    overflow: auto;
+}
+
 #header {
     border-left: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
@@ -74,26 +78,42 @@
     margin-right: 15px;
 }
 
-#openid {
-    padding: 20px 0 0 0;
+
+.login-option {
+    padding: 15px 0 20px 0;
     border-top: 1px solid #AAAAAA;
     color: #777777;
-    font-weight: bold;
+    /* font-weight: bold; */
+    position: relative;
 }
 
-#openid .text {
-    color: #777777;
-    font-weight: bold;
+.login-option h1 {
+    margin-bottom: 5px;
+}
+
+
+.login-option .or {
+    background: none repeat scroll 0 0 white;
+    font-family: 'Bevan',serif;
+    font-size: 22px;
+    padding: 0 33px;
+    position: absolute;
+    right: 335px;
+    top: -17px;
+}
+
+.login-option .text {
     margin-bottom: 10px;
+    margin-bottom: 30px;
 
 }
 
-#openid .button {
+.login-option .button {
     width: 130px;
     height: 30px;
 }
 
-#openid .button.google {
+.login-option .button.google {
     background: url("../images/google_openid.jpg") no-repeat scroll center -3px transparent;
 }
 

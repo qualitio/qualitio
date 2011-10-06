@@ -1,8 +1,10 @@
 from django.http import Http404
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 from django.views.generic import (View, CreateView, RedirectView,
                                   UpdateView, ListView, TemplateView)
+
 
 from reversion.models import Revision
 from articles.models import Article
@@ -35,6 +37,12 @@ class OrganizationDetails(View, OrganizationObjectMixin):
 class OrganizationNone(TemplateView):
     template_name = "organizations/organization_none.html"
 
+class UserInactive(TemplateView):
+    template_name = "organizations/user_inactive.html"
+
+    def get(self, *args, **kwargs):
+        logout(self.request)
+        return super(UserInactive, self).get(*args, **kwargs)
 
 class OrganizationSettings(RedirectView):
     url = '/settings/profile/'

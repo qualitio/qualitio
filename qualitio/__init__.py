@@ -35,8 +35,13 @@ from qualitio.organizations.models import OrganizationMember
 
 
 def new_users_handler(sender, user, response, details, **kwargs):
+    if sender.name == 'googleapps':
+        role = OrganizationMember.USER
+    else:
+        role = OrganizationMember.INACTIVE
+
     OrganizationMember.objects.create(user=user,
                                       organization=THREAD.organization,
-                                      role=OrganizationMember.USER)
+                                      role=role)
 
 socialauth_registered.connect(new_users_handler, sender=None)
