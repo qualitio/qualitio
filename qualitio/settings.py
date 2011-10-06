@@ -66,6 +66,7 @@ LOGIN_EXEMPT_URLS = (
     r'^none/$',
     r'^static/',
     r'^login/',
+    r'^inactive/',
     r'^admin/',
     r'^register/.*',
     r'^associate/*',
@@ -109,9 +110,9 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'mptt',
-    'social_auth',
+    # 'social_auth',
     'django_nose',
-    'reversion',
+    # 'reversion',
     'south',
     'pagination',
     'compressor',
@@ -154,10 +155,9 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'qualitio.organizations.auth.backends.OrganizationModelBackend'
+    'qualitio.googleapps.backends.GoogleAppsBackend',
+    'qualitio.organizations.auth.backends.OrganizationModelBackend',
 )
-
 
 MPTT_ADMIN_LEVEL_INDENT = 30
 

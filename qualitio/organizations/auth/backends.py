@@ -1,5 +1,10 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
+
+from social_auth.backends import OpenIDBackend
+from social_auth.backends import OpenIdAuth
+from social_auth.backends.google import GoogleBackend
+
 from qualitio.organizations.models import OrganizationMember
 from qualitio import THREAD
 
@@ -11,8 +16,7 @@ class OrganizationModelBackend(ModelBackend):
         if THREAD.organization:
             try:
                 organization_member = OrganizationMember.objects.get(user__username=username,
-                                                                     organization=THREAD.organization,
-                                                                     role__lt=OrganizationMember.INACTIVE)
+                                                                     organization=THREAD.organization)
 
                 user = organization_member.user
                 if user.check_password(password):

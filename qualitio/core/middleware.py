@@ -5,6 +5,7 @@ from django import db
 from django.conf import settings
 from django.utils import termcolors
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 
 EXEMPT_URLS = []
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
@@ -19,14 +20,23 @@ if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
 
 class LoginRequiredMiddleware(object):
     def process_request(self, request):
-        if not request.user.is_authenticated():
-            path = request.path_info.lstrip('/')
-            for pattern, condition in EXEMPT_URLS:
+        user = request.user
+        path = request.path_info.lstrip('/')
 
-                if pattern.match(path) and condition(request):
-                    return None
+        rules = map(lambda (pattern, condition): (pattern.match(path) is not None and condition(request)), EXEMPT_URLS)
 
-            return HttpResponseRedirect('%s?next=%s' % (settings.LOGIN_URL, request.path_info) )
+        if any(rules):
+            return None
+
+        if user.is_authenticated():
+            from qualitio.organizations.models import OrganizationMember
+
+            if user.organization_member.role == OrganizationMember.INACTIVE:
+                return redirect('inactive')
+
+            return None
+
+        return HttpResponseRedirect('%s?next=%s' % (settings.LOGIN_URL, request.path_info) )
 
 
 class QueriesCounterMiddleware:
