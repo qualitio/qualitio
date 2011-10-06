@@ -190,12 +190,11 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     class Meta(AbstractPathModel.Meta):
         abstract = True
 
-    def __init__(self, *args, **kwargs):
-        super(BaseDirectoryModel, self).__init__(*args, **kwargs)
-        self._originals = {
-            "parent": self.parent,
-            "name": self.name,
-            }
+    @property
+    def _originals(self):
+        if not self.pk:
+            return {}
+        return self.__class__.objects.filter(pk=self.pk).values("parent", "name")[0]
 
     def _parent_and_name_changed(self):
         return self.parent != self._originals.get("parent") and self.name != self._originals.get("name")
