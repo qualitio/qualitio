@@ -37,6 +37,7 @@ class OrganizationDetails(View, OrganizationObjectMixin):
 class OrganizationNone(TemplateView):
     template_name = "organizations/organization_none.html"
 
+
 class UserInactive(TemplateView):
     template_name = "organizations/user_inactive.html"
 
@@ -212,3 +213,18 @@ class ProjectNew(CreateView):
     def form_invalid(self, form):
         return failed(message="Validation errors: %s" % form.error_message(),
                       data=form.errors_list())
+
+
+class GoogleApsDomainRedirect(RedirectView):
+
+    def get_redirect_url(self, **kwargs):
+        try:
+            googleapps_domain = self.kwargs['domain']
+            organization = models.Organization.objects.get(googleapps_domain=googleapps_domain)
+            if self.request.is_secure():
+                return "https://%s.%s" % (organization.slug, self.request.get_host())
+            return "http://%s.%s" % (organization.slug, self.request.get_host())
+        except (KeyError, models.Organization.DoesNotExist):
+            raise Http404
+
+
