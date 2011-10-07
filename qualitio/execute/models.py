@@ -16,7 +16,8 @@ class TestRunDirectory(core.BaseDirectoryModel):
 
 
 class TestRunStatus(core.BaseStatusModel):
-    pass
+    class Meta:
+        verbose_name_plural = 'Test run statuses'
 
 
 class TestRun(core.BasePathModel):
