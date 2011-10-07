@@ -6,6 +6,7 @@ from qualitio import store
 from qualitio import execute
 from qualitio import glossary
 from qualitio import core
+from qualitio import THREAD
 
 from qualitio.organizations import models
 
@@ -75,6 +76,12 @@ class ProjectUserForm(core.BaseForm):
 
 
 class BaseOrganizationUsersFormSet(core.BaseModelFormSet):
+    def get_queryset(self):
+        qs = super(BaseOrganizationUsersFormSet, self).get_queryset()
+        if THREAD.organization:
+            qs = qs.filter(organization=THREAD.organization)
+        return qs
+
     def get_deleted_members_users_ids(self):
         ids = []
         for form in self.deleted_forms:
