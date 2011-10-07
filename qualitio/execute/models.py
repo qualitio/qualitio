@@ -49,6 +49,7 @@ class TestRun(core.BasePathModel):
         test_case_run = self.testcases.create(name=test_case.name,
                                               description=test_case.description,
                                               precondition=test_case.precondition,
+                                              requirement=test_case.requirement,
                                               origin=test_case)
 
         for test_case_step in test_case.steps.all():
@@ -117,7 +118,7 @@ class TestCaseRun(store.TestCaseBase):
 
     def __init__(self, *args, **kwargs):
         super(TestCaseRun, self).__init__(*args, **kwargs)
-        self._orginals = {"status": self.status}
+        self._orginals = {"status_id": self.status_id}
 
     @property
     def bugs_history(self):
@@ -126,7 +127,7 @@ class TestCaseRun(store.TestCaseBase):
 
     def save(self, *args, **kwargs):
         super(TestCaseRun, self).save(*args, **kwargs)
-        if self._orginals.get("status") != self.status:
+        if self._orginals.get("status_id") != self.status_id:
             self.parent.update_passrate()
 
 

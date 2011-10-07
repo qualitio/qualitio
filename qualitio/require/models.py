@@ -105,3 +105,25 @@ class Requirement(core.BaseDirectoryModel):
             validator = validators.RequirementDependencyValidator(self, dependencies)
             if not validator.is_valid():
                 raise ValidationError({'dependencies': [validator.format_error_msg()]})
+
+    def latest_testruns(self):
+        """
+        Returns generator of the latest executed test case
+        runs which are related to *this* requirement.
+        IMPORTANT: It's generator, not queryset.
+        """
+        origin_ids = list(self.testcaserun_set.values_list('origin__id', flat=True).distinct())
+        testcaseruns = list(self.testcaserun_set.select_related('status').order_by('-id'))  # latest test case runs
+        for tcr in testcaseruns:
+            if tcr.origin_id in origin_ids:
+                origin_ids.remove(tcr.origin_id)
+                yield tcr
+
+    @property
+    def status(self):
+        statuses = map(lambda tcs: tcs.status.name, self.latest_testruns())
+        if "FAIL" in statuses:
+            return "FAIL"
+        if len(statuses) == 0 or "IDLE" in statuses:
+            return "IDLE"
+        return "PASS"
