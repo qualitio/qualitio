@@ -111,7 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'mptt',
-    # 'social_auth',
+    'social_auth',
     'django_nose',
     # 'reversion',
     'south',
