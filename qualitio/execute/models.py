@@ -49,6 +49,7 @@ class TestRun(core.BasePathModel):
         test_case_run = self.testcases.create(name=test_case.name,
                                               description=test_case.description,
                                               precondition=test_case.precondition,
+                                              requirement=test_case.requirement,
                                               origin=test_case)
 
         for test_case_step in test_case.steps.all():
