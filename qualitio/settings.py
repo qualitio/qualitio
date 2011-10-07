@@ -63,6 +63,7 @@ LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
     (r'^$', lambda request: request.organization is None),
+    r'^r/.*',
     r'^none/$',
     r'^static/',
     r'^login/',

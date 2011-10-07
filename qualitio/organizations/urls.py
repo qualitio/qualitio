@@ -44,5 +44,9 @@ urlpatterns = patterns('',
                        url(r'^project/(?P<slug>[\w-]+)/$',
                            permission_required('USER_READONLY')(views.ProjectDetails.as_view()),
                            name="project_details"),
+
+                       url(r'^r/(?P<domain>.*)/$',
+                           views.GoogleApsDomainRedirect.as_view(),
+                           name="organization_redirect"),
                        )
 
