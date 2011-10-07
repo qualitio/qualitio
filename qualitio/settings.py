@@ -111,7 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'mptt',
-    # 'social_auth',
+    'social_auth',
     'django_nose',
     # 'reversion',
     'south',
@@ -156,6 +156,7 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
     'qualitio.googleapps.backends.GoogleAppsBackend',
     'qualitio.organizations.auth.backends.OrganizationModelBackend',
 )
