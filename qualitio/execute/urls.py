@@ -13,7 +13,7 @@ urlpatterns = patterns('',
                        url(r'^filter/', filter,
                            {'model': TestRun,
                             'fields_order': ['id', 'path', 'name'],
-                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'notes', 'parent', 'project'],
+                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'notes', 'parent', 'project', 'translation'],
                             }),
 
                        url(r'^ajax/get_children$', core.get_children,
