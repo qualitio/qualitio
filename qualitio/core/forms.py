@@ -75,23 +75,26 @@ class FormsetChangelogMixin(object):
         return "%s." % ', '.join(change_message)
 
 
-class BaseForm(forms.Form, FormErrorProcessingMixin):
-    pass
+class QuerySetRefreshMixin(object):
+    def _refresh_fields_querysets(self):
+        for name, field in self.fields.items():
+            if hasattr(field, "queryset"):
+                field.queryset = field.queryset.model.objects.all()
 
 
-class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
+class BaseForm(forms.Form, FormErrorProcessingMixin, QuerySetRefreshMixin):
+    def __init__(self, *args, **kwargs):
+        super(BaseForm, self).__init__(*args, **kwargs)
+        self._refresh_fields_querysets()
 
+
+class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin, QuerySetRefreshMixin):
     class Meta:
         exclude = ('project',)
 
     def __init__(self, *args, **kwargs):
         super(BaseModelForm, self).__init__(*args, **kwargs)
-        for name, field in self.fields.items():
-            if hasattr(field,"queryset"):
-                #TODO: nasty reload for projects form, we should think about redesing of
-                # metaclass for forms
-                field.queryset = field.queryset.model.objects.all()
-
+        self._refresh_fields_querysets()
 
     def changelog(self):
         change_message = []
