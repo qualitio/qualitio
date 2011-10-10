@@ -64,7 +64,7 @@ class Project(CustomizableModel):
     organization = models.ForeignKey('Organization')
     team = models.ManyToManyField('auth.User', related_name="projects", blank=True)
 
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     slug = models.SlugField(blank=True)
     homepage = models.URLField(verify_exists=False, blank=True)
     description = models.TextField(blank=True)
@@ -73,6 +73,9 @@ class Project(CustomizableModel):
     created_time = models.DateTimeField(auto_now_add=True)
 
     objects = ProjectManager()
+
+    class Meta:
+        unique_together = ("organization", "name")
 
     def get_absolute_url(self):
         return '/project/%s/' % self.slug

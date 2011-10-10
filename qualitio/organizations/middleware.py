@@ -52,6 +52,11 @@ if hasattr(settings, 'PROJECT_EXEMPT_URLS'):
 
 
 class ProjectMiddleware(object):
+    """
+    IMPORTANT! ProjectMiddleware need to be placed BEFORE OrganizationMiddleware
+    since we decided that Project.name don't need to be unique.
+    """
+
     def process_request(self, request):
         THREAD.project = None
         request.project = None
@@ -66,7 +71,8 @@ class ProjectMiddleware(object):
         if not match:
             return None
 
-        project = Project.objects.get(slug=match.groupdict()['slug'])
+        project = Project.objects.get(organization=request.organization,
+                                      slug=match.groupdict()['slug'])
 
         THREAD.project = project
         request.project = project
