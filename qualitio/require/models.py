@@ -53,6 +53,7 @@ class Requirement(core.BaseDirectoryModel):
 
 
     def clean(self):
+        super(Requirement, self).clean()
         if self.alias and not self.pk:
             if Requirement.objects.filter(alias=self.alias).exists():
                 raise ValidationError({'alias': "column alias is not unique"})

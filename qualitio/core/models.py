@@ -242,6 +242,10 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
             for subchild in self.subchildren.all():
                 subchild.save()
 
+    def clean(self):
+        MPTTModel.clean(self)
+        AbstractPathModel.clean(self)
+
 
 class BaseStatusModel(BaseModel):
     default_name = "default"
