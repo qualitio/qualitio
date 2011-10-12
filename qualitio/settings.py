@@ -113,7 +113,7 @@ INSTALLED_APPS = (
     'mptt',
     'social_auth',
     'django_nose',
-    # 'reversion',
+    'reversion',
     'south',
     'pagination',
     'compressor',
