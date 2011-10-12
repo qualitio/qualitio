@@ -28,7 +28,7 @@ class FormErrorProcessingMixin(object):
         Creates short, user readable message about what is wrong with the form.
         The message is created from a list of non_field_errors.
         """
-        return ' '.join([e for e in self.non_field_errors()]) or "Validation errors"
+        return ' '.join([e for e in self.non_field_errors()])
 
 
 class FormsetErrorProcessingMixin(object):

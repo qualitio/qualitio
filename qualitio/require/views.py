@@ -59,7 +59,7 @@ def valid(request, requirement_id=0, **kwargs):
                        data={"parent_id": getattr(requirement.parent,"id", 0),
                              "current_id": requirement.id })
 
-    return failed(message=requirement_form.error_message(),
+    return failed(message="Validation errors: %s" % requirement_form.error_message(),
                   data=requirement_form.errors_list())
 
 
