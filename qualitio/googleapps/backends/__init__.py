@@ -15,13 +15,15 @@ class GoogleAppsBackend(OpenIDBackend):
         http://axschema.org/contact/email"""
         return details['email']
 
+    def username(self, details):
+        return details['email']
+
 
 class GoogleAppsAuth(OpenIdAuth):
     """Google OpenID authentication"""
     AUTH_BACKEND = GoogleAppsBackend
 
     def openid_url(self):
-        """Return Google OpenID service url"""
         return ('https://www.google.com/accounts/o8/site-xrds?hd=%s'
                 % THREAD.organization.googleapps_domain)
 

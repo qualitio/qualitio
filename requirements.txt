@@ -18,7 +18,7 @@ nose==1.0.0
 oauth2==1.5.170
 paramiko==1.7.6
 pycrypto==2.3
-python-openid==2.2.5
+-e git://github.com/qualitio/python-openid.git#egg=openid
 wsgiref==0.1.2
 yolk==0.4.1
 django-pagination==1.0.7
