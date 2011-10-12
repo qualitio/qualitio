@@ -80,15 +80,16 @@ class AbstractPathModel(BaseModel):
     def clean(self):
         if getattr(self, "_for_parent_unique", True):
             parent = self.parent if self.parent_id else None
+            project = self.project if self.project_id else THREAD.project
 
             manager = self.__class__.objects
-            qs = manager.filter(name=self.name, parent=parent)
+            qs = manager.filter(name=self.name, parent=parent, project=project)
 
             if self.pk:  # we do not want to search for *this* object
                 qs = qs.exclude(pk=self.pk)
 
             if qs.exists():
-                raise ValidationError('"parent" and "name" fields need to be always unique together.')
+                raise ValidationError('"parent", "name" and "project" fields need to be always unique together.')
 
     def __unicode__(self):
         return "%s: %s%s" % (self.pk, self.path, self.name)

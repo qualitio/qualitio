@@ -60,6 +60,18 @@ class ProjectForm(core.BaseModelForm):
         model = models.Project
         fields = ("name", "homepage", "description")
 
+    def __init__(self, *args, **kwargs):
+        self.organization = kwargs.pop('organization', None)
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        self.instance.organization = self.organization
+
+    def clean(self):
+        name = self.cleaned_data['name']
+        if models.Project.objects.filter(name=name, organization=self.organization).exists():
+            raise forms.ValidationError('Project with name "%s" already exists in "%s" organization.' % (
+                    name, self.organization.name))
+        return self.cleaned_data
+
 
 class ProjectUserForm(core.BaseForm):
     username = forms.CharField()

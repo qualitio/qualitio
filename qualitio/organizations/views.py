@@ -199,13 +199,15 @@ class ProjectNew(CreateView):
     model = models.Project
     form_class = forms.ProjectForm
 
+    def get_form_kwargs(self):
+        kwargs = super(ProjectNew, self).get_form_kwargs()
+        kwargs.update(organization=self.request.organization)
+        return kwargs
+
     @json_response
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.organization = self.request.organization
-        self.object.save()
+        self.object = form.save()
         self.object.setup()
-
         return success(message='project created',
                        data={"url": self.object.get_absolute_url() })
 

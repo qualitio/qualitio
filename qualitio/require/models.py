@@ -32,7 +32,7 @@ class Requirement(core.BaseDirectoryModel):
     objects = managers.RequirementManager()
 
     class Meta:
-        unique_together = ("parent", "name")
+        unique_together = ("parent", "name", "project")
         ordering = ('name',)  # TODO: this need to be changed, accoring #198
 
     def save(self, clean_dependencies=True, *args, **kwargs):
