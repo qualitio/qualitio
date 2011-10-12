@@ -3,10 +3,14 @@ from qualitio import core
 
 
 class Word(core.BaseModel):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ("project", "name")
 
     def __unicode__(self):
         return self.name
+
 
 class Language(core.BaseStatusModel):
     # ToDo: not to ideal base name, check implementation
