@@ -44,8 +44,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'qualitio.organizations.middleware.ProjectMiddleware',
     'qualitio.organizations.middleware.OrganizationMiddleware',
+    'qualitio.organizations.middleware.ProjectMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

@@ -41,3 +41,8 @@ admin.site.register(models.TestCaseRunStatus, TestCaseRunStatusAdmin)
 class BugAdmin(core.BaseModelAdmin):
     list_display = core.BaseModelAdmin.list_display.insert(2, "name", "alias", "status", "resolution", "url")
 admin.site.register(models.Bug, BugAdmin)
+
+
+class TestRunStatusAdmin(core.BaseModelAdmin):
+    pass
+admin.site.register(models.TestRunStatus, TestRunStatusAdmin)

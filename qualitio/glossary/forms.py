@@ -49,5 +49,5 @@ class RepresentationFormsSet(object):
             yield language, form
 
 
-class LanguageSwitchForm(forms.Form):
+class LanguageSwitchForm(core.BaseForm):
     language = forms.ModelChoiceField(queryset=models.Language.objects.all(), empty_label=None)

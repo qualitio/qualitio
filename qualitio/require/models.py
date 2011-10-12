@@ -120,6 +120,11 @@ class Requirement(core.BaseDirectoryModel):
                 yield tcr
 
     @property
+    def bugs(self):
+        from qualitio.execute.models import Bug
+        return Bug.objects.filter(testcaserun__in=self.latest_testruns()).distinct()
+
+    @property
     def status(self):
         statuses = map(lambda tcs: tcs.status.name, self.latest_testruns())
         if "FAIL" in statuses:
