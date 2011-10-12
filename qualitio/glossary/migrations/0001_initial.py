@@ -8,69 +8,61 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'Organization'
-        db.create_table('organizations_organization', (
+        # Adding model 'Word'
+        db.create_table('glossary_word', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Project'])),
+            ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
-            ('slug', self.gf('django.db.models.fields.SlugField')(db_index=True, max_length=50, blank=True)),
-            ('homepage', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('googleapps_domain', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+        ))
+        db.send_create_signal('glossary', ['Word'])
+
+        # Adding model 'Language'
+        db.create_table('glossary_language', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Project'])),
             ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal('organizations', ['Organization'])
-
-        # Adding model 'OrganizationMember'
-        db.create_table('organizations_organizationmember', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('organization', self.gf('django.db.models.fields.related.ForeignKey')(related_name='members', to=orm['organizations.Organization'])),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name='organization_member', unique=True, to=orm['auth.User'])),
-            ('role', self.gf('django.db.models.fields.IntegerField')(default=999)),
-        ))
-        db.send_create_signal('organizations', ['OrganizationMember'])
-
-        # Adding model 'Project'
-        db.create_table('organizations_project', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('organization', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Organization'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('slug', self.gf('django.db.models.fields.SlugField')(db_index=True, max_length=50, blank=True)),
-            ('homepage', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
+        ))
+        db.send_create_signal('glossary', ['Language'])
+
+        # Adding unique constraint on 'Language', fields ['project', 'name']
+        db.create_unique('glossary_language', ['project_id', 'name'])
+
+        # Adding model 'Representation'
+        db.create_table('glossary_representation', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Project'])),
             ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('word', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['glossary.Word'])),
+            ('language', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['glossary.Language'])),
+            ('representation', self.gf('django.db.models.fields.CharField')(max_length=512, blank=True)),
         ))
-        db.send_create_signal('organizations', ['Project'])
+        db.send_create_signal('glossary', ['Representation'])
 
-        # Adding unique constraint on 'Project', fields ['organization', 'name']
-        db.create_unique('organizations_project', ['organization_id', 'name'])
-
-        # Adding M2M table for field team on 'Project'
-        db.create_table('organizations_project_team', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('project', models.ForeignKey(orm['organizations.project'], null=False)),
-            ('user', models.ForeignKey(orm['auth.user'], null=False))
-        ))
-        db.create_unique('organizations_project_team', ['project_id', 'user_id'])
+        # Adding unique constraint on 'Representation', fields ['word', 'language']
+        db.create_unique('glossary_representation', ['word_id', 'language_id'])
 
 
     def backwards(self, orm):
         
-        # Removing unique constraint on 'Project', fields ['organization', 'name']
-        db.delete_unique('organizations_project', ['organization_id', 'name'])
+        # Removing unique constraint on 'Representation', fields ['word', 'language']
+        db.delete_unique('glossary_representation', ['word_id', 'language_id'])
 
-        # Deleting model 'Organization'
-        db.delete_table('organizations_organization')
+        # Removing unique constraint on 'Language', fields ['project', 'name']
+        db.delete_unique('glossary_language', ['project_id', 'name'])
 
-        # Deleting model 'OrganizationMember'
-        db.delete_table('organizations_organizationmember')
+        # Deleting model 'Word'
+        db.delete_table('glossary_word')
 
-        # Deleting model 'Project'
-        db.delete_table('organizations_project')
+        # Deleting model 'Language'
+        db.delete_table('glossary_language')
 
-        # Removing M2M table for field team on 'Project'
-        db.delete_table('organizations_project_team')
+        # Deleting model 'Representation'
+        db.delete_table('glossary_representation')
 
 
     models = {
@@ -110,6 +102,32 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        'glossary.language': {
+            'Meta': {'unique_together': "(('project', 'name'),)", 'object_name': 'Language'},
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Project']"})
+        },
+        'glossary.representation': {
+            'Meta': {'unique_together': "(('word', 'language'),)", 'object_name': 'Representation'},
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'language': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['glossary.Language']"}),
+            'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Project']"}),
+            'representation': ('django.db.models.fields.CharField', [], {'max_length': '512', 'blank': 'True'}),
+            'word': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['glossary.Word']"})
+        },
+        'glossary.word': {
+            'Meta': {'object_name': 'Word'},
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Project']"})
+        },
         'organizations.organization': {
             'Meta': {'object_name': 'Organization'},
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -120,13 +138,6 @@ class Migration(SchemaMigration):
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
             'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '50', 'blank': 'True'})
-        },
-        'organizations.organizationmember': {
-            'Meta': {'object_name': 'OrganizationMember'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'organization': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'members'", 'to': "orm['organizations.Organization']"}),
-            'role': ('django.db.models.fields.IntegerField', [], {'default': '999'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'organization_member'", 'unique': 'True', 'to': "orm['auth.User']"})
         },
         'organizations.project': {
             'Meta': {'unique_together': "(('organization', 'name'),)", 'object_name': 'Project'},
@@ -142,4 +153,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['organizations']
+    complete_apps = ['glossary']

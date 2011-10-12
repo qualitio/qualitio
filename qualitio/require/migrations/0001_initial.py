@@ -8,69 +8,47 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'Organization'
-        db.create_table('organizations_organization', (
+        # Adding model 'Requirement'
+        db.create_table('require_requirement', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
-            ('slug', self.gf('django.db.models.fields.SlugField')(db_index=True, max_length=50, blank=True)),
-            ('homepage', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('googleapps_domain', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Project'])),
             ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal('organizations', ['Organization'])
-
-        # Adding model 'OrganizationMember'
-        db.create_table('organizations_organizationmember', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('organization', self.gf('django.db.models.fields.related.ForeignKey')(related_name='members', to=orm['organizations.Organization'])),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name='organization_member', unique=True, to=orm['auth.User'])),
-            ('role', self.gf('django.db.models.fields.IntegerField')(default=999)),
-        ))
-        db.send_create_signal('organizations', ['OrganizationMember'])
-
-        # Adding model 'Project'
-        db.create_table('organizations_project', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('organization', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Organization'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('slug', self.gf('django.db.models.fields.SlugField')(db_index=True, max_length=50, blank=True)),
-            ('homepage', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('path', self.gf('django.db.models.fields.CharField')(max_length=2048, blank=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=1024)),
+            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['require.Requirement'])),
+            ('lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
+            ('rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
+            ('tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
+            ('level', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
+            ('release_target', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('alias', self.gf('django.db.models.fields.CharField')(max_length=512, blank=True)),
         ))
-        db.send_create_signal('organizations', ['Project'])
+        db.send_create_signal('require', ['Requirement'])
 
-        # Adding unique constraint on 'Project', fields ['organization', 'name']
-        db.create_unique('organizations_project', ['organization_id', 'name'])
+        # Adding unique constraint on 'Requirement', fields ['parent', 'name']
+        db.create_unique('require_requirement', ['parent_id', 'name'])
 
-        # Adding M2M table for field team on 'Project'
-        db.create_table('organizations_project_team', (
+        # Adding M2M table for field dependencies on 'Requirement'
+        db.create_table('require_requirement_dependencies', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('project', models.ForeignKey(orm['organizations.project'], null=False)),
-            ('user', models.ForeignKey(orm['auth.user'], null=False))
+            ('from_requirement', models.ForeignKey(orm['require.requirement'], null=False)),
+            ('to_requirement', models.ForeignKey(orm['require.requirement'], null=False))
         ))
-        db.create_unique('organizations_project_team', ['project_id', 'user_id'])
+        db.create_unique('require_requirement_dependencies', ['from_requirement_id', 'to_requirement_id'])
 
 
     def backwards(self, orm):
         
-        # Removing unique constraint on 'Project', fields ['organization', 'name']
-        db.delete_unique('organizations_project', ['organization_id', 'name'])
+        # Removing unique constraint on 'Requirement', fields ['parent', 'name']
+        db.delete_unique('require_requirement', ['parent_id', 'name'])
 
-        # Deleting model 'Organization'
-        db.delete_table('organizations_organization')
+        # Deleting model 'Requirement'
+        db.delete_table('require_requirement')
 
-        # Deleting model 'OrganizationMember'
-        db.delete_table('organizations_organizationmember')
-
-        # Deleting model 'Project'
-        db.delete_table('organizations_project')
-
-        # Removing M2M table for field team on 'Project'
-        db.delete_table('organizations_project_team')
+        # Removing M2M table for field dependencies on 'Requirement'
+        db.delete_table('require_requirement_dependencies')
 
 
     models = {
@@ -121,13 +99,6 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
             'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '50', 'blank': 'True'})
         },
-        'organizations.organizationmember': {
-            'Meta': {'object_name': 'OrganizationMember'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'organization': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'members'", 'to': "orm['organizations.Organization']"}),
-            'role': ('django.db.models.fields.IntegerField', [], {'default': '999'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'organization_member'", 'unique': 'True', 'to': "orm['auth.User']"})
-        },
         'organizations.project': {
             'Meta': {'unique_together': "(('organization', 'name'),)", 'object_name': 'Project'},
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -139,7 +110,25 @@ class Migration(SchemaMigration):
             'organization': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Organization']"}),
             'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '50', 'blank': 'True'}),
             'team': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'projects'", 'blank': 'True', 'to': "orm['auth.User']"})
+        },
+        'require.requirement': {
+            'Meta': {'ordering': "('name',)", 'unique_together': "(('parent', 'name'),)", 'object_name': 'Requirement'},
+            'alias': ('django.db.models.fields.CharField', [], {'max_length': '512', 'blank': 'True'}),
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'dependencies': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'blocks'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['require.Requirement']"}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': "orm['require.Requirement']"}),
+            'path': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'blank': 'True'}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Project']"}),
+            'release_target': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         }
     }
 
-    complete_apps = ['organizations']
+    complete_apps = ['require']
