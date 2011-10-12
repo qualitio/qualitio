@@ -110,7 +110,7 @@ class OrganizationSettings(RedirectView):
             settings_form = []
             for project in models.Project.objects.all():
                 settings_form.append({
-                        'form': forms.ProjectForm(instance=project, prefix='general'),
+                        'form': forms.ProjectForm(instance=project, prefix='general', organization=self.request.organization),
                         'project': project,
                         'testcase_statuses': forms.ProjectTestCaseStatusFormSet(instance=project,
                                                                                 prefix='store_testcase_status'),
@@ -135,7 +135,8 @@ class OrganizationSettings(RedirectView):
             project = models.Project.objects.get(pk=kwargs['pk'])
             form = forms.ProjectForm(request.POST,
                                      instance=project,
-                                     prefix='general')
+                                     prefix='general',
+                                     organization=request.organization)
 
             store_testcase = forms.ProjectTestCaseStatusFormSet(request.POST,
                                                                 instance=project,

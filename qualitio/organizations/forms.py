@@ -66,8 +66,10 @@ class ProjectForm(core.BaseModelForm):
         self.instance.organization = self.organization
 
     def clean(self):
-        name = self.cleaned_data['name']
-        if models.Project.objects.filter(name=name, organization=self.organization).exists():
+        name = self.cleaned_data.get('name')
+        qs = models.Project.objects.filter(name=name, organization=self.organization)
+        qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
             raise forms.ValidationError('Project with name "%s" already exists in "%s" organization.' % (
                     name, self.organization.name))
         return self.cleaned_data
