@@ -71,8 +71,11 @@ class ProjectMiddleware(object):
         if not match:
             return None
 
-        project = Project.objects.get(organization=request.organization,
-                                      slug=match.groupdict()['slug'])
+        try:
+            project = Project.objects.get(organization=request.organization,
+                                          slug=match.groupdict()['slug'])
+        except Project.DoesNotExist:
+            raise Http404
 
         THREAD.project = project
         request.project = project
