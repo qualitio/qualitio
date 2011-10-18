@@ -5,16 +5,19 @@ from qualitio import report
 from qualitio.execute.views import *
 from qualitio.execute.models import TestRunDirectory, TestRun
 
-from qualitio.filter.views import filter
+from qualitio.filter import FilterView
+
+
+class ExecuteFilterView(FilterView):
+    model = TestRun
+    fields_order = ['id', 'path', 'name']
+    exclude = ['lft', 'rght', 'tree_id', 'level', 'notes',
+               'parent', 'project', 'translation']
 
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       url(r'^filter/', filter,
-                           {'model': TestRun,
-                            'fields_order': ['id', 'path', 'name'],
-                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'notes', 'parent', 'project', 'translation'],
-                            }),
+                       url(r'^filter/', ExecuteFilterView()),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestRunDirectory}),

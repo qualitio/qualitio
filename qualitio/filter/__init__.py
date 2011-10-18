@@ -8,3 +8,4 @@ from qualitio.filter.filter import Filter, ModelFilter, generate_model_filter, g
 from qualitio.filter import utils
 
 from qualitio.filter.tables import generate_model_table
+from qualitio.filter.views import FilterView
