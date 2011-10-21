@@ -24,7 +24,7 @@ class ApplicationViewMenuNode(template.Node):
 
             if view['role']:
                 role = getattr(OrganizationMember, view['role'], 999999)
-                perm=organization.members.filter(user=user, role__lte=role).exists()
+                perm=organization.members.filter(pk=user.pk, organization_member__role__lt=role)
                 views.append(dict(name=view['name'],
                                   perm=perm))
             else:
