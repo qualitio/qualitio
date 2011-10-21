@@ -11,9 +11,9 @@ class Organization(CustomizableModel):
     slug = models.SlugField(blank=True)
     homepage = models.URLField(verify_exists=False, blank=True)
     description = models.TextField(blank=True)
+    members = models.ManyToManyField('auth.User', through='OrganizationMember')
 
     googleapps_domain = models.CharField(max_length=255, blank=True)
-
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
@@ -29,8 +29,8 @@ class Organization(CustomizableModel):
 
 
 class OrganizationMember(CustomizableModel):
-    organization = models.ForeignKey('Organization', related_name='members')
-    user = models.OneToOneField('auth.User', related_name='organization_member')
+    organization = models.ForeignKey('Organization')
+    user = models.ForeignKey('auth.User', related_name='organization_member')
 
     ADMIN = 0
     USER = 10

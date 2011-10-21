@@ -155,7 +155,7 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.google.GoogleBackend',
+    'qualitio.googleapps.backends.GoogleBackend',
     'qualitio.googleapps.backends.GoogleAppsBackend',
     'qualitio.organizations.auth.backends.OrganizationModelBackend',
 )

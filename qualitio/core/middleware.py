@@ -31,7 +31,7 @@ class LoginRequiredMiddleware(object):
         if user.is_authenticated():
             from qualitio.organizations.models import OrganizationMember
 
-            if user.organization_member.role == OrganizationMember.INACTIVE:
+            if user.organization_member.get(organization=request.organization) == OrganizationMember.INACTIVE:
                 return redirect('inactive')
 
             return None
