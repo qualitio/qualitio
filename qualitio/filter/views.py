@@ -1,16 +1,29 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.utils import simplejson as json
+from django.contrib.contenttypes.models import ContentType
 
 from qualitio import actions as actionsapp
-from qualitio.filter import forms
+from qualitio.filter import forms, models
 from qualitio.filter.filter import generate_model_filter
 from qualitio.filter.tables import generate_model_table
 
 
-class FilterView(object):
+class BaseView(object):
+    def handle_request(self, request, *args, **kwargs):
+        return self.get_response(request, {})
+
+    def get_response(self, request, context):
+        return HttpResponse()
+
+    def __call__(self, *args, **kwargs):
+        return self.handle_request(*args, **kwargs)
+
+
+class FilterView(BaseView):
     model = None
     model_filter_class = None
     model_table_class = None
@@ -104,6 +117,7 @@ class FilterView(object):
                 'page_obj': page,
                 'onpage_form': onpage_form,
                 'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
+                'save_query_form': forms.FilterQueryForm(prefix='savequery'),
                 })
         context.update(kwargs)
         return self.get_response(request, context)
@@ -111,5 +125,47 @@ class FilterView(object):
     def get_response(self, request, context):
         return render_to_response(self.template, context, context_instance=RequestContext(request))
 
-    def __call__(self, *args, **kwargs):
-        return self.handle_request(*args, **kwargs)
+
+class JSONResponseMixin(object):
+    def get_response(self, request, context):
+        return HttpResponse(
+            json.dumps(context, indent=2),
+            content_type='application/json; charset=UTF-8')
+
+
+class ModelBaseView(BaseView):
+    model = None
+
+    def __init__(self, model=None):
+        self.model = model
+
+
+class SaveFilterView(JSONResponseMixin, ModelBaseView):
+    form = forms.FilterQueryForm
+
+    def get_form(self, data):
+        form = self.form(data, prefix='savequery')
+        form.instance.contenttype = ContentType.objects.get_for_model(self.model)
+        return form
+
+    def handle_request(self, request, *args, **kwargs):
+        form = self.get_form(request.POST)
+        return self.get_response(request, {
+                'success': form.save_if_valid(),
+                'errors': form.errors_list(),
+                'name': form.instance.name,
+                })
+
+
+class FilterQueriesList(JSONResponseMixin, ModelBaseView):
+    def get_app_label(self):
+        return self.model._meta.app_label
+
+    def handle_request(self, request, *args, **kwargs):
+        return self.get_response(request, {
+                'queries': map(lambda fq: {
+                        'name': fq.name,
+                        'query': fq.query,
+                        'url': '/project/%s/%s/filter/?%s' % (request.project.slug, self.get_app_label(), fq.query),
+                        }, models.FilterQuery.objects.filter(contenttype=ContentType.objects.get_for_model(self.model))),
+                })

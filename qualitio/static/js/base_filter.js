@@ -180,4 +180,7 @@ $(document).ready(function() {
     $.onrefresh.bind(function() {
 	$('.actions-form #id_action').val("");
     });
+
+  $.saveQueryDialog();
+  $.savedQueriesDialog();
 });

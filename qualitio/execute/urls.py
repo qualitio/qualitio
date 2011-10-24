@@ -5,7 +5,7 @@ from qualitio import report
 from qualitio.execute.views import *
 from qualitio.execute.models import TestRunDirectory, TestRun
 
-from qualitio.filter import FilterView
+from qualitio.filter import FilterView, SaveFilterView, FilterQueriesList
 
 
 class ExecuteFilterView(FilterView):
@@ -18,6 +18,8 @@ class ExecuteFilterView(FilterView):
 urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^filter/', ExecuteFilterView()),
+                       url(r'^savefilter/', SaveFilterView(model=TestRun)),
+                       url(r'^savedqueries/', FilterQueriesList(model=TestRun)),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestRunDirectory}),

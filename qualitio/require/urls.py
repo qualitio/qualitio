@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 
 from qualitio import core
 from qualitio import report
-from qualitio.filter import FilterView
+from qualitio.filter import FilterView, SaveFilterView, FilterQueriesList
 
 from qualitio.require.models import Requirement
 from qualitio.require.filter import RequirementFilter
@@ -19,6 +19,8 @@ class RequireFilterView(FilterView):
 urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^filter/', RequireFilterView()),
+                       url(r'^savefilter/', SaveFilterView(model=Requirement)),
+                       url(r'^savedqueries/', FilterQueriesList(model=Requirement)),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': Requirement}),

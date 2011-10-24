@@ -2,7 +2,13 @@
 
 {% block js-include %}
 {{ block.super }}
+<script type="text/javascript">
+  APP_NAME = '{{ app_label }}';
+</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.blockUI.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/filter_save_query_dialog.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/filter_saved_queries_dialog.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 

@@ -108,3 +108,41 @@ table.display thead th[name="checkbox"] {
 input.ui-button.search-button {
     padding: 0.47em 4em;
 }
+
+.save-query-form-box input[name="savequery-name"] {
+    width: 100%;
+}
+
+.save-query-form-box .info {
+    margin: 5px 0px 2px 10px;
+    color: #999999;
+    font-style: italic;
+    text-align: left;
+}
+
+#save-form-button, #cancel-form-button {
+    float: right;
+    margin: 6px 6px 0px 0px;
+}
+
+#queries .items .item {
+    text-align: left;
+    width: 588px;
+    height: 25px;
+    margin: 5px 0 0 0;
+    padding: 1%;
+}
+
+#queries .items .item:hover {
+    background: #eee;
+}
+
+#queries .items .item .link {
+    float: left;
+    margin-top: 5px;
+}
+
+#queries .items .item .remove {
+    float: right;
+    margin: 0px 10px 0px 0px;
+}

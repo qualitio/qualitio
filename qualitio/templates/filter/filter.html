@@ -28,7 +28,9 @@
       <input type="submit" value="Search" class="search-button" />
       {% if filter.has_groups %}
       <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
+      <a href="#save-query-popup" id="save-button" class="button">Save query</a>
       {% endif %}
+      <a href="#saved-queries" id="saved-queries-button" class="button">Saved queries</a>
       <div class="add-new-group-form">{{ filter.new_group_form }}</div>
       {% if not filter.has_groups %}
       <div class="add-new-group-label">
@@ -70,6 +72,21 @@
     </div>
   </div>
 </form>
+
+
+<form id="save-query-form">
+  <div style="display:none;">
+    <div id="save-query-form-box" class="save-query-form-box">
+      <div class="info">Type current query name</div>
+      {{ save_query_form.name }}
+      {{ save_query_form.query }}
+      <a href="#" id="cancel-form-button" class="button cancel-form-button">Cancel</a>
+      <a href="#" id="save-form-button" class="button save-form-button">Save</a>
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+</form>
+
 
 {% if user.organization_member.role == ROLE.USER or user.organization_member.role == ROLE.ADMIN %}
 <div class="application-view-content">

@@ -4,7 +4,7 @@ from qualitio import core
 from qualitio import report
 from qualitio.store.views import *
 from qualitio.store.models import TestCaseDirectory, TestCase
-from qualitio.filter import FilterView
+from qualitio.filter import FilterView, SaveFilterView, FilterQueriesList
 
 
 class StoreFilterView(FilterView):
@@ -23,6 +23,8 @@ class StoreFilterView(FilterView):
 urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^filter/', StoreFilterView()),
+                       url(r'^savefilter/', SaveFilterView(model=TestCase)),
+                       url(r'^savedqueries/', FilterQueriesList(model=TestCase)),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestCaseDirectory}),
