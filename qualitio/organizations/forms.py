@@ -22,6 +22,25 @@ class OrganizationProfileForm(core.BaseModelForm):
         }
 
 
+class OrganizationGoogleAppsSetupForm(core.BaseModelForm):
+    # helper field for handling googleapp additional configuration
+    callback = forms.CharField(widget=forms.HiddenInput, required=False)
+
+    slug = forms.RegexField(
+        regex="^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$",
+        label="subdomain (part of url address)",
+        error_messages={
+            'invalid': 'subdomain may only conatin characters from set: 0-9, a-z and - (hypen)'
+        })
+
+    class Meta(core.BaseModelForm.Meta):
+        model = models.Organization
+        fields = ("name", "homepage", "slug", "description", "googleapps_domain")
+        widgets = {
+            'googleapps_domain': forms.HiddenInput(attrs={'readonly': 'readonly'})
+        }
+
+
 class OrganizationMemberForm(core.BaseModelForm):
 
     class Meta(core.BaseModelForm.Meta):

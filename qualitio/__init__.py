@@ -35,8 +35,12 @@ from qualitio.organizations.models import OrganizationMember
 
 
 def new_users_handler(sender, user, response, details, **kwargs):
-    if sender.name == 'googleapps':
-        role = OrganizationMember.USER
+    if THREAD.organization.googleapps_domain:
+        if not OrganizationMember.objects.filter(organization=THREAD.organization):
+            role = OrganizationMember.ADMIN
+        else:
+            role = OrganizationMember.USER
+
     else:
         role = OrganizationMember.INACTIVE
 

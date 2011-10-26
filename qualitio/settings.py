@@ -75,6 +75,7 @@ LOGIN_EXEMPT_URLS = (
     r'^project/(?P<slug>[\w-]+)/report/external/*',
     r'^__debug__/.*',
     r'^api/.*',
+    r'^googleapps_setup/$',
     )
 
 PROJECT_EXEMPT_URLS = (

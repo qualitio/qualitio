@@ -45,8 +45,17 @@ urlpatterns = patterns('',
                            permission_required('USER_READONLY')(views.ProjectDetails.as_view()),
                            name="project_details"),
 
+                       url(r'^r/(?P<domain>.*)/googleapps_setup/$',
+                           views.GoogleAppsSetupRedirect.as_view(),
+                           name="googleapps_setup_redirect"),
+
+                       url(r'^googleapps_setup/$',
+                           views.googleapps_domain_setup,
+                           name="googleapps_setup"),
+
                        url(r'^r/(?P<domain>.*)/$',
-                           views.GoogleApsDomainRedirect.as_view(),
-                           name="organization_redirect"),
+                           views.GoogleAppsRedirect.as_view(),
+                           name="googleapps_redirect"),
                        )
 
+# ?callback=https://www.google.com/a/cpanel/qualitio.com/DomainAppInstall

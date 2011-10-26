@@ -1,9 +1,12 @@
 from django.http import Http404
+from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
-from django.shortcuts import redirect
+from django.template import RequestContext
+from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
 from django.views.generic import (View, CreateView, RedirectView,
-                                  UpdateView, ListView, TemplateView)
+                                  UpdateView, ListView, TemplateView,
+                                  FormView)
 
 
 from reversion.models import Revision
@@ -218,16 +221,66 @@ class ProjectNew(CreateView):
                       data=form.errors_list())
 
 
-class GoogleApsDomainRedirect(RedirectView):
+
+
+class GoogleAppsRedirect(RedirectView):
+
+    def _get_url(self, organization):
+        if self.request.is_secure():
+            return "https://%s.%s" % (organization.slug, self.request.get_host())
+        return "http://%s.%s" % (organization.slug, self.request.get_host())
 
     def get_redirect_url(self, **kwargs):
         try:
             googleapps_domain = self.kwargs['domain']
-            organization = models.Organization.objects.get(googleapps_domain=googleapps_domain)
-            if self.request.is_secure():
-                return "https://%s.%s" % (organization.slug, self.request.get_host())
-            return "http://%s.%s" % (organization.slug, self.request.get_host())
+            organization = models.Organization.objects.get(
+                googleapps_domain=googleapps_domain
+            )
+            return self._get_url(organization)
+
         except (KeyError, models.Organization.DoesNotExist):
             raise Http404
 
 
+class GoogleAppsSetupRedirect(GoogleAppsRedirect):
+
+    permanent = False
+
+    def get_redirect_url(self, **kwargs):
+        try:
+            organization = models.Organization.objects.get(
+                googleapps_domain=self.kwargs['domain']
+            )
+
+            return "%s/settings/" % self._get_url(organization)
+
+        except models.Organization.DoesNotExist:
+            organization = models.Organization.objects.create(
+                googleapps_domain=self.kwargs['domain'],
+                name=self.kwargs['domain']
+            )
+            return "%s/googleapps_setup/?%s" % (self._get_url(organization),
+                                                self.request.META['QUERY_STRING'])
+
+
+def googleapps_domain_setup(request, *args, **kwargs):
+    if not request.user.is_authenticated():
+        return redirect("%s?next=%s" % (reverse("socialauth_begin", args=['googleapps']),
+                                        request.get_full_path()))
+
+    if request.method == "GET":
+        form = forms.OrganizationGoogleAppsSetupForm(instance=request.organization)
+        form.fields['callback'].initial = request.GET.get('callback')
+    else:
+
+        form = forms.OrganizationGoogleAppsSetupForm(request.POST,
+                                                     instance=request.organization)
+
+        if form.is_valid():
+            form.save()
+            if request.POST.get('callback'):
+                return redirect(request.POST.get('callback'))
+
+    return render_to_response("organizations/organization_googleapps_setup.html",
+                              {"form": form},
+                              context_instance=RequestContext(request))

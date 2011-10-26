@@ -21,11 +21,13 @@ class Organization(CustomizableModel):
         pass
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if not self.slug:
+            self.slug = slugify(self.name)
         super(Organization, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
+
 
 
 class OrganizationMember(CustomizableModel):
