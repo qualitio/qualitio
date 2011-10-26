@@ -13,7 +13,7 @@ class Organization(CustomizableModel):
     description = models.TextField(blank=True)
     members = models.ManyToManyField('auth.User', through='OrganizationMember')
 
-    googleapps_domain = models.CharField(max_length=255, blank=True)
+    googleapps_domain = models.CharField(max_length=255, blank=True, unique=True)
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
