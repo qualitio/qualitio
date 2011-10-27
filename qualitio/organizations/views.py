@@ -264,6 +264,7 @@ class GoogleAppsSetupRedirect(GoogleAppsRedirect):
 
 
 def googleapps_domain_setup(request, *args, **kwargs):
+
     if not request.user.is_authenticated():
         return redirect("%s?next=%s" % (reverse("socialauth_begin", args=['googleapps']),
                                         request.get_full_path()))
@@ -280,7 +281,8 @@ def googleapps_domain_setup(request, *args, **kwargs):
             organization = form.save()
             models.OrganizationMember.objects.create(
                 user=request.user,
-                organization=organization
+                organization=organization,
+                role=models.OrganizationMember.ADMIN
             )
             if request.POST.get('callback'):
                 return redirect(request.POST.get('callback'))

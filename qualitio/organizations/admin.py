@@ -29,6 +29,5 @@ class OrganizationAdmin(admin.ModelAdmin):
          "homepage", "modified_time", "created_time"]
     )
     inlines = [ OrganizationAdminInline ]
-    readonly_fields = ("slug",)
 admin.site.register(Organization, OrganizationAdmin)
 
