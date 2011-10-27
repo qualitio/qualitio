@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ValidationError
 
 from qualitio.core.custommodel.models import CustomizableModel
 from qualitio import THREAD
@@ -13,16 +14,30 @@ class Organization(CustomizableModel):
     description = models.TextField(blank=True)
     members = models.ManyToManyField('auth.User', through='OrganizationMember')
 
-    googleapps_domain = models.CharField(max_length=255, blank=True, unique=True)
+    googleapps_domain = models.CharField(max_length=255, blank=True)
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
     def setup(self, owner):
         pass
 
+    def validate_unique(self, exclude=None):
+        super(Organization, self).validate_unique(exclude)
+
+        if self.googleapps_domain:
+            if Organization.objects\
+                           .exclude(pk=self.pk)\
+                           .filter(googleapps_domain=self.googleapps_domain)\
+                           .exists():
+               raise ValidationError({"googleapps_domain": ["This domain already has an organization"]})
+
+
     def save(self, *args, **kwargs):
+
         if not self.slug:
             self.slug = slugify(self.name)
+
+
         super(Organization, self).save(*args, **kwargs)
 
     def __unicode__(self):
