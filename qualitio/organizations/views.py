@@ -225,6 +225,8 @@ class ProjectNew(CreateView):
 
 class GoogleAppsRedirect(RedirectView):
 
+    permanent = False
+
     def _get_url(self, organization):
         if self.request.is_secure():
             return "https://%s.%s" % (organization.slug, self.request.get_host())
@@ -243,8 +245,6 @@ class GoogleAppsRedirect(RedirectView):
 
 
 class GoogleAppsSetupRedirect(GoogleAppsRedirect):
-
-    permanent = False
 
     def get_redirect_url(self, **kwargs):
         try:
@@ -277,7 +277,11 @@ def googleapps_domain_setup(request, *args, **kwargs):
                                                      instance=request.organization)
 
         if form.is_valid():
-            form.save()
+            organization = form.save()
+            models.OrganizationMember.objects.create(
+                user=request.user,
+                organization=organization
+            )
             if request.POST.get('callback'):
                 return redirect(request.POST.get('callback'))
 
