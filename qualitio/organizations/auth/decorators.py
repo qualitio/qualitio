@@ -10,7 +10,7 @@ def permission_required(mode):
 
             role = getattr(OrganizationMember, mode, 999999)
             if not request.organization.members.filter(pk=request.user.pk,
-                                                       organization_member__role__lt=role).exists():
+                                                       organization_member__role__lte=role).exists():
                 return render_to_response('core/permission_required.html', None)
 
             return func(request, *args, **kwargs)
