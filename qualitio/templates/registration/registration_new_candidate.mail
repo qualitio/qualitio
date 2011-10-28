@@ -1,12 +1,12 @@
 Hi {{ organization }} organization admin,
 
-Your organization has new candidate:
+Your organization has a new candidate:
 
 username: {{ username }}
 email: {{ email }}
 
 
-Go to organization settings panel to accept his candidature or delete this account proposition from your organization.
+Visit organization settings panel to accept his candidature or delete this account proposition from your organization.
 
 This email has been sent to all {{ organization }} admins.
 
