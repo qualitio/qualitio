@@ -38,7 +38,7 @@ class OrganizationMiddleware(object):
                 raise Http404
 
         try:
-            if request.user.is_authenticated():
+            if request.user.is_authenticated() and request.organization:
                 organization_member = request.user.organization_member.get(
                     organization=request.organization
                 )

@@ -5,7 +5,7 @@ def main(request):
     organization_member = None
 
     try:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated() and request.organization:
             organization_member = request.user.organization_member.get(
                 organization=request.organization
             )
