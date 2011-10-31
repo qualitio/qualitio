@@ -37,6 +37,15 @@ class OrganizationMiddleware(object):
             except Organization.DoesNotExist:
                 raise Http404
 
+        try:
+            if request.user.is_authenticated():
+                organization_member = request.user.organization_member.get(
+                    organization=request.organization
+                )
+                request.organization_member = organization_member
+        except AttributeError:
+            pass
+
         return None
 
     def process_response(self, request, response):

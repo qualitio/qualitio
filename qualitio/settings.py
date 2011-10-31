@@ -44,12 +44,12 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'qualitio.organizations.middleware.OrganizationMiddleware',
-    'qualitio.organizations.middleware.ProjectMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'qualitio.organizations.middleware.OrganizationMiddleware',
+    'qualitio.organizations.middleware.ProjectMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
     'qualitio.core.middleware.QueriesCounterMiddleware',
@@ -147,7 +147,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "qualitio.core.context_processors.development",
                                "qualitio.core.context_processors.core",
                                "qualitio.core.context_processors.module",
-                               "qualitio.organizations.context_processors.organization_roles")
+                               "qualitio.organizations.context_processors.main")
 
 AUTH_PROFILE_MODULE = 'organizations.UserProfile'
 
