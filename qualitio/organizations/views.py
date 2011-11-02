@@ -31,8 +31,10 @@ class OrganizationObjectMixin(object):
 class OrganizationDetails(View, OrganizationObjectMixin):
     def get(self, request, *args, **kwargs):
         if request.organization:
+            articles = Article.objects.filter(status__name="Finished")
             return TemplateResponse(request, "organizations/organization_detail.html",
-                                    {"organization": request.organization})
+                                    {"organization": request.organization,
+                                     "articles": articles})
         else:
             return redirect("organization_none")
 
