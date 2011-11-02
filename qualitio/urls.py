@@ -1,12 +1,22 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from django.shortcuts import redirect
 from django.contrib import admin
 admin.autodiscover()
 
 from qualitio import api
 from qualitio.organizations.auth.registration.views import RegisterUser, RegisterUserThanks
-
 from qualitio.organizations import views as organization_views
+
+
+def admin_redirect(request, *args, **kwargs):
+    if request.organization:
+        site_host = ".".join(request.get_host().split('.')[1:])
+        protocol = 'https' if request.is_secure() else 'http'
+        return redirect("%s://%s/admin/" % (protocol,site_host))
+
+    return admin.site.index(request, *args, **kwargs)
+
 
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
@@ -37,6 +47,7 @@ urlpatterns = patterns('',
                        (r'^project/(?P<project>[\w-]+)/glossary/',
                         include('qualitio.glossary.urls', app_name="glossary")),
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+                       (r'^admin/$', admin_redirect),
                        (r'^admin/', include(admin.site.urls)),
                        (r'^project/[\w-]+/', include(api.urls)),
                        )
