@@ -53,6 +53,10 @@ urlpatterns = patterns('',
                            views.GoogleAppsSetupRedirect.as_view(),
                            name="googleapps_setup_redirect"),
 
+                       url(r'^google_checkout/$',
+                           views.google_checkout,
+                           name="google_checkout"),
+
                        url(r'^googleapps_setup/$',
                            views.googleapps_domain_setup,
                            name="googleapps_setup"),

@@ -296,3 +296,12 @@ def googleapps_domain_setup(request, *args, **kwargs):
     return render_to_response("organizations/organization_googleapps_setup.html",
                               {"form": form},
                               context_instance=RequestContext(request))
+
+def google_checkout(request, *args, **kwargs):
+    from django.http import HttpResponse
+
+    with open("/tmp/google_checkout", "w") as f:
+        f.write(str(request.POST) + str(request.GET))
+
+
+    return HttpResponse("")

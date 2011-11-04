@@ -76,6 +76,7 @@ LOGIN_EXEMPT_URLS = (
     r'^__debug__/.*',
     r'^api/.*',
     r'^googleapps_setup/$',
+    r'^google_checkout/$',
     )
 
 PROJECT_EXEMPT_URLS = (
