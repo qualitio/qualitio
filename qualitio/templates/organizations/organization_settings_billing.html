@@ -1,0 +1,110 @@
+{% extends "organizations/organization_settings.html" %}
+{% load authorization %}
+
+{% block settings-active-menu %}menu-item-billing{% endblock %}
+
+{% block project_detail %}
+
+<div class="billing">
+  <div class="grid_2">&nbsp;</div>
+
+  <div class="grid_3 program current">
+    <h1>Free account</h1>
+    <div class="option">
+      Up 5 users
+    </div>
+    <div class="option">
+      Unlimited projects
+    </div>
+    <div class="option amount">
+      $0/month
+    </div>
+    <div class="option pay free">
+      Free
+    </div>
+  </div>
+  <div class="grid_3 program">
+    <h1>Business account</h1>
+    <div class="option">
+      Up to 10 users
+    </div>
+    <div class="option">
+      Unlimited projects
+    </div>
+    <div class="option amount">
+      $50/month
+    </div>
+    <div class="option pay">
+      <div class="googlecheckout-button" >
+	<form action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/245101234040409" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
+	  <input name="item_name_1" type="hidden" value="Standard Pack 2 "/>
+	  <input name="item_description_1" type="hidden" value=""/>
+	  <input name="item_quantity_1" type="hidden" value="1"/>
+	  <input name="item_price_1" type="hidden" value="50.0"/>
+	  <input name="item_currency_1" type="hidden" value="GBP"/>
+	  <input name="_charset_" type="hidden" value="utf-8"/>
+	  <input alt="" src="https://sandbox.google.com/checkout/buttons/buy.gif?merchant_id=245101234040409&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+	</form>
+      </div>
+    </div>
+  </div>
+  <div class="grid_3 program">
+    <h1>Corporate account</h1>
+    <div class="option">
+      Up to 100 users
+    </div>
+    <div class="option">
+      Unlimited projects
+    </div>
+    <div class="option amount">
+      $150/month
+    </div>
+    <div class="option pay">
+      <div class="googlecheckout-button" >
+	<form action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/245101234040409" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
+	  <input name="item_name_1" type="hidden" value="Standard Pack"/>
+	  <input name="item_description_1" type="hidden" value=""/>
+	  <input name="item_quantity_1" type="hidden" value="1"/>
+	  <input name="item_price_1" type="hidden" value="50.0"/>
+	  <input name="item_currency_1" type="hidden" value="GBP"/>
+	  <input name="_charset_" type="hidden" value="utf-8"/>
+	  <input alt="" src="https://sandbox.google.com/checkout/buttons/buy.gif?merchant_id=245101234040409&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+	</form>
+      </div>
+    </div>
+  </div>
+  <div class="grid_3 program">
+    <h1>Enterprise account</h1>
+    <div class="option">
+      Unlimited users
+    </div>
+    <div class="option">
+      Unlimited projects
+    </div>
+    <div class="option amount">
+      $1000/month
+    </div>
+    <div class="option pay">
+      <div class="googlecheckout-button" >
+	<form action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/245101234040409" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
+	  <input name="item_name_1" type="hidden" value="Standard Pack"/>
+	  <input name="item_description_1" type="hidden" value=""/>
+	  <input name="item_quantity_1" type="hidden" value="1"/>
+	  <input name="item_price_1" type="hidden" value="50.0"/>
+	  <input name="item_currency_1" type="hidden" value="GBP"/>
+	  <input name="_charset_" type="hidden" value="utf-8"/>
+	  <input alt="" src="https://sandbox.google.com/checkout/buttons/buy.gif?merchant_id=245101234040409&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+	</form>
+      </div>
+    </div>
+
+  </div>
+  <div class="grid_2">&nbsp;</div>
+</div>
+<!-- Free account -->
+<!-- Do 5 użytkowników, dowolna liczba projektów -->
+<!-- Business account - 10 użytkowników za 50$/m, dowolna liczba projektów, dodatkowy użytkownik 10$/m -->
+<!-- Corporate account - 100 użytkowników za 150$/m, dowolna liczba projektów, dodatkowy użytkownik 10$/m -->
+<!-- Enterprise account - dowolna liczba użytkowników za 1000$/m -->
+
+{% endblock %}

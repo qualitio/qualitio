@@ -181,6 +181,10 @@ class OrganizationSettings(RedirectView):
                               glossary_language._errors_list())
 
 
+    class Billing(TemplateView):
+        template_name = "organizations/organization_settings_billing.html"
+
+
 class ProjectList(ListView):
     model = models.Project
     context_object_name = "project_list"

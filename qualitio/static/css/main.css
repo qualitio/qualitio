@@ -650,6 +650,11 @@ input[readonly] {
     float:right;
 }
 
+.googlecheckout-button {
+    width: 117px;
+    height: 48px;
+    display: inline-block;
+}
 
 /* chosen plugin css override */
 .chzn-container-single .chzn-single {

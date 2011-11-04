@@ -37,6 +37,10 @@ urlpatterns = patterns('',
                            permission_required('ADMIN')(views.OrganizationSettings.Projects.as_view()),
                            name="organization_settings_projects"),
 
+                       url(r'^settings/billing/$',
+                           permission_required('ADMIN')(views.OrganizationSettings.Billing.as_view()),
+                           name="organization_settings_billing"),
+
                        url(r'^project/new/$',
                            permission_required('ADMIN')(views.ProjectNew.as_view()),
                            name="project_new"),

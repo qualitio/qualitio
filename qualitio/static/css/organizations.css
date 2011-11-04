@@ -255,6 +255,57 @@
     padding: 0;
 }
 
+#projects .billing {
+    padding: 70px 0;
+}
+
+#projects .billing .program {
+    border-left: 1px solid #dddddd;
+    padding: 40px 0;
+}
+
+#projects .billing .program.current {
+    background-color: #D1EED1;
+    border-color: #BFE7BF;
+}
+
+#projects .billing h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Bevan',serif;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+#projects .billing .option {
+    color: #404040;
+    padding: 15px 15px;
+    border: 1px solid #dddddd;
+    margin: 5px 20px;
+    font-weight: bold;
+    background: #f9f9f9;
+    font-family: 'Bevan',serif;
+    font-weight: normal;
+    text-align: center;
+}
+
+#projects .billing .amount {
+    font-size: 18px;
+    color: #aaaaaa;
+
+}
+
+#projects .billing .free {
+    padding: 12px 0;
+    color: #bbbbbb;
+    font-family: 'Bevan',serif;
+    font-size: 33px;
+    font-weight: normal;
+}
+
+#projects .billing .pay {
+    text-align: center;
+}
 
 /* settings */
 .field-settings {
