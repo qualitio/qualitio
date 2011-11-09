@@ -650,11 +650,17 @@ input[readonly] {
     float:right;
 }
 
-.googlecheckout-button {
-    width: 117px;
-    height: 48px;
-    display: inline-block;
+.paypal-button {
+    width: 107px;
+    height: 26px;
+    text-align: center;
+    margin: auto;
 }
+
+.paypal-button input{
+    border: none !important;
+}
+
 
 /* chosen plugin css override */
 .chzn-container-single .chzn-single {
