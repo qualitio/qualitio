@@ -4,9 +4,12 @@ from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (View, CreateView, RedirectView,
                                   UpdateView, ListView, TemplateView,
                                   FormView)
+
 
 
 from reversion.models import Revision
@@ -184,6 +187,19 @@ class OrganizationSettings(RedirectView):
     class Billing(TemplateView):
         template_name = "organizations/organization_settings_billing.html"
 
+        def post(self, *args, **kwargs):
+            # import ipdb; ipdb.set_trace()
+            # Check here
+            return super(OrganizationSettings.Billing, self).post(*args, **kwargs)
+
+        @method_decorator(csrf_exempt)
+        def dispatch(self, *args, **kwargs):
+            return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
+
+        def render_to_response(self, *args, **kwargs):
+
+            return super(OrganizationSettings.Billing, self).render_to_response(*args, **kwargs)
+
 
 class ProjectList(ListView):
     model = models.Project
@@ -297,11 +313,15 @@ def googleapps_domain_setup(request, *args, **kwargs):
                               {"form": form},
                               context_instance=RequestContext(request))
 
+
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+
+@csrf_exempt
 def google_checkout(request, *args, **kwargs):
     from django.http import HttpResponse
-
     with open("/tmp/google_checkout", "w") as f:
-        f.write(str(request.POST) + str(request.GET))
+        for name, value in request.POST.items():
+            f.write("%s   %s\n" % (name, value))
 
-
+    f.write("\n=================\n")
     return HttpResponse("")

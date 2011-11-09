@@ -35,17 +35,20 @@
       $50/month
     </div>
     <div class="option pay">
-      <div class="googlecheckout-button" >
-	<form action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/245101234040409" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
-	  <input name="item_name_1" type="hidden" value="Standard Pack 2 "/>
-	  <input name="item_description_1" type="hidden" value=""/>
-	  <input name="item_quantity_1" type="hidden" value="1"/>
-	  <input name="item_price_1" type="hidden" value="50.0"/>
-	  <input name="item_currency_1" type="hidden" value="GBP"/>
-	  <input name="_charset_" type="hidden" value="utf-8"/>
-	  <input alt="" src="https://sandbox.google.com/checkout/buttons/buy.gif?merchant_id=245101234040409&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+      <div class="paypal-button">
+
+	<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+	  <input type="hidden" name="cmd" value="_s-xclick">
+	  <input type="hidden" name="hosted_button_id" value="99KEAABS4W9Y6">
+	  <input type="hidden" name="return" value="http://meego.localhost.com:8000/settings/billing/">
+	  <input type="hidden" name="on0" value="organization">
+	  <input type="hidden" name="os0" maxlength="200" value="{{ request.organization.name }}">
+	  <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	  <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 	</form>
+
       </div>
+
     </div>
   </div>
   <div class="grid_3 program">
@@ -60,15 +63,15 @@
       $150/month
     </div>
     <div class="option pay">
-      <div class="googlecheckout-button" >
-	<form action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/245101234040409" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
-	  <input name="item_name_1" type="hidden" value="Standard Pack"/>
-	  <input name="item_description_1" type="hidden" value=""/>
-	  <input name="item_quantity_1" type="hidden" value="1"/>
-	  <input name="item_price_1" type="hidden" value="50.0"/>
-	  <input name="item_currency_1" type="hidden" value="GBP"/>
-	  <input name="_charset_" type="hidden" value="utf-8"/>
-	  <input alt="" src="https://sandbox.google.com/checkout/buttons/buy.gif?merchant_id=245101234040409&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+      <div class="paypal-button">
+	<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+	  <input type="hidden" name="cmd" value="_s-xclick">
+	  <input type="hidden" name="hosted_button_id" value="B2YXQWTAKTL8L">
+	  <input type="hidden" name="return" value="http://meego.localhost.com:8000/settings/billing/">
+	  <input type="hidden" name="on0" value="organization">
+	  <input type="hidden" name="os0" maxlength="200" value="{{ request.organization.name }}">
+	  <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	  <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 	</form>
       </div>
     </div>
@@ -85,18 +88,19 @@
       $1000/month
     </div>
     <div class="option pay">
-      <div class="googlecheckout-button" >
-	<form action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/245101234040409" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm" target="_top">
-	  <input name="item_name_1" type="hidden" value="Standard Pack"/>
-	  <input name="item_description_1" type="hidden" value=""/>
-	  <input name="item_quantity_1" type="hidden" value="1"/>
-	  <input name="item_price_1" type="hidden" value="50.0"/>
-	  <input name="item_currency_1" type="hidden" value="GBP"/>
-	  <input name="_charset_" type="hidden" value="utf-8"/>
-	  <input alt="" src="https://sandbox.google.com/checkout/buttons/buy.gif?merchant_id=245101234040409&amp;w=117&amp;h=48&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+      <div class="paypal-button">
+	<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+	  <input type="hidden" name="cmd" value="_s-xclick">
+	  <input type="hidden" name="hosted_button_id" value="WEKBWGDD2JWVJ">
+	  <input type="hidden" name="return" value="http://meego.localhost.com:8000/settings/billing/">
+	  <input type="hidden" name="on0" value="organization">
+	  <input type="hidden" name="os0" maxlength="200" value="{{ request.organization.name }}">
+	  <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	  <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 	</form>
       </div>
     </div>
+  </div>
 
   </div>
   <div class="grid_2">&nbsp;</div>
