@@ -1,0 +1,40 @@
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>report directory
+    {% if reportdirectory_form.instance.id %}: {{ reportdirectory_form.instance.name }}{% endif %}
+  </h1>
+</div>
+
+{% if reportdirectory_form.instance.id %}
+{% application_view_menu reportdirectory_form.instance "edit" %}
+{% else %}
+<div id="application-view-menu">
+  <span class="active">new</span>
+</div>
+{% endif %}
+
+<form id="reportdirectory_form"
+      action="{% if reportdirectory_form.instance.id %}
+              {{ SELF.get_absolute_url }}ajax/reportdirectory/{{ reportdirectory_form.instance.id }}/edit/valid/
+              {% else %}
+              {{ SELF.get_absolute_url }}ajax/reportdirectory/new/valid/
+              {% endif %}"
+      method="post">{% csrf_token %}
+
+  <div class="application-view-content">
+    {% for field in reportdirectory_form %}
+    <div class="field">
+      {{ field.label_tag }}:
+      {{ field }}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div id="application-view-footer" class="application-view-content clearfix">
+    <div class="grid_16 right clearfix">
+      <input type="submit" name="Reportd" value="Save" />
+    </div>
+  </div>
+
+</form>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report_reportdirectory_edit.js{{ STATIC_HASH }}"></script>

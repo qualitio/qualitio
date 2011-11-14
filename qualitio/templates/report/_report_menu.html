@@ -1,0 +1,15 @@
+{% load authorization %}
+<div id="application-view-menu">
+  {% if view == "details" %}
+  <span class="active" >details</span>
+  {% else %}
+  <a href="#report/{{ obj.pk }}/details/">details</a>
+  {% endif %}
+
+  {% if view == "edit" %}
+  <span class="active" >edit</span>
+  {% else %}
+  <a class="{% if not user|has_permission:"USER" %}disable{% endif %}"
+     href="#report/{{ obj.pk }}/edit/">edit</a>
+  {% endif %}
+</div>
