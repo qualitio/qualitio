@@ -1,0 +1,16 @@
+{% extends 'base_tree.html' %}
+
+{% block js-include %}{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/report.js"></script>
+<script src="{{ MEDIA_URL }}js/ace/ace.js" type="text/javascript" charset="utf-8"></script> 
+<script src="{{ MEDIA_URL }}js/ace/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ MEDIA_URL }}js/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block css-include %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/report.css" />
+{% endblock %}
+
+{% block application-menu %}
+<li class="active">browse</li>
+{% endblock %}

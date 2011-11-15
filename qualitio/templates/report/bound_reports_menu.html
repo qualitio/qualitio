@@ -1,0 +1,20 @@
+{% if reports %}
+
+<div class="reports-menu">
+  <a href="#">reports {% for report in reports %} {% if report.pk == current_view %} ({{ report.name }}) {% endif %} {% endfor %}</a>
+  <div class="position">
+
+    {% for report in reports %}
+    <div>
+      {% if report.pk == current_view %}
+      <a href="#" style="font-weight: bold">{{ report.name }}</a>
+      {% else %}
+      <a href="#{{ model_name }}/{{ obj.pk }}/{{ report.id }}/">{{ report.name }}</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endif %}

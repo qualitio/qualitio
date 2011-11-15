@@ -1,0 +1,42 @@
+{% load application_view_menu %}
+<div id="application-view-header">
+  <h1>test case: {{ testcase.name }}</h1>
+</div>
+
+{% application_view_menu testcase "attachments" %}
+
+<div class="application-view-content">
+  <h2>Attachments</h2>
+  {{ attachments_form.management_form }}
+  {% for form in attachments_form.forms %}
+  {{ form.id }}
+  <div class="grid_4 alpha">
+    <div style="flat:left; padding: 0 10px 0 0;">{{ form.name }}</div>
+  </div>
+  <div class="grid_4">
+    <div style="padding: 0 0 0 0px;">{{ form.attachment }}</div>
+  </div>
+  <div class="grid_1 omega suffix_7">
+    <div style="padding: 0 0 0 0px;"><a href="#" class="remove-attachment">+</a></div>
+  </div>
+  
+  {% endfor %}
+  <a href="#" class="add-attachment-form">+</a>
+</div>
+<script>
+$(function() {
+  $(".add-attachment-form").button({
+    icons: {
+      primary: "ui-icon-circle-plus"
+    },
+    text: false
+  });
+
+  $(".remove-attachment").button({
+    icons: {
+      primary: "ui-icon-circle-minus"
+    },
+    text: false
+  });
+});
+</script>
