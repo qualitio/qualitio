@@ -15,6 +15,9 @@ class IssueServerError(Exception):
 class Backend(object):
     resource = None
     url = ""
+    messages = {  # due to bug #263
+        u"NotFound": u"The bug id was not found. Please check the bug id and try again."
+        }
 
     @classmethod
     def _setup_connection(cls):
@@ -51,7 +54,7 @@ class Backend(object):
 
         error = node.getElementsByTagName("bug")[0].getAttribute("error")
         if error:
-            raise IssueError(error)
+            raise IssueError(self.messages.get(error, error))
 
         bug = {}
         bug['alias'] = node.getElementsByTagName("bug_id")[0].firstChild.data

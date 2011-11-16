@@ -104,3 +104,7 @@ table.display thead th[name="checkbox"] {
     border-spacing: 5px;
     margin-top: 10px;
 }
+
+input.ui-button.search-button {
+    padding: 0.47em 4em;
+}

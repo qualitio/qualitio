@@ -2,7 +2,7 @@
 body, html {
     margin:0;
     padding:0;
-    height:100%; 
+    height:100%;
     overflow: hidden;
     background: #eee;
 }
@@ -13,7 +13,7 @@ body {
 }
 
 a:link, a:visited {
-    color: #555555;    
+    color: #555555;
 }
 
 a:hover {
@@ -29,11 +29,16 @@ a:hover {
 }
 
 #main {
-    /* position:relative; /\* needed for footer positioning*\/ */
     margin:0 auto; /* center, not in IE5 */
     height:auto !important; /* real browsers */
     height:100%; /* IE6: treaded as min-height*/
     min-height:100%; /* real browsers */
+}
+
+#header {
+    background: #fff;
+    position:relative;
+    border-bottom: 1px solid #aaaaaa;
 }
 
 #header .logo {
@@ -46,12 +51,15 @@ a:hover {
     text-rendering: optimizelegibility;
 }
 
-#header {
-    background: #fff;
-    border-left: 1px solid #AAAAAA;
-    border-right: 1px solid #AAAAAA;
-    position:relative
+#header .logo a {
+    color: #777777;
+    text-decoration: none;
 }
+
+#header .logo a:hover {
+    color: #999999;
+}
+
 
 #header .user-panel{
     bottom: -22px;
@@ -63,7 +71,7 @@ a:hover {
     z-index: 1;
 }
 
-#project-content {
+#base {
     background: #eeeeee
 }
 
@@ -77,7 +85,7 @@ a:hover {
     padding: 7px;
     height: 20px;
     border-top:2px solid #aaa;
-    
+
     /* for non-css3 browsers */
     background: #f0f0f0;
     /* for IE */
@@ -88,23 +96,23 @@ a:hover {
     background: -moz-linear-gradient(top,  #eee,  #fff);
 }
 
-#project-menu div {
+#menu div {
     float: right;
 }
 
-#project-menu a {
+#menu a {
     display: block;
     padding: 7px 50px;
 }
 
-#project-menu a:link,
-#project-menu a:visited{
+#menu a:link,
+#menu a:visited{
     text-decoration: none;
     color: #666;
     font-weight:bold;
 }
 
-#project-menu a:hover{
+#menu a:hover{
     text-decoration: underline;
     background: #E0E0E0; /* old browsers */
     background: -moz-linear-gradient(top, #E0E0E0 0%, #FFFFFF 100%); /* firefox */
@@ -113,7 +121,7 @@ a:hover {
     background: -o-linear-gradient(top, #E0E0E0 0%,#FFFFFF 100%); /* opera */
 }
 
-#project-menu a.active {
+#menu a.active {
     background: #eeeeee; /* old browsers */
     background: -moz-linear-gradient(top, #eeeeee 0%, #FFFFFF 100%); /* firefox */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#FFFFFF)); /* webkit */
@@ -200,7 +208,7 @@ a:hover {
     border-bottom: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
-    margin-right: 11px;
+    /* margin-right: 11px; */
 
     font-family: 'Cabin', serif;
     border-bottom: 1px solid #aaa;
@@ -252,14 +260,11 @@ a:hover {
     padding:5px 15px;
 }
 
-.application-view-content {
+#application-view .application-view-content {
     padding: 10px 10px;
-    -moz-border-radius: 0px 0px 0px 0px;
-    -webkit-border-radius: 0px 0px 0px 0px;
     border: 1px solid #aaa;
-    margin-top: 4px;
-    margin-right: 11px;
     background: white;
+    margin: 0px;
 }
 
 .application-view-content input:not(.ui-button):not([type=checkbox]),
@@ -315,7 +320,7 @@ h2, label {
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
     margin-top: 11px;
-    margin-right: 11px;
+    /* margin-right: 11px; */
     background: white;
 }
 
@@ -503,9 +508,23 @@ table.filter td.add {
 }
 
 /* jQuery-ui fixes */
+.ui-widget {
+    font-size: 1.0em;
+}
+
 .ui-button {
     font-size:0.9em;
     min-width: 70px;
+}
+
+.ui-button-icon-only {
+    padding: 0.2em;
+    min-width: 0px;
+}
+
+.ui-button-icon-primary {
+    margin-left: -11px;
+    margin-top: -10px;
 }
 
 .qtip .qtip-content{
@@ -600,6 +619,14 @@ input[readonly] {
 .remove-button {
     float: left;
     width: 49%;
+    font-weight: bold;
+    color: red;
+    border: 1px solid #FF9966;
+}
+
+.remove-button:hover {
+    color: red;
+    border: 1px solid red;
 }
 
 .remove-button .ui-icon {
@@ -609,8 +636,38 @@ input[readonly] {
 .add-button {
     float: right;
     width: 49%;
+    font-weight: bold;
+    color: green;
+    border: 1px solid #A0C544;
+}
+
+.add-button:hover {
+    color: green;
+    border: 1px solid green;
 }
 
 .add-button .ui-icon {
     float:right;
 }
+
+.paypal-button {
+    width: 107px;
+    height: 26px;
+    text-align: center;
+    margin: auto;
+}
+
+.paypal-button input{
+    border: none !important;
+}
+
+
+/* chosen plugin css override */
+.chzn-container-single .chzn-single {
+    border-radius: 0px;
+}
+
+.chzn-container-multi .chzn-choices .search-choice {
+    width: 97%;
+}
+/* END chosen plugin css override */

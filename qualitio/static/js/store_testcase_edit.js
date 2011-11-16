@@ -123,4 +123,7 @@ $(function() {
       $.shortcuts.hideErrors();
     }
   });
+
+  $('select[name="parent"]').chosen();
+  $('select[name="requirement"]').chosen();
 });

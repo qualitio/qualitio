@@ -22,8 +22,8 @@
     <div class="text-bullet">
       <span class="name">link:</span>
       <span class="value">
-        <a href="/report/external/{{ report.link }}" target="_blank">
-          {% if request.is_secure %}https{% else %}http:{% endif %}//{{ request.get_host }}/report/external/{{ report.link }}
+        <a href="{% if request.is_secure %}https{% else %}http:{% endif %}//{{ request.get_host }}{{ report.link }}" target="_blank">
+                 {% if request.is_secure %}https{% else %}http:{% endif %}//{{ request.get_host }}{{ report.link }}
         </a>
       </span>
     </div>

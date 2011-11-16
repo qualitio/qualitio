@@ -1,20 +1,19 @@
-{% extends 'base.html' %}
+{% extends "page.html" %}
 
-{% block js-include %}
+{% block js-include %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/glossary.js{{ STATIC_HASH }}"></script>
 {% endblock %}
 
-{% block css-include %}
+{% block css-include %}{{ block.super }}
 <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/glossary.css{{ STATIC_HASH }}"></link>
 {% endblock %}
 
-
-{% block application %}
+{% block project_detail %}
 <div class="grid_16">
   <div id="application-menu" >
     <ul>
-      <li><a href="/store/">browse</a></li>
-      <li><a href="/store/filter/">filter</a></li>
+      <li><a href="{{ STORE.get_absolute_url }}">browse</a></li>
+      <li><a href="{{ STORE.get_absolute_url }}filter/">filter</a></li>
       <li class="active">glossary</li>
     </ul>
   </div>

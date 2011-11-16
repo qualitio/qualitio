@@ -1,0 +1,69 @@
+{% extends "organizations/organization_settings.html" %}
+{% load authorization %}
+
+{% block settings-active-menu %}menu-item-users{% endblock %}
+
+{% block project_detail %}
+<div class="user-management">
+  <form id="organization_users_form" method="post" action="/settings/users/">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table class="display">
+      <thead>
+	<tr>
+	  <th>username</th>
+	  <th>full name</th>
+	  <th>email</th>
+	  <th>role</th>
+	  <th>delete</th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for form in formset.forms %}
+	<tr>
+	  <td>{{ form.id }}{{ form.instance.user }}</td>
+	  <td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
+	  <td>{{ form.instance.user.email }}</td>
+	  <td class="{% if request.user == form.instance.user %}disable{% endif %}">
+	    {{ form.role }}
+	  </td>
+	  <td>
+	    {% if not form.instance.user|has_permission:"ADMIN" %}
+	    <div class="button delete-button">Delete {{ form.DELETE }}</div>
+	    {% else %}
+	    <i>Cannot delete admin</i>
+	    {% endif %}
+	  </td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+
+    <div class="footer clearfix">
+      <input type="submit" class="button control-button" value="Save"/>
+    </div>
+  </form>
+
+  <form id="organization_new_member_form" method="post" action="/settings/users/new/member/">{% csrf_token %}
+    <h1>New member</h1>
+
+    <div class="new-user-form">
+      {% for field in new_user_form %}
+      <div class="field-settings clearfix">
+	<div class="grid_2">
+	  {{ field.label_tag }}
+	</div>
+	<div class="grid_14">
+	  {{ field }}
+	</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="footer clearfix">
+      <input type="submit" class="button control-button" value="Save"/>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/organizations_settings_users.js{{ STATIC_HASH }}"></script>
+{% endblock %}

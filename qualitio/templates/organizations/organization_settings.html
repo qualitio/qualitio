@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %} :: settings {% endblock %}
+
+{% block css-include %}{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}lib/colorpicker/css/colorpicker.css{{ STATIC_HASH }}"></link>
+{% endblock %}
+
+{% block js-include %}{{ block.super }}
+<script type="text/javascript">
+  var SETTINGS_ACTIVE_MENU = "#{% block settings-active-menu %}{% endblock %}";
+</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}lib/colorpicker/js/colorpicker.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/organizations_settings.js{{ STATIC_HASH }}"></script>
+{% endblock %}
+
+{% block projects-base %}
+<div id="projects">
+  <div class="header clearfix">
+    <div class="grid_8">
+      <div class="name">
+	<div class="project-name">
+	  {{ request.organization.name }} :: settings
+	</div>
+      </div>
+    </div>
+    <div class="grid_8">
+      <div class="menu">
+        <div>
+          <a id="menu-item-profile" href="/settings/profile/">organization</a>
+        </div>
+        <div>
+          <a id="menu-item-users" href="/settings/users/">users</a>
+        </div>
+        <div>
+          <a id="menu-item-projects" href="/settings/projects/">projects</a>
+        </div>
+	<!-- <div> -->
+        <!--   <a id="menu-item-billing" href="/settings/billing/">billing & plans</a> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="container_16">
+    <div class="grid_16">
+      <div class="application-view-content settings-panel panel">
+	{% block project_detail %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

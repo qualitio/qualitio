@@ -4,7 +4,10 @@ from django.db import connection
 from qualitio import core
 
 
-class QuerySet(query.QuerySet):
+class RequirementManager(core.BasePathManager):
+    def get_query_set(self):
+        return super(RequirementManager, self).get_query_set().select_related(*self.select_related_fields)
+
     def exclude_potential_cycles(self, requirement):
         qs = self.exclude(pk=requirement.pk)
         qs = qs.exclude(dependencies__in=[requirement])
@@ -13,14 +16,6 @@ class QuerySet(query.QuerySet):
         #       qs = qs.exclude(dependencies__dependencies__in=[requirement])
         #       qs = qs.exclude(dependencies__dependencies__dependencies__in=[requirement]) etc...
         return qs
-
-
-class RequirementManager(core.BaseManager):
-    def get_query_set(self):
-        return QuerySet(model=self.model, using=self._db).select_related(*self.select_related_fields)
-
-    def exclude_potential_cycles(self, requirement):
-        return self.get_query_set().exclude_potential_cycles(requirement)
 
     def get_dependency_graph_edges(self):
         """

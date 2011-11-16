@@ -1,0 +1,240 @@
+{% extends "organizations/organization_settings.html" %}
+
+{% block settings-active-menu %}menu-item-projects{% endblock %}
+
+{% block project_detail %}
+<div id="projects_list">
+  {% for project_settings in project_settings_forms %}
+
+  <h3>
+    <a href="#">{{ project_settings.project.name }}
+      {% if project_settings.project.homepage %}
+      ({{ project_settings.project.homepage }})
+      {% endif %}
+    </a>
+  </h3>
+
+  <div id="project-accordion-tab-{{ forloop.counter }}">
+    <form class="organization_projects_form" method="post" action="/settings/projects/{{ project_settings.project.pk }}/">
+
+      <div class="module-settings">
+        <h1>general settings</h1>
+        {{ project_settings.form }}
+        <div class="footer">
+	  <input type="submit" class="button" value="Save"/>
+        </div>
+      </div>
+
+      <div id="store-settings" class="module-settings">
+        <h1>{{ STORE.verbose_name }} settings</h1>
+
+        <div class="settings-block" >
+	  <h2>test case - status</h2>
+	  <div class="formset">
+	    {% csrf_token %}
+
+	    <div class="empty-form hidden">
+	      <div class="field-settings clearfix">
+		<div class="grid_1">
+		  {{ project_settings.testcase_statuses.empty_form.name.label_tag }}
+		</div>
+		<div class="grid_14">
+		  {{ project_settings.testcase_statuses.empty_form.name }}
+		</div>
+		<div class="grid_1">
+		  <a href="#" class="button delete-button">
+		    {{ project_settings.testcase_statuses.empty_form.DELETE.name|lower|capfirst }}
+		    {{ project_settings.testcase_statuses.empty_form.DELETE }}
+		  </a>
+		</div>
+	      </div>
+	    </div>
+
+	    {{ project_settings.testcase_statuses.management_form }}
+
+	    {% for form in project_settings.testcase_statuses.forms %}
+	    {{ form.id }}
+	    <div class="field-settings clearfix">
+	      <div class="grid_1">
+		{{ form.name.label_tag }}
+	      </div>
+	      <div class="grid_14">
+		{{ form.name }}
+	      </div>
+	      <div class="grid_1">
+		{% if not forloop.first %}
+		<a href="#" class="button delete-button">{{ form.DELETE.name|lower|capfirst }} {{ form.DELETE }}</a>
+		{% endif %}
+	      </div>
+	    </div>
+	    {% endfor %}
+	  </div>
+	  <div class="footer clearfix">
+	    <a class="add button left" href="#">add status</a>
+	    <input type="submit" class="button save-button" value="Save"/>
+	  </div>
+        </div>
+      </div>
+
+      <div id="execute-settings" class="module-settings">
+        <h1>{{ EXECUTE.verbose_name }} settings</h1>
+
+        <div class="settings-block" >
+	  <h2>test run - status</h2>
+	  <div class="formset clearfix">
+	    <div class="empty-form hidden">
+	      <div class="field-settings clearfix">
+		<div class="grid_1">
+		  {{ project_settings.testrun_statuses.empty_form.name.label_tag }}
+		</div>
+		<div class="grid_14">
+		  {{ project_settings.testrun_statuses.empty_form.name }}
+		</div>
+		<div class="grid_1">
+		  <a href="#" class="button delete-button">
+		    {{ project_settings.testrun_statuses.empty_form.DELETE.name|lower|capfirst }}
+		    {{ project_settings.testrun_statuses.empty_form.DELETE }}
+		  </a>
+		</div>
+	      </div>
+	    </div>
+
+	    {{ project_settings.testrun_statuses.management_form }}
+
+	    {% for form in project_settings.testrun_statuses.forms %}
+	    {{ form.id }}
+	    <div class="field-settings clearfix">
+	      <div class="grid_1">{{ form.name.label_tag }}</div>
+	      <div class="grid_14">{{ form.name }}</div>
+	      <div class="grid_1">
+		{% if not forloop.first %}
+		<a href="#" class="button delete-button">
+		  {{ form.DELETE.name|lower|capfirst }}
+		  {{ form.DELETE }}
+		</a>
+		{% endif %}
+	      </div>
+	    </div>
+	    {% endfor %}
+
+	  </div>
+	  <div>
+	    <a class="add button" href="#">add status</a>
+	  </div>
+        </div>
+
+        <div class="settings-block" >
+	  <h2>test case - status</h2>
+	  <div class="formset clearfix">
+	    <div class="empty-form hidden">
+	      <div class="field-settings clearfix">
+		<div class="grid_1 label-container">{{ project_settings.testcaserun_statuses.empty_form.name.label_tag }}</div>
+		<div class="grid_9">{{ project_settings.testcaserun_statuses.empty_form.name }}</div>
+		<div class="grid_1 right label-container">{{ project_settings.testcaserun_statuses.empty_form.color.label_tag }}</div>
+		<div class="grid_4">{{ project_settings.testcaserun_statuses.empty_form.color }}</div>
+		<div class="grid_1">
+		  <a href="#" class="button delete-button">
+		    {{ project_settings.testcaserun_statuses.empty_form.DELETE.name|lower|capfirst }}
+		    {{ project_settings.testcaserun_statuses.empty_form.DELETE }}
+		  </a>
+		</div>
+		<div class="grid_16 clearfix">
+		  <a href="#" class="button agree-button">
+		    {{ project_settings.testcaserun_statuses.empty_form.passed.help_text }}
+		    {{ project_settings.testcaserun_statuses.empty_form.passed }}
+		  </a>
+		  <a href="#" class="button agree-button">
+		    {{ project_settings.testcaserun_statuses.empty_form.total.help_text }}
+		    {{ project_settings.testcaserun_statuses.empty_form.total }}
+		  </a>
+		</div>
+	      </div>
+	    </div>
+
+	    {{ project_settings.testcaserun_statuses.management_form }}
+	    {% for form in project_settings.testcaserun_statuses.forms %}
+	    {{ form.id }}
+
+	    <div class="field-settings clearfix">
+	      <div class="grid_1 label-container">{{ form.name.label_tag }}</div>
+	      <div class="grid_9">{{ form.name }}</div>
+	      <div class="grid_1 right label-container">{{ form.color.label_tag }}</div>
+	      <div class="grid_4">{{ form.color }}</div>
+	      <div class="grid_1">
+		{% if not forloop.first %}
+		<a href="#" class="button delete-button">
+		  {{ form.DELETE.name|lower|capfirst }}
+		  {{ form.DELETE }}
+		</a>
+		{% endif %}
+	      </div>
+	      <div class="grid_16">
+		<a href="#" class="button agree-button">
+		  {{ form.passed.help_text }}
+		  {{ form.passed }}
+		</a>
+		<a href="#" class="button agree-button">
+		  {{ form.total.help_text }}
+		  {{ form.total }}
+		</a>
+	      </div>
+	    </div>
+	    {% endfor %}
+	  </div>
+	  <div class="footer clearfix">
+	    <a class="add button" href="#">add status</a>
+	    <input type="submit" class="button save-button" value="Save"/>
+	  </div>
+        </div>
+      </div>
+
+      <div id="glossary-settings" class="module-settings">
+        <h1>glossary settings</h1>
+
+        <div class="settings-block" >
+	  <h2>languages</h2>
+	  <div class="formset clearfix">
+
+	    <div class="empty-form hidden">
+	      <div class="field-settings clearfix">
+		<div class="grid_1 label-container">{{ project_settings.glossary_languages.empty_form.name.label_tag }}</div>
+		<div class="grid_14">{{ project_settings.glossary_languages.empty_form.name }}</div>
+		<div class="grid_1">
+		  <a href="#" class="button delete-button">
+		    {{ project_settings.glossary_languages.empty_form.DELETE.name|lower|capfirst }}
+		    {{ project_settings.glossary_languages.empty_form.DELETE }}
+		  </a>
+		</div>
+	      </div>
+	    </div>
+
+	    {{ project_settings.glossary_languages.management_form }}
+	    {% for form in project_settings.glossary_languages.forms %}
+	    {{ form.id }}
+	    <div class="field-settings clearfix">
+	      <div class="grid_1 label-container">{{ form.name.label_tag }}</div>
+	      <div class="grid_14">{{ form.name }}</div>
+	      <div class="grid_1">
+		{% if not forloop.first %}
+		<a href="#" class="button delete-button">
+		  {{ form.DELETE.label_tag }}
+		  {{ form.DELETE }}
+		</a>
+		{% endif %}
+	      </div>
+	    </div>
+	    {% endfor %}
+	  </div>
+	  <div class="footer clearfix">
+	    <a class="add button" href="#">add language</a>
+	    <input type="submit" class="button save-button" value="Save"/>
+	  </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  {% endfor %}
+</div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/organizations_settings_projects.js{{ STATIC_HASH }}"></script>
+{% endblock %}

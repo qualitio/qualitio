@@ -3,7 +3,8 @@
 {% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
 
 {% block form %}
-<form method="post" action="{% url registration.views.register %}">
+<h1>Registration</h1>
+<form method="post" action="{% url registration %}">
   <fieldset>
     {% csrf_token %}
     {{ form.username }}{{ form.username.label_tag|lower }}

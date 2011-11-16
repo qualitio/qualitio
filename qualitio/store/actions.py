@@ -5,7 +5,7 @@ from django import forms
 from qualitio.store.models import TestCase
 from qualitio.require.models import Requirement
 from qualitio.core.utils import success, failed
-from qualitio.filter import actions
+from qualitio import actions
 
 
 class ChangeParent(actions.ChangeParent):

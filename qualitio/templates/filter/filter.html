@@ -1,0 +1,92 @@
+{% extends "base_filter.html" %}
+{% load pagination_tags %}
+
+{% block module-name %}{% block module-title%}{{ app_label }}{% endblock %}{% endblock %}
+
+{% block application-menu %}
+<li><a href="{{ SELF.get_absolute_url }}">browse</a></li>
+<li class="active">filter</li>
+{% for menu_item in app_menu_items %}
+<li><a href="{{ menu_item.url }}">{{ menu_item.name }}</a></li>
+{% endfor %}
+{% endblock %}
+
+{% block js-include %}
+<script type="text/javascript">
+  var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
+</script>
+{{ block.super }}
+{% endblock %}
+
+{% block application-view %}
+<form method="GET" class="filter-form">
+  <div class="filter-forms">
+    <input type="hidden" name="sort" value="{{ filter.sort_by }}" />
+    {% include "filter/_filter_groups.html" %}
+
+    <div class="application-view-content">
+      <input type="submit" value="Search" class="search-button" />
+      {% if filter.has_groups %}
+      <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
+      {% endif %}
+      <div class="add-new-group-form">{{ filter.new_group_form }}</div>
+      {% if not filter.has_groups %}
+      <div class="add-new-group-label">
+	Select one group to start the search
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="application-view-content results-container">
+    <div class="list-control-top">
+      <div class="onpage-form right">
+	{{ onpage_form.onpage }}
+      </div>
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
+    <table class="display">
+      <thead>
+	<tr>
+	  {% for column in table.columns %}
+	  <th name="{{ column.name }}">{{ column }}</th>
+	  {% endfor %}
+	</tr>
+      </thead>
+      <tbody>
+	{% for row in table.rows %}
+	<tr>
+	  {% for value in row %}
+	  <td>{{ value }}</td>
+	  {% endfor %}
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+    <div class="list-control-bottom">
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
+  </div>
+</form>
+
+{% if user.organization_member.role == ROLE.USER or user.organization_member.role == ROLE.ADMIN %}
+<div class="application-view-content">
+  <div class="actions-form">
+    <div class="left action-choice-form">
+      {{ action_choice_form.action }}
+    </div>
+    <input class="left" type="submit" name="action-submit" value="Go" />
+    <div class="clear"></div>
+
+    {% csrf_token %}
+
+    {% for action in action_choice_form.actions %}
+    <input type="hidden" class="action-url" name="{{ action.name }}" value="{{ action.url }}" />
+    {% if action.has_form %}<table class="action-form" name="{{ action.name }}">{{ action.form }}</table>{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,43 +1,55 @@
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import permission_required
 
 from qualitio import core
 from qualitio.core.utils import json_response, success, failed
 from qualitio.store.models import TestCaseDirectory, TestCase
+from qualitio.organizations import permission_required
 from qualitio.store.forms import TestCaseForm, TestCaseDirectoryForm, TestCaseStepFormSet, GlossaryWord
 
 from qualitio import history
+from qualitio.filter.views import filter as filter_view
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'store/base.html', {})
 
 
+def store_filter(request, **kwargs):
+    return filter_view(request, **{
+            'model': TestCase,
+            'fields_order': ['id', 'path', 'name', 'requirement'],
+            'exclude': ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description', 'parent', 'project'],
+            'app_menu_items': [{'name': 'glossary', 'url': '/project/%s/glossary/' % request.project.slug}],
+            })
+
+
+@permission_required('USER_READONLY')
 @core.menu_view(TestCaseDirectory, "details")
-def directory_details(request, directory_id):
+def directory_details(request, directory_id, **kwargs):
     return direct_to_template(request, 'store/testcasedirectory_details.html',
                               {'directory': TestCaseDirectory.objects.get(pk=directory_id)})
 
 
-@core.menu_view(TestCaseDirectory, "edit", 'store.add_testcasedirectory')
-@permission_required('store.add_testcasedirectory', login_url='/permission_required/')
-def directory_edit(request, directory_id):
+@permission_required('USER')
+@core.menu_view(TestCaseDirectory, "edit", role='USER')
+def directory_edit(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(instance=directory)
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
                               {'testcasedirectory_form': testcasedirectory_form})
 
 
-@permission_required('store.add_testcasedirectory', login_url='/permission_required/')
-def directory_new(request, directory_id):
+@permission_required('USER')
+def directory_new(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcasedirectory_form = TestCaseDirectoryForm(initial={'parent': directory})
     return direct_to_template(request, 'store/testcasedirectory_edit.html',
                               {'testcasedirectory_form': testcasedirectory_form})
 
 
+@permission_required('USER')
 @json_response
-def directory_valid(request, directory_id=0):
+def directory_valid(request, directory_id=0, **kwargs):
     if directory_id:
         testcase_directory = TestCaseDirectory.objects.get(pk=directory_id)
         testcase_directory_form = TestCaseDirectoryForm(request.POST, instance=testcase_directory)
@@ -58,15 +70,16 @@ def directory_valid(request, directory_id=0):
                       data=testcase_directory_form.errors_list())
 
 
+@permission_required('USER_READONLY')
 @core.menu_view(TestCase, "details")
-def testcase_details(request, testcase_id):
+def testcase_details(request, testcase_id, **kwargs):
     return direct_to_template(request, 'store/testcase_details.html',
                               {'testcase': TestCase.objects.get(pk=testcase_id)})
 
 
-@permission_required('store.change_testcase', login_url='/permission_required/')
-@core.menu_view(TestCase, "edit", 'store.change_testcase')
-def testcase_edit(request, testcase_id):
+@permission_required('USER')
+@core.menu_view(TestCase, "edit", role='USER')
+def testcase_edit(request, testcase_id, **kwargs):
     testcase = TestCase.objects.get(pk=testcase_id)
     testcase_form = TestCaseForm(instance=testcase)
     testcasesteps_form = TestCaseStepFormSet(instance=testcase)
@@ -77,8 +90,8 @@ def testcase_edit(request, testcase_id):
                                 'glossary_word_search_form': glossary_word_search_form})
 
 
-@permission_required('store.add_testcase', login_url='/permission_required/')
-def testcase_new(request, directory_id):
+@permission_required('USER')
+def testcase_new(request, directory_id, **kwargs):
     directory = TestCaseDirectory.objects.get(pk=directory_id)
     testcase_form = TestCaseForm(initial={'parent': directory})
     testcasesteps_form = TestCaseStepFormSet()
@@ -87,8 +100,9 @@ def testcase_new(request, directory_id):
                                "testcasesteps_form": testcasesteps_form})
 
 
+@permission_required('USER')
 @json_response
-def testcase_valid(request, testcase_id=0):
+def testcase_valid(request, testcase_id=0, **kwargs):
     if testcase_id:
         testcase = TestCase.objects.get(pk=str(testcase_id))
         testcase_form = TestCaseForm(request.POST, instance=testcase)
@@ -114,8 +128,9 @@ def testcase_valid(request, testcase_id=0):
                       data=testcase_form.errors_list() + testcasesteps_form._errors_list())
 
 
+@permission_required('USER')
 @json_response
-def testcase_copy(request, testcase_id):
+def testcase_copy(request, testcase_id, **kwargs):
     testcase = TestCase.objects.get(pk=str(testcase_id))
     testcase_copy = testcase.copy()
 

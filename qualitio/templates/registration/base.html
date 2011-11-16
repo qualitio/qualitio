@@ -45,7 +45,13 @@
     <div id="main" style="width: 800px">
       <div id="header" class="clearfix">
         <div class="logo">
-          qualitio
+          {% block logo %}
+          {% if request.organization %}
+          <a href="/">{{ request.organization.name }}@qualitio</a>
+          {% else %}
+          <a href="/">Qualitio</a>
+          {% endif %}
+          {% endblock %}
         </div>
       </div>
 

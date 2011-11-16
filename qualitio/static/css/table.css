@@ -45,6 +45,11 @@
 .dataTables_wrapper .dataTables_filter input[type=text] {
     width: 80% !important;
 }
+
+.dataTables_wrapper .dataTables_info {
+    width: 50%;
+    margin-top: 3px;
+}
 /* End of Qualitio customization */
 
 .dataTables_wrapper input[type=text] {
@@ -70,6 +75,10 @@
 .dataTables_length {
 	width: 40%;
 	float: left;
+}
+
+.dataTables_length select {
+    min-width: 50px;
 }
 
 .dataTables_filter {

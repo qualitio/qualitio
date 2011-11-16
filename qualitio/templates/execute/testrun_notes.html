@@ -7,7 +7,7 @@
 {% application_view_menu testrun_form.instance "notes" %}
 
 <form id="testrun_form"
-      action="/execute/ajax/testrun/{{ testrun_form.instance.id }}/notes/valid/" method="post">
+      action="{{ self.get_absolute_url }}ajax/testrun/{{ testrun_form.instance.id }}/notes/valid/" method="post">
   {% csrf_token %}
 
   <div class="application-view-content">

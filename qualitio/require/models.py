@@ -32,7 +32,7 @@ class Requirement(core.BaseDirectoryModel):
     objects = managers.RequirementManager()
 
     class Meta:
-        unique_together = ("parent", "name")
+        unique_together = ("parent", "name", "project")
         ordering = ('name',)  # TODO: this need to be changed, accoring #198
 
     def save(self, clean_dependencies=True, *args, **kwargs):
@@ -53,6 +53,7 @@ class Requirement(core.BaseDirectoryModel):
 
 
     def clean(self):
+        super(Requirement, self).clean()
         if self.alias and not self.pk:
             if Requirement.objects.filter(alias=self.alias).exists():
                 raise ValidationError({'alias': "column alias is not unique"})
@@ -105,3 +106,30 @@ class Requirement(core.BaseDirectoryModel):
             validator = validators.RequirementDependencyValidator(self, dependencies)
             if not validator.is_valid():
                 raise ValidationError({'dependencies': [validator.format_error_msg()]})
+
+    def latest_testruns(self):
+        """
+        Returns generator of the latest executed test case
+        runs which are related to *this* requirement.
+        IMPORTANT: It's generator, not queryset.
+        """
+        origin_ids = list(self.testcaserun_set.values_list('origin__id', flat=True).distinct())
+        testcaseruns = list(self.testcaserun_set.select_related('status').order_by('-id'))  # latest test case runs
+        for tcr in testcaseruns:
+            if tcr.origin_id in origin_ids:
+                origin_ids.remove(tcr.origin_id)
+                yield tcr
+
+    @property
+    def bugs(self):
+        from qualitio.execute.models import Bug
+        return Bug.objects.filter(testcaserun__in=self.latest_testruns()).distinct()
+
+    @property
+    def status(self):
+        statuses = map(lambda tcs: tcs.status.name, self.latest_testruns())
+        if "FAIL" in statuses:
+            return "FAIL"
+        if len(statuses) == 0 or "IDLE" in statuses:
+            return "IDLE"
+        return "PASS"

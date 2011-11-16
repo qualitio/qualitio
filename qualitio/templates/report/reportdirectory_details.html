@@ -1,4 +1,4 @@
-{% load application_view_menu %}
+{% load application_view_menu authorization %}
 <div id="application-view-header">
   <h1>report directory: {{ directory.name }}</h1>
 </div>
@@ -14,17 +14,14 @@
     <span class="name">description</span>
     <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
+</div>
 
-  <div class="text-bullet">
-    <span class="name">children:</span>
-  </div>
-  
+<div class="application-view-content clearfix">
   <table class="display">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
         <th class="id">id</th>
-        <th>path</th>
         <th>name</th>
         <th>modified</th>
         <th>created</th>
@@ -37,7 +34,6 @@
         <span class="ui-icon ui-icon-folder-collapsed"></span>
       </td>
       <td>{{ child.pk }}</td>
-      <td><a href="#reportdirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#reportdirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>{{ child.modified_time }}</td>
       <td>{{ child.created_time }}</td>
@@ -49,7 +45,6 @@
         <span class="ui-icon ui-icon-document"></span>
       </td>
       <td>{{ child.pk }}</td>
-      <td><a href="#reportdirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#report/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>{{ child.modified_time }}</td>
       <td>{{ child.created_time }}</td>
@@ -62,9 +57,9 @@
 
 <div id="application-view-footer" class="application-view-content">
   <div class="right">
-    <a class="button {% if not perms.report.add_report %}disable{% endif %}" 
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#reportdirectory/{{ directory.pk }}/newreport/" >create report</a>
-    <a class="button {% if not perms.execute.add_testrundirectory %}disable{% endif %}" 
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#reportdirectory/{{ directory.pk }}/new/" >create report directory</a>
   </div>
 </div>
