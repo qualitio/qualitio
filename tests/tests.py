@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     (options, args) = parser.parse_args()
 
-    settings['hostname'] = 'http://127.0.0.1:8001'
+    settings['hostname'] = 'http://test.localhost.com:8001'
     settings['username'] = options.username
     settings['password'] = options.password
     settings['browser'] = options.browser
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         try:
             selenium = subprocess.Popen(['java',
                                          '-jar',
-                                         'selenium-server-standalone-2.0rc2.jar'],
+                                         'selenium-server-standalone-2.12.0.jar'],
                                         stdout=out, stderr=subprocess.STDOUT)
 
 
@@ -87,6 +87,7 @@ if __name__ == "__main__":
             syncdb = subprocess.Popen(['../qualitio/manage.py',
                                        'syncdb',
                                        '--noinput',
+         				'--all',
                                        '--settings=selenium_settings'],
                                       stdout=out, stderr=subprocess.STDOUT,
                                       shell=False
@@ -105,7 +106,7 @@ if __name__ == "__main__":
             print "3. Starting application test server"
             runserver = subprocess.Popen(['../qualitio/manage.py',
                                           'runserver',
-                                          '127.0.0.1:8001',
+                                          'test.localhost.com:8001',
                                           '--settings=selenium_settings'],
                                          stdout=out, stderr=subprocess.STDOUT,
                                          shell=False)
