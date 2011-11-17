@@ -22,7 +22,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
 
     def login(self):
         sel = self.selenium
-        sel.open("/store/#testcasedirectory/1/details/")
+        sel.open("/project/meego/store/#testcasedirectory/1/details/")
         self.assertEqual("qualitio: login", sel.get_title())
         try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -43,7 +43,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel.click("//input[@value='login']")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio store"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -73,7 +73,7 @@ class Test01Loginreport(BaseSeleniumTestCase):
     
     def test_01_loginreport(self):
         sel = self.selenium
-        sel.open("/report/")
+        sel.open("/project/meego/report/")
         self.assertEqual("qualitio: login", sel.get_title())
         for i in range(60):
             try:
@@ -92,20 +92,20 @@ class Test01Loginreport(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: report", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio report"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio report"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Welcome, admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("link=Log out"))
+        try: self.failUnless(sel.is_element_present("link=logout"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=Log out")
+        sel.click("link=logout")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: login", sel.get_title())
         try: self.failUnless(sel.is_text_present("qualitio"))
@@ -124,8 +124,8 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
     def test_43_report_repdirect_create(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -138,18 +138,18 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio report"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio: report" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: report", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio report"))
+        self.assertEqual("qualitio", sel.get_title())
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -253,8 +253,8 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
     def test_44_report_report_create(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -267,18 +267,18 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio report"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio: report" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: report", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio report"))
+        self.assertEqual("qualitio", sel.get_title())
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -440,8 +440,8 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
     def test_45_report_mod_public(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -454,18 +454,18 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio report"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio: report" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: report", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio report"))
+        self.assertEqual("qualitio", sel.get_title())
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -601,7 +601,7 @@ class Test46ReportCheckPublic(BaseSeleniumTestCase):
     
     def test_46_report_check_public(self):
         sel = self.selenium
-        sel.open("/report/external/1/bigproject/report-json/2011/04/20")
+        sel.open("/project/meego/report/external/1/bigproject/report-json/2011/04/20")
         for i in range(60):
             try:
                 if sel.is_text_present("qualitio"): break
@@ -625,7 +625,7 @@ class Test46ReportCheckPublic(BaseSeleniumTestCase):
         try: self.assertEqual("", sel.get_text("id=id_password"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.assertEqual("qualitio: login", sel.get_title())
-        sel.open("/report/external/2/bigproject/report-html/2011/04/22")
+        sel.open("/project/meego/report/external/2/bigproject/report-html/2011/04/22")
         for i in range(60):
             try:
                 if sel.is_text_present("Report, html"): break
@@ -658,30 +658,30 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
     def test_47_report_mod_direct(self):
         self.login()
         sel = self.selenium
-        sel.open("/report/#reportdirectory/1/edit/")
+        sel.open("/project/meego/report/#reportdirectory/1/details/")
         for i in range(60):
             try:
-                if "qualitio: report" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio: report" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio report"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: report", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         sel.click("link=BigProject")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio report"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")

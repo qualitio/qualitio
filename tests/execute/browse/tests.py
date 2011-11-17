@@ -22,7 +22,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
 
     def login(self):
         sel = self.selenium
-        sel.open("/store/#testcasedirectory/1/details/")
+        sel.open("/project/meego/store/#testcasedirectory/1/details/")
         self.assertEqual("qualitio: login", sel.get_title())
         try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -43,7 +43,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel.click("//input[@value='login']")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio store"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -73,7 +73,7 @@ class Test01Loginexecute(BaseSeleniumTestCase):
     
     def test_01_loginexecute(self):
         sel = self.selenium
-        sel.open("/execute/")
+        sel.open("/project/meego/execute/")
         self.assertEqual("qualitio: login", sel.get_title())
         for i in range(60):
             try:
@@ -92,20 +92,20 @@ class Test01Loginexecute(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio execute"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Welcome, admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("link=Log out"))
+        try: self.failUnless(sel.is_element_present("link=logout"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=Log out")
+        sel.click("link=logout")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: login", sel.get_title())
         try: self.failUnless(sel.is_text_present("qualitio"))
@@ -124,8 +124,8 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
     def test_28_exec_testdirect_verify(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("execute"): break
@@ -138,11 +138,11 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio execute"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -188,6 +188,8 @@ class Test28ExecTestdirectVerify(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("description"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("not set"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("exact:children:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=table.display"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -274,8 +276,8 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
     def test_29_exec_testrun_verify(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("execute"): break
@@ -288,11 +290,11 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio execute"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -351,7 +353,7 @@ class Test29ExecTestrunVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory/TestRun 1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("status: not set"))
+        try: self.failUnless(sel.is_text_present("status: default"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("test cases:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -539,8 +541,8 @@ class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
     def test_30_exec_testdirect_create(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -555,7 +557,7 @@ class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestRun directory"): break
@@ -689,8 +691,8 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
     def test_31_exec_testrun_create(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -705,7 +707,7 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestRun directory"): break
@@ -788,7 +790,7 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Test run testowy"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("status: not set"))
+        try: self.failUnless(sel.is_text_present("status: default"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("test cases:"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -838,8 +840,8 @@ class Test34ExecSamename(BaseSeleniumTestCase):
     def test_34_exec_samename(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -848,7 +850,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         sel.click("link=TestRun directory")
         for i in range(60):
             try:
@@ -1187,8 +1189,8 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
     def test_35_exec_testrun_samename(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1197,7 +1199,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         sel.click("link=TestRun directory")
         for i in range(60):
             try:
@@ -1373,7 +1375,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1530,8 +1532,8 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
     def test_36_exec_tree_verify(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1542,7 +1544,7 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1552,7 +1554,7 @@ class Test36ExecTreeVerify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         sel.click("link=TestRun directory")
         for i in range(60):
             try:
@@ -1625,8 +1627,8 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
     def test_37_exec_connecttest(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if "MeeGo" == sel.get_text("link=MeeGo"): break
@@ -1635,7 +1637,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         sel.click("link=TestRun directory")
         for i in range(60):
             try:
@@ -1723,7 +1725,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("test run : TestRun 2"): break
+                if sel.is_text_present("test run: TestRun 2"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1826,7 +1828,7 @@ class Test37ExecConnecttest(BaseSeleniumTestCase):
         sel.click("Executed")
         for i in range(60):
             try:
-                if sel.is_text_present("test run : TestRun 2"): break
+                if sel.is_text_present("test run: TestRun 2"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1918,14 +1920,14 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
     def test_38_exec_connecttestname(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/4/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         sel.click("link=store")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: store", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio store"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -1981,7 +1983,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestRun directory"): break
@@ -1990,7 +1992,7 @@ class Test38ExecConnecttestname(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2342,11 +2344,11 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
     def test_39_exec_testcolor(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio require"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2374,11 +2376,11 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("//li[@id='1_testrundirectory']/ins"): break
@@ -2654,8 +2656,8 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
     def test_040_exec_addbug(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/9/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -2664,10 +2666,10 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -3248,20 +3250,20 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
     def test_039_exec_addbug(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio require"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4060,24 +4062,24 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
     def test_041_exec_testparam(self):
         self.login()
         sel = self.selenium
-        sel.open("/require/#requirement/9/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio require"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio require"))
+        try: self.failUnless(sel.is_text_present("qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=store")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: store", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio store"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4192,10 +4194,10 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4467,7 +4469,7 @@ class Test041ExecTestparam(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio store"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4509,8 +4511,8 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
     def test_42_exec_testdirectmod(self):
         self.login()        
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -4525,7 +4527,7 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestRun directory"): break
@@ -4782,8 +4784,8 @@ class Test45ExecFilterVerify(BaseSeleniumTestCase):
     def test_45_exec_filter_verify(self):
         self.login() 
         sel = self.selenium
-        sel.open("/require/#requirement/1/details/")
-        self.assertEqual("qualitio: require", sel.get_title())
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=execute"): break
@@ -4796,7 +4798,7 @@ class Test45ExecFilterVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if "qualitio: execute" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -4884,17 +4886,17 @@ class Test45ExecFilterVerify(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio: execute" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
 
 
 
@@ -4904,31 +4906,31 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
     def test_46_exec_repeated_bugs(self):
         self.login() 
         sel = self.selenium
-        sel.open("/require/")
+        sel.open("/project/meego/require/#requirement/1/details/")
         for i in range(60):
             try:
-                if "qualitio: require" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: require", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         try: self.failUnless(sel.is_element_present("link=execute"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=execute")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio execute"): break
+                if sel.is_text_present("qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio: execute" == sel.get_title(): break
+                if "qualitio" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio: execute", sel.get_title())
+        self.assertEqual("qualitio", sel.get_title())
         try: self.failUnless(sel.is_element_present("link=TestRun directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=TestRun directory")
