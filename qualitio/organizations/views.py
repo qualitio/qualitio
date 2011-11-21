@@ -2,6 +2,7 @@ from django.http import Http404
 from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
 from django.template import RequestContext
+from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
 from django.utils.decorators import method_decorator
@@ -18,6 +19,8 @@ from articles.models import Article
 from qualitio.core.utils import json_response, success, failed
 from qualitio.organizations import models
 from qualitio.organizations import forms
+
+from qualitio.payments.models import PaymentStrategy
 
 
 class OrganizationObjectMixin(object):
@@ -197,8 +200,10 @@ class OrganizationSettings(RedirectView):
             return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
 
         def render_to_response(self, *args, **kwargs):
-
-            return super(OrganizationSettings.Billing, self).render_to_response(*args, **kwargs)
+            return super(OrganizationSettings.Billing, self).render_to_response(
+                {"strategies": PaymentStrategy.objects.all()},
+                **kwargs
+            )
 
 
 class ProjectList(ListView):
