@@ -4,7 +4,6 @@ from qualitio.organizations.auth.profile.views import OrganizationMemberProfile
 from qualitio.organizations.auth.decorators import permission_required
 from qualitio.organizations import views
 
-
 urlpatterns = patterns('',
                        url(r'^none/$',
                            views.OrganizationNone.as_view(),
@@ -37,9 +36,9 @@ urlpatterns = patterns('',
                            permission_required('ADMIN')(views.OrganizationSettings.Projects.as_view()),
                            name="organization_settings_projects"),
 
-                       # url(r'^settings/billing/$',
-                       #     permission_required('ADMIN')(views.OrganizationSettings.Billing.as_view()),
-                       #     name="organization_settings_billing"),
+                       url(r'^settings/billing/$',
+                           permission_required('ADMIN')(views.OrganizationSettings.Billing.as_view()),
+                           name="organization_settings_billing"),
 
                        url(r'^project/new/$',
                            permission_required('ADMIN')(views.ProjectNew.as_view()),
@@ -52,10 +51,6 @@ urlpatterns = patterns('',
                        url(r'^r/(?P<domain>.*)/googleapps_setup/$',
                            views.GoogleAppsSetupRedirect.as_view(),
                            name="googleapps_setup_redirect"),
-
-                       # url(r'^google_checkout/$',
-                       #     views.google_checkout,
-                       #     name="google_checkout"),
 
                        url(r'^googleapps_setup/$',
                            views.googleapps_domain_setup,

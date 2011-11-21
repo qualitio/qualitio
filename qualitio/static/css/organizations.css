@@ -256,7 +256,17 @@
 }
 
 #projects .billing {
-    padding: 70px 0;
+    /* padding: 70px 0; */
+}
+
+#projects .billing .current {
+    font-family: 'Bevan',serif;
+    color: #555555;
+    font-size: 14px;
+}
+
+#projects .billing .current span{
+    color: #444444;
 }
 
 #projects .billing .program {
@@ -296,7 +306,7 @@
 }
 
 #projects .billing .free {
-    padding: 12px 0;
+    padding: 1px 0;
     color: #bbbbbb;
     font-family: 'Bevan',serif;
     font-size: 33px;

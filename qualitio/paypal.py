@@ -40,4 +40,10 @@ class PayPal(Resource):
 
 
 paypal = PayPal()
+<<<<<<< HEAD
 pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="62F98038A3404964N"))
+=======
+# pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="62F98038A3404964N"))
+# pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="2YS68286B0644402R"))
+pprint.pprint(paypal.RefundTransaction(TRANSACTIONID="2YS68286B0644402R"))
+>>>>>>> 87cc20952810844fab1d02c840be234509d49a56

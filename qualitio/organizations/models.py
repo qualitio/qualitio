@@ -18,6 +18,8 @@ class Organization(CustomizableModel):
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
+    payment = models.ForeignKey('payments.PaymentStrategy', null=True)
+
     def setup(self, owner):
         pass
 
