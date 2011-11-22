@@ -5,9 +5,9 @@
 
 <form id="word_form"
       action="{% if word_form.instance.id %}
-              /glossary/ajax/word/{{ word_form.instance.id }}/edit/valid/
+              /project/{{ request.project.slug }}/glossary/ajax/word/{{ word_form.instance.id }}/edit/valid/
               {% else %}
-              /glossary/ajax/word/new/valid/
+              /project/{{ request.project.slug }}/glossary/ajax/word/new/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 

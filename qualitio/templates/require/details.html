@@ -1,4 +1,4 @@
-{% load application_view_menu %}
+{% load application_view_menu authorization %}
 <div id="application-view-header">
   <h1>requirement: {{ requirement.name }}</h1>
 </div>
@@ -14,6 +14,14 @@
     <span class="name">directory:</span>
     <span class="value"> {{ requirement.path }}</span>
   </div>
+  <div class="text-bullet">
+    <span class="name">release target:</span>
+    <span class="value"> {{ requirement.release_target }}</span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">alias:</span>
+    <span class="value"> {{ requirement.alias }}</span>
+  </div>
   <div class="text-bullet" style="text-align:justify">
     <span class="name">description:</span>
     <span class="value-block">{{ requirement.description|default:"<i>not set</i>"|linebreaksbr }}</span>
@@ -27,8 +35,7 @@
 </div>
 
 <div class="application-view-content clearfix">
-  <h2>requirements:</h2>
-  <table class="display">
+  <table class="display directory-content">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
@@ -53,13 +60,12 @@
 </div>
 
 <div class="application-view-content clearfix">
-  <h2>testcases</h2>
+  <h2>connected testcases</h2>
   <table class="display">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
         <th class="id">id</th>
-        <th>path</th>
         <th>name</th>
         <th>modified</th>
         <th>created</th>
@@ -69,9 +75,8 @@
       {% for testcase in testcases %}
       <tr>
         <td><span class="ui-icon ui-icon-document"></span></td>
-        <td><a href="/store/#testcase/{{ testcase.id }}/details/">{{ testcase.id }}</a></td>
-        <td><a href="/store/#testcasedirectory/{{ testcase.parent.id}}/details/">{{ testcase.path }}</a></td>
-        <td><a href="/store/#testcase/{{ testcase.id }}/details/">{{ testcase.name }}</a></td>
+        <td><a href="/project/{{ request.project.slug }}/store/#testcase/{{ testcase.id }}/details/">{{ testcase.id }}</a></td>
+        <td><a href="/project/{{ request.project.slug }}/store/#testcase/{{ testcase.id }}/details/">{{ testcase.name }}</a></td>
         <td class="path">{{ requirement.modified_time }}</td>
         <td class="path">{{ requirement.created_time }}</td>
       </tr>
@@ -82,14 +87,13 @@
 
 <div class="grid_16 clearfix">
   <div class="application-view-content clearfix">
-    <div class="grid_8 clearfix">
+    <div class="grid_8 clearfix depends-table-container">
       <h2>depends</h2>
       <table class="display">
         <thead>
           <tr>
             <th class="icon">&nbsp;</th>
             <th class="id">id</th>
-            <th>path</th>
             <th>name</th>
             <th>modified</th>
             <th>created</th>
@@ -99,7 +103,6 @@
         <tr>
           <td><img src="{{ MEDIA_URL }}images/tree/requirement.png"></td>
           <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-          <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
           <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
           <td class="path">{{ requirement.modified_time }}</td>
           <td class="path">{{ requirement.created_time }}</td>
@@ -107,14 +110,13 @@
         {% endfor %}
       </table>
     </div>
-    <div class="grid_8 clearfix">
+    <div class="grid_8 clearfix blocks-table-container">
       <h2>blocks</h2>
       <table class="display">
         <thead>
           <tr>
             <th class="icon">&nbsp;</th>
             <th class="id">id</th>
-            <th>path</th>
             <th>name</th>
             <th>modified</th>
             <th>created</th>
@@ -125,7 +127,6 @@
           <tr>
             <td><img src="{{ MEDIA_URL }}images/tree/requirement.png"></td>
             <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.id }}</a></td>
-            <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.path }}</a></td>
             <td><a href="#requirement/{{ requirement.id }}/details/">{{ requirement.name }}</a></td>
             <td class="path">{{ requirement.modified_time }}</td>
             <td class="path">{{ requirement.created_time }}</td>
@@ -139,7 +140,7 @@
 <div class="grid_16 clearfix">
   <div id="application-view-footer" class="application-view-content clearfix">
     <div class="prefix_8 grid_8 right clearfix">
-      <a class="button {% if not perms.require.add_requirement %}disable{% endif %}"
+      <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
          href="#requirement/{{ requirement.pk }}/new/">create requirement</a>
     </div>
   </div>

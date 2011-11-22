@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from nose.tools import *
 from qualitio.core.tests.utils import BaseTestCase
-from qualitio.filter import actions as filteractions
+from qualitio import actions as filteractions
 
 from qualitio.filter.tests.testapp import models
 from qualitio.filter.tests.testapp.actions import ChangeFileParent, ChangeDirectoryParent

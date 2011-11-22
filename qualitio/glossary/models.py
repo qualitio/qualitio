@@ -3,10 +3,14 @@ from qualitio import core
 
 
 class Word(core.BaseModel):
-    name = models.CharField(max_length=512, unique=True)
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ("project", "name")
 
     def __unicode__(self):
         return self.name
+
 
 class Language(core.BaseStatusModel):
     # ToDo: not to ideal base name, check implementation
@@ -17,7 +21,7 @@ class Language(core.BaseStatusModel):
         else:
             super(Language, self).save(*kwargs, **args)
             for word in Word.objects.all():
-                Representation.objects.get_or_create(language=self, word=word)
+                Representation.objects.get_or_create(language=self, word=word, project=self.project)
 
 
 class Representation(core.BaseModel):

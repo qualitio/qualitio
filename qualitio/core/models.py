@@ -1,13 +1,37 @@
+from copy import deepcopy
+import re
+
 from mptt.models import MPTTModel
-from django.db import models
+from mptt.managers import TreeManager
+from django.db import models, IntegrityError
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 
 from qualitio.core.custommodel.models import CustomizableModel
+from qualitio import THREAD
+
+
+class BaseManager(models.Manager):
+    def get_query_set(self):
+        organization = getattr(THREAD, 'organization', None)
+        project = getattr(THREAD, 'project', None)
+
+        qs = super(BaseManager, self).get_query_set()
+
+        if organization:
+            qs = qs.filter(project__organization=organization)
+
+        if project:
+            return qs.filter(project=project).select_related("project")
+
+        return qs
 
 
 class BaseModel(CustomizableModel):
+    project = models.ForeignKey('organizations.Project') #ToDo: default == risky stuff
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
+
+    objects = BaseManager()
 
     class Meta:
         abstract = True
@@ -16,6 +40,18 @@ class BaseModel(CustomizableModel):
         for name, value in filter(lambda x: not x[0].startswith("_"), self.__dict__.items()):
             if isinstance(value, basestring):
                 setattr(self, name, getattr(self, name).strip())
+
+    def save(self, *args, **kwargs):
+
+        if not (self.pk or self.project_id):
+            try:
+                self.project = THREAD.project
+            except AttributeError:
+                raise ImproperlyConfigured("Project required but not found")
+
+        kwargs.pop("validate_path_unique", False)
+
+        super(BaseModel, self).save(*args, **kwargs)
 
 
 class AbstractPathModel(BaseModel):
@@ -44,15 +80,16 @@ class AbstractPathModel(BaseModel):
     def clean(self):
         if getattr(self, "_for_parent_unique", True):
             parent = self.parent if self.parent_id else None
+            project = self.project if self.project_id else THREAD.project
 
             manager = self.__class__.objects
-            qs = manager.filter(name=self.name, parent=parent)
+            qs = manager.filter(name=self.name, parent=parent, project=project)
 
             if self.pk:  # we do not want to search for *this* object
                 qs = qs.exclude(pk=self.pk)
 
             if qs.exists():
-                raise ValidationError('"parent" and "name" fields need to be always unique together.')
+                raise ValidationError('"parent", "name" and "project" fields need to be always unique together.')
 
     def __unicode__(self):
         return "%s: %s%s" % (self.pk, self.path, self.name)
@@ -88,32 +125,118 @@ class BasePathModelMetaclass(models.base.ModelBase):
         return super(BasePathModelMetaclass, cls).__new__(cls, class_name, bases, attrs)
 
 
-class BaseManager(models.Manager):
+class BasePathManager(BaseManager):
     select_related_fields = ['parent']
 
-    def get_query_set(self):
-        return super(BaseManager, self).get_query_set().select_related(*self.select_related_fields)
+    def get_query_set(self, select_related_fields=None):
+        queryset = super(BasePathManager, self).get_query_set()
+
+        if select_related_fields is None:
+            select_related_fields = self.select_related_fields
+
+        if select_related_fields:
+            return queryset.select_related(*select_related_fields)
+
+        return queryset
 
 
 class BasePathModel(AbstractPathModel):
     __metaclass__ = BasePathModelMetaclass
 
-    objects = BaseManager()
+    objects = BasePathManager()
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
+
+    def copy(self):
+        copy_object = deepcopy(self)
+        copy_object.id = None
+
+        copy_exists = self.__class__.objects.filter(name__regex=r'%s \(copy\)$' % re.escape(self.name),
+                                                    parent=self.parent).exists()
+        if copy_exists:
+            other_copies = self.__class__.objects.filter(name__regex=r'%s \(copy\s\d+?\)$' % re.escape(self.name),
+                                                         parent=self.parent).order_by("name")
+
+            copy_object.name = "%s (copy %s)" % (self.name, other_copies.count()+1)
+            for i, copy in enumerate(other_copies,1):
+                match = re.match("(.+)\s(\(copy(\s\d+)?\))", copy.name)
+                copy_part = match.groups()[1]
+                if copy_part != "(copy %s)" % i:
+                    copy_object.name = "%s (copy %s)" % (self.name, i)
+                    break
+        else:
+            copy_object.name = "%s (copy)" % self.name
+
+        copy_object.save()
+        return copy_object
+
+
+class BaseDirectoryTreeManager(TreeManager):
+    def get_query_set(self):
+        project = getattr(THREAD, "project", None)
+
+        if project:
+            return super(BaseDirectoryTreeManager, self).get_query_set().filter(project=project)
+
+        return super(BaseDirectoryTreeManager, self).get_query_set()
 
 
 class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
 
-    objects = BaseManager()
+    objects = BasePathManager()
+    tree = BaseDirectoryTreeManager()
 
     class Meta(AbstractPathModel.Meta):
         abstract = True
 
-    def save(self, *args, **kwargs):
+    @property
+    def _originals(self):
+        if not self.pk:
+            return {}
+        obj = self.__class__.objects.get(pk=self.pk)
+        return {"parent": obj.parent,
+                "name": obj.name}
+
+    def _parent_and_name_changed(self):
+        return self.parent != self._originals.get("parent") and self.name != self._originals.get("name")
+
+    def _mptt_model_save(self, *args, **kwargs):
         super(BaseDirectoryModel, self).save(*args, **kwargs)
+
+    def _path_model_save(self, *args, **kwargs):
+        super(AbstractPathModel, self).save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        # TODO: this implementation of save method should be change asap.
+        #       It's a quick fix for bug #243. The implementation is caused
+        #       by legacy MPTTModel.save method which does not separate
+        #       required operations and base save method.
+        validate_path_unique = kwargs.pop("validate_path_unique", False)
+
+        def first_save_PARENT(*args, **kwargs):
+            current_name, self.name = self.name, self._originals.get("name")
+            self._mptt_model_save(*args, **kwargs)
+            self.name = current_name
+            self._path_model_save(validate_path_unique=validate_path_unique, *args, **kwargs)
+
+        def first_save_NAME(*args, **kwargs):
+            current_parent, self.parent = self.parent, self._originals.get("parent")
+            self._path_model_save(validate_path_unique=validate_path_unique, *args, **kwargs)
+            self.parent = current_parent
+            self._mptt_model_save(*args, **kwargs)
+
+        if self.pk and self._parent_and_name_changed():
+            current_name, current_parent = self.name, self.parent
+            try:
+                first_save_NAME(*args, **kwargs)
+            except IntegrityError, error:
+                self.name, self.parent = current_name, current_parent
+                first_save_PARENT(*args, **kwargs)
+        else:
+            self._mptt_model_save(*args, **kwargs)
+
         for child in self.children.all():
             child.save()
         # Children 2nd category ;)
@@ -121,21 +244,23 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
             for subchild in self.subchildren.all():
                 subchild.save()
 
+    def clean(self):
+        MPTTModel.clean(self)
+        AbstractPathModel.clean(self)
+
 
 class BaseStatusModel(BaseModel):
     default_name = "default"
 
-    name = models.CharField(unique=True, max_length=256)
+    name = models.CharField(max_length=255)
 
     class Meta(BaseModel.Meta):
         abstract = True
+        unique_together = ("project", "name")
 
     @classmethod
     def default(cls):
-        try:
-            return cls.objects.all()[0]
-        except IndexError:
-            return cls.objects.create(name=cls.default_name)
+        return cls.objects.all()[0]
 
     def __unicode__(self):
         return self.name

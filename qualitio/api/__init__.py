@@ -19,6 +19,12 @@ Serializer.formats = ['json']
 Serializer.content_types = {'json': 'application/json'}
 
 
+class BaseProjectResource(ModelResource):
+    def get_resource_uri(self, bundle_or_obj):
+        resource_uri = super(BaseProjectResource, self).get_resource_uri(bundle_or_obj)
+        return resource_uri.replace('/x/', '/%s/' % bundle_or_obj.obj.project.slug)
+
+
 class BaseMeta(object):
     default_format = 'application/json'
     serializer = Serializer(formats=Serializer.formats, content_types=Serializer.content_types)
@@ -34,7 +40,7 @@ class StateMeta(BaseMeta):
     excludes = ['created_time', 'modified_time']
 
 
-class RequirementResource(ModelResource):
+class RequirementResource(BaseProjectResource):
     parent = fields.ForeignKey('self', 'parent', null=True)
 
     class Meta(DirectoryMeta):
@@ -43,28 +49,28 @@ class RequirementResource(ModelResource):
 api.register(RequirementResource())
 
 
-class TestCaseDirectoryResource(ModelResource):
+class TestCaseDirectoryResource(BaseProjectResource):
     class Meta(DirectoryMeta):
         queryset = store.TestCaseDirectory.objects.all()
         resource_name = 'store/testcasedirectory'
 api.register(TestCaseDirectoryResource())
 
 
-class TestCaseStatusResource(ModelResource):
+class TestCaseStatusResource(BaseProjectResource):
     class Meta(StateMeta):
         queryset = store.TestCaseStatus.objects.all()
         resource_name = 'store/testcasestatus'
 api.register(TestCaseStatusResource())
 
 
-class TestCaseStepResource(ModelResource):
+class TestCaseStepResource(BaseProjectResource):
     class Meta(BaseMeta):
         queryset = store.TestCaseStep.objects.all()
         resource_name = 'store/testcasestep'
 api.register(TestCaseStepResource())
 
 
-class TestCaseResource(ModelResource):
+class TestCaseResource(BaseProjectResource):
     parent = fields.ForeignKey(TestCaseDirectoryResource, 'parent')
     status = fields.ForeignKey(TestCaseStatusResource, 'status', full=True)
     steps = fields.ToManyField(TestCaseStepResource, 'steps', full=True)
@@ -75,35 +81,35 @@ class TestCaseResource(ModelResource):
 api.register(TestCaseResource())
 
 
-class TestRunDirectoryResource(ModelResource):
+class TestRunDirectoryResource(BaseProjectResource):
     class Meta(DirectoryMeta):
         queryset = execute.TestRunDirectory.objects.all()
         resource_name = 'execute/testrundirectory'
 api.register(TestRunDirectoryResource())
 
 
-class TestRunStatusResource(ModelResource):
+class TestRunStatusResource(BaseProjectResource):
     class Meta(StateMeta):
         queryset = execute.TestRunStatus.objects.all()
         resource_name = 'execute/testrunstatus'
 api.register(TestRunStatusResource())
 
 
-class TestCaseStepRunResource(ModelResource):
+class TestCaseStepRunResource(BaseProjectResource):
     class Meta(BaseMeta):
         queryset = execute.TestCaseRun.objects.all()
         resource_name = 'execute/testcasesteprun'
 api.register(TestCaseStepRunResource())
 
 
-class BugResource(ModelResource):
+class BugResource(BaseProjectResource):
     class Meta(BaseMeta):
         queryset = execute.Bug.objects.all()
         resource_name = 'execute/bug'
 api.register(BugResource())
 
 
-class TestCaseRunResource(ModelResource):
+class TestCaseRunResource(BaseProjectResource):
     steps = fields.ToManyField(TestCaseStepResource, 'steps', full=True)
     bugs = fields.ToManyField(BugResource, 'steps', full=True)
 
@@ -113,7 +119,7 @@ class TestCaseRunResource(ModelResource):
 api.register(TestCaseRunResource())
 
 
-class TestRunResource(ModelResource):
+class TestRunResource(BaseProjectResource):
     status = fields.ForeignKey(TestRunStatusResource, 'status', full=True)
     testcases = fields.ToManyField(TestCaseStepResource, 'testcases', full=True)
     class Meta(DirectoryMeta):
@@ -122,14 +128,14 @@ class TestRunResource(ModelResource):
 api.register(TestRunResource())
 
 
-class LanguageResource(ModelResource):
+class LanguageResource(BaseProjectResource):
     class Meta(StateMeta):
         queryset = glossary.Language.objects.all()
         resource_name = 'glossary/language'
 api.register(LanguageResource())
 
 
-class RepresentationResource(ModelResource):
+class RepresentationResource(BaseProjectResource):
     language = fields.ForeignKey(TestRunStatusResource, 'language', full=True)
     class Meta(DirectoryMeta):
         queryset = glossary.Representation.objects.all()
@@ -137,7 +143,7 @@ class RepresentationResource(ModelResource):
 api.register(RepresentationResource())
 
 
-class WordResource(ModelResource):
+class WordResource(BaseProjectResource):
     representations = fields.ToManyField(RepresentationResource, 'representation_set', full=True)
     class Meta(DirectoryMeta):
         queryset = glossary.Word.objects.all()

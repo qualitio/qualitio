@@ -1,5 +1,6 @@
 {% load application_view_menu %}
 {% load execute %}
+{% load authorization %}
 <div id="application-view-header">
   <h1>test run: {{ testrun.name }}</h1>
 </div>
@@ -9,18 +10,14 @@
 <div class="grid_16">
   <div class="application-view-content">
     {% passrate testrun %}
-    
+
     <div class="text-bullet">
       <span class="name">full name:</span>
       <span class="value">{{ testrun.path }}{{ testrun.name }}</span>
     </div>
     <div class="text-bullet">
       <span class="name">status:</span>
-      <span class="value"><i>not set</i></span>
-    </div>
-    <div class="text-bullet">
-      <span class="name">notes:</span>
-      <span class="value">{{ directory.description|default:"<i>not set</i>" }}</span>
+      <span class="value">{{ testrun.status }}</span>
     </div>
     {% for name, value in testrun.custom_values.items %}
     <div class="text-bullet" style="text-align:justify">
@@ -31,14 +28,15 @@
     <div class="text-bullet">
       <span class="name">test cases:</span>
     </div>
-    
+
     <table class="display testcaserun-list">
       <thead>
         <tr>
           <th class="id">id</th>
+          <th>origin id</th>
           <th>path</th>
           <th>name</th>
-	  <th>status</th>
+          <th>status</th>
           <th>modified</th>
           <th>created</th>
         </tr>
@@ -46,16 +44,25 @@
       <tbody>
         {% for child in testrun.testcases.all %}
         <tr class="{% cycle 'odd' 'even' %}" style="background: {{ child.status.color }}">
-	  <td class="id">{{ child.origin.id }}</td>
-          <td class="path"><a href="/store/#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
-	  <td class="name"><a href="/store/#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
-	  <td class="path">{{ child.status }}</td>
+          <td class="id">{{ child.id }}</td>
+          <td class="origin-id">{{ child.origin.id }}</td>
+          <td class="path"><a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>
+          <td class="name"><a href="{{ STORE.get_absolute_url }}#testcase/{{ child.origin.pk }}/details/">{{ child.origin.name }}</a></td>
+          <td class="path">{{ child.status }}</td>
           <td class="path">{{ child.modified_time }}</td>
           <td class="path">{{ child.created_time }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+  </div>
+</div>
+<div class="grid_16 clearfix">
+  <div id="application-view-footer" class="application-view-content">
+    <div class="right">
+      <input class="{% if not user|has_permission:"USER" %}disable{% endif %}"
+	     name="{{ testrun.pk }}" type="submit" value="Clone"/>
+    </div>
   </div>
 </div>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_details.js{{ STATIC_HASH }}"></script>

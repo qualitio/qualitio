@@ -4,7 +4,7 @@
   <div class="text-bullet">
     <span class="name">parent:</span>
     <span class="value">
-      <a href="/store/#testcasedirectory/{{ testcaserun.origin.parent.id }}/details/">
+      <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ testcaserun.origin.parent.id }}/details/">
         {{ testcaserun.origin.parent.path }}{{ testcaserun.origin.parent.name }}
       </a>
     </span>
@@ -12,9 +12,19 @@
   <div class="text-bullet">
     <span class="name">origin test case:</span>
     <span class="value">
-      <a href="/store/#testcase/{{ testcaserun.origin.id }}/details/">
+      <a href="{{ STORE.get_absolute_url }}#testcase/{{ testcaserun.origin.id }}/details/">
         {{ testcaserun.origin.path }}{{ testcaserun.origin.name }}
       </a>
+    </span>
+  </div>
+  <div class="text-bullet">
+    <span class="name">requirement:</span>
+    <span class="value">
+      {% if testcaserun.origin.requirement %}
+      <a href="/require/#requirement/{{ testcaserun.origin.requirement.id }}/details/">
+        {{ testcaserun.origin.requirement.path }}{{ testcaserun.origin.requirement.name }}
+      </a>
+      {% endif %}
     </span>
   </div>
   <div class="text-bullet">
@@ -34,7 +44,7 @@
     <span class="name">status</span>
     <span class="value-block">
       <form id="testcaserun-status-form" method="post"
-            action="/execute/ajax/testcaserun/{{ testcaserun.id }}/setstatus/">
+            action="{{ SELF.get_absolute_url }}ajax/testcaserun/{{ testcaserun.id }}/setstatus/">
         {% csrf_token %}
           {{ testcaserun_status_form.status }}
       </form>
@@ -42,11 +52,15 @@
   </div>
 </div>
 <div class="grid_16 alpha omega clearfix">
+  {% if testcaserun.precondition or testcaserun.steps.exists %}
   <div class="application-view-content">
+    {% if testcaserun.precondition %}
     <div class="step clearfix">
       <h2>precondition</h2>
       {% glossary_aware testcaserun.precondition_br testcaserun.parent.translation %}
     </div>
+    {% endif %}
+
     {% for step in testcaserun.steps.all %}
     <div class="step clearfix">
       <h2>step {{ forloop.counter }}</h2>
@@ -63,29 +77,19 @@
     </div>
     {% endfor %}
   </div>
+  {% endif %}
 </div>
 
 <div class="grid_16 alpha omega">
   <div class="grid_8">
     <div class="application-view-content clearfix">
       <div id="current-bugs-table">
-        <!-- place holder for current bugs table  -->
       </div>
-      <!-- <h2>Add bug</h2> -->
-      <!-- <div id="add-bug-form"> -->
-      <!--   <form id="testcaserun-add-bug-form" method="post"  -->
-      <!--         action="/execute/ajax/testcaserun/{{ testcaserun.id }}/addbug/"> -->
-      <!--     {% csrf_token %} -->
-      <!--     <div id="{{ testcaserun_add_bug_form.bugs.html_name }}_wrapper" class="field-wrapper"> -->
-      <!--       <input type="submit" value="add" />{{ testcaserun_add_bug_form.bugs }} <span class="error"></span> -->
-      <!--     </div> -->
-      <!--   </form> -->
-      <!-- </div> -->
     </div>
   </div>
   <div class="grid_8 clearfix">
     <div class="application-view-content">
-      <h2>History Bugs</h2>
+      <h2>Bugs previously assigned to this test case.</h2>
       <table class="display testcaserun-history-bugs-list">
         <thead>
           <tr>

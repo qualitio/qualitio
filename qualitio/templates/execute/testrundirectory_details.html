@@ -1,4 +1,4 @@
-{% load application_view_menu %}
+{% load application_view_menu authorization %}
 <div id="application-view-header">
   <h1>test run directory: {{ directory.name }}</h1>
 </div>
@@ -14,17 +14,20 @@
     <span class="name">description</span>
     <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
-
-  <div class="text-bullet">
-    <span class="name">children:</span>
+  {% for name, value in directory.custom_values.items %}
+  <div class="text-bullet" style="text-align:justify">
+    <span class="name">{{ name }}:</span>
+    <span class="value">{{ value }}</span>
   </div>
-  
+  {% endfor %}
+</div>
+
+<div class="application-view-content clearfix">
   <table class="display">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
         <th class="id">id</th>
-        <th>path</th>
         <th>name</th>
         <th>pass rate</th>
         <th>modified</th>
@@ -38,7 +41,6 @@
         <span class="ui-icon ui-icon-folder-collapsed"></span>
       </td>
       <td>{{ child.pk }}</td>
-      <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrundirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>&nbsp;</td>
       <td>{{ child.modified_time }}</td>
@@ -51,7 +53,6 @@
         <span class="ui-icon ui-icon-document"></span>
       </td>
       <td>{{ child.pk }}</td>
-      <td><a href="#testrundirectory/{{ child.directory.pk }}/details/">{{ child.path }}</a></td>
       <td><a href="#testrun/{{ child.pk }}/details/">{{ child.name }}</a></td>
       <td>{{ child.passrate }}</td>
       <td>{{ child.modified_time }}</td>
@@ -60,14 +61,13 @@
     {% endfor %}
     </tbody>
   </table>
-
 </div>
 
 <div id="application-view-footer" class="application-view-content">
   <div class="right">
-    <a class="button {% if not perms.execute.add_testrun %}disable{% endif %}" 
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#testrundirectory/{{ directory.pk }}/newtestrun/" >create test run</a>
-    <a class="button {% if not perms.execute.add_testrundirectory %}disable{% endif %}" 
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#testrundirectory/{{ directory.pk }}/new/" >create test run directory</a>
   </div>
 </div>

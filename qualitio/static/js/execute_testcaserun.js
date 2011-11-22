@@ -13,10 +13,10 @@ jQuery.fn.bugTable = function() {
 };
 
 jQuery.fn.loadBugs = function(testcaserun) {
-  $(this).load('/execute/ajax/testcaserun/'+ testcaserun +'/bugs/', function() {
+  $(this).load('/project/'+ PROJECT_SLUG +'/execute/ajax/testcaserun/'+ testcaserun +'/bugs/', function() {
     $(this).find('table.display').bugTable();
       $("table.testcaserun-bugs-list th.checkbox:first", $(this)).itemsSelector({
-	selector: "table.testcaserun-bugs-list td input[type='checkbox']"
+        selector: "table.testcaserun-bugs-list td input[type='checkbox']"
     });
     $(".dataTables_scrollHead", $(this)).css('overflow', 'visible');
   });
@@ -28,13 +28,15 @@ $(function() {
   $('#testcaserun-status-form').buttonset();
   $("#testcaserun-details table.display").bugTable();
   $('#current-bugs-table').loadBugs(TESTCASERUN);
-  
+
   $("#testcaserun-status-form").change(function() {
     $(this).ajaxForm({
       success: function(status) {
         $("#testcaserun_" + status.data.id+" .status").text(status.data.name);
         $("#testcaserun_" + status.data.id).css("background", status.data.color);
         
+        $('#testcaserun-status-form [name="initial-status"]').val(status.data.status_id);
+
         $(".passrate .element").remove();
         $(".passrate .value").text(status.data.passrate.toFixed(1)+" %");
         $.each(status.data.passrate_ratio, function(i, status) {
@@ -45,7 +47,7 @@ $(function() {
       },
     }).submit();
   });
-  
+
   $("#testcaserun-add-bug-form input[type=submit]").live('click', function() {
     $('#testcaserun-add-bug-form').ajaxForm({
       beforeSubmit : function() {
@@ -72,7 +74,7 @@ $(function() {
           );
           // Reload bugtable
           $('#current-bugs-table').reloadBugs(TESTCASERUN);
-          
+
           $('#notification').jnotifyAddMessage({
             text: response.message,
             permanent: false,
@@ -82,7 +84,7 @@ $(function() {
       }
     });
   });
-                                           
+
 
   $("#testcaserun-remove-bug-form input[type=submit]").die('click');
   $("#testcaserun-remove-bug-form input[type=submit]").live('click', function() {

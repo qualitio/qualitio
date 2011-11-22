@@ -8,13 +8,18 @@ from qualitio.core.custommodel.forms import CustomizableModelForm
 
 
 class FormErrorProcessingMixin(object):
+    def _get_prefix(self):
+        if self.prefix:
+            return "%s-" % self.prefix
+        return ""
+
     def errors_list(self, additional=()):
         """
         Returns all errors as list of tuples: (field_name, first_of_field_errors).
         Errors can be extended with 'additional' error list.
         """
         additional_errors = additional or ()
-        errors = [(fname, errors[0]) for fname, errors in self.errors.items()]
+        errors = [("%s%s" % (self._get_prefix(), fname), errors[0]) for fname, errors in self.errors.items()]
         errors += list(additional_errors)
         return errors
 
@@ -70,14 +75,26 @@ class FormsetChangelogMixin(object):
         return "%s." % ', '.join(change_message)
 
 
-class BaseForm(forms.Form, FormErrorProcessingMixin):
-    pass
+class QuerySetRefreshMixin(object):
+    def _refresh_fields_querysets(self):
+        for name, field in self.fields.items():
+            if hasattr(field, "queryset"):
+                field.queryset = field.queryset.model.objects.all()
 
 
-class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
+class BaseForm(forms.Form, FormErrorProcessingMixin, QuerySetRefreshMixin):
+    def __init__(self, *args, **kwargs):
+        super(BaseForm, self).__init__(*args, **kwargs)
+        self._refresh_fields_querysets()
 
+
+class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin, QuerySetRefreshMixin):
     class Meta:
-        pass
+        exclude = ('project',)
+
+    def __init__(self, *args, **kwargs):
+        super(BaseModelForm, self).__init__(*args, **kwargs)
+        self._refresh_fields_querysets()
 
     def changelog(self):
         change_message = []
@@ -108,8 +125,8 @@ class BaseModelForm(CustomizableModelForm, FormErrorProcessingMixin):
 
 
 class PathModelForm(BaseModelForm):
-    class Meta:
-        exclude = ("path",)
+    class Meta(BaseModelForm.Meta):
+        exclude = ("path",) + BaseModelForm.Meta.exclude
 
     def save(self, validate_path_unique=False, *args, **kwargs):
         kwargs['model_save_kwargs'] = {'validate_path_unique': validate_path_unique}

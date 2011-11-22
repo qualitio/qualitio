@@ -14,7 +14,8 @@ urlpatterns = patterns('',
                        url(r'^filter/', filter,
                            {'model_filter_class': RequirementFilter,
                             'fields_order': ['id', 'path', 'name', 'release_target'],
-                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'dependencies', 'description', 'parent', 'alias'],
+                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'dependencies',
+                                        'description', 'parent', 'alias', 'project'],
                             }),
 
                        url(r'^ajax/get_children$', core.get_children,
@@ -38,6 +39,8 @@ urlpatterns = patterns('',
                            testcases),
                        url(r'^ajax/requirement/(?P<requirement_id>\d+)/testcases/connect/$',
                            testcases_connect),
+                       url(r'^ajax/requirement/(?P<requirement_id>\d+)/testcases/disconnect/$',
+                           testcases_disconnect),
 
                        url(r'^ajax/requirement/(?P<requirement_id>\d+)/new/$',
                            new),
@@ -47,5 +50,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/requirement/(?P<object_id>\d+)/history/$',
                            core.menu_view(Requirement, "history")(core.history),
                            {'Model' : Requirement}),
+
+                       (r'^ajax/requirement/(?P<requirement_id>\d+)/connected_testcases/$', connected_testcases),
+                       (r'^ajax/requirement/(?P<requirement_id>\d+)/available_testcases/$', available_testcases),
                        )
 

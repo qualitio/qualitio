@@ -1,6 +1,33 @@
 $(function() {
-  last_textarea = null;
-  last_textarea_pointer = null;
+  var getFormsCount = function() {
+    return parseInt($('#id_steps-TOTAL_FORMS').val(), 10);
+  };
+
+  var addStep = function(container) {
+    /* container is the HTML element where new element should be placed after
+     */
+    $(container).after($('.step.template').clone().removeClass("template"));
+    $('#id_steps-TOTAL_FORMS').val(getFormsCount() + 1);
+    var nextFormNum = getFormsCount() - 1;
+
+    $('.step:visible').each(function(i) {
+      var step = $(this);
+      var title = step.find("h2").text().replace(/^Step +([0-9]+)/i, "Step " + (i + 1));
+
+      step.children("h2").text(title);
+      step.find('input[name$=sequence]').val(i);
+      step.find("[name^=steps]").each(function() {
+	var input = $(this);
+	input.attr({
+	  "id": input.attr("id").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1" + nextFormNum + "$3"),
+	  "name": input.attr("name").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1" + nextFormNum + "$3")
+	});
+      });
+    });
+  }
+
+  var last_textarea = null;
+  var last_textarea_pointer = null;
 
   $('textarea').focusout( function() {
     last_textarea = this;
@@ -44,42 +71,31 @@ $(function() {
     }
   });
 
-  $('input[type=checkbox][name$=DELETE]').die('click');
-  $('input[type=checkbox][name$=DELETE]').live('click', function() {
-    step = $(this).parents('.step');
+  $('.step .delete-button').die('click');
+  $('.step .delete-button').live('click', function(event) {
+    var step = $(this).parents('.step');
     if(step.hasClass('removed')) {
       step.removeClass('removed');
     } else {
       $(this).css('pointer-events', 'auto');
       step.addClass('removed');
     }
+
+    // Check the button was clicked not the checkbox then
+    // select checkbox. If the checkbox was clicked it's ok.
+    var checkbox = $('input[type=checkbox][name$=DELETE]', $(this));
+    if (checkbox.length > 0 && event.target !== checkbox[0]) {
+      checkbox.attr('checked', ! checkbox.attr('checked'));
+    }
   });
 
-  // TODO: again remove double load
   $('.add-step').die('click');
   $('.add-step').live('click', function() {
-    new_step = $('.step.template').clone();
-    step_count = $('.step:visible').length;
-
-    if( $(this).attr("id") == "add-step-0" ) {
-      $(this).after(new_step.removeClass("template"));
+    if ($(this).attr("id") === "add-step-0") {
+      addStep($(this));
     } else {
-      $(this).parents('.step').after(new_step.removeClass("template"));
+      addStep($(this).parents('.step'));
     }
-
-    $('.step:visible').each( function(i) {
-      $(this).find("[name^=steps]").each(function() {
-        element_id = $(this).attr("id").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1"+step_count+"$3");
-        element_name = $(this).attr("name").replace(/(.+\-)(__prefix__)(\-.+)/ig,"$1"+step_count+"$3");
-        $(this).attr("id", element_id);
-        $(this).attr("name", element_name);
-      });
-
-      title = $(this).find("h2").text().replace(/^Step +([0-9]+)/i, "Step "+(i+1));
-      $(this).children("h2").text(title);
-      $(this).find('input[name$=sequence]').attr('value', i);
-    });
-    $('#id_steps-TOTAL_FORMS').attr("value", parseInt($('#id_steps-TOTAL_FORMS').attr("value"))+1);
   });
 
   $('.add-attachment').click( function() {
@@ -100,10 +116,14 @@ $(function() {
         $.notification.notice(response.message);
         $.shortcuts.reloadTree(response.data, "testcasedirectory",
                                "testcase", response.data.current_id);
+	Backbone.history.loadUrl(document.location.hash);
       }
     },
     beforeSubmit: function(){
       $.shortcuts.hideErrors();
     }
   });
+
+  $('select[name="parent"]').chosen();
+  $('select[name="requirement"]').chosen();
 });

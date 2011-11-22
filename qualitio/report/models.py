@@ -47,10 +47,21 @@ class Report(core.BasePathModel):
            context_dict[context_element.name] = context_element.build(self.bound_id)
         return context_dict
 
-    @property
-    def content(self):
+    def content(self, request=None):
         template = Template(self.template)
         context = Context(self.context_dict)
+
+        if request:
+            context.update({
+                    'self': {
+                        'user': {
+                            'name': request.user.username,
+                            'first_name': request.user.first_name,
+                            'last_name': request.user.last_name,
+                            'email': request.user.email,
+                            }
+                        }})
+
         return template.render(context)
 
     def is_html(self):
@@ -71,13 +82,14 @@ class Report(core.BasePathModel):
         if not self.pk:
             super(Report, self).save(*args, **kwargs)
 
-        link_elements = filter(lambda x:x, [str(self.pk),
+        link_elements = filter(lambda x:x, ['report/external',
+                                            str(self.pk),
                                             slugify(self.parent.path),
                                             slugify(self.parent.name),
                                             slugify(self.name),
                                             self.created_time.strftime("%Y/%m/%d")])
 
-        self.link = "/".join(link_elements)
+        self.link = "%s%s" % (self.project.get_absolute_url(), "/".join(link_elements))
         kwargs['force_insert'] = False
         super(Report, self).save(*args, **kwargs)
 

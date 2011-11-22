@@ -6,55 +6,84 @@
 
 {% application_view_menu testrun "execute" %}
 
-<div class="glossary-language-switch"></div>
-
 <div class="grid_16">
   <div id="testcaserun-list" class="application-view-content">
-    
+
     {% passrate testrun %}
-    
+
     <table class="display">
       <thead>
         <tr>
           <th class="checkbox"></th>
           <th>id</th>
+          <th>origin id</th>
           <th>path</th>
           <th>name</th>
           <th>status</th>
           <th>bugs</th>
-          <th>created</th>
+          <th>requirement</th>
         </tr>
       </thead>
       <tbody>
       {% for testcaserun in testrun.testcases.all %}
       <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}"
-          style="background: {{ testcaserun.status.color }}">
+          style="background: {{ testcaserun.status.color }}"
+          href="{{ SELF.get_absolute_url }}ajax/testcaserun/{{ testcaserun.id }}/">
         <td class="select">
-          <input type="checkbox" class="modify" />
+          <input type="checkbox" class="modify table-item" name="item-{{ testcaserun.id }}" />
         </td>
+        <td>{{ testcaserun.id }}</td>
         <td>{{ testcaserun.origin.id }}</td>
         <td>{{ testcaserun.origin.path }}</td>
         <td class="name">{{ testcaserun.name }}</td>
         <td class="status">{{ testcaserun.status.name }}</td>
         <td class="bugs">{% for bug in testcaserun.bugs.all %}#{{ bug.alias }} {% endfor %}</td>
-        <td>{{ testcaserun.status.created_time }}</td>
+        <td>
+	  {% if testcaserun.origin.requirement %}
+	  <a href="/require/#requirement/{{ testcaserun.origin.requirement.id }}/details/">
+            {{ testcaserun.origin.requirement.path }}{{ testcaserun.origin.requirement.name }}
+	  </a>
+	  {% endif %}
+	</td>
       </tr>
       {% endfor %}
       </tbody>
     </table>
     <div style="text-align: right;">
-      <select class="action-list" style="font-size: 1.2em">
-	<option><i>-- action on selected --</i></option>
-	<option value="clone">set status</option>
-	<option value="remove">add bug</option>
-	<option value="change_status">remove bug</option>
-      </select>
+      <div class="actions-form">
+	<div class="left action-choice-form">
+	  {{ action_choice_form.action }}
+	</div>
+	{% csrf_token %}
+
+	<input style="float:right;" type="submit" name="action-submit" value="Go" />
+
+	{% for action in action_choice_form.actions %}
+	<input type="hidden" class="action-url" name="{{ action.name }}" value="{{ action.url }}" />
+	<div class="action-form left" name="{{ action.name }}">
+	  {% if action.has_form %}
+	  {% for field in action.form %}
+	  <div class="action-form-field">
+	    {{ field.label_tag }}
+	    <div class="action-form-field-value">
+	      {{ field }}
+	    </div>
+	  </div>
+	  {% endfor %}
+	  {% endif %}
+	</div>
+	{% endfor %}
+
+	<div class="clear"></div>
+      </div>
     </div>
+
   </div>
 </div>
 
-<div class="grid_16"> 
-  <div id="testcaserun-details"> 
+<div class="grid_16">
+  <div id="testcaserun-details">
   </div>
 </div>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/execute_testrun_execute.js{{ STATIC_HASH }}"></script>

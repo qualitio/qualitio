@@ -1,4 +1,4 @@
-{% load application_view_menu %}
+{% load application_view_menu authorization %}
 <div id="application-view-header">
   <h1>test case directory: {{ directory.name }}</h1>
 </div>
@@ -14,13 +14,20 @@
     <span class="name">description</span>
     <span class="value-block">{{ directory.description|default:"<i>not set</i>"|linebreaksbr }}</span>
   </div>
+  {% for name, value in directory.custom_values.items %}
+  <div class="text-bullet" style="text-align:justify">
+    <span class="name">{{ name }}:</span>
+    <span class="value">{{ value }}</span>
+  </div>
+  {% endfor %}
+</div>
 
+<div class="application-view-content clearfix">
   <table class="display">
     <thead>
       <tr>
         <th class="icon">&nbsp;</th>
         <th class="id">id</th>
-        <th>path</th>
         <th>name</th>
         <th>requirement</th>
         <th>modified</th>
@@ -32,7 +39,6 @@
       <tr class="directory">
         <td><span class="ui-icon ui-icon-folder-collapsed"></span></td>
         <td>{{ child.pk }}</td>
-        <td><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
         <td><a href="#testcasedirectory/{{ child.pk }}/details/">{{ child.name }}</a></td>
         <td>&nbsp;</td>
         <td>{{ child.modified_time }}</td>
@@ -43,10 +49,9 @@
       <tr>
         <td><span class="ui-icon ui-icon-document"></span></td>
         <td>{{ child.pk }}</td>
-        <td class="path"><a href="#testcasedirectory/{{ child.parent.pk }}/details/">{{ child.path }}</a></td>
         <td class="name"><a href="#testcase/{{ child.pk }}/details/">{{ child.name }}</a></td>
         <td class="requirement">
-          <a href="/require/#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a>
+          <a href="{{ REQUIRE.get_absolute_url }}#requirement/{{ child.requirement.id }}/details/">{{ child.requirement.name }}</a>
         </td>
         <td>{{ child.modified_time }}</td>
         <td>{{ child.created_time }}</td>
@@ -55,11 +60,13 @@
     </tbody>
   </table>
 </div>
+
+</div>
 <div id="application-view-footer" class="application-view-content">
   <div class="right">
-    <a class="button {% if not perms.store.add_testcase %}disable{% endif %}"
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#testcasedirectory/{{ directory.pk }}/newtestcase/" >create test case</a>
-    <a class="button {% if not perms.store.add_testcasedirectory %}disable{% endif %}"
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
        href="#testcasedirectory/{{ directory.pk }}/new/" >create test case directory</a>
   </div>
 </div>

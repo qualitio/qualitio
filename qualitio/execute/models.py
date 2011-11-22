@@ -5,7 +5,7 @@ from qualitio import core
 from qualitio import store
 from qualitio import glossary
 
-import mangers
+import managers
 
 
 class TestRunDirectory(core.BaseDirectoryModel):
@@ -16,14 +16,15 @@ class TestRunDirectory(core.BaseDirectoryModel):
 
 
 class TestRunStatus(core.BaseStatusModel):
-    pass
+    class Meta:
+        verbose_name_plural = 'Test run statuses'
 
 
 class TestRun(core.BasePathModel):
     notes = models.TextField(blank=True)
     passrate = models.FloatField(default=0)
-    translation = models.ForeignKey("glossary.Language", default=glossary.Language.default)
-    status = models.ForeignKey("TestRunStatus", default=TestRunStatus.default)
+    translation = models.ForeignKey("glossary.Language", default=1)
+    status = models.ForeignKey("TestRunStatus", default=1)
 
     class Meta(core.BasePathModel.Meta):
         parent_class = 'TestRunDirectory'
@@ -49,6 +50,7 @@ class TestRun(core.BasePathModel):
         test_case_run = self.testcases.create(name=test_case.name,
                                               description=test_case.description,
                                               precondition=test_case.precondition,
+                                              requirement=test_case.requirement,
                                               origin=test_case)
 
         for test_case_step in test_case.steps.all():
@@ -62,6 +64,14 @@ class TestRun(core.BasePathModel):
     def update_passrate(self):
         self.passrate = self.testcases.passrate()
         self.save(force_update=True)
+
+    def copy(self):
+        testrun_copy = super(TestRun, self).copy()
+
+        for testcase in store.TestCase.objects.filter(testcaserun__parent=self):
+            testrun_copy.run(testcase)
+
+        return testrun_copy
 
     @property
     def bugs(self):
@@ -97,9 +107,9 @@ class TestCaseRunStatus(core.BaseStatusModel):
 
 class TestCaseRun(store.TestCaseBase):
     origin = models.ForeignKey("store.TestCase")
-    status = models.ForeignKey("TestCaseRunStatus", default=TestCaseRunStatus.default)
+    status = models.ForeignKey("TestCaseRunStatus", default=1)
 
-    objects = mangers.TestCaseRunManager()
+    objects = managers.TestCaseRunManager()
 
     class Meta(store.TestCaseBase.Meta):
         parent_class = 'TestRun'
@@ -109,7 +119,7 @@ class TestCaseRun(store.TestCaseBase):
 
     def __init__(self, *args, **kwargs):
         super(TestCaseRun, self).__init__(*args, **kwargs)
-        self._orginals = {"status": self.status}
+        self._orginals = {"status_id": self.status_id}
 
     @property
     def bugs_history(self):
@@ -118,7 +128,7 @@ class TestCaseRun(store.TestCaseBase):
 
     def save(self, *args, **kwargs):
         super(TestCaseRun, self).save(*args, **kwargs)
-        if self._orginals.get("status") != self.status:
+        if self._orginals.get("status_id") != self.status_id:
             self.parent.update_passrate()
 
 

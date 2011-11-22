@@ -1,0 +1,7 @@
+{% extends 'registration/base.html' %}
+
+{% block form %}
+<h1>This account is inactive.</h1>
+Account <b>{{ request.user }}</b> exists in for this organization but you have to wait till somebody from administration team will enable it. Go to <a href="/login/">login</a> page if page if you want to try with different account. 
+
+{% endblock %}

@@ -32,6 +32,5 @@ class MoveDirectoryFormTest(BaseTestCase):
 
         directory_form = DirectoryForm(instance=self.directory)
 
-        print directory_form.fields['parent'].queryset
         self.assertTrue(child1 not in directory_form.fields['parent'].queryset)
         self.assertTrue(child2 not in directory_form.fields['parent'].queryset)

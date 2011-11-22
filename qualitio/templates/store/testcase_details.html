@@ -1,5 +1,6 @@
 {% load application_view_menu %}
 {% load glossary %}
+{% load authorization %}
 
 <div id="application-view-header">
   <h1>test case: {{ testcase.name }}</h1>
@@ -25,7 +26,7 @@
   <div class="text-bullet">
     <span class="name">requirement:</span>
     <span class="value">
-      <a href="/require/#requirement/{{ testcase.requirement.pk }}/details/">{{ testcase.requirement|default:"<i>not set</i>" }}</a>
+      <a href="/project/{{ request.project.slug }}/require/#requirement/{{ testcase.requirement.pk }}/details/">{{ testcase.requirement|default:"<i>not set</i>" }}</a>
     </span>
   </div>
   <div class="text-bullet">
@@ -41,11 +42,15 @@
   </div>
   {% endfor %}
 </div>
+
+{% if testcase.steps.exists or testcase.precondition %}
 <div class="application-view-content">
+  {% if testcase.precondition %}
   <div class="step">
     <h2>precondition</h2>
     {% glossary_aware testcase.precondition_br %}
   </div>
+  {% endif %}
 
   {% for step in testcase.steps.all %}
   <div class="clearfix step">
@@ -62,5 +67,14 @@
     </div>
   </div>
   {% endfor %}
+</div>
+{% endif %}
+<div class="grid_16 clearfix">
+  <div id="application-view-footer" class="application-view-content">
+    <div class="right">
+      <input class="{% if not user|has_permission:"USER" %}disable{% endif %}"
+	     name="{{ testcase.pk }}" type="submit" value="Clone"/>
+    </div>
+  </div>
 </div>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/store_testcase_details.js{{ STATIC_HASH }}"></script>

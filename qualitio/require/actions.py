@@ -1,7 +1,7 @@
 from django import forms
 
 from qualitio.require import models
-from qualitio.filter import actions
+from qualitio import actions
 
 
 class ChangeParent(actions.ChangeParent):

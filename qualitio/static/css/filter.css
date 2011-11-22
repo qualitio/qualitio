@@ -42,6 +42,13 @@ table.display thead th[name="checkbox"] {
     float:right;
 }
 
+.add-new-group-label {
+    float:right;
+    margin: 3px 10px 0px 0px;
+    color: #999999;
+    font-style: italic;
+}
+
 .add-new-group-form {
     float:right; width:350px;
 }
@@ -96,4 +103,8 @@ table.display thead th[name="checkbox"] {
     border-collapse: separate;
     border-spacing: 5px;
     margin-top: 10px;
+}
+
+input.ui-button.search-button {
+    padding: 0.47em 4em;
 }

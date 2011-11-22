@@ -6,7 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Admin Qualitio', 'admin@qualitio.com'),
 )
 
 MANAGERS = ADMINS
@@ -48,27 +48,54 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'qualitio.organizations.middleware.OrganizationMiddleware',
+    'qualitio.organizations.middleware.ProjectMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
+    'qualitio.core.middleware.QueriesCounterMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 )
 
 ROOT_URLCONF = 'qualitio.urls'
 
-LOGIN_REDIRECT_URL = "/account/"
+LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
+    (r'^$', lambda request: request.organization is None),
+    r'^r/.*',
+    r'^none/$',
     r'^static/',
+    r'^login/',
+    r'^inactive/',
+    r'^admin/',
+    r'^register/.*',
+    r'^associate/*',
+    r'^complete/*',
+    r'^project/(?P<slug>[\w-]+)/report/external/*',
+    r'^__debug__/.*',
+    r'^api/.*',
+    r'^googleapps_setup/$',
+    r'^google_checkout/$',
+    r'^paypal_ipn/$',
+    )
+
+PROJECT_EXEMPT_URLS = (
+    r'^static/.*',
+    r'^admin/.*',
     r'^login/.*',
     r'^register/.*',
     r'^associate/*',
     r'^complete/*',
-    r'^report/external/*',
     r'^__debug__/.*',
     r'^api/.*',
+    r'^project/new/.*',
     )
+
+ORGANIZATION_EXEMPT_URLS = (
+    r'^static/',
+    r'^admin/',
+)
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates'),
@@ -90,7 +117,6 @@ INSTALLED_APPS = (
     'social_auth',
     'django_nose',
     'reversion',
-    'registration',
     'south',
     'pagination',
     'compressor',
@@ -99,15 +125,17 @@ INSTALLED_APPS = (
     'articles',
     'django_extensions',
 
-    'qualitio.core',
     'qualitio.core.custommodel',  # iternal core django application
+    'qualitio.core',
+    'qualitio.organizations',
     'qualitio.require',
     'qualitio.report',
-    'qualitio.projects',
     'qualitio.execute',
     'qualitio.store',
     'qualitio.filter',
+    'qualitio.actions',
     'qualitio.glossary',
+    'qualitio.payments',
 
     'qualitio.customizations',
 )
@@ -120,18 +148,21 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.contrib.messages.context_processors.messages",
                                "qualitio.core.context_processors.settings",
                                "qualitio.core.context_processors.development",
-                               "qualitio.core.context_processors.core")
+                               "qualitio.core.context_processors.core",
+                               "qualitio.core.context_processors.module",
+                               "qualitio.organizations.context_processors.main")
 
-AUTH_PROFILE_MODULE = 'projects.UserProfile'
+AUTH_PROFILE_MODULE = 'organizations.UserProfile'
 
-
-AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'django.contrib.auth.backends.ModelBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
+SOCIAL_AUTH_IMPORT_BACKENDS = (
+    'qualitio.googleapps.backends',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'qualitio.googleapps.backends.GoogleBackend',
+    'qualitio.googleapps.backends.GoogleAppsBackend',
+    'qualitio.organizations.auth.backends.OrganizationModelBackend',
+)
 
 MPTT_ADMIN_LEVEL_INDENT = 30
 
@@ -150,6 +181,17 @@ COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
 COMPRESS = False
 
 DBTEMPLATES_CACHE_BACKEND = 'dummy://127.0.0.1/'
+DBTEMPLATES_USE_REVERSION = True
+DBTEMPLATES_MEDIA_PREFIX = MEDIA_URL
+DBTEMPLATES_USE_CODEMIRROR = False
+DBTEMPLATES_AUTO_POPULATE_CONTENT = False
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'notifications@qualitio.com'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = "Qualitio Notifications <notifications@qualitio.com>"
 
 try:
     from local_settings import *

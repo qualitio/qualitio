@@ -3,9 +3,9 @@ from django.template.defaultfilters import linebreaksbr
 from qualitio import core
 
 
-class TestCaseBaseManager(core.BaseManager):
-    select_related_fields = core.BaseManager.select_related_fields + ['requirement',
-                                                                      'status']
+class TestCaseBaseManager(core.BasePathManager):
+    select_related_fields = core.BasePathManager.select_related_fields + ['requirement',
+                                                                          'status']
 
 
 class TestCaseBase(core.BasePathModel):
@@ -54,7 +54,7 @@ class TestCaseDirectory(core.BaseDirectoryModel):
 
 
 class TestCaseStatus(core.BaseStatusModel):
-    default_name = "Proposed"
+    default_name = "Open"
 
     class Meta:
         verbose_name_plural = 'Test case statuses'
@@ -62,10 +62,18 @@ class TestCaseStatus(core.BaseStatusModel):
 
 
 class TestCase(TestCaseBase):
-    status = models.ForeignKey('TestCaseStatus', default=TestCaseStatus.default)
+    status = models.ForeignKey('TestCaseStatus', default=1)
 
     class Meta(TestCaseBase.Meta):
         parent_class = 'TestCaseDirectory'
+
+    def copy(self):
+        copy = super(TestCase, self).copy()
+        for step in self.steps.all():
+            copy.steps.create(description=step.description,
+                              expected=step.expected,
+                              sequence=step.sequence)
+        return copy
 
 
 class TestCaseStep(TestCaseStepBase):
@@ -75,8 +83,4 @@ class TestCaseStep(TestCaseStepBase):
         return "%s" % (int(self.sequence) + 1)
 
 
-class Attachment(core.BaseModel):
-    testcase = models.ForeignKey('TestCase')
-    name = models.CharField(max_length=512)
-    attachment = models.FileField(upload_to="attachments")
 

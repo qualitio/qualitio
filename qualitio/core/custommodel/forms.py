@@ -55,9 +55,6 @@ class CustomizableModelForm(forms.ModelForm):
         # Update the model instance with self.cleaned_data.
         self.instance = self._construct_instance()
 
-        # From here ** THIS ** is exact copy of super _post_clean method.
-        # We had to change the way of construction to make our live easier.
-
         exclude = self._get_validation_exclusions()
 
         # Foreign Keys being used to represent inline relationships
@@ -82,6 +79,13 @@ class CustomizableModelForm(forms.ModelForm):
             self.instance.clean()
         except ValidationError, e:
             self._update_errors({NON_FIELD_ERRORS: e.messages})
+
+        # Call the model customization instance clean method.
+        if hasattr(self.instance.__class__ , '_customization_model'):
+            try:
+                self.instance.customization.clean_origin()
+            except ValidationError, e:
+                self._update_errors({NON_FIELD_ERRORS: e.messages})
 
         # Validate uniqueness if needed.
         if self._validate_unique:

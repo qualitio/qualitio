@@ -1,0 +1,25 @@
+{% extends 'registration/base.html' %}
+
+{% block form %}
+<div class="login-option clearfix" style="border-top: 0px;">
+  <h1>Organization Settings</h1>
+  <form method="post" action="{% url googleapps_setup %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+      {% for field in form.visible_fields %}
+      {{ field.label }} {% if field.help_text %} ({{ field.help_text }}) {% endif %}
+      {{ field }}{{ field.label_tag|lower }}
+      {% endfor %}
+
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+    </fieldset>
+    <div class="submit-panel">
+      <div class="right">
+        <input type="submit" value="save" />
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,10 +1,10 @@
 var resize_main_window = function() {
   $('#application-view')
     .css('height',
-         document.body.clientHeight - $('#header').height() - 5 - 2*$('#footer').height());
+         document.body.clientHeight - $('#header').height() - 69);
   $('#application-tree')
     .css('height',
-         document.body.clientHeight - $('#header').height() - 25 - 2*$('#footer').height());
+         document.body.clientHeight - $('#header').height() - 90);
 };
 
 $(document).ready(function() {
@@ -43,17 +43,21 @@ $(window).resize(function() {
 })( jQuery );
 
 jQuery.shortcuts = {
-  showErrors: function(errors) {
+  showErrors: function(errors, selectorPrefix) {
     $(errors).each(function(i, element, value) {
-      field = element[0]; message = element[1];
+      var field = element[0], message = element[1];
+      var prefix = selectorPrefix ? selectorPrefix + " " : selectorPrefix || "";
 
-      $field = $('#id_'+ field);
-      $field_errors = $('#id_' +field+ '_error');
+      var $field = $(prefix + '#id_'+ field);
+      var $field_errors = $(prefix + '#id_' +field+ '_error');
+      var parentIsRemoved = $field.parents('.removed').length > 0;
 
-      if( $field_errors.length ) {
-        $field_errors.text(message).fadeIn();
-      } else {
-        $field.before($('<div style="display:block" class="error">'+message+'</div>').fadeIn());
+      if (! parentIsRemoved) {  // we don't want to validate removed / deleted items
+	if( $field_errors.length ) {
+          $field_errors.text(message).fadeIn();
+	} else {
+          $field.before($('<div style="display:block" class="error">'+message+'</div>').fadeIn());
+	}
       }
     });
   },
@@ -126,6 +130,10 @@ jQuery.notification = {
       permanent: true,
       type: "error"
     });
+  },
+
+  hide: function() {
+    $('.jnotify-item-wrapper').remove()
   }
 }
 
@@ -147,7 +155,7 @@ $(function() {
     },
 
     render: function(type, id, view) {
-      $(this.el).load("/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
+      $(this.el).load("/project/"+PROJECT_SLUG+"/"+this.application_name+"/ajax/"+type+"/"+id+"/"+view+"/", function() {
         $(this).removeClass('disable');
       }).addClass('disable');
     }
@@ -249,9 +257,13 @@ $(function() {
 
   $.fn.dataTable = function(setting){
     var tables = [];
+    var defaults = {
+      "sDom": 'rt<"bottom clearfix"ilfp><"clear">'
+    };
+    var opts = $.extend(defaults, setting);
 
     this.each(function(){
-      tables.push($(this).originDataTable(setting));
+      tables.push($(this).originDataTable(opts));
     });
 
     var onResize = function(){
@@ -272,7 +284,7 @@ $(function() {
 
 (function($){
   $.fn.languageSwitcher = function() {
-    $(this).load("/glossary/ajax/language_switch/", function() {
+    $(this).load("/project/" + PROJECT_SLUG + "/glossary/ajax/language_switch/", function() {
       $(this).appendTo("#application-view-menu");
       $(this).find('form').change( function() {
       $(this).submit();
@@ -287,3 +299,25 @@ $(function() {
   }
 })(jQuery);
 
+
+/* This little snipplet below make sure that "chose"
+ * plugin for select box behaviours as expected
+ */
+(function($){
+  function onResize() {
+    $('.chzn-container').css('width', '100%');
+    $('.chzn-drop').css('width', '100%');
+    $('.chzn-drop').width($('.chzn-drop').width() - 2);
+    $('.chzn-search input').css('width', '100%');
+  }
+
+  $.fn.originChosen = $.fn.chosen;
+  $.fn.chosen = function(settings) {
+    var toReturn = $(this).originChosen(settings);
+    $(window).unbind('resize', onResize);
+    $(window).resize(onResize);
+    $.onTreeResize(onResize);
+    onResize();
+    return toReturn;
+  }
+})(jQuery);

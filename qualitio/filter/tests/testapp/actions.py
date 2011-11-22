@@ -1,4 +1,4 @@
-from qualitio.filter import actions
+from qualitio import actions
 from qualitio.filter.tests.testapp import models
 
 

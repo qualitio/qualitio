@@ -1,0 +1,373 @@
+#projects .name div {
+    display: inline-block;
+}
+
+#projects .name div a {
+    display: block;
+    padding: 5px 10px;
+}
+
+#projects .name .project-name {
+    font-weight: bold;
+    padding: 5px 10px;
+    color: #555555;
+}
+
+#projects .name div a.active {
+    display: block;
+    padding: 5px 10px;
+    font-weight: bold;
+    background: #DEDEDE;
+}
+
+#projects .header {
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 2px solid #aaaaaa;
+}
+
+#projects .menu {
+    text-align:right;
+}
+
+#projects .menu div {
+    display: inline-block;
+}
+
+#projects .menu div a {
+    display: block;
+    padding: 5px 30px;
+}
+
+#projects .menu div a.active{
+    display: block;
+    padding: 5px 30px;
+    font-weight: bold;
+    background: #DEDEDE;
+}
+
+#projects .panel {
+    border-radius: 6px;
+    overflow-y: auto;
+    position: relative;
+}
+
+#projects .application-view-content.panel {
+    background: none repeat scroll 0 0 white;
+    border-radius: 2px;
+    margin: 5px;
+    padding: 5px 10px;
+}
+
+#projects .application-view-content.settings-panel {
+    background: none repeat scroll 0 0 white;
+    border-radius: 2px;
+    padding: 10px;
+    margin: 0px;
+}
+
+#projects .activity-log {
+    padding: 10px 0;
+}
+
+#projects .activity-log .object {
+    font-weight: 700;
+}
+
+#projects .activity-log .message {
+    font-style: italic;
+}
+
+#projects .blog .article {
+    margin-bottom: 15px;
+    text-align: justify;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+}
+
+#projects .blog h1 {
+    border-bottom: 1px solid #F0F0F0;
+    color: #775555;
+    font-family: 'Cabin',serif;
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 140%;
+    margin: 0 0 20px 0;
+    text-rendering: optimizelegibility;
+}
+
+#projects .article .footer {
+    margin: 15px 0 5px 0;
+}
+
+#projects .footer .author {
+    float: right;
+}
+
+#projects .footer .date {
+    float: left;
+}
+
+#projects .project:first-child {
+    border-top: 1px solid #F0F0F0;
+}
+
+#projects .project {
+    padding: 10px 5px 20px;
+    border: 1px solid #F0F0F0;
+    border-radius: 5px;
+    margin-top: 5px;
+    position: relative;
+}
+
+#projects .project .name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#projects .description {
+    text-align: justify;
+    padding: 5px 0;
+}
+
+#projects .project .owner {
+    position: absolute;
+    left: 5px;
+    bottom: 0;
+    color: #999999;
+}
+
+#projects .project .created_time {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+    color: #999999;
+}
+
+#projects .project-add-button {
+    position: absolute;
+    bottom: 0;
+    right: -1px;
+    height: 30px;
+    border-radius: 6px;
+    border-top: 1px solid #AAAAAA;
+    border-left: 1px solid #AAAAAA;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-radius: 8px 0px 8px 0px;
+}
+
+#projects #project_form {
+    padding: 0 100px;
+}
+
+#projects .panel.tabs {
+    padding: 0px;
+}
+
+#projects .status_name {
+    position: relative;
+    margin-right: 40px;
+    margin-bottom: 14px
+}
+
+#projects .status_delete {
+    position: absolute;
+    right: -40px;
+    top: -10px;
+}
+
+#projects ul.fieldpills {
+    margin: 0;
+    position: relative;
+    list-style: none;
+}
+
+#projects ul.fieldpills li  {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 24px;
+    margin: 5px 0;
+    min-height: 24px;
+    padding: 8px 5px;
+    position: relative;
+}
+
+/* #projects ul.fieldpills li:hover { */
+/*     border: 1px solid #aaaaaa; */
+/* } */
+
+#projects ul.fieldpills li .delete {
+    margin-top: -16px;
+    position: absolute;
+    right: 5px;
+    text-decoration: none;
+    top: 50%;
+}
+
+#projects ul.fieldpills li.add-user {
+    padding: 8px 90px 8px 5px;
+}
+
+#projects ul.fieldpills li.add-user input[type=submit] {
+    margin-top: -12px;
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+    top: 50%;
+}
+
+#projects ul.fieldpills .formset-field {
+    margin-right: 40px;
+}
+
+#projects .module-settings {
+    margin: 0 0 5px 0;
+}
+
+#projects .module-settings h1 {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #222222;
+}
+
+#projects .module-settings .footer {
+    /* text-align: right; */
+    padding: 10px 0;
+    /* border-bottom: 1px solid #222222; */
+}
+
+#projects .module-settings .footer .add {
+    float: left;
+}
+
+#projects .module-settings .footer .save-button {
+    float: right;
+}
+
+#projects #tabs {
+    border: 0;
+}
+
+#projects .ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+
+#projects .billing {
+    /* padding: 70px 0; */
+}
+
+#projects .billing .current {
+    font-family: 'Bevan',serif;
+    color: #555555;
+    font-size: 14px;
+}
+
+#projects .billing .current span{
+    color: #444444;
+}
+
+#projects .billing .program {
+    border-left: 1px solid #dddddd;
+    padding: 40px 0;
+}
+
+#projects .billing .program.current {
+    background-color: #D1EED1;
+    border-color: #BFE7BF;
+}
+
+#projects .billing h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Bevan',serif;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+#projects .billing .option {
+    color: #404040;
+    padding: 15px 15px;
+    border: 1px solid #dddddd;
+    margin: 5px 20px;
+    font-weight: bold;
+    background: #f9f9f9;
+    font-family: 'Bevan',serif;
+    font-weight: normal;
+    text-align: center;
+}
+
+#projects .billing .amount {
+    font-size: 18px;
+    color: #aaaaaa;
+
+}
+
+#projects .billing .free {
+    padding: 1px 0;
+    color: #bbbbbb;
+    font-family: 'Bevan',serif;
+    font-size: 33px;
+    font-weight: normal;
+}
+
+#projects .billing .pay {
+    text-align: center;
+}
+
+/* settings */
+.field-settings {
+    padding-top: 2px;
+    margin-top: 10px;
+}
+
+.field-settings.removed {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.field-settings .delete-button {
+    margin-left: 2px;
+    width:100%;
+}
+
+.field-settings .color-picker {
+   -moz-box-shadow: 0 0 1px #000000;
+   -webkit-box-shadow: 0 0 1px #000000;
+   box-shadow: 0 0 1px #000000;
+}
+
+.field-settings input[type="text"], .field-settings .label-container {
+    margin: 3px 0px 3px 0px;
+}
+
+.field-settings .label-container label{
+    margin-right: 5px;
+}
+
+.field-settings .delete-button.ui-button-text-only .ui-button-text {
+    /* padding: 0.15em 1em; */
+}
+
+.user-management .input-height.ui-button-text-only .ui-button-text {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+.user-management .control-button {
+    float: right;
+    width: 13em;
+}
+
+.user-management .footer {
+    padding-top: 1em;
+    margin-bottom: 1em;
+}
+
+
+.account-profile-form .footer .button {
+    float: right;
+}

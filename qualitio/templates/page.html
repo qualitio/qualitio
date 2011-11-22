@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block projects-base %}
+<div id="projects">
+  <div class="header clearfix">
+    <div class="grid_8">
+      <div class="name">
+	<div class="project-name">
+	  {{ request.organization.name }} :: {{ request.project.name }}
+	</div>
+      </div>
+    </div>
+    <div class="grid_8">
+      <div class="menu">
+        <div>
+          <a class="{% if CURRENT_MODULE == 'require' %}active{% endif %}"
+             href="{{ REQUIRE.get_absolute_url }}">require</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'store' %}active{% endif %}"
+             href="{{ STORE.get_absolute_url }}">store</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'execute' %}active{% endif %}"
+             href="{{ EXECUTE.get_absolute_url }}">execute</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'report' %}active{% endif %}"
+             href="{{ REPORT.get_absolute_url }}">report</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block project_detail %}{% endblock %}
+</div>
+{% endblock %}

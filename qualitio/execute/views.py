@@ -1,45 +1,47 @@
-from django.contrib.auth.decorators import permission_required
 from django.views.generic.simple import direct_to_template
 from django.db.models import Count
 from django.conf import settings
 
 from qualitio.core.utils import json_response, success, failed
+from qualitio.organizations import permission_required
 from qualitio import core
 from qualitio import store
 from qualitio.execute.models import TestRunDirectory, TestRun, TestCaseRun, TestCaseRunStatus
 from qualitio.execute import forms
-from qualitio import history
+from qualitio import history, actions as actionsapp
 
 
-def index(request):
+def index(request, **kwargs):
     return direct_to_template(request, 'execute/base.html', {})
 
 
+@permission_required('USER_READONLY')
 @core.menu_view(TestRunDirectory, "details")
-def directory_details(request, directory_id):
+def directory_details(request, directory_id, **kwargs):
     return direct_to_template(request, 'execute/testrundirectory_details.html',
                               {'directory': TestRunDirectory.objects.get(pk=directory_id)})
 
 
-@permission_required('execute.change_testrundirectory', login_url='/permission_required/')
-@core.menu_view(TestRunDirectory, "edit", 'execute.change_testrundirectory')
-def directory_edit(request, directory_id):
+@permission_required('USER')
+@core.menu_view(TestRunDirectory, "edit", role='USER')
+def directory_edit(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(instance=directory)
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
 
-@permission_required('execute.add_testrundirectory', login_url='/permission_required/')
-def directory_new(request, directory_id):
+@permission_required('USER')
+def directory_new(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrundirectory_form = forms.TestRunDirectoryForm(initial={'parent': directory})
     return direct_to_template(request, 'execute/testrundirectory_edit.html',
                               {'testrundirectory_form': testrundirectory_form})
 
 
+@permission_required('USER')
 @json_response
-def directory_valid(request, directory_id=0):
+def directory_valid(request, directory_id=0, **kwargs):
     # TODO: should we think about permissions for valid views?
     if directory_id:
         testrun_directory = TestRunDirectory.objects.get(pk=str(directory_id))
@@ -52,7 +54,7 @@ def directory_valid(request, directory_id=0):
         testrun_directory = testrun_directory_form.save()
 
         log = history.History(request.user, testrun_directory)
-        log.add_form(testrun_directory_form)
+        log.add_form(testrun_directory_form, is_new=(directory_id == 0))
         log.save()
 
         return success(message='testrun directory saved',
@@ -63,16 +65,17 @@ def directory_valid(request, directory_id=0):
                       data=testrun_directory_form.errors_list())
 
 
+@permission_required('USER_READONLY')
 @core.menu_view(TestRun, "details")
-def testrun_details(request, testrun_id):
+def testrun_details(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     return direct_to_template(request, 'execute/testrun_details.html',
                               {'testrun': testrun})
 
 
-@permission_required('execute.change_testrun', login_url='/permission_required/')
-@core.menu_view(TestRun, "edit")
-def testrun_edit(request, testrun_id):
+@permission_required('USER')
+@core.menu_view(TestRun, "edit", role='USER')
+def testrun_edit(request, testrun_id, **kwargs):
     testrun = TestRun.objects.get(pk=testrun_id)
     testrun_form = forms.TestRunForm(instance=testrun)
 
@@ -82,8 +85,8 @@ def testrun_edit(request, testrun_id):
                                'connected_test_cases' : testrun.testcases.all()})
 
 
-@permission_required('execute.add_testrun', login_url='/permission_required/')
-def testrun_new(request, directory_id):
+@permission_required('USER')
+def testrun_new(request, directory_id, **kwargs):
     directory = TestRunDirectory.objects.get(pk=directory_id)
     testrun_form = forms.TestRunForm(initial={'parent': directory})
 
@@ -92,15 +95,38 @@ def testrun_new(request, directory_id):
                                'available_test_cases': store.TestCase.objects.all()})
 
 
-@permission_required('execute.change_testrun', login_url='/permission_required/')
-@core.menu_view(TestRun, "notes")
-def testrun_notes(request, testrun_id):
+@permission_required('USER')
+@core.menu_view(TestRun, "notes", role='USER')
+def testrun_notes(request, testrun_id, **kwargs):
+    testrun = TestRun.objects.get(pk=testrun_id)
+    testrun_form = forms.TestRunNotesForm(instance=testrun)
     return direct_to_template(request, 'execute/testrun_notes.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+                              {'testrun_form': testrun_form})
 
-
+@permission_required('USER')
 @json_response
-def testrun_valid(request, testrun_id=0):
+def testrun_notes_valid(request, testrun_id, **kwargs):
+    testrun = TestRun.objects.get(pk=str(testrun_id))
+    testrun_form = forms.TestRunNotesForm(request.POST, instance=testrun)
+
+    if testrun_form.is_valid():
+        testrun = testrun_form.save()
+
+        log = history.History(request.user, testrun)
+        log.add_form(testrun_form, is_new=(testrun_id == 0))
+        log.save()
+
+        return success(message='Test run notes saved',
+                       data={"parent_id": getattr(testrun.parent, "id", 0),
+                             "current_id": testrun.id})
+    else:
+        return failed(message="Validation errors: %s" % testrun_form.error_message(),
+                      data=testrun_form.errors_list())
+
+
+@permission_required('USER')
+@json_response
+def testrun_valid(request, testrun_id=0, **kwargs):
     if testrun_id:
         testrun = TestRun.objects.get(pk=str(testrun_id))
         testrun_form = forms.TestRunForm(request.POST, instance=testrun)
@@ -118,7 +144,7 @@ def testrun_valid(request, testrun_id=0):
         testrun.update_passrate()
 
         log = history.History(request.user, testrun)
-        log.add_form(testrun_form)
+        log.add_form(testrun_form, is_new=(testrun_id == 0))
         log.add_objects(created=created_testcases, deleted=deleted_testcases)
         log.save()
 
@@ -131,14 +157,32 @@ def testrun_valid(request, testrun_id=0):
                       data=testrun_form.errors_list())
 
 
-@permission_required('execute.change_testrun', login_url='/permission_required/')
-@core.menu_view(TestRun, "execute")
-def testrun_execute(request, testrun_id):
+@permission_required('USER')
+@json_response
+def testrun_copy(request, testrun_id, **kwargs):
+    testrun = TestRun.objects.get(pk=str(testrun_id))
+    testrun_copy = testrun.copy()
+
+    log = history.History(request.user, testrun_copy)
+    log.add_message("Cloned from %s: %s" % (testrun._meta.verbose_name.capitalize(), testrun.pk))
+    log.save()
+    return success(message='Copy created',
+                   data={"parent_id": getattr(testrun_copy.parent, "id", 0),
+                         "current_id": testrun_copy.id})
+
+
+@permission_required('USER')
+@core.menu_view(TestRun, "execute", role="USER")
+def testrun_execute(request, testrun_id, **kwargs):
+    actions = actionsapp.create_actions(request, 'qualitio.execute', model=TestCaseRun)
     return direct_to_template(request, 'execute/testrun_execute.html',
-                              {'testrun': TestRun.objects.get(pk=testrun_id)})
+                              {'testrun': TestRun.objects.get(pk=testrun_id),
+                               'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
+                               })
 
 
-def testcaserun(request, testcaserun_id):
+@permission_required('USER')
+def testcaserun(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     testcaserun_status_form = forms.TestCaseRunStatus(instance=testcaserun)
 
@@ -151,7 +195,8 @@ def testcaserun(request, testcaserun_id):
                                })
 
 
-def testcaserun_bugs(request, testcaserun_id):
+@permission_required('USER')
+def testcaserun_bugs(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     if request.method == "POST":
         bugs_formset = forms.BugFormSet(request.POST, instance=testcaserun)
@@ -165,8 +210,9 @@ def testcaserun_bugs(request, testcaserun_id):
                                'testcaserun_add_bug_form': testcaserun_add_bug_form})
 
 
+@permission_required('USER')
 @json_response
-def testcaserun_setstatus(request, testcaserun_id):
+def testcaserun_setstatus(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     testcaserun_status_form = forms.TestCaseRunStatus(request.POST, instance=testcaserun)
     if testcaserun_status_form.is_valid():
@@ -190,6 +236,7 @@ def testcaserun_setstatus(request, testcaserun_id):
 
         return success(message=testcaserun.status.name,
                        data=dict(id=testcaserun.pk,
+                                 status_id=testcaserun.status.id,
                                  name=testcaserun.status.name,
                                  color=testcaserun.status.color,
                                  passrate=testcaserun.parent.passrate,
@@ -199,8 +246,9 @@ def testcaserun_setstatus(request, testcaserun_id):
                       data=testcaserun_status_form.errors_list())
 
 
+@permission_required('USER')
 @json_response
-def testcaserun_addbug(request, testcaserun_id):
+def testcaserun_addbug(request, testcaserun_id, **kwargs):
 
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     add_bug_form = forms.AddBugForm(request.POST)
@@ -235,8 +283,9 @@ def testcaserun_addbug(request, testcaserun_id):
                   data=add_bug_form.errors_list())
 
 
+@permission_required('USER')
 @json_response
-def testcaserun_removebug(request, testcaserun_id):
+def testcaserun_removebug(request, testcaserun_id, **kwargs):
     testcaserun = TestCaseRun.objects.get(pk=testcaserun_id)
     bugs_formset = forms.BugFormSet(request.POST, instance=testcaserun)
 

@@ -15,9 +15,9 @@
 
 <form id="testrun_form"
       action="{% if testrun_form.instance.id %}
-              /execute/ajax/testrun/{{ testrun_form.instance.id }}/edit/valid/
+              {{ SELF.get_absolute_url }}ajax/testrun/{{ testrun_form.instance.id }}/edit/valid/
               {% else %}
-              /execute/ajax/testrundirectory/newtestrun/valid/
+              {{ SELF.get_absolute_url }}ajax/testrundirectory/newtestrun/valid/
               {% endif %}"
       method="post">{% csrf_token %}
 
@@ -39,7 +39,7 @@
   </div>
 
   <div class="grid_16 clearfix">
-    <div class="grid_8 clearfix">
+    <div class="grid_16 clearfix">
       <div class="connected-testcases application-view-content">
         <h2>connected testcase</h2>
         <table class="display">
@@ -63,12 +63,12 @@
                 {{ test_case.origin.id }}
               </td>
               <td class="path">
-                <a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
+                <a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ test_case.parent.pk }}/details/">
                   {{ test_case.origin.path }}
                 </a>
               </td>
               <td class="name">
-                <a href="/store/#testcase/{{ test_case.origin.pk }}/details/">
+                <a href="{{ STORE.get_absolute_url }}#testcase/{{ test_case.origin.pk }}/details/">
                   {{ test_case.name }}
                 </a>
               </td>
@@ -79,11 +79,24 @@
             {% endfor %}
           </tbody>
         </table>
-        <a id="remove-testcases-button" class="button">remove</a>
       </div>
     </div>
 
-    <div class="grid_8 clearfix">
+    <div class="grid_16">
+      <div class="application-view-content clearfix">
+	<a id="remove-testcases-button" class="button remove-button">
+	  <span class="ui-icon ui-icon-circle-arrow-s"></span>
+	  remove
+	</a>
+	<a id="add-testcases-button" class="button add-button">
+	  add
+	  <span class="ui-icon ui-icon-circle-arrow-n"></span>
+	</a>
+	<div style="clear:both;"></div>
+      </div>
+    </div>
+
+    <div class="grid_16 clearfix">
       <div class="available-testcases application-view-content">
         <h2>available testcase</h2>
         <table class="display">
@@ -103,17 +116,16 @@
                 <input type="hidden" name="available_test_case" value="{{ test_case.id }}" />
               </td>
               <td class="id">{{ test_case.id }}</td>
-              <td class="path"><a href="/store/#testcasedirectory/{{ test_case.parent.pk }}/details/">
+              <td class="path"><a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ test_case.parent.pk }}/details/">
                   {{ test_case.path }}
               </a></td>
-              <td class="name"><a href="/store/#testcase/{{ test_case.pk }}/details/">
+              <td class="name"><a href="{{ STORE.get_absolute_url }}#testcase/{{ test_case.pk }}/details/">
                   {{ test_case.name }}
               </a></td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-        <a id="add-testcases-button" class="button">add</a>
       </div>
     </div>
   </div>

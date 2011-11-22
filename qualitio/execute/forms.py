@@ -17,6 +17,12 @@ class TestRunForm(core.PathModelForm):
         fields = ("parent", "name", "status", "translation")
 
 
+class TestRunNotesForm(core.PathModelForm):
+    class Meta(core.PathModelForm.Meta):
+        model = models.TestRun
+        fields = ("notes",)
+
+
 class TestCaseRunStatus(core.BaseModelForm):
 
     class Meta:
@@ -60,4 +66,14 @@ BugFormSet = inlineformset_factory(models.TestCaseRun,
                                    formset=core.BaseInlineFormSet,
                                    form=BugForm)
 
+TestRunStatusFormSet = modelformset_factory(models.TestRunStatus,
+                                            formset=core.BaseModelFormSet,
+                                            form=core.BaseModelForm,
+                                            extra=1,
+                                            can_delete=True)
 
+TestCaseRunStatusFormSet = modelformset_factory(models.TestCaseRunStatus,
+                                                formset=core.BaseModelFormSet,
+                                                form=core.BaseModelForm,
+                                                extra=1,
+                                                can_delete=True)
