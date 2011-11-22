@@ -28,11 +28,9 @@
 	    {{ form.role }}
 	  </td>
 	  <td>
-	    {% if not form.instance.user|has_permission:"ADMIN" %}
-	    <div class="button delete-button">Delete {{ form.DELETE }}</div>
-	    {% else %}
-	    <i>Cannot delete admin</i>
-	    {% endif %}
+	    <div class="{% if form.instance.role == 0 %}disable{% endif %}
+			button delete-button">
+	      Delete {{ form.DELETE }}</div>
 	  </td>
 	</tr>
 	{% endfor %}
