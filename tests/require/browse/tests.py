@@ -556,6 +556,8 @@ class Test4Modreq(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=#4_requirement > ins.jstree-icon"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=#4_requirement > ins.jstree-icon")
         for i in range(60):
             try:
@@ -840,7 +842,15 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("css=#4_requirement > ins.jstree-icon"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=#4_requirement > ins.jstree-icon"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=li#4_requirement ins")
         for i in range(60):
@@ -965,6 +975,14 @@ class Test6TestcasesAdd(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=span.ui-icon.ui-icon-document"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("css=span.ui-icon.ui-icon-document"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view']/div[5]/div/div[1]/div[2]/table/tbody/tr/td[1]/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=3"))
@@ -1028,6 +1046,14 @@ class Test7ModreqParent(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=span.ui-button-text"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("css=span.ui-button-text"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a span")
         for i in range(60):
             try:
@@ -1090,6 +1116,18 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=new requirement 4")
         sel.click("link=new requirement 4")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=span.active"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "details" == sel.get_text("css=span.active"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
         for i in range(60):
             try:
                 if "requirement: new requirement 4" == sel.get_text("css=div#application-view-header h1"): break
@@ -1291,6 +1329,16 @@ class Test8ModreqReltarg(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=#4_requirement > ins.jstree-icon"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=TV"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=#4_requirement > ins.jstree-icon"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=TV"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -4084,8 +4132,6 @@ class Test32Samename(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.select("id_parent", "label=1: /MeeGo")
         sel.click("Executed")
-        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
                 if sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."): break
