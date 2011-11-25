@@ -25,12 +25,20 @@ urlpatterns = patterns('',
                            name="organization_settings_profile"),
 
                        url(r'^settings/users/$',
-                           permission_required('ADMIN')(views.OrganizationSettings.Users.as_view()),
+                           permission_required('ADMIN')(views.OrganizationSettings.Members.as_view()),
                            name="organization_settings_users"),
 
-                       url(r'^settings/users/new/member/$',
-                           permission_required('ADMIN')(views.OrganizationSettings.NewMember.as_view()),
-                           name="organization_settings_users_new_member"),
+                       url(r'^settings/users/list/$',
+                           permission_required('ADMIN')(
+                               views.OrganizationSettings.MembersList.as_view()
+                           ),
+                           name="organization_settings_members_list"),
+
+                       url(r'^settings/users/new/$',
+                           permission_required('ADMIN')(
+                               views.OrganizationSettings.MemberNew.as_view()
+                           ),
+                           name="organization_settings_members_new"),
 
                        url(r'^settings/projects/((?P<pk>\d+)/)?$',
                            permission_required('ADMIN')(views.OrganizationSettings.Projects.as_view()),

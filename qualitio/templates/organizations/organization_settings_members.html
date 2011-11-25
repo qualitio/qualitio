@@ -1,0 +1,21 @@
+{% extends "organizations/organization_settings.html" %}
+{% load authorization %}
+
+{% block settings-active-menu %}menu-item-users{% endblock %}
+
+{% block project_detail %}
+<div class="user-management">
+  <div class="user-list"></div>
+  <div class="user-new"></div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(SETTINGS_ACTIVE_MENU).addClass('active');
+    $('a[href="/settings/"]').addClass('active');
+
+    $('.user-list').load('{% url organization_settings_members_list %}');
+    $('.user-new').load('{% url organization_settings_members_new %}');
+});
+</script>
+{% endblock %}

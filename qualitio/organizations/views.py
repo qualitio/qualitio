@@ -5,13 +5,12 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
+from django.contrib.auth import models as auth
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (View, CreateView, RedirectView,
                                   UpdateView, ListView, TemplateView,
                                   FormView)
-
-
 
 from reversion.models import Revision
 from articles.models import Article
@@ -72,44 +71,78 @@ class OrganizationSettings(RedirectView):
             return failed(message=form.error_message(),
                           data=form.errors_list())
 
+    class Members(TemplateView):
+        template_name = "organizations/organization_settings_members.html"
 
-    class Users(TemplateView):
-        template_name = "organizations/organization_settings_users_form.html"
+    class MembersList(TemplateView):
+        template_name = "organizations/organization_settings_members_list.html"
 
-        def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['formset'] = forms.OrganizationUsersForm()
-            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
-            return context
-
-        def get(self, request, *args, **kwargs):
-            return self.render_to_response(self.get_context_data(**kwargs))
+        def get(self, request):
+            return self.render_to_response({
+                'formset': forms.OrganizationUsersForm(
+                    instance=self.request.organization
+                )
+            })
 
         @json_response
-        def post(self, request, *args, **kwargs):
-            formset = forms.OrganizationUsersForm(request.POST)
+        def post(self, request):
+            formset = forms.OrganizationUsersForm(
+                request.POST,
+                instance=self.request.organization
+            )
+
             if formset.is_valid():
-                formset.save(delete_users=True)
+                formset.save()
                 return success(message='Changes saved.')
-            return failed(message="Validation errors",
-                          data=formset._errors_list())
+
+            return failed(message="%s"
+                          % formset.non_form_errors().as_text())
 
 
-    class NewMember(OrganizationObjectMixin, TemplateView):
-        def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
-            return context
+    class MemberNew(OrganizationObjectMixin, TemplateView):
+        template_name = "organizations/organization_settings_members_new.html"
 
-        @json_response
-        def post(self, request, *args, **kwargs):
-            new_user_form = forms.NewUserForm(request.POST, prefix='newuserform')
-            if new_user_form.is_valid():
-                user = new_user_form.save()
-                organization_member = models.OrganizationMember.objects.create(
-                    user=user, organization=self.get_object())
-                return success(message='New member saved.')
-            return failed(message="Validation errors", data=new_user_form.errors_list())
+        get_context_data = lambda self: {
+            'member_form': forms.NewMemberForm(prefix="member_form"),
+            'user_form': forms.NewUserForm(prefix="user_form")
+        }
+
+        @json_response # ToDo: maybe split this into two separte views.
+        def post(self, request):
+            if request.REQUEST.has_key('new_user'):
+                form = forms.NewUserForm(request.POST, prefix="user_form")
+                if form.is_valid():
+                    user = form.save(commit=False)
+                    user.username = form.cleaned_data["email"]
+                    user.set_password(form.cleaned_data["password1"])
+                    user.save()
+
+                    models.OrganizationMember.objects.create(
+                        user=user,
+                        organization=request.organization,
+                        role=models.OrganizationMember.INACTIVE
+                    )
+
+                    return success(message="User created.")
+
+            else:
+                form = forms.NewMemberForm(request.POST, prefix="member_form")
+                if form.is_valid():
+                    email = form.cleaned_data.get('email')
+                    try:
+                        user = auth.User.objects.get(email=email)
+                        models.OrganizationMember.objects.create(
+                            user=user,
+                            organization=request.organization,
+                            role=models.OrganizationMember.INACTIVE
+                        )
+                        return success(message="User added!", data={'created': True})
+                    except auth.User.DoesNotExist:
+                        return success(message="Doesn't exist, need to create account!",
+                                       data={'created': False,
+                                             'email': email})
+
+            return failed(message="Validation errors", data=form.errors_list())
 
 
     class Projects(TemplateView):
