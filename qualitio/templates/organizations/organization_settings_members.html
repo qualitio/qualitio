@@ -11,9 +11,6 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $(SETTINGS_ACTIVE_MENU).addClass('active');
-    $('a[href="/settings/"]').addClass('active');
-
     $('.user-list').load('{% url organization_settings_members_list %}');
     $('.user-new').load('{% url organization_settings_members_new %}');
 });
