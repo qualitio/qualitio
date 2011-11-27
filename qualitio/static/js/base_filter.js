@@ -117,12 +117,7 @@ $(document).ready(function() {
     });
 
     // actions
-    $('input.table-item').parent().click(function(event){
-	if (event.target === this) {
-	    var checkbox = $('input[type="checkbox"]', $(this));
-	    checkbox.attr('checked', !checkbox.attr('checked'));
-	}
-    });
+    $('input.table-item').parent().checkboxButton();
 
     $('.action-form').hide();
     $('.actions-form #id_action').change(function(){
