@@ -1,10 +1,16 @@
 from django.http import Http404
+from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
-from django.shortcuts import redirect
+from django.template import RequestContext
+from django.http import HttpResponse
+from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
+from django.contrib.auth import models as auth
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (View, CreateView, RedirectView,
-                                  UpdateView, ListView, TemplateView)
-
+                                  UpdateView, ListView, TemplateView,
+                                  FormView)
 
 from reversion.models import Revision
 from articles.models import Article
@@ -12,6 +18,8 @@ from articles.models import Article
 from qualitio.core.utils import json_response, success, failed
 from qualitio.organizations import models
 from qualitio.organizations import forms
+
+from qualitio.payments.models import PaymentStrategy
 
 
 class OrganizationObjectMixin(object):
@@ -28,8 +36,10 @@ class OrganizationObjectMixin(object):
 class OrganizationDetails(View, OrganizationObjectMixin):
     def get(self, request, *args, **kwargs):
         if request.organization:
+            articles = Article.objects.filter(status__name="Finished")
             return TemplateResponse(request, "organizations/organization_detail.html",
-                                    {"organization": request.organization})
+                                    {"organization": request.organization,
+                                     "articles": articles})
         else:
             return redirect("organization_none")
 
@@ -61,44 +71,78 @@ class OrganizationSettings(RedirectView):
             return failed(message=form.error_message(),
                           data=form.errors_list())
 
+    class Members(TemplateView):
+        template_name = "organizations/organization_settings_members.html"
 
-    class Users(TemplateView):
-        template_name = "organizations/organization_settings_users_form.html"
+    class MembersList(TemplateView):
+        template_name = "organizations/organization_settings_members_list.html"
 
-        def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['formset'] = forms.OrganizationUsersForm()
-            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
-            return context
-
-        def get(self, request, *args, **kwargs):
-            return self.render_to_response(self.get_context_data(**kwargs))
+        def get(self, request):
+            return self.render_to_response({
+                'formset': forms.OrganizationUsersForm(
+                    instance=self.request.organization
+                )
+            })
 
         @json_response
-        def post(self, request, *args, **kwargs):
-            formset = forms.OrganizationUsersForm(request.POST)
+        def post(self, request):
+            formset = forms.OrganizationUsersForm(
+                request.POST,
+                instance=self.request.organization
+            )
+
             if formset.is_valid():
-                formset.save(delete_users=True)
+                formset.save()
                 return success(message='Changes saved.')
-            return failed(message="Validation errors",
-                          data=formset._errors_list())
+
+            return failed(message="%s"
+                          % formset.non_form_errors().as_text())
 
 
-    class NewMember(OrganizationObjectMixin, TemplateView):
-        def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
-            return context
+    class MemberNew(OrganizationObjectMixin, TemplateView):
+        template_name = "organizations/organization_settings_members_new.html"
 
-        @json_response
-        def post(self, request, *args, **kwargs):
-            new_user_form = forms.NewUserForm(request.POST, prefix='newuserform')
-            if new_user_form.is_valid():
-                user = new_user_form.save()
-                organization_member = models.OrganizationMember.objects.create(
-                    user=user, organization=self.get_object())
-                return success(message='New member saved.')
-            return failed(message="Validation errors", data=new_user_form.errors_list())
+        get_context_data = lambda self: {
+            'member_form': forms.NewMemberForm(prefix="member_form"),
+            'user_form': forms.NewUserForm(prefix="user_form")
+        }
+
+        @json_response # ToDo: maybe split this into two separte views.
+        def post(self, request):
+            if request.REQUEST.has_key('new_user'):
+                form = forms.NewUserForm(request.POST, prefix="user_form")
+                if form.is_valid():
+                    user = form.save(commit=False)
+                    user.username = form.cleaned_data["email"]
+                    user.set_password(form.cleaned_data["password1"])
+                    user.save()
+
+                    models.OrganizationMember.objects.create(
+                        user=user,
+                        organization=request.organization,
+                        role=models.OrganizationMember.INACTIVE
+                    )
+
+                    return success(message="User created.")
+
+            else:
+                form = forms.NewMemberForm(request.POST, prefix="member_form")
+                if form.is_valid():
+                    email = form.cleaned_data.get('email')
+                    try:
+                        user = auth.User.objects.get(email=email)
+                        models.OrganizationMember.objects.create(
+                            user=user,
+                            organization=request.organization,
+                            role=models.OrganizationMember.INACTIVE
+                        )
+                        return success(message="User added!", data={'created': True})
+                    except auth.User.DoesNotExist:
+                        return success(message="Doesn't exist, need to create account!",
+                                       data={'created': False,
+                                             'email': email})
+
+            return failed(message="Validation errors", data=form.errors_list())
 
 
     class Projects(TemplateView):
@@ -176,6 +220,25 @@ class OrganizationSettings(RedirectView):
                               glossary_language._errors_list())
 
 
+    class Billing(TemplateView):
+        template_name = "organizations/organization_settings_billing.html"
+
+        def post(self, *args, **kwargs):
+            # import ipdb; ipdb.set_trace()
+            # Check here
+            return super(OrganizationSettings.Billing, self).post(*args, **kwargs)
+
+        @method_decorator(csrf_exempt)
+        def dispatch(self, *args, **kwargs):
+            return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
+
+        def render_to_response(self, *args, **kwargs):
+            return super(OrganizationSettings.Billing, self).render_to_response(
+                {"strategies": PaymentStrategy.objects.all()},
+                **kwargs
+            )
+
+
 class ProjectList(ListView):
     model = models.Project
     context_object_name = "project_list"
@@ -218,16 +281,85 @@ class ProjectNew(CreateView):
                       data=form.errors_list())
 
 
-class GoogleApsDomainRedirect(RedirectView):
+
+
+class GoogleAppsRedirect(RedirectView):
+
+    permanent = False
+
+    def _get_url(self, organization):
+        if self.request.is_secure():
+            return "https://%s.%s" % (organization.slug, self.request.get_host())
+        return "http://%s.%s" % (organization.slug, self.request.get_host())
 
     def get_redirect_url(self, **kwargs):
         try:
             googleapps_domain = self.kwargs['domain']
-            organization = models.Organization.objects.get(googleapps_domain=googleapps_domain)
-            if self.request.is_secure():
-                return "https://%s.%s" % (organization.slug, self.request.get_host())
-            return "http://%s.%s" % (organization.slug, self.request.get_host())
+            organization = models.Organization.objects.get(
+                googleapps_domain=googleapps_domain
+            )
+            return self._get_url(organization)
+
         except (KeyError, models.Organization.DoesNotExist):
             raise Http404
 
 
+class GoogleAppsSetupRedirect(GoogleAppsRedirect):
+
+    def get_redirect_url(self, **kwargs):
+        try:
+            organization = models.Organization.objects.get(
+                googleapps_domain=self.kwargs['domain']
+            )
+
+            return "%s/settings/" % self._get_url(organization)
+
+        except models.Organization.DoesNotExist:
+            organization = models.Organization.objects.create(
+                googleapps_domain=self.kwargs['domain'],
+                name=self.kwargs['domain']
+            )
+            return "%s/googleapps_setup/?%s" % (self._get_url(organization),
+                                                self.request.META['QUERY_STRING'])
+
+
+def googleapps_domain_setup(request, *args, **kwargs):
+
+    if not request.user.is_authenticated():
+        return redirect("%s?next=%s" % (reverse("socialauth_begin", args=['googleapps']),
+                                        request.get_full_path()))
+
+    if request.method == "GET":
+        form = forms.OrganizationGoogleAppsSetupForm(instance=request.organization)
+        form.fields['callback'].initial = request.GET.get('callback')
+    else:
+
+        form = forms.OrganizationGoogleAppsSetupForm(request.POST,
+                                                     instance=request.organization)
+
+        if form.is_valid():
+            organization = form.save()
+            models.OrganizationMember.objects.create(
+                user=request.user,
+                organization=organization,
+                role=models.OrganizationMember.ADMIN
+            )
+            if request.POST.get('callback'):
+                return redirect(request.POST.get('callback'))
+
+    return render_to_response("organizations/organization_googleapps_setup.html",
+                              {"form": form},
+                              context_instance=RequestContext(request))
+
+
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+
+@csrf_exempt
+def google_checkout(request, *args, **kwargs):
+    from django.http import HttpResponse
+    with open("/tmp/google_checkout", "w") as f:
+        for name, value in request.POST.items():
+            f.write("%s   %s\n" % (name, value))
+
+    f.write("\n=================\n")
+    return HttpResponse("")

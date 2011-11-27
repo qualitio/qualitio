@@ -195,7 +195,9 @@ class BaseDirectoryModel(MPTTModel, AbstractPathModel):
     def _originals(self):
         if not self.pk:
             return {}
-        return self.__class__.objects.filter(pk=self.pk).values("parent", "name")[0]
+        obj = self.__class__.objects.get(pk=self.pk)
+        return {"parent": obj.parent,
+                "name": obj.name}
 
     def _parent_and_name_changed(self):
         return self.parent != self._originals.get("parent") and self.name != self._originals.get("name")

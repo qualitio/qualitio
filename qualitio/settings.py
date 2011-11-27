@@ -44,12 +44,12 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'qualitio.organizations.middleware.OrganizationMiddleware',
-    'qualitio.organizations.middleware.ProjectMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'qualitio.organizations.middleware.OrganizationMiddleware',
+    'qualitio.organizations.middleware.ProjectMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'qualitio.core.middleware.LoginRequiredMiddleware',
     'qualitio.core.middleware.QueriesCounterMiddleware',
@@ -75,6 +75,9 @@ LOGIN_EXEMPT_URLS = (
     r'^project/(?P<slug>[\w-]+)/report/external/*',
     r'^__debug__/.*',
     r'^api/.*',
+    r'^googleapps_setup/$',
+    r'^google_checkout/$',
+    r'^paypal_ipn/$',
     )
 
 PROJECT_EXEMPT_URLS = (
@@ -132,6 +135,7 @@ INSTALLED_APPS = (
     'qualitio.filter',
     'qualitio.actions',
     'qualitio.glossary',
+    'qualitio.payments',
 
     'qualitio.customizations',
 )
@@ -146,7 +150,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "qualitio.core.context_processors.development",
                                "qualitio.core.context_processors.core",
                                "qualitio.core.context_processors.module",
-                               "qualitio.organizations.context_processors.organization_roles")
+                               "qualitio.organizations.context_processors.main")
 
 AUTH_PROFILE_MODULE = 'organizations.UserProfile'
 
@@ -155,7 +159,7 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.google.GoogleBackend',
+    'qualitio.googleapps.backends.GoogleBackend',
     'qualitio.googleapps.backends.GoogleAppsBackend',
     'qualitio.organizations.auth.backends.OrganizationModelBackend',
 )

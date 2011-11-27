@@ -51,7 +51,8 @@
   </div>
   <a class="google button" href="/login/googleapps/">&nbsp;</a>
 </div>
-{% endif %}
+
+{% else %}
 
 <div class="login-option clearfix">
   <div class="or">OR</div>
@@ -60,6 +61,9 @@
     You have also an option to log in with use of regular <b style="color: black">OpenID</b>, but in this case you have to wait till one of the users with administration privileges will accept your membership.
   </div>
   <a class="google button" href="/login/google/">&nbsp;</a>
-  <a class="google button" href="/login/yahoo/">&nbsp;</a>
+  <a class="yahoo button" href="/login/yahoo/">&nbsp;</a>
 </div>
+
+{% endif %}
+
 {% endblock %}

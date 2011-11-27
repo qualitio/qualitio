@@ -78,35 +78,33 @@
 }
 
 #projects .blog .article {
-    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: justify;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
 }
 
-#projects .blog .article .title {
+#projects .blog h1 {
     border-bottom: 1px solid #F0F0F0;
     color: #775555;
     font-family: 'Cabin',serif;
     font-size: 1.3em;
     font-weight: bold;
     line-height: 140%;
-    margin: 0 0 2px;
+    margin: 0 0 20px 0;
     text-rendering: optimizelegibility;
 }
 
-#projects .blog .article .content {
-    text-align: justify;
+#projects .article .footer {
+    margin: 15px 0 5px 0;
 }
 
-#projects .blog .footer {
-    margin: 5px 0;
-    border-bottom: 1px solid #F0F0F0;
-}
-
-#projects .blog .footer .date {
-    float:left;
-}
-
-#projects .blog .footer .author {
+#projects .footer .author {
     float: right;
+}
+
+#projects .footer .date {
+    float: left;
 }
 
 #projects .project:first-child {
@@ -257,6 +255,67 @@
     padding: 0;
 }
 
+#projects .billing {
+    /* padding: 70px 0; */
+}
+
+#projects .billing .current {
+    font-family: 'Bevan',serif;
+    color: #555555;
+    font-size: 14px;
+}
+
+#projects .billing .current span{
+    color: #444444;
+}
+
+#projects .billing .program {
+    border-left: 1px solid #dddddd;
+    padding: 40px 0;
+}
+
+#projects .billing .program.current {
+    background-color: #D1EED1;
+    border-color: #BFE7BF;
+}
+
+#projects .billing h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Bevan',serif;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+#projects .billing .option {
+    color: #404040;
+    padding: 15px 15px;
+    border: 1px solid #dddddd;
+    margin: 5px 20px;
+    font-weight: bold;
+    background: #f9f9f9;
+    font-family: 'Bevan',serif;
+    font-weight: normal;
+    text-align: center;
+}
+
+#projects .billing .amount {
+    font-size: 18px;
+    color: #aaaaaa;
+
+}
+
+#projects .billing .free {
+    padding: 1px 0;
+    color: #bbbbbb;
+    font-family: 'Bevan',serif;
+    font-size: 33px;
+    font-weight: normal;
+}
+
+#projects .billing .pay {
+    text-align: center;
+}
 
 /* settings */
 .field-settings {

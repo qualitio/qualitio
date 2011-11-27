@@ -117,6 +117,11 @@ body {
     background: url("../images/google_openid.jpg") no-repeat scroll center -3px transparent;
 }
 
+.login-option .button.yahoo {
+    background: url("../images/yahoo_openid.png") no-repeat scroll center 0 transparent;
+}
+
+
 #submit-panel .button .ui-button-text {
     line-height: 18px !important;
 }
