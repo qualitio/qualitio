@@ -48,30 +48,49 @@ class OrganizationMemberForm(core.BaseModelForm):
         fields = ("role",)
 
 
+class NewMemberForm(core.BaseForm):
+    email = forms.EmailField(required=True, label="E-mail address")
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if auth.User.objects.filter(
+            organization_member__organization=THREAD.organization,
+            email=self.cleaned_data.get('email')
+        ):
+            raise forms.ValidationError("User already in organization.")
+        return email
+
+
 class NewUserForm(core.BaseModelForm):
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput,
+                                help_text = "Enter the same password as above, for verification.")
+
     class Meta(core.BaseModelForm.Meta):
         model = auth.User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password')
-        widgets = {
-            'password': forms.PasswordInput,
-            }
+        fields = ("email",)
 
-    email = forms.EmailField(required=True)
-    password2 = forms.CharField(label='Retype password', widget=forms.PasswordInput)
+    def clean_email(self):
+
+        email = self.cleaned_data.get('email')
+        if auth.User.objects.filter(username=email).exists():
+            raise forms.ValidationError("email")
+        return email
 
     def clean_password2(self):
-        password2 = self.cleaned_data.get('password2')
-        password = self.cleaned_data.get('password')
-        if password and password2 and password != password2:
-            raise forms.ValidationError('Passwords need to be the same.')
+        password1 = self.cleaned_data.get("password1", "")
+        password2 = self.cleaned_data["password2"]
+        if password1 != password2:
+            raise forms.ValidationError("The two password fields didn't match.")
         return password2
 
-    def save(self, *args, **kwargs):
-        password2 = self.cleaned_data.pop('password2')
-        instance = super(NewUserForm, self).save(*args, **kwargs)
-        instance.set_password(password2)
-        instance.save()
-        return instance
+    def save(self, commit=True):
+        user = super(NewUserForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
 
 class ProjectForm(core.BaseModelForm):
 
@@ -108,31 +127,27 @@ class ProjectUserForm(core.BaseForm):
         return data
 
 
-class BaseOrganizationUsersFormSet(core.BaseModelFormSet):
-    def get_queryset(self):
-        qs = super(BaseOrganizationUsersFormSet, self).get_queryset()
-        if THREAD.organization:
-            qs = qs.filter(organization=THREAD.organization)
-        return qs
+class OrganizationUsersFormSet(core.BaseInlineFormSet):
 
-    def get_deleted_members_users_ids(self):
-        ids = []
-        for form in self.deleted_forms:
-            ids.append(form.instance.user.id)
-        return ids
+    def clean(self):
+        super(OrganizationUsersFormSet, self).clean()
+        active_members = [member for member in self.cleaned_data\
+                          if member['role'] < models.OrganizationMember.INACTIVE]
 
-    def save(self, commit=True, delete_users=False):
-        user_ids_to_delete = user_ids_to_delete = self.get_deleted_members_users_ids()
-        to_return = super(BaseOrganizationUsersFormSet, self).save(commit=commit)
-        if delete_users and commit and user_ids_to_delete:
-            auth.User.objects.filter(pk__in=user_ids_to_delete).delete()
-        return to_return
+        print self.instance.payment.users, len(active_members)
+        if self.instance.payment.users < len(active_members):
+            raise forms.ValidationError(
+                ("Your current plan is %s and maximum number of users is %s.<br/>" +\
+                "Change your plan to increase the number of users.")
+                % (self.instance.payment, self.instance.payment.users)
+            )
 
 
-OrganizationUsersForm = modelformset_factory(models.OrganizationMember,
-                                             form=OrganizationMemberForm,
-                                             formset=BaseOrganizationUsersFormSet,
-                                             extra=0, can_delete=True)
+OrganizationUsersForm = inlineformset_factory(models.Organization,
+                                              models.OrganizationMember,
+                                              form=OrganizationMemberForm,
+                                              formset=OrganizationUsersFormSet,
+                                              extra=0, can_delete=True)
 
 OrganizationProjectsForm = modelformset_factory(models.Project,
                                                 form=ProjectForm,

@@ -1,0 +1,74 @@
+<h1>Invite new member</h1>
+
+<form id="member-invite-form" method="post"
+      action="{% url organization_settings_members_new %}">
+  {% csrf_token %}
+  {% for field in member_form %}
+  <div class="field-settings clearfix">
+    <div class="grid_2">
+      {{ field.label_tag }}:
+    </div>
+    <div class="grid_14">
+      {{ field }}
+    </div>
+  </div>
+  {% endfor %}
+  <div class="footer clearfix">
+    <input type="submit" class="button control-button" value="Send"/>
+  </div>
+</form>
+
+<form id="member-new-form" method="post"
+      action="{% url organization_settings_members_new %}?new_user" style="display: none">
+  {% csrf_token %}
+  {% for field in user_form %}
+  <div class="field-settings clearfix">
+    <div class="grid_2">
+      {{ field.label_tag }}:
+    </div>
+    <div class="grid_14">
+      {{ field }}
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="footer clearfix">
+    <input type="submit" class="button control-button" value="Create"/>
+  </div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $('#member-invite-form').ajaxForm({
+	success: function(response) {
+	    if(!response.success) {
+		$.notification.error(response.message);
+		$.shortcuts.showErrors(response.data);
+	    } else {
+		if(!response.data.created) {
+		    $('.user-new form').toggle();
+		    $('#id_user_form-email').val(response.data.email);
+		    $.notification.notice(response.message);
+		} else {
+		    $('.user-new').load('{% url organization_settings_members_new %}');
+		    $('.user-list').load('{% url organization_settings_members_list %}');
+		}
+	    }
+	}
+    });
+
+    $('#member-new-form').ajaxForm({
+	success: function(response) {
+	    if(!response.success) {
+		$.notification.error(response.message);
+		$.shortcuts.showErrors(response.data);
+	    } else {
+		$.notification.notice(response.message);
+		$('.user-new').load('{% url organization_settings_members_new %}');
+		$('.user-list').load('{% url organization_settings_members_list %}');
+	    }
+	}
+    });
+});
+</script>

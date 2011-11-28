@@ -77,6 +77,7 @@ LOGIN_EXEMPT_URLS = (
     r'^api/.*',
     r'^googleapps_setup/$',
     r'^google_checkout/$',
+    r'^paypal_ipn/$',
     )
 
 PROJECT_EXEMPT_URLS = (
@@ -134,6 +135,7 @@ INSTALLED_APPS = (
     'qualitio.filter',
     'qualitio.actions',
     'qualitio.glossary',
+    'qualitio.payments',
 
     'qualitio.customizations',
 )
