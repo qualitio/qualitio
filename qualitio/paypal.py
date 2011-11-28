@@ -6,6 +6,12 @@ import functools
 from restkit import Resource
 
 
+PAYPAL_HOST = "https://api-3t.sandbox.paypal.com/nvp"
+PAYPAL_USER = "admin_1320673401_biz_api1.qualitio.com"
+PAYPAL_PASSWORD = "1320673426"
+PAYPAL_SIGNATURE = "AFcWxV21C7fd0v3bYYYRCpSSRl31AAkJ1YoWZ8BRnzSJAm148sYHNtId"
+
+
 class PayPalException(Exception):
     pass
 
@@ -40,10 +46,9 @@ class PayPal(Resource):
 
 
 paypal = PayPal()
-<<<<<<< HEAD
+pprint.pprint(paypal.GetRecurringPaymentsProfileDetails(PROFILEID="I-WJLENL4163AW"))
 pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="62F98038A3404964N"))
-=======
-# pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="62F98038A3404964N"))
-# pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="2YS68286B0644402R"))
+pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="62F98038A3404964N"))
+pprint.pprint(paypal.GetTransactionDetails(TRANSACTIONID="2YS68286B0644402R"))
 pprint.pprint(paypal.RefundTransaction(TRANSACTIONID="2YS68286B0644402R"))
->>>>>>> 87cc20952810844fab1d02c840be234509d49a56
+
