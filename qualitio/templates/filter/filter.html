@@ -46,24 +46,9 @@
       {% paginate %}
       <div style="clear:both"></div>
     </div>
-    <table class="display">
-      <thead>
-	<tr>
-	  {% for column in table.columns %}
-	  <th name="{{ column.name }}">{{ column }}</th>
-	  {% endfor %}
-	</tr>
-      </thead>
-      <tbody>
-	{% for row in table.rows %}
-	<tr>
-	  {% for value in row %}
-	  <td>{{ value }}</td>
-	  {% endfor %}
-	</tr>
-	{% endfor %}
-      </tbody>
-    </table>
+
+    {% include "filter/_filter_table.html" %}
+
     <div class="list-control-bottom">
       {% paginate %}
       <div style="clear:both"></div>
@@ -73,20 +58,7 @@
 
 {% if user.organization_member.role == ROLE.USER or user.organization_member.role == ROLE.ADMIN %}
 <div class="application-view-content">
-  <div class="actions-form">
-    <div class="left action-choice-form">
-      {{ action_choice_form.action }}
-    </div>
-    <input class="left" type="submit" name="action-submit" value="Go" />
-    <div class="clear"></div>
-
-    {% csrf_token %}
-
-    {% for action in action_choice_form.actions %}
-    <input type="hidden" class="action-url" name="{{ action.name }}" value="{{ action.url }}" />
-    {% if action.has_form %}<table class="action-form" name="{{ action.name }}">{{ action.form }}</table>{% endif %}
-    {% endfor %}
-  </div>
+  {% include "filter/_filter_action_form.html" %}
 </div>
 {% endif %}
 {% endblock %}
