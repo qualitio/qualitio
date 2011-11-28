@@ -21,6 +21,7 @@ def admin_redirect(request, *args, **kwargs):
 urlpatterns = patterns('',
                        (r'', include('social_auth.urls')),
                        (r'', include('qualitio.organizations.urls')),
+                       (r'', include('qualitio.payments.urls')),
 
                        url(r'^register/$', RegisterUser.as_view(), name="registration"),
                        url(r'^register/thanks/$',
