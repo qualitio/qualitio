@@ -223,20 +223,30 @@ class OrganizationSettings(RedirectView):
     class Billing(TemplateView):
         template_name = "organizations/organization_settings_billing.html"
 
+        def get_context_data(self, **kwargs):
+            context = {
+                "strategies": PaymentStrategy.objects.all(),
+                "organization": self.request.organization
+            }
+            context.update(kwargs)
+            return context
+
+
         def post(self, *args, **kwargs):
-            # import ipdb; ipdb.set_trace()
-            # Check here
-            return super(OrganizationSettings.Billing, self).post(*args, **kwargs)
+            strategy_price = self.request.POST['amount3']
+            strategy_name = self.request.POST['option_selection2']
+            organization_name = self.request.POST['option_selection1']
+            organization = models.Organization.objects.get(name=organization_name)
+            organization.payment = PaymentStrategy.objects.get(
+                name=strategy_name,
+                price=strategy_price
+            )
+            organization.save()
+            return redirect("/settings/billing/")
 
         @method_decorator(csrf_exempt)
         def dispatch(self, *args, **kwargs):
             return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
-
-        def render_to_response(self, *args, **kwargs):
-            return super(OrganizationSettings.Billing, self).render_to_response(
-                {"strategies": PaymentStrategy.objects.all()},
-                **kwargs
-            )
 
 
 class ProjectList(ListView):
