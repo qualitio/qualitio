@@ -12,7 +12,11 @@ def main(request):
     except AttributeError:
         pass
 
+    organization_url = ("%s://%s") % ("https" if request.is_secure() else "http",
+                                      request.get_host())
+
     return {"ROLE": {'ADMIN': OrganizationMember.ADMIN,
                      'USER': OrganizationMember.USER,
                      'USER_READONLY': OrganizationMember.USER_READONLY},
-            "organization_member":     organization_member}
+            "organization_member": organization_member,
+            "organization_url": organization_url}
