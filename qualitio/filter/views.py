@@ -15,15 +15,25 @@ class FilterView(object):
     model_filter_class = None
     model_table_class = None
 
+    filter_fields = None
+    table_fields = None
+    filter_exclude = ()
+    table_exclude = ()
+
+    fields = None
     exclude = ()
     fields_order = ()
 
     template = 'filter/filter.html'
 
     def __init__(self, **kwargs):
-        for fname in ['model', 'model_filter_class', 'exclude',
+        for fname in ['model', 'model_filter_class', 'fields', 'exclude',
                       'fields_order', 'template', 'model_table_class']:
             setattr(self, fname, kwargs.pop(fname, None) or getattr(self.__class__, fname))
+        self.filter_fields = self.filter_fields or self.fields
+        self.table_fields = self.table_fields or self.fields
+        self.filter_exclude = self.filter_exclude or self.exclude
+        self.table_exclude = self.table_exclude or self.exclude
 
     def _assere_requirements(self):
         if not self.model and not self.model_filter_class:
@@ -38,7 +48,8 @@ class FilterView(object):
     def get_filter_class(self):
         return self.model_filter_class or generate_model_filter(
             model=self.get_model(),
-            exclude=self.exclude)
+            fields=self.filter_fields,
+            exclude=self.filter_exclude)
 
     def get_filter(self, *args, **kwargs):
         return self.get_filter_class()(*args, **kwargs)
@@ -49,7 +60,8 @@ class FilterView(object):
     def get_table_class(self):
         return self.model_table_class or generate_model_table(
             self.get_model(),
-            exclude=self.exclude,
+            columns=self.table_fields,
+            exclude=self.table_exclude,
             fields_order=self.fields_order)
 
     def get_page_number(self, request):

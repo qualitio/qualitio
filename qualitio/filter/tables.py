@@ -72,10 +72,10 @@ class ModelTable(tables.ModelTable):
         return u''
 
 
-def generate_model_table(model, fields=None, exclude=(), fields_order=()):
+def generate_model_table(model, columns=None, exclude=(), fields_order=()):
     Model = model
-    fields_to_include = fields
-    fields_to_exclude = exclude
+    columns_to_include = columns
+    columns_to_exclude = exclude
     new_fields_order = fields_order
 
     class _ModelTable(ModelTable):
@@ -83,7 +83,7 @@ def generate_model_table(model, fields=None, exclude=(), fields_order=()):
 
         class Meta:
             model = Model
-            fields = fields_to_include
-            exclude = fields_to_exclude
+            columns = columns_to_include
+            exclude = columns_to_exclude
 
     return _ModelTable
