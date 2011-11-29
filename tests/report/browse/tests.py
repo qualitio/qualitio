@@ -24,26 +24,26 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel = self.selenium
         sel.open("/project/meego/store/#testcasedirectory/1/details/")
         self.assertEqual("qualitio: login", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        try: self.failUnless(sel.is_text_present("test@qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_username"))
+        try: self.failUnless(sel.is_element_present("id=id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_password")
-        sel.type_keys("id_password", "admin")
-        try: self.failUnless(sel.is_element_present("id_username"))
+        sel.click("id=id_password")
+        sel.type("id=id_password", "admin")
+        try: self.failUnless(sel.is_element_present("id=id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("id_username")
-        sel.type_keys("id_username", "admin")
-        try: self.assertEqual("admin", sel.get_value("id_username"))
+        sel.click("id=id_username")
+        sel.type("id=id_username", "admin")
+        try: self.assertEqual("admin", sel.get_value("id=id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id_password"))
+        try: self.failUnless(sel.is_element_present("id=id_password"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//input[@value='login']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='login']")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@Qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -57,14 +57,14 @@ class BaseSeleniumTestCase(unittest.TestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("id_username"): break
+                if sel.is_element_present("id=id_username"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("id_username")
-        sel.type("id_username", "admin")
-        sel.click("id_password")
-        sel.type("id_password", "admin")
+        sel.click("id=id_username")
+        sel.type("id=id_username", "admin")
+        sel.click("id=id_password")
+        sel.type("id=id_password", "admin")
         sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
 
@@ -77,44 +77,50 @@ class Test01Loginreport(BaseSeleniumTestCase):
         self.assertEqual("qualitio: login", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        try: self.failUnless(sel.is_text_present("test@qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
         sel.type("id_username", "admin")
         sel.click("id_password")
         sel.type("id_password", "admin")
-        sel.click("css=div.right")
+        try: self.assertEqual("qualitio: login", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//input[@value='login']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
-        self.assertEqual("qualitio", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        self.assertEqual("test@qualitio :: report", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Welcome, admin"))
+        try: self.failUnless(sel.is_text_present("account admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=logout"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=logout")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("qualitio: login", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        try: self.failUnless(sel.is_text_present("test@qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
         sel.type("id_username", "admin")
         sel.click("id_password")
         sel.type("id_password", "admin")
-        sel.click("css=div.right")
         sel.click("//input[@value='login']")
         sel.wait_for_page_to_load("30000")
 
@@ -125,7 +131,7 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/project/meego/require/#requirement/1/details/")
-        self.assertEqual("qualitio", sel.get_title())
+        self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -138,18 +144,18 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@Qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio" == sel.get_title(): break
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        self.assertEqual("test@qualitio :: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -226,11 +232,7 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Description\nDescription"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("children:"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("id"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("path"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -254,7 +256,7 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/project/meego/require/#requirement/1/details/")
-        self.assertEqual("qualitio", sel.get_title())
+        self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -267,18 +269,18 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@Qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio" == sel.get_title(): break
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        self.assertEqual("test@qualitio :: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -441,7 +443,7 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         self.login()
         sel = self.selenium
         sel.open("/project/meego/require/#requirement/1/details/")
-        self.assertEqual("qualitio", sel.get_title())
+        self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_element_present("link=report"): break
@@ -454,18 +456,18 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@Qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio" == sel.get_title(): break
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio", sel.get_title())
-        try: self.failUnless(sel.is_text_present("qualitio"))
+        self.assertEqual("test@qualitio :: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -488,11 +490,11 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("Report, html", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
+        try: self.assertEqual("Report, html", sel.get_table("css=div.dataTables_scrollBody > table.display.1.2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Report, json", sel.get_table("css=div.dataTables_scrollBody > table.display.2.3"))
+        try: self.assertEqual("Report, json", sel.get_table("css=div.dataTables_scrollBody > table.display.2.2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("report testcases", sel.get_table("css=div.dataTables_scrollBody > table.display.3.3"))
+        try: self.assertEqual("report testcases", sel.get_table("css=div.dataTables_scrollBody > table.display.3.2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=Report, html")
         for i in range(60):
@@ -509,7 +511,7 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.assertEqual("report: Report, html", sel.get_text("css=h1"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("public: no"))
+        try: self.failUnless(sel.is_text_present("public: yes"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("link=edit"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -535,6 +537,13 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         sel.click("id=id_public")
         for i in range(60):
             try:
+                if "off" == sel.get_value("id=id_public"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("id=id_public")
+        for i in range(60):
+            try:
                 if "on" == sel.get_value("id=id_public"): break
             except: pass
             time.sleep(1)
@@ -550,7 +559,21 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("exact:report: Report, html"): break
+                if sel.is_text_present("exact:report : Report, html"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "details" == sel.get_text("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -601,10 +624,10 @@ class Test46ReportCheckPublic(BaseSeleniumTestCase):
     
     def test_46_report_check_public(self):
         sel = self.selenium
-        sel.open("/project/meego/report/external/1/bigproject/report-json/2011/04/20")
+        sel.open("/project/meego/report/external/1/bigproject/report-html/2011/04/22")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -661,27 +684,27 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
         sel.open("/project/meego/report/#reportdirectory/1/details/")
         for i in range(60):
             try:
-                if "qualitio" == sel.get_title(): break
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if "qualitio" == sel.get_title(): break
+                if "test@qualitio :: report" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@Qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        self.assertEqual("qualitio", sel.get_title())
+        self.assertEqual("test@qualitio :: report", sel.get_title())
         sel.click("link=BigProject")
         for i in range(60):
             try:
-                if sel.is_text_present("qualitio"): break
+                if sel.is_text_present("test@Qualitio"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
