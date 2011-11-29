@@ -25,6 +25,7 @@
     {% include "filter/_filter_groups.html" %}
 
     <div class="application-view-content">
+      {% block filter-control-buttons %}
       <input type="submit" value="Search" class="search-button" />
       {% if filter.has_groups %}
       <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
@@ -35,6 +36,7 @@
 	Select one group to start the search
       </div>
       {% endif %}
+      {% endblock %}
     </div>
   </div>
 
