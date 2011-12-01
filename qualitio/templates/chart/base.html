@@ -1,0 +1,28 @@
+{% extends "filter/filter.html" %}
+
+
+{% block filter-js-include %}{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $(".{% block active-menu-item %}{% endblock %}").addClass("active");
+      {% block chart-js %}{% endblock %}
+  });
+</script>
+{% endblock %}
+
+
+{% block filter-css-include %}{{ block.super }}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/chart.css" type="text/css" media="screen" />
+{% endblock %}
+
+
+{% block application-menu %}
+<li class="chart-choosing-chart-type">Chart type</li>
+<li> >> </li>
+<li class="chart-filter-xaxis">
+  Filter X axis data {% if xaxismodel %}({{ xaxismodel }}){% endif %}
+</li>
+<li> >> </li>
+<li class="chart-chart-view">Chart</li>
+{% endblock %}

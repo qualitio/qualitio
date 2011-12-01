@@ -1,0 +1,24 @@
+{% extends "chart/base.html" %}
+
+{% block application-menu %}{{ block.super }}
+<li><a href="#" class="button create-chart">Next</a></li>
+{% endblock %}
+
+
+{% block active-menu-item %}chart-choosing-chart-type{% endblock %}
+
+
+{% block chart-js %}
+ChoosingChartTypeView({ projectSlug: PROJECT_SLUG }).bind();
+{% endblock %}
+
+
+{% block application-view %}
+<div class="chart-axis-models">
+  <div class="hbox">
+    <table>
+      {{ form }}
+    </table>
+  </div>
+</div>
+{% endblock %}

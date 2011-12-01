@@ -1,18 +1,23 @@
-{% extends "filter/filter.html" %}
+{% extends "chart/base.html" %}
 
-{% block js-include %}{{ block.super }}
-<script type="text/javascript">
-  var XAXISMODEL = "{{ xaxismodel }}";
-  var CHARTID = "{{ chartid }}";
-</script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/chartcreate.js"></script>
-{% endblock %}
 
 {% block application-menu %}
 <li><a href="{{ previous_step_url }}" class="button">Cancel</a></li>
-{% include "chart/_chart_wizzard_menu.html" with active_page="chart_xaxis_filtering" %}
+{{ block.super }}
 <li><a id="show-chart" href="#" class="button">Show chart</a></li>
 {% endblock %}
+
+
+{% block active-menu-item %}chart-filter-xaxis{% endblock %}
+
+
+{% block chart-js %}
+FilterXAxisView({
+   projectSlug: PROJECT_SLUG,
+   chartid: "{{ chartid }}"
+}).bind();
+{% endblock %}
+
 
 {% block filter-control-buttons %}
 {% if filter.has_groups %}
@@ -21,6 +26,7 @@
 {% else %}
 <div class="title" style="float: left; font-size: 2em;">X Axis filtering ({{ xaxismodel }})</div>
 {% endif %}
+
 
 <div class="add-new-group-form">{{ filter.new_group_form }}</div>
 {% if not filter.has_groups %}

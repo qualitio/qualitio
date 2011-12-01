@@ -2,13 +2,19 @@
 
 {% block js-include %}
 {{ block.super }}
+{% block filter-js-include %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
+{% block base-filter-js %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
+{% endblock %}
+{% endblock %}
 {% endblock %}
 
 {% block css-include %}
 {{ block.super }}
+{% block filter-css-include %}
 <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/filter.css{{ STATIC_HASH }}"></link>
+{% endblock %}
 {% endblock %}
 
 

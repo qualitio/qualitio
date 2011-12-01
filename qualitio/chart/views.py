@@ -9,7 +9,7 @@ from qualitio.filter import FilterView
 
 
 def index(request, project=None):
-    return render_to_response('chart/index.html', {
+    return render_to_response('chart/choose_chart_type.html', {
             'form': forms.ChartTypeChoiceForm(),
             }, context_instance=RequestContext(request))
 
@@ -39,7 +39,7 @@ class ChartBuilderView(FilterView):
 
 
 class FilterXaxisModelView(ChartBuilderView):
-    template = "chart/create.html"
+    template = "chart/filter_x_axis.html"
 
     def handle_request(self, request, project=None, chartid=None):
         return super(FilterXaxisModelView, self).handle_request(
