@@ -1,0 +1,41 @@
+{% extends "page.html" %}
+{% load pagination_tags %}
+
+{% block js-include %}{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}lib/ofc/swfobject.js"></script>
+<script type="text/javascript">
+  var PARAMS = {{ data|safe }};
+  swfobject.embedSWF(
+  "{{ MEDIA_URL }}lib/ofc/open-flash-chart.swf", "chart",
+  "1200", "600", "9.0.0", "{{ MEDIA_URL }}lib/ofc/expressInstall.swf",
+  {"data-file": encodeURIComponent("/project/{{ request.project.slug }}/chart/{{ chartid }}/chartdata/?{{ request.GET.urlencode|safe }}")});
+</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/chartview.js"></script>
+{% endblock %}
+
+{% block css-include %}{{ block.super }}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/chartview.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block project_detail %}
+<div class="grid_16">
+  <div id="application-menu" >
+    <ul>
+      {% block application-menu %}
+      <li><a href="{{ previous_step_url }}" class="button">Previous</a></li>
+      {% include "chart/_chart_wizzard_menu.html" with active_page="chart" %}
+      {% endblock %}
+    </ul>
+  </div>
+</div>
+
+<div class="container_16">
+  <div class="chart-wrapper">
+    <div class="pagination-wrapper">
+      {% paginate %}
+      <span class="onpage">{{ onpage_form.onpage }}</span>
+    </div>
+    <div id="chart"></div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "filter/filter.html" %}
+
+{% block js-include %}{{ block.super }}
+<script type="text/javascript">
+  var XAXISMODEL = "{{ xaxismodel }}";
+  var CHARTID = "{{ chartid }}";
+</script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/chartcreate.js"></script>
+{% endblock %}
+
+{% block application-menu %}
+<li><a href="{{ previous_step_url }}" class="button">Cancel</a></li>
+{% include "chart/_chart_wizzard_menu.html" with active_page="chart_xaxis_filtering" %}
+<li><a id="show-chart" href="#" class="button">Show chart</a></li>
+{% endblock %}
+
+{% block filter-control-buttons %}
+{% if filter.has_groups %}
+<input type="submit" value="Filter" class="search-button" />
+<a href="{{ request.path }}" class="button">Reset query</a>
+{% else %}
+<div class="title" style="float: left; font-size: 2em;">X Axis filtering ({{ xaxismodel }})</div>
+{% endif %}
+
+<div class="add-new-group-form">{{ filter.new_group_form }}</div>
+{% if not filter.has_groups %}
+<div class="add-new-group-label">
+  Select one group to start filtering
+</div>
+{% endif %}
+<div class="clear"></div>
+{% endblock %}

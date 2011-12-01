@@ -1,0 +1,28 @@
+.chart-axis-models {
+    box-shadow: 0px 0px 5px #ccc;
+
+    width: 800px;
+    height: 140px;
+    margin: 150px auto;
+    padding: 15px 5px 5px 15px;
+}
+
+.chart-axis-models .hbox {
+    width: 100%;
+}
+
+.chart-axis-models .hbox table {
+    margin: 30px auto;
+}
+
+.chart-axis-models .hbox a {
+    display: block;
+    margin: 5px auto;
+    width: 350px;
+}
+
+.chart-axis-models table select {
+    width: 500px;
+    height: 30px;
+    font-size: 1.5em;
+}
