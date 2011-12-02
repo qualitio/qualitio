@@ -171,6 +171,7 @@ class number_of_testcaseruns_related_to_testcase_chartdata(ChartData):
                 values=values_groups,
                 colours=colours,
                 tip="#x_label#"))
+        chart.y_axis = ofc.y_axis(max=comp(max, map)(sum, values_groups) + 2)
 
         return chart
 charttypes.add(number_of_testcaseruns_related_to_testcase_chartdata)
@@ -204,5 +205,29 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
                 values=values,
                 colour='#56acde',
                 tip="#x_label# [#val#]"))
+        chart.y_axis = ofc.y_axis(max=max(values))
         return chart
 charttypes.add(number_of_requirements_afected_by_bug_chartdata)
+
+
+
+class coverage_of_requirements_by_testcases_chartdata(ChartData):
+    """
+    """
+
+    title = "Coverage of requirements by testcases"
+    xaxismodel = Requirement
+    yaxismodel = TestCase
+
+    def belongs(self, tc, req):
+        return tc.requirement_id == req.id
+
+    def build_chart(self, series, chart):
+        values = map(len, series.yaxis_columns())
+        chart.add_element(ofc.bar(
+                values=values,
+                colour='#56acde',
+                tip="#x_label# [#val#]"))
+        chart.y_axis = ofc.y_axis(max=max(values))
+        return chart
+charttypes.add(coverage_of_requirements_by_testcases_chartdata)
