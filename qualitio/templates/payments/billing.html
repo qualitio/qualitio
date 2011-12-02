@@ -1,0 +1,153 @@
+{% extends "organizations/organization_settings.html" %}
+{% load authorization %}
+
+{% block settings-active-menu %}menu-item-billing{% endblock %}
+
+{% block project_detail %}
+
+<div class="billing">
+  <h1>
+    Billing <span>(Current account: {{ organization.payment.strategy }})</span>
+    {% if organization.payment.strategy.price > 0 %}
+    {% endif %}
+  </h1>
+
+  <table class="plans">
+    <tr>
+      <th>Plan</th>
+      <th>Users</th>
+      <th>Projects</th>
+      <th>Price</th>
+      <th>&nbsp;</th>
+    </tr>
+
+    {% for strategy in strategies %}
+    <tr class="{% if organization.payment.strategy == strategy %}current{% endif %}{% if organization.payment.price > strategy.price %}disable{% endif %}">
+      <td>{{ strategy.name }}</td>
+      <td>
+	{% if strategy.users == -1 %}
+	Unlimited
+	{% else %}
+	Up to {{ strategy.users }}
+	{% endif %}
+	users
+      </td>
+      <td>Unlimited projects</td>
+      <td>${{ strategy.price }}/month</td>
+      <td>
+	{% if strategy.price == 0 %}
+	Free
+	{% else %}
+	{% if organization.payment.strategy == strategy %}
+	
+	{% if organization.payment.status %}
+	<a href="#" name="{{ strategy.name }}" class="cancel-button">Cancel?</a>
+	{% else %}
+	Valid till: {{ organization.payment.valid_till }}
+	{% endif %}
+	
+	{% else %}
+	<a href="#" name="{{ strategy.name }}" class="buy-button">Buy</a>
+	{% endif %}
+	{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <div class="payments_form action_form clearfix {% if request.method == "GET" %}hidden{% endif %}" >
+    <form action="{% url organization_settings_billing %}" method="post" >
+      {% csrf_token %}
+      <div class="plan-information">
+	Buy <span class="name"></span> plan?
+      </div>
+      {{ payment_error }}
+      <div class="grid_8">
+	<div class="address-details">
+	  <h2>Address details</h2>
+	  {{ payment_form.FIRSTNAME.label_tag }}
+	  {{ payment_form.FIRSTNAME.errors.as_text }}
+	  {{ payment_form.FIRSTNAME }}
+
+	  {{ payment_form.LASTNAME.label_tag }}
+	  {{ payment_form.LASTNAME.errors.as_text }}
+	  {{ payment_form.LASTNAME }}
+
+	  {{ payment_form.STREET.label_tag }}
+	  {{ payment_form.STREET.errors.as_text }}
+	  {{ payment_form.STREET }}
+
+	  {{ payment_form.CITY.label_tag }}
+	  {{ payment_form.CITY.errors.as_text }}
+	  {{ payment_form.CITY }}
+
+	  {{ payment_form.STATE.label_tag }}
+	  {{ payment_form.STATE.errors.as_text }}
+	  {{ payment_form.STATE }}
+
+	  {{ payment_form.ZIP.label_tag }}
+	  {{ payment_form.ZIP.errors.as_text }}
+	  {{ payment_form.ZIP }}
+
+	  {{ payment_form.COUNTRYCODE.label_tag }}
+	  {{ payment_form.COUNTRYCODE.errors.as_text }}
+	  {{ payment_form.COUNTRYCODE }}
+	</div>
+
+      </div>
+      <div class="grid_8 clearfix">
+	<div class="card-details">
+	  <h2>Creditcard details</h2>
+	  {{ payment_form.plan }}
+	  {{ payment_form.CREDITCARDTYPE.label_tag }}
+	  {{ payment_form.CREDITCARDTYPE.errors.as_text }}
+
+	  {{ payment_form.CREDITCARDTYPE }}
+
+	  {{ payment_form.ACCT.label_tag }}
+	  {{ payment_form.ACCT.errors.as_text }}
+	  {{ payment_form.ACCT }}
+
+	  {{ payment_form.EXPDATE.label_tag }}
+	  {{ payment_form.EXPDATE.errors.as_text }}
+	  {{ payment_form.EXPDATE }}
+
+	  {{ payment_form.CVV2.label_tag }}
+	  {{ payment_form.CVV2.errors.as_text }}
+	  {{ payment_form.CVV2 }}
+	</div>
+	<div class="footer clearfix">
+	  <input class="button" type="submit" value="pay" />
+	</div>
+      </div>
+    </form>
+  </div>
+  <div class="cancel_form action_form clearfix hidden" >
+    <div class="plan-information">
+      Really want to cancel <span class="name"></span> plan?
+    </div>
+    <a class="button no-button" href="#">No</a>
+    <a class="button" href="{% url organization_settings_billing_cancel %}">Yes</a>
+  </div>
+</div>
+<script>
+    $(document).ready(function() {
+	$('.buy-button').click( function() {
+	    $("#id_plan").val($(this).attr("name"));
+	    $(".plan-information .name").text($(this).attr("name"));
+	    $(".cancel_form").hide();
+	    $(".payments_form").show();
+	    
+	});
+	$('.cancel-button').click(function() {
+	    $(".plan-information .name").text($(this).attr("name"));
+	    $(".payments_form").hide();
+	    $(".cancel_form").show();
+	});
+	$('.no-button').click( function () {
+	    $(".cancel_form").hide();
+	});
+    });
+</script>
+
+{% endblock %}

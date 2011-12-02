@@ -19,8 +19,6 @@ from qualitio.core.utils import json_response, success, failed
 from qualitio.organizations import models
 from qualitio.organizations import forms
 
-from qualitio.payments.models import PaymentStrategy
-
 
 class OrganizationObjectMixin(object):
 
@@ -79,6 +77,9 @@ class OrganizationSettings(RedirectView):
 
         def get(self, request):
             return self.render_to_response({
+                'active_users_count': self.request.organization.organizationmember_set.exclude(
+                    role=models.OrganizationMember.INACTIVE
+                ).count(),
                 'formset': forms.OrganizationUsersForm(
                     instance=self.request.organization
                 )
@@ -218,35 +219,6 @@ class OrganizationSettings(RedirectView):
                               execute_testrun._errors_list() +\
                               execute_testcaserun._errors_list() +\
                               glossary_language._errors_list())
-
-
-    class Billing(TemplateView):
-        template_name = "organizations/organization_settings_billing.html"
-
-        def get_context_data(self, **kwargs):
-            context = {
-                "strategies": PaymentStrategy.objects.all(),
-                "organization": self.request.organization
-            }
-            context.update(kwargs)
-            return context
-
-
-        def post(self, *args, **kwargs):
-            strategy_price = self.request.POST['amount3']
-            strategy_name = self.request.POST['option_selection2']
-            organization_name = self.request.POST['option_selection1']
-            organization = models.Organization.objects.get(name=organization_name)
-            organization.payment = PaymentStrategy.objects.get(
-                name=strategy_name,
-                price=strategy_price
-            )
-            organization.save()
-            return redirect("/settings/billing/")
-
-        @method_decorator(csrf_exempt)
-        def dispatch(self, *args, **kwargs):
-            return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
 
 
 class ProjectList(ListView):

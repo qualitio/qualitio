@@ -134,12 +134,11 @@ class OrganizationUsersFormSet(core.BaseInlineFormSet):
         active_members = [member for member in self.cleaned_data\
                           if member['role'] < models.OrganizationMember.INACTIVE]
 
-        print self.instance.payment.users, len(active_members)
-        if self.instance.payment.users < len(active_members):
+        if self.instance.payment.strategy.users < len(active_members):
             raise forms.ValidationError(
                 ("Your current plan is %s and maximum number of users is %s.<br/>" +\
                 "Change your plan to increase the number of users.")
-                % (self.instance.payment, self.instance.payment.users)
+                % (self.instance.payment, self.instance.payment.strategy.users)
             )
 
 

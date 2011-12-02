@@ -1,0 +1,38 @@
+[
+  {
+    "pk": 1,
+    "model": "payments.strategy",
+    "fields": {
+      "price": 0.0,
+      "name": "Free account",
+      "users": 5
+    }
+  },
+  {
+    "pk": 2,
+    "model": "payments.strategy",
+    "fields": {
+      "price": 50.0,
+      "name": "Business account",
+      "users": 10
+    }
+  },
+  {
+    "pk": 3,
+    "model": "payments.strategy",
+    "fields": {
+      "price": 150.0,
+      "name": "Corporate account ",
+      "users": 100
+    }
+  },
+  {
+    "pk": 4,
+    "model": "payments.strategy",
+    "fields": {
+      "price": 1000.0,
+      "name": "Enterprise account",
+      "users": -1
+    }
+  }
+]
