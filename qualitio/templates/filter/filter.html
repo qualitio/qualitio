@@ -11,7 +11,7 @@
 {% endfor %}
 {% endblock %}
 
-{% block js-include %}
+{% block filter-js-include %}
 <script type="text/javascript">
   var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
 </script>

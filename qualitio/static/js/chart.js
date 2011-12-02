@@ -2,34 +2,53 @@
 
 
 /* Utils */
-var URLFor = {
-  /* Requires:
-   * - opts.projectSlug,
-   * - opts.chartid,
-   */
-  chartTypeView: function(opts) {
-    return "/project/" + opts.projectSlug + "/chart/" + opts.chartid + "/";
-  },
+var URLFor = (function () {
 
-  /* Requires:
-   * - opts.projectSlug,
-   * - opts.chartid,
-   * - opts.searchParams
-   */
-  xAxisView: function(opts) {
-    return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/chartview/?" + opts.searchParams;
-  },
-
-  /* This is a ajax view for open-flash-chart flash plugin.
-   *  Requires:
-   * - opts.projectSlug,
-   * - opts.chartid,
-   * - opts.searchParams,
-   */
-  chartdata: function(opts) {
-    return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/chartdata/?" + opts.searchParams;
+  var addQuestionMark = function (params) {
+    var p = (params || "");
+    if ( ! /^\?/.test(p) && p !== "")
+      p = "?" + p;
+    return p;
   }
-};
+
+  return {
+    /* Requires:
+     * - opts.projectSlug,
+     * - opts.chartid,
+     */
+    chartTypeView: function(opts) {
+      return "/project/" + opts.projectSlug + "/chart/";
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     * - opts.chartid,
+     * - opts.searchParams
+     */
+    xAxisView: function(opts) {
+      return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     * - opts.chartid,
+     * - opts.searchParams
+     */
+    chartView: function(opts) {
+      return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/chartview/" + addQuestionMark(opts.searchParams);
+    },
+
+    /* This is a ajax view for open-flash-chart flash plugin.
+     *  Requires:
+     * - opts.projectSlug,
+     * - opts.chartid,
+     * - opts.searchParams,
+     */
+    chartdata: function(opts) {
+      return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/chartdata/" + addQuestionMark(opts.searchParams);
+    }
+  }
+})();
 
 
 /* ChoosingChartTypeView requires following env variables:
@@ -48,7 +67,7 @@ var ChoosingChartTypeView = (function(opts) {
   }, opts); // projectSlug should be in opts!
 
   var applyLinkToButton = function() {
-    $(".create-chart").attr("href", URLFor.chartTypeView(urlParams));
+    $(".filter-xaxis-button").attr("href", URLFor.xAxisView(urlParams));
   };
 
   return {
@@ -76,8 +95,10 @@ var FilterXAxisView = (function(opts) {
 
   return {
     bind: function () {
-      $("#show-chart").click(function() {
-	$(this).attr("href", URLFor.xAxisView(urlParams));
+      $('.cancel-button').attr("href", URLFor.chartTypeView(opts));
+
+      $(".show-chart-button").click(function() {
+	$(this).attr("href", URLFor.chartView(urlParams));
 	return true;
       });
     }
@@ -86,7 +107,10 @@ var FilterXAxisView = (function(opts) {
 
 
 /* ChartView requires following env variables:
- * - opts.searchParams  - should be provided as variable eg PARAMS
+ * - opts.projectSlug   - current project slug
+ * - opts.searchParams  - params as string
+ * - opts.chartid       - the chart ID
+ * - opts.searchParamsJSON
  *
  * Usage:
  *
@@ -96,8 +120,10 @@ var FilterXAxisView = (function(opts) {
 var ChartView = (function (opts) {
   return {
     bind: function () {
+      $('.back-button').attr("href", URLFor.xAxisView(opts));
+
       $('#id_onpage').change(function () {
-	var params = $.extend(opts.searchParams, {
+	var params = $.extend(opts.searchParamsJSON, {
 	  onpage: $(this).val(),
 	  page: 1               // on page is changing so we moved to first page
 	});

@@ -1,8 +1,11 @@
 {% extends "chart/base.html" %}
 
 {% block application-menu %}{{ block.super }}
-<li><a href="#" class="button create-chart">Next</a></li>
+<li><a href="#" class="button filter-xaxis-button">Next</a></li>
 {% endblock %}
+
+
+{% block filter-js-include %}{% endblock %}
 
 
 {% block active-menu-item %}chart-choosing-chart-type{% endblock %}

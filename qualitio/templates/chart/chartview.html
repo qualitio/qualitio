@@ -2,30 +2,36 @@
 {% load pagination_tags %}
 
 
+{% block application-menu %}
+<li><a href="#" class="button back-button">Go back to filter</a></li>
+{{ block.super }}
+{% endblock %}
+
+
 {% block active-menu-item %}chart-chart-view{% endblock %}
 
 
-{% block base-filter-js %}{% endblock %}
+{% block filter-js-include %}{% endblock %}
 
 
-{% block filter-js-include %}
+{% block external-js %}
 <script type="text/javascript" src="{{ MEDIA_URL }}lib/ofc/swfobject.js"></script>
 {{ block.super }}
 {% endblock %}
 
 
 {% block chart-js %}
-  var PARAMS = {{ data|safe }};
+  var OPTIONS = {
+      projectSlug: PROJECT_SLUG,
+      chartid: "{{ chartid }}",
+      searchParams: "{{ request.GET.urlencode|safe }}"
+  };
   swfobject.embedSWF(
       "{{ MEDIA_URL }}lib/ofc/open-flash-chart.swf", "chart",
       "1200", "600", "9.0.0", "{{ MEDIA_URL }}lib/ofc/expressInstall.swf", {
-          "data-file": encodeURIComponent(URLFor.chartdata({
-              projectSlug: PROJECT_SLUG,
-              chartid: "{{ chartid }}",
-              searchParams: "{{ request.GET.urlencode|safe }}"
-          }))
+          "data-file": encodeURIComponent(URLFor.chartdata(OPTIONS))
        });
-  ChartView({ searchParams: PARAMS }).bind();
+  ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
 {% endblock %}
 
 

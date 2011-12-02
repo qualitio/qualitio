@@ -4,10 +4,9 @@
 {{ block.super }}
 {% block filter-js-include %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
-{% block base-filter-js %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
 {% endblock %}
-{% endblock %}
+{% block external-js %}{% endblock %}
 {% endblock %}
 
 {% block css-include %}

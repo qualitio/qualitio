@@ -1,7 +1,7 @@
 {% extends "filter/filter.html" %}
 
 
-{% block filter-js-include %}{{ block.super }}
+{% block external-js %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js"></script>
 <script type="text/javascript">
   $(document).ready(function () {
