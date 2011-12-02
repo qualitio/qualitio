@@ -52,14 +52,8 @@ class ChartView(ChartBuilderView):
     template = "chart/chartview.html"
 
     def handle_request(self, request, project=None, chartid=None):
-        previous_step_url = '/project/%(project)s/chart/%(chartid)s/?%(params)s' % {
-            'project': project,
-            'params': request.GET.urlencode(),
-            'chartid': chartid,
-            }
         return super(ChartView, self).handle_request(
             request, project=project, chartid=chartid,
-            previous_step_url=previous_step_url,
             data=json.dumps(request.GET),
             xaxismodel=self.model.__name__.lower())
 
