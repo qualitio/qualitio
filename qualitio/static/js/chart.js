@@ -62,11 +62,10 @@ var URLFor = (function () {
 var ChoosingChartTypeView = (function(opts) {
   var chartidSelect = $("#id_chart");
 
-  var urlParams = $.extend({
-    chartid: chartidSelect.val()
-  }, opts); // projectSlug should be in opts!
-
   var applyLinkToButton = function() {
+    var urlParams = $.extend({
+      chartid: chartidSelect.val()
+    }, opts); // projectSlug should be in opts!
     $(".filter-xaxis-button").attr("href", URLFor.xAxisView(urlParams));
   };
 
