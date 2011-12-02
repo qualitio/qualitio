@@ -52,7 +52,7 @@ class ChartData(object):
 
     @classmethod
     def id(cls):
-        return hashlib.sha1(cls.title).hexdigest()[:10]
+        return hashlib.sha1(cls.__name__).hexdigest()[:10]
 
     def __init__(self, xaxis=None, yaxis=None):
         self.xaxis = xaxis or self.xaxismodel.objects.all()
