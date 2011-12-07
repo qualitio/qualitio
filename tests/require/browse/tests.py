@@ -2607,6 +2607,7 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=li#1_requirement ins")
+	time.sleep(2)
         for i in range(60):
             try:
                 if "TV" == sel.get_text("link=TV"): break
@@ -2630,6 +2631,7 @@ class Test7ModreqParent(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("css=#4_requirement > ins.jstree-icon"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=TV")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: TV"): break
@@ -4620,6 +4622,7 @@ class Test23TreeNewreq(BaseSeleniumTestCase):
             time.sleep(2)
         else: self.fail("time out")
         sel.click("link=TV")
+	time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("exact:requirement: TV"): break

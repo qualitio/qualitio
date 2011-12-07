@@ -675,6 +675,63 @@ class Test46ReportCheckPublic(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("requirement: MeeGo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
 
+class Test46ReportCheckPublicNo(BaseSeleniumTestCase):
+    
+    def test_46_report_check_public_no(self):
+        sel = self.selenium
+        sel.open("/project/meego/report/external/1/bigproject/report-html/2011/04/22")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id=id_username"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id=id_password"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("", sel.get_text("id=id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("", sel.get_text("id=id_password"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        self.assertEqual("qualitio: login", sel.get_title())
+        sel.open("/project/meego/report/external/1/bigproject/report-json/2011/04/20")
+        sel.wait_for_page_to_load("")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=test@qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Login" == sel.get_text("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='login']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=test@qualitio"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=h1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id=id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id=id_password"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
 
 class Test47ReportModDirect(BaseSeleniumTestCase):
     
