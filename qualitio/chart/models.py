@@ -205,7 +205,7 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
                 values=values,
                 colour='#56acde',
                 tip="#x_label# [#val#]"))
-        chart.y_axis = ofc.y_axis(max=max(values))
+        chart.y_axis = ofc.y_axis(max=max(values) + 2)
         return chart
 charttypes.add(number_of_requirements_afected_by_bug_chartdata)
 
@@ -228,6 +228,6 @@ class coverage_of_requirements_by_testcases_chartdata(ChartData):
                 values=values,
                 colour='#56acde',
                 tip="#x_label# [#val#]"))
-        chart.y_axis = ofc.y_axis(max=max(values))
+        chart.y_axis = ofc.y_axis(max=max(values) + 2)
         return chart
 charttypes.add(coverage_of_requirements_by_testcases_chartdata)
