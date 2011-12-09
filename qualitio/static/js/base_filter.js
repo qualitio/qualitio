@@ -1,4 +1,4 @@
-var sortParamConverter = function(column_names){
+var sortParamConverter = function(column_names) {
     // mapping between jQuery Data Table and django sort direction notation
     var directions = {
 	asc: '',
@@ -19,16 +19,13 @@ var sortParamConverter = function(column_names){
 	// eg: sorting_asc, name => name or sorting_desc, name => -name
 	toDjango: function(txt, name) {
 	    var sorting_dir = txt.split('_')[1];
-	    if (sorting_dir === undefined) {
-		sorting_dir = 'asc';
-	    }
-	    return directions[sorting_dir] + name;
+	    return directions[sorting_dir || 'asc'] + name;
 	}
     };
 }(COLUMN_NAMES); // COLUMN_NAMES should be provided in template
 
 // returns new state for the current one
-var tableHeaderClassCycle = function(){
+var tableHeaderClassCycle = function() {
     var stateToNextState = {
 	'sorting': 'sorting_asc',
 	'sorting_asc': 'sorting_desc',
@@ -36,12 +33,8 @@ var tableHeaderClassCycle = function(){
     }
     var defaultState = 'sorting_asc'; // in case of undefined
     return {
-	next: function(currentState){
-	    var nextState = stateToNextState[currentState];
-	    if (nextState === undefined) {
-		nextState = defaultState;
-	    }
-	    return nextState;
+	next: function(currentState) {
+	    return stateToNextState[currentState] || defaultState;
 	}
     }
 }();
@@ -55,6 +48,7 @@ jQuery.fn.dataTableExt.oSort['int-in-link-asc'] = function(x, y) {
     var x = parseIntFromLink(x), y = parseIntFromLink(y);
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
 };
+
 jQuery.fn.dataTableExt.oSort['int-in-link-desc'] = function(x, y) {
     var x = parseIntFromLink(x), y = parseIntFromLink(y);
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
@@ -90,7 +84,7 @@ $(document).ready(function() {
 	"bAutoWidth": false,
 	"aoColumnDefs": [
 	    { "sWidth": "10px", "asSorting":[], "aTargets": [0] },
-	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [ 1 ] },
+	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [1] },
             { "sWidth": '300px', "aTargets": [2, 3]}
 	]
     });
