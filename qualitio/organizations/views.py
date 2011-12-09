@@ -1,8 +1,10 @@
 from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
 from django.contrib.auth import models as auth
@@ -117,13 +119,23 @@ class OrganizationSettings(RedirectView):
                     user.username = form.cleaned_data["email"]
                     user.set_password(form.cleaned_data["password1"])
                     user.save()
-
+                    
                     models.OrganizationMember.objects.create(
                         user=user,
                         organization=request.organization,
                         role=models.OrganizationMember.INACTIVE
                     )
 
+                    send_mail(
+                        'Qualitio Project, User account created in %s organization'
+                        % self.request.organization.name,
+                        render_to_string('organizations/new_user.mail',
+                                         {"organization": self.request.organization,
+                                          "user": user,
+                                          "password": form.cleaned_data["password1"]}),
+                        'Qualitio Notifications <notifications@qualitio.com>',
+                        [user.email])
+                    
                     return success(message="User created.")
 
             else:
@@ -132,6 +144,16 @@ class OrganizationSettings(RedirectView):
                     email = form.cleaned_data.get('email')
                     try:
                         user = auth.User.objects.get(email=email)
+
+                        send_mail(
+                            'Qualitio Project, Invitation to %s organization'
+                            % self.request.organization.name,
+                            render_to_string('organizations/new_member.mail',
+                                             {"organization": self.request.organization,
+                                              "user": user}),
+                            'Qualitio Notifications <notifications@qualitio.com>',
+                            [email])
+                        
                         models.OrganizationMember.objects.create(
                             user=user,
                             organization=request.organization,
@@ -139,7 +161,7 @@ class OrganizationSettings(RedirectView):
                         )
                         return success(message="User added!", data={'created': True})
                     except auth.User.DoesNotExist:
-                        return success(message="Doesn't exist, need to create account!",
+                        return success(message="Does not exist, you need to create account!",
                                        data={'created': False,
                                              'email': email})
 
@@ -324,7 +346,7 @@ def googleapps_domain_setup(request, *args, **kwargs):
             models.OrganizationMember.objects.create(
                 user=request.user,
                 organization=organization,
-                role=models.OrganizationMember.ADMIN
+                role=models.OrganizationMember.INACTIVE
             )
             if request.POST.get('callback'):
                 return redirect(request.POST.get('callback'))

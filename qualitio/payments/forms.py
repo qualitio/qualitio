@@ -11,8 +11,6 @@ class PaymentForm(forms.Form):
     )
     plan = forms.CharField(widget=forms.HiddenInput)
 
-
-
     CREDITCARDTYPE = forms.ChoiceField(choices=choices, label="Type", required=True)
     ACCT = forms.DecimalField(label="Number", required=True)
     EXPDATE = forms.CharField(label="Expiration date", required=True)

@@ -1,0 +1,7 @@
+Hi {{ user.email }},
+
+Payment plan for {{ organization.name }} has been canceled, 
+
+
+Best Regards
+Qualitio Team

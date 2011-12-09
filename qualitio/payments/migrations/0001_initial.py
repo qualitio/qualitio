@@ -23,8 +23,9 @@ class Migration(SchemaMigration):
             ('organization', self.gf('django.db.models.fields.related.OneToOneField')(related_name='payment', unique=True, to=orm['organizations.Organization'])),
             ('strategy', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['payments.Strategy'], unique=True)),
             ('paypal_id', self.gf('django.db.models.fields.CharField')(max_length=14, blank=True)),
-            ('status', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('valid_till', self.gf('django.db.models.fields.DateField')()),
+            ('status', self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=0)),
+            ('valid_time', self.gf('django.db.models.fields.DateTimeField')()),
+            ('created_time', self.gf('django.db.models.fields.DateTimeField')()),
         ))
         db.send_create_signal('payments', ['Profile'])
 
@@ -96,12 +97,13 @@ class Migration(SchemaMigration):
         },
         'payments.profile': {
             'Meta': {'object_name': 'Profile'},
+            'created_time': ('django.db.models.fields.DateTimeField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'organization': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'payment'", 'unique': 'True', 'to': "orm['organizations.Organization']"}),
             'paypal_id': ('django.db.models.fields.CharField', [], {'max_length': '14', 'blank': 'True'}),
-            'status': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'status': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0'}),
             'strategy': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['payments.Strategy']", 'unique': 'True'}),
-            'valid_till': ('django.db.models.fields.DateField', [], {})
+            'valid_time': ('django.db.models.fields.DateTimeField', [], {})
         },
         'payments.strategy': {
             'Meta': {'object_name': 'Strategy'},

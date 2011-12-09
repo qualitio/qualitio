@@ -1,0 +1,7 @@
+Hi {{ user.email }},
+
+You have been invited to {{ organization.name }}.
+
+Best Regards
+Qualitio Team
+

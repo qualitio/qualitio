@@ -40,10 +40,10 @@
 	{% else %}
 	{% if organization.payment.strategy == strategy %}
 	
-	{% if organization.payment.status %}
+	{% if organization.payment.is_running %}
 	<a href="#" name="{{ strategy.name }}" class="cancel-button">Cancel?</a>
 	{% else %}
-	Valid till: {{ organization.payment.valid_till }}
+	Valid till: {{ organization.payment.valid_time }}
 	{% endif %}
 	
 	{% else %}

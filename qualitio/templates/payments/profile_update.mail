@@ -1,0 +1,9 @@
+Hi {{ user.email }},
+
+Payment plan for {{ organization.name }} has been changed, 
+
+from: {{ old_strategy.name }}, to {{ current_strategy }}
+
+
+Best Regards
+Qualitio Team
