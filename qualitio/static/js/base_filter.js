@@ -175,4 +175,6 @@ $(document).ready(function() {
     $.onrefresh.bind(function() {
 	$('.actions-form #id_action').val("");
     });
+
+    $('select:not([name="onpage"])').chosen();
 });

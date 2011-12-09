@@ -108,3 +108,7 @@ table.display thead th[name="checkbox"] {
 input.ui-button.search-button {
     padding: 0.47em 4em;
 }
+
+input[type="text"] {
+    height: 28px;
+}
