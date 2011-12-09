@@ -38,4 +38,3 @@ class OrganizationModelBackend(ModelBackend):
             except User.DoesNotExist:
                 return None
 
-v
