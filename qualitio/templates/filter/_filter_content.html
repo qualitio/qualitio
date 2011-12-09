@@ -1,0 +1,40 @@
+{% load pagination_tags %}
+
+<form method="GET" class="filter-form">
+  <div class="filter-forms">
+    <input type="hidden" name="sort" value="{{ filter.sort_by }}" />
+    {% include "filter/_filter_groups.html" %}
+
+    <div class="application-view-content">
+      {% block filter-control-buttons %}
+      <input type="submit" value="Search" class="search-button" />
+      {% if filter.has_groups %}
+      <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
+      {% endif %}
+      <div class="add-new-group-form">{{ filter.new_group_form }}</div>
+      {% if not filter.has_groups %}
+      <div class="add-new-group-label">
+	Select one group to start the search
+      </div>
+      {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+
+  <div class="application-view-content results-container">
+    <div class="list-control-top">
+      <div class="onpage-form right">
+	{{ onpage_form.onpage }}
+      </div>
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
+
+    {% include "filter/_filter_table.html" %}
+
+    <div class="list-control-bottom">
+      {% paginate %}
+      <div style="clear:both"></div>
+    </div>
+  </div>
+</form>

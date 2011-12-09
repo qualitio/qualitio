@@ -1,0 +1,29 @@
+{% extends "chart/wizzard_base.html" %}
+
+
+{% block chart-add-button %}{% endblock %} {# no new chart button in "new" view #}
+
+
+{% block wizzard-menu %}{{ block.super }}
+<li><a href="#" class="button filter-xaxis-button">Next</a></li>
+{% endblock %}
+
+
+{% block js-include %}{{ block.super }}
+<script type="text/javascript">
+  $(document).ready(function() {
+    ChoosingChartTypeView({ projectSlug: PROJECT_SLUG }).bind();
+  });
+</script>
+{% endblock %}
+
+
+{% block application-view %}
+<div class="chart-axis-models">
+  <div class="hbox">
+    <table>
+      {{ form }}
+    </table>
+  </div>
+</div>
+{% endblock %}

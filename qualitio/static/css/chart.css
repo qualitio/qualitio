@@ -1,3 +1,142 @@
+.chart {
+    padding: 5px;
+    border-bottom: 1px solid #cccccc;
+    display: block;
+    text-decoration: none;
+}
+
+.chart:hover {
+    background: #f6f6f2;
+}
+
+.chart-search input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%
+}
+
+.chart-add-button {
+    position: absolute;
+    bottom: 12px;
+    right: 4px;
+    height: 30px;
+    border-radius: 6px;
+    border-top: 1px solid #AAAAAA;
+    border-left: 1px solid #AAAAAA;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-radius: 8px 0px 8px 0px;
+}
+
+#application-tree {
+    position: relative;
+    margin: 5px 4px 11px 4px;
+}
+
+#application-view-header {
+    border-bottom: 1px solid #AAAAAA;
+}
+
+
+.wizzard-menu-container {
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 1px solid rgb(170, 170, 170);
+    margin-bottom: 4px;
+    margin-right: 0px;
+    background: white;
+}
+
+#wizzard-menu {
+    /* -moz-border-radius: 0px 0px 8px 8px; */
+    /* -webkit-border-radius: 0px 0px 8px 8px; */
+    font-family: 'Cabin', serif;
+    line-height:1.4;
+    text-align: left;
+    /* border-bottom: 1px solid #aaa; */
+    /* border-left: 1px solid #AAAAAA; */
+    /* border-right: 1px solid #AAAAAA; */
+    padding: 0 11px;
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.14, rgb(238,238,238)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(238,238,238) 14%,
+        rgb(255,255,255) 100%
+    );
+    z-index:0;
+}
+
+#wizzard-menu ul,
+#wizzard-menu li {
+    display: inline;
+}
+#wizzard-menu li {
+    padding: 5px 0;
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+}
+#wizzard-menu li.active {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.14, rgb(222,222,222)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(222,222,222) 14%,
+        rgb(255,255,255) 100%
+    );
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #555;
+    text-decoration: none;
+}
+
+#wizzard-menu a,
+#wizzard-menu a:link {
+    font-size: 1.1em;
+    color: #555;
+    text-decoration: none;
+    /* margin: 0px 7px 0px 3px; */
+}
+
+#wizzard-menu a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #777;
+}
+
+
+/* buttons on wizzard-menu */
+#wizzard-menu .button {
+    border: 1px solid #AAA;
+}
+
+#wizzard-menu .button .ui-button-text {
+    padding: 0.1em 1em;
+}
+
+#wizzard-menu .button:hover {
+    font-weight: normal;
+    color: black;
+}
+
+#wizzard-menu li {
+    padding: 5px 10px;
+}
+/* end of buttons on wizzard-menu */
+
+
 /* chart-wizzart step 1 */
 .chart-axis-models {
     box-shadow: 0px 0px 5px #ccc;
@@ -34,14 +173,26 @@
 .chart-wrapper {
   box-shadow: 0px 0px 5px #ccc;
 
-  width: 1210px;
-  height: 640px;
-  margin: 10px auto;
-  padding: 10px 5px 5px 15px;
+  width: 98%;
+  margin: 1px 0px 0px 1px;
+  padding: 10px;
+}
+
+.chart-save-panel {
+  box-shadow: 0px 0px 5px #ccc;
+
+  width: 98%;
+  margin: 5px 0px 10px 1px;
+  padding: 10px;
+}
+
+.chart-save-panel input[type="text"] {
+    width: 500px;
 }
 
 .chart-wrapper object {
     margin: 10px auto;
+    padding: 0px;
 }
 
 .pagination {
@@ -68,20 +219,3 @@
     margin-right: 10px;
 }
 /* end of chart-wizzart step 2 */
-
-
-#application-menu .button {
-    border: 1px solid #AAA;
-}
-
-#application-menu .button .ui-button-text {
-    padding: 0.1em 1em;
-}
-
-#application-menu .button:hover {
-    font-weight: normal;
-    color: black;
-}
-
-#application-menu li {
-    padding: 5px 10px;

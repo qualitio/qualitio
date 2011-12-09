@@ -14,6 +14,12 @@ def index(request, project=None):
             }, context_instance=RequestContext(request))
 
 
+def new(request, project=None):
+    return render_to_response('chart/new.html', {
+            'form': forms.ChartTypeChoiceForm(),
+            }, context_instance=RequestContext(request))
+
+
 class ChartBuilderView(FilterView):
     fields_order = ['id', 'path', 'name']
     table_fields = ["id", "path", "name"]

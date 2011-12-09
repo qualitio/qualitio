@@ -1,26 +1,20 @@
-{% extends "chart/base.html" %}
+{% extends "chart/wizzard_base.html" %}
 {% load pagination_tags %}
 
 
-{% block application-menu %}
+{% block chart-add-button %}{% endblock %} {# no new chart button in "new" view #}
+
+
+{% block wizzard-menu %}
 <li><a href="#" class="button back-button">Go back to filter</a></li>
 {{ block.super }}
 {% endblock %}
 
 
-{% block active-menu-item %}chart-chart-view{% endblock %}
-
-
-{% block filter-js-include %}{% endblock %}
-
-
-{% block external-js %}
+{% block js-include %}
 <script type="text/javascript" src="{{ MEDIA_URL }}lib/ofc/swfobject.js"></script>
 {{ block.super }}
-{% endblock %}
-
-
-{% block chart-js %}
+<script type="text/javascript">
   var OPTIONS = {
       projectSlug: PROJECT_SLUG,
       chartid: "{{ chartid }}",
@@ -28,15 +22,21 @@
   };
   swfobject.embedSWF(
       "{{ MEDIA_URL }}lib/ofc/open-flash-chart.swf", "chart",
-      "1200", "600", "9.0.0", "{{ MEDIA_URL }}lib/ofc/expressInstall.swf", {
+      "100%", "600", "9.0.0", "{{ MEDIA_URL }}lib/ofc/expressInstall.swf", {
           "data-file": encodeURIComponent(URLFor.chartdata(OPTIONS))
        });
-  ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
+  $(document).ready(ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind);
+</script>
 {% endblock %}
 
 
 {% block application-view %}
 <div class="container_16">
+  <div class="chart-save-panel">
+    <label for="chart-name">Chart name</label>
+    <input type="text" name="chart-name" value="" />
+    <input type="submit" name="submit" value="Save" class="button" />
+  </div>
   <div class="chart-wrapper">
     <div class="pagination-wrapper">
       {% paginate %}

@@ -1,0 +1,32 @@
+{% extends "chart/wizzard_base.html" %}
+
+
+{% block chart-add-button %}{% endblock %} {# no new chart button in "new" view #}
+
+
+{% block wizzard-menu %}
+<li><a href="#" class="button cancel-button">Cancel</a></li>
+{{ block.super }}
+<li><a href="#" class="button show-chart-button">Next</a></li>
+{% endblock %}
+
+
+{% block js-include %}
+<script type="text/javascript">
+  var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
+</script>
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript">
+  $(document).ready(FilterXAxisView({
+    projectSlug: PROJECT_SLUG,
+    chartid: "{{ chartid }}"
+  }).bind);
+</script>
+{% endblock %}
+
+
+{% block application-view %}
+{% include "filter/_filter_content.html" %}
+{% endblock %}

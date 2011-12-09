@@ -1,0 +1,5 @@
+<div class="chart-search"><input style="width: 100%"/></div>
+{% for chart in chart_list %}
+<a href="#chart/{{ chart.id }}/edit/" id="id_chart_{{ chart.id }}" class="chart">{{ chart.name }}</a>
+{% endfor %}
+

@@ -26,7 +26,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     xAxisView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+      return "/project/" + opts.projectSlug + "/chart/filter/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* Requires:
@@ -35,7 +35,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     chartView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/chartview/" + addQuestionMark(opts.searchParams);
+      return "/project/" + opts.projectSlug + "/chart/view/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* This is a ajax view for open-flash-chart flash plugin.
@@ -45,7 +45,7 @@ var URLFor = (function () {
      * - opts.searchParams,
      */
     chartdata: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/" + opts.chartid  + "/chartdata/" + addQuestionMark(opts.searchParams);
+      return "/project/" + opts.projectSlug + "/chart/data/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
     }
   }
 })();
@@ -88,18 +88,19 @@ var ChoosingChartTypeView = (function(opts) {
  * view.bind();
  */
 var FilterXAxisView = (function(opts) {
-  var urlParams = $.extend({
-    searchParams: document.location.search
-  }, opts); // "projectSlug" and "chartid" should be in opts!
+  var applyHref = function() {
+      var urlParams = $.extend({
+	  searchParams: document.location.search
+      }, opts); // "projectSlug" and "chartid" should be in opts!
+      $(".show-chart-button").attr("href", URLFor.chartView(urlParams));
+      return true;
+  };
 
   return {
     bind: function () {
       $('.cancel-button').attr("href", URLFor.chartTypeView(opts));
-
-      $(".show-chart-button").click(function() {
-	$(this).attr("href", URLFor.chartView(urlParams));
-	return true;
-      });
+      $(".show-chart-button").click(applyHref);
+      applyHref();
     }
   }
 });
@@ -130,4 +131,52 @@ var ChartView = (function (opts) {
       });
     }
   }
+});
+
+
+$(function() {
+  $(".chart-add-button")
+    .button({
+      icons: {
+        primary: "ui-icon-circle-plus"
+      },
+      text: false
+    })
+    .click( function () {
+      document.location.href = "/project/" + PROJECT_SLUG + "/chart/new/";
+    });
+
+  var ControllerView = Backbone.Controller.extend({
+    view_el: $('#application-view'),
+    list_el: $('#application-tree'),
+
+    routes: {
+      "chart/:id/edit/": "edit",
+      "chart/new/": "new",
+    },
+
+    initialize: function() {
+      $(this.list_el).load("/project/" + PROJECT_SLUG + "/chart/ajax/list/", function() {
+        $(".chart-search input")
+          .focus()
+          .livefilter({selector:'#application-tree a'});
+      });
+    },
+
+    edit: function(id) {
+      $(this.view_el).load("/project/" + PROJECT_SLUG + "/chart/ajax/"+id+"/edit/", function() {
+        $(this).removeClass('disable');
+      }).addClass('disable');
+    },
+
+    new: function() {
+      $(this.view_el).load("/project/" + PROJECT_SLUG + "/chart/new/", function() {
+        $(this).removeClass('disable');
+      }).addClass('disable');
+    }
+
+  });
+
+  new ControllerView();
+  Backbone.history.start();
 });
