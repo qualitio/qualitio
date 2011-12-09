@@ -1,3 +1,9 @@
+#projects h1 span {
+    font-size: 18px;
+    color: #BFBFBF;
+}
+
+
 #projects .name div {
     display: inline-block;
 }
@@ -256,39 +262,30 @@
 }
 
 #projects .billing {
-    /* padding: 70px 0; */
+    /* margin: 20px auto; */
 }
 
-#projects .billing .current {
-    font-family: 'Bevan',serif;
-    color: #555555;
-    font-size: 14px;
+#projects table.plans {
+    /* margin: 20px auto; */
+    border-spacing: 0;
 }
 
-#projects .billing .current span{
-    color: #444444;
-}
-
-#projects .billing .program {
-    border-left: 1px solid #dddddd;
-    padding: 40px 0;
-}
-
-#projects .billing .program.current {
-    background-color: #D1EED1;
-    border-color: #BFE7BF;
-}
-
-#projects .billing h1 {
-    text-align: center;
-    margin-bottom: 10px;
+#projects table.plans th {
+    text-transform: uppercase;
+    width: 190px;
+    text-align: left;
+    color: #888888;
+    padding: 15px 0 15px 0 ;
+    margin: 5px 20px;
+    font-weight: bold;
+    font-size: 15px;
     font-family: 'Bevan',serif;
     font-weight: normal;
-    font-size: 18px;
+    text-align: center;
 }
 
-#projects .billing .option {
-    color: #404040;
+#projects table.plans td {
+    color: #888888;
     padding: 15px 15px;
     border: 1px solid #dddddd;
     margin: 5px 20px;
@@ -297,23 +294,47 @@
     font-family: 'Bevan',serif;
     font-weight: normal;
     text-align: center;
+    font-size: 11px;
 }
 
-#projects .billing .amount {
-    font-size: 18px;
-    color: #aaaaaa;
-
+#projects table.plans .current td {
+    background-color: #D1EED1;
+    font-size: 14px;
+    color: #404040;
 }
 
-#projects .billing .free {
-    padding: 1px 0;
-    color: #bbbbbb;
+#projects .action_form {
+    margin: 20px 0;
+    padding: 0 0 30px 0;
+    width: 948px;
+    border: 1px solid #cccccc;
+}
+
+#projects .action_form .plan-information {
+    font-size: 14px;
+    text-align: center;
     font-family: 'Bevan',serif;
-    font-size: 33px;
-    font-weight: normal;
+    border-bottom: 1px solid #cccccc;
+    padding: 5px;
+    color: #404040;
+    margin-bottom: 20px;
 }
 
-#projects .billing .pay {
+#projects .action_form .plan-information .name {
+    color: #888888;
+}
+
+#projects .action_form .footer {
+    text-align: right;
+    padding: 15px 28px 0 0;
+}
+
+#projects .card-details,
+#projects .address-details {
+    padding: 0 30px;
+}
+
+#projects .cancel_form {
     text-align: center;
 }
 

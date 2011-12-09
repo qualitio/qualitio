@@ -1,0 +1,62 @@
+<h1>Member list
+  <span>
+    (Current payment profile: {{ request.organization.payment.strategy }}, 
+    Active users: {{ active_users_count }}, 
+    Total users Available: {{ request.organization.payment.strategy.users }})
+  </span>
+</h1>
+
+<form id="users_form" method="post" action="{% url organization_settings_members_list %}">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  <table class="display">
+    <thead>
+      <tr>
+  	<th>username</th>
+  	<th>full name</th>
+  	<th>email</th>
+  	<th>role</th>
+  	<th>delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for form in formset.forms %}
+      <tr>
+  	<td>{{ form.id }}{{ form.instance.user }}</td>
+  	<td>{{ form.instance.user.first_name }} {{ form.instance.user.last_name }}</td>
+  	<td>{{ form.instance.user.email }}</td>
+  	<td class="{% if request.user == form.instance.user %}disable{% endif %}">
+  	  {{ form.role }}
+  	</td>
+  	<td>
+  	  <div class="{% if form.instance.role == 0 %}disable{% endif %}
+  		      button delete-button">
+  	    Delete {{ form.DELETE }}</div>
+  	</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="footer clearfix">
+    <input type="submit" class="button control-button" value="Save"/>
+  </div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $('#users_form').ajaxForm({
+	success: function(response) {
+	    if(!response.success) {
+		$.notification.error(response.message);
+		$('.user-list').load('{% url organization_settings_members_list %}');
+	    } else {
+		$.notification.notice(response.message);
+		$('.user-list').load('{% url organization_settings_members_list %}');
+	    }
+	},
+    });
+
+});
+</script>

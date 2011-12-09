@@ -1,17 +1,18 @@
 from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
+from django.contrib.auth import models as auth
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (View, CreateView, RedirectView,
                                   UpdateView, ListView, TemplateView,
                                   FormView)
-
-
 
 from reversion.models import Revision
 from articles.models import Article
@@ -19,8 +20,6 @@ from articles.models import Article
 from qualitio.core.utils import json_response, success, failed
 from qualitio.organizations import models
 from qualitio.organizations import forms
-
-from qualitio.payments.models import PaymentStrategy
 
 
 class OrganizationObjectMixin(object):
@@ -72,44 +71,101 @@ class OrganizationSettings(RedirectView):
             return failed(message=form.error_message(),
                           data=form.errors_list())
 
+    class Members(TemplateView):
+        template_name = "organizations/organization_settings_members.html"
 
-    class Users(TemplateView):
-        template_name = "organizations/organization_settings_users_form.html"
+    class MembersList(TemplateView):
+        template_name = "organizations/organization_settings_members_list.html"
 
-        def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['formset'] = forms.OrganizationUsersForm()
-            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
-            return context
-
-        def get(self, request, *args, **kwargs):
-            return self.render_to_response(self.get_context_data(**kwargs))
+        def get(self, request):
+            return self.render_to_response({
+                'active_users_count': self.request.organization.organizationmember_set.exclude(
+                    role=models.OrganizationMember.INACTIVE
+                ).count(),
+                'formset': forms.OrganizationUsersForm(
+                    instance=self.request.organization
+                )
+            })
 
         @json_response
-        def post(self, request, *args, **kwargs):
-            formset = forms.OrganizationUsersForm(request.POST)
+        def post(self, request):
+            formset = forms.OrganizationUsersForm(
+                request.POST,
+                instance=self.request.organization
+            )
+
             if formset.is_valid():
-                formset.save(delete_users=True)
+                formset.save()
                 return success(message='Changes saved.')
-            return failed(message="Validation errors",
-                          data=formset._errors_list())
+
+            return failed(message="%s"
+                          % formset.non_form_errors().as_text())
 
 
-    class NewMember(OrganizationObjectMixin, TemplateView):
-        def get_context_data(self, **kwargs):
-            context = super(OrganizationSettings.Users, self).get_context_data(**kwargs)
-            context['new_user_form'] = forms.NewUserForm(prefix='newuserform')
-            return context
+    class MemberNew(OrganizationObjectMixin, TemplateView):
+        template_name = "organizations/organization_settings_members_new.html"
 
-        @json_response
-        def post(self, request, *args, **kwargs):
-            new_user_form = forms.NewUserForm(request.POST, prefix='newuserform')
-            if new_user_form.is_valid():
-                user = new_user_form.save()
-                organization_member = models.OrganizationMember.objects.create(
-                    user=user, organization=self.get_object())
-                return success(message='New member saved.')
-            return failed(message="Validation errors", data=new_user_form.errors_list())
+        get_context_data = lambda self: {
+            'member_form': forms.NewMemberForm(prefix="member_form"),
+            'user_form': forms.NewUserForm(prefix="user_form")
+        }
+
+        @json_response # ToDo: maybe split this into two separte views.
+        def post(self, request):
+            if request.REQUEST.has_key('new_user'):
+                form = forms.NewUserForm(request.POST, prefix="user_form")
+                if form.is_valid():
+                    user = form.save(commit=False)
+                    user.username = form.cleaned_data["email"]
+                    user.set_password(form.cleaned_data["password1"])
+                    user.save()
+                    
+                    models.OrganizationMember.objects.create(
+                        user=user,
+                        organization=request.organization,
+                        role=models.OrganizationMember.INACTIVE
+                    )
+
+                    send_mail(
+                        'Qualitio Project, User account created in %s organization'
+                        % self.request.organization.name,
+                        render_to_string('organizations/new_user.mail',
+                                         {"organization": self.request.organization,
+                                          "user": user,
+                                          "password": form.cleaned_data["password1"]}),
+                        'Qualitio Notifications <notifications@qualitio.com>',
+                        [user.email])
+                    
+                    return success(message="User created.")
+
+            else:
+                form = forms.NewMemberForm(request.POST, prefix="member_form")
+                if form.is_valid():
+                    email = form.cleaned_data.get('email')
+                    try:
+                        user = auth.User.objects.get(email=email)
+
+                        send_mail(
+                            'Qualitio Project, Invitation to %s organization'
+                            % self.request.organization.name,
+                            render_to_string('organizations/new_member.mail',
+                                             {"organization": self.request.organization,
+                                              "user": user}),
+                            'Qualitio Notifications <notifications@qualitio.com>',
+                            [email])
+                        
+                        models.OrganizationMember.objects.create(
+                            user=user,
+                            organization=request.organization,
+                            role=models.OrganizationMember.INACTIVE
+                        )
+                        return success(message="User added!", data={'created': True})
+                    except auth.User.DoesNotExist:
+                        return success(message="Does not exist, you need to create account!",
+                                       data={'created': False,
+                                             'email': email})
+
+            return failed(message="Validation errors", data=form.errors_list())
 
 
     class Projects(TemplateView):
@@ -185,25 +241,6 @@ class OrganizationSettings(RedirectView):
                               execute_testrun._errors_list() +\
                               execute_testcaserun._errors_list() +\
                               glossary_language._errors_list())
-
-
-    class Billing(TemplateView):
-        template_name = "organizations/organization_settings_billing.html"
-
-        def post(self, *args, **kwargs):
-            # import ipdb; ipdb.set_trace()
-            # Check here
-            return super(OrganizationSettings.Billing, self).post(*args, **kwargs)
-
-        @method_decorator(csrf_exempt)
-        def dispatch(self, *args, **kwargs):
-            return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
-
-        def render_to_response(self, *args, **kwargs):
-            return super(OrganizationSettings.Billing, self).render_to_response(
-                {"strategies": PaymentStrategy.objects.all()},
-                **kwargs
-            )
 
 
 class ProjectList(ListView):
@@ -309,7 +346,7 @@ def googleapps_domain_setup(request, *args, **kwargs):
             models.OrganizationMember.objects.create(
                 user=request.user,
                 organization=organization,
-                role=models.OrganizationMember.ADMIN
+                role=models.OrganizationMember.INACTIVE
             )
             if request.POST.get('callback'):
                 return redirect(request.POST.get('callback'))
