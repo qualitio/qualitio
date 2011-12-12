@@ -1,8 +1,10 @@
 from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import logout
 from django.contrib.auth import models as auth
@@ -18,8 +20,6 @@ from articles.models import Article
 from qualitio.core.utils import json_response, success, failed
 from qualitio.organizations import models
 from qualitio.organizations import forms
-
-from qualitio.payments.models import PaymentStrategy
 
 
 class OrganizationObjectMixin(object):
@@ -79,6 +79,9 @@ class OrganizationSettings(RedirectView):
 
         def get(self, request):
             return self.render_to_response({
+                'active_users_count': self.request.organization.organizationmember_set.exclude(
+                    role=models.OrganizationMember.INACTIVE
+                ).count(),
                 'formset': forms.OrganizationUsersForm(
                     instance=self.request.organization
                 )
@@ -116,13 +119,23 @@ class OrganizationSettings(RedirectView):
                     user.username = form.cleaned_data["email"]
                     user.set_password(form.cleaned_data["password1"])
                     user.save()
-
+                    
                     models.OrganizationMember.objects.create(
                         user=user,
                         organization=request.organization,
                         role=models.OrganizationMember.INACTIVE
                     )
 
+                    send_mail(
+                        'Qualitio Project, User account created in %s organization'
+                        % self.request.organization.name,
+                        render_to_string('organizations/new_user.mail',
+                                         {"organization": self.request.organization,
+                                          "user": user,
+                                          "password": form.cleaned_data["password1"]}),
+                        'Qualitio Notifications <notifications@qualitio.com>',
+                        [user.email])
+                    
                     return success(message="User created.")
 
             else:
@@ -131,6 +144,16 @@ class OrganizationSettings(RedirectView):
                     email = form.cleaned_data.get('email')
                     try:
                         user = auth.User.objects.get(email=email)
+
+                        send_mail(
+                            'Qualitio Project, Invitation to %s organization'
+                            % self.request.organization.name,
+                            render_to_string('organizations/new_member.mail',
+                                             {"organization": self.request.organization,
+                                              "user": user}),
+                            'Qualitio Notifications <notifications@qualitio.com>',
+                            [email])
+                        
                         models.OrganizationMember.objects.create(
                             user=user,
                             organization=request.organization,
@@ -138,7 +161,7 @@ class OrganizationSettings(RedirectView):
                         )
                         return success(message="User added!", data={'created': True})
                     except auth.User.DoesNotExist:
-                        return success(message="Doesn't exist, need to create account!",
+                        return success(message="Does not exist, you need to create account!",
                                        data={'created': False,
                                              'email': email})
 
@@ -218,25 +241,6 @@ class OrganizationSettings(RedirectView):
                               execute_testrun._errors_list() +\
                               execute_testcaserun._errors_list() +\
                               glossary_language._errors_list())
-
-
-    class Billing(TemplateView):
-        template_name = "organizations/organization_settings_billing.html"
-
-        def post(self, *args, **kwargs):
-            # import ipdb; ipdb.set_trace()
-            # Check here
-            return super(OrganizationSettings.Billing, self).post(*args, **kwargs)
-
-        @method_decorator(csrf_exempt)
-        def dispatch(self, *args, **kwargs):
-            return super(OrganizationSettings.Billing, self).dispatch(*args, **kwargs)
-
-        def render_to_response(self, *args, **kwargs):
-            return super(OrganizationSettings.Billing, self).render_to_response(
-                {"strategies": PaymentStrategy.objects.all()},
-                **kwargs
-            )
 
 
 class ProjectList(ListView):
@@ -342,7 +346,7 @@ def googleapps_domain_setup(request, *args, **kwargs):
             models.OrganizationMember.objects.create(
                 user=request.user,
                 organization=organization,
-                role=models.OrganizationMember.ADMIN
+                role=models.OrganizationMember.INACTIVE
             )
             if request.POST.get('callback'):
                 return redirect(request.POST.get('callback'))

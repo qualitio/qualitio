@@ -34,9 +34,11 @@
         <div>
           <a id="menu-item-projects" href="/settings/projects/">projects</a>
         </div>
+        {% if request.organization.payment %}
 	<div>
           <a id="menu-item-billing" href="/settings/billing/">billing & plans</a>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>

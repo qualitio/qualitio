@@ -1,7 +1,7 @@
 from django.db import models
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.template.defaultfilters import slugify
-from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 from qualitio.core.custommodel.models import CustomizableModel
 from qualitio import THREAD
@@ -18,8 +18,13 @@ class Organization(CustomizableModel):
     modified_time = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
-    payment = models.ForeignKey('payments.PaymentStrategy', null=True)
-
+    @property
+    def admins(self):
+        return User.objects.filter(
+            organization_member__organization=self,
+            organization_member__role=OrganizationMember.ADMIN
+        )
+    
     def setup(self, owner):
         pass
 
@@ -44,8 +49,7 @@ class Organization(CustomizableModel):
 
     def __unicode__(self):
         return self.name
-
-
+    
 
 class OrganizationMember(CustomizableModel):
     organization = models.ForeignKey('Organization')

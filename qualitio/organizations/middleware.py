@@ -3,7 +3,7 @@ import re
 
 from django.conf import settings
 from django.http import Http404
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 
 from qualitio import THREAD
 
@@ -13,7 +13,8 @@ class OrganizationMiddleware(object):
         THREAD.organization = None
         request.organization = None
 
-        from qualitio.organizations import Organization
+        from qualitio.organizations import Organization, OrganizationMember
+        
         match = re.match('^(?P<host>[\w\.\-]+)(:(?P<port>\d+))?', request.get_host())
         if not match:
             raise ImproperlyConfigured("OrganizationMiddleware is running")
@@ -43,7 +44,7 @@ class OrganizationMiddleware(object):
                     organization=request.organization
                 )
                 request.organization_member = organization_member
-        except AttributeError:
+        except OrganizationMember.DoesNotExist:
             pass
 
         return None

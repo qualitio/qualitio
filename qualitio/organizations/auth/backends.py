@@ -15,8 +15,12 @@ class OrganizationModelBackend(ModelBackend):
 
         if THREAD.organization:
             try:
-                organization_member = OrganizationMember.objects.get(user__username=username,
-                                                                     organization=THREAD.organization)
+                organization_member = OrganizationMember.objects.exclude(
+                    role=OrganizationMember.INACTIVE
+                ).get(
+                    user__email=username,
+                    organization=THREAD.organization
+                )
 
                 user = organization_member.user
                 if user.check_password(password):
@@ -25,7 +29,7 @@ class OrganizationModelBackend(ModelBackend):
             except OrganizationMember.DoesNotExist:
                 return None
 
-        else: # Except Organization url cases settings.ORGANIZATION_EXEMPT_URLS
+        else: # Except Organization url cases settings.ORGANIZATION_EXEMPT_URLS admin
             try:
                 user = User.objects.get(username=username)
                 if user.check_password(password) and user.is_staff:
