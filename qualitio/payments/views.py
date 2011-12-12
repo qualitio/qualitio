@@ -115,6 +115,9 @@ class Billing(TemplateView):
 
             return redirect("/settings/billing/")
 
+        return self.render_to_response(
+            self.get_context_data(**{"payment_form": payment_form}))
+
 
 class BillingCancel(RedirectView):
     url = "/settings/billing/"
