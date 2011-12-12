@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'qualitio.actions',
     'qualitio.glossary',
     'qualitio.payments',
+    'qualitio.chart',
 
     'qualitio.customizations',
 )
