@@ -38,7 +38,7 @@ class FilterView(View):
         self.filter_exclude = self.filter_exclude or self.exclude
         self.table_exclude = self.table_exclude or self.exclude
 
-    def _assere_requirements(self):
+    def _assure_requirements(self):
         if not self.model and not self.model_filter_class:
             raise ImproperlyConfigured('"filter" view requires model or model_filter_class to be defined.')
 
@@ -94,7 +94,7 @@ class FilterView(View):
         return actionsapp.create_actions(request, module_name, model=self.get_model())
 
     def get(self, request, *args, **kwargs):
-        self._assere_requirements()  # may raise ImproperlyConfigured
+        self._assure_requirements()  # may raise ImproperlyConfigured
 
         # create filter and redirect if there are control forms
         filter_object = self.build_filter(request.GET)
