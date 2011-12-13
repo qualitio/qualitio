@@ -17,7 +17,7 @@ class ExecuteFilterView(FilterView):
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       url(r'^filter/', ExecuteFilterView()),
+                       url(r'^filter/', ExecuteFilterView.as_view()),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestRunDirectory}),

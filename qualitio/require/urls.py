@@ -18,7 +18,7 @@ class RequireFilterView(FilterView):
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       url(r'^filter/', RequireFilterView()),
+                       url(r'^filter/', RequireFilterView.as_view()),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': Requirement}),

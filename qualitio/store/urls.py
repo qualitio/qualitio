@@ -15,14 +15,14 @@ class StoreFilterView(FilterView):
     def get_context_data(self, request, **kwargs):  # some extra context data
         context = super(StoreFilterView, self).get_context_data(request, **kwargs)
         context.update(app_menu_items=[
-                {'name': 'glossary', 'url': '/project/%s/glossary/' % request.project.slug}
-                ])
+            {'name': 'glossary', 'url': '/project/%s/glossary/' % request.project.slug}
+        ])
         return context
 
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       url(r'^filter/', StoreFilterView()),
+                       url(r'^filter/', StoreFilterView.as_view()),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestCaseDirectory}),

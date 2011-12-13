@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.views.generic.base import View
 
 from qualitio import actions as actionsapp
 from qualitio.filter import forms
@@ -10,7 +11,9 @@ from qualitio.filter.filter import generate_model_filter
 from qualitio.filter.tables import generate_model_table
 
 
-class FilterView(object):
+class FilterView(View):
+    http_method_names = ['get']
+
     model = None
     model_filter_class = None
     model_table_class = None
@@ -90,7 +93,7 @@ class FilterView(object):
         module_name = 'qualitio.%s' % self.get_app_label()
         return actionsapp.create_actions(request, module_name, model=self.get_model())
 
-    def handle_request(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         self._assere_requirements()  # may raise ImproperlyConfigured
 
         # create filter and redirect if there are control forms
@@ -109,19 +112,37 @@ class FilterView(object):
         model_table_class = self.get_table_class()
 
         context = self.get_context_data(request, **{
-                'app_label': self.get_app_label(),
-                'filter': filter_object,
-                'table': model_table_class(page.object_list, query_dict=request.GET, request=request),
-                'paginator': paginator,
-                'page_obj': page,
-                'onpage_form': onpage_form,
-                'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
-                })
+            'app_label': self.get_app_label(),
+            'filter': filter_object,
+            'table': model_table_class(page.object_list, query_dict=request.GET, request=request),
+            'paginator': paginator,
+            'page_obj': page,
+            'onpage_form': onpage_form,
+            'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
+        })
         context.update(kwargs)
         return self.get_response(request, context)
 
     def get_response(self, request, context):
         return render_to_response(self.template, context, context_instance=RequestContext(request))
 
-    def __call__(self, *args, **kwargs):
-        return self.handle_request(*args, **kwargs)
+    def get_handler(self, request, *args, **kwargs):
+        method = request.method.lower()
+        if method in self.http_method_names:
+            handler = getattr(self, method, self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return method, handler
+
+    def dispatch(self, request, *args, **kwargs):
+        method_name, handler = self.get_handler(request, *args, **kwargs)
+        self.request = request
+        self.args = args
+        self.kwargs = kwargs
+
+        before_hook = getattr(self, 'before_%s' % method_name, lambda r, *a, **kw: None)
+        toreturn = before_hook(request, *args, **kwargs)
+        if toreturn is not None:
+            return toreturn
+
+        return handler(request, *args, **kwargs)

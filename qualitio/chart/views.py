@@ -10,24 +10,24 @@ from qualitio.filter import FilterView
 
 def index(request, project=None):
     return render_to_response('chart/choose_chart_type.html', {
-            'form': forms.ChartTypeChoiceForm(),
-            }, context_instance=RequestContext(request))
+        'form': forms.ChartTypeChoiceForm(),
+    }, context_instance=RequestContext(request))
 
 
 def new(request, project=None):
     return render_to_response('chart/new.html', {
-            'form': forms.ChartTypeChoiceForm(),
-            }, context_instance=RequestContext(request))
+        'form': forms.ChartTypeChoiceForm(),
+    }, context_instance=RequestContext(request))
 
 
 class ChartBuilderView(FilterView):
     fields_order = ['id', 'path', 'name']
     table_fields = ["id", "path", "name"]
 
-    def __call__(self, *args, **kwargs):
+    def before_get(self, request, *args, **kwargs):
         form = forms.ChartTypeChoiceForm({
-                'chart': kwargs.get('chartid'),
-                })
+            'chart': kwargs.get('chartid'),
+        })
 
         if not form.is_valid():
             return HttpResponseRedirect("/project/%s/chart/" % project)
@@ -41,14 +41,12 @@ class ChartBuilderView(FilterView):
         self.filter_fields = self.charttype.filter_fields or self.filter_fields
         self.filter_exclude = self.charttype.filter_exclude or self.filter_exclude
 
-        return self.handle_request(*args, **kwargs)
-
 
 class FilterXaxisModelView(ChartBuilderView):
     template = "chart/filter_x_axis.html"
 
-    def handle_request(self, request, project=None, chartid=None):
-        return super(FilterXaxisModelView, self).handle_request(
+    def get(self, request, project=None, chartid=None):
+        return super(FilterXaxisModelView, self).get(
             request, project=project, chartid=chartid,
             previous_step_url="/project/%s/chart/" % project,
             xaxismodel=self.model.__name__.lower())
@@ -57,16 +55,16 @@ class FilterXaxisModelView(ChartBuilderView):
 class ChartView(ChartBuilderView):
     template = "chart/chartview.html"
 
-    def handle_request(self, request, project=None, chartid=None):
-        return super(ChartView, self).handle_request(
+    def get(self, request, project=None, chartid=None):
+        return super(ChartView, self).get(
             request, project=project, chartid=chartid,
             data=json.dumps(request.GET),
             xaxismodel=self.model.__name__.lower())
 
 
 class ChartDataView(ChartBuilderView):
-    def handle_request(self, request, project=None, chartid=None):
-        return super(ChartDataView, self).handle_request(
+    def get(self, request, project=None, chartid=None):
+        return super(ChartDataView, self).get(
             request, project=project, chartid=chartid,
             xaxismodel=self.model.__name__.lower())
 
