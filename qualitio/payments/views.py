@@ -85,6 +85,11 @@ class Billing(TemplateView):
             try:
                 paypal_response = paypal.CreateRecurringPaymentsProfile(**paypal_data)
             except PayPalException as e:
+                
+                if e.message['L_ERRORCODE0'] == '10527':
+                    payment_form._errors['ACCT'] = payment_form.error_class(
+                        [e.message['L_LONGMESSAGE0']])
+                
                 return self.render_to_response(
                     self.get_context_data(
                         payment_form=payment_form,
