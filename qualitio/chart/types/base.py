@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import hashlib
 from operator import attrgetter, methodcaller
+from pprint import pprint
 
-from qualitio.chart.utils import identity, OrderedDict
+import pyofc2 as ofc
+
+from qualitio.chart.utils import identity, OrderedDict, comp, ImproperlyConfigured
 from qualitio.require.models import Requirement
 from qualitio.store.models import TestCase
 from qualitio.execute.models import Bug, TestCaseRun, TestCaseRunStatus
@@ -32,9 +35,6 @@ class BarChartDict(OrderedDict):
             groups.append(map(group_transform, values.values()))
 
         return names, groups
-
-    def get_chart(self):
-        raise NotImplementedError()
 
 
 class ChartData(object):
@@ -82,6 +82,16 @@ class ChartData(object):
         return result
 
     def get_chart(self):
+        series = self.groups()
+        chart = ofc.open_flash_chart()
+        chart.title = ofc.title(text=self.title)
+        chart.x_axis = ofc.x_axis(
+            labels=ofc.x_axis_labels(
+                labels=map(attrgetter('name'), series.xaxis()),
+                rotate="45"))
+        return self.build_chart(series, chart)
+
+    def build_chart(self, series, chart):
         raise NotImplementedError()
 
 
@@ -92,7 +102,7 @@ class ChartTypes(dict):
 
 class number_of_bugs_related_to_testcases_chartdata(ChartData):
     """
-    Defines predicate for Bug model to TestCaseRun model bar chartdata.
+    Defines Bug model to TestCaseRun model bar chartdata.
     The chart shows how many bugs are added to particular
     testcase.
 
@@ -139,6 +149,9 @@ class number_of_testcaseruns_related_to_testcase_chartdata(ChartData):
 
 
 class number_of_requirements_afected_by_bug_chartdata(ChartData):
+    """
+    """
+
     title = "Number of requirements related to bugs"
     xaxismodel = Bug
     yaxismodel = Requirement
