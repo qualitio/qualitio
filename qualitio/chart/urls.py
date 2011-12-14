@@ -9,8 +9,8 @@ urlpatterns = patterns(
         'template': 'chart/base.html',
     }),
     (r'^new/$', 'chart.views.new'),
-    (r'^filter/(?P<chartid>\w+)/$', FilterXaxisModelView.as_view(template='chart/filter_xaxis.html')),
-    (r'^view/(?P<chartid>\w+)/$', ChartView.as_view(template='chart/view.html')),
+    (r'^filter/(?P<chartid>\w+)/$', FilterXaxisModelView.as_view(),
+    (r'^view/(?P<chartid>\w+)/$', ChartView.as_view()),
     (r'^data/(?P<chartid>\w+)/$', ChartDataView.as_view()),
 
     (r'^ajax/list/$', 'django.views.generic.simple.direct_to_template', {

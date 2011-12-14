@@ -43,7 +43,7 @@ class ChartBuilderView(FilterView):
 
 
 class FilterXaxisModelView(ChartBuilderView):
-    template = "chart/filter_x_axis.html"
+    template = "chart/filter_xaxis.html"
 
     def get(self, request, project=None, chartid=None):
         return super(FilterXaxisModelView, self).get(
@@ -53,7 +53,7 @@ class FilterXaxisModelView(ChartBuilderView):
 
 
 class ChartView(ChartBuilderView):
-    template = "chart/chartview.html"
+    template = "chart/view.html"
 
     def get(self, request, project=None, chartid=None):
         return super(ChartView, self).get(
