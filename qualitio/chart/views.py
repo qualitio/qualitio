@@ -3,21 +3,21 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson as json
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import TemplateView
 
 from qualitio.chart import forms
 from qualitio.filter import FilterView
 
 
-def index(request, project=None):
-    return render_to_response('chart/choose_chart_type.html', {
-        'form': forms.ChartTypeChoiceForm(),
-    }, context_instance=RequestContext(request))
+class NewChartView(TemplateView):
+    template_name='chart/new.html'
 
-
-def new(request, project=None):
-    return render_to_response('chart/new.html', {
-        'form': forms.ChartTypeChoiceForm(),
-    }, context_instance=RequestContext(request))
+    def get_context_data(self, **kw):
+        context = super(NewChartView, self).get_context_data(**kw)
+        context.update({
+            'form': forms.ChartTypeChoiceForm(),
+        })
+        return context
 
 
 class ChartBuilderView(FilterView):
