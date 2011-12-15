@@ -120,7 +120,7 @@ class FilterView(View):
             'onpage_form': onpage_form,
             'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
         })
-        context.update(kwargs)
+        context.update(kwargs['extra_context'])
         return self.get_response(request, context)
 
     def get_response(self, request, context):

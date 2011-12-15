@@ -47,21 +47,26 @@ class FilterXaxisModelView(ChartBuilderView):
     template = "chart/filter_xaxis.html"
 
     def get(self, request, project=None, chartid=None):
-        return super(FilterXaxisModelView, self).get(
-            request, project=project, chartid=chartid,
-            previous_step_url="/project/%s/chart/" % project,
-            xaxismodel=self.model.__name__.lower())
+        return super(FilterXaxisModelView, self).get(request, extra_context={
+            'project': project,
+            'chartid': chartid,
+            'previous_step_url': "/project/%s/chart/" % project,
+            'xaxismodel': self.model.__name__.lower()
+        })
 
 
 class ChartView(ChartBuilderView):
     template = "chart/view.html"
 
     def get(self, request, project=None, chartid=None):
-        return super(ChartView, self).get(
-            request, project=project, chartid=chartid,
-            data=json.dumps(request.GET),
-            xaxismodel=self.model.__name__.lower(),
-            form=forms.SaveChartQueryForm())
+        return super(ChartView, self).get(request, extra_context={
+            'project': project,
+            'chartid': chartid,
+            'previous_step_url': "/project/%s/chart/" % project,
+            'xaxismodel': self.model.__name__.lower(),
+            'data': json.dumps(request.GET),
+            'form': forms.SaveChartQueryForm(),
+        })
 
 
 class SavedChartView(FilterView):
@@ -79,12 +84,14 @@ class SavedChartView(FilterView):
         self.filter_exclude = self.charttype.filter_exclude or self.filter_exclude
 
     def get(self, request, project=None, id=None):
-        return super(SavedChartView, self).get(
-            request, project=project, data=json.dumps(request.GET),
-            chartid=self.charttype.id(),
-            xaxismodel=self.model.__name__.lower(),
-            form=forms.SaveChartQueryForm(instance=self.chart_query),
-            chart_query_id=id)
+        return super(SavedChartView, self).get(request, extra_context={
+            'project': project,
+            'data': json.dumps(request.GET),
+            'chartid': self.charttype.id(),
+            'xaxismodel': self.model.__name__.lower(),
+            'form': forms.SaveChartQueryForm(instance=self.chart_query),
+            'chart_query_id': id,
+        })
 
 
 class SaveChartView(View):
@@ -105,9 +112,11 @@ class SaveChartView(View):
 
 class ChartDataView(ChartBuilderView):
     def get(self, request, project=None, chartid=None):
-        return super(ChartDataView, self).get(
-            request, project=project, chartid=chartid,
-            xaxismodel=self.model.__name__.lower())
+        return super(ChartDataView, self).get(request, extra_context={
+            'project': project,
+            'chartid': chartid,
+            'xaxismodel': self.model.__name__.lower(),
+        })
 
     def get_response(self, request, context):
         chartdata = self.charttype(xaxis=context['page_obj'].object_list)
