@@ -6,6 +6,14 @@ from qualitio.chart.utils import comp
 from qualitio.chart.types import base
 
 
+def get_js_include_template():
+    return "chart/types/open_flash_chart.html"
+
+
+def get_css_include_template():
+    return None
+
+
 charttypes = base.ChartTypes()
 
 

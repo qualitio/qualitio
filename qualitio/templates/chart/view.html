@@ -11,8 +11,12 @@
 {% endblock %}
 
 
+{% block css-include %}{{ block.super }}
+{% if chart_engine_css_include_template %}{% include chart_engine_css_include_template %}{% endif %}
+{% endblock %}
+
+
 {% block js-include %}
-<script type="text/javascript" src="{{ MEDIA_URL }}lib/ofc/swfobject.js"></script>
 {{ block.super }}
 <script type="text/javascript">
   var OPTIONS = {
@@ -20,11 +24,13 @@
       chartid: "{{ chartid }}",
       searchParams: "{{ request.GET.urlencode|safe }}"
   };
-  swfobject.embedSWF(
-      "{{ MEDIA_URL }}lib/ofc/open-flash-chart.swf", "chart",
-      "100%", "600", "9.0.0", "{{ MEDIA_URL }}lib/ofc/expressInstall.swf", {
-          "data-file": encodeURIComponent(URLFor.chartdata(OPTIONS))
-       });
+</script>
+
+{% if chart_engine_js_include_template %}
+{% include chart_engine_js_include_template %}
+{% endif %}
+
+<script type="text/javascript">
   $(document).ready(ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind);
 </script>
 {% endblock %}

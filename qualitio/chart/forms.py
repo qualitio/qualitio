@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.conf import settings
-from django.utils.importlib import import_module
 
 from qualitio.core.forms import BaseModelForm
 from qualitio.chart.models import ChartQuery
-
-engine = import_module(getattr(settings, 'CHART_TYPES_ENGINE'))
+from qualitio.chart.types import get_engine
 
 
 class ChartTypeChoiceForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        self.charttypes = engine.charttypes
+        self.charttypes = get_engine().charttypes
         self.base_fields['chart'] = forms.ChoiceField(
             choices=map(lambda x: (x.id(), x.title), self.charttypes.values()))
         super(ChartTypeChoiceForm, self).__init__(*args, **kwargs)

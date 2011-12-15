@@ -9,6 +9,8 @@ from qualitio.chart import forms
 from qualitio.filter import FilterView
 from qualitio.core.utils import json_response, failed, success
 from qualitio.chart.models import ChartQuery
+from qualitio.chart.types import get_engine
+
 
 class NewChartView(TemplateView):
     template_name='chart/new.html'
@@ -66,6 +68,8 @@ class ChartView(ChartBuilderView):
             'xaxismodel': self.model.__name__.lower(),
             'data': json.dumps(request.GET),
             'form': forms.SaveChartQueryForm(),
+            'chart_engine_js_include_template': get_engine().get_js_include_template(),
+            'chart_engine_css_include_template': get_engine().get_css_include_template(),
         })
 
 
@@ -91,6 +95,7 @@ class SavedChartView(FilterView):
             'xaxismodel': self.model.__name__.lower(),
             'form': forms.SaveChartQueryForm(instance=self.chart_query),
             'chart_query_id': id,
+            'chart_engine_js_include_template': get_engine().get_js_include_template()
         })
 
 
