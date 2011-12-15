@@ -11,6 +11,10 @@ urlpatterns = patterns('',
                            views.OrganizationNone.as_view(),
                            name="organization_none"),
 
+                       url(r'^thanks/$',
+                           views.OrganizationRequestThanks.as_view(),
+                           name="organization_request_thanks"),
+
                        url(r'^$',
                            views.OrganizationDetails.as_view(),
                            name="organization_details"),

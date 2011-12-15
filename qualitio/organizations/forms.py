@@ -91,12 +91,26 @@ class NewUserForm(core.BaseModelForm):
             user.save()
         return user
 
+        
+class OrganizationNew(core.BaseForm):
+    email = forms.EmailField(label="your email")
+    name = forms.CharField(label="organization name")
+    
+    def clean_name(self):
+        name = self.cleaned_data['name']
+
+        if models.Organization.objects.filter(name=name).exists():
+            raise forms.ValidationError(
+                'Organization with this name alredy exists.')
+
+        return name
+
 
 class ProjectForm(core.BaseModelForm):
 
     class Meta(core.BaseModelForm.Meta):
         model = models.Project
-        fields = ("name", "homepage", "description")
+        fields = ("name", "homepage")
 
     def __init__(self, *args, **kwargs):
         self.organization = kwargs.pop('organization', None)
