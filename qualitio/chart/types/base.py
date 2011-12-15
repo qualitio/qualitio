@@ -99,6 +99,10 @@ class ChartTypes(dict):
     def add(self, chart_type):
         self[chart_type.id()] = chart_type
 
+    def get_class_path(self, key):
+        klass = self.get(key)
+        return '.'.join([klass.__module__, klass.__name__])
+
 
 class number_of_bugs_related_to_testcases_chartdata(ChartData):
     """

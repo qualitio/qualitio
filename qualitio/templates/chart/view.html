@@ -33,9 +33,15 @@
 {% block application-view %}
 <div class="container_16">
   <div class="chart-save-panel">
-    <label for="chart-name">Chart name</label>
-    <input type="text" name="chart-name" value="" />
-    <input type="submit" name="submit" value="Save" class="button" />
+    <form method="post" action="/project/{{ request.project.slug }}/chart/ajax/save/{% if chart_query_id %}{{ chart_query_id }}/{% endif %}">
+      {% csrf_token %}
+      {{ form.id }}
+      {{ form.name.label_tag }}
+      {{ form.name }}
+      {{ form.charttype }}
+      {{ form.query }}
+      <input type="submit" name="submit" value="Save" class="button" />
+    </form>
   </div>
   <div class="chart-wrapper">
     <div class="pagination-wrapper">

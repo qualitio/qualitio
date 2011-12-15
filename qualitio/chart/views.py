@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils import simplejson as json
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.views.generic import View, TemplateView
 
 from qualitio.chart import forms
 from qualitio.filter import FilterView
-
+from qualitio.core.utils import json_response, failed, success
+from qualitio.chart.models import ChartQuery
 
 class NewChartView(TemplateView):
     template_name='chart/new.html'
@@ -30,7 +31,7 @@ class ChartBuilderView(FilterView):
         })
 
         if not form.is_valid():
-            return HttpResponseRedirect("/project/%s/chart/" % project)
+            return HttpResponseRedirect("/project/%s/chart/" % request.project)
 
         self.model, _ = form.get_models()
         self.charttype = form.get_charttype()
@@ -59,7 +60,47 @@ class ChartView(ChartBuilderView):
         return super(ChartView, self).get(
             request, project=project, chartid=chartid,
             data=json.dumps(request.GET),
-            xaxismodel=self.model.__name__.lower())
+            xaxismodel=self.model.__name__.lower(),
+            form=forms.SaveChartQueryForm())
+
+
+class SavedChartView(FilterView):
+    template = "chart/view.html"
+
+    def before_get(self, request, *args, **kwargs):
+        self.chart_query = get_object_or_404(ChartQuery, id=kwargs.get('id'))
+        self.charttype = self.chart_query.get_type_class()()  # construct the object
+        self.model = self.charttype.xaxismodel
+
+        self.fields_order = self.charttype.fields_order or self.fields_order
+        self.table_fields = self.charttype.filter_table_fields or self.table_fields
+        self.table_exclude = self.charttype.filter_table_exclude or self.table_exclude
+        self.filter_fields = self.charttype.filter_fields or self.filter_fields
+        self.filter_exclude = self.charttype.filter_exclude or self.filter_exclude
+
+    def get(self, request, project=None, id=None):
+        return super(SavedChartView, self).get(
+            request, project=project, data=json.dumps(request.GET),
+            chartid=self.charttype.id(),
+            xaxismodel=self.model.__name__.lower(),
+            form=forms.SaveChartQueryForm(instance=self.chart_query),
+            chart_query_id=id)
+
+
+class SaveChartView(View):
+    @json_response
+    def post(self, request, project=None, id=None):
+        instance = ChartQuery() if not id else get_object_or_404(ChartQuery, id=id)
+        form = forms.SaveChartQueryForm(request.POST, instance=instance)
+        if form.is_valid():
+            chart_query = form.save(commit=False)
+            chart_query.project = request.project
+            chart_query.save()
+            return success(message="Query saved!")
+
+        return failed(
+            message="Validation errors: %s" % form.error_message(),
+            data=form.errors_list())
 
 
 class ChartDataView(ChartBuilderView):

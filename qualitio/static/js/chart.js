@@ -78,6 +78,32 @@ var ChoosingChartTypeView = (function(opts) {
 });
 
 
+var ChartBaseView = (function () {
+  return {
+    loadList: function () {
+      $('#application-tree').load("/project/" + PROJECT_SLUG + "/chart/ajax/list/", function() {
+	$(".chart-search input")
+	  .focus()
+	  .livefilter({selector:'#application-tree a'});
+      });
+    },
+
+    bindNewChartButton: function () {
+      $(".chart-add-button")
+	.button({
+	  icons: {
+            primary: "ui-icon-circle-plus"
+	  },
+	  text: false
+	})
+	.click( function () {
+	  document.location.href = "/project/" + PROJECT_SLUG + "/chart/new/";
+	});
+    }
+  }
+});
+
+
 /* FilterXAxisView requires following env variables:
  * - opts.projectSlug  - current project slug
  * - opts.chartid      - the chart type id
@@ -129,54 +155,31 @@ var ChartView = (function (opts) {
 	});
 	document.location = document.location.pathname + "?" + $.param(params);
       });
+
+      $("#id_charttype").val(opts.chartid);
+      $("#id_query").val(opts.searchParams);
+
+      $('.chart-save-panel form').ajaxForm({
+	success: function(response) {
+	  if(!response.success) {
+            $.notification.error(response.message);
+            $.shortcuts.showErrors(response.data)
+	  } else {
+            $.notification.notice(response.message);
+	    ChartBaseView().loadList();
+	  }
+	},
+	beforeSubmit: function() {
+	  $.shortcuts.hideErrors();
+	}
+      });
     }
   }
 });
 
 
 $(function() {
-  $(".chart-add-button")
-    .button({
-      icons: {
-        primary: "ui-icon-circle-plus"
-      },
-      text: false
-    })
-    .click( function () {
-      document.location.href = "/project/" + PROJECT_SLUG + "/chart/new/";
-    });
-
-  var ControllerView = Backbone.Controller.extend({
-    view_el: $('#application-view'),
-    list_el: $('#application-tree'),
-
-    routes: {
-      "chart/:id/edit/": "edit",
-      "chart/new/": "new",
-    },
-
-    initialize: function() {
-      $(this.list_el).load("/project/" + PROJECT_SLUG + "/chart/ajax/list/", function() {
-        $(".chart-search input")
-          .focus()
-          .livefilter({selector:'#application-tree a'});
-      });
-    },
-
-    edit: function(id) {
-      $(this.view_el).load("/project/" + PROJECT_SLUG + "/chart/ajax/"+id+"/edit/", function() {
-        $(this).removeClass('disable');
-      }).addClass('disable');
-    },
-
-    new: function() {
-      $(this.view_el).load("/project/" + PROJECT_SLUG + "/chart/new/", function() {
-        $(this).removeClass('disable');
-      }).addClass('disable');
-    }
-
-  });
-
-  new ControllerView();
-  Backbone.history.start();
+  var view = ChartBaseView();
+  view.loadList();
+  view.bindNewChartButton();
 });
