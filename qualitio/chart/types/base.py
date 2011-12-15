@@ -3,8 +3,6 @@ import hashlib
 from operator import attrgetter, methodcaller
 from pprint import pprint
 
-import pyofc2 as ofc
-
 from qualitio.chart.utils import identity, OrderedDict, comp, ImproperlyConfigured
 from qualitio.require.models import Requirement
 from qualitio.store.models import TestCase
@@ -82,16 +80,6 @@ class ChartData(object):
         return result
 
     def get_chart(self):
-        series = self.groups()
-        chart = ofc.open_flash_chart()
-        chart.title = ofc.title(text=self.title)
-        chart.x_axis = ofc.x_axis(
-            labels=ofc.x_axis_labels(
-                labels=map(attrgetter('name'), series.xaxis()),
-                rotate="45"))
-        return self.build_chart(series, chart)
-
-    def build_chart(self, series, chart):
         raise NotImplementedError()
 
 
