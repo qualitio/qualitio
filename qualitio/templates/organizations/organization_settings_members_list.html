@@ -1,4 +1,10 @@
-<h1>Member list</h1>
+<h1>Member list
+  <span>
+    (Current payment profile: {{ request.organization.payment.strategy }}, 
+    Active users: {{ active_users_count }}, 
+    Total users Available: {{ request.organization.payment.strategy.users }})
+  </span>
+</h1>
 
 <form id="users_form" method="post" action="{% url organization_settings_members_list %}">
   {% csrf_token %}
@@ -44,9 +50,9 @@ $(document).ready(function() {
 	success: function(response) {
 	    if(!response.success) {
 		$.notification.error(response.message);
+		$('.user-list').load('{% url organization_settings_members_list %}');
 	    } else {
 		$.notification.notice(response.message);
-
 		$('.user-list').load('{% url organization_settings_members_list %}');
 	    }
 	},

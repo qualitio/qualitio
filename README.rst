@@ -1,6 +1,9 @@
 Qualitio Project
 ================
 
+
+Please contact support@qualitio.com in case of any questions regarding Qualitio installation or setup.
+
 Setup Development Environment (Debian/Ubuntu)
 ---------------------------------------------
 
@@ -62,7 +65,7 @@ you can find it in python-setuptools package
 3. Go to cloned project directory, and run deployment script
 ::
 
-   cd qualtio
+   cd qualitio
    fab setup_production fab setup_production -H _{HOST}_
 
 _{HOST}_ is address of your target machine, if you had plan deploy

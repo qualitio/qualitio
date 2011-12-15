@@ -1,0 +1,12 @@
+Hi {{ user.email }},
+
+You account has been created. 
+
+Credentials:
+  email: {{ user.email }}
+  password: {{ password }} 
+
+Please, do not forget to change your password.
+
+Best Regards
+Qualitio Team

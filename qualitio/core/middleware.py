@@ -20,6 +20,7 @@ if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
 
 class LoginRequiredMiddleware(object):
     def process_request(self, request):
+        from qualitio.organizations import OrganizationMember
         user = request.user
         path = request.path_info.lstrip('/')
 
@@ -31,8 +32,11 @@ class LoginRequiredMiddleware(object):
         if user.is_authenticated():
             from qualitio.organizations.models import OrganizationMember
 
-            if user.organization_member.get(organization=request.organization) == OrganizationMember.INACTIVE:
-                return redirect('inactive')
+            try:
+                if user.organization_member.get(organization=request.organization) == OrganizationMember.INACTIVE:
+                    return redirect('inactive')
+            except OrganizationMember.DoesNotExist:
+                return HttpResponseRedirect('%s?next=%s' % (settings.LOGIN_URL, request.path_info) )
 
             return None
 

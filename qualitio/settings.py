@@ -78,6 +78,7 @@ LOGIN_EXEMPT_URLS = (
     r'^googleapps_setup/$',
     r'^google_checkout/$',
     r'^paypal_ipn/$',
+    r'^thanks/$',
     )
 
 PROJECT_EXEMPT_URLS = (

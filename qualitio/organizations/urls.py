@@ -4,10 +4,16 @@ from qualitio.organizations.auth.profile.views import OrganizationMemberProfile
 from qualitio.organizations.auth.decorators import permission_required
 from qualitio.organizations import views
 
+from qualitio.payments import views as payments
+
 urlpatterns = patterns('',
                        url(r'^none/$',
                            views.OrganizationNone.as_view(),
                            name="organization_none"),
+
+                       url(r'^thanks/$',
+                           views.OrganizationRequestThanks.as_view(),
+                           name="organization_request_thanks"),
 
                        url(r'^$',
                            views.OrganizationDetails.as_view(),
@@ -45,8 +51,12 @@ urlpatterns = patterns('',
                            name="organization_settings_projects"),
 
                        url(r'^settings/billing/$',
-                           permission_required('ADMIN')(views.OrganizationSettings.Billing.as_view()),
+                           permission_required('ADMIN')(payments.Billing.as_view()),
                            name="organization_settings_billing"),
+
+                       url(r'^settings/billing/cancel/$',
+                           permission_required('ADMIN')(payments.BillingCancel.as_view()),
+                           name="organization_settings_billing_cancel"),
 
                        url(r'^project/new/$',
                            permission_required('ADMIN')(views.ProjectNew.as_view()),
