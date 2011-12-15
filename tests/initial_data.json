@@ -896,7 +896,7 @@
     "model": "execute.testcaserunstatus", 
     "fields": {
       "name": "N/A", 
-      "color": "#ffff9", 
+      "color": "#fffff9", 
       "modified_time": "2011-05-23 11:02:19", 
       "project": 1, 
       "passed": false, 
