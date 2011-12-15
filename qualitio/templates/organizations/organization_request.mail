@@ -1,0 +1,9 @@
+Hi Qualitio Manager, 
+
+There is new organziation request.
+
+Email: {{ email }},
+Organization: {{ organization_name }},
+
+Best Regards
+Qualitio Team

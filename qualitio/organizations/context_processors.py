@@ -9,8 +9,8 @@ def main(request):
             organization_member = request.user.organization_member.get(
                 organization=request.organization
             )
-    except AttributeError:
-        pass
+    except OrganizationMember.DoesNotExist:
+        organization_member = None
 
     organization_url = ("%s://%s") % ("https" if request.is_secure() else "http",
                                       request.get_host())

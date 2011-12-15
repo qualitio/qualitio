@@ -8,35 +8,14 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'Strategy'
-        db.create_table('payments_strategy', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('users', self.gf('django.db.models.fields.IntegerField')()),
-            ('price', self.gf('django.db.models.fields.FloatField')(default=0)),
-        ))
-        db.send_create_signal('payments', ['Strategy'])
-
-        # Adding model 'Profile'
-        db.create_table('payments_profile', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('organization', self.gf('django.db.models.fields.related.OneToOneField')(related_name='payment', unique=True, to=orm['organizations.Organization'])),
-            ('strategy', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['payments.Strategy'], unique=True)),
-            ('paypal_id', self.gf('django.db.models.fields.CharField')(max_length=14, blank=True)),
-            ('status', self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=0)),
-            ('valid_time', self.gf('django.db.models.fields.DateTimeField')()),
-            ('created_time', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal('payments', ['Profile'])
+        # Deleting field 'Organization.payment'
+        db.delete_column('organizations_organization', 'payment_id')
 
 
     def backwards(self, orm):
         
-        # Deleting model 'Strategy'
-        db.delete_table('payments_strategy')
-
-        # Deleting model 'Profile'
-        db.delete_table('payments_profile')
+        # Adding field 'Organization.payment'
+        db.add_column('organizations_organization', 'payment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['payments.PaymentStrategy'], null=True), keep_default=False)
 
 
     models = {
@@ -95,23 +74,18 @@ class Migration(SchemaMigration):
             'role': ('django.db.models.fields.IntegerField', [], {'default': '999'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'organization_member'", 'to': "orm['auth.User']"})
         },
-        'payments.profile': {
-            'Meta': {'object_name': 'Profile'},
-            'created_time': ('django.db.models.fields.DateTimeField', [], {}),
+        'organizations.project': {
+            'Meta': {'unique_together': "(('organization', 'name'),)", 'object_name': 'Project'},
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'homepage': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'organization': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'payment'", 'unique': 'True', 'to': "orm['organizations.Organization']"}),
-            'paypal_id': ('django.db.models.fields.CharField', [], {'max_length': '14', 'blank': 'True'}),
-            'status': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0'}),
-            'strategy': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['payments.Strategy']", 'unique': 'True'}),
-            'valid_time': ('django.db.models.fields.DateTimeField', [], {})
-        },
-        'payments.strategy': {
-            'Meta': {'object_name': 'Strategy'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'price': ('django.db.models.fields.FloatField', [], {'default': '0'}),
-            'users': ('django.db.models.fields.IntegerField', [], {})
+            'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'organization': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Organization']"}),
+            'slug': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '50', 'blank': 'True'}),
+            'team': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'projects'", 'blank': 'True', 'to': "orm['auth.User']"})
         }
     }
 
-    complete_apps = ['payments']
+    complete_apps = ['organizations']
