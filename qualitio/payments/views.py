@@ -140,7 +140,7 @@ class BillingCancel(RedirectView):
                 )
             except PayPalException as e:
                 # thats allright, profile was cancled again
-                if e.message['L_ERRORCODE0'] != '11556': 
+                if e.message['L_ERRORCODE0'] not in ('11556', '11551'): 
                     raise e
 
         if payment.status == Profile.PENDING:
