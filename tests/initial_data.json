@@ -141,7 +141,7 @@
       ], 
       "user_permissions": [], 
       "password": "sha1$e3845$0cb126ac5ba69e63d7ded4aae30bc2af0ffd638b", 
-      "email": "", 
+      "email": "viewer@viewer1.pl", 
       "date_joined": "2011-03-31 13:17:24"
     }
   }, 
@@ -161,7 +161,7 @@
       ], 
       "user_permissions": [], 
       "password": "sha1$ecd31$757b96e86ad73ce1f06d78a7bab7d98184e1f6eb", 
-      "email": "", 
+      "email": "editor@editor1.pl", 
       "date_joined": "2011-03-31 13:19:01"
     }
   },
