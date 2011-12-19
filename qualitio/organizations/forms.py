@@ -99,7 +99,7 @@ class OrganizationNew(core.BaseForm):
     def clean_name(self):
         name = self.cleaned_data['name']
 
-        if models.Organization.objects.filter(name=name).exists():
+        if models.Organization.objects.filter(name__iexact=name).exists():
             raise forms.ValidationError(
                 'Organization with this name alredy exists.')
 
@@ -119,8 +119,11 @@ class ProjectForm(core.BaseModelForm):
 
     def clean(self):
         name = self.cleaned_data.get('name')
-        qs = models.Project.objects.filter(name=name, organization=self.organization)
-        qs = qs.exclude(pk=self.instance.pk)
+        qs = models.Project.objects.filter(
+            name__iexact=name,
+            organization=self.organization
+        ).exclude(pk=self.instance.pk)
+        
         if qs.exists():
             raise forms.ValidationError('Project with name "%s" already exists in "%s" organization.' % (
                     name, self.organization.name))
