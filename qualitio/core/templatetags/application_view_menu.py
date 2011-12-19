@@ -17,14 +17,15 @@ class ApplicationViewMenuNode(template.Node):
 
     def registred_views(self, obj, user, organization):
         from qualitio.core.views import registry
-
+        
         views = []
         for view in registry.get(obj.__class__, None):
             from qualitio.organizations.models import OrganizationMember
 
             if view['role']:
                 role = getattr(OrganizationMember, view['role'], 999999)
-                perm=organization.members.filter(pk=user.pk, organization_member__role__lt=role)
+                perm=organization.members.filter(
+                    pk=user.pk, organization_member__role__lte=role)
                 views.append(dict(name=view['name'],
                                   perm=perm))
             else:
@@ -38,11 +39,13 @@ class ApplicationViewMenuNode(template.Node):
         materialized_view = self.view.resolve(context)
         module_name = materialized_obj._meta.module_name
 
-        return template.loader.render_to_string("core/application_view_menu.html",
-                                                {"obj": materialized_obj,
-                                                 "current_view": materialized_view,
-                                                 "registred_views": self.registred_views(materialized_obj,
-                                                                                         context['user'],
-                                                                                         context['request'].organization),
-                                                 "module_name": module_name},
-                                                context_instance=RequestContext(context['request']))
+        return template.loader.render_to_string(
+            "core/application_view_menu.html", {
+                "obj": materialized_obj,
+                "current_view": materialized_view,
+                "registred_views": self.registred_views(
+                    materialized_obj,
+                    context['user'],
+                    context['request'].organization),
+                "module_name": module_name
+            }, context_instance=RequestContext(context['request']))
