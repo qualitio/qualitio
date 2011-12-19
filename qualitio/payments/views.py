@@ -79,7 +79,7 @@ class Billing(TemplateView):
                     ACTION="Cancel"
                 )
             except PayPalException as e:
-                if e.message['L_ERRORCODE0'] != '11556': 
+                if e.message['L_ERRORCODE0'] not in ('11556', '11551'): 
                     raise e
 
             try:
