@@ -26,7 +26,7 @@ class Strategy(models.Model):
 class Profile(models.Model):
     organization = models.OneToOneField('organizations.Organization',
                                         related_name="payment")
-    strategy = models.OneToOneField('Strategy')
+    strategy = models.ForeignKey('Strategy')
     paypal_id = models.CharField(max_length=14, blank=True)
 
     INACTIVE = 0
