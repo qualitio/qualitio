@@ -59,12 +59,6 @@ class OrganizationMiddleware(object):
         return response
 
 
-PROJECT_MATCH = r'^project/(?P<project>[\w-]+).*'
-PROJECT_EXEMPT_URLS = [re.compile(PROJECT_MATCH)]
-if hasattr(settings, 'PROJECT_EXEMPT_URLS'):
-    PROJECT_EXEMPT_URLS += [re.compile(expr) for expr in settings.PROJECT_EXEMPT_URLS]
-
-
 class ProjectMiddleware(object):
     """
     IMPORTANT! ProjectMiddleware need to be placed BEFORE OrganizationMiddleware
