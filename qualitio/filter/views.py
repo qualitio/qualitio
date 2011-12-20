@@ -78,7 +78,7 @@ class FilterView(View):
             return 1
 
     def paginate_queryset(self, queryset, page_number, onpage):
-        paginator = Paginator(queryset, onpage)
+        paginator = Paginator(queryset, queryset.count() if onpage == 'all' else onpage)
         try:
             return paginator, paginator.page(page_number)
         except (EmptyPage, InvalidPage):
