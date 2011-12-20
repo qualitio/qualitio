@@ -81,18 +81,6 @@ LOGIN_EXEMPT_URLS = (
     r'^thanks/$',
     )
 
-PROJECT_EXEMPT_URLS = (
-    r'^static/.*',
-    r'^admin/.*',
-    r'^login/.*',
-    r'^register/.*',
-    r'^associate/*',
-    r'^complete/*',
-    r'^__debug__/.*',
-    r'^api/.*',
-    r'^project/new/.*',
-    )
-
 ORGANIZATION_EXEMPT_URLS = (
     r'^static/',
     r'^admin/',
