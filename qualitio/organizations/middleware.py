@@ -3,6 +3,7 @@ import re
 
 from django.conf import settings
 from django.http import Http404
+from django.shortcuts import redirect
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 
 from qualitio import THREAD
@@ -28,6 +29,9 @@ class OrganizationMiddleware(object):
         elif len(host_name_parts) == 2:
             THREAD.organization = None
             request.organization = None
+
+            if re.match('^/login/', request.get_full_path()):
+                return redirect('organization_none')
 
         elif len(host_name_parts) == 3:
             try:
