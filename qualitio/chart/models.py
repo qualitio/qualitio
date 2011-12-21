@@ -8,7 +8,7 @@ from qualitio.core.models import BaseModel
 class ChartQuery(BaseModel):
     name = models.CharField(max_length=255)
     type_class_name = models.CharField(max_length=255)
-    query = models.CharField(max_length=255)
+    query = models.CharField(max_length=255, blank=True)
 
     def get_type_class(self):
         splited = self.type_class_name.split('.')
@@ -17,4 +17,4 @@ class ChartQuery(BaseModel):
         return getattr(module, class_name)
 
     def __unicode__(self):
-        return u"%s | %s" % (self.type_class_name, self.search_query)
+        return u"%s | %s | %s" % (self.name, self.type_class_name, self.query)
