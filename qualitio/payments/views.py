@@ -16,6 +16,9 @@ from .forms import PaymentForm
 
 @csrf_exempt
 def paypal_ipn(request, *args, **kwargs):
+    if not request.method == "POST":
+        raise Http404 
+
     organization_name, strategy_name = request.POST.get('product_name').split(":")
 
     profile = Profile.objects.get(organization__name=organization_name)
