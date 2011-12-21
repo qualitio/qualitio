@@ -114,7 +114,8 @@ class SaveChartView(View):
             return success(
                 message="Query saved!",
                 data={
-                    'id': chart_query.id
+                    'id': chart_query.id,
+                    'query': chart_query.query,
                 })
 
         return failed(

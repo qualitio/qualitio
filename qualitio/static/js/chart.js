@@ -182,7 +182,7 @@ var ChartView = (function (opts) {
             $.shortcuts.showErrors(response.data)
 	  } else {
             $.notification.notice(response.message);
-	    document.location.href = "/project/" + PROJECT_SLUG + "/chart/saved/" + response.data.id + "/";
+	    document.location.href = "/project/" + PROJECT_SLUG + "/chart/saved/" + response.data.id + "/?" + response.data.query;
 	  }
 	},
 	beforeSubmit: function() {
