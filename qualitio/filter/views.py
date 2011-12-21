@@ -78,9 +78,10 @@ class FilterView(View):
             return 1
 
     def paginate_queryset(self, queryset, page_number, onpage):
-        paginator = Paginator(queryset, queryset.count() if onpage == 'all' else onpage)
+        count = queryset.count()
+        paginator = Paginator(queryset, count if onpage == 'all' else onpage)
         try:
-            return paginator, paginator.page(page_number)
+            return count, paginator, paginator.page(page_number)
         except (EmptyPage, InvalidPage):
             raise Http404
 
@@ -103,7 +104,7 @@ class FilterView(View):
 
         # pagination stuff
         onpage_form = forms.OnPageForm(request.GET)
-        paginator, page = self.paginate_queryset(
+        number_of_objects, paginator, page = self.paginate_queryset(
             queryset=filter_object.queryset(),
             page_number=self.get_page_number(request),
             onpage=onpage_form.value())
@@ -118,6 +119,7 @@ class FilterView(View):
             'paginator': paginator,
             'page_obj': page,
             'onpage_form': onpage_form,
+            'number_of_objects': number_of_objects,
             'action_choice_form': actionsapp.ActionChoiceForm(actions=actions),
         })
         context.update(kwargs.get('extra_context') or {})

@@ -26,6 +26,9 @@
       <div class="onpage-form right">
 	{{ onpage_form.onpage }}
       </div>
+      <div class="number-of-objects left">
+	{{ number_of_objects }} records filtered
+      </div>
       {% paginate %}
       <div style="clear:both"></div>
     </div>
@@ -33,6 +36,9 @@
     {% include "filter/_filter_table.html" %}
 
     <div class="list-control-bottom">
+      <div class="number-of-objects left">
+	{{ number_of_objects }} records filtered
+      </div>
       {% paginate %}
       <div style="clear:both"></div>
     </div>
