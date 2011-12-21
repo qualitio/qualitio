@@ -6,7 +6,7 @@
       "description": "Description of organization", 
       "modified_time": "2011-09-23 13:19:41", 
       "created_time": "2011-09-05 14:25:23", 
-      "googleapps_domain": "binop.com", 
+      "googleapps_domain": "", 
       "homepage": "http://test.com/", 
       "slug": "test", 
       "name": "test"
@@ -121,7 +121,7 @@
       "groups": [], 
       "user_permissions": [], 
       "password": "sha1$77074$a0439dd586835e301c02d5e4038b407ea0986573", 
-      "email": "admin@admin.pl", 
+      "email": "qualitio1@gmail.com", 
       "date_joined": "2010-10-18 05:42:11"
     }
   },
@@ -141,7 +141,7 @@
       ], 
       "user_permissions": [], 
       "password": "sha1$e3845$0cb126ac5ba69e63d7ded4aae30bc2af0ffd638b", 
-      "email": "viewer@viewer1.pl", 
+      "email": "odczyt111@gmail.com", 
       "date_joined": "2011-03-31 13:17:24"
     }
   }, 
@@ -161,7 +161,7 @@
       ], 
       "user_permissions": [], 
       "password": "sha1$ecd31$757b96e86ad73ce1f06d78a7bab7d98184e1f6eb", 
-      "email": "editor@editor1.pl", 
+      "email": "edytor111@gmail.com", 
       "date_joined": "2011-03-31 13:19:01"
     }
   },
