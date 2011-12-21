@@ -27,6 +27,19 @@
     border-bottom: 0px;
     border-right: 0px;
     border-radius: 8px 0px 8px 0px;
+    padding-left: 10px;
+}
+
+.chart-add-button .ui-icon {
+    left: 1.5em;
+}
+
+.chart-add-button .ui-button-text {
+    margin-top: 0.3em;
+}
+
+.chart-delete-button .ui-button-text {
+    padding: 0.01em 0.8em;
 }
 
 #application-tree {

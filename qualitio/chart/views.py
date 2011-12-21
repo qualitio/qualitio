@@ -108,11 +108,23 @@ class SaveChartView(View):
             chart_query = form.save(commit=False)
             chart_query.project = request.project
             chart_query.save()
-            return success(message="Query saved!")
+            return success(
+                message="Query saved!",
+                data={
+                    'id': chart_query.id
+                })
 
         return failed(
             message="Validation errors: %s" % form.error_message(),
             data=form.errors_list())
+
+
+class DeleteChartQueryView(View):
+    @json_response
+    def post(self, request, project=None, id=None):
+        instance = ChartQuery() if not id else get_object_or_404(ChartQuery, id=id)
+        instance.delete()
+        return success(message="Query deleted!")
 
 
 class ChartDataView(ChartBuilderView):

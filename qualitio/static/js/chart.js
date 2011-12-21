@@ -166,7 +166,7 @@ var ChartView = (function (opts) {
             $.shortcuts.showErrors(response.data)
 	  } else {
             $.notification.notice(response.message);
-	    ChartBaseView().loadList();
+	    document.location.href = "/project/" + PROJECT_SLUG + "/chart/saved/" + response.data.id + "/";
 	  }
 	},
 	beforeSubmit: function() {
