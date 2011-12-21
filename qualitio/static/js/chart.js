@@ -95,7 +95,7 @@ var ChartBaseView = (function () {
             $.shortcuts.showErrors(response.data)
 	  } else {
             $.notification.notice(response.message);
-	    loadList();
+	    document.location.href = "/project/" + PROJECT_SLUG + "/chart/";
 	  }
 	});
 	return false;
