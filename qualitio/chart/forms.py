@@ -32,7 +32,7 @@ class SaveChartQueryForm(BaseModelForm):
     charttype = forms.CharField(widget=forms.HiddenInput)
 
     def save(self, *args, **kwargs):
-        self.instance.type_class_name = engine.charttypes.get_class_path(
+        self.instance.type_class_name = get_engine().charttypes.get_class_path(
             self.cleaned_data['charttype']
         )
         return super(SaveChartQueryForm, self).save(*args, **kwargs)

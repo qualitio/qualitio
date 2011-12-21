@@ -23,9 +23,11 @@
   };
 </script>
 
+
 {% if chart_engine_js_include_template %}
 {% include chart_engine_js_include_template %}
 {% endif %}
+
 
 <script type="text/javascript">
   $(document).ready(ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind);
@@ -46,12 +48,17 @@
       <input type="submit" name="submit" value="Save" class="button" />
     </form>
   </div>
-  <div class="chart-wrapper">
+  <div class="chart-wrapper {{ chart_engine.name }}-wrapper">
     <div class="pagination-wrapper">
+      <div class="number-of-objects left">
+	{{ number_of_objects }} records filtered
+      </div>
       {% paginate %}
       <span class="onpage">{{ onpage_form.onpage }}</span>
     </div>
-    <div id="chart"></div>
+    <div id="chart" class="{{ chart_engine.name }}">
+      <div id="loading-info">Loading... (this may take awhile)</div>
+    </div>
   </div>
 </div>
 {% endblock %}

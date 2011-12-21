@@ -9,4 +9,5 @@ def get_engine():
     global engine
     if not engine:
         engine = import_module(getattr(settings, 'CHART_TYPES_ENGINE'))
+        engine.name = '%s-charttype' % engine.__name__.split('.')[-1]
     return engine
