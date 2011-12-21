@@ -9,6 +9,8 @@ class OnPageForm(forms.Form):
             (30, '30 on page'),
             (50, '50 on page'),
             (100, '100 on page'),
+            (200, '200 on page'),
+            (500, '500 on page'),
             ('all', 'all'),
             ), required=False, label=u'On page')
 
