@@ -79,22 +79,38 @@ var ChoosingChartTypeView = (function(opts) {
 
 
 var ChartBaseView = (function () {
-  return {
-    loadList: function () {
-      $('#application-tree').load("/project/" + PROJECT_SLUG + "/chart/ajax/list/", function() {
-	$(".chart-search input")
-	  .focus()
-	  .livefilter({selector:'#application-tree a'});
+  var loadList = function () {
+    $('#application-tree').load("/project/" + PROJECT_SLUG + "/chart/ajax/list/", function() {
+
+      $(".chart-search input")
+	.focus()
+	.livefilter({selector:'#application-tree a'});
+
+      $('.chart-delete-button').click(function () {
+	$.post("/project/" + PROJECT_SLUG + "/chart/ajax/delete/" + $(this).attr('id') + "/", {
+	  csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+	}, function(response) {
+	  if(!response.success) {
+            $.notification.error(response.message);
+            $.shortcuts.showErrors(response.data)
+	  } else {
+            $.notification.notice(response.message);
+	    loadList();
+	  }
+	});
+	return false;
       });
-    },
+    });
+  }
+  return {
+    loadList: loadList,
 
     bindNewChartButton: function () {
       $(".chart-add-button")
 	.button({
 	  icons: {
             primary: "ui-icon-circle-plus"
-	  },
-	  text: false
+	  }
 	})
 	.click( function () {
 	  document.location.href = "/project/" + PROJECT_SLUG + "/chart/new/";
