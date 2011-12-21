@@ -231,4 +231,20 @@
     float: right;
     margin-right: 10px;
 }
+
+#loading-info {
+    color: #999999;
+    font-style: italic;
+    margin: 3px 0px 0 10px;
+    clear:both;
+}
 /* end of chart-wizzart step 2 */
+
+
+
+/* jqplot charttype customization */
+.jqplot-charttype {
+    margin-top: 35px;
+    margin-left: 20px;
+    width: 80%;
+}

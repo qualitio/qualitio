@@ -194,7 +194,7 @@ EMAIL_HOST_USER = 'notifications@qualitio.com'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "Qualitio Notifications <notifications@qualitio.com>"
 
-CHART_TYPES_ENGINE = 'qualitio.chart.types.open_flash_chart'
+CHART_TYPES_ENGINE = 'qualitio.chart.types.jqplot'
 
 try:
     from local_settings import *

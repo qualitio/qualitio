@@ -1,0 +1,65 @@
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.json2.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  var loadPlot = function (opts) {
+    $.ajax({
+      async: true,
+      url: URLFor.chartdata(OPTIONS),
+      dataType:"json",
+      success: opts.onSuccess
+    });
+  }
+
+  var onSuccess = function (response) {
+    $('#loading-info').remove();
+
+    var plot = $.jqplot('chart', response.data, {
+      title: response.options.title,
+      stackSeries: response.options.stackBar,
+
+      axesDefaults: {
+        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+        tickOptions: {
+          angle: 30,
+          fontSize: '10pt'
+        },
+      },
+
+      seriesDefaults:{
+	renderer: $.jqplot.BarRenderer,
+	rendererOptions: {
+          barMargin: 30,
+          fillToZero: true
+	},
+      },
+
+      axes: {
+	xaxis: {
+          renderer: $.jqplot.CategoryAxisRenderer,
+          ticks: response.options.xaxisNames
+	},
+	yaxis: {
+          padMin: 0,
+          max: response.options.yaxismax,
+          autoscale: true
+	},
+      },
+
+      legend: {
+        labels: response.options.legendLabels || [],
+	show: true,
+	location: 'e',
+	placement: 'outside'
+      }
+    });
+  };
+  loadPlot({onSuccess: onSuccess});
+});
+</script>
