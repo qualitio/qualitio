@@ -49,6 +49,7 @@ class Profile(models.Model):
     def __init__(self, *args, **kwargs): 
         super(Profile, self).__init__(*args, **kwargs) 
         self._status = self.status
+        self._strategy = self.strategy
     
     def __unicode__(self):
         return "%s :%s" % (self.organization.name,
@@ -81,6 +82,27 @@ class Profile(models.Model):
             
         
     def save(self, **kwargs):
+        admin_memeber = kwargs.pop('admin_memeber', None)
+        
+        if self._strategy != self.strategy and \
+            self._strategy.users > self.strategy.users:
+            
+            from qualitio.organizations.models import OrganizationMember
+
+            members = OrganizationMember.objects.filter(organization=self.organization)
+            
+            admins = members.filter(role=OrganizationMember.ADMIN)
+            others = members.exclude(role=OrganizationMember.ADMIN)
+
+            others.update(role=OrganizationMember.INACTIVE)
+            
+            if admin_memeber:
+                admins.exclude(pk=admin.pk).update(role=OrganizationMember.INACTIVE)
+            else:
+                first_admin = admins[:1].values_list("id", flat=True)
+                admins.exclude(pk__in=first_admin).update(
+                    role=OrganizationMember.INACTIVE)
+
         cancel_check = kwargs.pop('cancel_check', True)
         if self.status == self.CANCELED and cancel_check:
             self.cancel()

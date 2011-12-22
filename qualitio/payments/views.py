@@ -109,7 +109,10 @@ class Billing(TemplateView):
             payment.paypal_id = paypal_response['PROFILEID']
             payment.status = Profile.PENDING
             
-            payment.save()
+            admin_member = self.request.user.organization_member.get(
+                organization=self.request.organization)
+            
+            payment.save(admin_memeber=admin_member)
             
             send_mail(
                 'Qualitio Project, Payment profile updated for %s organization'
