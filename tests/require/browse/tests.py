@@ -1881,6 +1881,148 @@ class Test05Yahoo(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
 
 
+class Test06Googleappsdom(BaseSeleniumTestCase):
+    
+    def test_06_googleappsdom(self):
+        self.login() 
+        sel = self.selenium
+        sel.open("/project/meego/require/#requirement/1/details/")
+        try: self.assertEqual("test@qualitio :: require", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "MeeGo" == sel.get_text("link=MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=settings"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=settings"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=settings")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("Googleapps domain"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Googleapps domain"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id=id_googleapps_domain"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id=id_googleapps_domain", "binop.com")
+        try: self.failUnless(sel.is_element_present("//input[@value='Save']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='Save']")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("Organization profile successfully updated."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Organization profile successfully updated."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("binop.com", sel.get_value("id=id_googleapps_domain"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=logout"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=logout")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if "qualitio: login" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("qualitio: login", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=span.ui-button-text"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("This domain is also connected with google apps domain binop.com. If you have account in this organization you can login straight in using Googgle Apps OpenID mechanism. No further activation or verification process is needed."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failIf(sel.is_element_present("//div[@id='main']/div/div[2]/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=span.ui-button-text")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("@binop.com"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("@binop.com"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/login/?next=/")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_username"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id=id_username"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id=id_username")
+        sel.type("id=id_username", "qualitio1@gmail.com")
+        sel.click("id=id_password")
+        try: self.failUnless(sel.is_element_present("//div[@id='main']/div/div/form/fieldset/label[2]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("id=id_password")
+        sel.type("id=id_password", "admin")
+        sel.click("css=div.right")
+        try: self.failUnless(sel.is_element_present("//input[@value='login']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='login']")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        try: self.failUnless(sel.is_element_present("link=settings"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=settings"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=settings")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        sel.type("id=id_googleapps_domain", "")
+        sel.click("//input[@value='Save']")
+        time.sleep(2)
+        sel.click("link=logout")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        try: self.failUnless(sel.is_element_present("css=span.ui-button-text"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='main']/div/div[2]/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("You have also an option to log in with use of regular OpenID, but in this case you have to wait till one of the users with administration privileges will accept your membership."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Create your own organization"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=qualitio@qualitio.com"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("If you need an new organization please feel free to contact with us qualitio@qualitio.com."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
 class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
     
     def test_1_headerpage_verifytext(self):
