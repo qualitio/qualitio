@@ -1,4 +1,5 @@
 from django.db import models
+from .paypal import PayPal, PayPalException
 
 
 class Strategy(models.Model):
@@ -45,9 +46,44 @@ class Profile(models.Model):
     valid_time = models.DateTimeField()
     created_time = models.DateTimeField()
 
+    def __init__(self, *args, **kwargs): 
+        super(Profile, self).__init__(*args, **kwargs) 
+        self._status = self.status
+    
     def __unicode__(self):
         return "%s :%s" % (self.organization.name,
                            self.strategy.name)
 
     def is_running(self):
         return self.status in (self.PENDING, self.ACTIVE)
+
+    def cancel(self):
+        if self._status in (Profile.PENDING, Profile.ACTIVE):
+            try:
+                paypal = PayPal()
+                paypal.ManageRecurringPaymentsProfileStatus(
+                    PROFILEID=self.paypal_id,
+                    ACTION="Cancel")
+            except PayPalException as e:
+                # thats allright, profile was cancled again
+                if e.message['L_ERRORCODE0'] not in ('11556', '11551'): 
+                    raise e
+
+            if self._status == Profile.PENDING:
+                self.status = Profile.INACTIVE
+                self.strategy = Strategy.get_default()
+                self.paypal_id = ""
+
+            if self._status == Profile.ACTIVE:
+                self.status = Profile.CANCELED
+
+            self.save(cancel_check=False)
+            
+        
+    def save(self, **kwargs):
+        cancel_check = kwargs.pop('cancel_check', True)
+        if self.status == self.CANCELED and cancel_check:
+            self.cancel()
+        else:
+            super(Profile, self).save(**kwargs)
+

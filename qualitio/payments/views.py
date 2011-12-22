@@ -133,27 +133,7 @@ class BillingCancel(RedirectView):
     
     def get(self, request, *args, **kwargs):
         payment = self.request.organization.payment
-    
-        if payment.status in (Profile.PENDING, Profile.ACTIVE):
-            try:
-                paypal = PayPal()
-                paypal.ManageRecurringPaymentsProfileStatus(
-                    PROFILEID=payment.paypal_id,
-                    ACTION="Cancel"
-                )
-            except PayPalException as e:
-                # thats allright, profile was cancled again
-                if e.message['L_ERRORCODE0'] not in ('11556', '11551'): 
-                    raise e
-
-        if payment.status == Profile.PENDING:
-            payment.status = Profile.INACTIVE
-            payment.strategy = Strategy.get_default()
-            
-        if payment.status == Profile.ACTIVE:
-            payment.status= Profile.CANCELED
-
-        payment.save()
+        payment.cancel()
 
         send_mail(
             'Qualitio Project, Payment profile cancled for %s organization'
