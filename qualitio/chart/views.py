@@ -74,9 +74,7 @@ class ChartView(ChartBuilderView):
         })
 
 
-class SavedChartView(FilterView):
-    template = "chart/view.html"
-
+class BaseSavedChartQueryView(FilterView):
     def before_get(self, request, *args, **kwargs):
         self.chart_query = get_object_or_404(ChartQuery, id=kwargs.get('id'))
         self.charttype = self.chart_query.get_type_class()()  # construct the object
@@ -87,6 +85,10 @@ class SavedChartView(FilterView):
         self.table_exclude = self.charttype.filter_table_exclude or self.table_exclude
         self.filter_fields = self.charttype.filter_fields or self.filter_fields
         self.filter_exclude = self.charttype.filter_exclude or self.filter_exclude
+
+
+class SavedChartView(BaseSavedChartQueryView):
+    template = "chart/view.html"
 
     def get(self, request, project=None, id=None):
         return super(SavedChartView, self).get(request, extra_context={
@@ -99,6 +101,19 @@ class SavedChartView(FilterView):
             'chart_engine': get_engine(),
             'chart_engine_js_include_template': get_engine().get_js_include_template(),
             'chart_engine_css_include_template': get_engine().get_css_include_template(),
+            'saved_chart_view': True,
+        })
+
+
+class SavedChartFilterView(BaseSavedChartQueryView, ChartBuilderView):
+    template = "chart/filter_xaxis.html"
+
+    def get(self, request, project=None, id=None):
+        return super(SavedChartFilterView, self).get(request, extra_context={
+            'project': project,
+            'chart_query_id': id,
+            'chartid': self.charttype.id(),
+            'xaxismodel': self.model.__name__.lower()
         })
 
 

@@ -31,11 +31,29 @@ var URLFor = (function () {
 
     /* Requires:
      * - opts.projectSlug,
+     * - opts.id,          // the id of saved chart query
+     * - opts.searchParams
+     */
+    savedXAxisView: function(opts) {
+      return "/project/" + opts.projectSlug + "/chart/saved/" + opts.id + "/filter/" + addQuestionMark(opts.searchParams);
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
      * - opts.chartid,
      * - opts.searchParams
      */
     chartView: function(opts) {
       return "/project/" + opts.projectSlug + "/chart/view/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     * - opts.id,          // the id of saved chart query
+     * - opts.searchParams
+     */
+    savedChartView: function(opts) {
+      return "/project/" + opts.projectSlug + "/chart/saved/" + opts.id  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* This is a ajax view for open-flash-chart flash plugin.
@@ -138,14 +156,48 @@ var FilterXAxisView = (function(opts) {
       return true;
   };
 
-  return {
-    bind: function () {
+  var operations = $.extend({
+    bindCancelButton : function (o) {
       $('.cancel-button').attr("href", URLFor.chartTypeView(opts));
+    },
+    bindNextButton: function (o) {
       $(".show-chart-button").click(applyHref);
       applyHref();
     }
+  }).extend(opts.override || {});
+
+  return {
+    bind: function () {
+      operations.bindCancelButton(opts);
+      operations.bindNextButton(opts);
+    }
   }
 });
+
+
+var SavedChartFilterView = (function (opts) {
+  var applyHref = function() {
+      var urlParams = $.extend({
+	  searchParams: document.location.search
+      }, opts);  // "projectSlug" and "chartid" should be in opts!
+      $(".show-chart-button").attr("href", URLFor.savedChartView(urlParams));
+      return true;
+  };
+
+  var o = opts || {};
+  o.override = o.override || {};
+  o.override = $.extend(o.override, {
+    bindCancelButton: function (o) {
+      // the button should be not visible
+    },
+    bindNextButton: function (o) {
+      $(".show-chart-button").click(applyHref);
+      applyHref();
+    }
+  });
+  return FilterXAxisView(o);
+});
+
 
 
 /* ChartView requires following env variables:
@@ -154,15 +206,25 @@ var FilterXAxisView = (function(opts) {
  * - opts.chartid       - the chart ID
  * - opts.searchParamsJSON
  *
+ * Operation to override:
+ * - override.bindBackButton,
+ *
  * Usage:
  *
  * var view = ChartView({ searchParams: PARAMS });
  * view.bind();
  */
 var ChartView = (function (opts) {
+
+  var operations = $.extend({
+    bindBackButton : function (o) {
+      $('.back-button').attr("href", URLFor.xAxisView(o));
+    }
+  }).extend(opts.override || {});
+
   return {
     bind: function () {
-      $('.back-button').attr("href", URLFor.xAxisView(opts));
+      operations.bindBackButton(opts);
 
       $('#id_onpage').change(function () {
 	var params = $.extend(opts.searchParamsJSON, {
@@ -191,6 +253,18 @@ var ChartView = (function (opts) {
       });
     }
   }
+});
+
+
+var SavedChartView = (function (opts) {
+  var o = opts || {};
+  o.override = o.override || {};
+  o.override = $.extend(o.override, {
+    bindBackButton : function (o) {
+      $('.back-button').attr("href", URLFor.savedXAxisView(o));
+    }
+  });
+  return ChartView(o);
 });
 
 

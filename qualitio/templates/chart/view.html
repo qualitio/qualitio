@@ -17,6 +17,7 @@
 {{ block.super }}
 <script type="text/javascript">
   var OPTIONS = {
+      id: "{{ chart_query_id }}",
       projectSlug: PROJECT_SLUG,
       chartid: "{{ chartid }}",
       searchParams: "{{ request.GET.urlencode|safe }}"
@@ -30,7 +31,13 @@
 
 
 <script type="text/javascript">
-  $(document).ready(ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind);
+  $(document).ready(function () {
+  {% if saved_chart_view %}
+  SavedChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
+  {% else %}
+  ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
+  {% endif %}
+  });
 </script>
 {% endblock %}
 

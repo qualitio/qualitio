@@ -2,7 +2,9 @@
 
 
 {% block wizzard-menu %}
+{% if not chart_query_id %}
 <li><a href="#" class="button cancel-button">Cancel</a></li>
+{% endif %}
 {{ block.super }}
 <li><a href="#" class="button show-chart-button">Next</a></li>
 {% endblock %}
@@ -11,15 +13,23 @@
 {% block js-include %}
 <script type="text/javascript">
   var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
+  var OPTIONS = {
+    id: "{{ chart_query_id }}",
+    projectSlug: PROJECT_SLUG,
+    chartid: "{{ chartid }}"
+  };
 </script>
 {{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript">
-  $(document).ready(FilterXAxisView({
-    projectSlug: PROJECT_SLUG,
-    chartid: "{{ chartid }}"
-  }).bind);
+  $(document).ready(function () {
+  {% if chart_query_id %}
+    SavedChartFilterView(OPTIONS).bind();
+  {% else %}
+    FilterXAxisView(OPTIONS).bind();
+  {% endif %}
+  });
 </script>
 {% endblock %}
 

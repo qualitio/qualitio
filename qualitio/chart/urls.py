@@ -4,7 +4,7 @@ from django.conf.urls.defaults import patterns, url
 from qualitio.chart.models import ChartQuery
 from qualitio.chart.views import (FilterXaxisModelView,
     ChartDataView, ChartView, NewChartView, SaveChartView,
-    SavedChartView, DeleteChartQueryView)
+    SavedChartView, SavedChartFilterView, DeleteChartQueryView)
 
 urlpatterns = patterns(
     '',
@@ -18,6 +18,7 @@ urlpatterns = patterns(
     (r'^data/(?P<chartid>\w+)/$', ChartDataView.as_view()),
 
     (r'^saved/(?P<id>\d+)/$', SavedChartView.as_view()),
+    (r'^saved/(?P<id>\d+)/filter/$', SavedChartFilterView.as_view()),
 
     (r'^ajax/save/((?P<id>\d+)/)?$', SaveChartView.as_view()),
     (r'^ajax/delete/(?P<id>\d+)/$', DeleteChartQueryView.as_view()),
