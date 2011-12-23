@@ -49,7 +49,10 @@ class Profile(models.Model):
     def __init__(self, *args, **kwargs): 
         super(Profile, self).__init__(*args, **kwargs) 
         self._status = self.status
-        self._strategy = self.strategy
+        if self.strategy_id:
+            self._strategy = self.strategy
+        else:
+            self._strategy = None
     
     def __unicode__(self):
         return "%s :%s" % (self.organization.name,
@@ -83,25 +86,26 @@ class Profile(models.Model):
         
     def save(self, **kwargs):
         admin_memeber = kwargs.pop('admin_memeber', None)
-        
-        if self._strategy != self.strategy and \
-            self._strategy.users > self.strategy.users:
-            
-            from qualitio.organizations.models import OrganizationMember
 
-            members = OrganizationMember.objects.filter(organization=self.organization)
+        if self._strategy:
+            if self._strategy != self.strategy and \
+               self._strategy.users > self.strategy.users:
             
-            admins = members.filter(role=OrganizationMember.ADMIN)
-            others = members.exclude(role=OrganizationMember.ADMIN)
+                from qualitio.organizations.models import OrganizationMember
 
-            others.update(role=OrganizationMember.INACTIVE)
+                members = OrganizationMember.objects.filter(organization=self.organization)
             
-            if admin_memeber:
-                admins.exclude(pk=admin.pk).update(role=OrganizationMember.INACTIVE)
-            else:
-                first_admin = admins[:1].values_list("id", flat=True)
-                admins.exclude(pk__in=first_admin).update(
-                    role=OrganizationMember.INACTIVE)
+                admins = members.filter(role=OrganizationMember.ADMIN)
+                others = members.exclude(role=OrganizationMember.ADMIN)
+
+                others.update(role=OrganizationMember.INACTIVE)
+            
+                if admin_memeber:
+                    admins.exclude(pk=admin.pk).update(role=OrganizationMember.INACTIVE)
+                else:
+                    first_admin = admins[:1].values_list("id", flat=True)
+                    admins.exclude(pk__in=first_admin).update(
+                        role=OrganizationMember.INACTIVE)
 
         cancel_check = kwargs.pop('cancel_check', True)
         if self.status == self.CANCELED and cancel_check:
