@@ -61,5 +61,10 @@ $(document).ready(function () {
     });
   };
   loadPlot({onSuccess: onSuccess});
+
+  $(window).resize(function () {
+    $('#chart *').remove();
+    loadPlot({onSuccess: onSuccess});
+  });
 });
 </script>
