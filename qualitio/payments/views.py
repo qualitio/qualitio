@@ -136,7 +136,11 @@ class BillingCancel(RedirectView):
     
     def get(self, request, *args, **kwargs):
         payment = self.request.organization.payment
-        payment.cancel()
+        
+        admin_member = self.request.user.organization_member.get(
+            organization=self.request.organization)
+
+        payment.cancel(admin_memeber=admin_member)
 
         send_mail(
             'Qualitio Project, Payment profile cancled for %s organization'
