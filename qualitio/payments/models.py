@@ -61,7 +61,7 @@ class Profile(models.Model):
     def is_running(self):
         return self.status in (self.PENDING, self.ACTIVE)
 
-    def cancel(self):
+    def cancel(self, **kwargs):
         if self._status in (Profile.PENDING, Profile.ACTIVE):
             try:
                 paypal = PayPal()
@@ -81,7 +81,8 @@ class Profile(models.Model):
             if self._status == Profile.ACTIVE:
                 self.status = Profile.CANCELED
 
-            self.save(cancel_check=False)
+            kwargs['cancel_check'] = False
+            self.save(**kwargs)
             
         
     def save(self, **kwargs):
@@ -101,7 +102,7 @@ class Profile(models.Model):
                 others.update(role=OrganizationMember.INACTIVE)
             
                 if admin_memeber:
-                    admins.exclude(pk=admin.pk).update(role=OrganizationMember.INACTIVE)
+                    admins.exclude(pk=admin_memeber.pk).update(role=OrganizationMember.INACTIVE)
                 else:
                     first_admin = admins[:1].values_list("id", flat=True)
                     admins.exclude(pk__in=first_admin).update(
