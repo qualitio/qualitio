@@ -3,6 +3,13 @@
 
 {% block js-include %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript">
+  $(function() {
+    var view = ChartBaseView();
+    view.loadList();
+    view.bindNewChartButton();
+  });
+</script>
 {% endblock %}
 
 

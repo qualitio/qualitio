@@ -241,10 +241,14 @@
 /* end of chart-wizzart step 2 */
 
 
+#chart-name {
+    text-align: center;
+}
+
 
 /* jqplot charttype customization */
 .jqplot-charttype {
-    margin-top: 35px;
+    margin-top: 20px;
     margin-left: 20px;
-    width: 80%;
+    width: 85%;
 }

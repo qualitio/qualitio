@@ -266,10 +266,3 @@ var SavedChartView = (function (opts) {
   });
   return ChartView(o);
 });
-
-
-$(function() {
-  var view = ChartBaseView();
-  view.loadList();
-  view.bindNewChartButton();
-});
