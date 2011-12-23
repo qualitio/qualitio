@@ -10,6 +10,9 @@ class ChartQuery(BaseModel):
     type_class_name = models.CharField(max_length=255)
     query = models.CharField(max_length=255, blank=True)
 
+    class Meta:
+        unique_together = ('project', 'name')
+
     def get_type_class(self):
         splited = self.type_class_name.split('.')
         class_name = splited[-1]

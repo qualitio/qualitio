@@ -8,23 +8,14 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'ChartQuery'
-        db.create_table('chart_chartquery', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['organizations.Project'])),
-            ('modified_time', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('type_class_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('query', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-        ))
-        db.send_create_signal('chart', ['ChartQuery'])
+        # Adding unique constraint on 'ChartQuery', fields ['project', 'name']
+        db.create_unique('chart_chartquery', ['project_id', 'name'])
 
 
     def backwards(self, orm):
         
-        # Deleting model 'ChartQuery'
-        db.delete_table('chart_chartquery')
+        # Removing unique constraint on 'ChartQuery', fields ['project', 'name']
+        db.delete_unique('chart_chartquery', ['project_id', 'name'])
 
 
     models = {
@@ -58,13 +49,13 @@ class Migration(SchemaMigration):
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         'chart.chartquery': {
-            'Meta': {'object_name': 'ChartQuery'},
+            'Meta': {'unique_together': "(('project', 'name'),)", 'object_name': 'ChartQuery'},
             'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'project': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['organizations.Project']"}),
-            'query': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'query': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'type_class_name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'contenttypes.contenttype': {
