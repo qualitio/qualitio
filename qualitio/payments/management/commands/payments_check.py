@@ -7,5 +7,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for profile in Profile.objects.all():
-            if datetime.now().date() > profile.valid_till:
-                print profile.status
+            if profile.status == Profile.ACTIVE:
+                if datetime.now() > profile.valid_time:
+                    profile.cancel()
+            
+            if profile.status == Profile.PENDING:
+                if (datetime.now() - profile.created_time).days > 1:
+                    profile.cancel()

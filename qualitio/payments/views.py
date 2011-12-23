@@ -16,6 +16,9 @@ from .forms import PaymentForm
 
 @csrf_exempt
 def paypal_ipn(request, *args, **kwargs):
+    if not request.method == "POST":
+        raise Http404 
+
     organization_name, strategy_name = request.POST.get('product_name').split(":")
 
     profile = Profile.objects.get(organization__name=organization_name)
@@ -79,12 +82,17 @@ class Billing(TemplateView):
                     ACTION="Cancel"
                 )
             except PayPalException as e:
-                if e.message['L_ERRORCODE0'] != '11556': 
+                if e.message['L_ERRORCODE0'] not in ('11556', '11551'): 
                     raise e
 
             try:
                 paypal_response = paypal.CreateRecurringPaymentsProfile(**paypal_data)
             except PayPalException as e:
+                
+                if e.message['L_ERRORCODE0'] == '10527':
+                    payment_form._errors['ACCT'] = payment_form.error_class(
+                        [e.message['L_LONGMESSAGE0']])
+                
                 return self.render_to_response(
                     self.get_context_data(
                         payment_form=payment_form,
@@ -101,7 +109,10 @@ class Billing(TemplateView):
             payment.paypal_id = paypal_response['PROFILEID']
             payment.status = Profile.PENDING
             
-            payment.save()
+            admin_member = self.request.user.organization_member.get(
+                organization=self.request.organization)
+            
+            payment.save(admin_memeber=admin_member)
             
             send_mail(
                 'Qualitio Project, Payment profile updated for %s organization'
@@ -115,6 +126,9 @@ class Billing(TemplateView):
 
             return redirect("/settings/billing/")
 
+        return self.render_to_response(
+            self.get_context_data(**{"payment_form": payment_form}))
+
 
 class BillingCancel(RedirectView):
     url = "/settings/billing/"
@@ -122,27 +136,11 @@ class BillingCancel(RedirectView):
     
     def get(self, request, *args, **kwargs):
         payment = self.request.organization.payment
-    
-        if payment.status in (Profile.PENDING, Profile.ACTIVE):
-            try:
-                paypal = PayPal()
-                paypal.ManageRecurringPaymentsProfileStatus(
-                    PROFILEID=payment.paypal_id,
-                    ACTION="Cancel"
-                )
-            except PayPalException as e:
-                # thats allright, profile was cancled again
-                if e.message['L_ERRORCODE0'] != '11556': 
-                    raise e
+        
+        admin_member = self.request.user.organization_member.get(
+            organization=self.request.organization)
 
-        if payment.status == Profile.PENDING:
-            payment.status = Profile.INACTIVE
-            payment.strategy = Strategy.get_default()
-            
-        if payment.status == Profile.ACTIVE:
-            payment.status= Profile.CANCELED
-
-        payment.save()
+        payment.cancel(admin_memeber=admin_member)
 
         send_mail(
             'Qualitio Project, Payment profile cancled for %s organization'

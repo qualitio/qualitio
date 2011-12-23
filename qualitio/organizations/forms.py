@@ -91,12 +91,26 @@ class NewUserForm(core.BaseModelForm):
             user.save()
         return user
 
+        
+class OrganizationNew(core.BaseForm):
+    email = forms.EmailField(label="your email")
+    name = forms.CharField(label="organization name")
+    
+    def clean_name(self):
+        name = self.cleaned_data['name']
+
+        if models.Organization.objects.filter(name__iexact=name).exists():
+            raise forms.ValidationError(
+                'Organization with this name alredy exists.')
+
+        return name
+
 
 class ProjectForm(core.BaseModelForm):
 
     class Meta(core.BaseModelForm.Meta):
         model = models.Project
-        fields = ("name", "homepage", "description")
+        fields = ("name", "homepage")
 
     def __init__(self, *args, **kwargs):
         self.organization = kwargs.pop('organization', None)
@@ -105,8 +119,11 @@ class ProjectForm(core.BaseModelForm):
 
     def clean(self):
         name = self.cleaned_data.get('name')
-        qs = models.Project.objects.filter(name=name, organization=self.organization)
-        qs = qs.exclude(pk=self.instance.pk)
+        qs = models.Project.objects.filter(
+            name__iexact=name,
+            organization=self.organization
+        ).exclude(pk=self.instance.pk)
+        
         if qs.exists():
             raise forms.ValidationError('Project with name "%s" already exists in "%s" organization.' % (
                     name, self.organization.name))
@@ -134,12 +151,13 @@ class OrganizationUsersFormSet(core.BaseInlineFormSet):
         active_members = [member for member in self.cleaned_data\
                           if member['role'] < models.OrganizationMember.INACTIVE]
 
-        if self.instance.payment.strategy.users < len(active_members):
-            raise forms.ValidationError(
-                ("Your current plan is %s and maximum number of users is %s.<br/>" +\
-                "Change your plan to increase the number of users.")
-                % (self.instance.payment, self.instance.payment.strategy.users)
-            )
+        if hasattr(self.instance, 'payment'):
+            if self.instance.payment.strategy.users < len(active_members):
+                raise forms.ValidationError(
+                    ("Your current plan is %s and maximum number of users is %s.<br/>" +\
+                     "Change your plan to increase the number of users.")
+                    % (self.instance.payment, self.instance.payment.strategy.users)
+                )
 
 
 OrganizationUsersForm = inlineformset_factory(models.Organization,
