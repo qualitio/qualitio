@@ -16,14 +16,13 @@
   {% endcompress %}
 
   {% compress js %}
-  <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.6.1.js"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js{{ STATIC_HASH }}"></script>
   <script type="text/javascript">
     var OPTIONS = {
       id: "{{ chart_query.id }}",
       projectSlug: "{{ chart_query.project.slug }}",
       chartid: "{{ chart_query.get_type_class.id }}",
-      searchParams: "{{ chart_query.query }}"
+      searchParams: "{{ chart_query.query|safe }}"
     };
   </script>
   {% if engine.get_js_include_template %}{% include engine.get_js_include_template %}{% endif %}
