@@ -1,0 +1,11 @@
+Hi, 
+
+New '{{ organization_name }}' organzation has been created.
+
+{% if new_user %}
+User account created: 
+Login/Email: {{ email }}
+{% endif %}
+
+Best Regards
+Qualitio Team

@@ -58,18 +58,47 @@ class OrganizationNone(TemplateView):
         organization_form = forms.OrganizationNew(self.request.POST)
 
         if organization_form.is_valid():
+            user_email = organization_form.cleaned_data['email']
+            new_user = bool(int(organization_form.cleaned_data['new_user']))
 
-            emails = filter(len, auth.User.objects.filter(is_superuser=True).values_list(
+            if new_user:
+                user = auth.User.objects.create_user(
+                    user_email, user_email,
+                    organization_form.cleaned_data['email'])
+            else:
+                user = auth.User.objects.get(email=user_email)
+            
+            organization = models.Organization.objects.create(
+                name=organization_form.cleaned_data['name']
+            )
+            
+            organization_member = models.OrganizationMember.objects.create(
+                user=user,
+                organization=organization,
+                role=models.OrganizationMember.ADMIN
+            )
+            
+            admins_emails = filter(len, auth.User.objects.filter(is_superuser=True).values_list(
                 'email', flat=True))
 
             send_mail(
-                'Qualitio Project, New organization request',
+                'Qualitio Project, New organization created',
+                render_to_string('organizations/organization_request_user.mail',{
+                    'email': organization_form.cleaned_data['email'],
+                    'organization_name': organization_form.cleaned_data['name'],
+                    'new_user': new_user,
+                }),
+                'Qualitio Notifications <notifications@qualitio.com>',
+                [user_email])
+            
+            send_mail(
+                'Qualitio Project, New organization created',
                 render_to_string('organizations/organization_request.mail',{
                     'email': organization_form.cleaned_data['email'],
                     'organization_name': organization_form.cleaned_data['name'],
                 }),
                 'Qualitio Notifications <notifications@qualitio.com>',
-                emails)
+                admins_emails)
             
             return redirect("organization_request_thanks")
         
