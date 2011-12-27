@@ -30,9 +30,9 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
     <script>
       $(function () {
-      $('li.{% block jstitle %}{% endblock %}')
-      .css('font-weight', 'bold')
-      .css('color', 'black');
+          $('li.{% block jstitle %}none{% endblock %}')
+              .css('font-weight', 'bold')
+              .css('color', 'black');
       });
     </script>
     {% endcompress %}
