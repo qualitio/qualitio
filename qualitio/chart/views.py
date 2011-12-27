@@ -121,11 +121,9 @@ class SaveChartView(View):
     @json_response
     def post(self, request, project=None, id=None):
         instance = ChartQuery() if not id else get_object_or_404(ChartQuery, id=id)
-        form = forms.SaveChartQueryForm(request.POST, instance=instance)
+        form = forms.SaveChartQueryForm(request.POST, instance=instance, project=request.project)
         if form.is_valid():
-            chart_query = form.save(commit=False)
-            chart_query.project = request.project
-            chart_query.save()
+            chart_query = form.save()
             return success(
                 message="Query saved!",
                 data={

@@ -31,6 +31,16 @@ class SaveChartQueryForm(BaseModelForm):
 
     charttype = forms.CharField(widget=forms.HiddenInput)
 
+    def __init__(self, *args, **kwargs):
+        self.project = kwargs.pop('project', None)
+        super(SaveChartQueryForm, self).__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if ChartQuery.objects.filter(project=self.project, name=name).exists():
+            raise forms.ValidationError("There's already \"%s\" query in this project." % name)
+        return name
+
     def save(self, *args, **kwargs):
         self.instance.type_class_name = get_engine().charttypes.get_class_path(
             self.cleaned_data['charttype']
