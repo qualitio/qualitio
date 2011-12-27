@@ -167,3 +167,17 @@ body {
     list-style: none;
     color: #ff9944;
 }
+
+#organization-none ul li {
+    list-style: none;
+}
+
+#organization-none .user-type label {
+    margin-left: 0px;
+    color: #555;
+}
+
+#organization-none .user-type input {
+    width: 30px;
+    margin-top: -2px;
+}

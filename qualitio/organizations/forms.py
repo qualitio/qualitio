@@ -94,6 +94,11 @@ class NewUserForm(core.BaseModelForm):
         
 class OrganizationNew(core.BaseForm):
     email = forms.EmailField(label="your email")
+    choices = (0, "I am a returning user."), (1, "I am a new user.")
+    new_user = forms.ChoiceField(
+        choices=choices, label="Are you nnew user", widget=forms.RadioSelect, initial=0)
+    password1 = forms.CharField(label="password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="password again", required=False, widget=forms.PasswordInput)
     name = forms.CharField(label="organization name")
     
     def clean_name(self):
@@ -101,9 +106,32 @@ class OrganizationNew(core.BaseForm):
 
         if models.Organization.objects.filter(name__iexact=name).exists():
             raise forms.ValidationError(
-                'Organization with this name alredy exists.')
+                'An organization with this name alredy exists.')
 
         return name
+
+    def clean(self):
+        from django.contrib.auth import authenticate
+        email = self.cleaned_data.get('email')
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        new_user = bool(int(self.cleaned_data.get('new_user')))
+
+        if email and password1 and not new_user:
+            self.user = authenticate(username=email, password=password1)
+            if self.user is None:
+                self._errors ['email'] = self.error_class(
+                    [u"Please enter a correct username and password. Note that both fields are case-sensitive."])
+
+        if email and password1 and new_user:
+            if auth.User.objects.filter(email=email).exists():
+                self._errors ['email'] = self.error_class(
+                    [u"A user with that email already exists."])
+            if password2 != password1:
+                self._errors ['password1'] = self.error_class(
+                    [u"Repeated password did not match."])
+
+        return self.cleaned_data
 
 
 class ProjectForm(core.BaseModelForm):
