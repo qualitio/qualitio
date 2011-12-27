@@ -34,6 +34,7 @@ def module(request):
                    "STORE": qualitio.store,
                    "EXECUTE": qualitio.execute,
                    "REPORT": qualitio.report,
+                   "CHART": qualitio.chart,
                    "GLOSSARY": qualitio.glossary}
 
     current_app_module = getattr(resolve(request.path),"app_name")

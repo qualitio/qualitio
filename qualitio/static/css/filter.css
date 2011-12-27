@@ -73,6 +73,13 @@ table.display thead th[name="checkbox"] {
 .onpage-form {
 }
 
+.number-of-objects {
+    color: #999999;
+    float: right;
+    font-style: italic;
+    margin: 3px 10px 0 0;
+}
+
 .pagination .current {
     background: #dddddd;
 }
@@ -107,4 +114,8 @@ table.display thead th[name="checkbox"] {
 
 input.ui-button.search-button {
     padding: 0.47em 4em;
+}
+
+input[type="text"] {
+    height: 28px;
 }

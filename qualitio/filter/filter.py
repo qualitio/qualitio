@@ -113,12 +113,14 @@ class Filter(object):
     def get_form_classes(self):
         return getattr(self.__class__, 'form_classes', ())
 
-    def __init__(self, data=None, form_classes=()):
+    def __init__(self, data=None, form_classes=(), build=False):
         self.data = data
         self.groups = SortedDict()
         self.form_classes = form_classes or self.get_form_classes()
         self.has_control_params = False
         self.sort_by = None
+        if build:
+            self.build_from_params()
 
     def add_group(self, group_id=None):
         group_id = group_id or (len(self.groups) + 1)
