@@ -40,16 +40,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     xAxisView: function(opts) {
-      return baseUrl(opts) + "filter/X/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
-    },
-
-    /* Requires:
-     * - opts.projectSlug,
-     * - opts.chartid,
-     * - opts.searchParams
-     */
-    yAxisView: function(opts) {
-      return baseUrl(opts) + "filter/Y/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+      return baseUrl(opts) + "filter/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* Requires:
