@@ -82,6 +82,16 @@ class ChartData(object):
     def get_chart(self):
         raise NotImplementedError()
 
+    @classmethod
+    def filterable_axis_model(cls):
+        return cls.xaxismodel
+
+    @classmethod
+    def filterable_axis(cls):
+        if cls.filterable_axis_model() == cls.xaxismodel:
+            return "xaxis"
+        return "yaxis"
+
 
 class ChartTypes(dict):
     def add(self, chart_type):
@@ -173,8 +183,9 @@ class testcaserun_passrate_chartdata(ChartData):
     xaxismodel = TestCaseRunStatus
     yaxismodel = TestCaseRun
 
-    fields_order = ["id", "name", "color"]
-    filter_table_fields = ["id", "name", "color"]
-
     def belongs(self, tcr, status):
         return tcr.status == status
+
+    @classmethod
+    def filterable_axis_model(cls):
+        return cls.yaxismodel

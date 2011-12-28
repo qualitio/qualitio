@@ -58,7 +58,7 @@ class ChartBuilderView(FilterView):
         context.update({
             'engine': get_engine(),
             'project': request.project,
-            'xaxismodel': self.charttype.xaxismodel.__name__.lower(),
+            'filterable_axis_model': self.charttype.filterable_axis_model().__name__.lower(),
             'chartid': self.charttype.id(),
             'js_handler': self.js_handler,
         })
@@ -90,7 +90,7 @@ class ChartBuilderView(FilterView):
         for opt in self.configurable_options:
             setattr(self, opt, getattr(charttype, opt, None) or getattr(self, opt, None))
         self.charttype = charttype
-        self.model = charttype.xaxismodel
+        self.model = charttype.filterable_axis_model()
 
     def before_get(self, request, *args, **kwargs):
         redirect, charttype = self.fetch_charttype(request, *args, **kwargs)
@@ -176,6 +176,8 @@ class DeleteChartQueryView(View):
 
 class ChartDataView(ChartBuilderView):
     def get_response(self, request, context):
-        chartdata = self.charttype(xaxis=context['page_obj'].object_list)
+        chartdata = self.charttype(**{
+            self.charttype.filterable_axis(): context['page_obj'].object_list
+        })
         chart = chartdata.get_chart()
         return HttpResponse(chart.render(), content_type='application/json; charset=UTF-8')
