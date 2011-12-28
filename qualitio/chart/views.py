@@ -58,18 +58,21 @@ class ChartBuilderView(FilterView):
 
 class FilterXaxisModelView(ChartBuilderView):
     template = "chart/filter_xaxis.html"
+    js_handler = "FilterXAxisView"
 
     def get(self, request, project=None, chartid=None):
         return super(FilterXaxisModelView, self).get(request, extra_context={
             'project': project,
             'chartid': chartid,
             'previous_step_url': "/project/%s/chart/" % project,
-            'xaxismodel': self.model.__name__.lower()
+            'xaxismodel': self.model.__name__.lower(),
+            'js_handler': self.js_handler,
         })
 
 
 class ChartView(ChartBuilderView):
     template = "chart/view.html"
+    js_handler = "ChartView"
 
     def get(self, request, project=None, chartid=None):
         return super(ChartView, self).get(request, extra_context={
@@ -82,6 +85,7 @@ class ChartView(ChartBuilderView):
             'chart_engine': get_engine(),
             'chart_engine_js_include_template': get_engine().get_js_include_template(),
             'chart_engine_css_include_template': get_engine().get_css_include_template(),
+            'js_handler': self.js_handler,
         })
 
 
@@ -100,6 +104,7 @@ class BaseSavedChartQueryView(FilterView):
 
 class SavedChartView(BaseSavedChartQueryView):
     template = "chart/view.html"
+    js_handler = "SavedChartView"
 
     def get(self, request, project=None, id=None):
         return super(SavedChartView, self).get(request, extra_context={
@@ -113,18 +118,21 @@ class SavedChartView(BaseSavedChartQueryView):
             'chart_engine_js_include_template': get_engine().get_js_include_template(),
             'chart_engine_css_include_template': get_engine().get_css_include_template(),
             'saved_chart_view': True,
+            'js_handler': self.js_handler,
         })
 
 
 class SavedChartFilterView(BaseSavedChartQueryView, ChartBuilderView):
     template = "chart/filter_xaxis.html"
+    js_handler = "SavedChartFilterView"
 
     def get(self, request, project=None, id=None):
         return super(SavedChartFilterView, self).get(request, extra_context={
             'project': project,
             'chart_query_id': id,
             'chartid': self.charttype.id(),
-            'xaxismodel': self.model.__name__.lower()
+            'xaxismodel': self.model.__name__.lower(),
+            'js_handler': self.js_handler,
         })
 
 

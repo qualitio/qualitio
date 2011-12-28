@@ -32,11 +32,8 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-  {% if saved_chart_view %}
-  SavedChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
-  {% else %}
-  ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
-  {% endif %}
+    var view = new {{ js_handler }}($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} }));
+    view.bind();
   });
 </script>
 {% endblock %}
