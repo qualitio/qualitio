@@ -10,6 +10,8 @@ from qualitio.filter import FilterView
 from qualitio.core.utils import json_response, failed, success
 from qualitio.chart.models import ChartQuery
 from qualitio.chart.types import get_engine
+from qualitio.store.models import TestCase
+from qualitio.chart import filter as chartfilter
 
 
 class NewChartView(TemplateView):
@@ -26,6 +28,15 @@ class NewChartView(TemplateView):
 class ChartBuilderView(FilterView):
     fields_order = ['id', 'path', 'name']
     table_fields = ["id", "path", "name"]
+    modelfilters = {
+        TestCase: chartfilter.TestCaseFilter,
+    }
+
+    def get_filter_class(self):
+        klass = self.modelfilters.get(self.model)
+        if klass is None:
+            return super(ChartBuilderView, self).get_filter_class()
+        return klass
 
     def before_get(self, request, *args, **kwargs):
         form = forms.ChartTypeChoiceForm({
