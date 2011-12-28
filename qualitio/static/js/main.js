@@ -316,7 +316,8 @@ $(function() {
     var toReturn = $(this).originChosen(settings);
     $(window).unbind('resize', onResize);
     $(window).resize(onResize);
-    $.onTreeResize(onResize);
+    if ($.onTreeResize)
+      $.onTreeResize(onResize);
     onResize();
     return toReturn;
   }

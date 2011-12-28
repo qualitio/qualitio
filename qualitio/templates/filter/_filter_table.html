@@ -1,0 +1,18 @@
+<table class="display">
+  <thead>
+    <tr>
+      {% for column in table.columns %}
+      <th name="{{ column.name }}">{{ column }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in table.rows %}
+    <tr>
+      {% for value in row %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

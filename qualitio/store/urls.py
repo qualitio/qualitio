@@ -4,11 +4,25 @@ from qualitio import core
 from qualitio import report
 from qualitio.store.views import *
 from qualitio.store.models import TestCaseDirectory, TestCase
+from qualitio.filter import FilterView
+
+
+class StoreFilterView(FilterView):
+    model = TestCase
+    fields_order = ['id', 'path', 'name', 'requirement']
+    exclude = ['lft', 'rght', 'tree_id', 'level', 'precondition', 'description', 'parent', 'project']
+
+    def get_context_data(self, request, **kwargs):  # some extra context data
+        context = super(StoreFilterView, self).get_context_data(request, **kwargs)
+        context.update(app_menu_items=[
+            {'name': 'glossary', 'url': '/project/%s/glossary/' % request.project.slug}
+        ])
+        return context
 
 
 urlpatterns = patterns('',
                        url(r'^$', index),
-                       url(r'^filter/', store_filter),
+                       url(r'^filter/', StoreFilterView.as_view()),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': TestCaseDirectory}),

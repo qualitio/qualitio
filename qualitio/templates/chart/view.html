@@ -1,0 +1,71 @@
+{% extends "chart/wizzard_base.html" %}
+{% load pagination_tags %}
+
+
+{% block wizzard-menu %}
+<li><a href="#" class="button back-button">Go back to filter</a></li>
+{{ block.super }}
+{% endblock %}
+
+
+{% block css-include %}{{ block.super }}
+{% if chart_engine_css_include_template %}{% include chart_engine_css_include_template %}{% endif %}
+{% endblock %}
+
+
+{% block js-include %}
+{{ block.super }}
+<script type="text/javascript">
+  var OPTIONS = {
+      id: "{{ chart_query_id }}",
+      projectSlug: PROJECT_SLUG,
+      chartid: "{{ chartid }}",
+      searchParams: "{{ request.GET.urlencode|safe }}"
+  };
+</script>
+
+
+{% if chart_engine_js_include_template %}
+{% include chart_engine_js_include_template %}
+{% endif %}
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+  {% if saved_chart_view %}
+  SavedChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
+  {% else %}
+  ChartView($.extend(OPTIONS, { searchParamsJSON: {{ data|safe }} })).bind();
+  {% endif %}
+  });
+</script>
+{% endblock %}
+
+
+{% block application-view %}
+<div class="container_16">
+  <div class="chart-save-panel">
+    <form method="post" action="/project/{{ request.project.slug }}/chart/ajax/save/{% if chart_query_id %}{{ chart_query_id }}/{% endif %}">
+      {% csrf_token %}
+      {{ form.id }}
+      {{ form.name.label_tag }}
+      {{ form.name }}
+      {{ form.charttype }}
+      {{ form.query }}
+      <input type="submit" name="submit" value="Save" class="button" />
+    </form>
+  </div>
+  <div class="chart-wrapper {{ chart_engine.name }}-wrapper">
+    <div class="pagination-wrapper">
+      <div class="number-of-objects left">
+	{{ number_of_objects }} records filtered
+      </div>
+      {% paginate %}
+      <span class="onpage">{{ onpage_form.onpage }}</span>
+    </div>
+    <div id="chart" class="{{ chart_engine.name }}">
+      <div id="loading-info">Loading... (this may take awhile)</div>
+    </div>
+  </div>
+</div>
+{% endblock %}
