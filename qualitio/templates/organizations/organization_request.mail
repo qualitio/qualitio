@@ -1,6 +1,6 @@
 Hi Qualitio Manager, 
 
-There is new organziation request.
+New organzation has been created.
 
 Email: {{ email }},
 Organization: {{ organization_name }},

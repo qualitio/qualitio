@@ -1,0 +1,18 @@
+{% extends "chart/base.html" %}
+
+
+{% block wizzard-menu-wrapper %}
+<div class="wizzard-menu-container">
+  <ul id="wizzard-menu">
+    {% block wizzard-menu %}
+    <li class="chart-choosing-chart-type">Chart type</li>
+    <li> >> </li>
+    <li class="chart-filter-xaxis">
+      Filter X axis data {% if xaxismodel %}({{ xaxismodel }}){% endif %}
+    </li>
+    <li> >> </li>
+    <li class="chart-chart-view">Chart</li>
+    {% endblock %}
+  </ul>
+</div>
+{% endblock %}

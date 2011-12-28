@@ -34,12 +34,23 @@
     <form method="post" action="{% url organization_none %}">        
       <fieldset>
         {% csrf_token %}
+
+        {{ organization_form.name.errors }}
+        {{ organization_form.name }}{{ organization_form.name.label_tag|lower }}
         
         {{ organization_form.email.errors }}
         {{ organization_form.email }}{{ organization_form.email.label_tag|lower }}
+
+        <div class="user-type">
+          {{ organization_form.new_user.errors }}
+          {{ organization_form.new_user }}
+        </div>
         
-        {{ organization_form.name.errors }}
-        {{ organization_form.name }}{{ organization_form.name.label_tag|lower }}
+        {{ organization_form.password1.errors }}
+        {{ organization_form.password1 }}{{ organization_form.password1.label_tag|lower }}
+
+        {{ organization_form.password2.errors }}
+        {{ organization_form.password2 }}{{ organization_form.password2.label_tag|lower }}
         
       </fieldset>
       <div class="submit-panel">

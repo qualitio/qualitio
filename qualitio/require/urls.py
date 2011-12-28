@@ -2,21 +2,23 @@ from django.conf.urls.defaults import *
 
 from qualitio import core
 from qualitio import report
-from qualitio.filter.views import filter
+from qualitio.filter import FilterView
 
 from qualitio.require.models import Requirement
 from qualitio.require.filter import RequirementFilter
 from qualitio.require.views import *
 
+
+class RequireFilterView(FilterView):
+    model_filter_class = RequirementFilter
+    fields_order = ['id', 'path', 'name', 'release_target']
+    exclude = ['lft', 'rght', 'tree_id', 'level', 'dependencies',
+               'description', 'parent', 'alias', 'project']
+
+
 urlpatterns = patterns('',
                        url(r'^$', index),
-
-                       url(r'^filter/', filter,
-                           {'model_filter_class': RequirementFilter,
-                            'fields_order': ['id', 'path', 'name', 'release_target'],
-                            'exclude': ['lft', 'rght', 'tree_id', 'level', 'dependencies',
-                                        'description', 'parent', 'alias', 'project'],
-                            }),
+                       url(r'^filter/', RequireFilterView.as_view()),
 
                        url(r'^ajax/get_children$', core.get_children,
                            {'directory': Requirement}),

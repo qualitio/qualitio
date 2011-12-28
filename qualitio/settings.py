@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'qualitio.actions',
     'qualitio.glossary',
     'qualitio.payments',
+    'qualitio.chart',
 
     'qualitio.customizations',
 )
@@ -181,6 +182,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'notifications@qualitio.com'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "Qualitio Notifications <notifications@qualitio.com>"
+
+CHART_TYPES_ENGINE = 'qualitio.chart.types.jqplot'
 
 try:
     from local_settings import *
