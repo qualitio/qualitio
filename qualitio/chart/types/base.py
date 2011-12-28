@@ -166,3 +166,15 @@ class coverage_of_requirements_by_testcases_chartdata(ChartData):
 
     def belongs(self, tc, req):
         return tc.requirement_id == req.id
+
+
+class testcaserun_passrate_chartdata(ChartData):
+    title = "Test cases passrate"
+    xaxismodel = TestCaseRunStatus
+    yaxismodel = TestCaseRun
+
+    fields_order = ["id", "name", "color"]
+    filter_table_fields = ["id", "name", "color"]
+
+    def belongs(self, tcr, status):
+        return tcr.status == status
