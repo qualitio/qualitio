@@ -9,7 +9,7 @@
 
 
 {% block css-include %}{{ block.super }}
-{% if chart_engine_css_include_template %}{% include chart_engine_css_include_template %}{% endif %}
+{% if engine.get_css_include_template %}{% include engine.get_css_include_template %}{% endif %}
 {% endblock %}
 
 
@@ -25,8 +25,8 @@
 </script>
 
 
-{% if chart_engine_js_include_template %}
-{% include chart_engine_js_include_template %}
+{% if engine.get_js_include_template %}
+{% include engine.get_js_include_template %}
 {% endif %}
 
 
@@ -52,7 +52,7 @@
       <input type="submit" name="submit" value="Save" class="button" />
     </form>
   </div>
-  <div class="chart-wrapper {{ chart_engine.name }}-wrapper">
+  <div class="chart-wrapper {{ engine.name }}-wrapper">
     <div class="pagination-wrapper">
       <div class="number-of-objects left">
 	{{ number_of_objects }} records filtered
@@ -60,7 +60,7 @@
       {% paginate %}
       <span class="onpage">{{ onpage_form.onpage }}</span>
     </div>
-    <div id="chart" class="{{ chart_engine.name }}">
+    <div id="chart" class="{{ engine.name }}">
       <div id="loading-info">Loading... (this may take awhile)</div>
     </div>
   </div>
