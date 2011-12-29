@@ -37,8 +37,6 @@ class ModelTable(tables.ModelTable):
             self.fields_order,
             self.base_columns.keyOrder)
 
-        print self.base_columns.keys(), self.base_columns.values()
-
         if not self.show_checkbox:
             del self.base_columns['checkbox']
 
