@@ -23,16 +23,25 @@ def custom_fields_columns(model, columns):
 
 class ModelTable(tables.ModelTable):
     fields_order = []
+    show_checkbox = True
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')  # can raise exception
         self.query_dict = kwargs.pop('query_dict', {})
         self.fields_order = kwargs.pop('fields_order', self.__class__.fields_order)
+        self.show_checkbox = kwargs.pop('show_checkbox', self.__class__.show_checkbox)
         self.base_columns = custom_fields_columns(self._meta.model, self.base_columns)
+
         self.base_columns.keyOrder = unique_list(
             ['checkbox'],
             self.fields_order,
             self.base_columns.keyOrder)
+
+        print self.base_columns.keys(), self.base_columns.values()
+
+        if not self.show_checkbox:
+            del self.base_columns['checkbox']
+
         super(ModelTable, self).__init__(*args, **kwargs)
 
     checkbox = tables.Column(verbose_name="  ")
@@ -72,18 +81,12 @@ class ModelTable(tables.ModelTable):
         return u''
 
 
-def generate_model_table(model, columns=None, exclude=(), fields_order=()):
-    Model = model
-    columns_to_include = columns
-    columns_to_exclude = exclude
-    new_fields_order = fields_order
-
-    class _ModelTable(ModelTable):
-        fields_order = new_fields_order
-
-        class Meta:
-            model = Model
-            columns = columns_to_include
-            exclude = columns_to_exclude
-
-    return _ModelTable
+def generate_model_table(model, columns=None, exclude=(), fields_order=(), bases=(ModelTable,)):
+    return type('_ModelTable', bases, {
+        'fields_order': fields_order,
+        'Meta': type('Meta', (), {
+            'model': model,
+            'columns': columns,
+            'exclude': exclude,
+        })
+    })

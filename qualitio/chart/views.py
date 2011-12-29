@@ -12,6 +12,7 @@ from qualitio.chart.models import ChartQuery
 from qualitio.chart.types import get_engine
 from qualitio.store.models import TestCase
 from qualitio.chart import filter as chartfilter
+from qualitio.chart.tables import BaseModelTable, generate_model_table
 
 
 class NewChartView(TemplateView):
@@ -40,6 +41,14 @@ class FilterView(filterapp.FilterView):
         if klass is None:
             return super(FilterView, self).get_filter_class()
         return klass
+
+    def get_table_class(self):
+        return self.model_table_class or generate_model_table(
+            self.get_model(),
+            columns=self.table_fields,
+            exclude=self.table_exclude,
+            fields_order=self.fields_order,
+            bases=(BaseModelTable,))
 
 
 class ChartBuilderView(FilterView):

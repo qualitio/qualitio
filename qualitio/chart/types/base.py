@@ -43,10 +43,10 @@ class ChartData(object):
     fields_order = ()
 
     filter_fields = None
-    filter_table_fields = ()
+    table_fields = ()
 
     filter_exclude = ()
-    filter_table_exclude = ()
+    table_exclude = ()
     type = "Bar"  # the default one
 
     description = " -- no description -- "
@@ -125,7 +125,7 @@ class number_of_bugs_related_to_testcases_chartdata(ChartData):
 
     xaxismodel = TestCase
     yaxismodel = Bug
-    filter_table_fields = ["id", "path", "name"]
+    table_fields = ["id", "path", "name"]
 
     def belongs(self, bug, tc):
         return tc.testcaserun_set.filter(bugs__in=[bug]).exists()
@@ -166,7 +166,7 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
     yaxismodel = Requirement
 
     fields_order = ["id", "name"]
-    filter_table_fields = ["id", "name", "alias"]
+    table_fields = ["id", "name", "alias"]
 
     def __init__(self, *args, **kwargs):
         self._testcaseruns = set(TestCaseRun.objects.filter(status__name="FAIL").values_list('id', 'origin__requirement__id'))
