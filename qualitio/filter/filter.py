@@ -113,12 +113,13 @@ class Filter(object):
     def get_form_classes(self):
         return getattr(self.__class__, 'form_classes', ())
 
-    def __init__(self, data=None, form_classes=(), build=False):
+    def __init__(self, data=None, form_classes=(), queryset=None, build=False):
         self.data = data
         self.groups = SortedDict()
         self.form_classes = form_classes or self.get_form_classes()
         self.has_control_params = False
         self.sort_by = None
+        self._queryset = queryset or self._meta.model.all()
         if build:
             self.build_from_params()
 
@@ -229,7 +230,7 @@ class ModelFilter(Filter):
 
     def queryset(self):
         query = Q() if not self.is_valid() else self.construct_Q()
-        queryset = self._meta.model.objects.filter(query)
+        queryset = self._queryset.filter(query)
         if self.sort_by:
             queryset = queryset.order_by(self.sort_by)
         return queryset

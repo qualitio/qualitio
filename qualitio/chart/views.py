@@ -42,6 +42,13 @@ class FilterView(filterapp.FilterView):
             return super(FilterView, self).get_filter_class()
         return klass
 
+    def get_queryset(self):
+        return self.charttype.filterable_queryset()
+
+    def build_filter(self, data, **kwargs):
+        kwargs.update(queryset=self.get_queryset())
+        return self.get_filter(data, build=True, **kwargs)
+
     def get_table_class(self):
         return self.model_table_class or generate_model_table(
             self.get_model(),

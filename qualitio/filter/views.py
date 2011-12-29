@@ -57,8 +57,8 @@ class FilterView(View):
     def get_filter(self, *args, **kwargs):
         return self.get_filter_class()(*args, **kwargs)
 
-    def build_filter(self, data):
-        return self.get_filter(data, build=True)
+    def build_filter(self, data, **kwargs):
+        return self.get_filter(data, build=True, **kwargs)
 
     def get_table_class(self):
         return self.model_table_class or generate_model_table(

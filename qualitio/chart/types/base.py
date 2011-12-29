@@ -40,6 +40,9 @@ class ChartData(object):
     xaxismodel = None
     yaxismodel = None
 
+    xaxis_queryset = None
+    yaxis_queryset = None
+
     fields_order = ()
 
     filter_fields = None
@@ -56,8 +59,8 @@ class ChartData(object):
         return hashlib.sha1(cls.__name__).hexdigest()[:10]
 
     def __init__(self, xaxis=None, yaxis=None):
-        self.xaxis = xaxis or self.xaxismodel.objects.all()
-        self.yaxis = yaxis or self.yaxismodel.objects.all()
+        self.xaxis = xaxis or self.xaxis_queryset or self.xaxismodel.objects.all()
+        self.yaxis = yaxis or self.yaxis_queryset or self.yaxismodel.objects.all()
 
     def belongs(self, y, x):
         """
@@ -94,6 +97,13 @@ class ChartData(object):
         if cls.filterable_axis_model() == cls.xaxismodel:
             return "xaxis"
         return "yaxis"
+
+    @classmethod
+    def filterable_queryset(cls):
+        model = cls.filterable_axis_model()
+        if model == cls.xaxismodel:
+            return cls.xaxis_queryset or model.objects.all()
+        return cls.yaxis_queryset or model.objects.all()
 
 
 class ChartTypes(dict):
