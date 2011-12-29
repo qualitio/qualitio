@@ -61,6 +61,7 @@ class ChartBuilderView(FilterView):
             'filterable_axis_model': self.charttype.filterable_axis_model().__name__.lower(),
             'chartid': self.charttype.id(),
             'js_handler': self.js_handler,
+            'js_plot_handler': "%sChart" % self.charttype.type,
         })
         return context
 

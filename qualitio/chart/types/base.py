@@ -47,6 +47,7 @@ class ChartData(object):
 
     filter_exclude = ()
     filter_table_exclude = ()
+    type = "Bar"  # the default one
 
     @classmethod
     def id(cls):
@@ -182,6 +183,7 @@ class testcaserun_passrate_chartdata(ChartData):
     title = "Test cases passrate"
     xaxismodel = TestCaseRunStatus
     yaxismodel = TestCaseRun
+    type = "Pie"
 
     def belongs(self, tcr, status):
         return tcr.status == status
