@@ -73,6 +73,7 @@ LOGIN_EXEMPT_URLS = (
     r'^associate/*',
     r'^complete/*',
     r'^project/(?P<slug>[\w-]+)/report/external/*',
+    r'^project/(?P<slug>[\w-]+)/chart/data/.*',
     r'^__debug__/.*',
     r'^api/.*',
     r'^googleapps_setup/$',
