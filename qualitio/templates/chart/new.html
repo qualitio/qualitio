@@ -5,14 +5,15 @@
 
 
 {% block wizzard-menu %}{{ block.super }}
-<li><a href="#" class="button filter-xaxis-button">Next</a></li>
+<li><a href="#" class="button next-button">Next</a></li>
 {% endblock %}
 
 
 {% block js-include %}{{ block.super }}
 <script type="text/javascript">
   $(document).ready(function() {
-    ChoosingChartTypeView({ projectSlug: PROJECT_SLUG }).bind();
+    var view = new ChoosingChartTypeView({ projectSlug: PROJECT_SLUG });
+    view.bind();
   });
 </script>
 {% endblock %}
@@ -24,6 +25,13 @@
     <table>
       {{ form }}
     </table>
+  </div>
+  <div id="description-container">
+    {% for id, decs in descriptions %}
+    <div style="display: none;" class="description description-{{ id }}">
+      {{ decs|linebreaks }}
+    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

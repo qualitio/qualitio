@@ -43,10 +43,13 @@ class ChartData(object):
     fields_order = ()
 
     filter_fields = None
-    filter_table_fields = ()
+    table_fields = ()
 
     filter_exclude = ()
-    filter_table_exclude = ()
+    table_exclude = ()
+    type = "Bar"  # the default one
+
+    description = " -- no description -- "
 
     @classmethod
     def id(cls):
@@ -82,6 +85,16 @@ class ChartData(object):
     def get_chart(self):
         raise NotImplementedError()
 
+    @classmethod
+    def filterable_axis_model(cls):
+        return cls.xaxismodel
+
+    @classmethod
+    def filterable_axis(cls):
+        if cls.filterable_axis_model() == cls.xaxismodel:
+            return "xaxis"
+        return "yaxis"
+
 
 class ChartTypes(dict):
     def add(self, chart_type):
@@ -106,9 +119,13 @@ class number_of_bugs_related_to_testcases_chartdata(ChartData):
     >>>
     """
     title = "Number of bugs related to testcases"
+    description = ""\
+        "The chart shows how many bugs are issued for particular testcase.\n"\
+        "Gives ability to filter testcase set.\n"
+
     xaxismodel = TestCase
     yaxismodel = Bug
-    filter_table_fields = ["id", "path", "name"]
+    table_fields = ["id", "path", "name"]
 
     def belongs(self, bug, tc):
         return tc.testcaserun_set.filter(bugs__in=[bug]).exists()
@@ -129,6 +146,9 @@ class number_of_testcaseruns_related_to_testcase_chartdata(ChartData):
     >>>
     """
     title = "Number of testcaseruns related to testcase"
+    description = ""\
+        "Shows all test case executions for each test case. Results are grouped by status.\n"\
+        "Test cases can be filtered."
     xaxismodel = TestCase
     yaxismodel = TestCaseRun
 
@@ -145,11 +165,14 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
     """
 
     title = "Number of requirements related to bugs"
+    description = ""\
+        "The chart gives information about how many requirements is afected by each bug.\n"\
+        "Set of bug can be filtered."
     xaxismodel = Bug
     yaxismodel = Requirement
 
     fields_order = ["id", "name"]
-    filter_table_fields = ["id", "name", "alias"]
+    table_fields = ["id", "name", "alias"]
 
     def __init__(self, *args, **kwargs):
         self._testcaseruns = set(TestCaseRun.objects.filter(status__name="FAIL").values_list('id', 'origin__requirement__id'))
@@ -161,8 +184,30 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
 
 class coverage_of_requirements_by_testcases_chartdata(ChartData):
     title = "Coverage of requirements by testcases"
+    description = ""\
+        "Shows information about how many testcases exists for each requirement.\n"\
+        "Requirements can be filtered."
     xaxismodel = Requirement
     yaxismodel = TestCase
 
     def belongs(self, tc, req):
         return tc.requirement_id == req.id
+
+
+class testcaserun_passrate_chartdata(ChartData):
+    title = "Test cases passrate"
+    description = ""\
+        "Shows passrate for the given set of test cases executions.\n"\
+        "The set of test case executions can be filtered, so you can\n"\
+        "get passrate for eg. selected test run."
+
+    xaxismodel = TestCaseRunStatus
+    yaxismodel = TestCaseRun
+    type = "Pie"
+
+    def belongs(self, tcr, status):
+        return tcr.status == status
+
+    @classmethod
+    def filterable_axis_model(cls):
+        return cls.yaxismodel

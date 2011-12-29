@@ -1,5 +1,5 @@
 /* This file contains all of needed functions in chart wizzard views: */
-
+/* ATTENTION: "simple.inheritance.js" file should be include *before* this file */
 
 /* Utils */
 var URLFor = (function () {
@@ -11,13 +11,27 @@ var URLFor = (function () {
     return p;
   }
 
+  var baseUrl = function (opts) {
+    return "/project/" + opts.projectSlug + "/chart/";
+  }
+
   return {
+    dummy: function (opts) {
+      return "#";
+    },
+
     /* Requires:
      * - opts.projectSlug,
-     * - opts.chartid,
      */
     chartTypeView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/";
+      return baseUrl(opts);
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     */
+    chart: function(opts) {
+      return baseUrl(opts);
     },
 
     /* Requires:
@@ -26,7 +40,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     xAxisView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/filter/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+      return baseUrl(opts) + "filter/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* Requires:
@@ -35,7 +49,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     savedXAxisView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/saved/" + opts.id + "/filter/" + addQuestionMark(opts.searchParams);
+      return baseUrl(opts) + "saved/" + opts.id + "/filter/" + addQuestionMark(opts.searchParams);
     },
 
     /* Requires:
@@ -44,7 +58,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     chartView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/view/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+      return baseUrl(opts) + "view/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* Requires:
@@ -53,7 +67,7 @@ var URLFor = (function () {
      * - opts.searchParams
      */
     savedChartView: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/saved/" + opts.id  + "/" + addQuestionMark(opts.searchParams);
+      return baseUrl(opts) + "saved/" + opts.id  + "/" + addQuestionMark(opts.searchParams);
     },
 
     /* This is a ajax view for open-flash-chart flash plugin.
@@ -63,10 +77,81 @@ var URLFor = (function () {
      * - opts.searchParams,
      */
     chartdata: function(opts) {
-      return "/project/" + opts.projectSlug + "/chart/data/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+      return baseUrl(opts) + "data/" + opts.chartid  + "/" + addQuestionMark(opts.searchParams);
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     * - opts.id
+     */
+    deleteChart: function (opts) {
+      return baseUrl(opts) + "ajax/delete/" + opts.id + "/";
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     */
+    newChart: function (opts) {
+      return baseUrl(opts) + "new/";
+    },
+
+    /* Requires:
+     * - opts.projectSlug,
+     */
+    chartList: function (opts) {
+      return baseUrl(opts) + "ajax/list/";
     }
   }
 })();
+
+
+var Base = Class.extend({
+  init: function (opts) {
+    this.opts = opts;
+  },
+
+  buildParams: function(others) {
+    return $.extend({
+      searchParams: document.location.search
+    }, this.opts, others || {});
+  },
+
+  bind: function () {}
+});
+
+
+var BaseWizzard = Base.extend({
+  init: function (opts) {
+    this._super(opts);
+    this.nextButtonClickEvent = (function(that) {
+      return function () {
+	$('.next-button').attr('href', that.nextUrl());
+      }
+    })(this);
+  },
+
+  nextUrl: function () {
+    return URLFor.dummy(this.buildParams());
+  },
+
+  backUrl: function () {
+    return URLFor.dummy(this.buildParams());
+  },
+
+  bindNextButton: function () {
+    $('.next-button').click(this.nextButtonClickEvent);
+    this.nextButtonClickEvent();
+  },
+
+  bindBackButton: function () {
+    $('.back-button').attr("href", this.backUrl());
+  },
+
+  bind: function () {
+    this.bindNextButton();
+    this.bindBackButton();
+  }
+});
 
 
 /* ChoosingChartTypeView requires following env variables:
@@ -74,66 +159,100 @@ var URLFor = (function () {
  *
  * Usage:
  *
- * var view = ChoosingChartTypeView({ projectSlug: PROJECT_SLUG });
+ * var view = new ChoosingChartTypeView({ projectSlug: PROJECT_SLUG });
  * view.bind();
  */
-var ChoosingChartTypeView = (function(opts) {
-  var chartidSelect = $("#id_chart");
+var ChoosingChartTypeView = BaseWizzard.extend({
+  init: function (opts) {
+    this._super(opts);
+    this.chartIDSelect = $('#id_chart');
+    this.chartTypeChangeEvent = (function (that) {
+      return function () {
+	var id = that.chartIDSelect.val();
+	$('.description').hide();
+	$('.description-' + id).show();
+      }
+    })(this);
+  },
 
-  var applyLinkToButton = function() {
-    var urlParams = $.extend({
-      chartid: chartidSelect.val()
-    }, opts); // projectSlug should be in opts!
-    $(".filter-xaxis-button").attr("href", URLFor.xAxisView(urlParams));
-  };
+  buildParams: function (others) {
+    return $.extend({
+      chartid: this.chartIDSelect.val()
+    }, this._super(), others || {});
+  },
 
-  return {
-    bind: function() {
-      chartidSelect.change(applyLinkToButton);
-      applyLinkToButton();
-    }
+  bindBackButton: function () {},
+
+  nextUrl: function () {
+    return URLFor.xAxisView(this.buildParams());
+  },
+
+  bindChartTypeChange: function () {
+    this.chartIDSelect.change(this.chartTypeChangeEvent);
+    this.chartTypeChangeEvent();
+  },
+
+  bind: function () {
+    this._super();
+    this.bindChartTypeChange();
   }
 });
 
 
-var ChartBaseView = (function () {
-  var loadList = function () {
-    $('#application-tree').load("/project/" + PROJECT_SLUG + "/chart/ajax/list/", function() {
+var ChartBaseView = Base.extend({
+  init: function (opts) {
+    this._super(opts);
+    this.deleteChartEvent = (function (that) {
+      return function () {
+	return that.deleteChart($(this).attr('id'));
+      }
+    })(this);
+  },
 
+  deleteChart: function (id) {
+    var that = this;
+    var data = {
+      csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+    };
+
+    $.post(URLFor.deleteChart(that.buildParams({ id: id })), data, function(response) {
+      if (!response.success) {
+        $.notification.error(response.message);
+        $.shortcuts.showErrors(response.data)
+      } else {
+        $.notification.notice(response.message);
+	document.location.href = URLFor.chart(that.opts);
+      }
+    });
+    return false;
+  },
+
+  bindList: function () {
+    var that = this;
+    $("#application-tree").load(URLFor.chartList(this.buildParams()), function () {
       $(".chart-search input")
 	.focus()
 	.livefilter({selector:'#application-tree a'});
-
-      $('.chart-delete-button').click(function () {
-	$.post("/project/" + PROJECT_SLUG + "/chart/ajax/delete/" + $(this).attr('id') + "/", {
-	  csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
-	}, function(response) {
-	  if(!response.success) {
-            $.notification.error(response.message);
-            $.shortcuts.showErrors(response.data)
-	  } else {
-            $.notification.notice(response.message);
-	    document.location.href = "/project/" + PROJECT_SLUG + "/chart/";
-	  }
-	});
-	return false;
-      });
+      $('.chart-delete-button').click(that.deleteChartEvent);
     });
-  }
-  return {
-    loadList: loadList,
+  },
 
-    bindNewChartButton: function () {
-      $(".chart-add-button")
-	.button({
-	  icons: {
-            primary: "ui-icon-circle-plus"
-	  }
-	})
-	.click( function () {
-	  document.location.href = "/project/" + PROJECT_SLUG + "/chart/new/";
-	});
-    }
+  bindNewChartButton: function () {
+    var that = this;
+    $(".chart-add-button")
+      .button({
+	icons: {
+          primary: "ui-icon-circle-plus"
+	}
+      })
+      .click(function () {
+	document.location.href = URLFor.newChart(that.opts);
+      });
+  },
+
+  bind: function () {
+    this.bindList();
+    this.bindNewChartButton();
   }
 });
 
@@ -144,60 +263,36 @@ var ChartBaseView = (function () {
  *
  * Usage:
  *
- * var view = FilterXAxisView({ projectSlug: PROJECT_SLUG, chartid: CHARTID });
+ * var view = new FilterXAxisView({ projectSlug: PROJECT_SLUG, chartid: CHARTID });
  * view.bind();
  */
-var FilterXAxisView = (function(opts) {
-  var applyHref = function() {
-      var urlParams = $.extend({
-	  searchParams: document.location.search
-      }, opts); // "projectSlug" and "chartid" should be in opts!
-      $(".show-chart-button").attr("href", URLFor.chartView(urlParams));
-      return true;
-  };
+var FilterXAxisView = BaseWizzard.extend({
+  nextUrl: function () {
+    return URLFor.chartView(this.buildParams());
+  },
 
-  var operations = $.extend({
-    bindCancelButton : function (o) {
-      $('.cancel-button').attr("href", URLFor.chartTypeView(opts));
-    },
-    bindNextButton: function (o) {
-      $(".show-chart-button").click(applyHref);
-      applyHref();
-    }
-  }).extend(opts.override || {});
-
-  return {
-    bind: function () {
-      operations.bindCancelButton(opts);
-      operations.bindNextButton(opts);
-    }
+  backUrl: function () {
+    return URLFor.chartTypeView(this.buildParams());
   }
 });
 
 
-var SavedChartFilterView = (function (opts) {
-  var applyHref = function() {
-      var urlParams = $.extend({
-	  searchParams: document.location.search
-      }, opts);  // "projectSlug" and "chartid" should be in opts!
-      $(".show-chart-button").attr("href", URLFor.savedChartView(urlParams));
-      return true;
-  };
+/* SavedChartFilterView requires following env variables:
+ * - opts.projectSlug  - current project slug
+ * - opts.chartid      - the chart type id
+ *
+ * Usage:
+ *
+ * var view = new SavedChartFilterView({ projectSlug: PROJECT_SLUG, chartid: CHARTID });
+ * view.bind();
+ */
+var SavedChartFilterView = BaseWizzard.extend({
+  nextUrl: function () {
+    return URLFor.savedChartView(this.buildParams());
+  },
 
-  var o = opts || {};
-  o.override = o.override || {};
-  o.override = $.extend(o.override, {
-    bindCancelButton: function (o) {
-      // the button should be not visible
-    },
-    bindNextButton: function (o) {
-      $(".show-chart-button").click(applyHref);
-      applyHref();
-    }
-  });
-  return FilterXAxisView(o);
+  bindBackButton: function () {}
 });
-
 
 
 /* ChartView requires following env variables:
@@ -214,55 +309,55 @@ var SavedChartFilterView = (function (opts) {
  * var view = ChartView({ searchParams: PARAMS });
  * view.bind();
  */
-var ChartView = (function (opts) {
+var ChartView = BaseWizzard.extend({
+  backUrl: function () {
+    return URLFor.xAxisView(this.buildParams());
+  },
 
-  var operations = $.extend({
-    bindBackButton : function (o) {
-      $('.back-button').attr("href", URLFor.xAxisView(o));
-    }
-  }).extend(opts.override || {});
-
-  return {
-    bind: function () {
-      operations.bindBackButton(opts);
-
-      $('#id_onpage').change(function () {
-	var params = $.extend(opts.searchParamsJSON, {
-	  onpage: $(this).val(),
-	  page: 1               // on page is changing so we moved to first page
-	});
-	document.location = document.location.pathname + "?" + $.param(params);
+  bindOnPageSelect: function () {
+    var that = this;
+    $('#id_onpage').change(function () {
+      var params = $.extend(that.opts.searchParamsJSON, {
+	onpage: $(this).val(),
+	page: 1               // on page is changing so we moved to first page
       });
+      document.location = document.location.pathname + "?" + $.param(params);
+    });
+  },
 
-      $("#id_charttype").val(opts.chartid);
-      $("#id_query").val(opts.searchParams);
-
-      $('.chart-save-panel form').ajaxForm({
-	success: function(response) {
-	  if(!response.success) {
-            $.notification.error(response.message);
-            $.shortcuts.showErrors(response.data)
-	  } else {
-            $.notification.notice(response.message);
-	    document.location.href = "/project/" + PROJECT_SLUG + "/chart/saved/" + response.data.id + "/?" + response.data.query;
-	  }
-	},
-	beforeSubmit: function() {
-	  $.shortcuts.hideErrors();
+  bindChartForm: function () {
+    var that = this;
+    $("#id_charttype").val(this.opts.chartid);
+    $("#id_query").val(this.opts.searchParams);
+    $(".chart-save-panel form").ajaxForm({
+      success: function(response) {
+	if(!response.success) {
+          $.notification.error(response.message);
+          $.shortcuts.showErrors(response.data)
+	} else {
+          $.notification.notice(response.message);
+	  document.location.href = URLFor.savedChartView(that.buildParams({
+	    id: response.data.id,
+	    searchParams: response.data.query
+	  }));
 	}
-      });
-    }
+      },
+      beforeSubmit: function() {
+	$.shortcuts.hideErrors();
+      }
+    });
+  },
+
+  bind: function () {
+    this._super();
+    this.bindOnPageSelect();
+    this.bindChartForm();
   }
 });
 
 
-var SavedChartView = (function (opts) {
-  var o = opts || {};
-  o.override = o.override || {};
-  o.override = $.extend(o.override, {
-    bindBackButton : function (o) {
-      $('.back-button').attr("href", URLFor.savedXAxisView(o));
-    }
-  });
-  return ChartView(o);
+var SavedChartView = ChartView.extend({
+  backUrl : function () {
+    return URLFor.savedXAxisView(this.buildParams());
+  }
 });

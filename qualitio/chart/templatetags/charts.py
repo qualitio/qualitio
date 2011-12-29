@@ -17,11 +17,14 @@ def chart(context, name):
             'error': 'There\'s not such chart: "%s"' % name,
         }
 
+    charttype = chart_query.get_type_class()
     engine = get_engine()
     template_context = {
         'chart_query': chart_query,
+        'charttype': charttype,
         'engine': engine,
         'MEDIA_URL': settings.MEDIA_URL,
+        'js_plot_handler': "%sChart" % charttype.type,
     }
     return template_context
 register.inclusion_tag('chart/charttag.html', takes_context=True)(chart)
