@@ -18,9 +18,11 @@ class NewChartView(TemplateView):
     template_name='chart/new.html'
 
     def get_context_data(self, **kw):
+        charttypes = get_engine().charttypes
         context = super(NewChartView, self).get_context_data(**kw)
         context.update({
             'form': forms.ChartTypeChoiceForm(),
+            'descriptions': map(lambda x: (x.id(), x.description), charttypes.values()),
         })
         return context
 

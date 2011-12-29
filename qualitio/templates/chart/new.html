@@ -26,5 +26,12 @@
       {{ form }}
     </table>
   </div>
+  <div id="description-container">
+    {% for id, decs in descriptions %}
+    <div style="display: none;" class="description description-{{ id }}">
+      {{ decs|linebreaks }}
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

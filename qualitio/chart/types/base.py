@@ -49,6 +49,8 @@ class ChartData(object):
     filter_table_exclude = ()
     type = "Bar"  # the default one
 
+    description = " -- no description -- "
+
     @classmethod
     def id(cls):
         return hashlib.sha1(cls.__name__).hexdigest()[:10]
@@ -117,6 +119,10 @@ class number_of_bugs_related_to_testcases_chartdata(ChartData):
     >>>
     """
     title = "Number of bugs related to testcases"
+    description = ""\
+        "The chart shows how many bugs are issued for particular testcase.\n"\
+        "Gives ability to filter testcase set.\n"
+
     xaxismodel = TestCase
     yaxismodel = Bug
     filter_table_fields = ["id", "path", "name"]

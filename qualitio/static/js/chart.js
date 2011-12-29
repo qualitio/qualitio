@@ -166,6 +166,13 @@ var ChoosingChartTypeView = BaseWizzard.extend({
   init: function (opts) {
     this._super(opts);
     this.chartIDSelect = $('#id_chart');
+    this.chartTypeChangeEvent = (function (that) {
+      return function () {
+	var id = that.chartIDSelect.val();
+	$('.description').hide();
+	$('.description-' + id).show();
+      }
+    })(this);
   },
 
   buildParams: function (others) {
@@ -178,6 +185,16 @@ var ChoosingChartTypeView = BaseWizzard.extend({
 
   nextUrl: function () {
     return URLFor.xAxisView(this.buildParams());
+  },
+
+  bindChartTypeChange: function () {
+    this.chartIDSelect.change(this.chartTypeChangeEvent);
+    this.chartTypeChangeEvent();
+  },
+
+  bind: function () {
+    this._super();
+    this.bindChartTypeChange();
   }
 });
 
