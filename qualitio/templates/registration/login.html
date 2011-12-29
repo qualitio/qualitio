@@ -42,6 +42,8 @@
   </form>
 </div>
 
+
+{% if not request.organization.payment %}
 {% if request.organization.googleapps_domain %}
 <div class="login-option clearfix">
   <div class="or">OR</div>
@@ -51,7 +53,6 @@
   </div>
   <a class="google button" href="/login/googleapps/">&nbsp;</a>
 </div>
-
 {% else %}
 
 <div class="login-option clearfix">
@@ -63,6 +64,9 @@
   <a class="google button" href="/login/google/">&nbsp;</a>
   <a class="yahoo button" href="/login/yahoo/">&nbsp;</a>
 </div>
+{% endif %}
+{% endif %}
+
 
 <div class="login-option clearfix">
   <div class="or">OR</div>
@@ -73,7 +77,5 @@
   </div>
 </div>
 
-
-{% endif %}
 
 {% endblock %}
