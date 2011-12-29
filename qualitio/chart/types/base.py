@@ -146,6 +146,9 @@ class number_of_testcaseruns_related_to_testcase_chartdata(ChartData):
     >>>
     """
     title = "Number of testcaseruns related to testcase"
+    description = ""\
+        "Shows all test case executions for each test case. Results are grouped by status.\n"\
+        "Test cases can be filtered."
     xaxismodel = TestCase
     yaxismodel = TestCaseRun
 
@@ -162,6 +165,9 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
     """
 
     title = "Number of requirements related to bugs"
+    description = ""\
+        "The chart gives information about how many requirements is afected by each bug.\n"\
+        "Set of bug can be filtered."
     xaxismodel = Bug
     yaxismodel = Requirement
 
@@ -178,6 +184,9 @@ class number_of_requirements_afected_by_bug_chartdata(ChartData):
 
 class coverage_of_requirements_by_testcases_chartdata(ChartData):
     title = "Coverage of requirements by testcases"
+    description = ""\
+        "Shows information about how many testcases exists for each requirement.\n"\
+        "Requirements can be filtered."
     xaxismodel = Requirement
     yaxismodel = TestCase
 
@@ -187,6 +196,11 @@ class coverage_of_requirements_by_testcases_chartdata(ChartData):
 
 class testcaserun_passrate_chartdata(ChartData):
     title = "Test cases passrate"
+    description = ""\
+        "Shows passrate for the given set of test cases executions.\n"\
+        "The set of test case executions can be filtered, so you can\n"\
+        "get passrate for eg. selected test run."
+
     xaxismodel = TestCaseRunStatus
     yaxismodel = TestCaseRun
     type = "Pie"
