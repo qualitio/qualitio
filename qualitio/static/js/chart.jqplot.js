@@ -16,7 +16,6 @@ var JQPlotChartHandler = Class.extend({
       url: URLFor.chartdata(this.opts),
       dataType: "json",
       success: _.bind(function (response) {
-	console.log(response);
 	return this.onSuccess(response);
       }, this)
     });
