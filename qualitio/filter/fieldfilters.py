@@ -36,6 +36,10 @@ class FieldFilter(utils.ObjectCounter):
         if getattr(self.form_class, 'auto_query_field', False):
             attrs['q'] = self.field.formfield(required=False)
 
+            # HACK: strict qualitio feature
+            if self.field.name == 'parent':
+                attrs['field_name_label'] = "%s (parent)" % self.field.rel.to.__name__
+
         return attrs
 
     def create_form_class(self):
