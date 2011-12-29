@@ -7,7 +7,7 @@
 
     <div class="application-view-content">
       {% block filter-control-buttons %}
-      <input type="submit" value="Search" class="search-button" />
+      <input type="submit" value="Filter" class="search-button" />
       {% if filter.has_groups %}
       <a href="{{ SELF.get_absolute_url }}filter/" class="button">Reset query</a>
       {% endif %}
