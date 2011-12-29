@@ -74,6 +74,16 @@ $(document).ready(function() {
 	$('.filter-form').submit();
     });
 
+    var columnsDefs = [
+	    { "sWidth": "10px", "asSorting":[], "aTargets": [0] },
+	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [1] },
+            { "sWidth": '300px', "aTargets": [2]}
+	]
+    if (HIDE_CHECKBOXES)
+        columnsDefs = [
+          { "sWidth": "10px", "sType": "int-in-link", "aTargets": [0] },
+        ]
+
     var filterTable = $("table.display").dataTable({
 	"bPaginate": false,
 	"bFilter": false,
@@ -82,11 +92,7 @@ $(document).ready(function() {
 	    $('.filter-form input[name="sort"]').val()
 	)],
 	"bAutoWidth": false,
-	"aoColumnDefs": [
-	    { "sWidth": "10px", "asSorting":[], "aTargets": [0] },
-	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [1] },
-            { "sWidth": '300px', "aTargets": [2, 3]}
-	]
+	"aoColumnDefs": columnsDefs
     });
 
     // prevent default bahaviour of sorting

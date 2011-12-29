@@ -1,13 +1,17 @@
 {% extends "page.html" %}
 
 
-{% block js-include %}{{ block.super }}
+{% block js-include %}
+<script type="text/javascript">
+  var HIDE_CHECKBOXES = {% if not table.show_checkboxes %}true{% else %}false{% endif %};
+</script>
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/simple.inheritance.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript">
   $(function() {
-    var view = ChartBaseView();
-    view.loadList();
-    view.bindNewChartButton();
+    var view = new ChartBaseView({ projectSlug: PROJECT_SLUG });
+    view.bind();
   });
 </script>
 {% endblock %}

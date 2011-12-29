@@ -124,3 +124,21 @@ class coverage_of_requirements_by_testcases_chartdata(
                 'legendLabels': ['Number of testcases'],
             })
 charttypes.add(coverage_of_requirements_by_testcases_chartdata)
+
+
+
+class testcaserun_passrate_chartdata(
+        JQPlotBase,
+        base.testcaserun_passrate_chartdata):
+
+    def get_chart(self):
+        series = self.groups()
+        values = map(len, series.yaxis_columns())
+        return Chart(
+            data=[values],
+            options={
+                'title': self.title,
+                'stackBar': False,
+                'legendLabels': map(self.format_xaxis_label, series.xaxis()),
+            })
+charttypes.add(testcaserun_passrate_chartdata)

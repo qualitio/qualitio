@@ -16,12 +16,14 @@
   {% endcompress %}
 
   {% compress js %}
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/underscore-min-1.1.4.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/simple.inheritance.js{{ STATIC_HASH }}"></script>
   <script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js{{ STATIC_HASH }}"></script>
   <script type="text/javascript">
     var OPTIONS = {
       id: "{{ chart_query.id }}",
       projectSlug: "{{ chart_query.project.slug }}",
-      chartid: "{{ chart_query.get_type_class.id }}",
+      chartid: "{{ charttype.id }}",
       searchParams: "{{ chart_query.query|safe }}"
     };
   </script>

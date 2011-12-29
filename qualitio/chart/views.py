@@ -2,119 +2,161 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils import simplejson as json
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.generic import View, TemplateView
 
 from qualitio.chart import forms
-from qualitio.filter import FilterView
+from qualitio import filter as filterapp
 from qualitio.core.utils import json_response, failed, success
 from qualitio.chart.models import ChartQuery
 from qualitio.chart.types import get_engine
+from qualitio.store.models import TestCase
+from qualitio.chart import filter as chartfilter
+from qualitio.chart.tables import BaseModelTable, generate_model_table
 
 
 class NewChartView(TemplateView):
     template_name='chart/new.html'
 
     def get_context_data(self, **kw):
+        charttypes = get_engine().charttypes
         context = super(NewChartView, self).get_context_data(**kw)
         context.update({
             'form': forms.ChartTypeChoiceForm(),
+            'descriptions': map(lambda x: (x.id(), x.description), charttypes.values()),
         })
         return context
 
 
+class FilterView(filterapp.FilterView):
+    """
+    Base FilterView. Gives ability to customize ModelFilter classes.
+    """
+    modelfilters = {
+        TestCase: chartfilter.TestCaseFilter,
+    }
+
+    def get_filter_class(self):
+        klass = self.modelfilters.get(self.model)
+        if klass is None:
+            return super(FilterView, self).get_filter_class()
+        return klass
+
+    def get_table_class(self):
+        return self.model_table_class or generate_model_table(
+            self.get_model(),
+            columns=self.table_fields,
+            exclude=self.table_exclude,
+            fields_order=self.fields_order,
+            bases=(BaseModelTable,))
+
+
 class ChartBuilderView(FilterView):
+    """
+    Base view for all charts views. Gives ability to customize
+    source of "model" and "charttype" attributes.
+    """
     fields_order = ['id', 'path', 'name']
     table_fields = ["id", "path", "name"]
+    configurable_options = [
+        "fields_order", "table_fields", "table_exclude",
+        "filter_fields", "filter_exclude",
+    ]
+    js_handler = None
 
-    def before_get(self, request, *args, **kwargs):
+    def get_context_data(self, request, **kwargs):
+        context = super(ChartBuilderView, self).get_context_data(request, **kwargs)
+        context.update({
+            'engine': get_engine(),
+            'project': request.project,
+            'filterable_axis_model': self.charttype.filterable_axis_model().__name__.lower(),
+            'chartid': self.charttype.id(),
+            'js_handler': self.js_handler,
+            'js_plot_handler': "%sChart" % self.charttype.type,
+        })
+        return context
+
+    def fetch_charttype(self, request, *args, **kwargs):
+        """
+        Fetching charttype from the request and params.
+        Usage:
+
+        >>> redirect, charttype = self.fetch_charttype(....)
+        >>> if redirect:        # there was a problem with charttype
+        >>>    return redirect
+        >>> # overwhise you can use charttype
+        """
+        if 'chartid' not in kwargs:
+            raise Http404("This action requires 'chartid' params.")
+
         form = forms.ChartTypeChoiceForm({
             'chart': kwargs.get('chartid'),
         })
 
         if not form.is_valid():
-            return HttpResponseRedirect("/project/%s/chart/" % request.project)
+            return HttpResponseRedirect("/project/%s/chart/" % request.project), None
 
-        self.model, _ = form.get_models()
-        self.charttype = form.get_charttype()
+        return None, form.get_charttype()
 
-        self.fields_order = self.charttype.fields_order or self.fields_order
-        self.table_fields = self.charttype.filter_table_fields or self.table_fields
-        self.table_exclude = self.charttype.filter_table_exclude or self.table_exclude
-        self.filter_fields = self.charttype.filter_fields or self.filter_fields
-        self.filter_exclude = self.charttype.filter_exclude or self.filter_exclude
+    def configure_options(self, charttype):
+        for opt in self.configurable_options:
+            setattr(self, opt, getattr(charttype, opt, None) or getattr(self, opt, None))
+        self.charttype = charttype
+        self.model = charttype.filterable_axis_model()
+
+    def before_get(self, request, *args, **kwargs):
+        redirect, charttype = self.fetch_charttype(request, *args, **kwargs)
+        if redirect:
+            return redirect
+        self.configure_options(charttype)
 
 
 class FilterXaxisModelView(ChartBuilderView):
     template = "chart/filter_xaxis.html"
-
-    def get(self, request, project=None, chartid=None):
-        return super(FilterXaxisModelView, self).get(request, extra_context={
-            'project': project,
-            'chartid': chartid,
-            'previous_step_url': "/project/%s/chart/" % project,
-            'xaxismodel': self.model.__name__.lower()
-        })
+    js_handler = "FilterXAxisView"
 
 
 class ChartView(ChartBuilderView):
     template = "chart/view.html"
+    js_handler = "ChartView"
 
-    def get(self, request, project=None, chartid=None):
+    def get(self, request, **kwargs):
         return super(ChartView, self).get(request, extra_context={
-            'project': project,
-            'chartid': chartid,
-            'previous_step_url': "/project/%s/chart/" % project,
-            'xaxismodel': self.model.__name__.lower(),
             'data': json.dumps(request.GET),
             'form': forms.SaveChartQueryForm(),
-            'chart_engine': get_engine(),
-            'chart_engine_js_include_template': get_engine().get_js_include_template(),
-            'chart_engine_css_include_template': get_engine().get_css_include_template(),
         })
 
 
-class BaseSavedChartQueryView(FilterView):
-    def before_get(self, request, *args, **kwargs):
-        self.chart_query = get_object_or_404(ChartQuery, id=kwargs.get('id'))
-        self.charttype = self.chart_query.get_type_class()()  # construct the object
-        self.model = self.charttype.xaxismodel
+class BaseSavedChartQueryView(ChartBuilderView):
+    def fetch_charttype(self, request, *args, **kwargs):
+        if 'id' not in kwargs:
+            raise Http404("This actions requires 'id' param")
 
-        self.fields_order = self.charttype.fields_order or self.fields_order
-        self.table_fields = self.charttype.filter_table_fields or self.table_fields
-        self.table_exclude = self.charttype.filter_table_exclude or self.table_exclude
-        self.filter_fields = self.charttype.filter_fields or self.filter_fields
-        self.filter_exclude = self.charttype.filter_exclude or self.filter_exclude
+        self.chart_query = get_object_or_404(ChartQuery, id=kwargs.get('id'))
+        return None, self.chart_query.get_type_class()()
+
+    def get_context_data(self, request, **kwargs):
+        context = super(BaseSavedChartQueryView, self).get_context_data(request, **kwargs)
+        context.update({
+            'chart_query_id': self.chart_query.id,
+        })
+        return context
 
 
 class SavedChartView(BaseSavedChartQueryView):
     template = "chart/view.html"
+    js_handler = "SavedChartView"
 
-    def get(self, request, project=None, id=None):
+    def get(self, request, **kwargs):
         return super(SavedChartView, self).get(request, extra_context={
-            'project': project,
             'data': json.dumps(request.GET),
-            'chartid': self.charttype.id(),
-            'xaxismodel': self.model.__name__.lower(),
             'form': forms.SaveChartQueryForm(instance=self.chart_query),
-            'chart_query_id': id,
-            'chart_engine': get_engine(),
-            'chart_engine_js_include_template': get_engine().get_js_include_template(),
-            'chart_engine_css_include_template': get_engine().get_css_include_template(),
-            'saved_chart_view': True,
         })
 
 
-class SavedChartFilterView(BaseSavedChartQueryView, ChartBuilderView):
+class SavedChartFilterView(BaseSavedChartQueryView):
     template = "chart/filter_xaxis.html"
-
-    def get(self, request, project=None, id=None):
-        return super(SavedChartFilterView, self).get(request, extra_context={
-            'project': project,
-            'chart_query_id': id,
-            'chartid': self.charttype.id(),
-            'xaxismodel': self.model.__name__.lower()
-        })
+    js_handler = "SavedChartFilterView"
 
 
 class SaveChartView(View):
@@ -145,14 +187,9 @@ class DeleteChartQueryView(View):
 
 
 class ChartDataView(ChartBuilderView):
-    def get(self, request, project=None, chartid=None):
-        return super(ChartDataView, self).get(request, extra_context={
-            'project': project,
-            'chartid': chartid,
-            'xaxismodel': self.model.__name__.lower(),
-        })
-
     def get_response(self, request, context):
-        chartdata = self.charttype(xaxis=context['page_obj'].object_list)
+        chartdata = self.charttype(**{
+            self.charttype.filterable_axis(): context['page_obj'].object_list
+        })
         chart = chartdata.get_chart()
         return HttpResponse(chart.render(), content_type='application/json; charset=UTF-8')

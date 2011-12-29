@@ -155,9 +155,8 @@
     box-shadow: 0px 0px 5px #ccc;
 
     width: 800px;
-    height: 110px;
     margin: 150px auto;
-    padding: 15px 5px 5px 15px;
+    padding: 10px;
 }
 
 .chart-axis-models .hbox {
@@ -165,7 +164,7 @@
 }
 
 .chart-axis-models .hbox table {
-    margin: 30px auto;
+    margin: 10px auto 10px auto;
 }
 
 .chart-axis-models .hbox a {
@@ -251,4 +250,12 @@
     margin-top: 20px;
     margin-left: 20px;
     width: 85%;
+}
+
+#description-container .description {
+    background: white;
+    border: 1px #CCC solid;
+    margin: auto;
+    padding: 10px;
+    font-size: 1.2em;
 }
