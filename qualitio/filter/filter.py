@@ -119,7 +119,7 @@ class Filter(object):
         self.form_classes = form_classes or self.get_form_classes()
         self.has_control_params = False
         self.sort_by = None
-        self._queryset = queryset or self._meta.model.all()
+        self._queryset = queryset or self._meta.model.objects.all()
         if build:
             self.build_from_params()
 
