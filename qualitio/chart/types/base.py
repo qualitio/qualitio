@@ -205,11 +205,11 @@ class coverage_of_requirements_by_testcases_chartdata(ChartData):
 
 
 class testcaserun_passrate_chartdata(ChartData):
-    title = "Test cases passrate"
+    title = "Test cases execution"
     description = ""\
-        "Shows passrate for the given set of test cases executions.\n"\
+        "Shows number of test case executions grouped by statuses.\n"\
         "The set of test case executions can be filtered, so you can\n"\
-        "get passrate for eg. selected test run."
+        "get passrate for eg. selected test run or group of testruns."
 
     xaxismodel = TestCaseRunStatus
     yaxismodel = TestCaseRun
