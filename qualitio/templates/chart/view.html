@@ -1,5 +1,5 @@
 {% extends "chart/wizzard_base.html" %}
-{% load pagination_tags %}
+{% load authorization pagination_tags %}
 
 
 {% block wizzard-menu %}
@@ -41,6 +41,7 @@
 
 {% block application-view %}
 <div class="container_16">
+  {% if user|has_permission:"USER" %}
   <div class="chart-save-panel">
     <form method="post" action="/project/{{ request.project.slug }}/chart/ajax/save/{% if chart_query_id %}{{ chart_query_id }}/{% endif %}">
       {% csrf_token %}
@@ -52,6 +53,7 @@
       <input type="submit" name="submit" value="Save" class="button" />
     </form>
   </div>
+  {% endif %}
   <div class="chart-wrapper {{ engine.name }}-wrapper">
     <div class="pagination-wrapper">
       <div class="number-of-objects left">

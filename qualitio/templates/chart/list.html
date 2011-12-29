@@ -1,3 +1,4 @@
+{% load authorization %}
 <div class="chart-search">
   {% csrf_token %}
   {% if chart_list %}
@@ -9,7 +10,9 @@
 {% for chart in chart_list %}
 <a href="/project/{{ request.project.slug }}/chart/saved/{{ chart.id }}/?{{ chart.query }}" class="chart">
   {{ chart.name }}
+  {% if user|has_permission:"USER" %}
   <div id="{{ chart.id }}" class="right button chart-delete-button">Delete</div>
+  {% endif %}
   <div style="clear: both;"></div>
 </a>
 {% endfor %}
