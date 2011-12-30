@@ -63,6 +63,7 @@ class number_of_testcaseruns_related_to_testcase_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': comp(max, map)(sum, values_groups) + 2,
                 'legendLabels': map(attrgetter('name'), statuses),
+                'showPointLabels': False,
             })
 charttypes.add(number_of_testcaseruns_related_to_testcase_chartdata)
 
@@ -86,6 +87,7 @@ class number_of_bugs_related_to_testcases_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of bugs'],
+                'showPointLabels': False,
             })
 charttypes.add(number_of_bugs_related_to_testcases_chartdata)
 
@@ -106,6 +108,7 @@ class number_of_requirements_afected_by_bug_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of requirements'],
+                'showPointLabels': False,
             })
 # TODO: this feature doesn't make sense since every bug bind is separate instance.
 # charttypes.add(number_of_requirements_afected_by_bug_chartdata)
@@ -127,6 +130,7 @@ class coverage_of_requirements_by_testcases_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of testcases'],
+                'showPointLabels': False,
             })
 charttypes.add(coverage_of_requirements_by_testcases_chartdata)
 

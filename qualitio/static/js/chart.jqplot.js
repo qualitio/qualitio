@@ -84,6 +84,7 @@ var BarChart = JQPlotChartHandler.extend({
           barMargin: 30,
           fillToZero: true
 	},
+	pointLabels: { show: response.options.showPointLabels || false }
       },
 
       axes: {
