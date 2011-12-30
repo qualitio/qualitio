@@ -33,8 +33,12 @@ class Chart(object):
 
 
 class JQPlotBase(base.ChartData):
+    max_label_length = 45
+
     def format_xaxis_label(self, obj):
-        return obj.name[:37] + "..." if len(obj.name) > 40 else obj.name
+        num = self.max_label_length
+        label = obj.name[:(num - 3)] + "..." if len(obj.name) > num else obj.name
+        return "#%s %s" % (obj.id, label)
 
 
 class number_of_testcaseruns_related_to_testcase_chartdata(
@@ -59,6 +63,7 @@ class number_of_testcaseruns_related_to_testcase_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': comp(max, map)(sum, values_groups) + 2,
                 'legendLabels': map(attrgetter('name'), statuses),
+                'showPointLabels': False,
             })
 charttypes.add(number_of_testcaseruns_related_to_testcase_chartdata)
 
@@ -82,6 +87,7 @@ class number_of_bugs_related_to_testcases_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of bugs'],
+                'showPointLabels': False,
             })
 charttypes.add(number_of_bugs_related_to_testcases_chartdata)
 
@@ -102,6 +108,7 @@ class number_of_requirements_afected_by_bug_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of requirements'],
+                'showPointLabels': False,
             })
 # TODO: this feature doesn't make sense since every bug bind is separate instance.
 # charttypes.add(number_of_requirements_afected_by_bug_chartdata)
@@ -123,6 +130,7 @@ class coverage_of_requirements_by_testcases_chartdata(
                 'xaxisNames': map(self.format_xaxis_label, series.xaxis()),
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of testcases'],
+                'showPointLabels': False,
             })
 charttypes.add(coverage_of_requirements_by_testcases_chartdata)
 
@@ -140,6 +148,6 @@ class testcaserun_passrate_chartdata(
             options={
                 'title': self.title,
                 'stackBar': False,
-                'legendLabels': map(self.format_xaxis_label, series.xaxis()),
+                'legendLabels': map(lambda x: x.name, series.xaxis()),
             })
 charttypes.add(testcaserun_passrate_chartdata)
