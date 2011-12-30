@@ -137,8 +137,12 @@ class number_of_bugs_related_to_testcases_chartdata(ChartData):
     yaxismodel = Bug
     table_fields = ["id", "path", "name"]
 
+    def __init__(self, *args, **kwargs):
+        self._cache = Bug.objects.values_list('id', 'testcaserun__origin_id')
+        super(number_of_bugs_related_to_testcases_chartdata, self).__init__(*args, **kwargs)
+
     def belongs(self, bug, tc):
-        return tc.testcaserun_set.filter(bugs__in=[bug]).exists()
+        return (bug.id, tc.id) in self._cache
 
 
 class number_of_testcaseruns_related_to_testcase_chartdata(ChartData):
