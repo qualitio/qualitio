@@ -37,7 +37,11 @@ class SaveChartQueryForm(BaseModelForm):
 
     def clean_name(self):
         name = self.cleaned_data['name']
-        if ChartQuery.objects.filter(project=self.project, name=name).exists():
+        queryset = ChartQuery.objects.filter(project=self.project, name=name)
+        if self.instance.id:
+            queryset = queryset.exclude(id=self.instance.id)
+
+        if queryset.exists():
             raise forms.ValidationError("There's already \"%s\" query in this project." % name)
         return name
 
