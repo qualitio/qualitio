@@ -33,8 +33,12 @@ class Chart(object):
 
 
 class JQPlotBase(base.ChartData):
+    max_label_length = 45
+
     def format_xaxis_label(self, obj):
-        return obj.name[:37] + "..." if len(obj.name) > 40 else obj.name
+        num = self.max_label_length
+        label = obj.name[:(num - 3)] + "..." if len(obj.name) > num else obj.name
+        return "#%s %s" % (obj.id, label)
 
 
 class number_of_testcaseruns_related_to_testcase_chartdata(
