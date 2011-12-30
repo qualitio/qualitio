@@ -103,7 +103,8 @@ class number_of_requirements_afected_by_bug_chartdata(
                 'yaxismax': max(values) + 2,
                 'legendLabels': ['Number of requirements'],
             })
-charttypes.add(number_of_requirements_afected_by_bug_chartdata)
+# TODO: this feature doesn't make sense since every bug bind is separate instance.
+# charttypes.add(number_of_requirements_afected_by_bug_chartdata)
 
 
 
