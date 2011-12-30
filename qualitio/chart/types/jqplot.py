@@ -144,6 +144,6 @@ class testcaserun_passrate_chartdata(
             options={
                 'title': self.title,
                 'stackBar': False,
-                'legendLabels': map(self.format_xaxis_label, series.xaxis()),
+                'legendLabels': map(lambda x: x.name, series.xaxis()),
             })
 charttypes.add(testcaserun_passrate_chartdata)
