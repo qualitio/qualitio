@@ -33,8 +33,8 @@ class BaseSeleniumTestCase(unittest.TestCase):
         try: self.failUnless(sel.is_element_present("id=id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id=id_username")
-        sel.type("id=id_username", "admin")
-        try: self.assertEqual("admin", sel.get_value("id=id_username"))
+        sel.type("id=id_username", "qualitio1@gmail.com")
+        try: self.assertEqual("qualitio1@gmail.com", sel.get_value("id=id_username"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id=id_password"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -45,13 +45,13 @@ class BaseSeleniumTestCase(unittest.TestCase):
             try:
                 if sel.is_text_present("test@Qualitio"): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         for i in range(60):
             try:
                 if sel.is_element_present("link=store"): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         sel.click("link=filter")
         sel.wait_for_page_to_load("30000")
@@ -59,10 +59,10 @@ class BaseSeleniumTestCase(unittest.TestCase):
             try:
                 if sel.is_element_present("id=id_username"): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         sel.click("id=id_username")
-        sel.type("id=id_username", "admin")
+        sel.type("id=id_username", "qualitio1@gmail.com")
         sel.click("id=id_password")
         sel.type("id=id_password", "admin")
         sel.click("//input[@value='login']")
@@ -79,12 +79,12 @@ class Test01Loginstore(BaseSeleniumTestCase):
             try:
                 if sel.is_text_present("test@qualitio"): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("test@qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_username")
-        sel.type("id_username", "admin")
+        sel.type("id_username", "qualitio1@gmail.com")
         sel.click("id_password")
         sel.type("id_password", "admin")
         try: self.assertEqual("qualitio: login", sel.get_title())
@@ -97,14 +97,14 @@ class Test01Loginstore(BaseSeleniumTestCase):
             try:
                 if "test@qualitio :: store" == sel.get_title(): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         self.assertEqual("test@qualitio :: store", sel.get_title())
         for i in range(60):
             try:
                 if sel.is_text_present("test@Qualitio"): break
             except: pass
-            time.sleep(1)
+            time.sleep(2)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("test@Qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
