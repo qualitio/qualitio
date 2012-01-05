@@ -9,8 +9,8 @@
   <div class="text-bullet">
     <span class="name">link:</span>
     <span class="value">
-      <a href="/report/external/{{ report.bound_link }}" target="_blank">
-        {% if request.is_secure %}https:{% else %}http:{% endif %}//{{ request.get_host }}/report/external/{{ report.bound_link }}
+      <a href="/project/{{ request.project.name }}/report/external/{{ report.bound_link }}" target="_blank">
+         {% if request.is_secure %}https:{% else %}http:{% endif %}//{{ request.get_host }}/project/{{ request.project.name }}/report/external/{{ report.bound_link }}
       </a>
     </span>
   </div>
