@@ -176,7 +176,7 @@ class Test01Loginrequire(BaseSeleniumTestCase):
             try:
                 if sel.is_text_present("test@qualitio"): break
             except: pass
-            time.sleep(2)
+            time.sleep(3)
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("test@qualitio"))
         except AssertionError, e: self.verificationErrors.append(str(e))
