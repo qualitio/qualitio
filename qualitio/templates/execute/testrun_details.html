@@ -2,6 +2,10 @@
 {% load execute %}
 {% load authorization %}
 <div id="application-view-header">
+    <div class="right">
+      <input class="{% if not user|has_permission:"USER" %}disable{% endif %}"
+	     name="{{ testrun.pk }}" type="submit" value="Clone"/>
+    </div>
   <h1>test run: {{ testrun.name }}</h1>
 </div>
 
