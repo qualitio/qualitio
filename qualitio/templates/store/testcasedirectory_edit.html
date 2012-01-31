@@ -1,5 +1,8 @@
 {% load application_view_menu %}
 <div id="application-view-header">
+    <div class="prefix_8 grid_8 right clearfix">
+      <input type="submit" name="Executed" value="Save" />
+    </div>
   <h1>
     test case directory{% if testcasedirectory_form.instance.id %}: {{ testcasedirectory_form.instance.name }}
     {% endif %}
