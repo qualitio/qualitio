@@ -1,7 +1,7 @@
 {% load application_view_menu %}
 <div id="application-view-header">
     <div class="grid_16 right clearfix">
-      <input type="submit" name="Executed" value="Save" />
+      <input type="submit" name="Executed" value="Save" onClick="fire_submit('testcase_form')"/>
     </div>
   <h1>test case{% if testcase_form.instance.id %}: {{ testcase_form.instance.name }}{% endif %}</h1>
 </div>

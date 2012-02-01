@@ -1,5 +1,8 @@
 {% load application_view_menu %}
 <div id="application-view-header">
+      <div class="right">
+        <input type="submit" name="Executed" value="Save" onClick="fire_submit('requirement_form')"/>
+      </div>
   <h1>requirement{% if requirement_form.instance.id %}: {{ requirement_form.instance.name }}{% endif %}</h1>
 </div>
 
