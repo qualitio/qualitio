@@ -3,10 +3,9 @@
 {% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
 
 {% block form %}
-<h1>Thank you for creating account!</h1>
 <p>
   <br/>
-  Your account has been successfully created in <b>{{ request.organization.name }}</b> organization. Unfortunately you have to wait till user with admin privileges will enable your account (email has been sent). After this will happenyou should receive an email with a notification about this fact.
+  Your account has been successfully created in {{ request.organization.name }} organization. You will receive an e-mail once {{ request.organization.name }} administrator activates it. 
   <br/>
   <br/>
 
