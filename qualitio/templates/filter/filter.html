@@ -20,7 +20,7 @@
 {% block application-view %}
 {% include "filter/_filter_content.html" %}
 
-{% if user.organization_member.role == ROLE.USER or user.organization_member.role == ROLE.ADMIN %}
+{% if organization_member.role == ROLE.USER or organization_member.role == ROLE.ADMIN %}
 <div class="application-view-content">
   {% include "filter/_filter_action_form.html" %}
 </div>
