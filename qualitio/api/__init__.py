@@ -1,4 +1,4 @@
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.serializers import Serializer
 from tastypie.authentication import BasicAuthentication
@@ -8,6 +8,8 @@ from qualitio import require
 from qualitio import store
 from qualitio import execute
 from qualitio import glossary
+
+from qualitio import THREAD
 
 # customized tastypie classes
 from qualitio.core.custommodel import ModelResource, Api
@@ -24,6 +26,11 @@ class BaseProjectResource(ModelResource):
         resource_uri = super(BaseProjectResource, self).get_resource_uri(bundle_or_obj)
         return resource_uri.replace('/x/', '/%s/' % bundle_or_obj.obj.project.slug)
 
+    def get_object_list(self, request):
+        qs = super(ModelResource, self).get_object_list(request)
+        if qs and request:
+            return qs.filter(project=request.project)
+        return qs
 
 class BaseMeta(object):
     default_format = 'application/json'
@@ -31,13 +38,16 @@ class BaseMeta(object):
     authentication = BasicAuthentication()
     authorization = DjangoAuthorization()
 
-
 class DirectoryMeta(BaseMeta):
     excludes = ['tree_id', 'rght', 'lft', 'level', 'is_superuser']
+    filtering = {'parent': ALL_WITH_RELATIONS,
+                 'path': ALL,
+                 'name': ALL}
 
 
 class StateMeta(BaseMeta):
     excludes = ['created_time', 'modified_time']
+    filtering = {'name': ALL}
 
 
 class RequirementResource(BaseProjectResource):
@@ -50,6 +60,8 @@ api.register(RequirementResource())
 
 
 class TestCaseDirectoryResource(BaseProjectResource):
+    parent = fields.ToOneField('self', 'parent', null=True)
+
     class Meta(DirectoryMeta):
         queryset = store.TestCaseDirectory.objects.all()
         resource_name = 'store/testcasedirectory'
@@ -64,6 +76,8 @@ api.register(TestCaseStatusResource())
 
 
 class TestCaseStepResource(BaseProjectResource):
+    testcase = fields.ToOneField('api.TestCaseResource', 'testcase')
+
     class Meta(BaseMeta):
         queryset = store.TestCaseStep.objects.all()
         resource_name = 'store/testcasestep'
@@ -78,10 +92,19 @@ class TestCaseResource(BaseProjectResource):
     class Meta(BaseMeta):
         queryset = store.TestCase.objects.all()
         resource_name = 'store/testcase'
+        filtering = {'parent': ALL_WITH_RELATIONS,
+                     'status': ALL_WITH_RELATIONS,
+                     'steps': ALL_WITH_RELATIONS,
+                     'description': ALL,
+                     'precondition': ALL,
+                     'path': ALL,
+                     'name': ALL}
 api.register(TestCaseResource())
 
 
 class TestRunDirectoryResource(BaseProjectResource):
+    parent = fields.ToOneField('self', 'parent', null=True)
+
     class Meta(DirectoryMeta):
         queryset = execute.TestRunDirectory.objects.all()
         resource_name = 'execute/testrundirectory'
