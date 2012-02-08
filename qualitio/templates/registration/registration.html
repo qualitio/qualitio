@@ -1,5 +1,9 @@
 {% extends 'registration/base.html' %}
 
+{% block register-js %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/register.js"></script>
+{% endblock %}
+
 {% block title %}{% block jstitle %}register{% endblock %}{% endblock %}
 
 {% block form %}

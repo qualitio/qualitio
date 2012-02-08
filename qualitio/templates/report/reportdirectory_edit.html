@@ -1,5 +1,8 @@
 {% load application_view_menu %}
 <div id="application-view-header">
+    <div class="grid_16 right clearfix">
+      <input type="submit" name="Reportd" value="Save" onClick="fire_submit('reportdirectory_form')"/>
+    </div>
   <h1>report directory
     {% if reportdirectory_form.instance.id %}: {{ reportdirectory_form.instance.name }}{% endif %}
   </h1>

@@ -21,3 +21,4 @@ $(function() {
   new ControllerView();
   Backbone.history.start();
 });
+

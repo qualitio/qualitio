@@ -322,3 +322,7 @@ $(function() {
     return toReturn;
   }
 })(jQuery);
+
+function fire_submit(form_id) {
+  $('#'+form_id).submit();
+}
