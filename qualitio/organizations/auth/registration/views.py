@@ -26,7 +26,7 @@ class RegisterUser(CreateView):
         OrganizationMember.objects.create(user=user,
                                           organization=organization)
 
-        send_mail('Welcome in Qualitio Project',
+        send_mail('Welcome to Qualitio Project',
                   render_to_string('registration/registration_thanks.mail',
                                    {"organization": self.request.organization,
                                     "username": email}),
@@ -35,7 +35,7 @@ class RegisterUser(CreateView):
 
         organization_admin_emails = organization.admins.values_list("email", flat=True)
 
-        send_mail('Your organization has new candidate',
+        send_mail('Your organization has a new candidate',
                   render_to_string('registration/registration_new_candidate.mail',
                                    {"organization": organization,
                                     "username": user,

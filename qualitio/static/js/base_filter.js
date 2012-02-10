@@ -113,59 +113,59 @@ $(document).ready(function() {
 
     // make sure to be NOT TAKE 'table-item:checked' elements into account
     $('.filter-form').submit(function(){
-	$('input.table-item:checked').attr('checked', false);
+    	$('input.table-item:checked').attr('checked', false);
     });
-
+    
     // actions
     $('input.table-item').parent().checkboxButton();
-
+    
     $('.action-form').hide();
     $('.actions-form #id_action').change(function(){
-	$('.action-url').removeClass('current');
-	$('.action-form').hide().removeClass('current');
-	$('.action-url[name="' + $(this).val() + '"]').addClass('current');
-	$('.action-form[name="' + $(this).val() + '"]').show().addClass('current');
+    	$('.action-url').removeClass('current');
+    	$('.action-form').hide().removeClass('current');
+    	$('.action-url[name="' + $(this).val() + '"]').addClass('current');
+    	$('.action-form[name="' + $(this).val() + '"]').show().addClass('current');
     });
-
+    
     $('input[name="action-submit"]').click(function(){
-	var url = $('.action-url.current').val();
-	var data = _.reduce($('input.table-item:checked', filterTable.fnGetNodes()), function(memo, item){
-	    memo[$(item).attr('name')] = 'on';
-	    return memo;
-	}, {});
-	data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
-	$('input, select, textarea', $('.action-form.current')).each(function(){
-	    data[$(this).attr('name')] = $(this).fieldValue()[0];
-	});
-
-	if (url !== undefined) {
-	    $.ajax({
-		'type': 'post',
-		'dataType': 'json',
-		'url': url,
-		'data': data,
-		'success': function(data, textStatus){
-		    if (data.success) {
-			$('#notification').jnotifyAddMessage({
-			    text: 'Action done!',
-			    type: 'success'
-			});
-			$.onrefresh.reset();
-			window.location = window.location;
-		    } else {
-			$.shortcuts.hideErrors();
-			if (data.message)
-			    $('#notification').jnotifyAddMessage({
-				text: data.message,
-				type: 'error'
-			    });
-			$.shortcuts.showErrors(data.data);
-		    }
-		}
-	    });
-	}
-
-	return false;
+    	var url = $('.action-url.current').val();
+    	var data = _.reduce($('input.table-item:checked', filterTable.fnGetNodes()), function(memo, item){
+    	    memo[$(item).attr('name')] = 'on';
+    	    return memo;
+    	}, {});
+    	data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
+    	$('input, select, textarea', $('.action-form.current')).each(function(){
+    	    data[$(this).attr('name')] = $(this).fieldValue()[0];
+    	});
+    
+    	if (url !== undefined) {
+    	    $.ajax({
+    		'type': 'post',
+    		'dataType': 'json',
+    		'url': url,
+    		'data': data,
+    		'success': function(data, textStatus){
+    		    if (data.success) {
+    			$('#notification').jnotifyAddMessage({
+    			    text: 'Action done!',
+    			    type: 'success'
+    			});
+    			$.onrefresh.reset();
+    			window.location = window.location;
+    		    } else {
+    			$.shortcuts.hideErrors();
+    			if (data.message)
+    			    $('#notification').jnotifyAddMessage({
+    				text: data.message,
+    				type: 'error'
+    			    });
+    			$.shortcuts.showErrors(data.data);
+    		    }
+    		}
+    	    });
+    	}
+    
+    	return false;
     });
 
     $('table.display th[name="checkbox"]').itemsSelector({

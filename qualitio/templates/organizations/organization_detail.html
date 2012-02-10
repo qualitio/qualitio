@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load dashboard %}
 
 {% block projects-base %}
 <div id="projects">
@@ -39,19 +40,116 @@
     </div>
     <div class="grid_8">
       <div class="application-view-content panel blog" style="border: 1px solid grey">
+        <div class="article">{{ articles.0.rendered_content|safe|linebreaksbr }}</div>
+        <div class="article">
+          {% if not organization.project_set.all %}
+          <b>Create new project</b>
+          {% else %}
+          <b>How to create a new test case?</b>
+          <ul>
+            <li>Go to one of your projects' test case module :</li>
+              <ul>
+              {% for project in organization.project_set.all %}
+                <li><a href="{{ project.get_absolute_url }}store/">{{ project.name }}</a>.</li>
+                {% for testcasedir in project.testcasedirectory_set.all %}
+                  {{ testcasedir.name }}
+                {% endfor %}
+              {% endfor %}
+              </ul>
+            <li>Type a name of the test case you are creating.</li>
+            <li>Select a test cases directory or create a new one</li>.
+            <li>Choose a requirement covered by this test case (optionally).</li>
+            <li>Describe the purpose of the test case and its pass criteria (optionally).</li>
+            <li>Define the precondition and add steps of the test case.</li>
+            <li>"Save".</li>
+            <li><a href="https://github.com/qualitio/qualitio/wiki/Store-Section" target="_blank">Learn more...</a></li>
+         </ul>
 
-	<div class="article">
-	  {% for article in articles %}
-	  <h1>{{ article.title }}</h1>
-	  {{ article.rendered_content|safe|linebreaksbr }}
-	  <div class="footer">
-	    <div class="author">{{ article.author }}</div>
-	    <div class="date">{{ article.publish_date }}</div>
+         <b>How to execute already existing test cases?</b>
+         <ul>
+           <li>Go to <b>execution module</b> in on of your projects:</li>
+              <ul>
+              {% for project in organization.project_set.all %}
+                <li><a href="{{ project.get_absolute_url }}execute/">{{ project.name }}</a>.</li>
+              {% endfor %}
+              </ul>
+           <li>Select a test run parent directory or create a new one.</li>
+           <li>Type a name of the test run you are creating.</li>
+           <li>Select the test cases you want to execute from the list of <b>available test cases</b> and add them to the list of <b>connected test cases</b> by clicking the "add" button.</li>
+           <li>"Save".</li>
+           <li>Click <b>execute</b> in the test run menu.</li>
+           <li>Click a test case in the list.</li>
+           <li>Go through the steps.</li>
+           <li>Select the status: IDLE, PASS, FAIL or N/A.</li>
+           <li><a href="https://github.com/qualitio/qualitio/wiki/Execute-section" target="_blank">Learn more...</a></li>
+         </ul>
+<!--
+<b>How to assign bugs to a failed test case?</b>
+- Qualitio is integrated with <a href="https://bugs.meego.com/" target="_blank">MeeGo Bugzilla</a>. 
+- To add an already existing bug to the failed test case, enter the bug ID into the <b>Bugs</b> field at the bottom of the <b>execute</b> view.
+-->
+         <b>How to remove test case or test run?</b>
+         <ul>
+           <li>Select the test case or test run you want to remove/delete.</li>
+           <li>Click <b>edit</b> in the menu.</li>
+           <li>Set <b>Parent</b> to <b>#Trash</b>.</li>
+           <li>"Save".</li>
+         </ul>
 
-	  </div>
-	</div>
-	{% endfor %}
-      </div>
+         <b>How to assign test cases to requirements?</b>
+         <ul>
+           <li>Go to <b>test cases view</b> in <b> one of your projects:</li>
+              <ul>
+              {% for project in organization.project_set.all %}
+                <li><a href="{{ project.get_absolute_url }}require/">{{ project.name }}</a>.</li>
+              {% endfor %}
+              </ul>
+           <li>Select the test cases you want to assign from the list of <b>available test cases</b> and add them to the list of <b>connected test cases</b> by clicking the "add" button.</li>
+           <li>"Save".</li>
+           <li><a href="https://github.com/qualitio/qualitio/wiki/Require-Section" target="_blank">Learn more...</a></li>
+         </ul>
+
+         <b>How to create a new report?</b>
+         <ul>
+           <li>Go to <b>new report view</b> in one of your projects:</li>
+              <ul>
+              {% for project in organization.project_set.all %}
+                <li><a href="{{ project.get_absolute_url }}report/">{{ project.name }}</a>.</li>
+              {% endfor %}
+              </ul>
+           <li>Type a name of the report you are creating.</li>
+           <li>Create a context and report template for maximum flexibility (more details on <b><a href="https://github.com/qualitio/qualitio/wiki/Qualitio-report-generation" target="_blank">Qualitio reports wiki page</a></b>).</li>
+         </ul>
+
+         <b>How to use existing report?</b>
+         <ul>
+           <li>Go to <b><a href="/project/qualitio/report/#reportdirectory/16/details/">reports module</a></b>.</li>
+           <li>Click the report you want to use and the report will be generated automatically for you.</li>
+           <li>Click <b>edit</b> in the menu if you wish to edit the report.</li>
+           <li><a href="https://github.com/qualitio/qualitio/wiki/Report-section" target="_blank">Learn more...</a></li>
+         </ul>
+
+         <b>How to create a new test run?</b>
+         <ul>
+           <li>Go to <b><a href="/project/qualitio/execute/#testrundirectory/28/newtestrun/">execution module</a></b>.</li>
+           <li>Select a test run directory or <a href="/project/qualitio/store/#testcasedirectory/157/new/">create a new one</a>.</li>
+           <li>Type a name of the test run you are creating.</li>
+           <li>Select the test cases you want to execute from the list of <b>available test cases</b> and add them to the list of <b>connected test cases</b> by clicking the "add" button.</li>
+           <li>"Save".</li>
+         </ul>
+
+         <b>How to create a new requirement?</b>
+         <ul>
+           <li>Go to <b><a href="/project/qualitio/require/#requirement/2470/new/">requirements module</a></b>.</li>
+           <li>Type a name of the requirement you are creating.</li>
+           <li>Select a parent for your new requirement.</li>
+           <li>Choose a <b>release target</b>.</li>
+           <li>Describe the details of this requirement (optionally).</li>
+           <li>Select other requirements which your requirement depends on (optionally).</li>
+           <li>"Save".</li>
+         </ul>
+         {% endif %}
+        </div>
 
       </div>
     </div>
