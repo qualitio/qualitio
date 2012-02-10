@@ -105,6 +105,14 @@
     margin: 15px 0 5px 0;
 }
 
+#projects .article ul {
+    margin-left: 20px;
+}
+
+#projects .article ul li {
+    margin-left: 20px;
+}
+
 #projects .footer .author {
     float: right;
 }
