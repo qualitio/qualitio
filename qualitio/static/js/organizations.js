@@ -23,3 +23,27 @@ $(function() {
   });
 })
 
+$(document).ready(function() {
+  $('#articles').css('display', 'none');
+
+  $('#faq_control').click(function() {
+    if ($('#faq').css('display') == 'none') {
+      $('#faq').css('display', 'block');
+      $('#faq_control').text('hide FAQ');
+    } else {
+      $('#faq').css('display', 'none');
+      $('#faq_control').text('show FAQ');
+    }
+  });
+  
+  $('#articles_control').click(function() {
+    if ($('#articles').css('display') == 'none') {
+      $('#articles').css('display', 'block');
+      $('#articles_control').text('hide articles');
+    } else {
+      $('#articles').css('display', 'none');
+      $('#articles_control').text('show articles');
+    }
+  });
+
+});
