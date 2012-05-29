@@ -73,23 +73,13 @@ LOGIN_EXEMPT_URLS = (
     r'^associate/*',
     r'^complete/*',
     r'^project/(?P<slug>[\w-]+)/report/external/*',
+    r'^project/(?P<slug>[\w-]+)/chart/data/.*',
     r'^__debug__/.*',
     r'^api/.*',
     r'^googleapps_setup/$',
     r'^google_checkout/$',
     r'^paypal_ipn/$',
-    )
-
-PROJECT_EXEMPT_URLS = (
-    r'^static/.*',
-    r'^admin/.*',
-    r'^login/.*',
-    r'^register/.*',
-    r'^associate/*',
-    r'^complete/*',
-    r'^__debug__/.*',
-    r'^api/.*',
-    r'^project/new/.*',
+    r'^thanks/$',
     )
 
 ORGANIZATION_EXEMPT_URLS = (
@@ -136,6 +126,7 @@ INSTALLED_APPS = (
     'qualitio.actions',
     'qualitio.glossary',
     'qualitio.payments',
+    'qualitio.chart',
 
     'qualitio.customizations',
 )
@@ -192,6 +183,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'notifications@qualitio.com'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "Qualitio Notifications <notifications@qualitio.com>"
+
+CHART_TYPES_ENGINE = 'qualitio.chart.types.jqplot'
 
 try:
     from local_settings import *

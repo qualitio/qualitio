@@ -1,4 +1,4 @@
-var sortParamConverter = function(column_names){
+var sortParamConverter = function(column_names) {
     // mapping between jQuery Data Table and django sort direction notation
     var directions = {
 	asc: '',
@@ -19,16 +19,13 @@ var sortParamConverter = function(column_names){
 	// eg: sorting_asc, name => name or sorting_desc, name => -name
 	toDjango: function(txt, name) {
 	    var sorting_dir = txt.split('_')[1];
-	    if (sorting_dir === undefined) {
-		sorting_dir = 'asc';
-	    }
-	    return directions[sorting_dir] + name;
+	    return directions[sorting_dir || 'asc'] + name;
 	}
     };
 }(COLUMN_NAMES); // COLUMN_NAMES should be provided in template
 
 // returns new state for the current one
-var tableHeaderClassCycle = function(){
+var tableHeaderClassCycle = function() {
     var stateToNextState = {
 	'sorting': 'sorting_asc',
 	'sorting_asc': 'sorting_desc',
@@ -36,12 +33,8 @@ var tableHeaderClassCycle = function(){
     }
     var defaultState = 'sorting_asc'; // in case of undefined
     return {
-	next: function(currentState){
-	    var nextState = stateToNextState[currentState];
-	    if (nextState === undefined) {
-		nextState = defaultState;
-	    }
-	    return nextState;
+	next: function(currentState) {
+	    return stateToNextState[currentState] || defaultState;
 	}
     }
 }();
@@ -55,6 +48,7 @@ jQuery.fn.dataTableExt.oSort['int-in-link-asc'] = function(x, y) {
     var x = parseIntFromLink(x), y = parseIntFromLink(y);
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
 };
+
 jQuery.fn.dataTableExt.oSort['int-in-link-desc'] = function(x, y) {
     var x = parseIntFromLink(x), y = parseIntFromLink(y);
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
@@ -80,6 +74,16 @@ $(document).ready(function() {
 	$('.filter-form').submit();
     });
 
+    var columnsDefs = [
+	    { "sWidth": "10px", "asSorting":[], "aTargets": [0] },
+	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [1] },
+            { "sWidth": '300px', "aTargets": [2]}
+	]
+    if (HIDE_CHECKBOXES)
+        columnsDefs = [
+          { "sWidth": "10px", "sType": "int-in-link", "aTargets": [0] },
+        ]
+
     var filterTable = $("table.display").dataTable({
 	"bPaginate": false,
 	"bFilter": false,
@@ -88,11 +92,7 @@ $(document).ready(function() {
 	    $('.filter-form input[name="sort"]').val()
 	)],
 	"bAutoWidth": false,
-	"aoColumnDefs": [
-	    { "sWidth": "10px", "asSorting":[], "aTargets": [0] },
-	    { "sWidth": "10px", "sType": "int-in-link", "aTargets": [ 1 ] },
-            { "sWidth": '300px', "aTargets": [2, 3]}
-	]
+	"aoColumnDefs": columnsDefs
     });
 
     // prevent default bahaviour of sorting
@@ -113,64 +113,59 @@ $(document).ready(function() {
 
     // make sure to be NOT TAKE 'table-item:checked' elements into account
     $('.filter-form').submit(function(){
-	$('input.table-item:checked').attr('checked', false);
+    	$('input.table-item:checked').attr('checked', false);
     });
-
+    
     // actions
-    $('input.table-item').parent().click(function(event){
-	if (event.target === this) {
-	    var checkbox = $('input[type="checkbox"]', $(this));
-	    checkbox.attr('checked', !checkbox.attr('checked'));
-	}
-    });
-
+    $('input.table-item').parent().checkboxButton();
+    
     $('.action-form').hide();
     $('.actions-form #id_action').change(function(){
-	$('.action-url').removeClass('current');
-	$('.action-form').hide().removeClass('current');
-	$('.action-url[name="' + $(this).val() + '"]').addClass('current');
-	$('.action-form[name="' + $(this).val() + '"]').show().addClass('current');
+    	$('.action-url').removeClass('current');
+    	$('.action-form').hide().removeClass('current');
+    	$('.action-url[name="' + $(this).val() + '"]').addClass('current');
+    	$('.action-form[name="' + $(this).val() + '"]').show().addClass('current');
     });
-
+    
     $('input[name="action-submit"]').click(function(){
-	var url = $('.action-url.current').val();
-	var data = _.reduce($('input.table-item:checked', filterTable.fnGetNodes()), function(memo, item){
-	    memo[$(item).attr('name')] = 'on';
-	    return memo;
-	}, {});
-	data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
-	$('input, select, textarea', $('.action-form.current')).each(function(){
-	    data[$(this).attr('name')] = $(this).fieldValue()[0];
-	});
-
-	if (url !== undefined) {
-	    $.ajax({
-		'type': 'post',
-		'dataType': 'json',
-		'url': url,
-		'data': data,
-		'success': function(data, textStatus){
-		    if (data.success) {
-			$('#notification').jnotifyAddMessage({
-			    text: 'Action done!',
-			    type: 'success'
-			});
-			$.onrefresh.reset();
-			window.location = window.location;
-		    } else {
-			$.shortcuts.hideErrors();
-			if (data.message)
-			    $('#notification').jnotifyAddMessage({
-				text: data.message,
-				type: 'error'
-			    });
-			$.shortcuts.showErrors(data.data);
-		    }
-		}
-	    });
-	}
-
-	return false;
+    	var url = $('.action-url.current').val();
+    	var data = _.reduce($('input.table-item:checked', filterTable.fnGetNodes()), function(memo, item){
+    	    memo[$(item).attr('name')] = 'on';
+    	    return memo;
+    	}, {});
+    	data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
+    	$('input, select, textarea', $('.action-form.current')).each(function(){
+    	    data[$(this).attr('name')] = $(this).fieldValue()[0];
+    	});
+    
+    	if (url !== undefined) {
+    	    $.ajax({
+    		'type': 'post',
+    		'dataType': 'json',
+    		'url': url,
+    		'data': data,
+    		'success': function(data, textStatus){
+    		    if (data.success) {
+    			$('#notification').jnotifyAddMessage({
+    			    text: 'Action done!',
+    			    type: 'success'
+    			});
+    			$.onrefresh.reset();
+    			window.location = window.location;
+    		    } else {
+    			$.shortcuts.hideErrors();
+    			if (data.message)
+    			    $('#notification').jnotifyAddMessage({
+    				text: data.message,
+    				type: 'error'
+    			    });
+    			$.shortcuts.showErrors(data.data);
+    		    }
+    		}
+    	    });
+    	}
+    
+    	return false;
     });
 
     $('table.display th[name="checkbox"]').itemsSelector({
@@ -180,4 +175,6 @@ $(document).ready(function() {
     $.onrefresh.bind(function() {
 	$('.actions-form #id_action').val("");
     });
+
+    $('select:not([name="onpage"])').chosen();
 });

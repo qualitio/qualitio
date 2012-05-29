@@ -42,6 +42,7 @@
   </form>
 </div>
 
+
 {% if request.organization.googleapps_domain %}
 <div class="login-option clearfix">
   <div class="or">OR</div>
@@ -51,9 +52,8 @@
   </div>
   <a class="google button" href="/login/googleapps/">&nbsp;</a>
 </div>
-
 {% else %}
-
+{% if not request.organization.payment %}
 <div class="login-option clearfix">
   <div class="or">OR</div>
   <h1>OpendID</h1>
@@ -63,17 +63,8 @@
   <a class="google button" href="/login/google/">&nbsp;</a>
   <a class="yahoo button" href="/login/yahoo/">&nbsp;</a>
 </div>
-
-<div class="login-option clearfix">
-  <div class="or">OR</div>
-  <h1>Create your own organization</h1>
-  <div class="text">
-    If you need an new organization please feel free to contact with us 
-    <a href="mailto:qualitio@qualitio.com">qualitio@qualitio.com</a>.
-  </div>
-</div>
-
-
 {% endif %}
+{% endif %}
+
 
 {% endblock %}

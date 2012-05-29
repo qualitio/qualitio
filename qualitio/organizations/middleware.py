@@ -3,6 +3,7 @@ import re
 
 from django.conf import settings
 from django.http import Http404
+from django.shortcuts import redirect
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 
 from qualitio import THREAD
@@ -29,6 +30,9 @@ class OrganizationMiddleware(object):
             THREAD.organization = None
             request.organization = None
 
+            if re.match('^/login/', request.get_full_path()):
+                return redirect('organization_none')
+
         elif len(host_name_parts) == 3:
             try:
                 organization = Organization.objects.get(slug=host_name_parts[0])
@@ -53,12 +57,6 @@ class OrganizationMiddleware(object):
         THREAD.organization = None
         request.organization = None
         return response
-
-
-PROJECT_MATCH = r'^project/(?P<project>[\w-]+).*'
-PROJECT_EXEMPT_URLS = [re.compile(PROJECT_MATCH)]
-if hasattr(settings, 'PROJECT_EXEMPT_URLS'):
-    PROJECT_EXEMPT_URLS += [re.compile(expr) for expr in settings.PROJECT_EXEMPT_URLS]
 
 
 class ProjectMiddleware(object):

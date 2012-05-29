@@ -1,0 +1,36 @@
+{% extends "chart/wizzard_base.html" %}
+
+
+{% block wizzard-menu %}
+{% if not chart_query_id %}
+<li><a href="#" class="button back-button">Cancel</a></li>
+{% endif %}
+{{ block.super }}
+<li><a href="#" class="button next-button">Next</a></li>
+{% endblock %}
+
+
+{% block js-include %}
+<script type="text/javascript">
+  var COLUMN_NAMES = {{ table.base_columns.keys|safe }};
+  var OPTIONS = {
+    id: "{{ chart_query_id }}",
+    projectSlug: PROJECT_SLUG,
+    chartid: "{{ chartid }}"
+  };
+</script>
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    var view = new {{ js_handler }}(OPTIONS);
+    view.bind();
+  });
+</script>
+{% endblock %}
+
+
+{% block application-view %}
+{% include "filter/_filter_content.html" %}
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_managers
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.http import HttpResponse
@@ -47,6 +47,69 @@ class OrganizationDetails(View, OrganizationObjectMixin):
 class OrganizationNone(TemplateView):
     template_name = "organizations/organization_none.html"
 
+    def get(self, *kwargs):
+        organization_form = forms.OrganizationNew()
+        
+        return self.render_to_response({
+            "organization_form": organization_form,
+        })
+
+    def post(self, *kwargs):
+        organization_form = forms.OrganizationNew(self.request.POST)
+
+        if organization_form.is_valid():
+            user_email = organization_form.cleaned_data['email']
+            new_user = bool(int(organization_form.cleaned_data['new_user']))
+
+            if new_user:
+                user = auth.User.objects.create_user(
+                    user_email, user_email,
+                    organization_form.cleaned_data['email'])
+            else:
+                user = auth.User.objects.get(email=user_email)
+            
+            organization = models.Organization.objects.create(
+                name=organization_form.cleaned_data['name']
+            )
+            
+            organization_member = models.OrganizationMember.objects.create(
+                user=user,
+                organization=organization,
+                role=models.OrganizationMember.ADMIN
+            )
+            
+            admins_emails = filter(len, auth.User.objects.filter(is_superuser=True).values_list(
+                'email', flat=True))
+
+            send_mail(
+                'Qualitio Project, New organization created',
+                render_to_string('organizations/organization_request_user.mail',{
+                    'email': organization_form.cleaned_data['email'],
+                    'organization_name': organization_form.cleaned_data['name'],
+                    'new_user': new_user,
+                }),
+                'Qualitio Notifications <notifications@qualitio.com>',
+                [user_email])
+            
+            send_mail(
+                'Qualitio Project, New organization created',
+                render_to_string('organizations/organization_request.mail',{
+                    'email': organization_form.cleaned_data['email'],
+                    'organization_name': organization_form.cleaned_data['name'],
+                }),
+                'Qualitio Notifications <notifications@qualitio.com>',
+                admins_emails)
+            
+            return redirect("organization_request_thanks")
+        
+        return self.render_to_response({
+            "organization_form": organization_form,
+        })
+
+
+class OrganizationRequestThanks(TemplateView):
+    template_name = "organizations/organization_request_thanks.html"
+    
 
 class UserInactive(TemplateView):
     template_name = "organizations/user_inactive.html"

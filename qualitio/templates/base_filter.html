@@ -1,14 +1,22 @@
 {% extends "page.html" %}
 
 {% block js-include %}
+<script type="text/javascript">
+  var HIDE_CHECKBOXES = {% if not table.show_checkboxes %}true{% else %}false{% endif %};
+</script>
 {{ block.super }}
+{% block filter-js-include %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.refreshdetector.js{{ STATIC_HASH }}"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/base_filter.js{{ STATIC_HASH }}"></script>
+{% endblock %}
+{% block external-js %}{% endblock %}
 {% endblock %}
 
 {% block css-include %}
 {{ block.super }}
+{% block filter-css-include %}
 <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/filter.css{{ STATIC_HASH }}"></link>
+{% endblock %}
 {% endblock %}
 
 

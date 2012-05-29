@@ -1,0 +1,17 @@
+{% extends 'registration/base.html' %}
+
+{% block form %}
+<h1>Thank you for creating an organziation!</h1>
+<p>
+  <br/>
+  Your organization was created. Go 
+  <a href="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/none/" >here</a>
+  and put yout organization to the organization field name.
+  <br/>
+  <br/>
+
+  <a href="{% url login %}">Back to login page</a>
+</p>
+{% endblock %}
+
+

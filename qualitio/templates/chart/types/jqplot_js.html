@@ -1,0 +1,16 @@
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.json2.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}lib/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL}}js/chart.jqplot.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  var view = new {{ js_plot_handler }}(OPTIONS);
+  view.bind();
+});
+</script>

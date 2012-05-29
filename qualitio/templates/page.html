@@ -14,19 +14,23 @@
       <div class="menu">
         <div>
           <a class="{% if CURRENT_MODULE == 'require' %}active{% endif %}"
-             href="{{ REQUIRE.get_absolute_url }}">require</a>
+             href="{{ REQUIRE.get_absolute_url }}">requirements</a>
         </div>
         <div>
           <a class="{% if CURRENT_MODULE == 'store' %}active{% endif %}"
-             href="{{ STORE.get_absolute_url }}">store</a>
+             href="{{ STORE.get_absolute_url }}">test cases</a>
         </div>
         <div>
           <a class="{% if CURRENT_MODULE == 'execute' %}active{% endif %}"
-             href="{{ EXECUTE.get_absolute_url }}">execute</a>
+             href="{{ EXECUTE.get_absolute_url }}">test runs</a>
         </div>
         <div>
           <a class="{% if CURRENT_MODULE == 'report' %}active{% endif %}"
-             href="{{ REPORT.get_absolute_url }}">report</a>
+             href="{{ REPORT.get_absolute_url }}">reports</a>
+        </div>
+        <div>
+          <a class="{% if CURRENT_MODULE == 'chart' %}active{% endif %}"
+             href="{{ CHART.get_absolute_url }}">charts</a>
         </div>
       </div>
     </div>

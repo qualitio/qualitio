@@ -1,0 +1,40 @@
+{% extends "page.html" %}
+
+
+{% block js-include %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/simple.inheritance.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/chart.js{{ STATIC_HASH }}"></script>
+<script type="text/javascript">
+  $(function() {
+    var view = new ChartBaseView({ projectSlug: PROJECT_SLUG });
+    view.bind();
+  });
+</script>
+{% endblock %}
+
+
+{% block css-include %}{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/filter.css{{ STATIC_HASH }}"></link>
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/chart.css{{ STATIC_HASH }}"></link>
+{% endblock %}
+
+
+{% block project_detail %}
+<div class="container_16">
+  <div class="grid_3">
+    <div id="application-tree">
+    </div>
+    {% block chart-add-button %}<a class="chart-add-button">New Chart</a>{% endblock %}
+  </div>
+  <div class="grid_13">
+    <div class="container_16">
+      {% block wizzard-menu-wrapper %}
+      {% endblock %}
+    </div>
+    <div id="application-view" class="container_16 clearfix">
+      {% block application-view %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

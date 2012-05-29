@@ -1,11 +1,20 @@
 {% load application_view_menu authorization %}
 <div id="application-view-header">
+<<<<<<< HEAD
     <div class="right">
       <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
          href="#testcasedirectory/{{ directory.pk }}/newtestcase/" >create test case</a>
       <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
          href="#testcasedirectory/{{ directory.pk }}/new/" >create test case directory</a>
     </div>
+=======
+  <div class="right">
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
+       href="#testcasedirectory/{{ directory.pk }}/newtestcase/" >create test case</a>
+    <a class="button {% if not user|has_permission:"USER" %}disable{% endif %}"
+       href="#testcasedirectory/{{ directory.pk }}/new/" >create test case directory</a>
+  </div>
+>>>>>>> 83b546dc0155ed471fa37a82af0272bbeaef9e7e
   <h1>test case directory: {{ directory.name }}</h1>
 </div>
 

@@ -316,8 +316,13 @@ $(function() {
     var toReturn = $(this).originChosen(settings);
     $(window).unbind('resize', onResize);
     $(window).resize(onResize);
-    $.onTreeResize(onResize);
+    if ($.onTreeResize)
+      $.onTreeResize(onResize);
     onResize();
     return toReturn;
   }
 })(jQuery);
+
+function fire_submit(form_id) {
+  $('#'+form_id).submit();
+}

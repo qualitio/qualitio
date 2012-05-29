@@ -3,56 +3,63 @@
 {% block form %}
 <script>
   $(function() {
-    $("#organization-none form").submit(function(e) {
-      e.preventDefault();
-      organization = $(this).find("input[name=organization]").val();
-      if (organization) {
-        window.location = window.location.protocol + "//" + organization + "." + window.location.host
-      }
-    });
+      $(".domain-go").click(function(e) {
+          e.preventDefault();
+          var organization_name = $(".organization-name").val();
+          if (organization_name.length) {
+              window.location = window.location.protocol + "//" + organization_name + "." + window.location.host
+          }
+      });
   });
 </script>
-<style>
 
-#organization-none fieldset input {
-    border: 1px solid #DDDDDD;
-    border-radius: 6px 6px 6px 6px;
-    font-size: 33px;
-    height: 37px;
-    margin: 4px 0;
-    padding-right: 10px;
-    width: 270px;
-    text-align: right;
-}
-
-#organization-none fieldset input.submit {
-    font-size: 14px;
-    height: 34px;
-    padding-top: 3px;
-    width: 110px;
-    text-align: center;
-    margin-left: 105px;
-}
-
-#organization-none fieldset .domain {
-    color: #777777;
-    font-family: 'Bevan',serif;
-    font-size: 3em;
-    height: 47px;
-    vertical-align: middle;
-    margin-top: -3px;
-    padding: 2px 0 0 10px;
-    text-rendering: optimizelegibility;
-
-
-}
-</style>
 <div id="organization-none">
-  <h1>Please, use your company link to login</h1>
-  <form>
-  <fieldset>
-    <input name="organization"/><span class="domain">.qualitio.com</span> <input class="submit" type="submit" value="go">
-  </fieldset>
-  <form
+  <div class="login-option clearfix" style="border-top: 0px;">
+    <h1>Please, use your organization link to login</h1>
+    <form>
+      <fieldset>
+        <input class="organization-name"/>
+        <span class="domain">.qualitio.com</span> 
+        <input class="domain-go" type="submit" value="go"/>
+      </fieldset>
+    </form>
+  </div>
+  
+  <div class="login-option clearfix">
+    <div class="or">OR</div>
+    <h1>Create an Organization</h1>
+    <div class="text">
+      Create your own organization.
+    </div>
+    <form method="post" action="{% url organization_none %}">        
+      <fieldset>
+        {% csrf_token %}
+
+        {{ organization_form.name.errors }}
+        {{ organization_form.name }}{{ organization_form.name.label_tag|lower }}
+        
+        {{ organization_form.email.errors }}
+        {{ organization_form.email }}{{ organization_form.email.label_tag|lower }}
+
+        <div class="user-type">
+          {{ organization_form.new_user.errors }}
+          {{ organization_form.new_user }}
+        </div>
+        
+        {{ organization_form.password1.errors }}
+        {{ organization_form.password1 }}{{ organization_form.password1.label_tag|lower }}
+
+        {{ organization_form.password2.errors }}
+        {{ organization_form.password2 }}{{ organization_form.password2.label_tag|lower }}
+        
+      </fieldset>
+      <div class="submit-panel">
+        <div class="right">
+          <input type="submit" value="register" />
+        </div>
+      </div>
+    </form>
+  </div>
+
 </div>
 {% endblock %}

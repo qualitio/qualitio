@@ -31,8 +31,10 @@ def has_permission(user, role):
     except ValueError:
         role = getattr(OrganizationMember, role, OrganizationMember.USER_READONLY)
 
-    member = getattr(user, 'organization_member', None)
-    if member and member.role <= role:
-        return True
+    related = getattr(user, 'organization_member', None)
+    if related:
+        member = (related.filter(user=user) or [None])[0]
+        if member and member.role <= role:
+            return True
     return False
 register.filter(has_permission)

@@ -27,12 +27,14 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jnotify.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formalize.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.infieldlabel.min.js"></script>
+    {% block register-js %}
     <script type="text/javascript" src="{{ MEDIA_URL }}js/login.js"></script>
+    {% endblock %}
     <script>
       $(function () {
-      $('li.{% block jstitle %}{% endblock %}')
-      .css('font-weight', 'bold')
-      .css('color', 'black');
+          $('li.{% block jstitle %}none{% endblock %}')
+              .css('font-weight', 'bold')
+              .css('color', 'black');
       });
     </script>
     {% endcompress %}

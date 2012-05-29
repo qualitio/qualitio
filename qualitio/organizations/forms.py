@@ -91,12 +91,54 @@ class NewUserForm(core.BaseModelForm):
             user.save()
         return user
 
+        
+class OrganizationNew(core.BaseForm):
+    email = forms.EmailField(label="your email")
+    choices = (0, "I am a returning user."), (1, "I am a new user.")
+    new_user = forms.ChoiceField(
+        choices=choices, label="Are you nnew user", widget=forms.RadioSelect, initial=0)
+    password1 = forms.CharField(label="password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="password again", required=False, widget=forms.PasswordInput)
+    name = forms.CharField(label="organization name")
+    
+    def clean_name(self):
+        name = self.cleaned_data['name']
+
+        if models.Organization.objects.filter(name__iexact=name).exists():
+            raise forms.ValidationError(
+                'An organization with this name alredy exists.')
+
+        return name
+
+    def clean(self):
+        from django.contrib.auth import authenticate
+        email = self.cleaned_data.get('email')
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        new_user = bool(int(self.cleaned_data.get('new_user')))
+
+        if email and password1 and not new_user:
+            self.user = authenticate(username=email, password=password1)
+            if self.user is None:
+                self._errors ['email'] = self.error_class(
+                    [u"Please enter a correct username and password. Note that both fields are case-sensitive."])
+
+        if email and password1 and new_user:
+            if auth.User.objects.filter(email=email).exists():
+                self._errors ['email'] = self.error_class(
+                    [u"A user with that email already exists."])
+            if password2 != password1:
+                self._errors ['password1'] = self.error_class(
+                    [u"Repeated password did not match."])
+
+        return self.cleaned_data
+
 
 class ProjectForm(core.BaseModelForm):
 
     class Meta(core.BaseModelForm.Meta):
         model = models.Project
-        fields = ("name", "homepage", "description")
+        fields = ("name", "homepage")
 
     def __init__(self, *args, **kwargs):
         self.organization = kwargs.pop('organization', None)
@@ -105,8 +147,11 @@ class ProjectForm(core.BaseModelForm):
 
     def clean(self):
         name = self.cleaned_data.get('name')
-        qs = models.Project.objects.filter(name=name, organization=self.organization)
-        qs = qs.exclude(pk=self.instance.pk)
+        qs = models.Project.objects.filter(
+            name__iexact=name,
+            organization=self.organization
+        ).exclude(pk=self.instance.pk)
+        
         if qs.exists():
             raise forms.ValidationError('Project with name "%s" already exists in "%s" organization.' % (
                     name, self.organization.name))
@@ -134,12 +179,13 @@ class OrganizationUsersFormSet(core.BaseInlineFormSet):
         active_members = [member for member in self.cleaned_data\
                           if member['role'] < models.OrganizationMember.INACTIVE]
 
-        if self.instance.payment.strategy.users < len(active_members):
-            raise forms.ValidationError(
-                ("Your current plan is %s and maximum number of users is %s.<br/>" +\
-                "Change your plan to increase the number of users.")
-                % (self.instance.payment, self.instance.payment.strategy.users)
-            )
+        if hasattr(self.instance, 'payment'):
+            if self.instance.payment.strategy.users < len(active_members):
+                raise forms.ValidationError(
+                    ("Your current plan is %s and maximum number of users is %s.<br/>" +\
+                     "Change your plan to increase the number of users.")
+                    % (self.instance.payment, self.instance.payment.strategy.users)
+                )
 
 
 OrganizationUsersForm = inlineformset_factory(models.Organization,

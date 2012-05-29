@@ -44,3 +44,4 @@ stdeb==0.6.0
 textile==2.1.5
 wsgiref==0.1.2
 yolk==0.4.1
+pyofc2

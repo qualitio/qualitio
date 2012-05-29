@@ -67,7 +67,7 @@ class IsAssignedToTestCaseThatHasStepsFilterForm(filterapp.FieldFilterForm):
 class RequirementFilter(filterapp.ModelFilter):
     class Meta:
         model = Requirement
-        exclude=('lft', 'rght', 'tree_id', 'level')
+        exclude=('lft', 'rght', 'tree_id', 'level', 'project', 'dependencies')
 
     is_assigned_to_testcase = filterapp.FieldFilter(IsAssignedToTestCaseFilterForm,
                                                     label='Is assigned to TC')
