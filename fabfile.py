@@ -159,6 +159,7 @@ def setup_development(virtualenv_name="qualitio-dev"):
 
     _install_python()
     _create_virtualenv()
+    _install_requirements()
     _synchronize_database()
     _migrate_database()
     _load_startdata()

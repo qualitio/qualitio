@@ -1,14 +1,13 @@
 Hi {{ organization }} organization admin,
 
-Your organization has a new candidate:
-
 username: {{ username }}
 email: {{ email }}
 
+has requested to become a member of {{ organization }} organization.
 
-Visit organization settings panel to accept his candidature or delete this account proposition from your organization.
-
-This email has been sent to all {{ organization }} admins.
+Please accept or delete this this candidate in organization settings panel.
 
 Regards
 Qualitio Team
+
+P.S. This email has been sent to all {{ organization }} admins.
