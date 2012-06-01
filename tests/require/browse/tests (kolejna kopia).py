@@ -49,7 +49,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=test cases"): break
+                if sel.is_element_present("link=store"): break
             except: pass
             time.sleep(2)
         else: self.fail("time out")
@@ -98,7 +98,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=test cases"): break
+                if sel.is_element_present("link=store"): break
             except: pass
             time.sleep(2)
         else: self.fail("time out")
@@ -146,7 +146,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=test cases"): break
+                if sel.is_element_present("link=store"): break
             except: pass
             time.sleep(2)
         else: self.fail("time out")
@@ -366,11 +366,11 @@ class Test02Authview(BaseSeleniumTestCase):
 
         except AssertionError, e: self.verificationErrors.append(str(e))
 
-        try: self.failUnless(sel.is_element_present("link=test cases"))
+        try: self.failUnless(sel.is_element_present("link=store"))
 
         except AssertionError, e: self.verificationErrors.append(str(e))
 
-        sel.click("link=test cases")
+        sel.click("link=store")
 
         sel.wait_for_page_to_load("30000")
 
@@ -626,11 +626,11 @@ class Test02Authview(BaseSeleniumTestCase):
 
         else: self.fail("time out")
 
-        try: self.failUnless(sel.is_element_present("link=test runs"))
+        try: self.failUnless(sel.is_element_present("link=execute"))
 
         except AssertionError, e: self.verificationErrors.append(str(e))
 
-        sel.click("link=test runs")
+        sel.click("link=execute")
 
         sel.wait_for_page_to_load("30000")
 
@@ -1064,11 +1064,11 @@ class Test02Authedit(BaseSeleniumTestCase):
 
         except AssertionError, e: self.verificationErrors.append(str(e))
 
-        try: self.failUnless(sel.is_element_present("link=test cases"))
+        try: self.failUnless(sel.is_element_present("link=store"))
 
         except AssertionError, e: self.verificationErrors.append(str(e))
 
-        sel.click("link=test cases")
+        sel.click("link=store")
 
         sel.wait_for_page_to_load("30000")
 
@@ -1324,11 +1324,11 @@ class Test02Authedit(BaseSeleniumTestCase):
 
         else: self.fail("time out")
 
-        try: self.failUnless(sel.is_element_present("link=test runs"))
+        try: self.failUnless(sel.is_element_present("link=execute"))
 
         except AssertionError, e: self.verificationErrors.append(str(e))
 
-        sel.click("link=test runs")
+        sel.click("link=execute")
 
         sel.wait_for_page_to_load("30000")
 
@@ -2054,15 +2054,15 @@ class Test1HeaderpageVerifytext(BaseSeleniumTestCase):
         try: self.assertEqual("test@Qualitio", sel.get_text("css=div.logo"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         self.failUnless(sel.is_element_present("css=#notification.notify-wrapper-oneattime"))
-        try: self.assertEqual("require", sel.get_text("link=requirements"))
+        try: self.assertEqual("require", sel.get_text("link=require"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("store", sel.get_text("link=test cases"))
+        try: self.assertEqual("store", sel.get_text("link=store"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("execute", sel.get_text("link=test runs"))
+        try: self.assertEqual("execute", sel.get_text("link=execute"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("admin", sel.get_text("link=admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("report", sel.get_text("link=reports"))
+        try: self.assertEqual("report", sel.get_text("link=report"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("admin", sel.get_text("link=admin"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -4925,7 +4925,7 @@ class Test20SetTree(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("exact:requirement: MeeGo Handset test"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=test cases")
+        sel.click("link=store")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -4951,7 +4951,7 @@ class Test20SetTree(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("test case: TestCase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=requirements")
+        sel.click("link=require")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -4984,7 +4984,7 @@ class Test20SetTree(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("exact:requirement: MeeGo Handset test"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=test cases")
+        sel.click("link=store")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
