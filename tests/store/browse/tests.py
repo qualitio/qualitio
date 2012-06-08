@@ -49,7 +49,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=store"): break
+                if sel.is_element_present("link=test cases"): break
             except: pass
             time.sleep(2)
         else: self.fail("time out")
@@ -140,13 +140,13 @@ class Test01StoreGlossary(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_element_present("link=store"): break
+                if sel.is_element_present("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=store"))
+        try: self.failUnless(sel.is_element_present("link=test cases"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -314,13 +314,13 @@ class Test15StoreTestdirectVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
-                if sel.is_text_present("store"): break
+                if sel.is_text_present("test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("store", sel.get_text("link=store"))
+        try: self.assertEqual("test cases", sel.get_text("link=test cases"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -451,13 +451,13 @@ class Test16StoreTestcaseVerify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
-                if sel.is_text_present("store"): break
+                if sel.is_text_present("test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.assertEqual("store", sel.get_text("link=store"))
+        try: self.assertEqual("test cases", sel.get_text("link=test cases"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -604,11 +604,11 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
-                if "store" == sel.get_text("link=store"): break
+                if "test cases" == sel.get_text("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -754,11 +754,11 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
-                if "store" == sel.get_text("link=store"): break
+                if "test cases" == sel.get_text("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -984,11 +984,11 @@ class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
-                if "store" == sel.get_text("link=store"): break
+                if "test cases" == sel.get_text("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -1174,7 +1174,7 @@ class Test21StoreTreeVerify(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -1300,7 +1300,7 @@ class Test22StoreTreeVerifyEdit(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -1464,11 +1464,11 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if "store" == sel.get_text("link=store"): break
+                if "test cases" == sel.get_text("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -1876,11 +1876,11 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if "store" == sel.get_text("link=store"): break
+                if "test cases" == sel.get_text("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -2207,7 +2207,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("test@qualitio :: store", sel.get_title())
         for i in range(60):
@@ -2445,7 +2445,7 @@ class Test34StoreSamename(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         self.assertEqual("test@qualitio :: store", sel.get_title())
         for i in range(60):
@@ -2556,13 +2556,13 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_element_present("link=store"): break
+                if sel.is_element_present("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=execute"): break
+                if sel.is_element_present("link=test runs"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -2759,11 +2759,11 @@ class Test35StoreTestcaseStatus(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if "store" == sel.get_text("link=store"): break
+                if "test cases" == sel.get_text("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -2973,13 +2973,13 @@ class Test36StoreLanguage(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_element_present("link=store"): break
+                if sel.is_element_present("link=test cases"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=store"))
+        try: self.failUnless(sel.is_element_present("link=test cases"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=store")
+        sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:

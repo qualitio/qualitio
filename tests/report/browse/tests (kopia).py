@@ -49,7 +49,7 @@ class BaseSeleniumTestCase(unittest.TestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=test cases"): break
+                if sel.is_element_present("link=store"): break
             except: pass
             time.sleep(2)
         else: self.fail("time out")
@@ -134,13 +134,13 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_element_present("link=reports"): break
+                if sel.is_element_present("link=report"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=reports"))
+        try: self.failUnless(sel.is_element_present("link=report"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=reports")
+        sel.click("link=report")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -259,13 +259,13 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_element_present("link=reports"): break
+                if sel.is_element_present("link=report"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=reports"))
+        try: self.failUnless(sel.is_element_present("link=report"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=reports")
+        sel.click("link=report")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
@@ -316,7 +316,7 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         sel.click("//div[@id='application-view-footer']/div/a[1]/span")
         for i in range(60):
             try:
-                if sel.is_text_present("reports"): break
+                if sel.is_text_present("report"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -332,7 +332,7 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("reports"))
+        try: self.failUnless(sel.is_text_present("report"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("new"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -446,13 +446,13 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         self.assertEqual("test@qualitio :: require", sel.get_title())
         for i in range(60):
             try:
-                if sel.is_element_present("link=reports"): break
+                if sel.is_element_present("link=report"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("link=reports"))
+        try: self.failUnless(sel.is_element_present("link=report"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("link=reports")
+        sel.click("link=report")
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
