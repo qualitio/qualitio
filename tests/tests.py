@@ -72,7 +72,7 @@ if __name__ == "__main__":
         try:
             selenium = subprocess.Popen(['java',
                                          '-jar',
-                                         'selenium-server-standalone-2.12.0.jar'],
+                                         'selenium-server-standalone-2.23.1.jar'],
                                         stdout=out, stderr=subprocess.STDOUT)
 
 
