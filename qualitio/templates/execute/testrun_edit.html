@@ -58,7 +58,7 @@
           </thead>
           <tbody>
             {% for test_case in connected_test_cases %}
-            <tr class="{% cycle 'odd' 'even' %}" style="background: {{ test_case.status.color }}">
+            <tr class="{% cycle 'odd' 'even' %}" style="background: #{{ test_case.status.color }}">
               <td class="select">
                 <input type="checkbox" class="modify" value="{{ test_case.origin.id }}"/>
                 <input type="hidden" name="connected_test_case" value="{{ test_case.origin.id }}"/>

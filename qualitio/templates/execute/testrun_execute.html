@@ -27,7 +27,7 @@
       <tbody>
       {% for testcaserun in testrun.testcases.all %}
       <tr id="testcaserun_{{ testcaserun.id }}" class="{% cycle 'odd' 'even' %}"
-          style="background: {{ testcaserun.status.color }}"
+          style="background: #{{ testcaserun.status.color }}"
           href="{{ SELF.get_absolute_url }}ajax/testcaserun/{{ testcaserun.id }}/">
         <td class="select">
           <input type="checkbox" class="modify table-item" name="item-{{ testcaserun.id }}" />

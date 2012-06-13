@@ -33,7 +33,7 @@ $(function() {
     $(this).ajaxForm({
       success: function(status) {
         $("#testcaserun_" + status.data.id+" .status").text(status.data.name);
-        $("#testcaserun_" + status.data.id).css("background", status.data.color);
+        $("#testcaserun_" + status.data.id).css("background", '#'+status.data.color);
         
         $('#testcaserun-status-form [name="initial-status"]').val(status.data.status_id);
 
@@ -42,7 +42,7 @@ $(function() {
         $.each(status.data.passrate_ratio, function(i, status) {
           $('<div class="element '+ status.name +'  "/>').appendTo('.passrate')
             .css('width', status.ratio +"%")
-            .css('background', status.color);
+            .css('background', '#'+status.color);
         });
       },
     }).submit();

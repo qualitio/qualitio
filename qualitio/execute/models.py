@@ -83,7 +83,7 @@ class TestRun(core.BasePathModel):
 class TestCaseRunStatus(core.BaseStatusModel):
     default_name = "IDLE"
 
-    color = models.CharField(max_length=7, blank=True)
+    color = models.CharField(max_length=6, blank=True)
     total = models.BooleanField(
         help_text="Count test cases with this status to total in test run passrate?")
     passed = models.BooleanField(

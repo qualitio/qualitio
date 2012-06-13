@@ -47,7 +47,7 @@
       </thead>
       <tbody>
         {% for child in testrun.testcases.all %}
-        <tr class="{% cycle 'odd' 'even' %}" style="background: {{ child.status.color }}">
+        <tr class="{% cycle 'odd' 'even' %}" style="background:#{{ child.status.color }}">
           <td class="id">{{ child.id }}</td>
           <td class="origin-id">{{ child.origin.id }}</td>
           <td class="path"><a href="{{ STORE.get_absolute_url }}#testcasedirectory/{{ child.origin.parent.pk }}/details/">{{ child.origin.path }}</a></td>

@@ -1,6 +1,6 @@
 <div class="passrate">
   {% for status in passrate %}
-  <div class="element {{ status.name }}" style="background: {{ status.color }}; width: {{ status.ratio }}%;"></div>
+  <div class="element {{ status.name }}" style="background: #{{ status.color }}; width: {{ status.ratio }}%;"></div>
   {% endfor %}
   <div class="value">{{ testrun.passrate }} %</div>
 </div>
