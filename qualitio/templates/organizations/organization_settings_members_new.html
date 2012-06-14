@@ -55,7 +55,10 @@ $(document).ready(function() {
 		    $('.user-list').load('{% url organization_settings_members_list %}');
 		}
 	    }
-	}
+	},
+    beforeSubmit: function() {
+      $.shortcuts.hideErrors();
+     }
     });
 
     $('#member-new-form').ajaxForm({
@@ -68,7 +71,10 @@ $(document).ready(function() {
 		$('.user-new').load('{% url organization_settings_members_new %}');
 		$('.user-list').load('{% url organization_settings_members_list %}');
 	    }
-	}
+	},
+    beforeSubmit: function() {
+      $.shortcuts.hideErrors();
+     }
     });
 });
 </script>
