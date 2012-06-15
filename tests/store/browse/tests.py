@@ -626,6 +626,7 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("create test case directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a:nth-child(2)")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory"): break
@@ -647,6 +648,7 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         try: self.assertEqual("test@qualitio :: store", sel.get_title())
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory: testcase directory"): break
@@ -742,6 +744,42 @@ class Test17StoreTestdirectCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Object created."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/admin/store/testcasedirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select Directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select Directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("xpath=(//input[@name='_selected_action'])[3]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:5: /MeeGo Netbook/testcase directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:5: /MeeGo Netbook/testcase directory"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
@@ -855,6 +893,7 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("css=input.ui-button[value=\"Save\"]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=input.ui-button[value=\"Save\"]")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=MeeGo Netbook"): break
@@ -972,6 +1011,38 @@ class Test18StoreTestcaseCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Object created. Added step \"1\" and added step \"2\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/admin/store/testcase/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test case to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("Select test case to change | Django site admin", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("xpath=(//input[@name='_selected_action'])[18]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test cases")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:18: /MeeGo Handset bat/test case 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:18: /MeeGo Handset bat/test case 1"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test19StoreTestcaseDisplay(BaseSeleniumTestCase):
@@ -1487,6 +1558,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("create test case directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a:nth-child(2)")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory"): break
@@ -1512,6 +1584,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("name=Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("id_name"): break
@@ -1646,6 +1719,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         sel.type("id_name", "testcasesubdirectory")
         sel.type("id_description", "descr1\ndesr1")
         sel.click("Executed")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory: testcasesubdirectory"): break
@@ -1665,6 +1739,7 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=details")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory: testcasesubdirectory"): break
@@ -1864,6 +1939,42 @@ class Test26StoreTestdirectModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Changed name and changed description."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/admin/store/testcasedirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("modified test case directory 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select Directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select Directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("xpath=(//input[@name='_selected_action'])[3]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:5: /MeeGo Netbook/modified test case directory 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:5: /MeeGo Netbook/modified test case directory 2"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 
@@ -2191,6 +2302,38 @@ class Test27StoreTestcaseModify(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("Object created. Added step \"1\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/admin/store/testcase/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("modify test case modification"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test case to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("Select test case to change | Django site admin", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("xpath=(//input[@name='_selected_action'])[18]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test cases")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:18: /MeeGo Netbook/modify test case modification"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:18: /MeeGo Netbook/modify test case modification"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test33StoreSamename(BaseSeleniumTestCase):
@@ -2209,6 +2352,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("link=test cases")
         sel.wait_for_page_to_load("30000")
+        time.sleep(1)
         self.assertEqual("test@qualitio :: store", sel.get_title())
         for i in range(60):
             try:
@@ -2217,6 +2361,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=MeeGo Netbook")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory: MeeGo Netbook"): break
@@ -2226,6 +2371,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("test case directory: MeeGo Netbook"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#application-view-footer div a:nth-child(2)")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory"): break
@@ -2240,6 +2386,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.type("id_name", "MeeGo IVI BAT")
         sel.click("Executed")
+        time.sleep(1)
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
@@ -2252,6 +2399,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "MeeGo IVI BAT2")
         sel.click("Executed")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=details"): break
@@ -2279,6 +2427,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=details")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test case directory: MeeGo IVI BAT2"): break
@@ -2310,6 +2459,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.type("id_name", "MeeGo IVI BAT")
         sel.click("Executed")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."): break
@@ -2386,6 +2536,7 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("id_name", "testcase directory same name")
         sel.click("Executed")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_name"): break
@@ -2429,6 +2580,43 @@ class Test33StoreSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/testcase directory same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(2)
+        sel.open("/admin/store/testcasedirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("testcase directory same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select Directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select Directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("xpath=(//input[@name='_selected_action'])[3]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:5: /MeeGo Netbook/testcase directory same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:5: /MeeGo Netbook/testcase directory same name"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 
@@ -2746,6 +2934,39 @@ class Test34StoreSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /MeeGo Netbook/TestCase same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/store/testcase/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("TestCase same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test case to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("Select test case to change | Django site admin", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("xpath=(//input[@name='_selected_action'])[4]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test cases")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:18: /MeeGo Netbook/TestCase same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:18: /MeeGo Netbook/TestCase same name"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 
@@ -2955,6 +3176,39 @@ class Test35StoreTestcaseStatus(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Changed status."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/store/testcase/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test case to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("Select test case to change | Django site admin", sel.get_title())
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("xpath=(//input[@name='_selected_action'])[18]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test cases")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:18: /MeeGo Handset bat/test case 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:18: /MeeGo Handset bat/test case 2"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test36StoreLanguage(BaseSeleniumTestCase):
