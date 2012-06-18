@@ -17,7 +17,7 @@
              href="{{ REQUIRE.get_absolute_url }}">requirements</a>
         </div>
         <div>
-          <a class="{% if CURRENT_MODULE == 'store' %}active{% endif %}"
+          <a class="{% if CURRENT_MODULE == 'store' or CURRENT_MODULE == 'glossary' %}active{% endif %}"
              href="{{ STORE.get_absolute_url }}">test cases</a>
         </div>
         <div>
