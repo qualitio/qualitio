@@ -1,4 +1,5 @@
 {% extends 'base_tree.html' %}
+{% load authorization %}
 
 {% block js-include %}{{ block.super }}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/store.js"></script>
@@ -11,5 +12,5 @@
 {% block application-menu %}
 <li class="active">browse</li>
 <li><a href="{{ SELF.get_absolute_url }}filter/">filter</a></li>
-<li><a href="{{ GLOSSARY.get_absolute_url }}">glossary</a></li>
+<li><a class="{% if not user|has_permission:"USER" %}disable{% endif %}"  href="{{ GLOSSARY.get_absolute_url }}">glossary</a></li>
 {% endblock %}
