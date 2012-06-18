@@ -3072,6 +3072,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        time.sleep(1)
         try: self.failUnless(sel.is_element_present("id_bugs-0-DELETE"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_bugs-1-DELETE"))
@@ -3093,6 +3094,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("#1234 #1235 #1236"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_bugs-0-DELETE")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_bugs-0-DELETE"): break
@@ -3212,7 +3214,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//div[@id='bugs_wrapper']/input"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='add']")
-        time.sleep(1)
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=1237"): break
@@ -3240,6 +3242,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("#1237 #1238 #1239"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_bugs-0-DELETE")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_bugs-0-DELETE"): break
@@ -3694,6 +3697,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("//div[@id='bugs_wrapper']/input", "1234")
         sel.click("css=input[value='add']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_bugs-0-DELETE"): break
@@ -3947,6 +3951,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("//div[@id='bugs_wrapper']/input", "1236")
         sel.click("css=input[value='add']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=1236"): break
