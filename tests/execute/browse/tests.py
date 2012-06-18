@@ -675,6 +675,43 @@ class Test30ExecTestdirectCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Object created."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/execute/testrundirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("testrun subdirectory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=tr.row2 > td > input[name=\"_selected_action\"]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Test run directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:2: /TestRun directory/testrun subdirectory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:2: /TestRun directory/testrun subdirectory"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test31ExecTestrunCreate(BaseSeleniumTestCase):
@@ -824,6 +861,42 @@ class Test31ExecTestrunCreate(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Object created. Added test case \"2: /meego netbook/meego ivi bat/open navigation\" and added test case \"3: /meego netbook/testcase\"."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/admin/execute/testrun/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Test run testowy"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("name=_selected_action")
+        try: self.assertEqual("on", sel.get_value("name=_selected_action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test runs")
+        try: self.failUnless(sel.is_element_present("name=index"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /TestRun directory/Test run testowy"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:3: /TestRun directory/Test run testowy"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test34ExecSamename(BaseSeleniumTestCase):
@@ -1030,7 +1103,7 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=3: /TestRun directory/Directory1")
+        sel.select("id_parent", "label=2: /TestRun directory/Directory1")
         for i in range(60):
             try:
                 if sel.is_element_present("id_parent"): break
@@ -1179,6 +1252,59 @@ class Test34ExecSamename(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Directory1 same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.select_window("null")
+        time.sleep(1)
+        sel.open("/admin/execute/testrundirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Directory1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Directory1 same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=tr.row2 > td > input[name=\"_selected_action\"]")
+        sel.click("xpath=(//input[@name='_selected_action'])[3]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Test run directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:2: /TestRun directory/Directory1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /TestRun directory/Directory1 same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:2: /TestRun directory/Directory1"))
+        self.failUnless(sel.is_text_present("exact:3: /TestRun directory/Directory1 same name"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test35ExecTestrunSamename(BaseSeleniumTestCase):
@@ -1362,7 +1488,7 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Validation errors"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id_parent", "label=5: /TestRun directory/Directory3")
+        sel.select("id_parent", "label=2: /TestRun directory/Directory3")
         sel.click("Executed")
         for i in range(60):
             try:
@@ -1522,6 +1648,80 @@ class Test35ExecTestrunSamename(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("full name: /TestRun directory/TestRun 1 same name"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/execute/testrundirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Directory3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=tr.row2 > td > input[name=\"_selected_action\"]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Test run directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:2: /TestRun directory/Directory3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:2: /TestRun directory/Directory3"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(1)
+        sel.open("/admin/execute/testrun/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("TestRun 1 same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=tr.row2 > td.action-checkbox > input[name=\"_selected_action\"]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test runs")
+        try: self.failUnless(sel.is_element_present("name=index"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /TestRun directory/TestRun 1 same name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:3: /TestRun directory/TestRun 1 same name"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test36ExecTreeVerify(BaseSeleniumTestCase):
@@ -2514,13 +2714,13 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("//tr[@id='testcaserun_3']/td[2]"): break
+                if sel.is_element_present("//tr[@id='testcaserun_1']/td[4]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_3']/td[2]"))
+        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_1']/td[4]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//tr[@id='testcaserun_3']/td[2]")
+        sel.click("//tr[@id='testcaserun_1']/td[4]")
         for i in range(60):
             try:
                 if sel.is_text_present("test case: TestCase1"): break
@@ -2608,11 +2808,11 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Test case run: 3: Changed status to 'passed'."))
+        try: self.failUnless(sel.is_text_present("Test case run: 1: Changed status to 'passed'."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Test case run: 3: Changed status to 'failed'."))
+        try: self.failUnless(sel.is_text_present("Test case run: 1: Changed status to 'failed'."))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("Test case run: 3: Changed status to 'idle'."))
+        try: self.failUnless(sel.is_text_present("Test case run: 1: Changed status to 'idle'."))
         except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
@@ -2685,6 +2885,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("css=li#1_testrundirectory ins")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestRun 1"): break
@@ -2692,6 +2893,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=TestRun 1")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
@@ -2717,6 +2919,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=edit")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_name"): break
@@ -2732,9 +2935,11 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//input[@value='1' and @type='checkbox']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='1' and @type='checkbox']")
+        time.sleep(1)
         try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//a[@id='add-testcases-button']/span")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=Close navigation"): break
@@ -2748,6 +2953,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.assertEqual("Close navigation", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=details"): break
@@ -2781,6 +2987,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//div[@id='application-view-menu']/a[3]")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("css=div.select-btn"): break
@@ -2814,6 +3021,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("css=tr#testcaserun_1 td:nth-child(4)"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div#header div")
+        time.sleep(1)
         sel.click("css=tr#testcaserun_1 td:nth-child(4)")
         for i in range(60):
             try:
@@ -2839,6 +3047,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("//div[@id='bugs_wrapper']/input", "1234,1235,1236")
         sel.click("css=input[value='add']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=1234"): break
@@ -2911,6 +3120,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//input[@value='remove']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("//form[@id='testcaserun-remove-bug-form']/div[2]/div/div[2]/table/tbody/tr/td"): break
@@ -2942,6 +3152,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=details")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
@@ -2961,6 +3172,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//div[@id='application-view-menu']/a[3]")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("css=div.select-btn"): break
@@ -3000,6 +3212,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//div[@id='bugs_wrapper']/input"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//input[@value='add']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=1237"): break
@@ -3147,6 +3360,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//input[@value='add']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=1231"): break
@@ -3203,6 +3417,7 @@ class Test040ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
@@ -3280,6 +3495,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("css=li#1_testrundirectory ins")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=TestRun 1"): break
@@ -3293,6 +3509,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=TestRun 1")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test run: TestRun 1"): break
@@ -3306,6 +3523,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("link=edit")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_name"): break
@@ -3333,6 +3551,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("//input[@value='1' and @type='checkbox']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("//a[@id='add-testcases-button']/span"): break
@@ -3342,6 +3561,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//input[@value='1']"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//a[@id='add-testcases-button']/span")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("link=Close navigation"): break
@@ -3361,6 +3581,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("name=Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=details"): break
@@ -3390,6 +3611,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-menu']/a[2]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=a[href=\"#testrun/1/execute/\"]")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("css=div.select-btn"): break
@@ -3441,6 +3663,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_1']/td[2]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//tr[@id='testcaserun_1']/td[2]")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("css=div.select-btn"): break
@@ -3493,6 +3716,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.type("//div[@id='bugs_wrapper']/input", "1235")
         sel.click("css=input[value='add']")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("id"): break
@@ -3530,6 +3754,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=history"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=history")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("//div[@id='application-view']/div[3]/div/div[1]/div[1]/div/table"): break
@@ -3619,6 +3844,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div.dataTables_scrollHeadInner > table.display > thead > tr > th.checkbox.sorting_disabled > div.select-btn.ui-state-default > span.ui-icon.ui-icon-triangle-1-s"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div.dataTables_scrollHeadInner > table.display > thead > tr > th.checkbox.sorting_disabled > div.select-btn.ui-state-default > span.ui-icon.ui-icon-triangle-1-s")
+        time.sleep(1)
         sel.click("css=div.available-testcases.application-view-content > div.dataTables_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div.dataTables_scrollHeadInner > table.display > thead > tr > th.checkbox.sorting_disabled > div.menu > div[name=all]")
         for i in range(60):
             try:
@@ -3644,6 +3870,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.assertEqual("Close navigation", sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("Executed")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_element_present("link=details"): break
@@ -3735,6 +3962,7 @@ class Test039ExecAddbug(BaseSeleniumTestCase):
         try: self.assertEqual("1236", sel.get_text("link=1236"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("id_bugs-0-DELETE")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_element_present("id_bugs-0-DELETE"): break
@@ -4722,7 +4950,7 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.type("id_name", "testrun subdirectory 2 modified")
-        sel.select("id_parent", "label=7: /TestRun directory 2")
+        sel.select("id_parent", "label=3: /TestRun directory 2")
         sel.type("id_description", "Descriptionmod\nDescriptionmod")
         try: self.failUnless(sel.is_element_present("Executed"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -4785,6 +5013,56 @@ class Test42ExecTestdirectmod(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_text_present("Changed name, changed parent and changed description."))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/execute/testrundirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("TestRun directory 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("TestRun directory 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=tr.row2 > td > input[name=\"_selected_action\"]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Test run directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /TestRun directory 2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:2: /TestRun directory 2/testrun subdirectory 2 modified"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:2: /TestRun directory 2/testrun subdirectory 2 modified"))
+        self.failUnless(sel.is_text_present("exact:3: /TestRun directory 2"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 
@@ -5055,7 +5333,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
         for i in range(60):
             try:
-                if sel.is_text_present("test runs"): break
+                if sel.is_text_present("execute"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -5090,13 +5368,14 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("//tr[@id='testcaserun_3']/td[2]"): break
+                if sel.is_element_present("//tr[@id='testcaserun_1']/td[4]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_3']/td[2]"))
+        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_1']/td[4]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//tr[@id='testcaserun_3']/td[2]")
+        sel.click("//tr[@id='testcaserun_1']/td[4]")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test case: TestCase"): break
@@ -5247,7 +5526,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         else: self.fail("time out")
         try: self.failUnless(sel.is_element_present("link=TestCase"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("test runs"))
+        try: self.failUnless(sel.is_text_present("execute"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//div[@id='application-view-menu']/a[3]")
         for i in range(60):
@@ -5270,13 +5549,13 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("//tr[@id='testcaserun_4']/td[3]"): break
+                if sel.is_element_present("//tr[@id='testcaserun_2']/td[4]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_4']/td[3]"))
+        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_2']/td[4]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.click("//tr[@id='testcaserun_4']/td[3]")
+        sel.click("//tr[@id='testcaserun_2']/td[4]")
         for i in range(60):
             try:
                 if sel.is_text_present("test case: TestCase"): break
@@ -5462,6 +5741,7 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-menu']/a[2]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//div[@id='application-view-menu']/a[3]")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("id"): break
@@ -5480,13 +5760,15 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_3']/td[4]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
         for i in range(60):
             try:
-                if sel.is_element_present("//tr[@id='testcaserun_5']/td[3]"): break
+                if sel.is_element_present("//tr[@id='testcaserun_3']/td[4]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("//tr[@id='testcaserun_5']/td[3]")
+        sel.click("//tr[@id='testcaserun_3']/td[4]")
         for i in range(60):
             try:
                 if sel.is_text_present("test case: TestCase"): break
@@ -5515,9 +5797,9 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("css=tr.even > td..sorting_1 > a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("link=5"))
+        try: self.failUnless(sel.is_element_present("link=3"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("link=6"))
+        try: self.failUnless(sel.is_element_present("link=4"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("id_bugs"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -5545,6 +5827,75 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='testcaserun-details']/div[3]/div[2]/div/div/div/div[2]/table/tbody/tr/td[3]/a"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/execute/testrun/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("testrun1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=testrun2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=testrun3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("xpath=(//input[@name='_selected_action'])[3]")
+        sel.click("xpath=(//input[@name='_selected_action'])[4]")
+        sel.click("xpath=(//input[@name='_selected_action'])[5]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("on", sel.get_value("xpath=(//input[@name='_selected_action'])[5]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test runs")
+        try: self.failUnless(sel.is_element_present("name=index"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=exact:4: /TestRun directory/testrun2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=exact:5: /TestRun directory/testrun3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /TestRun directory/testrun1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("3: /TestRun directory/testrun1"))
+        self.failUnless(sel.is_text_present("3: /TestRun directory/testrun1"))
+        self.failUnless(sel.is_text_present("exact:3: /TestRun directory/testrun1"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 if __name__ == "__main__":
