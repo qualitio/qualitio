@@ -5903,5 +5903,244 @@ class Test46ExecRepeatedBugs(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
 
 
+class Test47ExecTestrunClone(BaseSeleniumTestCase):
+    
+    def test_47_exec_testrun_clone(self):
+        self.login() 
+        sel = self.selenium
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("test@qualitio :: require", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=test runs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "test runs" == sel.get_text("link=test runs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=test runs")
+        sel.wait_for_page_to_load("30000")
+        self.assertEqual("test@qualitio :: execute", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=TestRun directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run directory: TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run directory: TestRun directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=div#application-view-footer div a span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "Test run testowy")
+        sel.click("//input[@value='2']")
+        sel.click("//input[@value='3']")
+        try: self.failUnless(sel.is_element_present("//a[@id='add-testcases-button']/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//a[@id='add-testcases-button']/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Open navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=TestCase"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run : Test run testowy"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: Test run testowy"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("test run: Test run testowy"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /TestRun directory/Test run testowy"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("status: default"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("test cases:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("/MeeGo Netbook/MeeGo IVI BAT/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=/MeeGo Netbook/MeeGo IVI BAT/"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=Open navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Open navigation", sel.get_text("link=Open navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=TestCase"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("TestCase", sel.get_text("link=TestCase"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=history"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=history")
+        for i in range(60):
+            try:
+                if sel.is_text_present("date"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("user"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("comment"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Object created. Added test case \"2: /meego netbook/meego ivi bat/open navigation\" and added test case \"3: /meego netbook/testcase\"."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=Test run testowy")
+        time.sleep(1)
+        for i in range(60):
+            try:
+                if "Clone" == sel.get_value("name=3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("name=3")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_text_present("Test run testowy (copy)"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=Test run testowy (copy)")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: Test run testowy (copy)"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("/TestRun directory/Test run testowy (copy)"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("default"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=Open navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=TestCase"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(2)
+        sel.open("/admin/execute/testrun/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Test run testowy"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Test run testowy (copy)"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select test run to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select test run to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("name=_selected_action")
+        sel.click("css=tr.row2 > td.action-checkbox > input[name=\"_selected_action\"]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("on", sel.get_value("name=_selected_action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected test runs")
+        try: self.failUnless(sel.is_element_present("name=index"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /TestRun directory/Test run testowy"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:4: /TestRun directory/Test run testowy (copy)"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("exact:4: /TestRun directory/Test run testowy (copy)"))
+        self.failUnless(sel.is_text_present("exact:3: /TestRun directory/Test run testowy"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
+
+
 if __name__ == "__main__":
     unittest.main()
