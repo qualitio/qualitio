@@ -6142,5 +6142,488 @@ class Test47ExecTestrunClone(BaseSeleniumTestCase):
         sel.wait_for_page_to_load("30000")
 
 
+class Test48ExecTestrunLanguage(BaseSeleniumTestCase):
+    
+    def test_48_exec_testrun_language(self):
+        self.login() 
+        sel = self.selenium
+        sel.open("/project/meego/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("test@qualitio :: require", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=test cases"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=test cases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=test cases")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("test@qualitio :: store", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("test :: Meego"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo Netbook"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("link=glossary"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("glossary", sel.get_text("link=glossary"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=glossary")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=span.ui-button-text"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='projects']/div[3]/div/a/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("css=input"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='projects']/div[3]/div/a"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='projects']/div[3]/div/a/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='projects']/div[3]/div/a/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "word" == sel.get_text("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("word"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Name", sel.get_text("css=label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("default", sel.get_text("//form[@id='word_form']/div[3]/div/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("", sel.get_text("id_default-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Save", sel.get_value("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "kolor")
+        sel.type("id_default-representation", "kolor")
+        sel.type("id_english-representation", "color")
+        sel.type("id_german-representation", "farbe")
+        try: self.failUnless(sel.is_element_present("Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Executed")
+        time.sleep(2)
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_word_1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_word_1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("kolor", sel.get_text("id_word_1"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='projects']/div[3]/div/a/span")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "word" == sel.get_text("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id_name", "ekran")
+        sel.type("id_default-representation", "ekran")
+        sel.type("id_english-representation", "screen")
+        sel.type("id_german-representation", "Bildschirm")
+        try: self.failUnless(sel.is_element_present("name=Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Executed")
+        for i in range(60):
+            try:
+                if sel.is_text_present("word"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=input"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_word_2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("id_word_2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_word_2"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "ekran" == sel.get_text("id=id_word_2"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("default"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_default-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("english", sel.get_text("//form[@id='word_form']/div[3]/div[2]/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_english-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("german", sel.get_text("//form[@id='word_form']/div[3]/div[3]/label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id_german-representation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=test cases"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=test cases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=test cases")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test :: Meego"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("test@qualitio :: store", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=MeeGo Netbook"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=#1_testcasedirectory > ins.jstree-icon"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=#1_testcasedirectory > ins.jstree-icon")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=MeeGo IVI BAT"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=#4_testcasedirectory > ins.jstree-icon"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=#4_testcasedirectory > ins.jstree-icon")
+        for i in range(60):
+            try:
+                if "Close navigation" == sel.get_text("link=Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=Close navigation")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id=id_description", "$kolor$  \n$ekran$")
+        for i in range(60):
+            try:
+                if sel.is_element_present("name=Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("name=Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=Executed")
+        for i in range(60):
+            try:
+                if "test case: Close navigation" == sel.get_text("css=h1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "details" == sel.get_text("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.refresh()
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "details" == sel.get_text("link=details"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "history" == sel.get_text("link=history"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=details")
+        for i in range(60):
+            try:
+                if sel.is_element_present("css=span.name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view']/div[3]/div[2]/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=exact:1: /MeeGo"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("kolor"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("ekran"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("Language:", sel.get_text("css=label"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("id=id_language"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id=id_language", "label=english")
+        for i in range(60):
+            try:
+                if "Current glossary language: english" == sel.get_text("//div[@id='notification']/div/div/span[2]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Current glossary language: english"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_text_present("description"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("color"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("screen"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("color"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("screen"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=option[value=3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.assertEqual("german", sel.get_text("css=option[value=3]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("id=id_language", "label=german")
+        for i in range(60):
+            try:
+                if "Current glossary language: german" == sel.get_text("//div[@id='notification']/div/div/span[2]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Current glossary language: german"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "farbe" == sel.get_text("css=span.glosarry-word.translation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Bildschirm"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("farbe"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_language"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.select("id=id_language", "label=default")
+        for i in range(60):
+            try:
+                if "Current glossary language: default" == sel.get_text("//div[@id='notification']/div/div/span[2]"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Current glossary language: default"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if "edit" == sel.get_text("link=edit"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.assertEqual("edit", sel.get_text("link=edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if "" == sel.get_text("id=id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id=id_parent"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.type("id=id_description", "")
+        for i in range(60):
+            try:
+                if sel.is_element_present("name=Executed"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("name=Executed"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=Executed")
+        time.sleep(1)
+        sel.open("/admin/glossary/word/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select word to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select word to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("ekran"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("kolor"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=tr.row2 > td.action-checkbox > input[name=\"_selected_action\"]")
+        sel.click("name=_selected_action")
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected words")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:ekran"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("kolor"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_text_present("kolor"))
+        self.failUnless(sel.is_text_present("exact:ekran"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
+
+
 if __name__ == "__main__":
     unittest.main()
