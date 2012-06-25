@@ -6447,22 +6447,111 @@ class Test48ExecTestrunLanguage(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        sel.click("link=details")
         for i in range(60):
             try:
-                if sel.is_element_present("css=span.name"): break
+                if sel.is_text_present("test runs"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=test runs")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if "test@qualitio :: execute" == sel.get_title(): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("//div[@id='application-view']/div[3]/div[2]/span"): break
+                if sel.is_text_present("TestRun directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("css=ins.jstree-icon")
+        for i in range(60):
+            try:
+                if sel.is_text_present("TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("link=TestRun 1")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test run: TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("full name:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_text_present("/TestRun directory/TestRun 1"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("edit"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=edit")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Parent"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
         for i in range(60):
             try:
-                if sel.is_element_present("link=exact:1: /MeeGo"): break
+                if sel.is_text_present("Name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=Close navigation"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("css=input.modify"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=input.modify")
+        try: self.failUnless(sel.is_text_present("add"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=#add-testcases-button > span.ui-button-text")
+        for i in range(60):
+            try:
+                if "Close navigation" == sel.get_table("css=div.dataTables_scrollBody > table.display.1.3"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "" == sel.get_table("css=div.dataTables_scrollBody > table.display.1.0"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("css=div.application-view-content > div.right > input[name=\"Executed\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=div.application-view-content > div.right > input[name=\"Executed\"]")
+        time.sleep(2)
+        sel.click("link=execute")
+        time.sleep(1)
+        for i in range(60):
+            try:
+                if "Close navigation" == sel.get_table("css=div.dataTables_scrollBody > table.display.1.4"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        sel.click("//tr[@id='testcaserun_1']/td[4]")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test case: Close navigation"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo Netbook/MeeGo IVI BAT"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("/MeeGo Netbook/MeeGo IVI BAT/Close navigation"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -6470,85 +6559,47 @@ class Test48ExecTestrunLanguage(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("ekran"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=label"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("Language:", sel.get_text("css=label"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("id=id_language"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id=id_language", "label=english")
+        sel.click("link=edit")
+        time.sleep(1)
+        sel.select("id=id_translation", "label=english")
+        time.sleep(1)
+        sel.click("css=div.application-view-content > div.right > input[name=\"Executed\"]")
+        time.sleep(1)
         for i in range(60):
             try:
-                if "Current glossary language: english" == sel.get_text("//div[@id='notification']/div/div/span[2]"): break
+                if sel.is_text_present("execute"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Current glossary language: english"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        for i in range(60):
-            try:
-                if sel.is_text_present("description"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("color"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        for i in range(60):
-            try:
-                if sel.is_text_present("screen"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("description"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=execute")
+        time.sleep(1)
+        sel.click("css=td.name")
+        time.sleep(1)
         try: self.failUnless(sel.is_text_present("color"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("screen"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_element_present("css=option[value=3]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("german", sel.get_text("css=option[value=3]"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        sel.select("id=id_language", "label=german")
+        sel.click("link=TestRun 1")
+        time.sleep(2)
+        sel.click("link=edit")
+        time.sleep(1)
+        sel.select("id=id_translation", "label=default")
+        sel.click("css=input.modify")
+        time.sleep(1)
+        sel.click("css=span.ui-button-text")
         for i in range(60):
             try:
-                if "Current glossary language: german" == sel.get_text("//div[@id='notification']/div/div/span[2]"): break
+                if sel.is_text_present("No data available in table"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Current glossary language: german"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("description"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        for i in range(60):
-            try:
-                if "farbe" == sel.get_text("css=span.glosarry-word.translation"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Bildschirm"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.failUnless(sel.is_text_present("farbe"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        for i in range(60):
-            try:
-                if sel.is_element_present("id=id_language"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        sel.select("id=id_language", "label=default")
-        for i in range(60):
-            try:
-                if "Current glossary language: default" == sel.get_text("//div[@id='notification']/div/div/span[2]"): break
-            except: pass
-            time.sleep(1)
-        else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("Current glossary language: default"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=div.application-view-content > div.right > input[name=\"Executed\"]")
+        time.sleep(1)
+        sel.click("link=test cases")
+        sel.wait_for_page_to_load("30000")
+        time.sleep(2)
+        sel.click("link=Close navigation")
+        time.sleep(2)
         for i in range(60):
             try:
                 if "edit" == sel.get_text("link=edit"): break
