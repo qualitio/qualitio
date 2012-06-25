@@ -217,7 +217,7 @@
 	      <div class="grid_1">
 		{% if not forloop.first %}
 		<a href="#" class="button delete-button">
-		  {{ form.DELETE.label_tag }}
+		  {{ form.DELETE.name|lower|capfirst }}
 		  {{ form.DELETE }}
 		</a>
 		{% endif %}
