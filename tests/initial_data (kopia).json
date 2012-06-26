@@ -857,7 +857,7 @@
     "model": "execute.testcaserunstatus", 
     "fields": {
       "name": "IDLE", 
-      "color": "cceeee", 
+      "color": "#cceeee", 
       "modified_time": "2011-05-23 11:02:42", 
       "project": 1, 
       "passed": false, 
@@ -870,7 +870,7 @@
     "model": "execute.testcaserunstatus", 
     "fields": {
       "name": "PASSED", 
-      "color": "88bb66", 
+      "color": "#88bb66", 
       "modified_time": "2011-05-23 11:02:37", 
       "project": 1, 
       "passed": true, 
@@ -883,7 +883,7 @@
     "model": "execute.testcaserunstatus", 
     "fields": {
       "name": "FAILED", 
-      "color": "FF0000", 
+      "color": "red", 
       "modified_time": "2011-05-23 11:02:31", 
       "project": 1, 
       "passed": false, 
@@ -896,7 +896,7 @@
     "model": "execute.testcaserunstatus", 
     "fields": {
       "name": "N/A", 
-      "color": "fffff9", 
+      "color": "#fffff9", 
       "modified_time": "2011-05-23 11:02:19", 
       "project": 1, 
       "passed": false, 
