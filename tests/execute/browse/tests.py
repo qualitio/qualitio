@@ -2771,11 +2771,11 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         sel.click("id_status_2")
         for i in range(60):
             try:
-                if sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% red;\"]"): break
+                if sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(255, 0, 0);\"]"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% red;\"]"))
+        try: self.failUnless(sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(255, 0, 0);\"]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//form[@id='testcaserun-status-form']/label[1]/span")
         sel.click("id_status_0")
@@ -2853,8 +2853,6 @@ class Test39ExecTestcolor(BaseSeleniumTestCase):
         else: self.fail("time out")
         sel.click("//div[@id='application-view-footer']/div/input")
     
-
-
 
 class Test040ExecAddbug(BaseSeleniumTestCase):
     
