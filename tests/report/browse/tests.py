@@ -248,6 +248,38 @@ class Test43ReportRepdirectCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[1]/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.open("/admin/report/reportdirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select report directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select report directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("css=tr.row2 > td > input[name=\"_selected_action\"]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row2.selected > td > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Report directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:2: /Report directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("link=exact:2: /Report directory"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 class Test44ReportReportCreate(BaseSeleniumTestCase):
@@ -316,7 +348,7 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         sel.click("//div[@id='application-view-footer']/div/a[1]/span")
         for i in range(60):
             try:
-                if sel.is_text_present("reports"): break
+                if sel.is_text_present("report"): break
             except: pass
             time.sleep(1)
         else: self.fail("time out")
@@ -332,7 +364,7 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
-        try: self.failUnless(sel.is_text_present("reports"))
+        try: self.failUnless(sel.is_text_present("report"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("new"))
         except AssertionError, e: self.verificationErrors.append(str(e))
@@ -434,6 +466,39 @@ class Test44ReportReportCreate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_text_present("TestCase9"))
         except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
+        sel.open("/admin/report/report/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select report to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select report to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("report testcases"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("xpath=(//input[@name='_selected_action'])[3]")
+        try: self.assertEqual("on", sel.get_value("css=tr.row1.selected > td.action-checkbox > input[name=\"_selected_action\"]"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected reports")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:3: /BigProject/report testcases"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("link=exact:3: /BigProject/report testcases"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 
@@ -493,8 +558,6 @@ class Test45ReportModPublic(BaseSeleniumTestCase):
         try: self.assertEqual("Report, html", sel.get_table("css=div.dataTables_scrollBody > table.display.1.2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.assertEqual("Report, json", sel.get_table("css=div.dataTables_scrollBody > table.display.2.2"))
-        except AssertionError, e: self.verificationErrors.append(str(e))
-        try: self.assertEqual("report testcases", sel.get_table("css=div.dataTables_scrollBody > table.display.3.2"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=Report, html")
         for i in range(60):
@@ -758,6 +821,100 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         self.assertEqual("test@qualitio :: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=BigProject"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=BigProject")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='application-view-footer']/div/a[2]/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("new"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "Report directory")
+        sel.select("id_parent", "label=---------")
+        sel.type("id_description", "Description\nDescription")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Reportd"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("Reportd"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Reportd")
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=Report directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=Report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=Report directory")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report directory: Report directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("report directory: Report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("full name: /Report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("description"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("Description\nDescription"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("id"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("name"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("modified"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("created"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("No data available in table"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("exact:Search:"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//input[@type='text']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[1]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        time.sleep(1)
         sel.click("link=BigProject")
         for i in range(60):
             try:
@@ -774,6 +931,7 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=edit"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("report directory : BigProject"): break
@@ -800,6 +958,7 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("name=Reportd"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("name=Reportd")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("report directory saved"): break
@@ -878,6 +1037,39 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
             time.sleep(1)
         else: self.fail("time out")
         sel.click("name=Reportd")
+        time.sleep(1)
+        sel.open("/admin/report/reportdirectory/")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Select report directory to change"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "Select report directory to change | Django site admin" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("name=_selected_action")
+        try: self.assertEqual("on", sel.get_value("name=_selected_action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("name=action"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.select("name=action", "label=Delete selected Report directories")
+        sel.click("name=index")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("exact:2: /Report directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.failUnless(sel.is_element_present("link=exact:2: /Report directory"))
+        sel.click("css=input[type=\"submit\"]")
+        sel.wait_for_page_to_load("30000")
 
 
 if __name__ == "__main__":
