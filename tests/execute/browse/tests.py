@@ -6852,6 +6852,7 @@ class Test49ExecTestrunPassrate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//tr[@id='testcaserun_1']/td[4]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//tr[@id='testcaserun_1']/td[4]")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("test case: TestCase1"): break
@@ -6890,6 +6891,7 @@ class Test49ExecTestrunPassrate(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//form[@id='testcaserun-status-form']/label[2]/span")
         sel.click("id_status_1")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("100.0 %"): break
@@ -6911,7 +6913,9 @@ class Test49ExecTestrunPassrate(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("//tr[@style=\"background: none repeat scroll 0% 0% rgb(136, 187, 102);\"]"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("//form[@id='testcaserun-status-form']/label[3]/span")
+        time.sleep(1)
         sel.click("id_status_2")
+        time.sleep(1)
         for i in range(60):
             try:
                 if sel.is_text_present("0.0 %"): break
