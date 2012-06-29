@@ -27,6 +27,7 @@ class TestCaseRunAddBug(actions.Action):
     model = models.TestCaseRun
     form_class = execute_forms.AddBugForm
 
+
     def get_issue_backend(self):
         from django.utils.importlib import import_module
         backend_name = getattr(settings, "ISSUE_BACKEND", None)
@@ -35,7 +36,11 @@ class TestCaseRunAddBug(actions.Action):
 
     def download_bugs(self, bugs_ids):
         issues = self.get_issue_backend()
-        return [issues.fetch_bug(bug_id) for bug_id in bugs_ids]
+	try:
+		zm = [issues.fetch_bug(bug_id) for bug_id in bugs_ids]
+	except Exception as e:
+                return "Issue server error meessage: ".join(e)
+	return zm
 
     def format_error_msg(self, error):
         reason = u'; '.join(map(unicode, getattr(error, 'messages', [])))
@@ -45,26 +50,25 @@ class TestCaseRunAddBug(actions.Action):
 
     def run_action(self, data, queryset, form):
         from django.db import transaction
-        downloaded_bugs = self.download_bugs(form.cleaned_data['bugs'])
-        testcaserun = None
-
+	testcaserun = None
+	downloaded_bugs = self.download_bugs(form.cleaned_data['bugs'])
+	
+	if isinstance(downloaded_bugs, basestring):
+	   return self.failed(message=downloaded_bugs)
         try:
             with transaction.commit_on_success():
                 bugs = []
                 for testcaserun in queryset.all():
                     for downloaded_bug in downloaded_bugs:
                         bugs.append(testcaserun.bugs.get_or_create(**downloaded_bug)[0])
-
                 log = history.History(self.request.user, testcaserun.parent)
                 log.add_objects(created=bugs, prefix_object=testcaserun)
                 log.save()
-
         except Exception, error:
             return self.failed(message='Adding bugs to "%s" failed: %s' % (
                     getattr(testcaserun, 'name', None),
                     self.format_error_msg(error)
                     ))
-
         return self.success(message='Bugs added!')
 
 

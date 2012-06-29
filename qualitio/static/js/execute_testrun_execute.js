@@ -99,7 +99,6 @@ $(function() {
       memo[$(item).attr('name')] = 'on';
       return memo;
     }, {});
-
     data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
     $('input, select, textarea', $('.action-form.current')).each(function(){
       data[$(this).attr('name')] = $(this).fieldValue()[0];
@@ -113,25 +112,36 @@ $(function() {
     	'data': data,
     	'success': function(data, textStatus){
     	  if (data.success) {
-	    selectedTestCaseRun.save();
-    	    $('#notification').jnotifyAddMessage({
+	    	selectedTestCaseRun.save();
+    	 	$('#notification').jnotifyAddMessage({
     	      text: data.message,
     	      type: 'success'
-    	    });
+    	    }); 
     	    $.onrefresh.reset();
 	    Backbone.history.loadUrl(document.location.hash);
     	  } else {
     	    $.shortcuts.hideErrors();
-    	    if (data.message)
+    	    
+    	    if (data.message)	
     	      $('#notification').jnotifyAddMessage({
     		text: data.message,
     		type: 'error'
-    	      });
-    	    $.shortcuts.showErrors(data.data);
+    	      }); 
+    	    $.shortcuts.showErrors(data.data); 
     	  }
+    	},
+    	
+    	'error':function(jqXHR, exception){
+    		
+    		$('#notification').jnotifyAddMessage({
+            text: jqXHR.statusText,
+            permanent: false,
+            type: "error"
+         }); 
     	}
       });
-    }
+
+    } 
     return false;
   });
 
