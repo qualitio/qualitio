@@ -878,6 +878,7 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
         try: self.failUnless(sel.is_element_present("link=Report directory"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=Report directory")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("report directory: Report directory"): break
@@ -914,8 +915,7 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
         except AssertionError, e: self.verificationErrors.append(str(e))
         try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[1]/span"))
         except AssertionError, e: self.verificationErrors.append(str(e))
-        time.sleep(1)
-        sel.click("link=BigProject")
+        time.sleep(2)
         for i in range(60):
             try:
                 if sel.is_text_present("test@Qualitio"): break
@@ -928,6 +928,8 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
             except: pass
             time.sleep(1)
         else: self.fail("time out")
+        sel.click("link=BigProject")
+        time.sleep(2)
         try: self.failUnless(sel.is_element_present("link=edit"))
         except AssertionError, e: self.verificationErrors.append(str(e))
         sel.click("link=edit")
@@ -1070,6 +1072,209 @@ class Test47ReportModDirect(BaseSeleniumTestCase):
         self.failUnless(sel.is_element_present("link=exact:2: /Report directory"))
         sel.click("css=input[type=\"submit\"]")
         sel.wait_for_page_to_load("30000")
+
+
+class Test48ReportSamename(BaseSeleniumTestCase):
+    
+    def test_48_report_samename(self):
+        self.login()
+        sel = self.selenium
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("test@qualitio :: require", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=reports"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=reports"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=reports")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "test@qualitio :: report" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("test@qualitio :: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=BigProject"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=BigProject")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("full name:"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report directory: BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[1]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='application-view-footer']/div/a[1]/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_element_present("id_name"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("report"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("new"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "Report, html")
+        sel.type("id_context-0-name", "TESTCASES")
+        sel.type("id_context-0-query", "TestCase.all()")
+        sel.type("id_template", "<h1>Testcases</h1> <br/> {% for testcase in TESTCASES %} <h2>{{testcase.name}}</h2> <ul>     <li><b>name</b>: {{testcase.name}}</li>     <li><b>path</b>: {{testcase.path}}</li>     <li><b>requirement</b>: {{testcase.requirement.name|default:'empty'}}</li> </ul> <hr/> <br/> {% endfor %}")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//input[@value='Save']"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//input[@value='Save']"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//input[@value='Save']")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//li[@id='1_reportdirectory']/ins"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+
+
+class Test49ReportdirectSamename(BaseSeleniumTestCase):
+
+    def test_49_reportdirect_samename(self):
+        self.login()
+        sel = self.selenium
+        sel.open("/project/meego/require/#requirement/1/details/")
+        self.assertEqual("test@qualitio :: require", sel.get_title())
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=reports"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=reports"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=reports")
+        sel.wait_for_page_to_load("30000")
+        for i in range(60):
+            try:
+                if sel.is_text_present("test@Qualitio"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if "test@qualitio :: report" == sel.get_title(): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        self.assertEqual("test@qualitio :: report", sel.get_title())
+        try: self.failUnless(sel.is_text_present("test@Qualitio"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        for i in range(60):
+            try:
+                if sel.is_element_present("link=BigProject"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("link=BigProject"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("link=BigProject")
+        for i in range(60):
+            try:
+                if sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("//div[@id='application-view-footer']/div/a[2]/span"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("//div[@id='application-view-footer']/div/a[2]/span")
+        for i in range(60):
+            try:
+                if sel.is_text_present("report directory"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        for i in range(60):
+            try:
+                if sel.is_text_present("new"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("report directory"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        try: self.failUnless(sel.is_text_present("new"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.type("id_name", "BigProject")
+        sel.select("id_parent", "label=---------")
+        sel.type("id_description", "Description\nDescription")
+        for i in range(60):
+            try:
+                if sel.is_element_present("Reportd"): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_element_present("Reportd"))
+        except AssertionError, e: self.verificationErrors.append(str(e))
+        sel.click("Reportd")
+        for i in range(60):
+            try:
+                if sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."): break
+            except: pass
+            time.sleep(1)
+        else: self.fail("time out")
+        try: self.failUnless(sel.is_text_present("Validation errors: \"parent\", \"name\" and \"project\" fields need to be always unique together."))
+        except AssertionError, e: self.verificationErrors.append(str(e))
 
 
 if __name__ == "__main__":
