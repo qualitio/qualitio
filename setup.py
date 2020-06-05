@@ -4,7 +4,7 @@ VERSION = open("VERSION").read().strip("\n")
 
 
 install_requires = [
-    'Django==1.3',
+    'Django==1.11.29',
     'Pygments==1.4',
     'South==0.7.3',
     'django-compressor==0.9.1',
