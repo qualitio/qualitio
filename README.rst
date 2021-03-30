@@ -1,3 +1,8 @@
+NOTE!
+=====
+
+Please note this project is not actively maintained at the moment!
+
 Qualitio Project
 ================
 
