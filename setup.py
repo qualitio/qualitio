@@ -15,7 +15,7 @@ install_requires = [
     'django-reversion==1.4',
     'django-social-auth==0.3.15',
     'django-tables==0.2',
-    'httplib2==0.6.0',
+    'httplib2==0.19.0',
     'ipython==0.10.2',
     'networkx==1.4',
     'nose==1.0.0',
